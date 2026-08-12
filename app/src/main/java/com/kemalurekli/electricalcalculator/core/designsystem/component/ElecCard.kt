@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -113,21 +114,28 @@ fun ElecDashboardCard(
                     ElecCountBadge(text = badge)
                 }
             }
-            // No fixed line count. Uniform card heights come from the caller
-            // stretching each card to its grid row instead, which keeps the row
-            // tidy without truncating languages whose translations run longer
-            // than English — German and Turkish routinely need an extra line.
             Column(verticalArrangement = Arrangement.spacedBy(spacing.xs)) {
+                // Leading is tightened from the theme's 24sp. A tile this narrow
+                // wraps most titles, and at the body-text leading the two halves
+                // of "Electrical Calculators" sit far enough apart to read as
+                // two separate labels rather than one wrapped one. The tracking
+                // goes to zero for the same reason it exists at display sizes,
+                // in reverse: it buys nothing here and costs a line break.
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        lineHeight = TITLE_LINE_HEIGHT,
+                        letterSpacing = 0.sp,
+                    ),
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = MAX_TITLE_LINES,
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
                     text = subtitle,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        lineHeight = SUBTITLE_LINE_HEIGHT,
+                    ),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = MAX_SUBTITLE_LINES,
                     overflow = TextOverflow.Ellipsis,
@@ -138,11 +146,21 @@ fun ElecDashboardCard(
 }
 
 /**
- * Generous caps that act as a safety valve for an unexpectedly long
- * translation rather than as the normal layout constraint.
+ * Two lines each.
+ *
+ * These were a deliberately generous three and four, so that a long translation
+ * could take the room it needed rather than be cut. On a two-column grid that
+ * traded one problem for a worse one: a card whose subtitle ran to three lines
+ * stretched its whole row, and its neighbour became a mostly empty box with the
+ * text stranded at the top. Uneven rows read as broken layout, where a trailing
+ * ellipsis reads as a summary — which is all a tile's subtitle is. The full text
+ * is on the destination it opens.
  */
-private const val MAX_TITLE_LINES = 3
-private const val MAX_SUBTITLE_LINES = 4
+private const val MAX_TITLE_LINES = 2
+private const val MAX_SUBTITLE_LINES = 2
+
+private val TITLE_LINE_HEIGHT = 20.sp
+private val SUBTITLE_LINE_HEIGHT = 17.sp
 
 /**
  * Tonal role for an icon badge.

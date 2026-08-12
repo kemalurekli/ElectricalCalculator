@@ -23,11 +23,11 @@
     <string name="destination_settings">Ayarlar</string>
 
     <!-- Panel kartları -->
-    <string name="dashboard_calculators_title">Elektrik Hesaplayıcıları</string>
-    <string name="dashboard_calculators_subtitle">Gerilim düşümü, kablo kesiti, motor akımı ve daha fazlası</string>
+    <string name="dashboard_calculators_title">Hesaplayıcılar</string>
+    <string name="dashboard_calculators_subtitle">Gerilim düşümü, kablo kesiti, motor akımı</string>
     <string name="dashboard_converter_title">Birim Dönüştürücü</string>
     <string name="dashboard_converter_subtitle">Elektriksel, fiziksel ve AWG dönüşümleri</string>
-    <string name="dashboard_references_title">Elektrik Referansları</string>
+    <string name="dashboard_references_title">Referanslar</string>
     <string name="dashboard_references_subtitle">IP/IK sınıfları, renk kodları ve standart tablolar</string>
     <string name="dashboard_favorites_title">Favoriler</string>
     <string name="dashboard_favorites_subtitle">Sabitlediğiniz hesaplayıcılar</string>

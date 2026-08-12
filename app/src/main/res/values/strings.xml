@@ -16,11 +16,11 @@
     <string name="home_browse">Browse</string>
 
     <!-- Dashboard entries -->
-    <string name="dashboard_calculators_title">Electrical Calculators</string>
-    <string name="dashboard_calculators_subtitle">Voltage drop, cable sizing, motor current and more</string>
+    <string name="dashboard_calculators_title">Calculators</string>
+    <string name="dashboard_calculators_subtitle">Voltage drop, cable sizing, motor current</string>
     <string name="dashboard_converter_title">Unit Converter</string>
     <string name="dashboard_converter_subtitle">Electrical, physical and AWG conversions</string>
-    <string name="dashboard_references_title">Electrical References</string>
+    <string name="dashboard_references_title">References</string>
     <string name="dashboard_references_subtitle">IP/IK ratings, colour codes and standard tables</string>
     <string name="dashboard_favorites_title">Favorites</string>
     <string name="dashboard_favorites_subtitle">Your pinned calculators</string>
