@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+      Compose owns all in-app styling. These platform themes only control the
+      window before the first Compose frame is drawn; keeping the window
+      background aligned with the Compose surface colour avoids a flash on
+      cold start.
+
+      The parent is an AppCompat theme because the launcher activity extends
+      AppCompatActivity, which is what supplies the per-app language backport
+      below Android 13. DayNight resolves the light/dark window background from
+      the system setting for that first frame.
+    -->
+    <style name="Theme.ElecToolkit" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- Applied to the launcher activity so a splash is drawn immediately. -->
+    <style name="Theme.ElecToolkit.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.ElecToolkit</item>
+    </style>
+
+</resources>

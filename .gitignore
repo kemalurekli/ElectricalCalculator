@@ -1,0 +1,34 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Kotlin 2.x compiler session directory. Written on every build; carries nothing
+# a checkout needs.
+.kotlin/
+
+# Signing material. Nothing matching these exists in the tree today — the rule is
+# here first, because the release build still points at a placeholder debug key
+# (app/build.gradle.kts) and the real upload key will land in this directory.
+# An ignore rule added after the fact does not un-commit a key.
+*.jks
+*.keystore
+*.p12
+keystore.properties
+signing.properties
+
+# Machine-specific: which device or emulator this workstation last deployed to.
+# Rewritten by Studio on nearly every run, and meaningless on any other machine.
+/.idea/deploymentTargetSelector.xml
+/.idea/deviceManager.xml

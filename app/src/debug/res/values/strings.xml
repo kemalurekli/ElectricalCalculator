@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+      Debug builds install under a separate application id (`.debug`), so a
+      debug and a release build can sit side by side on one device. Without a
+      distinct label they appear as two identical icons, and it is easy to open
+      the wrong one and conclude that settings or favourites have been lost.
+    -->
+    <string name="app_name" translatable="false">ElecToolkit (debug)</string>
+
+</resources>

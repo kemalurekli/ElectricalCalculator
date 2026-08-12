@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application>
+        <!--
+          Host activity for instrumented Compose tests that need Hilt. It lives
+          in the debug manifest because the test APK merges with it, and it must
+          not ship in a release build.
+        -->
+        <activity
+            android:name="com.kemalurekli.electricalcalculator.testing.HiltTestActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ElecToolkit"
+            tools:ignore="MissingClass" />
+    </application>
+
+</manifest>

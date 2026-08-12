@@ -1,0 +1,342 @@
+package com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.presentation
+
+import androidx.compose.runtime.Immutable
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.kemalurekli.electricalcalculator.R
+import com.kemalurekli.electricalcalculator.core.common.result.Outcome
+import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
+import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
+import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
+import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
+import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
+import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
+import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
+import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
+import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
+import com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.domain.CalculateShortCircuitUseCase
+import com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.domain.FaultType
+import com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.domain.ShortCircuitInput
+import com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.domain.ShortCircuitResult
+import com.kemalurekli.electricalcalculator.core.ui.model.WorkedExample
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+/** Identifies a form field so validation errors can be routed back to it. */
+enum class ShortCircuitField {
+    VOLTAGE,
+    SUPPLY_CURRENT,
+    LENGTH,
+    CROSS_SECTION,
+    NEUTRAL_SECTION,
+    PARALLEL,
+    REACTANCE,
+}
+
+@Immutable
+data class ShortCircuitUiState(
+    val faultType: FaultType = FaultType.THREE_PHASE,
+    val material: ConductorMaterial = ConductorMaterial.COPPER,
+    val insulation: CableInsulation = CableInsulation.PVC,
+    val voltage: String = DEFAULT_VOLTAGE,
+    val supplyCurrent: String = "",
+    val length: String = "",
+    val crossSection: String = "",
+    val neutralSection: String = "",
+    val parallelConductors: String = DEFAULT_PARALLEL,
+    val reactance: String = DEFAULT_REACTANCE,
+    val errors: Map<ShortCircuitField, ValidationError> = emptyMap(),
+    val result: ShortCircuitResult? = null,
+    val isFavorite: Boolean = false,
+    val steps: ImmutableList<CalculationStep> = persistentListOf(),
+) {
+    /** Only a line–neutral fault returns through the neutral. */
+    val showNeutralSection: Boolean get() = faultType.usesNeutralReturn
+
+    companion object {
+        /** Line-to-line for the three-phase default. */
+        const val DEFAULT_VOLTAGE = "400"
+
+        const val DEFAULT_PARALLEL = "1"
+
+        const val DEFAULT_REACTANCE = "0.08"
+
+        /** The line-to-neutral counterpart of a 400 V system. */
+        const val DEFAULT_PHASE_VOLTAGE = "230"
+    }
+}
+
+@HiltViewModel
+class ShortCircuitViewModel @Inject constructor(
+    private val calculateFault: CalculateShortCircuitUseCase,
+    private val historyRepository: HistoryRepository,
+    private val favoritesRepository: FavoritesRepository,
+    private val stringResolver: StringResolver,
+    private val timeProvider: TimeProvider,
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(ShortCircuitUiState())
+    val uiState: StateFlow<ShortCircuitUiState> = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            favoritesRepository
+                .observeIsFavorite(CalculatorId.SHORT_CIRCUIT)
+                .collect { isFavorite -> _uiState.update { it.copy(isFavorite = isFavorite) } }
+        }
+    }
+
+    // -- Field editing --------------------------------------------------------------
+
+    /**
+     * Switching fault type also moves the voltage, because the two faults are
+     * driven by different voltages — line-to-line and line-to-neutral. Leaving
+     * 400 V in place for a line–neutral fault would overstate the current by √3,
+     * so the default follows the choice unless the user has edited it.
+     */
+    fun onFaultTypeChange(faultType: FaultType) = update {
+        val wasDefaultVoltage = it.voltage == ShortCircuitUiState.DEFAULT_VOLTAGE ||
+            it.voltage == ShortCircuitUiState.DEFAULT_PHASE_VOLTAGE
+        it.copy(
+            faultType = faultType,
+            voltage = if (!wasDefaultVoltage) {
+                it.voltage
+            } else if (faultType.usesNeutralReturn) {
+                ShortCircuitUiState.DEFAULT_PHASE_VOLTAGE
+            } else {
+                ShortCircuitUiState.DEFAULT_VOLTAGE
+            },
+        )
+    }
+
+    fun onMaterialChange(material: ConductorMaterial) = update { it.copy(material = material) }
+
+    fun onInsulationChange(insulation: CableInsulation) = update { it.copy(insulation = insulation) }
+
+    fun onVoltageChange(value: String) =
+        update(ShortCircuitField.VOLTAGE) { it.copy(voltage = value) }
+
+    fun onSupplyCurrentChange(value: String) =
+        update(ShortCircuitField.SUPPLY_CURRENT) { it.copy(supplyCurrent = value) }
+
+    fun onLengthChange(value: String) =
+        update(ShortCircuitField.LENGTH) { it.copy(length = value) }
+
+    fun onCrossSectionChange(value: String) =
+        update(ShortCircuitField.CROSS_SECTION) { it.copy(crossSection = value) }
+
+    fun onNeutralSectionChange(value: String) =
+        update(ShortCircuitField.NEUTRAL_SECTION) { it.copy(neutralSection = value) }
+
+    /** Digits only: a circuit has a whole number of conductors per phase. */
+    fun onParallelChange(value: String) =
+        update(ShortCircuitField.PARALLEL) {
+            it.copy(parallelConductors = value.filter(Char::isDigit))
+        }
+
+    fun onReactanceChange(value: String) =
+        update(ShortCircuitField.REACTANCE) { it.copy(reactance = value) }
+
+    private fun update(
+        field: ShortCircuitField? = null,
+        transform: (ShortCircuitUiState) -> ShortCircuitUiState,
+    ) {
+        _uiState.update { current ->
+            transform(current).copy(
+                result = null,
+                steps = persistentListOf(),
+                errors = if (field == null) current.errors else current.errors - field,
+            )
+        }
+    }
+
+    // -- Calculation ------------------------------------------------------------------
+
+    fun onCalculate() {
+        val state = _uiState.value
+        val errors = mutableMapOf<ShortCircuitField, ValidationError>()
+
+        fun validate(
+            field: ShortCircuitField,
+            raw: String,
+            min: Double? = null,
+            max: Double? = null,
+            allowZero: Boolean = false,
+        ): Double? = NumericInput
+            .validate(raw, min, max, allowZero = allowZero)
+            .also { if (it is Outcome.Failure) errors[field] = it.error }
+            .let { (it as? Outcome.Success)?.value }
+
+        val voltage = validate(ShortCircuitField.VOLTAGE, state.voltage, max = MAX_VOLTAGE)
+        val supplyCurrent = validate(
+            ShortCircuitField.SUPPLY_CURRENT,
+            state.supplyCurrent,
+            max = MAX_SUPPLY_CURRENT,
+        )
+        // Zero length is meaningful: it asks for the current at the origin.
+        val length = validate(ShortCircuitField.LENGTH, state.length, max = MAX_LENGTH, allowZero = true)
+        val area = validate(ShortCircuitField.CROSS_SECTION, state.crossSection, max = MAX_AREA)
+        val parallel = validate(
+            ShortCircuitField.PARALLEL,
+            state.parallelConductors,
+            min = MIN_PARALLEL,
+            max = MAX_PARALLEL,
+        )
+        // Zero reactance is a legitimate simplification, not a mistake.
+        val reactance = validate(
+            ShortCircuitField.REACTANCE,
+            state.reactance,
+            max = MAX_REACTANCE,
+            allowZero = true,
+        )
+
+        // Only asked for when the neutral is actually in the loop; blank falls
+        // back to the line section, which is the usual construction.
+        val neutralArea = if (!state.showNeutralSection || state.neutralSection.isBlank()) {
+            area
+        } else {
+            validate(ShortCircuitField.NEUTRAL_SECTION, state.neutralSection, max = MAX_AREA)
+        }
+
+        if (errors.isNotEmpty() || voltage == null || supplyCurrent == null || length == null ||
+            area == null || parallel == null || reactance == null || neutralArea == null
+        ) {
+            _uiState.update { it.copy(errors = errors, result = null, steps = persistentListOf()) }
+            return
+        }
+
+        val input = ShortCircuitInput(
+            faultType = state.faultType,
+            nominalVoltage = voltage,
+            supplyFaultCurrentAmps = supplyCurrent,
+            lengthMetres = length,
+            crossSectionMm2 = area,
+            neutralCrossSectionMm2 = neutralArea,
+            parallelConductors = parallel.toInt(),
+            material = state.material,
+            insulation = state.insulation,
+            reactancePerKmOhms = reactance,
+        )
+
+        val result = calculateFault(input)
+        _uiState.update {
+            it.copy(
+                errors = emptyMap(),
+                result = result,
+                steps = explainShortCircuit(input, result),
+            )
+        }
+
+        saveToHistory(state, result)
+    }
+
+    /**
+     * Loads a worked example and runs it.
+     *
+     * Calculating immediately is the point: one tap produces a filled form, a
+     * result and the arithmetic between them, which is a complete worked example
+     * rather than a form the reader still has to submit.
+     */
+    fun onApplyExample(example: WorkedExample<ShortCircuitUiState>) {
+        _uiState.update { example.fill(it) }
+        onCalculate()
+    }
+
+    fun onReset() {
+        _uiState.update {
+            ShortCircuitUiState(
+                faultType = it.faultType,
+                material = it.material,
+                insulation = it.insulation,
+                voltage = if (it.faultType.usesNeutralReturn) {
+                    ShortCircuitUiState.DEFAULT_PHASE_VOLTAGE
+                } else {
+                    ShortCircuitUiState.DEFAULT_VOLTAGE
+                },
+                isFavorite = it.isFavorite,
+            )
+        }
+    }
+
+    fun onToggleFavorite() {
+        viewModelScope.launch { favoritesRepository.toggle(CalculatorId.SHORT_CIRCUIT) }
+    }
+
+    private fun saveToHistory(state: ShortCircuitUiState, result: ShortCircuitResult) {
+        // The minimum leads the summary: it is the figure that decides whether
+        // the circuit is protected, and the one worth seeing in a list.
+        val record = CalculationRecord(
+            calculatorId = CalculatorId.SHORT_CIRCUIT,
+            title = stringResolver.get(R.string.sc_history_title)
+                .format(state.crossSection, state.length),
+            summary = stringResolver.get(R.string.sc_history_summary)
+                .format(format(result.minimumFaultCurrentAmps / AMPS_PER_KILOAMP)),
+            inputs = buildMap {
+                put(KEY_FAULT_TYPE, state.faultType.name)
+                put(KEY_VOLTAGE, state.voltage)
+                put(KEY_SUPPLY_CURRENT, state.supplyCurrent)
+                put(KEY_LENGTH, state.length)
+                put(KEY_AREA, state.crossSection)
+                if (state.showNeutralSection && state.neutralSection.isNotBlank()) {
+                    put(KEY_NEUTRAL_AREA, state.neutralSection)
+                }
+                put(KEY_PARALLEL, state.parallelConductors)
+                put(KEY_MATERIAL, state.material.name)
+                put(KEY_INSULATION, state.insulation.name)
+                put(KEY_REACTANCE, state.reactance)
+            },
+            results = mapOf(
+                KEY_MINIMUM to format(result.minimumFaultCurrentAmps),
+                KEY_MAXIMUM to format(result.maximumFaultCurrentAmps),
+                KEY_SUPPLY_IMPEDANCE to format(result.supplyImpedanceOhms, IMPEDANCE_DECIMALS),
+                KEY_LOOP_HOT to format(result.loopImpedanceHotOhms, IMPEDANCE_DECIMALS),
+            ),
+            createdAt = timeProvider.now(),
+        )
+
+        viewModelScope.launch { historyRepository.save(record) }
+    }
+
+    private fun format(value: Double, decimals: Int = DISPLAY_DECIMALS) =
+        NumberFormatter.format(value, decimals)
+
+    private companion object {
+        const val DISPLAY_DECIMALS = 2
+        const val IMPEDANCE_DECIMALS = 4
+        const val AMPS_PER_KILOAMP = 1_000.0
+
+        const val MAX_VOLTAGE = 100_000.0
+        const val MAX_SUPPLY_CURRENT = 1_000_000.0
+        const val MAX_LENGTH = 100_000.0
+        const val MAX_AREA = 5_000.0
+        const val MIN_PARALLEL = 1.0
+        const val MAX_PARALLEL = 100.0
+        const val MAX_REACTANCE = 10.0
+
+        const val KEY_FAULT_TYPE = "fault_type"
+        const val KEY_VOLTAGE = "nominal_voltage"
+        const val KEY_SUPPLY_CURRENT = "supply_fault_current"
+        const val KEY_LENGTH = "length_m"
+        const val KEY_AREA = "cross_section_mm2"
+        const val KEY_NEUTRAL_AREA = "neutral_cross_section_mm2"
+        const val KEY_PARALLEL = "parallel_conductors"
+        const val KEY_MATERIAL = "material"
+        const val KEY_INSULATION = "insulation"
+        const val KEY_REACTANCE = "reactance_per_km"
+
+        const val KEY_MINIMUM = "minimum_fault_current"
+        const val KEY_MAXIMUM = "maximum_fault_current"
+        const val KEY_SUPPLY_IMPEDANCE = "supply_impedance"
+        const val KEY_LOOP_HOT = "loop_impedance_hot"
+    }
+}

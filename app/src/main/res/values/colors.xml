@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mirrors the Compose light `surface` / `surfaceContainerLowest` tones. -->
+    <color name="window_background">#FDFBFF</color>
+    <color name="splash_background">#FDFBFF</color>
+</resources>

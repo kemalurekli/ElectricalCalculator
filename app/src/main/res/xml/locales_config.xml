@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The languages this app ships translations for.
+
+  Android reads this to populate the per-app language entry in system Settings
+  (Android 13+), and AppCompat reads it for the backport on older releases.
+  Adding a language means one entry here plus a matching `values-<code>` folder;
+  nothing else in the app needs to change.
+-->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en" />
+    <locale android:name="tr" />
+</locale-config>

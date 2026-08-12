@@ -1,0 +1,19 @@
+# Line endings are normalised to LF in the repository and restored on checkout,
+# so a working copy is correct regardless of the platform or of the developer's
+# core.autocrlf setting.
+
+* text=auto
+
+# The Windows wrapper script must be checked out with CRLF. This machine has
+# core.autocrlf=input, which strips them on staging; without this rule the file
+# is committed LF-only and cmd.exe can fail to run it.
+*.bat text eol=crlf
+
+# The POSIX wrapper is the mirror case: CRLF here breaks the shebang line.
+gradlew text eol=lf
+
+# Binary. Never normalise or attempt a line diff.
+*.jar binary
+*.webp binary
+*.png binary
+*.apk binary
