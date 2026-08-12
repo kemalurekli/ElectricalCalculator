@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.voltagedrop
 
+import android.os.SystemClock
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -9,6 +10,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -130,12 +133,70 @@ class VoltageDropEndToEndTest {
         scrollTo(label)
         composeTestRule.onNodeWithText(label, substring = true).performTextReplacement(value)
         composeTestRule.waitForIdle()
+        awaitImeSettled()
     }
+
+    /**
+     * Waits for the keyboard to finish animating in or out.
+     *
+     * Typing into a field focuses it and the keyboard opens. The screen resizes
+     * to sit above it — that is the point of `contentWindowInsets` on the
+     * Scaffold — so the form relayouts on every frame of the IME animation. Act
+     * on the *next* field during those frames and the node resolved a moment
+     * earlier has already been disposed, which fails as "the node is no longer
+     * in the tree". Intermittently: it depends where the animation had got to.
+     *
+     * `waitForIdle` does not cover this. The inset animation is driven by the
+     * window rather than by Compose, so the composition is legitimately idle
+     * between frames. Waiting it out here, right after the keystroke that
+     * causes it, means every later scroll and tap sees a still viewport.
+     *
+     * The condition is that the inset has *held* a value, not merely repeated
+     * it: sampling twice before the animation starts finds 0 both times and
+     * would settle on a keyboard that is about to move. Returning quietly on
+     * timeout is deliberate — a device that never shows a keyboard is not this
+     * test's failure to report.
+     */
+    private fun awaitImeSettled() {
+        val deadline = SystemClock.uptimeMillis() + SETTLE_TIMEOUT_MS
+        var previous = Int.MIN_VALUE
+        var unchangedSince = 0L
+
+        while (SystemClock.uptimeMillis() < deadline) {
+            composeTestRule.waitForIdle()
+            val bottom = imeInsetBottom()
+
+            if (bottom != previous) {
+                previous = bottom
+                unchangedSince = SystemClock.uptimeMillis()
+            } else if (SystemClock.uptimeMillis() - unchangedSince >= HELD_STILL_MS) {
+                return
+            }
+            Thread.sleep(POLL_MS)
+        }
+    }
+
+    /** Height the keyboard currently covers, in pixels; 0 when it is closed. */
+    private fun imeInsetBottom(): Int =
+        ViewCompat.getRootWindowInsets(composeTestRule.activity.window.decorView)
+            ?.getInsets(WindowInsetsCompat.Type.ime())
+            ?.bottom
+            ?: 0
 
     private fun scrollTo(text: String) {
         composeTestRule
             .onNodeWithTag(ElecTestTags.CALCULATOR_FORM)
             .performScrollToNode(hasText(text, substring = true))
         composeTestRule.waitForIdle()
+    }
+
+    private companion object {
+        /** Generous: a ceiling on a stuck animation, not an expected wait. */
+        const val SETTLE_TIMEOUT_MS = 5_000L
+
+        /** How long the inset must hold one value before it counts as settled. */
+        const val HELD_STILL_MS = 250L
+
+        const val POLL_MS = 32L
     }
 }
