@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.voltagedrop
 
+import android.content.Context
 import android.os.SystemClock
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
@@ -12,6 +13,8 @@ import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.kemalurekli.electricalcalculator.R
+import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -36,6 +39,14 @@ import javax.inject.Inject
  * The unit tests prove the arithmetic and the screen tests prove the rendering;
  * this proves the wiring between them — that typing into the form, pressing
  * Calculate, and the record reaching the history table are actually connected.
+ *
+ * ### On the locale
+ *
+ * Field labels are resolved from resources in [Strings], and the result through
+ * [NumberFormatter], rather than written out in English. The app's per-app
+ * language persists in app storage, so literals made this suite report on a
+ * preference rather than on the code — and the decimal separator moves with the
+ * locale too, so the drop is "5.17" in English and "5,17" in Turkish.
  */
 @HiltAndroidTest
 class VoltageDropEndToEndTest {
@@ -49,9 +60,23 @@ class VoltageDropEndToEndTest {
     @Inject
     lateinit var historyRepository: HistoryRepository
 
+    private lateinit var strings: Strings
+
+    private class Strings(context: Context) {
+        val systemVoltage: String = context.getString(R.string.common_system_voltage)
+        val designCurrent: String = context.getString(R.string.common_design_current)
+        val routeLength: String = context.getString(R.string.common_route_length)
+        val crossSection: String = context.getString(R.string.common_cross_section)
+        val temperature: String = context.getString(R.string.vd_temperature_label)
+        val calculate: String = context.getString(R.string.action_calculate)
+        val required: String = context.getString(R.string.validation_required)
+        val resultLabel: String = context.getString(R.string.vd_result_label)
+    }
+
     @Before
     fun setUp() {
         hiltRule.inject()
+        strings = Strings(composeTestRule.activity)
         composeTestRule.setContent {
             ElecToolkitTheme {
                 VoltageDropRoute(onReferenceClick = {}, onNavigateBack = {})
@@ -63,22 +88,24 @@ class VoltageDropEndToEndTest {
     fun calculatingProducesTheExpectedResultAndSavesHistory() = runTest {
         enterValidRun()
 
-        scrollTo("Calculate")
-        composeTestRule.onNodeWithText("Calculate").performClick()
+        scrollTo(strings.calculate)
+        composeTestRule.onNodeWithText(strings.calculate).performClick()
         composeTestRule.waitForIdle()
 
         // 230 V, 20 A, 30 m, 4 mm² copper at 20 °C:
         //   R  = 0.017241 · 30 / 4 = 0.129308 Ω
         //   ΔU = 2 · 20 · R        = 5.17 V  (2.25 %)
+        // Built the way the screen builds it, formatter included.
+        val drop = NumberFormatter.format(5.17, decimals = 2)
         composeTestRule
-            .onNodeWithContentDescription("Voltage drop: 5.17 V", substring = true)
+            .onNodeWithContentDescription("${strings.resultLabel}: $drop V", substring = true)
             .assertIsDisplayed()
 
         val records = historyRepository.observeAll().first()
         assertEquals(1, records.size)
         val record = records.single()
         assertEquals(CalculatorId.VOLTAGE_DROP, record.calculatorId)
-        assertTrue(record.summary.contains("5.17"))
+        assertTrue(record.summary.contains(drop))
         // The raw inputs are stored so the run can be reloaded later.
         assertEquals("230", record.inputs["voltage"])
         assertEquals("4", record.inputs["cross_section"])
@@ -87,16 +114,16 @@ class VoltageDropEndToEndTest {
     @Test
     fun anInvalidRunShowsAnErrorAndSavesNothing() = runTest {
         // Everything but the cross-section, which is required.
-        replaceField("System voltage", "230")
-        replaceField("Design current", "20")
-        replaceField("Route length (one way)", "30")
+        replaceField(strings.systemVoltage, "230")
+        replaceField(strings.designCurrent, "20")
+        replaceField(strings.routeLength, "30")
 
-        scrollTo("Calculate")
-        composeTestRule.onNodeWithText("Calculate").performClick()
+        scrollTo(strings.calculate)
+        composeTestRule.onNodeWithText(strings.calculate).performClick()
         composeTestRule.waitForIdle()
 
-        scrollTo("This value is required")
-        composeTestRule.onNodeWithText("This value is required").assertIsDisplayed()
+        scrollTo(strings.required)
+        composeTestRule.onNodeWithText(strings.required).assertIsDisplayed()
 
         assertTrue(historyRepository.observeAll().first().isEmpty())
     }
@@ -104,29 +131,29 @@ class VoltageDropEndToEndTest {
     @Test
     fun editingAnInputAfterCalculatingRemovesTheStaleResult() = runTest {
         enterValidRun()
-        scrollTo("Calculate")
-        composeTestRule.onNodeWithText("Calculate").performClick()
+        scrollTo(strings.calculate)
+        composeTestRule.onNodeWithText(strings.calculate).performClick()
         composeTestRule.waitForIdle()
 
         // The screen scrolls the result into view on its own.
         composeTestRule
-            .onNodeWithContentDescription("Voltage drop:", substring = true)
+            .onNodeWithContentDescription("${strings.resultLabel}:", substring = true)
             .assertIsDisplayed()
 
-        replaceField("Route length (one way)", "60")
+        replaceField(strings.routeLength, "60")
         composeTestRule.waitForIdle()
 
         composeTestRule
-            .onNodeWithContentDescription("Voltage drop:", substring = true)
+            .onNodeWithContentDescription("${strings.resultLabel}:", substring = true)
             .assertDoesNotExist()
     }
 
     private fun enterValidRun() {
-        replaceField("System voltage", "230")
-        replaceField("Design current", "20")
-        replaceField("Route length (one way)", "30")
-        replaceField("Cross-section", "4")
-        replaceField("Conductor temperature", "20")
+        replaceField(strings.systemVoltage, "230")
+        replaceField(strings.designCurrent, "20")
+        replaceField(strings.routeLength, "30")
+        replaceField(strings.crossSection, "4")
+        replaceField(strings.temperature, "20")
     }
 
     private fun replaceField(label: String, value: String) {

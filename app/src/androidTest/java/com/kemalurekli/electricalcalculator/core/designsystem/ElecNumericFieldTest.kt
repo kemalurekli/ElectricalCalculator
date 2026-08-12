@@ -5,10 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
+import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -67,7 +69,12 @@ class ElecNumericFieldTest {
 
     @Test
     fun showsTheValidationMessageWhenInErrorState() {
+        // Resolved from resources rather than written out: the app's per-app
+        // language persists, so an English literal here asserts against a field
+        // that may correctly be showing Turkish.
+        lateinit var mustBePositive: String
         composeTestRule.setContent {
+            mustBePositive = stringResource(R.string.validation_must_be_positive)
             ElecToolkitTheme {
                 ElecNumericField(
                     value = "0",
@@ -80,7 +87,7 @@ class ElecNumericFieldTest {
         }
 
         composeTestRule
-            .onNodeWithText("Enter a value greater than zero")
+            .onNodeWithText(mustBePositive)
             .assertIsDisplayed()
     }
 
