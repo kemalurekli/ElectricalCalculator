@@ -23,15 +23,14 @@ import androidx.compose.ui.unit.dp
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
-import com.kemalurekli.electricalcalculator.core.designsystem.theme.NumericCompactTextStyle
 
 /**
  * A past calculation, shown compactly on the dashboard.
  *
  * Denser than the history screen's card: the dashboard is a launchpad, so the
  * row carries only what identifies the run — what it was, the headline number,
- * and how long ago — with the result in the tabular numeric style so a column
- * of them stays aligned.
+ * and how long ago. The title takes a line of its own, and the age and the
+ * result share the line beneath it.
  *
  * Collapsed to a single accessibility node, because a screen-reader user wants
  * "Voltage drop, 5.36 volts, 2 minutes ago" as one item, not three fragments.
@@ -65,6 +64,11 @@ fun ElecRecentRow(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(spacing.xxs),
         ) {
+            // The title gets the full width of the row. Sharing a line with the
+            // result meant the two competed for the same space, and the title
+            // always lost: "PV string — 41.0 V panel, 600 V inverter" was being
+            // clipped to "PV string — 41.0 V panel, 600…", which throws away the
+            // half that distinguishes one run from the next.
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodyMedium,
@@ -72,22 +76,33 @@ fun ElecRecentRow(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
-            Text(
-                text = timestamp,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(spacing.sm),
+                verticalAlignment = Alignment.Bottom,
+            ) {
+                Text(
+                    text = timestamp,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    modifier = Modifier.weight(1f),
+                )
+                // Proportional, not the tabular face. These summaries carry
+                // their units as words — "16 luminaires", "5 – 13 panels" — and
+                // a monospace font sets the letters of a word on a digit's
+                // advance, which reads as terminal output pasted into the page.
+                // Nothing here is in a column that needs figures to line up.
+                Text(
+                    text = summary,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textAlign = TextAlign.End,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
-
-        Text(
-            text = summary,
-            style = NumericCompactTextStyle,
-            color = MaterialTheme.colorScheme.primary,
-            textAlign = TextAlign.End,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
     }
 }
 

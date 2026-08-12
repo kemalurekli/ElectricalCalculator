@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -99,6 +100,13 @@ fun ElecListItem(
                             R.string.action_favorite_add
                         },
                     ),
+                    // Smaller than the icon default. The 48dp touch target is
+                    // set on the button above, so the glyph is free to be sized
+                    // for its importance instead of for reachability — a pin
+                    // toggle is secondary to the row it sits on, and at the
+                    // default size a column of filled stars outshouts every
+                    // title beside it.
+                    modifier = Modifier.size(20.dp),
                     tint = if (isFavorite) {
                         MaterialTheme.colorScheme.primary
                     } else {
@@ -115,7 +123,15 @@ object ElecListItemDefaults {
     val contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
 }
 
-/** Section label separating groups within a list. */
+/**
+ * Section label separating groups within a list.
+ *
+ * Rendered in the ordinary text colour rather than the primary accent. A
+ * heading is structure, not emphasis: it should be found when the eye is
+ * looking for it and recede when it is not. Tinting every heading with the
+ * brand colour puts a dozen high-contrast blue anchors on a screen and makes
+ * the labels compete with the content they are supposed to organise.
+ */
 @Composable
 fun ElecSectionHeader(
     title: String,
@@ -124,8 +140,8 @@ fun ElecSectionHeader(
     val spacing = ElecTheme.spacing
     Text(
         text = title,
-        style = MaterialTheme.typography.labelLarge,
-        color = MaterialTheme.colorScheme.primary,
+        style = MaterialTheme.typography.titleSmall,
+        color = MaterialTheme.colorScheme.onSurface,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = spacing.lg, vertical = spacing.sm)

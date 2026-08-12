@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.designsystem.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,12 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitT
  * Uses a tonal surface with no elevation rather than a shadow: at the density
  * of an engineering dashboard, stacked shadows read as noise, while tonal
  * separation stays legible in both light and dark.
+ *
+ * Tone alone is not enough to carry the edge, though. In the light scheme the
+ * page sits at `surface` (#FDFBFF) and the next tonal step up is only about two
+ * per cent brighter, so a card drawn on tone alone has no findable boundary and
+ * reads as a smudge rather than a container. The hairline outline is what makes
+ * the shape deliberate; the tone still does the grouping.
  */
 @Composable
 fun ElecCard(
@@ -48,11 +55,18 @@ fun ElecCard(
         contentColor = MaterialTheme.colorScheme.onSurface,
     )
     val shape = MaterialTheme.shapes.large
+    val border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
 
     if (onClick == null) {
-        Card(modifier = modifier, shape = shape, colors = colors) { content() }
+        Card(modifier = modifier, shape = shape, colors = colors, border = border) { content() }
     } else {
-        Card(onClick = onClick, modifier = modifier, shape = shape, colors = colors) { content() }
+        Card(
+            onClick = onClick,
+            modifier = modifier,
+            shape = shape,
+            colors = colors,
+            border = border,
+        ) { content() }
     }
 }
 
@@ -92,15 +106,11 @@ fun ElecDashboardCard(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 ElecIconBadge(icon = icon, accent = accent)
                 if (badge != null) {
-                    Text(
-                        text = badge,
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                    ElecCountBadge(text = badge)
                 }
             }
             // No fixed line count. Uniform card heights come from the caller
@@ -143,6 +153,35 @@ private const val MAX_SUBTITLE_LINES = 4
  * colour chart, and it recolours correctly under a dynamic-colour theme.
  */
 enum class ElecAccent { PRIMARY, SECONDARY, TERTIARY, NEUTRAL }
+
+/**
+ * Small pill carrying a count, such as "3 pinned" on the Favourites card.
+ *
+ * Given a container of its own rather than being set as loose text. Bare text
+ * floating in a card's top corner reads as something that failed to lay out;
+ * the pill makes it read as a deliberate piece of status, and gives the number
+ * a boundary so it does not run into the title beneath it.
+ */
+@Composable
+fun ElecCountBadge(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(percent = 50),
+        color = MaterialTheme.colorScheme.surfaceContainerHighest,
+        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelSmall,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+        )
+    }
+}
 
 /**
  * Rounded tinted square holding a leading icon.

@@ -3,6 +3,7 @@ package com.kemalurekli.electricalcalculator.features.home.presentation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -19,6 +21,10 @@ import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -32,13 +38,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.R
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecDashboardCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecLargeTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecRecentRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -83,6 +90,22 @@ fun HomeRoute(
  * span every column, while dashboard cards occupy one cell each. One scrolling
  * container means one recycling pass and no nested scrolling, which is what
  * keeps the screen smooth as sections are added.
+ *
+ * ### Why the sections are grouped rather than loose
+ *
+ * Pinned and recent rows are drawn inside one [ElecCard] per section instead of
+ * sitting directly on the page. Loose rows above a field of cards put two
+ * different visual languages on one screen, and the top of the dashboard —
+ * where the eye lands first — got the weaker one. Each group is a single grid
+ * item holding its rows, which is affordable precisely because both sections
+ * are bounded: favourites are what the user chose to pin, and recents are
+ * capped at [HomeViewModel.RECENT_LIMIT].
+ *
+ * ### Why the top bar is compact
+ *
+ * A collapsing large bar spends about a fifth of the first screen restating the
+ * app's own name, which the user just tapped to get here. The dashboard's job
+ * is to put tools within reach, so the space goes to the tools.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -97,7 +120,7 @@ fun HomeScreen(
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     // On a wide window the whole screen — title included — is capped and
     // centred rather than stretched edge to edge. Full-bleed rows on a large
@@ -118,9 +141,19 @@ fun HomeScreen(
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
-                ElecLargeTopAppBar(
+                ElecTopAppBar(
                     title = stringResource(R.string.app_name),
                     scrollBehavior = scrollBehavior,
+                    actions = {
+                        IconButton(onClick = { onNavigate(TopLevelDestination.SETTINGS.route) }) {
+                            Icon(
+                                imageVector = TopLevelDestination.SETTINGS.icon,
+                                contentDescription = stringResource(
+                                    TopLevelDestination.SETTINGS.titleRes,
+                                ),
+                            )
+                        }
+                    },
                 )
             },
         ) { innerPadding ->
@@ -149,40 +182,30 @@ fun HomeScreen(
                     searchResults(uiState, onOpenSearchHit)
                 } else {
                     if (uiState.hasFavorites) {
-                        fullWidthItem(key = "favorites-header") {
-                            ElecSectionHeader(
+                        fullWidthItem(key = "favorites") {
+                            SectionGroup(
                                 title = stringResource(R.string.destination_favorites),
-                                modifier = Modifier.padding(horizontal = 0.dp),
-                            )
-                        }
-                        items(
-                            items = uiState.favorites,
-                            key = { "favorite-${it.id.key}" },
-                            span = { GridItemSpan(maxLineSpan) },
-                        ) { item ->
-                            CalculatorRow(item, onCalculatorClick, onToggleFavorite)
+                                items = uiState.favorites,
+                            ) { item ->
+                                CalculatorRow(item, onCalculatorClick, onToggleFavorite)
+                            }
                         }
                     }
 
                     if (uiState.hasRecent) {
-                        fullWidthItem(key = "recent-header") {
-                            ElecSectionHeader(
+                        fullWidthItem(key = "recent") {
+                            SectionGroup(
                                 title = stringResource(R.string.home_recent),
-                                modifier = Modifier.padding(horizontal = 0.dp),
-                            )
-                        }
-                        items(
-                            items = uiState.recent,
-                            key = { "recent-${it.id}" },
-                            span = { GridItemSpan(maxLineSpan) },
-                        ) { record ->
-                            ElecRecentRow(
-                                title = record.title,
-                                summary = record.summary,
-                                timestamp = record.createdAt.toRelativeTime(),
-                                icon = ElecIcons.History,
-                                onClick = { onCalculatorClick(record.calculatorId) },
-                            )
+                                items = uiState.recent,
+                            ) { record ->
+                                ElecRecentRow(
+                                    title = record.title,
+                                    summary = record.summary,
+                                    timestamp = record.createdAt.toRelativeTime(),
+                                    icon = ElecIcons.History,
+                                    onClick = { onCalculatorClick(record.calculatorId) },
+                                )
+                            }
                         }
                     }
 
@@ -207,6 +230,42 @@ fun HomeScreen(
 }
 
 /**
+ * A titled group of rows, drawn as one card.
+ *
+ * The heading sits outside the card and the rows inside it, so the card's edge
+ * encloses exactly the thing the heading names. Rows are separated by a hairline
+ * rather than by gaps: inside a shared container the divider is what says "these
+ * are peers in one list", where whitespace alone would just look like the rows
+ * had drifted apart.
+ */
+@Composable
+private fun <T> SectionGroup(
+    title: String,
+    items: List<T>,
+    modifier: Modifier = Modifier,
+    itemContent: @Composable (T) -> Unit,
+) {
+    val spacing = ElecTheme.spacing
+
+    Column(modifier = modifier.fillMaxWidth()) {
+        ElecSectionHeader(
+            title = title,
+            modifier = Modifier.padding(horizontal = 0.dp),
+        )
+        ElecCard(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.padding(horizontal = spacing.lg)) {
+                items.forEachIndexed { index, item ->
+                    if (index > 0) {
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    }
+                    itemContent(item)
+                }
+            }
+        }
+    }
+}
+
+/**
  * The dashboard cards, laid out in rows of [columns].
  *
  * Deliberately *not* a lazy grid. `LazyVerticalGrid` measures every cell
@@ -218,6 +277,12 @@ fun HomeScreen(
  * `fillMaxHeight` then squares up the rest. That costs a second measure pass,
  * which is irrelevant for a fixed set of six cards but would not be for a long
  * list.
+ *
+ * Equal heights *within* a row were never the whole problem, though: rows still
+ * differed from each other, so a three-line subtitle in the first row left the
+ * grid visibly stepped. [CARD_MIN_HEIGHT] sets a floor every card clears, which
+ * collapses that variation to at most the one line a long translation adds,
+ * without capping the text and truncating the languages that need the room.
  */
 @Composable
 private fun DashboardGrid(
@@ -233,7 +298,7 @@ private fun DashboardGrid(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(spacing.md),
     ) {
-        TopLevelDestination.entries.chunked(columns).forEach { row ->
+        TopLevelDestination.dashboardCards.chunked(columns).forEach { row ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -263,7 +328,8 @@ private fun DashboardGrid(
                         onClick = { onNavigate(destination.route) },
                         modifier = Modifier
                             .weight(1f)
-                            .fillMaxHeight(),
+                            .fillMaxHeight()
+                            .heightIn(min = CARD_MIN_HEIGHT),
                     )
                 }
                 // Keeps a short final row aligned with the columns above it
@@ -275,6 +341,13 @@ private fun DashboardGrid(
         }
     }
 }
+
+/**
+ * Floor for a dashboard card, chosen to fit an icon, a two-line title and a
+ * two-line subtitle at the default font scale — the shape most of the cards
+ * take — so the shorter ones stop reading as unfinished next to the longer.
+ */
+private val CARD_MIN_HEIGHT = 150.dp
 
 /**
  * Search results, grouped by which shelf they came from.

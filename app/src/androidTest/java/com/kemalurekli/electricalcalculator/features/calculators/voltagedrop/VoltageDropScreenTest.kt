@@ -213,6 +213,8 @@ class VoltageDropScreenTest {
                     onTemperatureChange = {},
                     onParallelConductorsChange = {},
                     onCalculate = onCalculate,
+                    onReferenceClick = {},
+                    onApplyExample = {},
                     onReset = {},
                     onToggleFavorite = {},
                     onCopy = {},

@@ -51,7 +51,7 @@ class VoltageDropEndToEndTest {
         hiltRule.inject()
         composeTestRule.setContent {
             ElecToolkitTheme {
-                VoltageDropRoute(onNavigateBack = {})
+                VoltageDropRoute(onReferenceClick = {}, onNavigateBack = {})
             }
         }
     }
