@@ -2,9 +2,11 @@ package com.kemalurekli.electricalcalculator.features.calculators.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -42,6 +44,7 @@ fun CalculatorDetailRoute(
     val spacing = ElecTheme.spacing
 
     Scaffold(
+        contentWindowInsets = WindowInsets.safeDrawing,
         modifier = modifier.fillMaxSize(),
         topBar = {
             ElecTopAppBar(

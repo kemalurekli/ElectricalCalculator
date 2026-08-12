@@ -4,12 +4,12 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
-import androidx.test.platform.app.InstrumentationRegistry
+import android.content.Context
+import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorCategory
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorIcon
@@ -23,7 +23,6 @@ import com.kemalurekli.electricalcalculator.features.home.presentation.HomeUiSta
 import com.kemalurekli.electricalcalculator.features.home.presentation.SearchSection
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -34,24 +33,42 @@ import org.junit.Test
  *
  * ### On the locale
  *
- * The assertions below name English strings, and the app carries a per-app
- * language the user can change — which persists in app storage and survives a
- * reinstall. Left alone, the suite renders in whatever language the device last
- * ran the app in and fails against a screen that is perfectly correct. So the
- * locale is pinned in [pinLocale] rather than assumed.
+ * Expected text is read from resources in [Strings] rather than written out as
+ * English literals. The app carries a per-app language the user can change, and
+ * it persists in app storage, so a suite that hard-codes one language fails
+ * against a screen that is perfectly correct — which is exactly what these
+ * tests did. Resolving through the same [LocalContext] the screen composes with
+ * makes them assert the wiring, in whatever language the device is in.
  */
 class HomeScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    @Before
-    fun pinLocale() {
-        // Must run on the main thread: AppCompatDelegate touches the active
-        // configuration.
-        InstrumentationRegistry.getInstrumentation().runOnMainSync {
-            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("en"))
-        }
+    /**
+     * Captured from inside the composition, so it is the very same resource
+     * table the screen under test rendered from.
+     */
+    private lateinit var strings: Strings
+
+    private class Strings(context: Context) {
+        val searchHint: String = context.getString(R.string.search_hint)
+        val browse: String = context.getString(R.string.home_browse)
+        val noMatches: String = context.getString(R.string.state_empty_calculators_title)
+
+        val calculators: String = context.getString(R.string.dashboard_calculators_title)
+        val converter: String = context.getString(R.string.dashboard_converter_title)
+        val references: String = context.getString(R.string.dashboard_references_title)
+        val glossary: String = context.getString(R.string.dashboard_glossary_title)
+        val favorites: String = context.getString(R.string.dashboard_favorites_title)
+        val history: String = context.getString(R.string.dashboard_history_title)
+        val settings: String = context.getString(R.string.dashboard_settings_title)
+
+        /** A card announces itself as "title. subtitle" in one merged node. */
+        val converterCard: String =
+            converter + ". " + context.getString(R.string.dashboard_converter_subtitle)
+        val settingsCard: String =
+            settings + ". " + context.getString(R.string.dashboard_settings_subtitle)
     }
 
     private val voltageDrop = CalculatorUiModel(
@@ -81,12 +98,12 @@ class HomeScreenTest {
         setContent(HomeUiState(isLoading = false))
 
         listOf(
-            "Electrical Calculators",
-            "Unit Converter",
-            "Electrical References",
-            "Glossary",
-            "Favorites",
-            "History",
+            strings.calculators,
+            strings.converter,
+            strings.references,
+            strings.glossary,
+            strings.favorites,
+            strings.history,
         ).forEach { title ->
             composeTestRule
                 .onNodeWithContentDescription(title, substring = true)
@@ -100,7 +117,7 @@ class HomeScreenTest {
         setContent(HomeUiState(isLoading = false))
 
         composeTestRule
-            .onNodeWithContentDescription("Unit Converter. Electrical, physical and AWG conversions")
+            .onNodeWithContentDescription(strings.converterCard)
             .performScrollTo()
             .assertIsDisplayed()
     }
@@ -115,7 +132,7 @@ class HomeScreenTest {
         setContent(HomeUiState(isLoading = false))
 
         composeTestRule
-            .onNodeWithContentDescription("Settings. Theme, units and app information")
+            .onNodeWithContentDescription(strings.settingsCard)
             .assertDoesNotExist()
     }
 
@@ -124,7 +141,7 @@ class HomeScreenTest {
         var route: Route? = null
         setContent(HomeUiState(isLoading = false), onNavigate = { route = it })
 
-        composeTestRule.onNodeWithContentDescription("Settings").performClick()
+        composeTestRule.onNodeWithContentDescription(strings.settings).performClick()
 
         assertEquals(Route.Settings, route)
     }
@@ -136,7 +153,7 @@ class HomeScreenTest {
         )
 
         composeTestRule.onNodeWithText("Voltage Drop").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Browse").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithText(strings.browse).performScrollTo().assertIsDisplayed()
     }
 
     @Test
@@ -164,7 +181,7 @@ class HomeScreenTest {
         composeTestRule.onNodeWithText("Voltage Drop").assertIsDisplayed()
         // Dashboard cards are not rendered while a search is active.
         composeTestRule
-            .onNodeWithContentDescription("Unit Converter", substring = true)
+            .onNodeWithContentDescription(strings.converter, substring = true)
             .assertDoesNotExist()
     }
 
@@ -196,7 +213,7 @@ class HomeScreenTest {
 
         // The empty state is also one merged node ("title. message").
         composeTestRule
-            .onNodeWithContentDescription("No matches", substring = true)
+            .onNodeWithContentDescription(strings.noMatches, substring = true)
             .assertIsDisplayed()
     }
 
@@ -206,7 +223,7 @@ class HomeScreenTest {
         setContent(HomeUiState(isLoading = false), onQueryChange = { query = it })
 
         composeTestRule
-            .onNodeWithText("Search calculators, converters, references")
+            .onNodeWithText(strings.searchHint)
             .performTextInput("volt")
 
         assertEquals("volt", query)
@@ -218,7 +235,7 @@ class HomeScreenTest {
         setContent(HomeUiState(isLoading = false), onNavigate = { route = it })
 
         composeTestRule
-            .onNodeWithContentDescription("Unit Converter", substring = true)
+            .onNodeWithContentDescription(strings.converter, substring = true)
             .performScrollTo()
             .performClick()
 
@@ -246,6 +263,7 @@ class HomeScreenTest {
         onOpenSearchHit: (SearchableItem) -> Unit = {},
     ) {
         composeTestRule.setContent {
+            strings = Strings(LocalContext.current)
             ElecToolkitTheme {
                 HomeScreen(
                     uiState = uiState,
