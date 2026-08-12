@@ -10,6 +10,7 @@ enum class SearchKind {
     REFERENCE,
     GLOSSARY,
     SYMBOL,
+    FIELD_NOTE,
 }
 
 /**

@@ -63,6 +63,7 @@ class HomeScreenTest {
         val favorites: String = context.getString(R.string.dashboard_favorites_title)
         val history: String = context.getString(R.string.dashboard_history_title)
         val settings: String = context.getString(R.string.dashboard_settings_title)
+        val fieldNotes: String = context.getString(R.string.dashboard_field_notes_title)
 
         /** A card announces itself as "title. subtitle" in one merged node. */
         val converterCard: String =
@@ -134,6 +135,34 @@ class HomeScreenTest {
         composeTestRule
             .onNodeWithContentDescription(strings.settingsCard)
             .assertDoesNotExist()
+    }
+
+    /**
+     * The banner spans the grid instead of taking a cell in it, so it is drawn by
+     * a different branch from the six tiles above. Asserted separately for that
+     * reason — the loop over the grid cards would never touch it.
+     */
+    @Test
+    fun showsTheFieldNotesBanner() {
+        setContent(HomeUiState(isLoading = false))
+
+        composeTestRule
+            .onNodeWithContentDescription(strings.fieldNotes, substring = true)
+            .performScrollTo()
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun tappingTheFieldNotesBannerReportsItsRoute() {
+        var route: Route? = null
+        setContent(HomeUiState(isLoading = false), onNavigate = { route = it })
+
+        composeTestRule
+            .onNodeWithContentDescription(strings.fieldNotes, substring = true)
+            .performScrollTo()
+            .performClick()
+
+        assertEquals(Route.FieldNotes(), route)
     }
 
     @Test

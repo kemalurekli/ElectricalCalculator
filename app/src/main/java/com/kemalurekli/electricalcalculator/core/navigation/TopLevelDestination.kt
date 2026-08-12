@@ -86,6 +86,14 @@ enum class TopLevelDestination(
         icon = ElecIcons.History,
         accent = ElecAccent.TERTIARY,
     ),
+    FIELD_NOTES(
+        route = Route.FieldNotes(),
+        labelRes = R.string.destination_field_notes,
+        titleRes = R.string.dashboard_field_notes_title,
+        subtitleRes = R.string.dashboard_field_notes_subtitle,
+        icon = ElecIcons.FieldNotes,
+        accent = ElecAccent.TERTIARY,
+    ),
     SETTINGS(
         route = Route.Settings,
         labelRes = R.string.destination_settings,
@@ -105,6 +113,17 @@ enum class TopLevelDestination(
          * and leaving it in made a seventh card that stranded itself alone on a
          * final row of a two-column grid.
          */
-        val dashboardCards: List<TopLevelDestination> = entries - SETTINGS
+        val dashboardCards: List<TopLevelDestination> = entries - SETTINGS - FIELD_NOTES
+
+        /**
+         * The destination drawn as one tile across the full width, under the grid.
+         *
+         * Seven cards in two columns strand the seventh alone on a final row —
+         * the shape [dashboardCards] exists to avoid. A tile that spans instead
+         * reads as a deliberate band rather than as something left over, and it
+         * suits a browsing surface better than a quarter-width square. It sits
+         * below the grid so it does not displace the tools.
+         */
+        val dashboardBanner: TopLevelDestination = FIELD_NOTES
     }
 }

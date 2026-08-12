@@ -342,6 +342,21 @@ private fun DashboardGrid(
                 }
             }
         }
+
+        // The banner spans the grid rather than taking a cell in it. An odd
+        // number of destinations in an even number of columns leaves one card
+        // alone on a final row, which reads as a layout that ran out; a full
+        // width tile reads as a decision. It also suits what it opens — a shelf
+        // you browse rather than a tool you aim at.
+        val banner = TopLevelDestination.dashboardBanner
+        ElecDashboardCard(
+            title = stringResource(banner.titleRes),
+            subtitle = stringResource(banner.subtitleRes),
+            icon = banner.icon,
+            accent = banner.accent,
+            onClick = { onNavigate(banner.route) },
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }
 
@@ -402,6 +417,7 @@ private fun SearchKind.titleRes(): Int = when (this) {
     SearchKind.REFERENCE -> R.string.search_group_references
     SearchKind.GLOSSARY -> R.string.search_group_glossary
     SearchKind.SYMBOL -> R.string.search_group_symbols
+    SearchKind.FIELD_NOTE -> R.string.search_group_field_notes
 }
 
 private fun SearchKind.icon() = when (this) {
@@ -410,6 +426,7 @@ private fun SearchKind.icon() = when (this) {
     SearchKind.REFERENCE -> ElecIcons.References
     SearchKind.GLOSSARY -> ElecIcons.Glossary
     SearchKind.SYMBOL -> ElecIcons.References
+    SearchKind.FIELD_NOTE -> ElecIcons.FieldNotes
 }
 
 /**

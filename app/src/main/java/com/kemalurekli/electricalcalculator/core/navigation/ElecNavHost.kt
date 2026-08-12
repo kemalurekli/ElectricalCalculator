@@ -30,6 +30,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.transformer.pre
 import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.presentation.VoltageDropRoute
 import com.kemalurekli.electricalcalculator.features.converter.presentation.ConverterRoute
 import com.kemalurekli.electricalcalculator.features.favorites.presentation.FavoritesRoute
+import com.kemalurekli.electricalcalculator.features.fieldnotes.presentation.FieldNotesRoute
 import com.kemalurekli.electricalcalculator.features.glossary.presentation.GlossaryRoute
 import com.kemalurekli.electricalcalculator.features.history.presentation.HistoryRoute
 import com.kemalurekli.electricalcalculator.features.home.presentation.HomeRoute
@@ -189,6 +190,16 @@ fun ElecNavHost(
             ConverterRoute(onNavigateBack = actions::navigateBack)
         }
 
+        composable<Route.FieldNotes> { backStackEntry ->
+            FieldNotesRoute(
+                openNoteKey = backStackEntry.toRoute<Route.FieldNotes>().noteKey,
+                onCalculatorClick = actions::navigateToCalculator,
+                onReferenceClick = actions::navigateToReference,
+                onGlossaryClick = { actions.navigateTo(Route.Glossary(it)) },
+                onNavigateBack = actions::navigateBack,
+            )
+        }
+
         composable<Route.References> {
             ReferencesRoute(
                 onTopicClick = actions::navigateToReference,
@@ -264,6 +275,7 @@ class NavActions(private val navController: NavHostController) {
             SearchKind.CONVERTER -> navigateTo(Route.Converter)
             SearchKind.REFERENCE, SearchKind.SYMBOL -> navigateToReference(hit.key)
             SearchKind.GLOSSARY -> navigateTo(Route.Glossary(hit.key))
+            SearchKind.FIELD_NOTE -> navigateTo(Route.FieldNotes(hit.key))
         }
     }
 

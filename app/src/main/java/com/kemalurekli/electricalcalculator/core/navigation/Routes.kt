@@ -60,6 +60,16 @@ sealed interface Route {
     @Serializable
     data class Glossary(val termKey: String? = null) : Route
 
+    /**
+     * The field notes, optionally opened onto one card.
+     *
+     * Carries [FieldNote.key] for the same reason [Glossary] carries a term key:
+     * a search hit has to land on the note it matched rather than at the top of
+     * a list the reader then has to scan.
+     */
+    @Serializable
+    data class FieldNotes(val noteKey: String? = null) : Route
+
     @Serializable
     data object Favorites : Route
 

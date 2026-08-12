@@ -6,6 +6,8 @@ import com.kemalurekli.electricalcalculator.core.domain.search.SearchKind
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchableItem
 import com.kemalurekli.electricalcalculator.features.converter.domain.UnitCatalog
 import com.kemalurekli.electricalcalculator.features.converter.presentation.categoryLabelRes
+import com.kemalurekli.electricalcalculator.features.fieldnotes.domain.FieldNoteCatalog
+import com.kemalurekli.electricalcalculator.features.fieldnotes.presentation.titleRes
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryCatalog
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceBlock
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
@@ -41,6 +43,7 @@ class SearchIndexBuilder @Inject constructor(
         addAll(referenceTopics())
         addAll(glossaryTerms())
         addAll(drawingSymbols())
+        addAll(fieldNotes())
     }
 
     private fun calculators(): List<SearchableItem> = catalog.all.map { descriptor ->
@@ -63,6 +66,23 @@ class SearchIndexBuilder @Inject constructor(
             // themselves: someone hunting "kcmil" types kcmil in any language.
             subtitle = category.units.joinToString(" · ") { it.symbol },
             keywords = category.units.map { it.symbol },
+        )
+    }
+
+    /**
+     * Field notes are matched on their body as well as their title.
+     *
+     * A note is looked for by what it is about at least as often as by how it is
+     * titled — "capacitor" should find the note about stored charge, whose title
+     * mentions neither the word nor the hazard.
+     */
+    private fun fieldNotes(): List<SearchableItem> = FieldNoteCatalog.all.map { note ->
+        SearchableItem(
+            kind = SearchKind.FIELD_NOTE,
+            key = note.key,
+            title = stringResolver.get(note.titleRes),
+            subtitle = stringResolver.get(note.category.titleRes()),
+            body = stringResolver.get(note.bodyRes),
         )
     }
 

@@ -232,6 +232,7 @@ class VerificationBacklogTest {
             "$CORE/designsystem/symbol",
             "$FEATURES/references/domain/ReferenceCatalog.kt",
             "$FEATURES/glossary/domain/GlossaryCatalog.kt",
+            "$FEATURES/fieldnotes/domain/FieldNoteCatalog.kt",
             "app/src/main/res/values-tr/strings.xml",
         )
     }

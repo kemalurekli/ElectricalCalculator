@@ -27,6 +27,7 @@ import androidx.compose.material.icons.outlined.Scale
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.StarBorder
@@ -53,6 +54,7 @@ object ElecIcons {
     val Converter = Icons.Outlined.SwapHoriz
     val References = Icons.AutoMirrored.Outlined.MenuBook
     val Glossary = Icons.Outlined.Translate
+    val FieldNotes = Icons.Outlined.TipsAndUpdates
     val History = Icons.Outlined.History
     val Settings = Icons.Outlined.Settings
 
