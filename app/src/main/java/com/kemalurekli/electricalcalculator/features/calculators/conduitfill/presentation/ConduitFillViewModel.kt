@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.result.Outcome
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.pick
+import com.kemalurekli.electricalcalculator.core.common.util.enumOrNull
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
@@ -279,6 +281,41 @@ class ConduitFillViewModel @Inject constructor(
         viewModelScope.launch { favoritesRepository.toggle(CalculatorId.CONDUIT_FILL) }
     }
 
+    /**
+     * Reloads a saved calculation into the form.
+     *
+     * The record stores the text the reader typed rather than the parsed number,
+     * so the form comes back exactly as it was left — see [CalculationRecord].
+     * A key the record does not carry keeps the form's current value, which is
+     * what lets a record written before a field existed still open.
+     */
+    fun onRestore(recordId: Long) {
+        viewModelScope.launch {
+            val record = historyRepository.findById(recordId) ?: return@launch
+            if (record.calculatorId != CalculatorId.CONDUIT_FILL) return@launch
+            val inputs = record.inputs
+            _uiState.update {
+                it.copy(
+                    conduitDiameter = inputs.pick(KEY_CONDUIT_DIAMETER, it.conduitDiameter),
+                    rule = inputs.enumOrNull(KEY_RULE) ?: it.rule,
+                    customLimit = inputs.pick(KEY_CUSTOM_LIMIT, it.customLimit),
+                )
+            }
+            inputs[KEY_CABLE_DATA]
+                ?.split(ROW_SEPARATOR)
+                ?.mapIndexedNotNull { index, encoded ->
+                    val parts = encoded.split(FIELD_SEPARATOR)
+                    if (parts.size != 2) null
+                    else CableRowState(id = index, quantity = parts[0], diameter = parts[1])
+                }
+                ?.takeIf { it.isNotEmpty() }
+                ?.let { rows -> _uiState.update { it.copy(cables = rows.toImmutableList()) } }
+
+            // The reader tapped a result, so show one rather than an empty form.
+            onCalculate()
+        }
+    }
+
     private fun saveToHistory(state: ConduitFillUiState, result: ConduitFillResult) {
         val record = CalculationRecord(
             calculatorId = CalculatorId.CONDUIT_FILL,
@@ -299,6 +336,12 @@ class ConduitFillViewModel @Inject constructor(
                             .format(row.quantity, row.diameter),
                     )
                 }
+                // The lines above are for a reader: they are localised and carry
+                // a unit, so they cannot be parsed back. Reopening the record
+                // needs the raw text the user typed, which is what this is.
+                put(KEY_CABLE_DATA, state.cables.joinToString(ROW_SEPARATOR) {
+                    it.quantity + FIELD_SEPARATOR + it.diameter
+                })
             },
             results = mapOf(
                 KEY_FILL_PERCENT to format(result.fillFraction * PERCENT),
@@ -329,6 +372,11 @@ class ConduitFillViewModel @Inject constructor(
         const val KEY_RULE = "fill_rule"
         const val KEY_CUSTOM_LIMIT = "custom_limit_percent"
         const val KEY_CABLE_PREFIX = "cable_"
+        const val KEY_CABLE_DATA = "cable_rows"
+
+        /** Neither can appear in a number, in any locale. */
+        const val ROW_SEPARATOR = ";"
+        const val FIELD_SEPARATOR = "|"
 
         const val KEY_FILL_PERCENT = "fill_percent"
         const val KEY_PERMITTED_PERCENT = "permitted_percent"

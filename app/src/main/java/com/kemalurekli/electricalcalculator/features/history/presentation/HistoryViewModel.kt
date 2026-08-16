@@ -71,6 +71,20 @@ class HistoryViewModel @Inject constructor(
         viewModelScope.launch { historyRepository.delete(id) }
     }
 
+    /**
+     * Puts a deleted record back, for the undo action on the delete snackbar.
+     *
+     * Saved as a new row rather than reinstating the old id: the id is an
+     * autoincrement key with no meaning outside the table, and a repository that
+     * could resurrect one would need a bin to hold it in. The record the user
+     * cares about — its title, figures and timestamp — comes back unchanged.
+     */
+    fun onRestore(record: CalculationRecord) {
+        viewModelScope.launch {
+            historyRepository.save(record.copy(id = CalculationRecord.NO_ID))
+        }
+    }
+
     fun onClearAll() {
         viewModelScope.launch { historyRepository.clearAll() }
     }

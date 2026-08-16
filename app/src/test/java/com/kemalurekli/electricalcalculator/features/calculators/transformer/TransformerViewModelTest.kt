@@ -12,7 +12,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.transformer.pre
 import com.kemalurekli.electricalcalculator.features.calculators.transformer.presentation.TransformerUiState
 import com.kemalurekli.electricalcalculator.features.calculators.transformer.presentation.TransformerViewModel
 import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
-import com.kemalurekli.electricalcalculator.testing.FakeFavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeStringResolver
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
@@ -42,7 +42,7 @@ class TransformerViewModelTest {
         ioDispatcher = UnconfinedTestDispatcher(),
     )
     private val favoritesRepository = FavoritesRepositoryImpl(
-        dao = FakeFavoriteCalculatorDao(),
+        dao = FakeFavoriteItemDao(),
         timeProvider = timeProvider,
         ioDispatcher = UnconfinedTestDispatcher(),
     )

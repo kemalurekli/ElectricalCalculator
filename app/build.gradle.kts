@@ -109,6 +109,12 @@ ksp {
     arg("room.generateKotlin", "true")
 }
 
+// MigrationTestHelper reads the exported schemas from the test APK's assets, so
+// the directory KSP writes them to has to be packaged with the instrumented
+// tests. Without this a migration test fails with "cannot find the schema file"
+// rather than with anything about the migration.
+android.sourceSets.getByName("androidTest").assets.srcDir("$projectDir/schemas")
+
 dependencies {
     // Compose BOM aligns every Compose artifact to one tested version set.
     implementation(platform(libs.androidx.compose.bom))
@@ -176,6 +182,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     kspAndroidTest(libs.hilt.compiler)
 

@@ -10,7 +10,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.battery.domain.
 import com.kemalurekli.electricalcalculator.features.calculators.battery.presentation.BatteryField
 import com.kemalurekli.electricalcalculator.features.calculators.battery.presentation.BatteryViewModel
 import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
-import com.kemalurekli.electricalcalculator.testing.FakeFavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeStringResolver
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
@@ -40,7 +40,7 @@ class BatteryViewModelTest {
         ioDispatcher = UnconfinedTestDispatcher(),
     )
     private val favoritesRepository = FavoritesRepositoryImpl(
-        dao = FakeFavoriteCalculatorDao(),
+        dao = FakeFavoriteItemDao(),
         timeProvider = timeProvider,
         ioDispatcher = UnconfinedTestDispatcher(),
     )

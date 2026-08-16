@@ -7,7 +7,7 @@ import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalo
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorCategory
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorsViewModel
-import com.kemalurekli.electricalcalculator.testing.FakeFavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeStringResolver
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
@@ -28,7 +28,7 @@ class CalculatorsViewModelTest {
 
     private val catalog = CalculatorCatalog()
     private val favoritesRepository = FavoritesRepositoryImpl(
-        dao = FakeFavoriteCalculatorDao(),
+        dao = FakeFavoriteItemDao(),
         timeProvider = FakeTimeProvider(),
         ioDispatcher = UnconfinedTestDispatcher(),
     )

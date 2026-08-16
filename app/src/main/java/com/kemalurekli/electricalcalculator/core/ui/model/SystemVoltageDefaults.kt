@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.ui.model
 
+import com.kemalurekli.electricalcalculator.core.domain.model.EngineeringDefaults
 import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 
 /**
@@ -28,6 +29,14 @@ import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
  * and only an untouched field ever moves. That makes "what the user typed is
  * never overwritten" true rather than nearly true.
  *
+ * ### Which voltages
+ *
+ * [EngineeringDefaults] holds them, because they are the user's now: a site on
+ * a 690 V supply sets it once in Settings instead of retyping it in six
+ * calculators. The [defaults] parameter falls back to the IEC values so that a
+ * `UiState` declaring its compile-time initial value — before any preference
+ * has been read — still opens on something sensible.
+ *
  * DC is deliberately absent. Direct-current systems run at 12, 24, 48, 110 and
  * 400 V depending on what they are, with no norm worth guessing at, so
  * switching to DC leaves whatever is in the field for the user to correct.
@@ -35,17 +44,16 @@ import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 object SystemVoltageDefaults {
 
     /** Line-to-line on an IEC 60038 low-voltage system. */
-    const val THREE_PHASE = "400"
+    const val THREE_PHASE = EngineeringDefaults.IEC_THREE_PHASE
 
     /** Line-to-neutral on the same system. */
-    const val SINGLE_PHASE = "230"
+    const val SINGLE_PHASE = EngineeringDefaults.IEC_SINGLE_PHASE
 
     /** The voltage a form should open with for [system], or null for DC. */
-    fun forSystem(system: SupplySystem): String? = when (system) {
-        SupplySystem.THREE_PHASE_AC -> THREE_PHASE
-        SupplySystem.SINGLE_PHASE_AC -> SINGLE_PHASE
-        SupplySystem.DC -> null
-    }
+    fun forSystem(
+        system: SupplySystem,
+        defaults: EngineeringDefaults = EngineeringDefaults.Default,
+    ): String? = defaults.voltageFor(system)
 
     /**
      * The voltage to show after a switch to [system].
@@ -53,8 +61,13 @@ object SystemVoltageDefaults {
      * @param userEdited true once the user has typed in the field, after which
      *   the value is theirs and is returned unchanged.
      */
-    fun follow(current: String, system: SupplySystem, userEdited: Boolean): String {
+    fun follow(
+        current: String,
+        system: SupplySystem,
+        userEdited: Boolean,
+        defaults: EngineeringDefaults = EngineeringDefaults.Default,
+    ): String {
         if (userEdited) return current
-        return forSystem(system) ?: current
+        return forSystem(system, defaults) ?: current
     }
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.kemalurekli.electricalcalculator.core.database.ElecToolkitDatabase
 import com.kemalurekli.electricalcalculator.core.database.dao.CalculationHistoryDao
-import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
 import com.kemalurekli.electricalcalculator.core.database.di.DatabaseModule
 import dagger.Module
 import dagger.Provides
@@ -43,7 +43,7 @@ object TestDatabaseModule {
     ): CalculationHistoryDao = database.calculationHistoryDao()
 
     @Provides
-    fun provideFavoriteCalculatorDao(
+    fun provideFavoriteItemDao(
         database: ElecToolkitDatabase,
-    ): FavoriteCalculatorDao = database.favoriteCalculatorDao()
+    ): FavoriteItemDao = database.favoriteItemDao()
 }

@@ -12,7 +12,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.conduitfill.pre
 import com.kemalurekli.electricalcalculator.features.calculators.conduitfill.presentation.ConduitFillUiState
 import com.kemalurekli.electricalcalculator.features.calculators.conduitfill.presentation.ConduitFillViewModel
 import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
-import com.kemalurekli.electricalcalculator.testing.FakeFavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeStringResolver
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
@@ -42,7 +42,7 @@ class ConduitFillViewModelTest {
         ioDispatcher = UnconfinedTestDispatcher(),
     )
     private val favoritesRepository = FavoritesRepositoryImpl(
-        dao = FakeFavoriteCalculatorDao(),
+        dao = FakeFavoriteItemDao(),
         timeProvider = timeProvider,
         ioDispatcher = UnconfinedTestDispatcher(),
     )

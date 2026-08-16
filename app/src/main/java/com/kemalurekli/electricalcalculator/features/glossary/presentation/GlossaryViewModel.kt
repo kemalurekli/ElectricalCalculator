@@ -3,7 +3,11 @@ package com.kemalurekli.electricalcalculator.features.glossary.presentation
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
+import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
+import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryCatalog
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossarySearch
@@ -15,6 +19,10 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.update
 import java.text.BreakIterator
 import java.text.Collator
@@ -84,7 +92,27 @@ data class GlossaryUiState(
 class GlossaryViewModel @Inject constructor(
     private val stringResolver: StringResolver,
     private val savedStateHandle: SavedStateHandle,
+    private val favoritesRepository: FavoritesRepository,
 ) : ViewModel() {
+
+    /**
+     * The pinned keys on this shelf.
+     *
+     * Kept beside the list rather than folded into each row: pinning does not
+     * change what is listed or how it is ordered, and rebuilding every row to
+     * flip one star would throw away the expanded card the reader is reading.
+     */
+    val pinned: StateFlow<Set<String>> = favoritesRepository.observeAll()
+        .map { items -> items.filter { it.kind == FavoriteKind.GLOSSARY }.map { it.key }.toSet() }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(FAVORITES_TIMEOUT_MILLIS),
+            initialValue = emptySet(),
+        )
+
+    fun onToggleFavorite(key: String) {
+        viewModelScope.launch { favoritesRepository.toggle(FavoriteItem(FavoriteKind.GLOSSARY, key)) }
+    }
 
     private val locale: Locale get() = Locale.getDefault()
 
@@ -212,6 +240,8 @@ class GlossaryViewModel @Inject constructor(
     }
 
     private companion object {
+        const val FAVORITES_TIMEOUT_MILLIS = 5_000L
+
         const val KEY_QUERY = "glossary_query"
     }
 }

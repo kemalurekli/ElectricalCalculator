@@ -14,11 +14,12 @@ import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
  * ### On the accents
  *
  * [ElecAccent] is documented as tinting a section by what it is *for*, so the
- * dashboard draws one distinction and draws it consistently: the four shelves
- * the app ships — tools and reference material — are primary, and the two built
- * from the user's own activity are tertiary. Read down the grid, the colour now
- * means something. Assigned ad hoc it means nothing, and alternating hues at
- * random is what makes a set of cards look assembled rather than designed.
+ * dashboard draws one distinction and draws it consistently: the six shelves
+ * the app ships — tools, reference material, theory and working knowledge — are
+ * primary, and the two built from the user's own activity are tertiary. Read
+ * down the grid, the colour now means something. Assigned ad hoc it means
+ * nothing, and alternating hues at random is what makes a set of cards look
+ * assembled rather than designed.
  *
  * Only two of the four roles are in play deliberately. In this palette
  * `secondaryContainer` (#DAE2F9) and `primaryContainer` (#D8E2FF) are within a
@@ -86,13 +87,21 @@ enum class TopLevelDestination(
         icon = ElecIcons.History,
         accent = ElecAccent.TERTIARY,
     ),
+    THEORY(
+        route = Route.Theory,
+        labelRes = R.string.destination_theory,
+        titleRes = R.string.dashboard_theory_title,
+        subtitleRes = R.string.dashboard_theory_subtitle,
+        icon = ElecIcons.Theory,
+        accent = ElecAccent.PRIMARY,
+    ),
     FIELD_NOTES(
         route = Route.FieldNotes(),
         labelRes = R.string.destination_field_notes,
         titleRes = R.string.dashboard_field_notes_title,
         subtitleRes = R.string.dashboard_field_notes_subtitle,
         icon = ElecIcons.FieldNotes,
-        accent = ElecAccent.TERTIARY,
+        accent = ElecAccent.PRIMARY,
     ),
     SETTINGS(
         route = Route.Settings,
@@ -108,22 +117,16 @@ enum class TopLevelDestination(
         /**
          * The destinations that appear as cards on the dashboard.
          *
-         * Everything except [SETTINGS], which is reached from the home top bar.
-         * Configuration is not something a user browses to alongside the tools,
-         * and leaving it in made a seventh card that stranded itself alone on a
-         * final row of a two-column grid.
-         */
-        val dashboardCards: List<TopLevelDestination> = entries - SETTINGS - FIELD_NOTES
-
-        /**
-         * The destination drawn as one tile across the full width, under the grid.
+         * Everything except [SETTINGS], which is reached from the home top bar:
+         * configuration is not something a user browses to alongside the tools.
          *
-         * Seven cards in two columns strand the seventh alone on a final row —
-         * the shape [dashboardCards] exists to avoid. A tile that spans instead
-         * reads as a deliberate band rather than as something left over, and it
-         * suits a browsing surface better than a quarter-width square. It sits
-         * below the grid so it does not displace the tools.
+         * That leaves eight, which fills four rows of two exactly. Earlier there
+         * were seven and the last one was stranded alone on a final row, so it
+         * was drawn as a full-width band underneath instead; [THEORY] made the
+         * count even again and the band is gone. Adding a ninth destination
+         * brings the problem back — solve it then, rather than keeping a special
+         * case against the possibility.
          */
-        val dashboardBanner: TopLevelDestination = FIELD_NOTES
+        val dashboardCards: List<TopLevelDestination> = entries - SETTINGS
     }
 }

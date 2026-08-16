@@ -7,6 +7,7 @@ import java.util.Locale
 enum class SearchKind {
     CALCULATOR,
     CONVERTER,
+    THEORY,
     REFERENCE,
     GLOSSARY,
     SYMBOL,

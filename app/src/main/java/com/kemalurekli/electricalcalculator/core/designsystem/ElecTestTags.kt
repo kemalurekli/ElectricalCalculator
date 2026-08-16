@@ -15,4 +15,7 @@ package com.kemalurekli.electricalcalculator.core.designsystem
 object ElecTestTags {
     /** The scrollable container holding a calculator's inputs and results. */
     const val CALCULATOR_FORM = "calculator_form"
+
+    /** The theory topic form, for scrolling to a card below the fold. */
+    const val THEORY_FORM = "theory_form"
 }

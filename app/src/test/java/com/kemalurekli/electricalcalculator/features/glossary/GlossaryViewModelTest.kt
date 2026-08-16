@@ -13,6 +13,11 @@ import org.junit.Test
 import java.text.BreakIterator
 import java.text.Collator
 import java.util.Locale
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
+import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
+import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 
 /**
  * The glossary screen's state.
@@ -22,6 +27,7 @@ import java.util.Locale
  * their resource id. That keeps these tests independent of the 117 definitions:
  * rewording an entry must not fail a test about grouping.
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class GlossaryViewModelTest {
 
     /**
@@ -41,6 +47,11 @@ class GlossaryViewModelTest {
     private fun viewModel(overrides: Map<Int, String> = emptyMap()) = GlossaryViewModel(
         stringResolver = MapResolver(defaultNames + overrides),
         savedStateHandle = SavedStateHandle(),
+        favoritesRepository = FavoritesRepositoryImpl(
+            dao = FakeFavoriteItemDao(),
+            timeProvider = FakeTimeProvider(),
+            ioDispatcher = UnconfinedTestDispatcher(),
+        ),
     )
 
     /** Runs [block] with [locale] as the JVM default, then puts it back. */

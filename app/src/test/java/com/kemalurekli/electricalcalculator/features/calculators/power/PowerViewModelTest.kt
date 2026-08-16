@@ -13,9 +13,10 @@ import com.kemalurekli.electricalcalculator.features.calculators.power.domain.Ca
 import com.kemalurekli.electricalcalculator.features.calculators.power.presentation.PowerField
 import com.kemalurekli.electricalcalculator.features.calculators.power.presentation.PowerViewModel
 import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
-import com.kemalurekli.electricalcalculator.testing.FakeFavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeStringResolver
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
+import com.kemalurekli.electricalcalculator.testing.FakeUserPreferencesRepository
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -43,7 +44,7 @@ class PowerViewModelTest {
         ioDispatcher = UnconfinedTestDispatcher(),
     )
     private val favoritesRepository = FavoritesRepositoryImpl(
-        dao = FakeFavoriteCalculatorDao(),
+        dao = FakeFavoriteItemDao(),
         timeProvider = timeProvider,
         ioDispatcher = UnconfinedTestDispatcher(),
     )
@@ -59,6 +60,7 @@ class PowerViewModelTest {
             ),
         ),
         timeProvider = timeProvider,
+        userPreferences = FakeUserPreferencesRepository(),
     )
 
     private fun PowerViewModel.fillValidForm() {

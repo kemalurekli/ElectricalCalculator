@@ -27,11 +27,17 @@ sealed interface Route {
      * Carries [CalculatorId.key] rather than the enum itself: the key is the
      * app's stable persisted identifier, so a deep link or a restored back
      * stack keeps working across releases that reorder the enum.
+     *
+     * [recordId] opens the form on a saved calculation from the history. Null is
+     * the ordinary case — a blank form with its defaults.
      */
     @Serializable
-    data class Calculator(val calculatorKey: String) : Route {
+    data class Calculator(
+        val calculatorKey: String,
+        val recordId: Long? = null,
+    ) : Route {
         companion object {
-            fun of(id: CalculatorId) = Calculator(id.key)
+            fun of(id: CalculatorId, recordId: Long? = null) = Calculator(id.key, recordId)
         }
     }
 
@@ -69,6 +75,24 @@ sealed interface Route {
      */
     @Serializable
     data class FieldNotes(val noteKey: String? = null) : Route
+
+    @Serializable
+    data object Theory : Route
+
+    /**
+     * One theory topic's page.
+     *
+     * A separate destination rather than a card that opens in place, which is
+     * what the glossary and the general-info notes do: a topic carries a form,
+     * a result and a derivation, and putting a keyboard inside a list row makes
+     * both the row and the list awkward.
+     *
+     * Carries [TheoryTopic.key] for the reason every other detail route carries a
+     * key rather than an index — a restored back stack survives a release that
+     * reorders the catalog.
+     */
+    @Serializable
+    data class TheoryTopic(val topicKey: String) : Route
 
     @Serializable
     data object Favorites : Route

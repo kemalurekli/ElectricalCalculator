@@ -10,6 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.result.Outcome
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.pick
+import com.kemalurekli.electricalcalculator.core.common.util.enumOrNull
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
@@ -20,6 +22,8 @@ import com.kemalurekli.electricalcalculator.core.domain.model.PowerUnit
 import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
+import com.kemalurekli.electricalcalculator.core.domain.model.EngineeringDefaults
+import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
 import com.kemalurekli.electricalcalculator.features.calculators.motor.domain.CalculateMotorCurrentUseCase
 import com.kemalurekli.electricalcalculator.features.calculators.motor.domain.MotorInput
 import com.kemalurekli.electricalcalculator.features.calculators.motor.domain.MotorResult
@@ -78,12 +82,38 @@ class MotorViewModel @Inject constructor(
     private val favoritesRepository: FavoritesRepository,
     private val stringResolver: StringResolver,
     private val timeProvider: TimeProvider,
+    private val userPreferences: UserPreferencesRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MotorUiState())
     val uiState: StateFlow<MotorUiState> = _uiState.asStateFlow()
 
+    /**
+     * The user's settings, read once when the calculator opens.
+     *
+     * Held rather than observed on purpose: a form must not be rewritten
+     * underneath the user because Settings changed while this screen sat on the
+     * back stack.
+     */
+    private var defaults = EngineeringDefaults.Default
+
+    /**
+     * Whether anything has yet written to the form.
+     *
+     * The defaults are read asynchronously, so they can in principle land after
+     * the first edit, after an example has been applied, or after a saved
+     * calculation has been reopened. In each of those cases the form already
+     * says something more specific than a default and must be left alone. The
+     * flag is set at the *call*, ahead of any suspension, so ordering between
+     * the two coroutines cannot decide the outcome.
+     */
+    private var formTouched = false
+
     init {
+        viewModelScope.launch {
+            defaults = userPreferences.engineeringDefaults()
+            if (!formTouched) _uiState.update { it.withDefaults(defaults) }
+        }
         viewModelScope.launch {
             favoritesRepository
                 .observeIsFavorite(CalculatorId.MOTOR_CURRENT)
@@ -96,7 +126,7 @@ class MotorViewModel @Inject constructor(
     fun onSystemChange(system: SupplySystem) = update {
         it.copy(
             system = system,
-            voltage = SystemVoltageDefaults.follow(it.voltage, system, it.voltageEdited),
+            voltage = SystemVoltageDefaults.follow(it.voltage, system, it.voltageEdited, defaults),
         )
     }
 
@@ -120,6 +150,7 @@ class MotorViewModel @Inject constructor(
         field: MotorField? = null,
         transform: (MotorUiState) -> MotorUiState,
     ) {
+        formTouched = true
         _uiState.update { current ->
             transform(current).copy(
                 result = null,
@@ -208,6 +239,7 @@ class MotorViewModel @Inject constructor(
      * rather than a form the reader still has to submit.
      */
     fun onApplyExample(example: WorkedExample<MotorUiState>) {
+        formTouched = true
         _uiState.update { example.fill(it) }
         onCalculate()
     }
@@ -216,7 +248,7 @@ class MotorViewModel @Inject constructor(
         _uiState.update {
             MotorUiState(
                 system = it.system,
-                voltage = SystemVoltageDefaults.forSystem(it.system)
+                voltage = SystemVoltageDefaults.forSystem(it.system, defaults)
                     ?: it.voltage,
                 voltageEdited = false,
                 powerUnit = it.powerUnit,
@@ -227,6 +259,37 @@ class MotorViewModel @Inject constructor(
 
     fun onToggleFavorite() {
         viewModelScope.launch { favoritesRepository.toggle(CalculatorId.MOTOR_CURRENT) }
+    }
+
+    /**
+     * Reloads a saved calculation into the form.
+     *
+     * The record stores the text the reader typed rather than the parsed number,
+     * so the form comes back exactly as it was left — see [CalculationRecord].
+     * A key the record does not carry keeps the form's current value, which is
+     * what lets a record written before a field existed still open.
+     */
+    fun onRestore(recordId: Long) {
+        formTouched = true
+        viewModelScope.launch {
+            val record = historyRepository.findById(recordId) ?: return@launch
+            if (record.calculatorId != CalculatorId.MOTOR_CURRENT) return@launch
+            val inputs = record.inputs
+            _uiState.update {
+                it.copy(
+                    system = inputs.enumOrNull(KEY_SYSTEM) ?: it.system,
+                    powerUnit = inputs.enumOrNull(KEY_POWER_UNIT) ?: it.powerUnit,
+                    ratedPower = inputs.pick(KEY_POWER, it.ratedPower),
+                    voltage = inputs.pick(KEY_VOLTAGE, it.voltage),
+                    efficiency = inputs.pick(KEY_EFFICIENCY, it.efficiency),
+                    powerFactor = inputs.pick(KEY_POWER_FACTOR, it.powerFactor),
+                    startingRatio = inputs.pick(KEY_STARTING_RATIO, it.startingRatio),
+                    voltageEdited = true,
+                )
+            }
+            // The reader tapped a result, so show one rather than an empty form.
+            onCalculate()
+        }
     }
 
     private fun saveToHistory(state: MotorUiState, result: MotorResult) {
@@ -285,3 +348,12 @@ class MotorViewModel @Inject constructor(
         const val KEY_LOSSES = "losses_kw"
     }
 }
+
+/**
+ * The user's engineering defaults, applied to a form that is still untouched.
+ *
+ * Only the fields this calculator shares with Settings move.
+ */
+private fun MotorUiState.withDefaults(defaults: EngineeringDefaults) = copy(
+    voltage = defaults.voltageFor(system) ?: voltage,
+)

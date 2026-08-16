@@ -64,6 +64,7 @@ class HomeScreenTest {
         val history: String = context.getString(R.string.dashboard_history_title)
         val settings: String = context.getString(R.string.dashboard_settings_title)
         val fieldNotes: String = context.getString(R.string.dashboard_field_notes_title)
+        val theory: String = context.getString(R.string.dashboard_theory_title)
 
         /** A card announces itself as "title. subtitle" in one merged node. */
         val converterCard: String =
@@ -105,6 +106,8 @@ class HomeScreenTest {
             strings.glossary,
             strings.favorites,
             strings.history,
+            strings.theory,
+            strings.fieldNotes,
         ).forEach { title ->
             composeTestRule
                 .onNodeWithContentDescription(title, substring = true)
@@ -138,22 +141,26 @@ class HomeScreenTest {
     }
 
     /**
-     * The banner spans the grid instead of taking a cell in it, so it is drawn by
-     * a different branch from the six tiles above. Asserted separately for that
-     * reason — the loop over the grid cards would never touch it.
+     * The two reading shelves sit at the end of the grid rather than as bands
+     * beneath it, which is what an even number of cards buys. Asserted by route
+     * rather than only by sight, because a card that renders and navigates
+     * nowhere looks identical in a screenshot.
      */
     @Test
-    fun showsTheFieldNotesBanner() {
-        setContent(HomeUiState(isLoading = false))
+    fun tappingTheTheoryCardReportsItsRoute() {
+        var route: Route? = null
+        setContent(HomeUiState(isLoading = false), onNavigate = { route = it })
 
         composeTestRule
-            .onNodeWithContentDescription(strings.fieldNotes, substring = true)
+            .onNodeWithContentDescription(strings.theory, substring = true)
             .performScrollTo()
-            .assertIsDisplayed()
+            .performClick()
+
+        assertEquals(Route.Theory, route)
     }
 
     @Test
-    fun tappingTheFieldNotesBannerReportsItsRoute() {
+    fun tappingTheFieldNotesCardReportsItsRoute() {
         var route: Route? = null
         setContent(HomeUiState(isLoading = false), onNavigate = { route = it })
 

@@ -233,6 +233,7 @@ class VerificationBacklogTest {
             "$FEATURES/references/domain/ReferenceCatalog.kt",
             "$FEATURES/glossary/domain/GlossaryCatalog.kt",
             "$FEATURES/fieldnotes/domain/FieldNoteCatalog.kt",
+            "$FEATURES/theory/domain",
             "app/src/main/res/values-tr/strings.xml",
         )
     }

@@ -13,7 +13,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.trayfill.presen
 import com.kemalurekli.electricalcalculator.features.calculators.trayfill.presentation.TrayFillUiState
 import com.kemalurekli.electricalcalculator.features.calculators.trayfill.presentation.TrayFillViewModel
 import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
-import com.kemalurekli.electricalcalculator.testing.FakeFavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeStringResolver
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
@@ -43,7 +43,7 @@ class TrayFillViewModelTest {
         ioDispatcher = UnconfinedTestDispatcher(),
     )
     private val favoritesRepository = FavoritesRepositoryImpl(
-        dao = FakeFavoriteCalculatorDao(),
+        dao = FakeFavoriteItemDao(),
         timeProvider = timeProvider,
         ioDispatcher = UnconfinedTestDispatcher(),
     )

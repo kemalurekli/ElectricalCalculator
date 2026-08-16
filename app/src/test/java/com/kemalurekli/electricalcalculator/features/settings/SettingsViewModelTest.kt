@@ -6,6 +6,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.UnitSystem
 import com.kemalurekli.electricalcalculator.features.settings.presentation.SettingsViewModel
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
 import com.kemalurekli.electricalcalculator.testing.FakeAppLanguageRepository
+import com.kemalurekli.electricalcalculator.testing.FakeRegionProvider
 import com.kemalurekli.electricalcalculator.testing.FakeUserPreferencesRepository
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,7 +24,7 @@ class SettingsViewModelTest {
 
     private val repository = FakeUserPreferencesRepository()
     private val languageRepository = FakeAppLanguageRepository()
-    private val viewModel = SettingsViewModel(repository, languageRepository)
+    private val viewModel = SettingsViewModel(repository, languageRepository, FakeRegionProvider())
 
     @Test
     fun `initial state exposes the defaults`() = runTest {

@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.result.Outcome
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.pick
+import com.kemalurekli.electricalcalculator.core.common.util.enumOrNull
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
@@ -205,6 +207,35 @@ class LightingViewModel @Inject constructor(
 
     fun onToggleFavorite() {
         viewModelScope.launch { favoritesRepository.toggle(CalculatorId.LIGHTING_LUMEN) }
+    }
+
+    /**
+     * Reloads a saved calculation into the form.
+     *
+     * The record stores the text the reader typed rather than the parsed number,
+     * so the form comes back exactly as it was left — see [CalculationRecord].
+     * A key the record does not carry keeps the form's current value, which is
+     * what lets a record written before a field existed still open.
+     */
+    fun onRestore(recordId: Long) {
+        viewModelScope.launch {
+            val record = historyRepository.findById(recordId) ?: return@launch
+            if (record.calculatorId != CalculatorId.LIGHTING_LUMEN) return@launch
+            val inputs = record.inputs
+            _uiState.update {
+                it.copy(
+                    illuminance = inputs.pick(KEY_LUX, it.illuminance),
+                    length = inputs.pick(KEY_LENGTH, it.length),
+                    width = inputs.pick(KEY_WIDTH, it.width),
+                    mountingHeight = inputs.pick(KEY_HEIGHT, it.mountingHeight),
+                    flux = inputs.pick(KEY_FLUX, it.flux),
+                    utilisation = inputs.pick(KEY_UF, it.utilisation),
+                    maintenance = inputs.pick(KEY_MF, it.maintenance),
+                )
+            }
+            // The reader tapped a result, so show one rather than an empty form.
+            onCalculate()
+        }
     }
 
     private fun saveToHistory(state: LightingUiState, result: LightingResult) {

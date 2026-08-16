@@ -29,6 +29,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
+import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
+import com.kemalurekli.electricalcalculator.core.ui.FavoriteToggleViewModel
+import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,9 +68,12 @@ import com.kemalurekli.electricalcalculator.features.references.domain.SymbolPai
 /**
  * One reference topic's tables.
  *
- * Stateless for the same reason the index is: the content is compile-time data.
- * An unknown key renders nothing rather than crashing, so a stale deep link or
- * a restored back stack from an older release degrades quietly.
+ * The content is compile-time data, so the screen holds no state of its own; an
+ * unknown key renders nothing rather than crashing, and a stale deep link or a
+ * back stack from an older release degrades quietly.
+ *
+ * The one exception is the pin, which reads and writes a database. It lives in
+ * [FavoriteToggleViewModel] rather than turning this into a stateful screen.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,8 +81,15 @@ fun ReferenceDetailRoute(
     topicKey: String,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
+    favoriteViewModel: FavoriteToggleViewModel = hiltViewModel(),
 ) {
     val topic = ReferenceCatalog.topicOrNull(topicKey)
+    val isFavorite by favoriteViewModel.isFavorite.collectAsStateWithLifecycle()
+
+    LaunchedEffect(topicKey) {
+        favoriteViewModel.observe(FavoriteItem(FavoriteKind.REFERENCE, topicKey))
+    }
+
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -88,6 +107,20 @@ fun ReferenceDetailRoute(
                         ?: stringResource(R.string.dashboard_references_title),
                     onNavigateBack = onNavigateBack,
                     scrollBehavior = scrollBehavior,
+                    actions = {
+                        if (topic != null) {
+                            IconButton(onClick = favoriteViewModel::toggle) {
+                                Icon(
+                                    imageVector = if (isFavorite) ElecIcons.FavoriteOn
+                                    else ElecIcons.FavoriteOff,
+                                    contentDescription = stringResource(
+                                        if (isFavorite) R.string.action_favorite_remove
+                                        else R.string.action_favorite_add,
+                                    ),
+                                )
+                            }
+                        }
+                    },
                 )
             },
         ) { innerPadding ->

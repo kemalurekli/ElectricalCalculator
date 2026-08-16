@@ -22,13 +22,15 @@ import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecLoadingState
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
-import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
+import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
+import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 
 @Composable
 fun FavoritesRoute(
-    onCalculatorClick: (CalculatorId) -> Unit,
+    onOpenFavorite: (FavoriteItem) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: FavoritesViewModel = hiltViewModel(),
@@ -38,18 +40,27 @@ fun FavoritesRoute(
     FavoritesScreen(
         uiState = uiState,
         onToggleFavorite = viewModel::onToggleFavorite,
-        onCalculatorClick = onCalculatorClick,
+        onOpenFavorite = onOpenFavorite,
         onNavigateBack = onNavigateBack,
         modifier = modifier,
     )
 }
 
+/**
+ * Everything the user has pinned.
+ *
+ * Grouped by shelf rather than shown as one flat list. A calculator and a
+ * glossary term do different things when tapped, and a reader scanning for the
+ * table they pinned last week should not have to read past four calculators to
+ * find it. Sections appear only when they have something in them, so a user who
+ * only ever pins calculators sees exactly what they saw before.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesScreen(
     uiState: FavoritesUiState,
-    onToggleFavorite: (CalculatorId) -> Unit,
-    onCalculatorClick: (CalculatorId) -> Unit,
+    onToggleFavorite: (FavoriteItem) -> Unit,
+    onOpenFavorite: (FavoriteItem) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -77,25 +88,55 @@ fun FavoritesScreen(
             when {
                 uiState.isLoading -> ElecLoadingState()
 
-                uiState.items.isEmpty() -> ElecEmptyState(
+                uiState.rows.isEmpty() -> ElecEmptyState(
                     title = stringResource(R.string.state_empty_favorites_title),
                     message = stringResource(R.string.state_empty_favorites_message),
                     icon = ElecIcons.FavoriteOff,
                 )
 
                 else -> LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(uiState.items, key = { it.id.key }) { item ->
-                        ElecListItem(
-                            title = item.title,
-                            description = item.description,
-                            icon = ElecIcons.forCalculator(item.icon),
-                            onClick = { onCalculatorClick(item.id) },
-                            isFavorite = item.isFavorite,
-                            onToggleFavorite = { onToggleFavorite(item.id) },
-                        )
+                    // Declaration order of the enum, so the sections keep one
+                    // order however the user pinned them.
+                    FavoriteKind.entries.forEach { kind ->
+                        val rows = uiState.rows.filter { it.item.kind == kind }
+                        if (rows.isEmpty()) return@forEach
+
+                        item(key = "header-${kind.name}") {
+                            ElecSectionHeader(title = stringResource(kind.titleRes()))
+                        }
+                        items(rows, key = { "${it.item.kind}-${it.item.key}" }) { row ->
+                            ElecListItem(
+                                title = row.title,
+                                description = row.description,
+                                icon = row.calculatorIcon
+                                    ?.let(ElecIcons::forCalculator)
+                                    ?: kind.icon(),
+                                onClick = { onOpenFavorite(row.item) },
+                                isFavorite = true,
+                                onToggleFavorite = { onToggleFavorite(row.item) },
+                            )
+                        }
                     }
                 }
             }
         }
     }
+}
+
+/** The heading a shelf's favourites render under. */
+private fun FavoriteKind.titleRes(): Int = when (this) {
+    FavoriteKind.CALCULATOR -> R.string.destination_calculators
+    FavoriteKind.REFERENCE -> R.string.destination_references
+    FavoriteKind.GLOSSARY -> R.string.destination_glossary
+    FavoriteKind.FIELD_NOTE -> R.string.destination_field_notes
+    FavoriteKind.THEORY -> R.string.destination_theory
+}
+
+/** Each shelf has one icon; only calculators carry their own. */
+private fun FavoriteKind.icon() = when (this) {
+    FavoriteKind.CALCULATOR -> ElecIcons.Calculators
+    FavoriteKind.REFERENCE -> ElecIcons.References
+    FavoriteKind.GLOSSARY -> ElecIcons.Glossary
+    FavoriteKind.FIELD_NOTE -> ElecIcons.FieldNotes
+    FavoriteKind.THEORY -> ElecIcons.Theory
 }

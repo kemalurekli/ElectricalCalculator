@@ -29,6 +29,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -66,6 +69,7 @@ fun FieldNotesRoute(
     viewModel: FieldNotesViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val pinned by viewModel.pinned.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
 
     // Keyed on the argument rather than run once: navigating from one search hit
@@ -86,6 +90,8 @@ fun FieldNotesRoute(
 
     FieldNotesScreen(
         uiState = uiState,
+        pinned = pinned,
+        onToggleFavorite = viewModel::onToggleFavorite,
         listState = listState,
         onQueryChange = viewModel::onQueryChange,
         onFilterChange = viewModel::onFilterChange,
@@ -117,6 +123,8 @@ fun FieldNotesScreen(
     onReferenceClick: (String) -> Unit,
     onGlossaryClick: (String) -> Unit,
     onNavigateBack: () -> Unit,
+    pinned: Set<String> = emptySet(),
+    onToggleFavorite: (String) -> Unit = {},
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
 ) {
@@ -200,6 +208,8 @@ fun FieldNotesScreen(
                         ) { note ->
                             NoteCard(
                                 note = note,
+                                isFavorite = note.key in pinned,
+                                onToggleFavorite = { onToggleFavorite(note.key) },
                                 isExpanded = note.key == uiState.expandedKey,
                                 onToggle = { onToggleExpanded(note.key) },
                                 onCalculatorClick = onCalculatorClick,
@@ -257,6 +267,8 @@ private fun CategoryFilter(
 private fun NoteCard(
     note: FieldNoteUiModel,
     isExpanded: Boolean,
+    isFavorite: Boolean,
+    onToggleFavorite: () -> Unit,
     onToggle: () -> Unit,
     onCalculatorClick: (CalculatorId) -> Unit,
     onReferenceClick: (String) -> Unit,
@@ -274,11 +286,36 @@ private fun NoteCard(
         ) {
             // The claim, stated as a sentence. Closed, this is the whole card —
             // a reader who already knows it can move on without opening it.
-            Text(
-                text = note.title,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = note.title,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.weight(1f),
+                )
+                    // Shown only on an open card: a star on every row of a
+                    // 117-term list is clutter, and pinning is a decision a
+                    // reader makes after reading, not while scanning.
+                    if (isExpanded) {
+                        IconButton(
+                            onClick = onToggleFavorite,
+                            modifier = Modifier.size(FAVORITE_TOUCH_TARGET),
+                        ) {
+                            Icon(
+                                imageVector = if (isFavorite) ElecIcons.FavoriteOn
+                                else ElecIcons.FavoriteOff,
+                                contentDescription = stringResource(
+                                    if (isFavorite) R.string.action_favorite_remove
+                                    else R.string.action_favorite_add,
+                                ),
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
+                        }
+                    }
+            }
 
             AnimatedVisibility(visible = isExpanded) {
                 Column(
@@ -368,3 +405,6 @@ private fun FieldNotesScreenPreview() {
         )
     }
 }
+
+/** Keeps the star's tap area clear of the card's own expand gesture. */
+private val FAVORITE_TOUCH_TARGET = 40.dp

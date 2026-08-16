@@ -75,10 +75,15 @@ import kotlinx.coroutines.launch
 fun PowerRoute(
     onReferenceClick: (String) -> Unit,
     onNavigateBack: () -> Unit,
+    recordId: Long? = null,
     modifier: Modifier = Modifier,
     viewModel: PowerViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    // Opening from the history restores that record's inputs. Keyed on the id so
+    // a second record opens over the first without leaving the screen.
+    LaunchedEffect(recordId) { recordId?.let(viewModel::onRestore) }
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()

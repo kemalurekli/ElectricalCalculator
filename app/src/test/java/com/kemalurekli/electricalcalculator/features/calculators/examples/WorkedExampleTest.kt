@@ -55,8 +55,9 @@ import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.dom
 import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.presentation.VoltageDropViewModel
 import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.presentation.voltageDropExamples
 import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
-import com.kemalurekli.electricalcalculator.testing.FakeFavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
+import com.kemalurekli.electricalcalculator.testing.FakeUserPreferencesRepository
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -99,7 +100,7 @@ class WorkedExampleTest {
     )
 
     private fun favorites() = FavoritesRepositoryImpl(
-        dao = FakeFavoriteCalculatorDao(),
+        dao = FakeFavoriteItemDao(),
         timeProvider = timeProvider,
         ioDispatcher = UnconfinedTestDispatcher(),
     )
@@ -128,10 +129,12 @@ class WorkedExampleTest {
         }
     }
 
+    private fun preferences() = FakeUserPreferencesRepository()
+
     @Test
     fun `every voltage drop example runs`() {
         val model = VoltageDropViewModel(
-            CalculateVoltageDropUseCase(), history(), favorites(), strings, timeProvider,
+            CalculateVoltageDropUseCase(), history(), favorites(), strings, timeProvider, preferences(),
         )
         assertEveryExampleRuns("voltage drop", voltageDropExamples, model::onApplyExample) {
             val s = model.uiState.value
@@ -143,7 +146,7 @@ class WorkedExampleTest {
     fun `every cable size example runs`() {
         val model = CableSizeViewModel(
             CalculateCableSizeUseCase(AmpacityTable(), CorrectionFactors()),
-            CorrectionFactors(), history(), favorites(), strings, timeProvider,
+            CorrectionFactors(), history(), favorites(), strings, timeProvider, preferences(),
         )
         assertEveryExampleRuns("cable size", cableSizeExamples, model::onApplyExample) {
             val s = model.uiState.value
@@ -157,7 +160,7 @@ class WorkedExampleTest {
         // the calculator and a useless example.
         val model = CableSizeViewModel(
             CalculateCableSizeUseCase(AmpacityTable(), CorrectionFactors()),
-            CorrectionFactors(), history(), favorites(), strings, timeProvider,
+            CorrectionFactors(), history(), favorites(), strings, timeProvider, preferences(),
         )
         cableSizeExamples.forEach { example ->
             model.onApplyExample(example)
@@ -182,7 +185,7 @@ class WorkedExampleTest {
     @Test
     fun `every motor example runs`() {
         val model = MotorViewModel(
-            CalculateMotorCurrentUseCase(), history(), favorites(), strings, timeProvider,
+            CalculateMotorCurrentUseCase(), history(), favorites(), strings, timeProvider, preferences(),
         )
         assertEveryExampleRuns("motor", motorExamples, model::onApplyExample) {
             val s = model.uiState.value
@@ -193,7 +196,7 @@ class WorkedExampleTest {
     @Test
     fun `every power example runs`() {
         val model = PowerViewModel(
-            CalculatePowerUseCase(), history(), favorites(), strings, timeProvider,
+            CalculatePowerUseCase(), history(), favorites(), strings, timeProvider, preferences(),
         )
         assertEveryExampleRuns("power", powerExamples, model::onApplyExample) {
             val s = model.uiState.value
@@ -204,7 +207,7 @@ class WorkedExampleTest {
     @Test
     fun `every power factor example runs`() {
         val model = PowerFactorViewModel(
-            CalculatePowerFactorCorrectionUseCase(), history(), favorites(), strings, timeProvider,
+            CalculatePowerFactorCorrectionUseCase(), history(), favorites(), strings, timeProvider, preferences(),
         )
         assertEveryExampleRuns("power factor", powerFactorExamples, model::onApplyExample) {
             val s = model.uiState.value
@@ -226,7 +229,7 @@ class WorkedExampleTest {
     @Test
     fun `every cable weight example runs`() {
         val model = CableWeightViewModel(
-            CalculateCableWeightUseCase(), history(), favorites(), strings, timeProvider,
+            CalculateCableWeightUseCase(), history(), favorites(), strings, timeProvider, preferences(),
         )
         assertEveryExampleRuns("cable weight", cableWeightExamples, model::onApplyExample) {
             val s = model.uiState.value
@@ -239,7 +242,7 @@ class WorkedExampleTest {
         // It is in the set precisely to show the calculator stopping rather than
         // estimating, so the absence has to be the real thing.
         val model = CableWeightViewModel(
-            CalculateCableWeightUseCase(), history(), favorites(), strings, timeProvider,
+            CalculateCableWeightUseCase(), history(), favorites(), strings, timeProvider, preferences(),
         )
         val example = cableWeightExamples.single { it.key == "no_datasheet" }
 
@@ -297,7 +300,7 @@ class WorkedExampleTest {
     @Test
     fun `every short circuit example runs`() {
         val model = ShortCircuitViewModel(
-            CalculateShortCircuitUseCase(), history(), favorites(), strings, timeProvider,
+            CalculateShortCircuitUseCase(), history(), favorites(), strings, timeProvider, preferences(),
         )
         assertEveryExampleRuns("short circuit", shortCircuitExamples, model::onApplyExample) {
             val s = model.uiState.value
@@ -310,7 +313,7 @@ class WorkedExampleTest {
         // The two short-circuit examples exist to be compared. If they ever stop
         // differing the pair has lost its point.
         val model = ShortCircuitViewModel(
-            CalculateShortCircuitUseCase(), history(), favorites(), strings, timeProvider,
+            CalculateShortCircuitUseCase(), history(), favorites(), strings, timeProvider, preferences(),
         )
 
         model.onApplyExample(shortCircuitExamples.single { it.key == "at_the_board" })
@@ -324,7 +327,7 @@ class WorkedExampleTest {
     @Test
     fun `every earth fault example runs`() {
         val model = EarthFaultViewModel(
-            CalculateEarthFaultUseCase(), history(), favorites(), strings, timeProvider,
+            CalculateEarthFaultUseCase(), history(), favorites(), strings, timeProvider, preferences(),
         )
         assertEveryExampleRuns("earth fault", earthFaultExamples, model::onApplyExample) {
             val s = model.uiState.value
@@ -337,7 +340,7 @@ class WorkedExampleTest {
         // A set where everything passes teaches nothing about the boundary, and
         // the failing one is the reason this calculator exists.
         val model = EarthFaultViewModel(
-            CalculateEarthFaultUseCase(), history(), favorites(), strings, timeProvider,
+            CalculateEarthFaultUseCase(), history(), favorites(), strings, timeProvider, preferences(),
         )
 
         model.onApplyExample(earthFaultExamples.single { it.key == "tncs_type_b" })

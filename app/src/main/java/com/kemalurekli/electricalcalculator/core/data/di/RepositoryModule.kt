@@ -1,6 +1,8 @@
 package com.kemalurekli.electricalcalculator.core.data.di
 
+import com.kemalurekli.electricalcalculator.core.common.util.AndroidRegionProvider
 import com.kemalurekli.electricalcalculator.core.common.util.AndroidStringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.common.util.SystemTimeProvider
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
@@ -57,6 +59,12 @@ abstract class RepositoryModule {
     abstract fun bindStringResolver(
         impl: AndroidStringResolver,
     ): StringResolver
+
+    @Binds
+    @Singleton
+    abstract fun bindRegionProvider(
+        impl: AndroidRegionProvider,
+    ): RegionProvider
 
     @Binds
     @Singleton

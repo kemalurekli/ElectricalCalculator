@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.result.Outcome
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.pick
+import com.kemalurekli.electricalcalculator.core.common.util.enumOrNull
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
@@ -217,6 +219,35 @@ class BatteryViewModel @Inject constructor(
 
     fun onToggleFavorite() {
         viewModelScope.launch { favoritesRepository.toggle(CalculatorId.BATTERY_RUNTIME) }
+    }
+
+    /**
+     * Reloads a saved calculation into the form.
+     *
+     * The record stores the text the reader typed rather than the parsed number,
+     * so the form comes back exactly as it was left — see [CalculationRecord].
+     * A key the record does not carry keeps the form's current value, which is
+     * what lets a record written before a field existed still open.
+     */
+    fun onRestore(recordId: Long) {
+        viewModelScope.launch {
+            val record = historyRepository.findById(recordId) ?: return@launch
+            if (record.calculatorId != CalculatorId.BATTERY_RUNTIME) return@launch
+            val inputs = record.inputs
+            _uiState.update {
+                it.copy(
+                    capacityAh = inputs.pick(KEY_CAPACITY, it.capacityAh),
+                    ratedHours = inputs.pick(KEY_RATED_HOURS, it.ratedHours),
+                    voltage = inputs.pick(KEY_VOLTAGE, it.voltage),
+                    loadWatts = inputs.pick(KEY_LOAD, it.loadWatts),
+                    efficiency = inputs.pick(KEY_EFFICIENCY, it.efficiency),
+                    depthOfDischarge = inputs.pick(KEY_DEPTH_OF_DISCHARGE, it.depthOfDischarge),
+                    peukert = inputs.pick(KEY_PEUKERT, it.peukert),
+                )
+            }
+            // The reader tapped a result, so show one rather than an empty form.
+            onCalculate()
+        }
     }
 
     private fun saveToHistory(state: BatteryUiState, result: BatteryResult) {

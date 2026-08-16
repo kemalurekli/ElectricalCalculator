@@ -5,9 +5,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.kemalurekli.electricalcalculator.core.database.converter.StringMapConverter
 import com.kemalurekli.electricalcalculator.core.database.dao.CalculationHistoryDao
-import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
 import com.kemalurekli.electricalcalculator.core.database.entity.CalculationHistoryEntity
-import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteCalculatorEntity
+import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteItemEntity
 
 /**
  * The application database.
@@ -19,7 +19,7 @@ import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteCalcula
 @Database(
     entities = [
         CalculationHistoryEntity::class,
-        FavoriteCalculatorEntity::class,
+        FavoriteItemEntity::class,
     ],
     version = ElecToolkitDatabase.VERSION,
     exportSchema = true,
@@ -29,10 +29,10 @@ abstract class ElecToolkitDatabase : RoomDatabase() {
 
     abstract fun calculationHistoryDao(): CalculationHistoryDao
 
-    abstract fun favoriteCalculatorDao(): FavoriteCalculatorDao
+    abstract fun favoriteItemDao(): FavoriteItemDao
 
     companion object {
-        const val VERSION = 1
+        const val VERSION = 2
         const val NAME = "electoolkit.db"
     }
 }

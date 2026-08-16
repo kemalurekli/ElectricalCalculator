@@ -1,16 +1,18 @@
 package com.kemalurekli.electricalcalculator.testing
 
+import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.database.dao.CalculationHistoryDao
-import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
 import com.kemalurekli.electricalcalculator.core.database.entity.CalculationHistoryEntity
-import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteCalculatorEntity
+import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteItemEntity
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
 import com.kemalurekli.electricalcalculator.core.domain.model.ThemeMode
 import com.kemalurekli.electricalcalculator.core.domain.model.UnitSystem
 import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
+import com.kemalurekli.electricalcalculator.core.domain.model.EngineeringDefaults
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +20,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import java.time.Instant
+import java.util.Locale
 
 /** A clock the test controls, so timestamps and ordering are deterministic. */
 class FakeTimeProvider(private var current: Instant = Instant.ofEpochMilli(1_000L)) : TimeProvider {
@@ -119,25 +122,25 @@ class FakeCalculationHistoryDao : CalculationHistoryDao {
 }
 
 /** In-memory [FavoriteCalculatorDao] preserving pin order. */
-class FakeFavoriteCalculatorDao : FavoriteCalculatorDao {
+class FakeFavoriteItemDao : FavoriteItemDao {
 
-    private val rows = MutableStateFlow<List<FavoriteCalculatorEntity>>(emptyList())
+    private val rows = MutableStateFlow<List<FavoriteItemEntity>>(emptyList())
 
-    override fun observeAll(): Flow<List<FavoriteCalculatorEntity>> =
+    override fun observeAll(): Flow<List<FavoriteItemEntity>> =
         rows.map { list -> list.sortedBy { it.pinnedAtEpochMillis } }
 
-    override fun observeIsFavorite(calculatorId: String): Flow<Boolean> =
-        rows.map { list -> list.any { it.calculatorId == calculatorId } }
+    override fun observeIsFavorite(kind: String, key: String): Flow<Boolean> =
+        rows.map { list -> list.any { it.kind == kind && it.key == key } }
 
-    override suspend fun isFavorite(calculatorId: String): Boolean =
-        rows.value.any { it.calculatorId == calculatorId }
+    override suspend fun isFavorite(kind: String, key: String): Boolean =
+        rows.value.any { it.kind == kind && it.key == key }
 
-    override suspend fun insert(entity: FavoriteCalculatorEntity) {
-        rows.value = rows.value.filterNot { it.calculatorId == entity.calculatorId } + entity
+    override suspend fun insert(entity: FavoriteItemEntity) {
+        rows.value = rows.value.filterNot { it.kind == entity.kind && it.key == entity.key } + entity
     }
 
-    override suspend fun deleteById(calculatorId: String) {
-        rows.value = rows.value.filterNot { it.calculatorId == calculatorId }
+    override suspend fun delete(kind: String, key: String) {
+        rows.value = rows.value.filterNot { it.kind == kind && it.key == key }
     }
 }
 
@@ -160,6 +163,11 @@ class FakeAppLanguageRepository(
     }
 }
 
+/** A device region the test states outright, rather than mutating a JVM global. */
+class FakeRegionProvider(var locale: Locale = Locale.forLanguageTag("tr-TR")) : RegionProvider {
+    override fun current(): Locale = locale
+}
+
 /** In-memory [UserPreferencesRepository]. */
 class FakeUserPreferencesRepository(
     initial: UserPreferences = UserPreferences.Default,
@@ -179,5 +187,14 @@ class FakeUserPreferencesRepository(
 
     override suspend fun setUnitSystem(unitSystem: UnitSystem) {
         state.value = state.value.copy(unitSystem = unitSystem)
+    }
+
+    override suspend fun setEngineeringDefaults(defaults: EngineeringDefaults) {
+        state.value = state.value.copy(engineering = defaults, engineeringSeeded = true)
+    }
+
+    override suspend fun seedEngineeringDefaults(locale: Locale) {
+        if (state.value.engineeringSeeded) return
+        setEngineeringDefaults(EngineeringDefaults.seedFor(locale))
     }
 }

@@ -2,7 +2,7 @@ package com.kemalurekli.electricalcalculator.core.data.repository
 
 import app.cash.turbine.test
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
-import com.kemalurekli.electricalcalculator.testing.FakeFavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -15,7 +15,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class FavoritesRepositoryImplTest {
 
-    private val dao = FakeFavoriteCalculatorDao()
+    private val dao = FakeFavoriteItemDao()
     private val timeProvider = FakeTimeProvider()
     private val repository = FavoritesRepositoryImpl(
         dao = dao,

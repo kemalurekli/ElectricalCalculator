@@ -15,7 +15,11 @@ import androidx.compose.material.icons.outlined.Cable
 import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.ContentCopy
+import androidx.compose.material.icons.outlined.DeleteOutline
+import androidx.compose.material.icons.outlined.DriveFileRenameOutline
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.ElectricalServices
+import androidx.compose.material.icons.outlined.Functions
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.Lightbulb
@@ -55,6 +59,7 @@ object ElecIcons {
     val References = Icons.AutoMirrored.Outlined.MenuBook
     val Glossary = Icons.Outlined.Translate
     val FieldNotes = Icons.Outlined.TipsAndUpdates
+    val Theory = Icons.Outlined.Functions
     val History = Icons.Outlined.History
     val Settings = Icons.Outlined.Settings
 
@@ -67,6 +72,11 @@ object ElecIcons {
     // Editable lists, where a row can be appended or taken back out
     val Add = Icons.Outlined.Add
     val Remove = Icons.Outlined.RemoveCircleOutline
+
+    // Managing saved work: an overflow menu and the three things inside it
+    val More = Icons.Outlined.MoreVert
+    val Rename = Icons.Outlined.DriveFileRenameOutline
+    val Delete = Icons.Outlined.DeleteOutline
 
     /** Resolves the icon a calculator declares in the catalog. */
     fun forCalculator(icon: CalculatorIcon): ImageVector = when (icon) {

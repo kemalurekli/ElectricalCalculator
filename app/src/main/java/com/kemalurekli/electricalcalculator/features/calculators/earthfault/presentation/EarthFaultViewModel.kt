@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.result.Outcome
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.pick
+import com.kemalurekli.electricalcalculator.core.common.util.enumOrNull
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
@@ -16,6 +18,8 @@ import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
+import com.kemalurekli.electricalcalculator.core.domain.model.EngineeringDefaults
+import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.CalculateEarthFaultUseCase
 import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.EarthFaultInput
@@ -92,12 +96,38 @@ class EarthFaultViewModel @Inject constructor(
     private val favoritesRepository: FavoritesRepository,
     private val stringResolver: StringResolver,
     private val timeProvider: TimeProvider,
+    private val userPreferences: UserPreferencesRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(EarthFaultUiState())
     val uiState: StateFlow<EarthFaultUiState> = _uiState.asStateFlow()
 
+    /**
+     * The user's settings, read once when the calculator opens.
+     *
+     * Held rather than observed on purpose: a form must not be rewritten
+     * underneath the user because Settings changed while this screen sat on the
+     * back stack.
+     */
+    private var defaults = EngineeringDefaults.Default
+
+    /**
+     * Whether anything has yet written to the form.
+     *
+     * The defaults are read asynchronously, so they can in principle land after
+     * the first edit, after an example has been applied, or after a saved
+     * calculation has been reopened. In each of those cases the form already
+     * says something more specific than a default and must be left alone. The
+     * flag is set at the *call*, ahead of any suspension, so ordering between
+     * the two coroutines cannot decide the outcome.
+     */
+    private var formTouched = false
+
     init {
+        viewModelScope.launch {
+            defaults = userPreferences.engineeringDefaults()
+            if (!formTouched) _uiState.update { it.withDefaults(defaults) }
+        }
         viewModelScope.launch {
             favoritesRepository
                 .observeIsFavorite(CalculatorId.EARTH_FAULT_LOOP)
@@ -160,6 +190,7 @@ class EarthFaultViewModel @Inject constructor(
         field: EarthFaultField? = null,
         transform: (EarthFaultUiState) -> EarthFaultUiState,
     ) {
+        formTouched = true
         _uiState.update { current ->
             transform(current).copy(
                 result = null,
@@ -260,6 +291,7 @@ class EarthFaultViewModel @Inject constructor(
      * rather than a form the reader still has to submit.
      */
     fun onApplyExample(example: WorkedExample<EarthFaultUiState>) {
+        formTouched = true
         _uiState.update { example.fill(it) }
         onCalculate()
     }
@@ -270,6 +302,7 @@ class EarthFaultViewModel @Inject constructor(
                 deviceType = it.deviceType,
                 material = it.material,
                 insulation = it.insulation,
+                voltage = defaults.singlePhaseVoltage,
                 deviceRating = if (it.deviceType.isResidualCurrent) {
                     EarthFaultUiState.DEFAULT_RESIDUAL_RATING
                 } else {
@@ -282,6 +315,40 @@ class EarthFaultViewModel @Inject constructor(
 
     fun onToggleFavorite() {
         viewModelScope.launch { favoritesRepository.toggle(CalculatorId.EARTH_FAULT_LOOP) }
+    }
+
+    /**
+     * Reloads a saved calculation into the form.
+     *
+     * The record stores the text the reader typed rather than the parsed number,
+     * so the form comes back exactly as it was left — see [CalculationRecord].
+     * A key the record does not carry keeps the form's current value, which is
+     * what lets a record written before a field existed still open.
+     */
+    fun onRestore(recordId: Long) {
+        formTouched = true
+        viewModelScope.launch {
+            val record = historyRepository.findById(recordId) ?: return@launch
+            if (record.calculatorId != CalculatorId.EARTH_FAULT_LOOP) return@launch
+            val inputs = record.inputs
+            _uiState.update {
+                it.copy(
+                    externalImpedance = inputs.pick(KEY_ZE, it.externalImpedance),
+                    voltage = inputs.pick(KEY_VOLTAGE, it.voltage),
+                    length = inputs.pick(KEY_LENGTH, it.length),
+                    lineSection = inputs.pick(KEY_LINE, it.lineSection),
+                    protectiveSection = inputs.pick(KEY_PROTECTIVE, it.protectiveSection),
+                    parallelConductors = inputs.pick(KEY_PARALLEL, it.parallelConductors),
+                    material = inputs.enumOrNull(KEY_MATERIAL) ?: it.material,
+                    insulation = inputs.enumOrNull(KEY_INSULATION) ?: it.insulation,
+                    deviceType = inputs.enumOrNull(KEY_DEVICE) ?: it.deviceType,
+                    deviceRating = inputs.pick(KEY_RATING, it.deviceRating),
+                    clearingTime = inputs.pick(KEY_CLEARING_TIME, it.clearingTime),
+                )
+            }
+            // The reader tapped a result, so show one rather than an empty form.
+            onCalculate()
+        }
     }
 
     private fun saveToHistory(state: EarthFaultUiState, result: EarthFaultResult) {
@@ -367,3 +434,16 @@ class EarthFaultViewModel @Inject constructor(
         const val KEY_WITHSTANDS = "protective_conductor_withstands"
     }
 }
+
+/**
+ * The user's engineering defaults, applied to a form that is still untouched.
+ *
+ * Only the fields this calculator shares with Settings move.
+ */
+private fun EarthFaultUiState.withDefaults(defaults: EngineeringDefaults) = copy(
+    material = defaults.material,
+    insulation = defaults.insulation,
+    // An earth fault loop is a line-to-earth circuit, so the line-to-neutral
+    // voltage is the one that drives it.
+    voltage = defaults.singlePhaseVoltage,
+)

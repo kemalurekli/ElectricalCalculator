@@ -2,9 +2,10 @@ package com.kemalurekli.electricalcalculator.core.data.repository
 
 import com.kemalurekli.electricalcalculator.core.common.di.IoDispatcher
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
-import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteCalculatorDao
-import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteCalculatorEntity
-import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
+import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
+import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteItemEntity
+import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
+import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -16,43 +17,44 @@ import javax.inject.Singleton
 
 @Singleton
 class FavoritesRepositoryImpl @Inject constructor(
-    private val dao: FavoriteCalculatorDao,
+    private val dao: FavoriteItemDao,
     private val timeProvider: TimeProvider,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : FavoritesRepository {
 
-    override fun observeFavorites(): Flow<List<CalculatorId>> =
+    override fun observeAll(): Flow<List<FavoriteItem>> =
         dao.observeAll()
-            // Unknown keys are skipped rather than crashing: they occur after a
-            // downgrade or once a calculator is retired from the catalog.
-            .map { entities -> entities.mapNotNull { CalculatorId.fromKeyOrNull(it.calculatorId) } }
+            // A kind this build does not know is dropped rather than crashing —
+            // the case after a downgrade, or once a shelf is retired.
+            .map { rows -> rows.mapNotNull { row -> row.kindOrNull()?.let { FavoriteItem(it, row.key) } } }
             .distinctUntilChanged()
 
-    override fun observeIsFavorite(calculatorId: CalculatorId): Flow<Boolean> =
-        dao.observeIsFavorite(calculatorId.key).distinctUntilChanged()
+    override fun observeIsFavorite(item: FavoriteItem): Flow<Boolean> =
+        dao.observeIsFavorite(item.kind.name, item.key).distinctUntilChanged()
 
-    override suspend fun toggle(calculatorId: CalculatorId): Boolean =
-        withContext(ioDispatcher) {
-            val nowFavorite = !dao.isFavorite(calculatorId.key)
-            writeFavorite(calculatorId, nowFavorite)
-            nowFavorite
-        }
+    override suspend fun toggle(item: FavoriteItem): Boolean = withContext(ioDispatcher) {
+        val nowFavorite = !dao.isFavorite(item.kind.name, item.key)
+        write(item, nowFavorite)
+        nowFavorite
+    }
 
-    override suspend fun setFavorite(calculatorId: CalculatorId, isFavorite: Boolean) =
-        withContext(ioDispatcher) {
-            writeFavorite(calculatorId, isFavorite)
-        }
+    override suspend fun setFavorite(item: FavoriteItem, isFavorite: Boolean) =
+        withContext(ioDispatcher) { write(item, isFavorite) }
 
-    private suspend fun writeFavorite(calculatorId: CalculatorId, isFavorite: Boolean) {
+    private suspend fun write(item: FavoriteItem, isFavorite: Boolean) {
         if (isFavorite) {
             dao.insert(
-                FavoriteCalculatorEntity(
-                    calculatorId = calculatorId.key,
+                FavoriteItemEntity(
+                    kind = item.kind.name,
+                    key = item.key,
                     pinnedAtEpochMillis = timeProvider.now().toEpochMilli(),
                 ),
             )
         } else {
-            dao.deleteById(calculatorId.key)
+            dao.delete(item.kind.name, item.key)
         }
     }
+
+    private fun FavoriteItemEntity.kindOrNull(): FavoriteKind? =
+        FavoriteKind.entries.firstOrNull { it.name == kind }
 }

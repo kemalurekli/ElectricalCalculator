@@ -15,9 +15,10 @@ import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domai
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.presentation.CableSizeField
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.presentation.CableSizeViewModel
 import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
-import com.kemalurekli.electricalcalculator.testing.FakeFavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeStringResolver
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
+import com.kemalurekli.electricalcalculator.testing.FakeUserPreferencesRepository
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -45,7 +46,7 @@ class CableSizeViewModelTest {
         ioDispatcher = UnconfinedTestDispatcher(),
     )
     private val favoritesRepository = FavoritesRepositoryImpl(
-        dao = FakeFavoriteCalculatorDao(),
+        dao = FakeFavoriteItemDao(),
         timeProvider = timeProvider,
         ioDispatcher = UnconfinedTestDispatcher(),
     )
@@ -65,6 +66,7 @@ class CableSizeViewModelTest {
             ),
         ),
         timeProvider = timeProvider,
+        userPreferences = FakeUserPreferencesRepository(),
     )
 
     private fun CableSizeViewModel.fillValidForm() {

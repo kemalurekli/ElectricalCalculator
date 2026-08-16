@@ -4,7 +4,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.kemalurekli.electricalcalculator.core.database.entity.CalculationHistoryEntity
-import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteCalculatorEntity
+import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteItemEntity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -78,23 +78,34 @@ class ElecToolkitDatabaseTest {
 
     @Test
     fun favoritesCannotBeDuplicated() = runTest {
-        val dao = database.favoriteCalculatorDao()
-        dao.insert(FavoriteCalculatorEntity("voltage_drop", pinnedAtEpochMillis = 1_000L))
-        dao.insert(FavoriteCalculatorEntity("voltage_drop", pinnedAtEpochMillis = 2_000L))
+        val dao = database.favoriteItemDao()
+        dao.insert(FavoriteItemEntity("CALCULATOR", "voltage_drop", pinnedAtEpochMillis = 1_000L))
+        dao.insert(FavoriteItemEntity("CALCULATOR", "voltage_drop", pinnedAtEpochMillis = 2_000L))
 
         assertEquals(1, dao.observeAll().first().size)
     }
 
     @Test
+    fun theSameKeyOnTwoShelvesIsTwoFavourites() = runTest {
+        // The kind is half the primary key precisely because the shelves mint
+        // their keys independently and could land on the same word.
+        val dao = database.favoriteItemDao()
+        dao.insert(FavoriteItemEntity("CALCULATOR", "power", pinnedAtEpochMillis = 1_000L))
+        dao.insert(FavoriteItemEntity("GLOSSARY", "power", pinnedAtEpochMillis = 2_000L))
+
+        assertEquals(2, dao.observeAll().first().size)
+    }
+
+    @Test
     fun favoriteLookupReflectsInsertAndDelete() = runTest {
-        val dao = database.favoriteCalculatorDao()
-        assertFalse(dao.isFavorite("power"))
+        val dao = database.favoriteItemDao()
+        assertFalse(dao.isFavorite("CALCULATOR", "power"))
 
-        dao.insert(FavoriteCalculatorEntity("power", pinnedAtEpochMillis = 1_000L))
-        assertTrue(dao.isFavorite("power"))
+        dao.insert(FavoriteItemEntity("CALCULATOR", "power", pinnedAtEpochMillis = 1_000L))
+        assertTrue(dao.isFavorite("CALCULATOR", "power"))
 
-        dao.deleteById("power")
-        assertFalse(dao.isFavorite("power"))
+        dao.delete("CALCULATOR", "power")
+        assertFalse(dao.isFavorite("CALCULATOR", "power"))
     }
 
     private fun historyEntity(

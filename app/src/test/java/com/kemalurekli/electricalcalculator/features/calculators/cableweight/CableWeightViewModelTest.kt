@@ -12,9 +12,10 @@ import com.kemalurekli.electricalcalculator.features.calculators.cableweight.dom
 import com.kemalurekli.electricalcalculator.features.calculators.cableweight.presentation.CableWeightField
 import com.kemalurekli.electricalcalculator.features.calculators.cableweight.presentation.CableWeightViewModel
 import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
-import com.kemalurekli.electricalcalculator.testing.FakeFavoriteCalculatorDao
+import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeStringResolver
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
+import com.kemalurekli.electricalcalculator.testing.FakeUserPreferencesRepository
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -42,7 +43,7 @@ class CableWeightViewModelTest {
         ioDispatcher = UnconfinedTestDispatcher(),
     )
     private val favoritesRepository = FavoritesRepositoryImpl(
-        dao = FakeFavoriteCalculatorDao(),
+        dao = FakeFavoriteItemDao(),
         timeProvider = timeProvider,
         ioDispatcher = UnconfinedTestDispatcher(),
     )
@@ -58,6 +59,7 @@ class CableWeightViewModelTest {
             ),
         ),
         timeProvider = timeProvider,
+        userPreferences = FakeUserPreferencesRepository(),
     )
 
     private fun CableWeightViewModel.fillValidForm() {

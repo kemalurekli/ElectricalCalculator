@@ -11,6 +11,7 @@ import com.kemalurekli.electricalcalculator.features.fieldnotes.presentation.tit
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryCatalog
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceBlock
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
+import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryCatalog
 import javax.inject.Inject
 
 /**
@@ -44,6 +45,26 @@ class SearchIndexBuilder @Inject constructor(
         addAll(glossaryTerms())
         addAll(drawingSymbols())
         addAll(fieldNotes())
+        addAll(theoryTopics())
+    }
+
+    /**
+     * Theory topics, indexed on the derivation as well as the title.
+     *
+     * The shelf's own list deliberately does not search the body — see
+     * [com.kemalurekli.electricalcalculator.features.theory.presentation
+     * .TheoryListViewModel]. Here it is included, because a reader who types
+     * "resonance" into the app-wide box wants every place the app discusses it,
+     * and `body` scores below every title and keyword match anyway.
+     */
+    private fun theoryTopics(): List<SearchableItem> = TheoryCatalog.all.map { topic ->
+        SearchableItem(
+            kind = SearchKind.THEORY,
+            key = topic.key,
+            title = stringResolver.get(topic.titleRes),
+            subtitle = stringResolver.get(topic.summaryRes),
+            body = stringResolver.get(topic.theoryRes),
+        )
     }
 
     private fun calculators(): List<SearchableItem> = catalog.all.map { descriptor ->

@@ -26,6 +26,17 @@ data class UserPreferences(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val useDynamicColor: Boolean = false,
     val unitSystem: UnitSystem = UnitSystem.METRIC,
+    /** What every calculator opens with. See [EngineeringDefaults]. */
+    val engineering: EngineeringDefaults = EngineeringDefaults.Default,
+    /**
+     * Whether [engineering] has ever been written.
+     *
+     * False means the values above are the compile-time fallbacks and a
+     * locale-derived guess is still allowed to replace them. Once true, nothing
+     * derives them from the environment again — a later language change finds
+     * this already set and leaves the values alone.
+     */
+    val engineeringSeeded: Boolean = false,
 ) {
     companion object {
         val Default = UserPreferences()

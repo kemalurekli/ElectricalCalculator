@@ -23,6 +23,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -69,6 +73,7 @@ fun GlossaryRoute(
     viewModel: GlossaryViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val pinned by viewModel.pinned.collectAsStateWithLifecycle()
 
     // Keyed on the term so arriving from a second search hit re-opens; the
     // ViewModel ignores a repeat of one it has already honoured.
@@ -78,6 +83,8 @@ fun GlossaryRoute(
 
     GlossaryScreen(
         uiState = uiState,
+        pinned = pinned,
+        onToggleFavorite = viewModel::onToggleFavorite,
         onQueryChange = viewModel::onQueryChange,
         onToggleExpanded = viewModel::onToggleExpanded,
         onFollowLink = viewModel::onFollowLink,
@@ -98,6 +105,8 @@ private fun GlossaryScreen(
     onCalculatorClick: (CalculatorId) -> Unit,
     onReferenceClick: (String) -> Unit,
     onNavigateBack: () -> Unit,
+    pinned: Set<String> = emptySet(),
+    onToggleFavorite: (String) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
@@ -189,6 +198,8 @@ private fun GlossaryScreen(
                         TermCard(
                             term = term,
                             isExpanded = term.key == uiState.expandedKey,
+                            isFavorite = term.key in pinned,
+                            onToggleFavorite = { onToggleFavorite(term.key) },
                             onToggle = { onToggleExpanded(term.key) },
                             onFollowLink = onFollowLink,
                             onCalculatorClick = onCalculatorClick,
@@ -205,6 +216,8 @@ private fun GlossaryScreen(
 private fun TermCard(
     term: GlossaryTermUiModel,
     isExpanded: Boolean,
+    isFavorite: Boolean,
+    onToggleFavorite: () -> Unit,
     onToggle: () -> Unit,
     onFollowLink: (String) -> Unit,
     onCalculatorClick: (CalculatorId) -> Unit,
@@ -242,6 +255,25 @@ private fun TermCard(
                         modifier = Modifier.padding(start = spacing.sm),
                     )
                 }
+                    // Shown only on an open card: a star on every row of a
+                    // 117-term list is clutter, and pinning is a decision a
+                    // reader makes after reading, not while scanning.
+                    if (isExpanded) {
+                        IconButton(
+                            onClick = onToggleFavorite,
+                            modifier = Modifier.size(FAVORITE_TOUCH_TARGET),
+                        ) {
+                            Icon(
+                                imageVector = if (isFavorite) ElecIcons.FavoriteOn
+                                else ElecIcons.FavoriteOff,
+                                contentDescription = stringResource(
+                                    if (isFavorite) R.string.action_favorite_remove
+                                    else R.string.action_favorite_add,
+                                ),
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
+                        }
+                    }
             }
 
             // Present only when it is saying something the title does not — in
@@ -323,3 +355,6 @@ private fun GlossaryScreenPreview() {
 
 /** The search bar occupies the list's first slot. */
 private const val SEARCH_BAR_ITEMS = 1
+
+/** Keeps the star's tap area clear of the card's own expand gesture. */
+private val FAVORITE_TOUCH_TARGET = 40.dp
