@@ -234,6 +234,128 @@ object UnitCatalog {
     )
 
     /** Every category, in the order the converter presents them. */
+
+    // -- Electrical, continued -----------------------------------------------------
+
+    /**
+     * Capacitance.
+     *
+     * The picofarad is not a rounding of anything — it is the size components
+     * are actually made in, and a converter that stopped at nanofarads would
+     * miss most of a datasheet.
+     */
+    val capacitance = UnitCategory(
+        key = "capacitance",
+        baseUnitKey = "F",
+        defaultFromKey = "uF",
+        defaultToKey = "F",
+        units = listOf(
+            metric("pF", "pF", 1e-12),
+            metric("nF", "nF", 1e-9),
+            metric("uF", "µF", 1e-6),
+            metric("mF", "mF", 1e-3),
+            metric("F", "F", 1.0),
+        ),
+    )
+
+    /** Inductance, over the range chokes and windings are specified in. */
+    val inductance = UnitCategory(
+        key = "inductance",
+        baseUnitKey = "H",
+        defaultFromKey = "mH",
+        defaultToKey = "H",
+        units = listOf(
+            metric("nH", "nH", 1e-9),
+            metric("uH", "µH", 1e-6),
+            metric("mH", "mH", 1e-3),
+            metric("H", "H", 1.0),
+        ),
+    )
+
+    /**
+     * Signal power referenced to a milliwatt, and to a watt.
+     *
+     * Logarithmic rather than proportional, so these cannot be expressed as a
+     * factor: 0 dBm is 1 mW and every 10 dB is a factor of ten. The base unit
+     * is the watt, which is what makes dBm and dBW convertible to the ordinary
+     * power units through the same arithmetic everything else uses.
+     */
+    val signalPower = UnitCategory(
+        key = "signal_power",
+        baseUnitKey = "W",
+        defaultFromKey = "dBm",
+        defaultToKey = "mW",
+        units = listOf(
+            MeasurementUnit("dBm", "dBm", UnitScale.Decibel(referenceWatts = 1e-3)),
+            MeasurementUnit("dBW", "dBW", UnitScale.Decibel(referenceWatts = 1.0)),
+            metric("uW", "µW", 1e-6),
+            metric("mW", "mW", 1e-3),
+            metric("W", "W", 1.0),
+        ),
+    )
+
+    // -- Mechanical and photometric ------------------------------------------------
+
+    /**
+     * Torque.
+     *
+     * The kilogram-force metre is still printed on motor plates in much of the
+     * world, and pound-feet on the rest, so a converter that offered only the
+     * newton metre would be answering a question nobody is holding.
+     */
+    val torque = UnitCategory(
+        key = "torque",
+        baseUnitKey = "Nm",
+        defaultFromKey = "Nm",
+        defaultToKey = "kgfm",
+        units = listOf(
+            metric("Ncm", "N·cm", 1e-2),
+            metric("Nm", "N·m", 1.0),
+            metric("kNm", "kN·m", 1e3),
+            // Standard gravity is exactly 9.80665 m/s² by definition.
+            metric("kgfm", "kgf·m", STANDARD_GRAVITY),
+            // 0.45359237 kg × 9.80665 m/s² × 0.3048 m, all three exact.
+            metric("lbft", "lbf·ft", POUND_KG * STANDARD_GRAVITY * METRES_PER_FOOT),
+            metric("lbin", "lbf·in", POUND_KG * STANDARD_GRAVITY * METRES_PER_FOOT / 12.0),
+        ),
+    )
+
+    /**
+     * Illuminance, which is what a lighting calculation produces.
+     *
+     * Only two units, and one of them is imperial: the lux is the SI unit and
+     * the footcandle is what North American lighting schedules are still
+     * written in. Luminous flux (lumens) and intensity (candelas) are
+     * deliberately absent — they measure different quantities, and putting them
+     * in one list would invite a conversion that has no meaning without a
+     * distance or a solid angle.
+     */
+    val illuminance = UnitCategory(
+        key = "illuminance",
+        baseUnitKey = "lx",
+        defaultFromKey = "lx",
+        defaultToKey = "fc",
+        units = listOf(
+            metric("lx", "lx", 1.0),
+            // One lumen per square foot.
+            metric("fc", "fc", 1.0 / (METRES_PER_FOOT * METRES_PER_FOOT)),
+        ),
+    )
+
+    /** Plane angle, for phase and for pipe bends alike. */
+    val angle = UnitCategory(
+        key = "angle",
+        baseUnitKey = "deg",
+        defaultFromKey = "deg",
+        defaultToKey = "rad",
+        units = listOf(
+            metric("deg", "°", 1.0),
+            metric("rad", "rad", 180.0 / Math.PI),
+            metric("grad", "gon", 0.9),
+            metric("turn", "rev", 360.0),
+        ),
+    )
+
     val all: List<UnitCategory> = listOf(
         voltage,
         current,
@@ -248,6 +370,12 @@ object UnitCatalog {
         volume,
         mass,
         pressure,
+        capacitance,
+        inductance,
+        signalPower,
+        torque,
+        illuminance,
+        angle,
     )
 
     /** The category [key] names, or null if there is none. */
@@ -257,4 +385,9 @@ object UnitCatalog {
         MeasurementUnit(key, symbol, UnitScale.Affine(factor))
 
     private const val MM_PER_INCH = 25.4
+
+    /** Exact by definition, and the reason kgf·m and lbf·ft are exact too. */
+    private const val STANDARD_GRAVITY = 9.80665
+    private const val POUND_KG = 0.45359237
+    private const val METRES_PER_FOOT = 0.3048
 }

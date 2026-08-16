@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.converter.domain
 
 import kotlin.math.PI
 import kotlin.math.ln
+import kotlin.math.log10
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -59,6 +60,26 @@ sealed interface UnitScale {
      * gauges. That is a real answer to "what gauge is this area", not a wire
      * you can buy; the screen says so.
      */
+    /**
+     * Decibels against a fixed power reference.
+     *
+     * Not a scale factor, so it cannot be an [Affine]: 0 dBm is one milliwatt
+     * and every 10 dB is a factor of ten, which makes the relationship
+     * logarithmic. Expressing it here rather than as a special case in the
+     * converter is what lets dBm sit in the same category as the milliwatt and
+     * convert between them like any other pair.
+     *
+     * Zero and negative powers have no decibel value — the logarithm diverges —
+     * so they come back as negative infinity, which the formatter shows as such
+     * rather than as a number that looks meaningful.
+     */
+    data class Decibel(val referenceWatts: Double) : UnitScale {
+        override fun toBase(value: Double): Double = referenceWatts * 10.0.pow(value / 10.0)
+
+        override fun fromBase(base: Double): Double =
+            10.0 * log10(base / referenceWatts)
+    }
+
     data object AmericanWireGauge : UnitScale {
         override fun toBase(value: Double): Double {
             val diameterMm = REFERENCE_DIAMETER_MM * RATIO.pow((36.0 - value) / STEPS)

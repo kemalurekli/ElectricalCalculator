@@ -21,5 +21,11 @@ fun UnitCategory.categoryLabelRes(): Int = when (key) {
     "volume" -> R.string.unit_category_volume
     "mass" -> R.string.unit_category_mass
     "pressure" -> R.string.unit_category_pressure
+    "capacitance" -> R.string.unit_category_capacitance
+    "inductance" -> R.string.unit_category_inductance
+    "signal_power" -> R.string.unit_category_signal_power
+    "torque" -> R.string.unit_category_torque
+    "illuminance" -> R.string.unit_category_illuminance
+    "angle" -> R.string.unit_category_angle
     else -> error("No label for unit category $key")
 }

@@ -739,6 +739,12 @@
     <string name="unit_category_volume">Volume</string>
     <string name="unit_category_mass">Mass</string>
     <string name="unit_category_pressure">Pressure</string>
+    <string name="unit_category_capacitance">Capacitance</string>
+    <string name="unit_category_inductance">Inductance</string>
+    <string name="unit_category_signal_power">Signal power</string>
+    <string name="unit_category_torque">Torque</string>
+    <string name="unit_category_illuminance">Illuminance</string>
+    <string name="unit_category_angle">Angle</string>
 
     <string name="cv_value">Value</string>
     <string name="cv_from">From</string>

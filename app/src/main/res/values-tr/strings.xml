@@ -740,6 +740,12 @@
     <string name="unit_category_volume">Hacim</string>
     <string name="unit_category_mass">Kütle</string>
     <string name="unit_category_pressure">Basınç</string>
+    <string name="unit_category_capacitance">Kapasitans</string>
+    <string name="unit_category_inductance">End\u00fcktans</string>
+    <string name="unit_category_signal_power">Sinyal g\u00fcc\u00fc</string>
+    <string name="unit_category_torque">Tork</string>
+    <string name="unit_category_illuminance">Ayd\u0131nl\u0131k d\u00fczeyi</string>
+    <string name="unit_category_angle">A\u00e7\u0131</string>
 
     <string name="cv_value">Değer</string>
     <string name="cv_from">Kaynak</string>
