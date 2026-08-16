@@ -37,7 +37,7 @@
 
     <!-- Calculator catalog -->
     <string name="calculator_voltage_drop_title">Voltage Drop</string>
-    <string name="calculator_voltage_drop_description">Volt drop and percentage over a cable run</string>
+    <string name="calculator_voltage_drop_description">Voltage drop and percentage over a cable run</string>
     <string name="calculator_cable_size_title">Cable Size</string>
     <string name="calculator_cable_size_description">Minimum conductor cross-section for a load</string>
     <string name="calculator_transformer_current_title">Transformer Full Load Current</string>
