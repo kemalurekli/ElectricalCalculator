@@ -308,13 +308,24 @@ fun ProjectScreen(
                             onSelect = onInsulationChange,
                             optionLabel = { stringResource(it.labelRes()) },
                         )
-                        ElecOptionSelector(
-                            label = stringResource(R.string.settings_engineering_method),
-                            options = InstallationMethod.entries.toImmutableList(),
-                            selected = project.method,
-                            onSelect = onMethodChange,
-                            optionLabel = { stringResource(it.labelRes()) },
-                        )
+                        Column {
+                            ElecOptionSelector(
+                                label = stringResource(R.string.settings_engineering_method),
+                                options = InstallationMethod.entries.toImmutableList(),
+                                selected = project.method,
+                                onSelect = onMethodChange,
+                                optionLabel = { stringResource(it.labelRes()) },
+                            )
+                            // The buttons carry the code alone, which means
+                            // nothing to a reader who does not already know the
+                            // table, so the chosen method is spelled out.
+                            Text(
+                                text = stringResource(project.method.fullLabelRes()),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
+                            )
+                        }
                         ElecNumericField(
                             value = project.ambientTemperatureC,
                             onValueChange = onAmbientChange,

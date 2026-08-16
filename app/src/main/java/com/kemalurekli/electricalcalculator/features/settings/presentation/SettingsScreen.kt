@@ -298,13 +298,22 @@ private fun EngineeringDefaultsGroup(
                 onSelect = { onChange(defaults.copy(insulation = it)) },
                 optionLabel = { stringResource(it.labelRes()) },
             )
-            ElecOptionSelector(
-                label = stringResource(R.string.settings_engineering_method),
-                options = InstallationMethod.entries.toImmutableList(),
-                selected = defaults.installationMethod,
-                onSelect = { onChange(defaults.copy(installationMethod = it)) },
-                optionLabel = { stringResource(it.labelRes()) },
-            )
+            Column {
+                ElecOptionSelector(
+                    label = stringResource(R.string.settings_engineering_method),
+                    options = InstallationMethod.entries.toImmutableList(),
+                    selected = defaults.installationMethod,
+                    onSelect = { onChange(defaults.copy(installationMethod = it)) },
+                    optionLabel = { stringResource(it.labelRes()) },
+                )
+                // B1 on its own is a table column heading, not an instruction.
+                Text(
+                    text = stringResource(defaults.installationMethod.fullLabelRes()),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
+                )
+            }
         }
 
         HorizontalDivider(
@@ -455,6 +464,13 @@ private fun InstallationMethod.labelRes(): Int = when (this) {
     InstallationMethod.B2_MULTICORE_IN_CONDUIT -> R.string.cs_method_b2
     InstallationMethod.C_CLIPPED_DIRECT -> R.string.cs_method_c
     InstallationMethod.E_FREE_AIR -> R.string.cs_method_e
+}
+
+private fun InstallationMethod.fullLabelRes(): Int = when (this) {
+    InstallationMethod.B1_CONDUIT_ON_WALL -> R.string.cs_method_b1_full
+    InstallationMethod.B2_MULTICORE_IN_CONDUIT -> R.string.cs_method_b2_full
+    InstallationMethod.C_CLIPPED_DIRECT -> R.string.cs_method_c_full
+    InstallationMethod.E_FREE_AIR -> R.string.cs_method_e_full
 }
 
 @Preview(showBackground = true, heightDp = 900)

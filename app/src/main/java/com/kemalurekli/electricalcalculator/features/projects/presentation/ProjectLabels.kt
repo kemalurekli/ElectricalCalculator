@@ -47,6 +47,21 @@ internal fun InstallationMethod.labelRes(): Int = when (this) {
     InstallationMethod.E_FREE_AIR -> R.string.cs_method_e
 }
 
+/**
+ * The method spelled out.
+ *
+ * The segmented buttons only have room for the letter code, and "B1" tells a
+ * reader who does not already know the table nothing at all. The same strings
+ * the cable-size calculator uses, so the two screens describe a method
+ * identically.
+ */
+internal fun InstallationMethod.fullLabelRes(): Int = when (this) {
+    InstallationMethod.B1_CONDUIT_ON_WALL -> R.string.cs_method_b1_full
+    InstallationMethod.B2_MULTICORE_IN_CONDUIT -> R.string.cs_method_b2_full
+    InstallationMethod.C_CLIPPED_DIRECT -> R.string.cs_method_c_full
+    InstallationMethod.E_FREE_AIR -> R.string.cs_method_e_full
+}
+
 internal fun CircuitLoadKind.labelRes(): Int = when (this) {
     CircuitLoadKind.CURRENT -> R.string.circuit_load_kind_current
     CircuitLoadKind.POWER -> R.string.circuit_load_kind_power
