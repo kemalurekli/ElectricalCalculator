@@ -69,6 +69,8 @@ import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.core.ui.model.WorkedExample
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryCatalog
+import com.kemalurekli.electricalcalculator.features.theory.domain.QuizQuestion
+import com.kemalurekli.electricalcalculator.features.theory.domain.QuizVerdict
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryExample
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryTopic
 import kotlinx.collections.immutable.ImmutableList
@@ -119,6 +121,9 @@ fun TheoryTopicRoute(
         onFieldChange = viewModel::onFieldChange,
         onCalculate = viewModel::onCalculate,
         onApplyExample = viewModel::onApplyExample,
+        onQuizAnswerChange = viewModel::onQuizAnswerChange,
+        onCheckAnswer = viewModel::onCheckAnswer,
+        onNextQuestion = viewModel::onNextQuestion,
         onReset = viewModel::onReset,
         onCalculatorClick = onCalculatorClick,
         onReferenceClick = onReferenceClick,
@@ -155,6 +160,9 @@ fun TheoryTopicScreen(
     onFieldChange: (String, String) -> Unit,
     onCalculate: () -> Unit,
     onApplyExample: (TheoryExample) -> Unit,
+    onQuizAnswerChange: (String) -> Unit,
+    onCheckAnswer: () -> Unit,
+    onNextQuestion: () -> Unit,
     onReset: () -> Unit,
     onCalculatorClick: (CalculatorId) -> Unit,
     onReferenceClick: (String) -> Unit,
@@ -286,6 +294,23 @@ fun TheoryTopicScreen(
                                     .firstOrNull { it.key == chosen.key }
                                     ?.let(onApplyExample)
                             },
+                        )
+                    }
+                }
+
+                uiState.question?.let { question ->
+                    item(key = "quiz") {
+                        QuizCard(
+                            question = question,
+                            answer = uiState.quizAnswer,
+                            verdict = uiState.quizVerdict,
+                            expected = uiState.quizExpected,
+                            fieldLabel = { key ->
+                                solution.fields.firstOrNull { it.key == key }?.labelRes
+                            },
+                            onAnswerChange = onQuizAnswerChange,
+                            onCheck = onCheckAnswer,
+                            onNext = onNextQuestion,
                         )
                     }
                 }
@@ -518,3 +543,104 @@ private val TheoryTopic.hasLinks: Boolean
     get() = calculator != null || referenceTopic != null || glossaryTerms.isNotEmpty()
 
 private const val PARAGRAPH_BREAK = "\n\n"
+
+/**
+ * A question built from the topic's own worked example.
+ *
+ * Placed above the form rather than below the result, so that a reader who
+ * wants to try first is not shown the answer on the way there. The expected
+ * value appears only after an attempt — a card that prints the answer beside
+ * the question is a worked example with extra steps.
+ */
+@Composable
+private fun QuizCard(
+    question: QuizQuestion,
+    answer: String,
+    verdict: QuizVerdict?,
+    expected: String,
+    fieldLabel: (String) -> Int?,
+    onAnswerChange: (String) -> Unit,
+    onCheck: () -> Unit,
+    onNext: () -> Unit,
+) {
+    val spacing = ElecTheme.spacing
+
+    ElecCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
+    ) {
+        Column(
+            modifier = Modifier.padding(spacing.lg),
+            verticalArrangement = Arrangement.spacedBy(spacing.sm),
+        ) {
+            Text(
+                text = stringResource(R.string.th_quiz_title),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = stringResource(
+                    R.string.th_quiz_prompt,
+                    stringResource(question.targetLabelRes),
+                ),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+
+            question.givens.forEach { (key, value) ->
+                val label = fieldLabel(key)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(
+                        text = label?.let { stringResource(it) } ?: key,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Text(text = value, style = MaterialTheme.typography.bodySmall)
+                }
+            }
+
+            ElecNumericField(
+                value = answer,
+                onValueChange = onAnswerChange,
+                label = stringResource(R.string.th_quiz_answer),
+                unit = question.expected.unit.takeIf { it.isNotBlank() },
+                allowNegative = true,
+                imeAction = ImeAction.Done,
+            )
+
+            verdict?.let {
+                Text(
+                    text = when (it) {
+                        QuizVerdict.CORRECT -> stringResource(R.string.th_quiz_correct)
+                        QuizVerdict.CLOSE -> stringResource(R.string.th_quiz_close, expected)
+                        QuizVerdict.WRONG -> stringResource(R.string.th_quiz_wrong, expected)
+                        QuizVerdict.UNANSWERED -> stringResource(R.string.th_quiz_unanswered)
+                    },
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = when (it) {
+                        QuizVerdict.CORRECT -> MaterialTheme.colorScheme.primary
+                        QuizVerdict.WRONG -> MaterialTheme.colorScheme.error
+                        else -> MaterialTheme.colorScheme.onSurfaceVariant
+                    },
+                )
+            }
+
+            Row(horizontalArrangement = Arrangement.spacedBy(spacing.sm)) {
+                Button(onClick = onCheck) {
+                    Text(stringResource(R.string.th_quiz_check))
+                }
+                OutlinedButton(onClick = onNext) {
+                    Text(stringResource(R.string.th_quiz_next))
+                }
+            }
+
+            Text(
+                text = stringResource(R.string.th_quiz_note),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}

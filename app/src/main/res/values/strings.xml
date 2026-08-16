@@ -366,6 +366,16 @@
     <string name="ev_note_dc">A vehicle can put smooth DC into the protective conductor, which saturates the core of a Type A RCD and blinds it to the AC fault it was installed for. Either a Type B, or a Type A alongside a device that trips at 6 mA of DC \u2014 which most modern chargers have built in, but only if the plate says so.</string>
     <string name="ev_note_continuous">An EV draws its full current for hours. None of the diversity habits that make a socket circuit work carry over, which is why the simultaneity factor starts at one and is asked for rather than assumed.</string>
     <string name="ev_note_scope">Load management is not modelled. A controller that shares a fixed supply between points makes the design current a setting rather than a sum.</string>
+    <string name="th_quiz_title">Test yourself</string>
+    <string name="th_quiz_prompt">Work out %1$s from the values below.</string>
+    <string name="th_quiz_answer">Your answer</string>
+    <string name="th_quiz_check">Check</string>
+    <string name="th_quiz_next">Another question</string>
+    <string name="th_quiz_correct">Correct.</string>
+    <string name="th_quiz_close">Close — the right size, not quite the right number. A dropped \u221a3 or one rounding too many is the usual cause. The answer is %1$s.</string>
+    <string name="th_quiz_wrong">Not this time. The answer is %1$s.</string>
+    <string name="th_quiz_unanswered">Enter a number first.</string>
+    <string name="th_quiz_note">Answers within two per cent count. Working this on paper means rounding at every step, and that should not fail you.</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_theme_light">Light</string>

@@ -11,7 +11,10 @@ import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
+import com.kemalurekli.electricalcalculator.features.theory.domain.QuizQuestion
+import com.kemalurekli.electricalcalculator.features.theory.domain.QuizVerdict
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryCatalog
+import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryQuiz
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryExample
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryInputs
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryQuantity
@@ -58,6 +61,12 @@ data class TheoryTopicUiState(
     val result: TheoryResultView? = null,
     val steps: ImmutableList<CalculationStep> = persistentListOf(),
     val diagramLabels: ImmutableMap<String, String> = persistentMapOf(),
+    /** The question on offer, or null for a topic with no worked example. */
+    val question: QuizQuestion? = null,
+    val quizAnswer: String = "",
+    val quizVerdict: QuizVerdict? = null,
+    /** Revealed only after an attempt, so the card is not a lookup table. */
+    val quizExpected: String = "",
 ) {
     /** Null before a topic is loaded, and when a deep link named one that is gone. */
     val solution: TheorySolution?
@@ -118,8 +127,52 @@ class TheoryTopicViewModel @Inject constructor(
             topic = topic,
             solutionKey = first.key,
             values = defaultsFor(first).toImmutableMap(),
+            question = TheoryQuiz.questionsFor(topic).randomOrNull(),
         )
         watchFavorite(topic.key)
+    }
+
+    // -- Test yourself -------------------------------------------------------
+
+    fun onQuizAnswerChange(value: String) {
+        _uiState.update { it.copy(quizAnswer = value, quizVerdict = null, quizExpected = "") }
+    }
+
+    /**
+     * Marks the attempt and reveals the answer.
+     *
+     * The expected value is formatted here, where the locale already lives, and
+     * only once an attempt has been made — a card that shows the answer beside
+     * the question is a worked example with extra steps.
+     */
+    fun onCheckAnswer() {
+        val state = _uiState.value
+        val question = state.question ?: return
+        val verdict = TheoryQuiz.mark(question, state.quizAnswer)
+        _uiState.update {
+            it.copy(
+                quizVerdict = verdict,
+                quizExpected = if (verdict == QuizVerdict.UNANSWERED) {
+                    ""
+                } else {
+                    question.expected.format(Locale.getDefault())
+                },
+            )
+        }
+    }
+
+    /** Another question from the same topic, and a cleared field. */
+    fun onNextQuestion() {
+        val topic = _uiState.value.topic ?: return
+        val questions = TheoryQuiz.questionsFor(topic)
+        if (questions.isEmpty()) return
+        // Avoids handing back the question just answered when there is a
+        // choice; with one question there is nothing to rotate to.
+        val current = _uiState.value.question
+        val next = questions.filter { it != current }.randomOrNull() ?: questions.first()
+        _uiState.update {
+            it.copy(question = next, quizAnswer = "", quizVerdict = null, quizExpected = "")
+        }
     }
 
     fun onToggleFavorite() {

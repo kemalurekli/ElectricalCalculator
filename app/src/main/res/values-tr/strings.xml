@@ -308,6 +308,16 @@
     <string name="ev_note_dc">Bir ara\u00e7, koruma iletkenine d\u00fczg\u00fcn DC verebilir; bu, Tip A bir RCD\u2019nin n\u00fcvesini doyurur ve onu kurulma amac\u0131 olan AC ar\u0131zaya k\u00f6r eder. Ya Tip B, ya da 6 mA DC\u2019de a\u00e7an bir cihazla birlikte Tip A \u2014 ki bunu \u00e7o\u011fu modern \u015farj cihaz\u0131 i\u00e7inde ta\u015f\u0131r, ama yaln\u0131zca etiketi \u00f6yle diyorsa.</string>
     <string name="ev_note_continuous">Bir elektrikli ara\u00e7 tam ak\u0131m\u0131n\u0131 saatlerce \u00e7eker. Priz devrelerini y\u00fcr\u00fcten diversite al\u0131\u015fkanl\u0131klar\u0131n\u0131n hi\u00e7biri buraya ge\u00e7mez; e\u015fzamanl\u0131l\u0131k katsay\u0131s\u0131n\u0131n birden ba\u015flamas\u0131n\u0131n ve varsay\u0131lmak yerine sorulmas\u0131n\u0131n sebebi budur.</string>
     <string name="ev_note_scope">Y\u00fck y\u00f6netimi modellenmemi\u015ftir. Sabit bir beslemeyi noktalar aras\u0131nda payla\u015ft\u0131ran bir denetleyici, tasar\u0131m ak\u0131m\u0131n\u0131 bir toplam olmaktan \u00e7\u0131kar\u0131p bir ayara d\u00f6n\u00fc\u015ft\u00fcr\u00fcr.</string>
+    <string name="th_quiz_title">Kendini dene</string>
+    <string name="th_quiz_prompt">A\u015fa\u011f\u0131daki de\u011ferlerden %1$s de\u011ferini bulun.</string>
+    <string name="th_quiz_answer">Cevab\u0131n\u0131z</string>
+    <string name="th_quiz_check">Kontrol et</string>
+    <string name="th_quiz_next">Ba\u015fka bir soru</string>
+    <string name="th_quiz_correct">Do\u011fru.</string>
+    <string name="th_quiz_close">Yak\u0131n \u2014 b\u00fcy\u00fckl\u00fck do\u011fru, say\u0131 tam de\u011fil. Genellikle d\u00fc\u015fen bir \u221a3 ya da bir fazla yuvarlama bunun sebebidir. Cevap: %1$s.</string>
+    <string name="th_quiz_wrong">Bu sefer olmad\u0131. Cevap: %1$s.</string>
+    <string name="th_quiz_unanswered">\u00d6nce bir say\u0131 girin.</string>
+    <string name="th_quiz_note">Y\u00fczde iki i\u00e7indeki cevaplar say\u0131l\u0131r. Bunu ka\u011f\u0131t \u00fczerinde yapmak her ad\u0131mda yuvarlamak demektir; bu sizi ba\u015far\u0131s\u0131z k\u0131lmamal\u0131.</string>
     <string name="settings_appearance">Görünüm</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_light">Açık</string>
