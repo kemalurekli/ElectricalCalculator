@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.content.FileProvider
+import com.kemalurekli.electricalcalculator.features.design.domain.ScheduleReport
 import java.io.File
 import java.io.IOException
+import java.io.OutputStream
 
 /**
  * Writes an export to a file and hands it to the share sheet.
@@ -47,19 +49,37 @@ object ReportExporter {
         baseName: String,
         content: String,
         chooserTitle: String,
-    ): Boolean = share(context, "$baseName.csv", "text/csv", content, chooserTitle)
+    ): Boolean = share(context, "$baseName.csv", "text/csv", chooserTitle) { stream ->
+        stream.write(content.toByteArray())
+    }
+
+    /**
+     * Draws [report] as a PDF and opens the chooser.
+     *
+     * Takes the report rather than finished bytes because the drawing needs a
+     * stream to write into, and buffering a whole document in memory to hand
+     * it over would be a waste on a schedule of any size.
+     */
+    fun sharePdf(
+        context: Context,
+        baseName: String,
+        report: ScheduleReport,
+        chooserTitle: String,
+    ): Boolean = share(context, "$baseName.pdf", "application/pdf", chooserTitle) {
+        SchedulePdf.write(report, it)
+    }
 
     private fun share(
         context: Context,
         fileName: String,
         mimeType: String,
-        content: String,
         chooserTitle: String,
+        write: (OutputStream) -> Unit,
     ): Boolean {
         val uri = try {
             val directory = File(context.cacheDir, DIRECTORY).apply { mkdirs() }
             val file = File(directory, fileName)
-            file.writeText(content)
+            file.outputStream().use(write)
             FileProvider.getUriForFile(context, "${context.packageName}.exports", file)
         } catch (e: IOException) {
             // A full disk or a revoked cache is not something the user can act

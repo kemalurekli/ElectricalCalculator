@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.projects.presentation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -109,6 +112,20 @@ fun ProjectRoute(
                 else -> null
             }
         },
+        onExportPdf = {
+            val export = viewModel.exportDocument()
+            exportMessage = when {
+                export == null -> emptyMessage
+                !ReportExporter.sharePdf(
+                    context = context,
+                    baseName = ReportExporter.safeFileName(export.reference, fallbackName),
+                    report = export.report,
+                    chooserTitle = chooserTitle,
+                ) -> failedMessage
+
+                else -> null
+            }
+        },
         exportMessage = exportMessage,
         onExportMessageShown = { exportMessage = null },
         onOpenCircuit = { onOpenCircuit(projectId, it) },
@@ -142,6 +159,7 @@ fun ProjectScreen(
     onExternalImpedanceChange: (String) -> Unit,
     onAddCircuit: () -> Unit,
     onExportCsv: () -> Unit,
+    onExportPdf: () -> Unit,
     exportMessage: String?,
     onExportMessageShown: () -> Unit,
     onOpenCircuit: (Long) -> Unit,
@@ -152,6 +170,7 @@ fun ProjectScreen(
     val spacing = ElecTheme.spacing
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
+    var exportMenuOpen by remember { mutableStateOf(false) }
     val project = uiState.project
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -178,11 +197,35 @@ fun ProjectScreen(
                 onNavigateBack = onNavigateBack,
                 scrollBehavior = scrollBehavior,
                 actions = {
-                    IconButton(onClick = onExportCsv) {
-                        Icon(
-                            imageVector = ElecIcons.Share,
-                            contentDescription = stringResource(R.string.report_export_csv),
-                        )
+                    // A menu rather than two icons: the choice is between two
+                    // formats of one action, and two share buttons side by side
+                    // reads as two different things to share.
+                    Box {
+                        IconButton(onClick = { exportMenuOpen = true }) {
+                            Icon(
+                                imageVector = ElecIcons.Share,
+                                contentDescription = stringResource(R.string.report_export),
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = exportMenuOpen,
+                            onDismissRequest = { exportMenuOpen = false },
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.report_export_csv)) },
+                                onClick = {
+                                    exportMenuOpen = false
+                                    onExportCsv()
+                                },
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.report_export_pdf)) },
+                                onClick = {
+                                    exportMenuOpen = false
+                                    onExportPdf()
+                                },
+                            )
+                        }
                     }
                     IconButton(onClick = { confirmDelete = true }) {
                         Icon(

@@ -28,7 +28,16 @@ class ScheduleReportBuilder @Inject constructor(
     private val stringResolver: StringResolver,
 ) {
 
-    fun build(project: Project, rows: List<CircuitRow>): ScheduleReport = ScheduleReport(
+    /**
+     * @param plainNumbers true for a file software parses, false for one a
+     *   person reads. The CSV needs dot decimals; the PDF should read the way
+     *   the screen does, in the reader's own locale.
+     */
+    fun build(
+        project: Project,
+        rows: List<CircuitRow>,
+        plainNumbers: Boolean,
+    ): ScheduleReport = ScheduleReport(
         title = project.reference.ifBlank { string(R.string.projects_untitled) },
         supply = supplyFields(project),
         columns = listOf(
@@ -43,7 +52,7 @@ class ScheduleReportBuilder @Inject constructor(
             string(R.string.report_column_loop),
             string(R.string.report_column_binding),
         ),
-        rows = rows.map(::row),
+        rows = rows.map { row(it, plainNumbers) },
     )
 
     private fun supplyFields(project: Project) = listOf(
@@ -72,7 +81,7 @@ class ScheduleReportBuilder @Inject constructor(
      * export that silently drops the unfinished work is how a circuit gets
      * built without ever having been sized.
      */
-    private fun row(row: CircuitRow): List<String> {
+    private fun row(row: CircuitRow, plainNumbers: Boolean): List<String> {
         val circuit = row.circuit
         val design = row.design
         val loadUnit = when (circuit.loadKind) {
@@ -81,14 +90,14 @@ class ScheduleReportBuilder @Inject constructor(
         }
         return listOf(
             circuit.name.ifBlank { string(R.string.circuit_untitled) },
-            circuit.load.plainNumber().withUnit(loadUnit),
-            circuit.lengthMetres.plainNumber(),
-            design?.deviceRatingAmps.plain(),
-            design?.crossSectionMm2.plain(),
-            design?.protectiveCrossSectionMm2.plain(),
-            design?.deratedCapacityAmps.plain(),
-            design?.voltageDropPercent.plain(),
-            design?.loopImpedanceOhms.plain(),
+            circuit.load.forFile(plainNumbers).withUnit(loadUnit),
+            circuit.lengthMetres.forFile(plainNumbers),
+            design?.deviceRatingAmps.forFile(plainNumbers),
+            design?.crossSectionMm2.forFile(plainNumbers),
+            design?.protectiveCrossSectionMm2.forFile(plainNumbers),
+            design?.deratedCapacityAmps.forFile(plainNumbers),
+            design?.voltageDropPercent.forFile(plainNumbers),
+            design?.loopImpedanceOhms.forFile(plainNumbers),
             when {
                 design == null -> string(R.string.project_circuit_incomplete)
                 !design.hasSolution -> string(R.string.project_circuit_no_solution)
@@ -99,6 +108,9 @@ class ScheduleReportBuilder @Inject constructor(
 
     private fun string(id: Int): String = stringResolver.get(id)
 }
+
+private fun Double?.forFile(plain: Boolean): String =
+    if (plain) plain() else format()
 
 /** Dot decimal, no grouping, trailing zeros trimmed — what a spreadsheet parses. */
 private fun Double?.plain(): String {
@@ -118,7 +130,8 @@ private fun Double?.plain(): String {
  * The user may have typed `2,5`, which is a perfectly good 2.5 on screen and a
  * row-breaking comma in a CSV field.
  */
-private fun String.plainNumber(): String = trim().replace(',', '.')
+private fun String.forFile(plain: Boolean): String =
+    if (plain) trim().replace(',', '.') else trim()
 
 private fun String.withUnit(unit: String): String = if (isBlank()) "" else "$this $unit"
 

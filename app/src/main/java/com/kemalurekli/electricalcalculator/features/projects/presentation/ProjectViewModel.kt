@@ -16,6 +16,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.earthfault.doma
 import com.kemalurekli.electricalcalculator.features.design.domain.CircuitDesignResult
 import com.kemalurekli.electricalcalculator.features.design.domain.DesignCircuitUseCase
 import com.kemalurekli.electricalcalculator.features.design.domain.ReportCsv
+import com.kemalurekli.electricalcalculator.features.design.domain.ScheduleReport
 import com.kemalurekli.electricalcalculator.features.design.domain.designInputOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -48,6 +49,13 @@ data class CircuitRow(
 data class ExportedSchedule(
     val reference: String,
     val csv: String,
+)
+
+/** A schedule still in document form, for a renderer that draws rather than writes. */
+@Immutable
+data class ExportedDocument(
+    val reference: String,
+    val report: ScheduleReport,
 )
 
 @Immutable
@@ -219,12 +227,32 @@ class ProjectViewModel @Inject constructor(
      * platform concerns that belong to the screen, and keeping them out of here
      * is what lets this be tested without an Android runtime.
      */
-    fun exportCsv(): ExportedSchedule? {
+    fun exportCsv(): ExportedSchedule? = export(plainNumbers = true) { report ->
+        ReportCsv.render(report)
+    }
+
+    /**
+     * The same schedule as a document, with the figures written the way the
+     * screen writes them — a PDF is read by a person, not parsed.
+     */
+    fun exportDocument(): ExportedDocument? {
         val project = _uiState.value.project ?: return null
         val rows = _uiState.value.rows
         if (rows.isEmpty()) return null
-        val report = reportBuilder.build(project, rows)
-        return ExportedSchedule(reference = project.reference, csv = ReportCsv.render(report))
+        return ExportedDocument(
+            reference = project.reference,
+            report = reportBuilder.build(project, rows, plainNumbers = false),
+        )
+    }
+
+    private fun export(plainNumbers: Boolean, render: (ScheduleReport) -> String): ExportedSchedule? {
+        val project = _uiState.value.project ?: return null
+        val rows = _uiState.value.rows
+        if (rows.isEmpty()) return null
+        return ExportedSchedule(
+            reference = project.reference,
+            csv = render(reportBuilder.build(project, rows, plainNumbers)),
+        )
     }
 
     fun onDeleteProject() {
