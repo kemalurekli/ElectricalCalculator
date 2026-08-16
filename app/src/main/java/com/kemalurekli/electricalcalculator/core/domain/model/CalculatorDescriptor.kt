@@ -25,6 +25,7 @@ enum class CalculatorId(val key: String) {
     NEUTRAL_CURRENT("neutral_current"),
     ENERGY_COST("energy_cost"),
     SELECTIVITY("selectivity"),
+    MOTOR_STARTING("motor_starting"),
     ;
 
     companion object {
@@ -71,6 +72,7 @@ enum class CalculatorIcon {
     NEUTRAL,
     COST,
     SELECTIVITY,
+    MOTOR_STARTING,
 }
 
 /**

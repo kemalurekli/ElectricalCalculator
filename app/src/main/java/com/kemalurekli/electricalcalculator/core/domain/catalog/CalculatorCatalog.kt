@@ -169,6 +169,17 @@ class CalculatorCatalog @Inject constructor() {
                 "selektivite", "seçicilik", "koordinasyon",
             ),
         ),
+        CalculatorDescriptor(
+            id = CalculatorId.MOTOR_STARTING,
+            titleRes = R.string.calculator_motor_starting_title,
+            descriptionRes = R.string.calculator_motor_starting_description,
+            category = CalculatorCategory.POWER_AND_LOAD,
+            icon = CalculatorIcon.MOTOR_STARTING,
+            searchKeywords = listOf(
+                "starting", "inrush", "dip", "sag", "flicker", "star delta", "soft start",
+                "yol alma", "kalkis", "cokme", "yildiz ucgen", "yumusak yol verme",
+            ),
+        ),
     )
 
     private val byId: Map<CalculatorId, CalculatorDescriptor> = all.associateBy { it.id }

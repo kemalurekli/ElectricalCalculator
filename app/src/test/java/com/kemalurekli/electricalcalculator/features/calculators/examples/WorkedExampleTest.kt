@@ -58,6 +58,9 @@ import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
 import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
 import com.kemalurekli.electricalcalculator.testing.FakeUserPreferencesRepository
+import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.domain.CalculateMotorStartingUseCase
+import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.presentation.MotorStartingViewModel
+import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.presentation.motorStartingExamples
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.CheckSelectivityUseCase
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.SelectivityGrade
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.presentation.SelectivityViewModel
@@ -437,6 +440,38 @@ class WorkedExampleTest {
 
         model.onApplyExample(neutralCurrentExamples.single { it.key == "electronic_load" })
         assertTrue(requireNotNull(model.uiState.value.result).neutralExceedsLines)
+    }
+
+    @Test
+    fun `every motor starting example runs`() {
+        val model = MotorStartingViewModel(
+            CalculateMotorStartingUseCase(), history(), favorites(), strings, timeProvider,
+            preferences(),
+        )
+        assertEveryExampleRuns("motor starting", motorStartingExamples, model::onApplyExample) {
+            val s = model.uiState.value
+            Triple(s.errors.size, s.result != null, s.steps.size)
+        }
+    }
+
+    @Test
+    fun `star delta rescues the start it is paired with, and costs torque doing it`() {
+        // The second and third examples are the same impossible start with and
+        // without a gentler method. If they ever stop differing, the pair has
+        // stopped making its point.
+        val model = MotorStartingViewModel(
+            CalculateMotorStartingUseCase(), history(), favorites(), strings, timeProvider,
+            preferences(),
+        )
+
+        model.onApplyExample(motorStartingExamples.single { it.key == "small_site" })
+        val direct = requireNotNull(model.uiState.value.result)
+
+        model.onApplyExample(motorStartingExamples.single { it.key == "star_delta_rescue" })
+        val star = requireNotNull(model.uiState.value.result)
+
+        assertTrue("star-delta should dip less", star.dipPercent < direct.dipPercent)
+        assertTrue("and should cost torque", star.startingTorquePercent < direct.startingTorquePercent)
     }
 
     @Test

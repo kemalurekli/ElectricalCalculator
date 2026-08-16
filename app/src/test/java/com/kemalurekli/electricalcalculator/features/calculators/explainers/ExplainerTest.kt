@@ -55,6 +55,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.domain.CalculateMotorStartingUseCase
+import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.domain.MotorStartingInput
+import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.domain.StartingMethod
+import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.presentation.explainMotorStarting
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.CheckSelectivityUseCase
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.SelectivityInput
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.presentation.explainSelectivity
@@ -825,8 +829,35 @@ class ExplainerTest {
         assertEquals(1, explainSelectivity(selectivityInput.copy(upstreamType = ProtectiveDeviceType.RCD), result, us).size)
     }
 
+    private val motorStartingInput = MotorStartingInput(
+        fullLoadCurrentAmps = 55.0,
+        lockedRotorMultiple = 6.0,
+        method = StartingMethod.DIRECT_ON_LINE,
+        supplyVoltage = 400.0,
+        transformerKva = 400.0,
+        transformerImpedancePercent = 4.0,
+    )
+
+    @Test
+    fun `the motor starting solution builds the dip from the two powers`() {
+        val result = CalculateMotorStartingUseCase()(motorStartingInput)
+
+        val steps = explainMotorStarting(motorStartingInput, result, us)
+
+        assertEquals(4, steps.size)
+        assertEquals("330 A", steps[0].result)
+        assertEquals("10,000 kVA", steps[2].result)
+        // The dip is the last line, because it is a ratio of the two above it.
+        assertTrue(steps[3].formula.startsWith("ΔU%"))
+    }
+
     private fun everySolution(locale: Locale): List<ImmutableList<CalculationStep>> = listOf(
         explainSelectivity(selectivityInput, CheckSelectivityUseCase()(selectivityInput), locale),
+        explainMotorStarting(
+            motorStartingInput,
+            CalculateMotorStartingUseCase()(motorStartingInput),
+            locale,
+        ),
         explainVoltageDrop(
             voltageDropInput,
             CalculateVoltageDropUseCase()(voltageDropInput),

@@ -218,8 +218,40 @@
     <string name="sel_note_overload" formatted="false">\u0130ki u\u00e7 birbirinden ba\u011f\u0131ms\u0131z olarak ba\u015far\u0131s\u0131z olur. A\u015f\u0131r\u0131 y\u00fck\u00fc termik elemanlar \u00e7\u00f6zer ve anmalar\u0131n yeterince ayr\u0131k olmas\u0131n\u0131 ister; k\u0131sa devreyi manyetik elemanlar \u00e7\u00f6zer ve ar\u0131zan\u0131n \u00fcst cihaz\u0131n ani a\u00e7ma e\u015fi\u011finin alt\u0131nda kalmas\u0131n\u0131 ister. Bir \u00e7ift birini ge\u00e7ip di\u011ferinde kalabilir.</string>
     <string name="disclaimer_title">Sorumluluk reddi</string>
     <string name="disclaimer_accept">Okudum, kabul ediyorum</string>
-    <string name="disclaimer_body" formatted="false">Bu uygulama yaln\u0131zca genel bilgilendirme amac\u0131yla sunulmaktad\u0131r.\n\n\u0130\u00e7erdi\u011fi hesaplamalardan, sonu\u00e7lardan, tablolardan ve bilgilendirici metinlerden hi\u00e7bir \u015fekilde sorumluluk kabul edilmez. Sonu\u00e7lar bilimsel veya m\u00fchendislik \u00e7al\u0131\u015fmalar\u0131nda dayanak olarak kullan\u0131lamaz.\n\nUygulaman\u0131n her t\u00fcrl\u00fc kullan\u0131m\u0131ndan ve buradan al\u0131nan her bilginin do\u011frulanmas\u0131ndan sorumluluk tamamen kullan\u0131c\u0131ya aittir. Uygulama ve geli\u015ftiricileri, kullan\u0131m\u0131ndan do\u011fabilecek hi\u00e7bir zarardan hi\u00e7bir \u015fekilde sorumlu tutulamaz.\n\n\u0130\u00e7erik ve uygulaman\u0131n kendisi yapay zek\u00e2 yard\u0131m\u0131yla haz\u0131rlanm\u0131\u015ft\u0131r. Bunu g\u00f6ze alarak kullan\u0131n\u0131z.\n\nBu uygulamay\u0131 kullanarak yukar\u0131dakileri kabul etmi\u015f say\u0131l\u0131rs\u0131n\u0131z.</string>
+    <string name="disclaimer_body" formatted="false">Bu uygulama yaln\u0131zca genel bilgilendirme amac\u0131yla sunulmaktad\u0131r.\n\n\u0130\u00e7erdi\u011fi hesaplamalardan, sonu\u00e7lardan, tablolardan ve bilgilendirici metinlerden hi\u00e7bir \u015fekilde sorumluluk kabul edilmez. Sonu\u00e7lar bilimsel veya m\u00fchendislik \u00e7al\u0131\u015fmalar\u0131nda dayanak olarak kullan\u0131lamaz.\n\nUygulaman\u0131n her t\u00fcrl\u00fc kullan\u0131m\u0131ndan ve buradan al\u0131nan her bilginin do\u011frulanmas\u0131ndan sorumluluk tamamen kullan\u0131c\u0131ya aittir. Uygulama ve geli\u015ftiricileri, kullan\u0131m\u0131ndan do\u011fabilecek hi\u00e7bir zarardan hi\u00e7bir \u015fekilde sorumlu tutulamaz.\n\n\u0130\u00e7erik ve uygulaman\u0131n kendisi yapay zek\u00e2 yard\u0131m\u0131yla haz\u0131rlanm\u0131\u015ft\u0131r. Bunu g\u00f6ze alarak kullan\u0131n\u0131z.\n\nUygulaman\u0131n herhangi bir yerinde aksi ileri s\u00fcr\u00fcl\u00fcyor gibi g\u00f6r\u00fcnse dahi, bu metinde yer alan maddeler esas al\u0131n\u0131r.\n\nBu uygulamay\u0131 kullanarak yukar\u0131dakileri kabul etmi\u015f say\u0131l\u0131rs\u0131n\u0131z.</string>
     <string name="settings_legal">Yasal</string>
+    <string name="calculator_motor_starting_title">Motor Yol Alma \u00c7\u00f6kmesi</string>
+    <string name="calculator_motor_starting_description">Motor devreye girerken beslemenin d\u00fc\u015ft\u00fc\u011f\u00fc gerilim</string>
+    <string name="ms_full_load_current">Motor tam y\u00fck ak\u0131m\u0131, In</string>
+    <string name="ms_locked_rotor">Kilitli rotor ak\u0131m\u0131, In\'in kat\u0131 olarak</string>
+    <string name="ms_locked_rotor_hint">Motor etiketinden. Alt\u0131 tipiktir; yedi ve sekiz de al\u0131\u015f\u0131lmad\u0131k de\u011fildir.</string>
+    <string name="ms_method">Yol verme y\u00f6ntemi</string>
+    <string name="ms_method_dol">Do\u011frudan yol verme</string>
+    <string name="ms_method_star_delta">Y\u0131ld\u0131z-\u00fc\u00e7gen</string>
+    <string name="ms_method_soft" formatted="false">Yumu\u015fak y\u00f6nverici, %50</string>
+    <string name="ms_method_auto" formatted="false">Oto trafo, %65</string>
+    <string name="ms_transformer_kva">Trafo g\u00fcc\u00fc</string>
+    <string name="ms_transformer_impedance">Trafo empedans\u0131, uk</string>
+    <string name="ms_transformer_impedance_hint">630 kVA\'ya kadar y\u00fczde d\u00f6rt al\u0131\u015f\u0131lm\u0131\u015ft\u0131r. S\u0131f\u0131r, sonsuz bara demektir.</string>
+    <string name="ms_result_dip">Gerilim \u00e7\u00f6kmesi</string>
+    <string name="ms_result_residual">Yol alma s\u0131ras\u0131ndaki gerilim</string>
+    <string name="ms_result_starting_current">Yol alma ak\u0131m\u0131</string>
+    <string name="ms_result_starting_kva">Yol alma g\u00fcc\u00fc</string>
+    <string name="ms_result_short_circuit">Beslemenin k\u0131sa devre g\u00fcc\u00fc</string>
+    <string name="ms_result_torque">Mevcut yol alma torku</string>
+    <string name="ms_step_inrush">Beslemenin g\u00f6rd\u00fc\u011f\u00fc ani ak\u0131m</string>
+    <string name="ms_step_starting_power">Yol alma g\u00f6r\u00fcn\u00fcr g\u00fcc\u00fc</string>
+    <string name="ms_step_short_circuit_power">Beslemenin g\u00fcc\u00fc</string>
+    <string name="ms_step_dip">\u00c7\u00f6kme</string>
+    <string name="ms_example_stiff">400 kVA beslemede 30 kW</string>
+    <string name="ms_example_small">Ayn\u0131 motor, 50 kVA saha</string>
+    <string name="ms_example_star_delta">Ayn\u0131 saha, y\u0131ld\u0131z-\u00fc\u00e7gen</string>
+    <string name="ms_history_title">%2$s kVA \u00fczerinde %1$s A motor</string>
+    <string name="ms_history_summary" formatted="false">%1$s %% \u00e7\u00f6kme</string>
+    <string name="ms_warn_contactor">Bu derinlikte kontakt\u00f6r bobinleri b\u0131rakabilir. Panonun geri kalan\u0131n\u0131 da g\u00f6t\u00fcren bir yol alma, yol alma de\u011fildir.</string>
+    <string name="ms_warn_flicker">Ayd\u0131nlatmada g\u00f6r\u00fclecek kadar derin.</string>
+    <string name="ms_note_torque" formatted="false">Tork, klemenslerdeki gerilimin karesiyle de\u011fi\u015fir \u2014 \u00fcstelik yol verme y\u00f6nteminin zaten verdi\u011fi tavizin \u00fczerine. Yumu\u015fak yol alma bedavaya gelmez: ak\u0131m\u0131 \u00fc\u00e7te bire indiren bir y\u00f6ntem \u00e7eki\u015fi de \u00fc\u00e7te bire indirir ve y\u00fckl\u00fc bir makine hi\u00e7 d\u00f6nmeyebilir.</string>
+    <string name="ms_note_scope" formatted="false">Trafo ile motor aras\u0131ndaki kablo hesaba kat\u0131lmam\u0131\u015ft\u0131r; motorun kendi u\u00e7lar\u0131ndaki \u00e7\u00f6kme bundan daha derindir. Y\u0131ld\u0131z-\u00fc\u00e7gen ge\u00e7i\u015f tepesi de kat\u0131lmam\u0131\u015ft\u0131r; birka\u00e7 periyot boyunca do\u011frudan yol verme ak\u0131m\u0131na yakla\u015fabilir.</string>
     <string name="settings_appearance">Görünüm</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_light">Açık</string>

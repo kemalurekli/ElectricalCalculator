@@ -102,6 +102,8 @@ object ElecIcons {
         CalculatorIcon.COST -> Icons.Outlined.Savings
         // Two devices in series, one above the other.
         CalculatorIcon.SELECTIVITY -> Icons.Outlined.AccountTree
+        // A line sagging under load.
+        CalculatorIcon.MOTOR_STARTING -> Icons.AutoMirrored.Outlined.TrendingDown
         CalculatorIcon.POWER_FACTOR -> Icons.Outlined.Insights
         CalculatorIcon.BATTERY -> Icons.Outlined.BatteryChargingFull
         CalculatorIcon.WEIGHT -> Icons.Outlined.Scale
