@@ -702,6 +702,89 @@ object TheoryCatalog {
         // ---- Advanced -----------------------------------------------------
 
         TheoryTopic(
+            key = "induced_emf",
+            level = TheoryLevel.INTERMEDIATE,
+            titleRes = R.string.th_emf_title,
+            summaryRes = R.string.th_emf_summary,
+            theoryRes = R.string.th_emf_theory,
+            assumptionsRes = listOf(
+                R.string.th_emf_assumption_sinusoidal,
+                R.string.th_emf_assumption_no_leakage,
+                R.string.th_emf_assumption_saturation,
+            ),
+            solutions = listOf(
+                TheorySolution(
+                    key = "emf",
+                    targetLabelRes = R.string.th_emf_solve_voltage,
+                    formula = "E = 4.44 · f · N · Φ",
+                    variables = listOf(
+                        TheoryVariable("E", R.string.th_var_emf, "V"),
+                        TheoryVariable("f", R.string.th_var_frequency, "Hz"),
+                        TheoryVariable("N", R.string.th_var_turns, ""),
+                        TheoryVariable("Φ", R.string.th_var_flux, "Wb"),
+                    ),
+                    fields = listOf(
+                        TheoryField("f", R.string.th_field_frequency, "Hz", min = 0.0, default = "50"),
+                        TheoryField("n", R.string.th_field_turns, "", min = 0.0, default = "500"),
+                        TheoryField("phi", R.string.th_field_flux, "Wb", min = 0.0, default = "0.002"),
+                    ),
+                    examples = listOf(
+                        TheoryExample(
+                            "small_transformer", R.string.th_emf_example_small,
+                            mapOf("f" to "50", "n" to "500", "phi" to "0.002"),
+                        ),
+                        TheoryExample(
+                            "sixty_hertz", R.string.th_emf_example_sixty,
+                            mapOf("f" to "60", "n" to "500", "phi" to "0.002"),
+                        ),
+                    ),
+                    solve = ::inducedEmf,
+                ),
+            ),
+        ),
+        TheoryTopic(
+            key = "transformer_ratio",
+            level = TheoryLevel.INTERMEDIATE,
+            titleRes = R.string.th_transformer_title,
+            summaryRes = R.string.th_transformer_summary,
+            theoryRes = R.string.th_transformer_theory,
+            assumptionsRes = listOf(
+                R.string.th_transformer_assumption_ideal,
+                R.string.th_transformer_assumption_no_magnetising,
+            ),
+            solutions = listOf(
+                TheorySolution(
+                    key = "secondary",
+                    targetLabelRes = R.string.th_transformer_solve_secondary,
+                    formula = "Up / Us = Np / Ns = Is / Ip",
+                    variables = listOf(
+                        TheoryVariable("a", R.string.th_var_turns_ratio, ""),
+                        TheoryVariable("U_p", R.string.th_var_primary_voltage, "V"),
+                        TheoryVariable("U_s", R.string.th_var_secondary_voltage, "V"),
+                    ),
+                    fields = listOf(
+                        TheoryField("np", R.string.th_field_primary_turns, "", min = 0.0, default = "1000"),
+                        TheoryField("ns", R.string.th_field_secondary_turns, "", min = 0.0, default = "50"),
+                        TheoryField("up", R.string.th_field_primary_voltage, "V", min = 0.0, default = "400"),
+                        TheoryField("ip", R.string.th_field_primary_current, "A", min = 0.0, default = "1"),
+                    ),
+                    examples = listOf(
+                        TheoryExample(
+                            "step_down", R.string.th_transformer_example_step_down,
+                            mapOf("np" to "1000", "ns" to "50", "up" to "400", "ip" to "1"),
+                        ),
+                        TheoryExample(
+                            "step_up", R.string.th_transformer_example_step_up,
+                            mapOf("np" to "50", "ns" to "1000", "up" to "20", "ip" to "20"),
+                        ),
+                    ),
+                    solve = ::transformerRatio,
+                ),
+            ),
+            calculator = CalculatorId.TRANSFORMER_CURRENT,
+            glossaryTerms = listOf("transformer"),
+        ),
+        TheoryTopic(
             key = "rlc_impedance",
             level = TheoryLevel.ADVANCED,
             titleRes = R.string.th_rlc_title,
@@ -974,6 +1057,96 @@ object TheoryCatalog {
             ),
             glossaryTerms = listOf("impedance"),
         ),
+
+        // ---- Electromagnetism ---------------------------------------------
+
+
+        TheoryTopic(
+            key = "magnetic_circuit",
+            level = TheoryLevel.ADVANCED,
+            titleRes = R.string.th_magnetic_title,
+            summaryRes = R.string.th_magnetic_summary,
+            theoryRes = R.string.th_magnetic_theory,
+            assumptionsRes = listOf(
+                R.string.th_magnetic_assumption_linear,
+                R.string.th_magnetic_assumption_uniform,
+                R.string.th_magnetic_assumption_no_gap,
+            ),
+            solutions = listOf(
+                TheorySolution(
+                    key = "flux",
+                    targetLabelRes = R.string.th_magnetic_solve_flux,
+                    formula = "Φ = N·I / (l / μ₀μrA)",
+                    variables = listOf(
+                        TheoryVariable("F", R.string.th_var_mmf, "A"),
+                        TheoryVariable("ℛ", R.string.th_var_reluctance, "1/H"),
+                        TheoryVariable("Φ", R.string.th_var_flux, "Wb"),
+                        TheoryVariable("B", R.string.th_var_flux_density, "T"),
+                    ),
+                    fields = listOf(
+                        TheoryField("n", R.string.th_field_turns, "", min = 0.0, default = "400"),
+                        TheoryField("i", R.string.th_field_current, "A", min = 0.0, default = "2"),
+                        TheoryField("l", R.string.th_field_path_length, "mm", min = 0.0, default = "300"),
+                        TheoryField("a", R.string.th_field_core_area, "mm²", min = 0.0, default = "900"),
+                        TheoryField("mur", R.string.th_field_permeability, "", min = 0.0, default = "2000"),
+                    ),
+                    examples = listOf(
+                        TheoryExample(
+                            "steel_core", R.string.th_magnetic_example_steel,
+                            mapOf("n" to "400", "i" to "2", "l" to "300", "a" to "900", "mur" to "2000"),
+                        ),
+                        TheoryExample(
+                            "air_core", R.string.th_magnetic_example_air,
+                            mapOf("n" to "400", "i" to "2", "l" to "300", "a" to "900", "mur" to "1"),
+                        ),
+                    ),
+                    solve = ::magneticCircuit,
+                ),
+            ),
+        ),
+
+
+        TheoryTopic(
+            key = "per_unit",
+            level = TheoryLevel.ADVANCED,
+            titleRes = R.string.th_per_unit_title,
+            summaryRes = R.string.th_per_unit_summary,
+            theoryRes = R.string.th_per_unit_theory,
+            assumptionsRes = listOf(
+                R.string.th_per_unit_assumption_three_phase,
+                R.string.th_per_unit_assumption_same_base,
+            ),
+            solutions = listOf(
+                TheorySolution(
+                    key = "pu",
+                    targetLabelRes = R.string.th_per_unit_solve_pu,
+                    formula = "Zpu = Z / (U² / S)",
+                    variables = listOf(
+                        TheoryVariable("S", R.string.th_var_base_power, "MVA"),
+                        TheoryVariable("U", R.string.th_var_base_voltage, "kV"),
+                        TheoryVariable("Z", R.string.th_var_impedance, "Ω"),
+                    ),
+                    fields = listOf(
+                        TheoryField("s", R.string.th_field_base_power, "MVA", min = 0.0, default = "100"),
+                        TheoryField("u", R.string.th_field_base_voltage, "kV", min = 0.0, default = "33"),
+                        TheoryField("z", R.string.th_field_impedance_ohms, "Ω", min = 0.0, default = "5"),
+                    ),
+                    examples = listOf(
+                        TheoryExample(
+                            "feeder", R.string.th_per_unit_example_feeder,
+                            mapOf("s" to "100", "u" to "33", "z" to "5"),
+                        ),
+                        TheoryExample(
+                            "low_voltage", R.string.th_per_unit_example_lv,
+                            mapOf("s" to "1", "u" to "0.4", "z" to "0.02"),
+                        ),
+                    ),
+                    solve = ::perUnit,
+                ),
+            ),
+            glossaryTerms = listOf("impedance"),
+        ),
+
     )
 
     /** The two conductor materials differ only in which solver they call. */
@@ -1074,6 +1247,9 @@ object TheoryCatalog {
             ),
         ),
         solve = solve,
+
+
+
     )
 
     private val byKey: Map<String, TheoryTopic> = all.associateBy { it.key }

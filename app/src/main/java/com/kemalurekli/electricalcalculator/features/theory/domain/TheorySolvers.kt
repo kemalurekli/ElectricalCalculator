@@ -1271,3 +1271,189 @@ private val TWO_PI = 2.0 * Math.PI
 
 /** Five time constants is the conventional "settled" point — 99.3 % of the way. */
 private const val FULL_CHARGE_TAUS = 5.0
+
+// ---- Electromagnetism ---------------------------------------------------------
+
+/**
+ * The transformer EMF equation, E = 4.44 · f · N · Φmax.
+ *
+ * The 4.44 is not a fudge. Faraday gives e = N·dΦ/dt; for a sinusoidal flux the
+ * peak rate of change is 2πf·Φmax, and the RMS of a sine is that over √2 — so
+ * the constant is 2π/√2 = 4.4429, rounded to the figure every textbook prints.
+ * Writing it out is the difference between a formula a reader can rebuild and
+ * one they have to trust.
+ */
+internal fun inducedEmf(input: TheoryInputs): TheorySolutionResult {
+    val f = input["f"]
+    val turns = input["n"]
+    val flux = input["phi"]
+    val e = EMF_CONSTANT * f * turns * flux
+    return TheorySolutionResult(
+        primary = q(R.string.th_emf_out_voltage, e, "V"),
+        secondary = listOf(q(R.string.th_emf_out_per_turn, e / turns, "V")),
+        steps = listOf(
+            step(
+                // The substitution has to carry a formatted operand: a literal
+                // "2π / 1.414" reads identically in every language, which is
+                // what the formatting tests are there to catch.
+                R.string.th_emf_step_constant, "k = 2π / √2", "2π / {0}",
+                n(SQRT_TWO, "", 3),
+                result = n(EMF_CONSTANT, "", decimals = 4),
+            ),
+            step(
+                R.string.th_emf_step_voltage, "E = k · f · N · Φ", "4.44 × {0} × {1} × {2}",
+                n(f, "Hz"), n(turns, ""), n(flux, "Wb", style = NumberStyle.SIGNIFICANT),
+                result = n(e, "V"),
+            ),
+        ),
+    )
+}
+
+/**
+ * Reluctance and flux in a magnetic circuit.
+ *
+ * The same arithmetic as Ohm's law with different names: magnetomotive force
+ * drives flux through reluctance exactly as voltage drives current through
+ * resistance. Saying so is most of the topic — the analogy is what makes a
+ * magnetic circuit tractable at all.
+ */
+internal fun magneticCircuit(input: TheoryInputs): TheorySolutionResult {
+    val turns = input["n"]
+    val current = input["i"]
+    val length = input["l"] / 1000.0
+    val area = input["a"] / 1e6
+    val mur = input["mur"]
+
+    val mmf = turns * current
+    val reluctance = length / (VACUUM_PERMEABILITY * mur * area)
+    val flux = mmf / reluctance
+    val density = flux / area
+
+    return TheorySolutionResult(
+        primary = q(R.string.th_magnetic_out_flux_density, density, "T"),
+        secondary = listOf(
+            q(R.string.th_magnetic_out_flux, flux, "Wb", style = NumberStyle.SIGNIFICANT),
+            q(R.string.th_magnetic_out_mmf, mmf, "A"),
+            q(R.string.th_magnetic_out_reluctance, reluctance, "1/H", style = NumberStyle.SIGNIFICANT),
+        ),
+        steps = listOf(
+            step(
+                R.string.th_magnetic_step_mmf, "F = N · I", "{0} × {1}",
+                n(turns, ""), n(current, "A"), result = n(mmf, "A"),
+            ),
+            step(
+                R.string.th_magnetic_step_reluctance, "ℛ = l / (μ₀ · μr · A)", "{0} / (μ₀ × {1} × {2})",
+                n(length, "m", style = NumberStyle.SIGNIFICANT),
+                n(mur, ""),
+                n(area, "m²", style = NumberStyle.SIGNIFICANT),
+                result = n(reluctance, "1/H", style = NumberStyle.SIGNIFICANT),
+            ),
+            step(
+                R.string.th_magnetic_step_flux, "Φ = F / ℛ", "{0} / {1}",
+                n(mmf, "A"), n(reluctance, "1/H", style = NumberStyle.SIGNIFICANT),
+                result = n(flux, "Wb", style = NumberStyle.SIGNIFICANT),
+            ),
+            step(
+                R.string.th_magnetic_step_density, "B = Φ / A", "{0} / {1}",
+                n(flux, "Wb", style = NumberStyle.SIGNIFICANT),
+                n(area, "m²", style = NumberStyle.SIGNIFICANT),
+                result = n(density, "T"),
+            ),
+        ),
+    )
+}
+
+/**
+ * What a turns ratio does to voltage, current and impedance.
+ *
+ * Impedance is the one that surprises people: it transforms by the *square* of
+ * the ratio, which is why a small mismatch at the secondary looks enormous from
+ * the primary and why matching transformers exist at all.
+ */
+internal fun transformerRatio(input: TheoryInputs): TheorySolutionResult {
+    val np = input["np"]
+    val ns = input["ns"]
+    val up = input["up"]
+    val ip = input["ip"]
+
+    val ratio = np / ns
+    val us = up / ratio
+    val isec = ip * ratio
+    val impedanceRatio = ratio * ratio
+
+    return TheorySolutionResult(
+        primary = q(R.string.th_transformer_out_secondary_voltage, us, "V"),
+        secondary = listOf(
+            q(R.string.th_transformer_out_secondary_current, isec, "A"),
+            q(R.string.th_transformer_out_ratio, ratio, ""),
+            q(R.string.th_transformer_out_impedance_ratio, impedanceRatio, ""),
+        ),
+        steps = listOf(
+            step(
+                R.string.th_transformer_step_ratio, "a = Np / Ns", "{0} / {1}",
+                n(np, ""), n(ns, ""), result = n(ratio, ""),
+            ),
+            step(
+                R.string.th_transformer_step_voltage, "Us = Up / a", "{0} / {1}",
+                n(up, "V"), n(ratio, ""), result = n(us, "V"),
+            ),
+            step(
+                R.string.th_transformer_step_current, "Is = Ip · a", "{0} × {1}",
+                n(ip, "A"), n(ratio, ""), result = n(isec, "A"),
+            ),
+            step(
+                R.string.th_transformer_step_impedance, "Zp / Zs = a²", "{0}²",
+                n(ratio, ""), result = n(impedanceRatio, ""),
+            ),
+        ),
+    )
+}
+
+/**
+ * Per-unit: an impedance expressed against the system it sits in.
+ *
+ * The reason power engineers use it at all is that per-unit values survive a
+ * transformer. An impedance in ohms means nothing until you say which side of
+ * which winding it was measured on; the same impedance in per unit is the same
+ * number everywhere, which is what makes a network with four voltage levels
+ * solvable by hand.
+ */
+internal fun perUnit(input: TheoryInputs): TheorySolutionResult {
+    val baseMva = input["s"]
+    val baseKv = input["u"]
+    val ohms = input["z"]
+
+    val baseImpedance = baseKv * baseKv / baseMva
+    val pu = ohms / baseImpedance
+    val baseCurrent = baseMva * 1000.0 / (SQRT_THREE * baseKv)
+
+    return TheorySolutionResult(
+        primary = q(R.string.th_per_unit_out_pu, pu, "pu", style = NumberStyle.SIGNIFICANT),
+        secondary = listOf(
+            q(R.string.th_per_unit_out_base_impedance, baseImpedance, "Ω"),
+            q(R.string.th_per_unit_out_base_current, baseCurrent, "A"),
+            q(R.string.th_per_unit_out_percent, pu * 100.0, "%"),
+        ),
+        steps = listOf(
+            step(
+                R.string.th_per_unit_step_base, "Zbase = U² / S", "{0}² / {1}",
+                n(baseKv, "kV"), n(baseMva, "MVA"), result = n(baseImpedance, "Ω"),
+            ),
+            step(
+                R.string.th_per_unit_step_pu, "Zpu = Z / Zbase", "{0} / {1}",
+                n(ohms, "Ω"), n(baseImpedance, "Ω"),
+                result = n(pu, "pu", style = NumberStyle.SIGNIFICANT),
+            ),
+            step(
+                R.string.th_per_unit_step_current, "Ibase = S / (√3 · U)", "{0} / (√3 × {1})",
+                n(baseMva, "MVA"), n(baseKv, "kV"), result = n(baseCurrent, "A"),
+            ),
+        ),
+    )
+}
+
+/** 2π/√2, the constant in the transformer EMF equation. */
+private const val EMF_CONSTANT = 4.442882938158366
+
+/** μ₀, the permeability of free space, in H/m. */
+private const val VACUUM_PERMEABILITY = 1.25663706212e-6
