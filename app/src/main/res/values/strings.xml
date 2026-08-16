@@ -419,8 +419,8 @@
     <string name="th_magnetic_assumption_linear">Permeability is taken as constant. Real steel saturates, and above about 1.5 T the relative permeability collapses and this calculation overstates the flux badly.</string>
     <string name="th_magnetic_assumption_uniform">The flux is spread evenly over the cross-section and stays inside the core. Fringing at corners and leakage into the air are not counted.</string>
     <string name="th_magnetic_assumption_no_gap">No air gap. One gap of a fraction of a millimetre can outweigh the whole steel path, so a gapped core has to be worked as reluctances in series.</string>
-    <string name="th_magnetic_example_steel">Steel core, μr = 2000</string>
-    <string name="th_magnetic_example_air">Same coil, air core</string>
+    <string name="th_magnetic_example_steel">Steel core, 1.26 T</string>
+    <string name="th_magnetic_example_air">Same coil, no core at all</string>
     <string name="th_magnetic_out_flux_density">Flux density</string>
     <string name="th_magnetic_out_flux">Flux</string>
     <string name="th_magnetic_out_mmf">Magnetomotive force</string>

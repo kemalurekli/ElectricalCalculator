@@ -8,6 +8,7 @@ import com.kemalurekli.electricalcalculator.features.theory.domain.TheorySolutio
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheorySolutionResult
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Assert.assertNotNull
 import org.junit.Test
 
 /**
@@ -507,4 +508,37 @@ class TheorySolverTest {
         }
         return solve(solution, values)
     }
+    @Test
+    fun `the magnetic examples stay where the model is valid`() {
+        // The topic's own assumption note says permeability collapses above
+        // about 1.5 T and the calculation overstates the flux badly there. An
+        // example that lands past saturation demonstrates the one case the
+        // topic tells the reader not to trust it in — which is worse than no
+        // example, because it looks like a worked answer.
+        //
+        // The first version of this topic shipped at 6.7 T.
+        val topic = TheoryCatalog.topicOrNull("magnetic_circuit")
+        assertNotNull(topic)
+
+        topic!!.solutions.forEach { solution ->
+            solution.examples.forEach { example ->
+                val inputs = TheoryInputs(
+                    solution.fields.associate { field ->
+                        field.key to (example.values[field.key] ?: field.default).toDouble()
+                    },
+                )
+                val density = solution.solve(inputs).primary.number.value
+                assertTrue(
+                    "${example.key} reaches $density T, past saturation",
+                    density <= SATURATION_TESLA,
+                )
+            }
+        }
+    }
+
+    private companion object {
+        /** Where silicon steel stops behaving linearly. */
+        const val SATURATION_TESLA = 1.5
+    }
+
 }

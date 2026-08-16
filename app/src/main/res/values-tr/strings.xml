@@ -361,8 +361,8 @@
     <string name="th_magnetic_assumption_linear">Geçirgenlik sabit alınmıştır. Gerçek çelik doyar ve yaklaşık 1,5 T üzerinde bağıl geçirgenlik çöker; bu hesap akıyı fena hâlde abartır.</string>
     <string name="th_magnetic_assumption_uniform">Akı kesite eşit yayılır ve nüve içinde kalır. Köşelerdeki saçaklanma ve havaya kaçak sayılmamıştır.</string>
     <string name="th_magnetic_assumption_no_gap">Hava aralığı yoktur. Milimetrenin bir kesri kadar tek bir aralık tüm çelik yolu geçebilir; aralıklı bir nüve seri relüktanslar olarak çalışılmalıdır.</string>
-    <string name="th_magnetic_example_steel">Çelik nüve, μr = 2000</string>
-    <string name="th_magnetic_example_air">Aynı bobin, hava nüve</string>
+    <string name="th_magnetic_example_steel">Çelik nüve, 1,26 T</string>
+    <string name="th_magnetic_example_air">Aynı bobin, nüvesiz</string>
     <string name="th_magnetic_out_flux_density">Akı yoğunluğu</string>
     <string name="th_magnetic_out_flux">Akı</string>
     <string name="th_magnetic_out_mmf">Manyetomotor kuvvet</string>

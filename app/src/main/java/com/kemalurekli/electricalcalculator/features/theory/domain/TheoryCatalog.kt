@@ -1084,8 +1084,8 @@ object TheoryCatalog {
                         TheoryVariable("B", R.string.th_var_flux_density, "T"),
                     ),
                     fields = listOf(
-                        TheoryField("n", R.string.th_field_turns, "", min = 0.0, default = "400"),
-                        TheoryField("i", R.string.th_field_current, "A", min = 0.0, default = "2"),
+                        TheoryField("n", R.string.th_field_turns, "", min = 0.0, default = "150"),
+                        TheoryField("i", R.string.th_field_current, "A", min = 0.0, default = "1"),
                         TheoryField("l", R.string.th_field_path_length, "mm", min = 0.0, default = "300"),
                         TheoryField("a", R.string.th_field_core_area, "mm²", min = 0.0, default = "900"),
                         TheoryField("mur", R.string.th_field_permeability, "", min = 0.0, default = "2000"),
@@ -1093,11 +1093,11 @@ object TheoryCatalog {
                     examples = listOf(
                         TheoryExample(
                             "steel_core", R.string.th_magnetic_example_steel,
-                            mapOf("n" to "400", "i" to "2", "l" to "300", "a" to "900", "mur" to "2000"),
+                            mapOf("n" to "150", "i" to "1", "l" to "300", "a" to "900", "mur" to "2000"),
                         ),
                         TheoryExample(
                             "air_core", R.string.th_magnetic_example_air,
-                            mapOf("n" to "400", "i" to "2", "l" to "300", "a" to "900", "mur" to "1"),
+                            mapOf("n" to "150", "i" to "1", "l" to "300", "a" to "900", "mur" to "1"),
                         ),
                     ),
                     solve = ::magneticCircuit,
