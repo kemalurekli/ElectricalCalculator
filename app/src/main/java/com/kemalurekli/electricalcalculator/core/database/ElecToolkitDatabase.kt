@@ -6,10 +6,12 @@ import androidx.room.TypeConverters
 import com.kemalurekli.electricalcalculator.core.database.converter.StringMapConverter
 import com.kemalurekli.electricalcalculator.core.database.dao.CalculationHistoryDao
 import com.kemalurekli.electricalcalculator.core.database.dao.CircuitDao
+import com.kemalurekli.electricalcalculator.core.database.dao.CircuitTestDao
 import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
 import com.kemalurekli.electricalcalculator.core.database.dao.ProjectDao
 import com.kemalurekli.electricalcalculator.core.database.entity.CalculationHistoryEntity
 import com.kemalurekli.electricalcalculator.core.database.entity.CircuitEntity
+import com.kemalurekli.electricalcalculator.core.database.entity.CircuitTestEntity
 import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteItemEntity
 import com.kemalurekli.electricalcalculator.core.database.entity.ProjectEntity
 
@@ -26,6 +28,7 @@ import com.kemalurekli.electricalcalculator.core.database.entity.ProjectEntity
         FavoriteItemEntity::class,
         ProjectEntity::class,
         CircuitEntity::class,
+        CircuitTestEntity::class,
     ],
     version = ElecToolkitDatabase.VERSION,
     exportSchema = true,
@@ -41,8 +44,10 @@ abstract class ElecToolkitDatabase : RoomDatabase() {
 
     abstract fun circuitDao(): CircuitDao
 
+    abstract fun circuitTestDao(): CircuitTestDao
+
     companion object {
-        const val VERSION = 3
+        const val VERSION = 4
         const val NAME = "electoolkit.db"
     }
 }

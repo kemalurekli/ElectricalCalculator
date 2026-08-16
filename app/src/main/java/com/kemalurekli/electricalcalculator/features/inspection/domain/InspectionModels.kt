@@ -157,17 +157,16 @@ object InspectionLimits {
  *
  * [passed] is stored for [TestKind.POLARITY] alone, which has no number to
  * record — the reading *is* the verdict.
+ *
+ * Identified by its circuit and its kind rather than by a row id: a circuit has
+ * one continuity reading, not a history of them. Re-measuring replaces the
+ * value, which is what a schedule of results means.
  */
 data class CircuitTest(
-    val id: Long = NO_ID,
     val circuitId: Long,
     val kind: TestKind,
     val value: String = "",
     val passed: Boolean? = null,
     val insulationVoltage: InsulationTestVoltage = InsulationTestVoltage.V500,
     val rcdType: RcdType = RcdType.GENERAL,
-) {
-    companion object {
-        const val NO_ID: Long = 0L
-    }
-}
+)

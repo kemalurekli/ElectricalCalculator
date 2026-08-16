@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.kemalurekli.electricalcalculator.core.database.ElecToolkitDatabase
 import com.kemalurekli.electricalcalculator.core.database.dao.CalculationHistoryDao
 import com.kemalurekli.electricalcalculator.core.database.dao.CircuitDao
+import com.kemalurekli.electricalcalculator.core.database.dao.CircuitTestDao
 import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
 import com.kemalurekli.electricalcalculator.core.database.dao.ProjectDao
 import com.kemalurekli.electricalcalculator.core.database.di.DatabaseModule
@@ -58,4 +59,9 @@ object TestDatabaseModule {
     fun provideCircuitDao(
         database: ElecToolkitDatabase,
     ): CircuitDao = database.circuitDao()
+
+    @Provides
+    fun provideCircuitTestDao(
+        database: ElecToolkitDatabase,
+    ): CircuitTestDao = database.circuitTestDao()
 }

@@ -166,6 +166,25 @@
     <string name="report_column_drop" formatted="false">D\u00fc\u015f\u00fcm (%)</string>
     <string name="report_column_loop">Zs (\u03a9)</string>
     <string name="report_column_binding">Belirleyen</string>
+    <string name="tests_section">Test sonu\u00e7lar\u0131</string>
+    <string name="tests_kind_continuity">S\u00fcreklilik, R\u2081 + R\u2082</string>
+    <string name="tests_kind_insulation">Yal\u0131t\u0131m direnci</string>
+    <string name="tests_kind_polarity">Polarite</string>
+    <string name="tests_kind_loop">Toprak ar\u0131za \u00e7evrimi, Zs</string>
+    <string name="tests_kind_rcd_rated">RCD, I\u0394n\'de</string>
+    <string name="tests_kind_rcd_five">RCD, 5 \u00d7 I\u0394n\'de</string>
+    <string name="tests_expected">Tasar\u0131m %1$s bekliyor</string>
+    <string name="tests_ratio">Hesaplanan de\u011ferin %1$s kat\u0131</string>
+    <string name="tests_verdict_pass">Ge\u00e7ti</string>
+    <string name="tests_verdict_fail">Kald\u0131</string>
+    <string name="tests_verdict_recorded">Kaydedildi</string>
+    <string name="tests_polarity_correct">Do\u011fru</string>
+    <string name="tests_polarity_wrong">Yanl\u0131\u015f</string>
+    <string name="tests_test_voltage">Test gerilimi</string>
+    <string name="tests_rcd_type">RCD tipi</string>
+    <string name="tests_rcd_general">Genel</string>
+    <string name="tests_rcd_selective">Tip S</string>
+    <string name="tests_note">Limit i\u00e7indeki bir okuma bile ikinci bir bak\u0131\u015f\u0131 hak edebilir: tasar\u0131m\u0131n \u00f6ng\u00f6rd\u00fc\u011f\u00fcn\u00fcn belirgin \u00fczerindeki bir de\u011fer gev\u015fek klemens, beklenmedik bir ek ya da listede yazandan farkl\u0131 bir kablo demektir.</string>
     <string name="settings_appearance">Görünüm</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_light">Açık</string>

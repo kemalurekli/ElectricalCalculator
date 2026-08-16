@@ -10,6 +10,9 @@ import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.ProtectiveDeviceType
 import com.kemalurekli.electricalcalculator.features.design.domain.BindingConstraint
 import com.kemalurekli.electricalcalculator.features.design.domain.DesignFailure
+import com.kemalurekli.electricalcalculator.features.inspection.domain.RcdType
+import com.kemalurekli.electricalcalculator.features.inspection.domain.TestKind
+import com.kemalurekli.electricalcalculator.features.inspection.domain.TestVerdict
 import java.util.Locale
 
 /**
@@ -85,3 +88,31 @@ internal fun ProtectiveDeviceType.labelRes(): Int = when (this) {
  */
 internal fun Double?.format(): String =
     this?.let { NumberFormatter.formatSignificant(it, locale = Locale.getDefault()) }.orEmpty()
+
+internal fun TestKind.labelRes(): Int = when (this) {
+    TestKind.CONTINUITY -> R.string.tests_kind_continuity
+    TestKind.INSULATION -> R.string.tests_kind_insulation
+    TestKind.POLARITY -> R.string.tests_kind_polarity
+    TestKind.LOOP_IMPEDANCE -> R.string.tests_kind_loop
+    TestKind.RCD_AT_RATED -> R.string.tests_kind_rcd_rated
+    TestKind.RCD_AT_FIVE_TIMES -> R.string.tests_kind_rcd_five
+}
+
+internal fun TestVerdict.labelRes(): Int = when (this) {
+    TestVerdict.PASS -> R.string.tests_verdict_pass
+    TestVerdict.FAIL -> R.string.tests_verdict_fail
+    TestVerdict.RECORDED -> R.string.tests_verdict_recorded
+}
+
+internal fun RcdType.labelRes(): Int = when (this) {
+    RcdType.GENERAL -> R.string.tests_rcd_general
+    RcdType.SELECTIVE_S -> R.string.tests_rcd_selective
+}
+
+/** The tester's own unit for each reading. */
+internal fun TestKind.unit(): String? = when (this) {
+    TestKind.CONTINUITY, TestKind.LOOP_IMPEDANCE -> "\u03a9"
+    TestKind.INSULATION -> "M\u03a9"
+    TestKind.RCD_AT_RATED, TestKind.RCD_AT_FIVE_TIMES -> "ms"
+    TestKind.POLARITY -> null
+}

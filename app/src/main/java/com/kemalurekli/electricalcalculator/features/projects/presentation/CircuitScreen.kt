@@ -46,6 +46,9 @@ import com.kemalurekli.electricalcalculator.features.calculators.earthfault.doma
 import com.kemalurekli.electricalcalculator.features.design.domain.BindingConstraint
 import com.kemalurekli.electricalcalculator.features.design.domain.CircuitDesignResult
 import com.kemalurekli.electricalcalculator.features.design.domain.DesignStage
+import com.kemalurekli.electricalcalculator.features.inspection.domain.InsulationTestVoltage
+import com.kemalurekli.electricalcalculator.features.inspection.domain.RcdType
+import com.kemalurekli.electricalcalculator.features.inspection.domain.TestKind
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -73,6 +76,10 @@ fun CircuitRoute(
         onDeviceTypeChange = viewModel::onDeviceTypeChange,
         onDisconnectionTimeChange = viewModel::onDisconnectionTimeChange,
         onDelete = viewModel::onDelete,
+        onTestValueChange = viewModel::onTestValueChange,
+        onTestPolarityChange = viewModel::onTestPolarityChange,
+        onInsulationVoltageChange = viewModel::onInsulationVoltageChange,
+        onRcdTypeChange = viewModel::onRcdTypeChange,
         onNavigateBack = onNavigateBack,
         modifier = modifier,
     )
@@ -92,6 +99,10 @@ fun CircuitScreen(
     onDeviceTypeChange: (ProtectiveDeviceType) -> Unit,
     onDisconnectionTimeChange: (String) -> Unit,
     onDelete: () -> Unit,
+    onTestValueChange: (TestKind, String) -> Unit,
+    onTestPolarityChange: (Boolean?) -> Unit,
+    onInsulationVoltageChange: (InsulationTestVoltage) -> Unit,
+    onRcdTypeChange: (RcdType) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -206,6 +217,15 @@ fun CircuitScreen(
 
             ElecSectionHeader(title = stringResource(R.string.circuit_result))
             DesignCard(uiState.design)
+
+            ElecSectionHeader(title = stringResource(R.string.tests_section))
+            TestsCard(
+                rows = uiState.tests,
+                onValueChange = onTestValueChange,
+                onPolarityChange = onTestPolarityChange,
+                onInsulationVoltageChange = onInsulationVoltageChange,
+                onRcdTypeChange = onRcdTypeChange,
+            )
         }
     }
 
@@ -370,3 +390,105 @@ private fun BindingConstraint.stageLabelRes(): Int = when (this) {
 
 private fun String.toDeviceTypeOrDefault(): ProtectiveDeviceType =
     ProtectiveDeviceType.entries.firstOrNull { it.name == this } ?: ProtectiveDeviceType.MCB_TYPE_B
+
+/**
+ * What was measured, beside what the design expected.
+ *
+ * Every test kind is listed whether or not it has a reading. A card showing
+ * only what had been entered would make an untested circuit look finished; the
+ * empty rows are the checklist an inspector works down.
+ */
+@Composable
+private fun TestsCard(
+    rows: kotlinx.collections.immutable.ImmutableList<TestRow>,
+    onValueChange: (TestKind, String) -> Unit,
+    onPolarityChange: (Boolean?) -> Unit,
+    onInsulationVoltageChange: (InsulationTestVoltage) -> Unit,
+    onRcdTypeChange: (RcdType) -> Unit,
+) {
+    val spacing = ElecTheme.spacing
+
+    ElecCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
+    ) {
+        Column(
+            modifier = Modifier.padding(spacing.lg),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+        ) {
+            Text(
+                text = stringResource(R.string.tests_note),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+
+            rows.forEach { row ->
+                when (row.test.kind) {
+                    TestKind.POLARITY -> ElecOptionSelector(
+                        label = stringResource(row.test.kind.labelRes()),
+                        options = POLARITY_OPTIONS,
+                        selected = row.test.passed,
+                        onSelect = onPolarityChange,
+                        optionLabel = {
+                            stringResource(
+                                if (it == true) {
+                                    R.string.tests_polarity_correct
+                                } else {
+                                    R.string.tests_polarity_wrong
+                                },
+                            )
+                        },
+                    )
+
+                    else -> {
+                        ElecNumericField(
+                            value = row.test.value,
+                            onValueChange = { onValueChange(row.test.kind, it) },
+                            label = stringResource(row.test.kind.labelRes()),
+                            unit = row.test.kind.unit(),
+                            supportingText = row.supportingText(),
+                        )
+                        if (row.test.kind == TestKind.INSULATION) {
+                            ElecOptionSelector(
+                                label = stringResource(R.string.tests_test_voltage),
+                                options = InsulationTestVoltage.entries.toImmutableList(),
+                                selected = row.test.insulationVoltage,
+                                onSelect = onInsulationVoltageChange,
+                                optionLabel = { "${it.volts} V" },
+                            )
+                        }
+                        if (row.test.kind == TestKind.RCD_AT_RATED) {
+                            ElecOptionSelector(
+                                label = stringResource(R.string.tests_rcd_type),
+                                options = RcdType.entries.toImmutableList(),
+                                selected = row.test.rcdType,
+                                onSelect = onRcdTypeChange,
+                                optionLabel = { stringResource(it.labelRes()) },
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * The line under a reading: the verdict, and what the design predicted.
+ *
+ * The predicted figure is the reason this feature exists, so it is shown
+ * whenever there is one — including on readings that passed.
+ */
+@Composable
+private fun TestRow.supportingText(): String {
+    val verdict = stringResource(evaluation.verdict.labelRes())
+    val expected = evaluation.expected ?: return verdict
+    val predicted = stringResource(R.string.tests_expected, expected.format())
+    val ratio = evaluation.ratio?.let { stringResource(R.string.tests_ratio, it.format()) }
+    return listOfNotNull(verdict, predicted, ratio).joinToString(" · ")
+}
+
+/** Correct, or wrong. Null is "not yet measured" and is not offered as a choice. */
+private val POLARITY_OPTIONS =
+    kotlinx.collections.immutable.persistentListOf<Boolean?>(true, false)

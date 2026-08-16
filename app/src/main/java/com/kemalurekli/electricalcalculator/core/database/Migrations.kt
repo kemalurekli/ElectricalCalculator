@@ -95,3 +95,33 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_circuits_project_id` ON `circuits` (`project_id`)")
     }
 }
+
+/**
+ * Somewhere to write down what was measured.
+ *
+ * Additive again: an installation designed before this release keeps every
+ * circuit it had, with no readings against them, which is exactly what was true
+ * before the table existed.
+ */
+val MIGRATION_3_4 = object : Migration(3, 4) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS `circuit_tests` (
+                `circuit_id` INTEGER NOT NULL,
+                `kind` TEXT NOT NULL,
+                `value` TEXT NOT NULL,
+                `passed` INTEGER,
+                `insulation_voltage` TEXT NOT NULL,
+                `rcd_type` TEXT NOT NULL,
+                PRIMARY KEY(`circuit_id`, `kind`),
+                FOREIGN KEY(`circuit_id`) REFERENCES `circuits`(`id`)
+                    ON UPDATE NO ACTION ON DELETE CASCADE
+            )
+            """.trimIndent(),
+        )
+        db.execSQL(
+            "CREATE INDEX IF NOT EXISTS `index_circuit_tests_circuit_id` ON `circuit_tests` (`circuit_id`)",
+        )
+    }
+}
