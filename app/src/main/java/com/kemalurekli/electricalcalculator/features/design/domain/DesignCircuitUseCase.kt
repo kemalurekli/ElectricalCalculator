@@ -85,7 +85,12 @@ class DesignCircuitUseCase @Inject constructor(
                 rejectedBy = failed.constraint
                 return@forEach
             }
-            return attempt.toResult(designCurrent, deviceRating, rejectedBy)
+            return attempt.toResult(
+                designCurrent,
+                deviceRating,
+                rejectedBy,
+                input.externalImpedanceOhms,
+            )
         }
 
         // Nothing passed. The largest size is still worth reporting: it says how
@@ -93,7 +98,8 @@ class DesignCircuitUseCase @Inject constructor(
         val furthest = lastAttempt
             ?: return CircuitDesignResult.beyondDeviceRange(designCurrent)
                 .copy(deviceRatingAmps = deviceRating, failure = DesignFailure.NO_TABULATED_SIZE)
-        return furthest.toResult(designCurrent, deviceRating, rejectedBy)
+        return furthest
+            .toResult(designCurrent, deviceRating, rejectedBy, input.externalImpedanceOhms)
             .copy(crossSectionMm2 = null, failure = DesignFailure.NO_TABULATED_SIZE)
     }
 
@@ -220,6 +226,7 @@ class DesignCircuitUseCase @Inject constructor(
         designCurrentAmps: Double,
         deviceRatingAmps: Double,
         bindingConstraint: BindingConstraint,
+        externalImpedanceOhms: Double,
     ) = CircuitDesignResult(
         designCurrentAmps = designCurrentAmps,
         deviceRatingAmps = deviceRatingAmps,
@@ -231,6 +238,7 @@ class DesignCircuitUseCase @Inject constructor(
         voltageDropVolts = drop.voltageDrop,
         loopImpedanceOhms = loop.loopImpedanceOhms,
         maximumLoopImpedanceOhms = loop.maximumPermittedOhms,
+        externalImpedanceOhms = externalImpedanceOhms,
         stages = stages,
     )
 }

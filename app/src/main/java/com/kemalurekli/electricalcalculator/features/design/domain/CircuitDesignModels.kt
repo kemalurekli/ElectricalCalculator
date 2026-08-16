@@ -117,6 +117,15 @@ data class CircuitDesignResult(
     val voltageDropVolts: Double,
     val loopImpedanceOhms: Double,
     val maximumLoopImpedanceOhms: Double,
+    /**
+     * The Ze the loop was computed from.
+     *
+     * Carried on the result so a reader can subtract it. An R₁ + R₂ reading is
+     * made across the circuit's own conductors, and comparing it against a loop
+     * that includes the supply's contribution would make every measurement look
+     * far too low.
+     */
+    val externalImpedanceOhms: Double,
     val stages: List<DesignStage>,
     val failure: DesignFailure? = null,
 ) {
@@ -140,6 +149,7 @@ data class CircuitDesignResult(
             voltageDropVolts = 0.0,
             loopImpedanceOhms = 0.0,
             maximumLoopImpedanceOhms = 0.0,
+            externalImpedanceOhms = 0.0,
             stages = emptyList(),
             failure = DesignFailure.LOAD_BEYOND_DEVICE_RANGE,
         )
