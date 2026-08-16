@@ -45,6 +45,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun onAcceptDisclaimer() {
+        viewModelScope.launch { userPreferencesRepository.setDisclaimerAccepted(true) }
+    }
+
     val uiState: StateFlow<MainUiState> = userPreferencesRepository.preferences
         .map<UserPreferences, MainUiState> { MainUiState.Ready(it) }
         .stateIn(

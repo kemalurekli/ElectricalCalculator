@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.ThemeMode
 import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
+import com.kemalurekli.electricalcalculator.core.designsystem.component.DisclaimerDialog
 import com.kemalurekli.electricalcalculator.core.navigation.ElecNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -69,6 +70,14 @@ class MainActivity : AppCompatActivity() {
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     ElecNavHost(navController = rememberNavController())
+
+                    // Shown over the app rather than before it: the reader can
+                    // see what they are agreeing to use. Held until accepted,
+                    // and only ever shown once — an acknowledgement that
+                    // reappears every launch is one nobody reads.
+                    if (uiState is MainUiState.Ready && !preferences.disclaimerAccepted) {
+                        DisclaimerDialog(onAccept = viewModel::onAcceptDisclaimer)
+                    }
                 }
             }
         }

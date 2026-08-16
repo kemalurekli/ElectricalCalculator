@@ -274,6 +274,10 @@
     <string name="sel_history_title">%1$s A over %2$s A</string>
     <string name="sel_note_bound" formatted="false">What the published curves allow is an upper bound, not a guarantee. Real behaviour at high fault currents depends on let-through energy, which is why manufacturers publish selectivity tables for specific pairs \u2014 and why those tables sometimes claim more than the curves do. Where such a table exists, it wins.</string>
     <string name="sel_note_overload" formatted="false">The two ends fail independently. An overload is settled by the thermal elements and needs the ratings far enough apart; a short circuit is settled by the magnetic elements and needs the fault to stay below the upstream device\u2019s instantaneous pickup. A pair can pass one and fail the other.</string>
+    <string name="disclaimer_title">Disclaimer</string>
+    <string name="disclaimer_accept">I have read and accept</string>
+    <string name="disclaimer_body" formatted="false">This application is provided for general information only.\n\nNo responsibility whatsoever is accepted for the calculations, results, tables or explanatory texts it contains. The results must not be used as a basis for scientific or engineering work.\n\nResponsibility for any use of this application, and for verifying anything taken from it, rests entirely with the user. Under no circumstances may the application or its developers be held liable for any loss or damage arising from its use.\n\nThe content and the application itself were produced with the assistance of artificial intelligence. Use it in the knowledge of that.\n\nBy using this application you are deemed to have accepted the above.</string>
+    <string name="settings_legal">Legal</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_theme_light">Light</string>

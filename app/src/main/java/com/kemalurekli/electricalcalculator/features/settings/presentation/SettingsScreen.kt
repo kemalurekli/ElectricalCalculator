@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.R
+import com.kemalurekli.electricalcalculator.core.designsystem.component.DisclaimerDialog
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
@@ -92,6 +93,7 @@ fun SettingsScreen(
 ) {
     val spacing = ElecTheme.spacing
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    var showDisclaimer by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         contentWindowInsets = WindowInsets.safeDrawing,
@@ -197,6 +199,19 @@ fun SettingsScreen(
                 onReset = onResetEngineeringDefaults,
             )
 
+            ElecSectionHeader(title = stringResource(R.string.settings_legal))
+
+            SettingsGroup {
+                // Reachable at any time, not only on the first launch. Terms
+                // that can only be read once are terms nobody can go back to.
+                TextButton(
+                    onClick = { showDisclaimer = true },
+                    modifier = Modifier.padding(horizontal = spacing.sm),
+                ) {
+                    Text(text = stringResource(R.string.disclaimer_title))
+                }
+            }
+
             ElecSectionHeader(title = stringResource(R.string.settings_about))
 
             SettingsGroup {
@@ -218,6 +233,10 @@ fun SettingsScreen(
                 }
             }
         }
+    }
+
+    if (showDisclaimer) {
+        DisclaimerDialog(onAccept = {}, onDismiss = { showDisclaimer = false })
     }
 }
 

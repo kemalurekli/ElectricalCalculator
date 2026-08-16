@@ -37,6 +37,13 @@ data class UserPreferences(
      * this already set and leaves the values alone.
      */
     val engineeringSeeded: Boolean = false,
+    /**
+     * Whether the reader has acknowledged the disclaimer.
+     *
+     * Stored rather than shown every launch: it is an acknowledgement, and one
+     * that reappears each time reads as a bug and gets dismissed unread.
+     */
+    val disclaimerAccepted: Boolean = false,
 ) {
     companion object {
         val Default = UserPreferences()

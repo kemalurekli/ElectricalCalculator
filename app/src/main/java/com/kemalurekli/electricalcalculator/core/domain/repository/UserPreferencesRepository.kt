@@ -26,6 +26,9 @@ interface UserPreferencesRepository {
 
     suspend fun setUnitSystem(unitSystem: UnitSystem)
 
+    /** Records that the reader has acknowledged the disclaimer. */
+    suspend fun setDisclaimerAccepted(accepted: Boolean)
+
     /** Replaces the engineering defaults, and marks them as the user's. */
     suspend fun setEngineeringDefaults(defaults: EngineeringDefaults)
 

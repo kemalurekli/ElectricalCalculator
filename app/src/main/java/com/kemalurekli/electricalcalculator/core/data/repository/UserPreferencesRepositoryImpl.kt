@@ -34,6 +34,9 @@ class UserPreferencesRepositoryImpl @Inject constructor(
     override suspend fun setUnitSystem(unitSystem: UnitSystem) =
         dataSource.setUnitSystem(unitSystem)
 
+    override suspend fun setDisclaimerAccepted(accepted: Boolean) =
+        dataSource.setDisclaimerAccepted(accepted)
+
     override suspend fun setEngineeringDefaults(defaults: EngineeringDefaults) =
         dataSource.setEngineeringDefaults(defaults)
 

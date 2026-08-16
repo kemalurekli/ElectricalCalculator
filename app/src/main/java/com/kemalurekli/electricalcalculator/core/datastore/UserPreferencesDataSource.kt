@@ -56,6 +56,10 @@ class UserPreferencesDataSource @Inject constructor(
         dataStore.edit { it[Keys.UNIT_SYSTEM] = unitSystem.name }
     }
 
+    suspend fun setDisclaimerAccepted(accepted: Boolean) {
+        dataStore.edit { it[Keys.DISCLAIMER_ACCEPTED] = accepted }
+    }
+
     /**
      * Writes engineering defaults, marking them as the user's from now on.
      *
@@ -104,6 +108,7 @@ class UserPreferencesDataSource @Inject constructor(
         unitSystem = enumOrDefault(this[Keys.UNIT_SYSTEM], UserPreferences.Default.unitSystem),
         engineering = toEngineeringDefaults(),
         engineeringSeeded = this[Keys.ENG_SEEDED] ?: false,
+        disclaimerAccepted = this[Keys.DISCLAIMER_ACCEPTED] ?: false,
     )
 
     private fun Preferences.toEngineeringDefaults(): EngineeringDefaults {
@@ -139,6 +144,7 @@ class UserPreferencesDataSource @Inject constructor(
         val ENG_INSULATION = stringPreferencesKey("eng_insulation")
         val ENG_INSTALLATION_METHOD = stringPreferencesKey("eng_installation_method")
         val ENG_SEEDED = booleanPreferencesKey("eng_seeded")
+        val DISCLAIMER_ACCEPTED = booleanPreferencesKey("disclaimer_accepted")
     }
 
     private companion object {
