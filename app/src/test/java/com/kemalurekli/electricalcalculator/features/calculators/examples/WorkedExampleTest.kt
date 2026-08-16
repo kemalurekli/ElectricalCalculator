@@ -58,6 +58,10 @@ import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
 import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
 import com.kemalurekli.electricalcalculator.testing.FakeUserPreferencesRepository
+import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.CheckSelectivityUseCase
+import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.SelectivityGrade
+import com.kemalurekli.electricalcalculator.features.calculators.selectivity.presentation.SelectivityViewModel
+import com.kemalurekli.electricalcalculator.features.calculators.selectivity.presentation.selectivityExamples
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -433,6 +437,39 @@ class WorkedExampleTest {
 
         model.onApplyExample(neutralCurrentExamples.single { it.key == "electronic_load" })
         assertTrue(requireNotNull(model.uiState.value.result).neutralExceedsLines)
+    }
+
+    @Test
+    fun `every selectivity example runs`() {
+        val model = SelectivityViewModel(
+            CheckSelectivityUseCase(), history(), favorites(), strings, timeProvider,
+        )
+        assertEveryExampleRuns("selectivity", selectivityExamples, model::onApplyExample) {
+            val s = model.uiState.value
+            Triple(s.errors.size, s.result != null, s.steps.size)
+        }
+    }
+
+    @Test
+    fun `the same pair changes verdict when the fault moves`() {
+        // The two examples exist to be compared. If they ever stop disagreeing
+        // the pair has lost its point — and so has the calculator.
+        val model = SelectivityViewModel(
+            CheckSelectivityUseCase(), history(), favorites(), strings, timeProvider,
+        )
+
+        model.onApplyExample(
+            selectivityExamples.single { it.key == "final_circuit_far_from_the_board" },
+        )
+        val far = requireNotNull(model.uiState.value.result)
+
+        model.onApplyExample(selectivityExamples.single { it.key == "fault_at_the_board" })
+        val near = requireNotNull(model.uiState.value.result)
+
+        assertEquals(SelectivityGrade.SELECTIVE, far.grade)
+        assertEquals(SelectivityGrade.PARTIAL, near.grade)
+        // Same devices, so the limit itself has not moved; only the fault has.
+        assertEquals(far.limitAmps, near.limitAmps)
     }
 
     @Test

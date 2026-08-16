@@ -2,14 +2,13 @@ package com.kemalurekli.electricalcalculator.features.calculators.selectivity.pr
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.SelectivityGrade
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.SelectivityInput
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.SelectivityResult
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import java.util.Locale
 
 /** The heading a verdict is written under, and its one-line meaning. */
 internal fun SelectivityGrade.summaryRes(): Int = when (this) {
@@ -23,56 +22,54 @@ internal fun SelectivityGrade.summaryRes(): Int = when (this) {
  *
  * The overload check first, because it is settled by the ratings alone and
  * fails independently of the fault level; then the magnetic check, which is
- * where the fault current finally matters.
+ * where the fault current finally matters. The last step is the headroom —
+ * how much more fault current the pair would take before the upstream device
+ * joins in — because "selective" and "selective with 12 A to spare" are
+ * different findings.
+ *
+ * The verdict itself is not a step. Every explainer in this app puts numbers in
+ * its result lines and leaves the words to the result card, so that the
+ * derivation reads the same in every language.
+ *
+ * A device whose curve the app cannot read produces the ratio step alone. There
+ * is no threshold to work out, and inventing a step that says so would put
+ * translated prose where a figure belongs.
  */
 internal fun explainSelectivity(
     input: SelectivityInput,
     result: SelectivityResult,
-    strings: StringResolver,
+    locale: Locale = Locale.getDefault(),
 ): ImmutableList<CalculationStep> {
     val steps = mutableListOf<CalculationStep>()
 
     steps += CalculationStep(
         labelRes = R.string.sel_step_ratio,
         formula = "In(up) / In(down)",
-        substitution = "${format(input.upstreamRatingAmps)} / ${format(input.downstreamRatingAmps)}",
-        result = "${format(result.ratio)} " +
-            strings.get(
-                if (result.overloadSelective) {
-                    R.string.sel_step_ratio_clears
-                } else {
-                    R.string.sel_step_ratio_short
-                },
-            ),
+        substitution = "${format(input.upstreamRatingAmps, locale)} / " +
+            format(input.downstreamRatingAmps, locale),
+        result = format(result.ratio, locale),
     )
 
     val upstream = result.upstreamInstantaneousAmps
-    if (upstream != null) {
+    val multiplier = input.upstreamType.instantaneousMultiplier
+    if (upstream != null && multiplier != null) {
         steps += CalculationStep(
             labelRes = R.string.sel_step_threshold,
             formula = "Ia(up) = k · In(up)",
-            substitution = "${format(input.upstreamType.instantaneousMultiplier ?: 0.0)} × " +
-                format(input.upstreamRatingAmps),
-            result = "${format(upstream)} A",
+            substitution = "${format(multiplier, locale)} × ${format(input.upstreamRatingAmps, locale)}",
+            result = "${format(upstream, locale)} A",
         )
         steps += CalculationStep(
             labelRes = R.string.sel_step_compare,
-            formula = "Ipf < Ia(up)",
-            substitution = "${format(input.prospectiveFaultAmps)} A / ${format(upstream)} A",
-            result = strings.get(result.grade.summaryRes()),
-        )
-    } else {
-        // Saying nothing here would leave the reader to assume the check was
-        // made and passed.
-        steps += CalculationStep(
-            labelRes = R.string.sel_step_threshold,
-            formula = "Ia(up)",
-            substitution = "—",
-            result = strings.get(R.string.sel_step_no_curve),
+            formula = "Ia(up) - Ipf",
+            substitution = "${format(upstream, locale)} - " +
+                format(input.prospectiveFaultAmps, locale),
+            result = "${format(upstream - input.prospectiveFaultAmps, locale)} A",
         )
     }
 
-    return steps.toImmutableList().ifEmpty { persistentListOf() }
+    return steps.toImmutableList()
 }
 
-private fun format(value: Double) = NumberFormatter.format(value, decimals = 2)
+private fun format(value: Double, locale: Locale) =
+    NumberFormatter.format(value, decimals = 2, locale = locale)

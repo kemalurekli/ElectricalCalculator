@@ -55,6 +55,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.CheckSelectivityUseCase
+import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.SelectivityInput
+import com.kemalurekli.electricalcalculator.features.calculators.selectivity.presentation.explainSelectivity
 import java.util.Locale
 
 /**
@@ -790,7 +793,40 @@ class ExplainerTest {
     }
 
     /** Every worked solution the app can produce, for the properties above. */
+    private val selectivityInput = SelectivityInput(
+        upstreamType = ProtectiveDeviceType.MCB_TYPE_C,
+        upstreamRatingAmps = 63.0,
+        downstreamType = ProtectiveDeviceType.MCB_TYPE_B,
+        downstreamRatingAmps = 16.0,
+        prospectiveFaultAmps = 480.0,
+    )
+
+    @Test
+    fun `the selectivity solution ends on the headroom before the upstream device joins in`() {
+        val result = CheckSelectivityUseCase()(selectivityInput)
+
+        val steps = explainSelectivity(selectivityInput, result, us)
+
+        assertEquals(3, steps.size)
+        // 63 / 16, then 10 × 63, then 630 − 480.
+        assertEquals("3.94", steps[0].result)
+        assertEquals("630 A", steps[1].result)
+        assertEquals("150 A", steps[2].result)
+    }
+
+    @Test
+    fun `a device with no readable curve is not given a threshold step`() {
+        // An RCD has no instantaneous multiple. Writing a step that says so
+        // would put prose where every other result line carries a figure.
+        val result = CheckSelectivityUseCase()(
+            selectivityInput.copy(upstreamType = ProtectiveDeviceType.RCD),
+        )
+
+        assertEquals(1, explainSelectivity(selectivityInput.copy(upstreamType = ProtectiveDeviceType.RCD), result, us).size)
+    }
+
     private fun everySolution(locale: Locale): List<ImmutableList<CalculationStep>> = listOf(
+        explainSelectivity(selectivityInput, CheckSelectivityUseCase()(selectivityInput), locale),
         explainVoltageDrop(
             voltageDropInput,
             CalculateVoltageDropUseCase()(voltageDropInput),

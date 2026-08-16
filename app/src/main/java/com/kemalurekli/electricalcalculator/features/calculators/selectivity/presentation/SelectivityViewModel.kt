@@ -145,7 +145,7 @@ class SelectivityViewModel @Inject constructor(
             it.copy(
                 errors = emptyMap(),
                 result = result,
-                steps = explainSelectivity(input, result, stringResolver),
+                steps = explainSelectivity(input, result),
             )
         }
 
