@@ -94,6 +94,30 @@ sealed interface Route {
     @Serializable
     data class TheoryTopic(val topicKey: String) : Route
 
+    /** The list of jobs. */
+    @Serializable
+    data object Projects : Route
+
+    /**
+     * One job: its shared supply parameters and its circuit schedule.
+     *
+     * Carries a row id rather than a catalog key, because unlike every other
+     * detail route in the app a project is the user's own content and has no
+     * stable name to address it by.
+     */
+    @Serializable
+    data class Project(val projectId: Long) : Route
+
+    /**
+     * One circuit's inputs and the design chain worked on them.
+     *
+     * The project id travels alongside so the screen can read the shared
+     * parameters without waiting for a second lookup, and so a deep link that
+     * names a deleted circuit still knows where to send the reader back to.
+     */
+    @Serializable
+    data class Circuit(val projectId: Long, val circuitId: Long) : Route
+
     @Serializable
     data object Favorites : Route
 

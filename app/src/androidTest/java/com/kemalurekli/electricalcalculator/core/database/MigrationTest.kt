@@ -72,6 +72,44 @@ class MigrationTest {
     }
 
     @Test
+    fun projectsArriveWithoutDisturbingWhatIsAlreadyStored() {
+        // The whole point of an additive migration: a user who never opens a
+        // project must not be able to tell it happened.
+        helper.createDatabase(TEST_DB, 2).use { db ->
+            db.execSQL(
+                """
+                INSERT INTO calculation_history
+                    (calculator_id, title, summary, inputs, results, created_at)
+                VALUES ('voltage_drop', 'Riser', '2.1 %', '{}', '{}', 100)
+                """.trimIndent(),
+            )
+            db.execSQL(
+                "INSERT INTO favorite_items (kind, item_key, pinned_at) VALUES ('THEORY', 'ohms_law', 5)",
+            )
+        }
+
+        val migrated = helper.runMigrationsAndValidate(TEST_DB, 3, true, MIGRATION_2_3)
+
+        migrated.query("SELECT title FROM calculation_history").use { cursor ->
+            assertTrue(cursor.moveToFirst())
+            assertEquals("Riser", cursor.getString(0))
+        }
+        migrated.query("SELECT item_key FROM favorite_items").use { cursor ->
+            assertTrue(cursor.moveToFirst())
+            assertEquals("ohms_law", cursor.getString(0))
+        }
+        migrated.query("SELECT COUNT(*) FROM projects").use { cursor ->
+            assertTrue(cursor.moveToFirst())
+            assertEquals(0, cursor.getInt(0))
+        }
+        migrated.query("SELECT COUNT(*) FROM circuits").use { cursor ->
+            assertTrue(cursor.moveToFirst())
+            assertEquals(0, cursor.getInt(0))
+        }
+        migrated.close()
+    }
+
+    @Test
     fun savedCalculationsAreUntouched() {
         helper.createDatabase(TEST_DB, 1).use { db ->
             db.execSQL(

@@ -5,7 +5,10 @@ import androidx.room.Room
 import com.kemalurekli.electricalcalculator.core.database.ElecToolkitDatabase
 import com.kemalurekli.electricalcalculator.core.database.dao.CalculationHistoryDao
 import com.kemalurekli.electricalcalculator.core.database.MIGRATION_1_2
+import com.kemalurekli.electricalcalculator.core.database.MIGRATION_2_3
+import com.kemalurekli.electricalcalculator.core.database.dao.CircuitDao
 import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
+import com.kemalurekli.electricalcalculator.core.database.dao.ProjectDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +32,7 @@ object DatabaseModule {
         // Explicit rather than destructive: a user's pinned shelf and their
         // saved calculations are the only data this app holds, and losing
         // them to an update would be losing all of it.
-        .addMigrations(MIGRATION_1_2)
+        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
         .build()
 
     @Provides
@@ -41,4 +44,14 @@ object DatabaseModule {
     fun provideFavoriteItemDao(
         database: ElecToolkitDatabase,
     ): FavoriteItemDao = database.favoriteItemDao()
+
+    @Provides
+    fun provideProjectDao(
+        database: ElecToolkitDatabase,
+    ): ProjectDao = database.projectDao()
+
+    @Provides
+    fun provideCircuitDao(
+        database: ElecToolkitDatabase,
+    ): CircuitDao = database.circuitDao()
 }

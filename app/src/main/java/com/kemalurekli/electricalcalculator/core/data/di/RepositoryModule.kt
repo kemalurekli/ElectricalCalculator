@@ -9,10 +9,12 @@ import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.data.repository.AppLanguageRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
+import com.kemalurekli.electricalcalculator.core.data.repository.ProjectRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.UserPreferencesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
+import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
 import dagger.Binds
 import dagger.Module
@@ -53,6 +55,12 @@ abstract class RepositoryModule {
     abstract fun bindTimeProvider(
         impl: SystemTimeProvider,
     ): TimeProvider
+
+    @Binds
+    @Singleton
+    abstract fun bindProjectRepository(
+        impl: ProjectRepositoryImpl,
+    ): ProjectRepository
 
     @Binds
     @Singleton

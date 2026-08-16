@@ -32,6 +32,9 @@ import com.kemalurekli.electricalcalculator.features.calculators.transformer.pre
 import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.presentation.VoltageDropRoute
 import com.kemalurekli.electricalcalculator.features.converter.presentation.ConverterRoute
 import com.kemalurekli.electricalcalculator.features.favorites.presentation.FavoritesRoute
+import com.kemalurekli.electricalcalculator.features.projects.presentation.CircuitRoute
+import com.kemalurekli.electricalcalculator.features.projects.presentation.ProjectRoute
+import com.kemalurekli.electricalcalculator.features.projects.presentation.ProjectsRoute
 import com.kemalurekli.electricalcalculator.features.fieldnotes.presentation.FieldNotesRoute
 import com.kemalurekli.electricalcalculator.features.theory.presentation.TheoryRoute
 import com.kemalurekli.electricalcalculator.features.theory.presentation.TheoryTopicRoute
@@ -256,6 +259,32 @@ fun ElecNavHost(
         composable<Route.Reference> { backStackEntry ->
             ReferenceDetailRoute(
                 topicKey = backStackEntry.toRoute<Route.Reference>().topicKey,
+                onNavigateBack = actions::navigateBack,
+            )
+        }
+
+        composable<Route.Projects> {
+            ProjectsRoute(
+                onOpenProject = { actions.navigateTo(Route.Project(it)) },
+                onNavigateBack = actions::navigateBack,
+            )
+        }
+
+        composable<Route.Project> { backStackEntry ->
+            ProjectRoute(
+                projectId = backStackEntry.toRoute<Route.Project>().projectId,
+                onOpenCircuit = { projectId, circuitId ->
+                    actions.navigateTo(Route.Circuit(projectId, circuitId))
+                },
+                onNavigateBack = actions::navigateBack,
+            )
+        }
+
+        composable<Route.Circuit> { backStackEntry ->
+            val route = backStackEntry.toRoute<Route.Circuit>()
+            CircuitRoute(
+                projectId = route.projectId,
+                circuitId = route.circuitId,
                 onNavigateBack = actions::navigateBack,
             )
         }

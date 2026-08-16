@@ -297,11 +297,33 @@ private fun DashboardGrid(
 ) {
     val spacing = ElecTheme.spacing
 
+    val cards = TopLevelDestination.dashboardCards
+    // An odd card count would leave one stranded beside an empty cell. The
+    // first card takes the whole width instead: the destinations are declared
+    // in order of how central they are, so the extra room lands on the one
+    // that has earned it rather than on whatever happened to sort last. On a
+    // wider layout the count usually divides evenly and no card is singled out.
+    val leading = cards.firstOrNull()?.takeIf { cards.size % columns != 0 }
+    val remainder = if (leading == null) cards else cards.drop(1)
+
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(spacing.md),
     ) {
-        TopLevelDestination.dashboardCards.chunked(columns).forEach { row ->
+        if (leading != null) {
+            ElecDashboardCard(
+                title = stringResource(leading.titleRes),
+                subtitle = stringResource(leading.subtitleRes),
+                icon = leading.icon,
+                accent = leading.accent,
+                onClick = { onNavigate(leading.route) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = CARD_MIN_HEIGHT),
+            )
+        }
+
+        remainder.chunked(columns).forEach { row ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

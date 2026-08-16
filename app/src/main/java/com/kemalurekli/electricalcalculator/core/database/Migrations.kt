@@ -41,3 +41,57 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         db.execSQL("DROP TABLE `favorite_calculators`")
     }
 }
+
+/**
+ * Projects arrive, and with them a place to keep a job rather than a pile of
+ * one-off calculations.
+ *
+ * Purely additive: nothing existing is touched, so a user who never opens a
+ * project sees no change at all. Circuits cascade on delete because a circuit
+ * has no meaning without the supply parameters it was designed against.
+ */
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS `projects` (
+                `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                `reference` TEXT NOT NULL,
+                `site` TEXT NOT NULL,
+                `system` TEXT NOT NULL,
+                `system_voltage` TEXT NOT NULL,
+                `material` TEXT NOT NULL,
+                `insulation` TEXT NOT NULL,
+                `method` TEXT NOT NULL,
+                `ambient_temperature_c` TEXT NOT NULL,
+                `max_voltage_drop_percent` TEXT NOT NULL,
+                `external_impedance_ohms` TEXT NOT NULL,
+                `created_at` INTEGER NOT NULL,
+                `updated_at` INTEGER NOT NULL
+            )
+            """.trimIndent(),
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_projects_updated_at` ON `projects` (`updated_at`)")
+        db.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS `circuits` (
+                `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                `project_id` INTEGER NOT NULL,
+                `name` TEXT NOT NULL,
+                `load_kind` TEXT NOT NULL,
+                `load` TEXT NOT NULL,
+                `power_factor` TEXT NOT NULL,
+                `length_metres` TEXT NOT NULL,
+                `grouped_circuits` TEXT NOT NULL,
+                `parallel_conductors` TEXT NOT NULL,
+                `device_type` TEXT NOT NULL,
+                `disconnection_time_seconds` TEXT NOT NULL,
+                `position` INTEGER NOT NULL,
+                FOREIGN KEY(`project_id`) REFERENCES `projects`(`id`)
+                    ON UPDATE NO ACTION ON DELETE CASCADE
+            )
+            """.trimIndent(),
+        )
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_circuits_project_id` ON `circuits` (`project_id`)")
+    }
+}

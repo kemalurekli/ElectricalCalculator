@@ -39,6 +39,14 @@ enum class TopLevelDestination(
     val icon: ImageVector,
     val accent: ElecAccent,
 ) {
+    PROJECTS(
+        route = Route.Projects,
+        labelRes = R.string.destination_projects,
+        titleRes = R.string.dashboard_projects_title,
+        subtitleRes = R.string.dashboard_projects_subtitle,
+        icon = ElecIcons.Projects,
+        accent = ElecAccent.SECONDARY,
+    ),
     CALCULATORS(
         route = Route.Calculators,
         labelRes = R.string.destination_calculators,
@@ -120,12 +128,16 @@ enum class TopLevelDestination(
          * Everything except [SETTINGS], which is reached from the home top bar:
          * configuration is not something a user browses to alongside the tools.
          *
-         * That leaves eight, which fills four rows of two exactly. Earlier there
-         * were seven and the last one was stranded alone on a final row, so it
-         * was drawn as a full-width band underneath instead; [THEORY] made the
-         * count even again and the band is gone. Adding a ninth destination
-         * brings the problem back — solve it then, rather than keeping a special
-         * case against the possibility.
+         * That leaves nine, which does not divide by two — and a card stranded
+         * alone on a final row is what an earlier version of this dashboard
+         * looked like and was rebuilt to avoid.
+         *
+         * The dashboard solves it by giving the *first* card the full width
+         * whenever the count is odd, which is a rule rather than a special
+         * case: these are declared in order of how central they are, so the
+         * one that gets the extra room is the one that has earned it.
+         * [PROJECTS] is first because keeping a job is what the app is for;
+         * everything else is a tool the job reaches for.
          */
         val dashboardCards: List<TopLevelDestination> = entries - SETTINGS
     }

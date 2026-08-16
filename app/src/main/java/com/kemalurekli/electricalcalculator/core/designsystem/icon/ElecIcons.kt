@@ -13,12 +13,15 @@ import androidx.compose.material.icons.outlined.BatteryChargingFull
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.Cable
 import androidx.compose.material.icons.outlined.Calculate
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.DriveFileRenameOutline
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.ElectricalServices
+import androidx.compose.material.icons.outlined.ErrorOutline
+import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Functions
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Insights
@@ -60,6 +63,9 @@ object ElecIcons {
     val Glossary = Icons.Outlined.Translate
     val FieldNotes = Icons.Outlined.TipsAndUpdates
     val Theory = Icons.Outlined.Functions
+
+    /** A job folder: the schedule of circuits, not a single calculation. */
+    val Projects = Icons.Outlined.Folder
     val History = Icons.Outlined.History
     val Settings = Icons.Outlined.Settings
 
@@ -77,6 +83,10 @@ object ElecIcons {
     val More = Icons.Outlined.MoreVert
     val Rename = Icons.Outlined.DriveFileRenameOutline
     val Delete = Icons.Outlined.DeleteOutline
+
+    /** A design stage that was satisfied, and one that was not. */
+    val StagePass = Icons.Outlined.CheckCircle
+    val StageFail = Icons.Outlined.ErrorOutline
 
     /** Resolves the icon a calculator declares in the catalog. */
     fun forCalculator(icon: CalculatorIcon): ImageVector = when (icon) {
