@@ -55,6 +55,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.CalculateEvseUseCase
+import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.DcFaultDetection
+import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.EvseConnection
+import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.EvseInput
+import com.kemalurekli.electricalcalculator.features.calculators.evse.presentation.explainEvse
 import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.CalculateHarmonicsUseCase
 import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.HarmonicComponent
 import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.HarmonicsInput
@@ -882,7 +887,17 @@ class ExplainerTest {
         assertFalse("the fifth does not reach the star point", steps[2].substitution.contains("h5"))
     }
 
+    private val evseInput = EvseInput(
+        pointCount = 8,
+        ratedCurrentPerPoint = 32.0,
+        connection = EvseConnection.THREE_PHASE,
+        supplyVoltage = 400.0,
+        simultaneityFactor = 1.0,
+        dcFaultDetection = DcFaultDetection.NONE,
+    )
+
     private fun everySolution(locale: Locale): List<ImmutableList<CalculationStep>> = listOf(
+        explainEvse(evseInput, CalculateEvseUseCase()(evseInput), locale),
         explainHarmonics(harmonicsInput, CalculateHarmonicsUseCase()(harmonicsInput), locale),
         explainSelectivity(selectivityInput, CheckSelectivityUseCase()(selectivityInput), locale),
         explainMotorStarting(

@@ -27,6 +27,7 @@ enum class CalculatorId(val key: String) {
     SELECTIVITY("selectivity"),
     MOTOR_STARTING("motor_starting"),
     HARMONICS("harmonics"),
+    EVSE("evse"),
     ;
 
     companion object {
@@ -75,6 +76,7 @@ enum class CalculatorIcon {
     SELECTIVITY,
     MOTOR_STARTING,
     HARMONICS,
+    EVSE,
 }
 
 /**

@@ -22,6 +22,7 @@ import androidx.compose.material.icons.outlined.DriveFileRenameOutline
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.ElectricalServices
 import androidx.compose.material.icons.outlined.ErrorOutline
+import androidx.compose.material.icons.outlined.EvStation
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Functions
 import androidx.compose.material.icons.outlined.GraphicEq
@@ -107,6 +108,7 @@ object ElecIcons {
         CalculatorIcon.MOTOR_STARTING -> Icons.AutoMirrored.Outlined.TrendingDown
         // A waveform that is no longer a sine.
         CalculatorIcon.HARMONICS -> Icons.Outlined.GraphicEq
+        CalculatorIcon.EVSE -> Icons.Outlined.EvStation
         CalculatorIcon.POWER_FACTOR -> Icons.Outlined.Insights
         CalculatorIcon.BATTERY -> Icons.Outlined.BatteryChargingFull
         CalculatorIcon.WEIGHT -> Icons.Outlined.Scale

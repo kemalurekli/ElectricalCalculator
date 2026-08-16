@@ -191,6 +191,17 @@ class CalculatorCatalog @Inject constructor() {
                 "harmonik", "bozulma", "k faktoru", "spektrum",
             ),
         ),
+        CalculatorDescriptor(
+            id = CalculatorId.EVSE,
+            titleRes = R.string.calculator_evse_title,
+            descriptionRes = R.string.calculator_evse_description,
+            category = CalculatorCategory.POWER_AND_LOAD,
+            icon = CalculatorIcon.EVSE,
+            searchKeywords = listOf(
+                "ev", "charger", "charging", "evse", "type b", "rdc-dd", "wallbox",
+                "sarj", "elektrikli arac", "sarj istasyonu",
+            ),
+        ),
     )
 
     private val byId: Map<CalculatorId, CalculatorDescriptor> = all.associateBy { it.id }

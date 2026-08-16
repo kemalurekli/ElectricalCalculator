@@ -58,6 +58,9 @@ import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
 import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
 import com.kemalurekli.electricalcalculator.testing.FakeUserPreferencesRepository
+import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.CalculateEvseUseCase
+import com.kemalurekli.electricalcalculator.features.calculators.evse.presentation.EvseViewModel
+import com.kemalurekli.electricalcalculator.features.calculators.evse.presentation.evseExamples
 import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.CalculateHarmonicsUseCase
 import com.kemalurekli.electricalcalculator.features.calculators.harmonics.presentation.HarmonicsViewModel
 import com.kemalurekli.electricalcalculator.features.calculators.harmonics.presentation.harmonicsExamples
@@ -443,6 +446,35 @@ class WorkedExampleTest {
 
         model.onApplyExample(neutralCurrentExamples.single { it.key == "electronic_load" })
         assertTrue(requireNotNull(model.uiState.value.result).neutralExceedsLines)
+    }
+
+    @Test
+    fun `every EV charging example runs`() {
+        val model = EvseViewModel(
+            CalculateEvseUseCase(), history(), favorites(), strings, timeProvider, preferences(),
+        )
+        assertEveryExampleRuns("evse", evseExamples, model::onApplyExample) {
+            val s = model.uiState.value
+            Triple(s.errors.size, s.result != null, s.steps.size)
+        }
+    }
+
+    @Test
+    fun `the same current is three times the power on three phases`() {
+        // The first two examples differ only in the connection, which is the
+        // misunderstanding they exist to make visible.
+        val model = EvseViewModel(
+            CalculateEvseUseCase(), history(), favorites(), strings, timeProvider, preferences(),
+        )
+
+        model.onApplyExample(evseExamples.single { it.key == "home_single_phase" })
+        val single = requireNotNull(model.uiState.value.result)
+
+        model.onApplyExample(evseExamples.single { it.key == "home_three_phase" })
+        val three = requireNotNull(model.uiState.value.result)
+
+        assertEquals(single.totalConnectedAmps, three.totalConnectedAmps, 1e-9)
+        assertTrue("same current, far more power", three.powerPerPointKw > single.powerPerPointKw * 2.5)
     }
 
     @Test
