@@ -208,6 +208,20 @@
     <string name="circuit_failure_device_range">The load is beyond the largest device this app models.</string>
     <string name="circuit_failure_no_size">No tabulated cross-section satisfies every stage. Look at the stage that fails: a loop that will not clear needs a different device, not more copper.</string>
     <string name="circuit_incomplete">Fill in the load and the length to design this circuit.</string>
+    <string name="report_export_csv">Export as CSV</string>
+    <string name="report_share_title">Share schedule</string>
+    <string name="report_export_failed">Could not write the export.</string>
+    <string name="report_export_empty">Add a circuit before exporting.</string>
+    <string name="report_column_circuit">Circuit</string>
+    <string name="report_column_load">Load</string>
+    <string name="report_column_length">Length (m)</string>
+    <string name="report_column_device">Device (A)</string>
+    <string name="report_column_size">Cross-section (mm\u00b2)</string>
+    <string name="report_column_protective">CPC (mm\u00b2)</string>
+    <string name="report_column_capacity">Iz (A)</string>
+    <string name="report_column_drop" formatted="false">Drop (%)</string>
+    <string name="report_column_loop">Zs (\u03a9)</string>
+    <string name="report_column_binding">Decided by</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_theme_light">Light</string>

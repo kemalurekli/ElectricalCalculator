@@ -43,6 +43,22 @@
             </intent-filter>
         </activity>
 
+
+        <!--
+            Hands an exported schedule to another app without exposing the
+            cache directory. The authority carries the application id, so the
+            debug build and a release install can sit on one device without
+            one of them failing to install over the other's provider.
+        -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.exports"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

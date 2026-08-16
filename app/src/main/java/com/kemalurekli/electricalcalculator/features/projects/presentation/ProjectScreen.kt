@@ -22,13 +22,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -45,6 +49,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
 import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
 import com.kemalurekli.electricalcalculator.core.domain.model.InstallationMethod
 import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
+import com.kemalurekli.electricalcalculator.core.ui.ReportExporter
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -57,6 +62,12 @@ fun ProjectRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val created by viewModel.created.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val emptyMessage = stringResource(R.string.report_export_empty)
+    val failedMessage = stringResource(R.string.report_export_failed)
+    val chooserTitle = stringResource(R.string.report_share_title)
+    val fallbackName = stringResource(R.string.projects_untitled)
+    var exportMessage by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(projectId) { viewModel.onOpen(projectId) }
 
@@ -84,6 +95,22 @@ fun ProjectRoute(
         onMaxDropChange = viewModel::onMaxDropChange,
         onExternalImpedanceChange = viewModel::onExternalImpedanceChange,
         onAddCircuit = viewModel::onAddCircuit,
+        onExportCsv = {
+            val export = viewModel.exportCsv()
+            exportMessage = when {
+                export == null -> emptyMessage
+                !ReportExporter.shareCsv(
+                    context = context,
+                    baseName = ReportExporter.safeFileName(export.reference, fallbackName),
+                    content = export.csv,
+                    chooserTitle = chooserTitle,
+                ) -> failedMessage
+
+                else -> null
+            }
+        },
+        exportMessage = exportMessage,
+        onExportMessageShown = { exportMessage = null },
         onOpenCircuit = { onOpenCircuit(projectId, it) },
         onDeleteProject = viewModel::onDeleteProject,
         onNavigateBack = onNavigateBack,
@@ -114,6 +141,9 @@ fun ProjectScreen(
     onMaxDropChange: (String) -> Unit,
     onExternalImpedanceChange: (String) -> Unit,
     onAddCircuit: () -> Unit,
+    onExportCsv: () -> Unit,
+    exportMessage: String?,
+    onExportMessageShown: () -> Unit,
     onOpenCircuit: (Long) -> Unit,
     onDeleteProject: () -> Unit,
     onNavigateBack: () -> Unit,
@@ -124,8 +154,20 @@ fun ProjectScreen(
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
     val project = uiState.project
 
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    // Failure is reported, never swallowed: an export that produced nothing and
+    // said nothing looks exactly like one the share sheet was dismissed from.
+    LaunchedEffect(exportMessage) {
+        exportMessage?.let {
+            snackbarHostState.showSnackbar(it)
+            onExportMessageShown()
+        }
+    }
+
     Scaffold(
         contentWindowInsets = WindowInsets.safeDrawing,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         modifier = modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -136,6 +178,12 @@ fun ProjectScreen(
                 onNavigateBack = onNavigateBack,
                 scrollBehavior = scrollBehavior,
                 actions = {
+                    IconButton(onClick = onExportCsv) {
+                        Icon(
+                            imageVector = ElecIcons.Share,
+                            contentDescription = stringResource(R.string.report_export_csv),
+                        )
+                    }
                     IconButton(onClick = { confirmDelete = true }) {
                         Icon(
                             imageVector = ElecIcons.Delete,

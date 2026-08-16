@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The one directory exports are written to.
+
+    Cache rather than files: an exported schedule is a copy handed to another
+    app, not the user's data, and the system is free to reclaim it once the
+    share has been taken. The real record stays in the database.
+-->
+<paths>
+    <cache-path name="exports" path="exports/" />
+</paths>

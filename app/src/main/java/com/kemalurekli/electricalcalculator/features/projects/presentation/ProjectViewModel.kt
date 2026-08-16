@@ -15,6 +15,7 @@ import com.kemalurekli.electricalcalculator.core.ui.model.SystemVoltageDefaults
 import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.ProtectiveDeviceType
 import com.kemalurekli.electricalcalculator.features.design.domain.CircuitDesignResult
 import com.kemalurekli.electricalcalculator.features.design.domain.DesignCircuitUseCase
+import com.kemalurekli.electricalcalculator.features.design.domain.ReportCsv
 import com.kemalurekli.electricalcalculator.features.design.domain.designInputOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -40,6 +41,13 @@ import javax.inject.Inject
 data class CircuitRow(
     val circuit: Circuit,
     val design: CircuitDesignResult?,
+)
+
+/** A rendered schedule, ready for the screen to write and share. */
+@Immutable
+data class ExportedSchedule(
+    val reference: String,
+    val csv: String,
 )
 
 @Immutable
@@ -75,6 +83,7 @@ data class ProjectUiState(
 class ProjectViewModel @Inject constructor(
     private val repository: ProjectRepository,
     private val designCircuit: DesignCircuitUseCase,
+    private val reportBuilder: ScheduleReportBuilder,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProjectUiState())
@@ -200,6 +209,22 @@ class ProjectViewModel @Inject constructor(
 
     fun onCreatedHandled() {
         _created.value = null
+    }
+
+    /**
+     * The schedule as a comma-separated document, or null when there is nothing
+     * to export.
+     *
+     * Returns the text rather than writing it: the file and the share sheet are
+     * platform concerns that belong to the screen, and keeping them out of here
+     * is what lets this be tested without an Android runtime.
+     */
+    fun exportCsv(): ExportedSchedule? {
+        val project = _uiState.value.project ?: return null
+        val rows = _uiState.value.rows
+        if (rows.isEmpty()) return null
+        val report = reportBuilder.build(project, rows)
+        return ExportedSchedule(reference = project.reference, csv = ReportCsv.render(report))
     }
 
     fun onDeleteProject() {

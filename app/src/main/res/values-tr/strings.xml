@@ -150,6 +150,20 @@
     <string name="circuit_failure_device_range">Y\u00fck, bu uygulaman\u0131n modelledi\u011fi en b\u00fcy\u00fck cihaz\u0131n \u00fczerinde.</string>
     <string name="circuit_failure_no_size">Hi\u00e7bir tablo kesiti t\u00fcm a\u015famalar\u0131 ge\u00e7miyor. Ba\u015far\u0131s\u0131z a\u015famaya bak\u0131n: a\u00e7mayan bir \u00e7evrim, daha fazla bak\u0131r de\u011fil ba\u015fka bir cihaz ister.</string>
     <string name="circuit_incomplete">Bu devreyi tasarlamak i\u00e7in y\u00fck\u00fc ve uzunlu\u011fu girin.</string>
+    <string name="report_export_csv">CSV olarak d\u0131\u015fa aktar</string>
+    <string name="report_share_title">Devre listesini payla\u015f</string>
+    <string name="report_export_failed">D\u0131\u015fa aktarma dosyas\u0131 yaz\u0131lamad\u0131.</string>
+    <string name="report_export_empty">D\u0131\u015fa aktarmadan \u00f6nce bir devre ekleyin.</string>
+    <string name="report_column_circuit">Devre</string>
+    <string name="report_column_load">Y\u00fck</string>
+    <string name="report_column_length">Uzunluk (m)</string>
+    <string name="report_column_device">Cihaz (A)</string>
+    <string name="report_column_size">Kesit (mm\u00b2)</string>
+    <string name="report_column_protective">Koruma iletkeni (mm\u00b2)</string>
+    <string name="report_column_capacity">Iz (A)</string>
+    <string name="report_column_drop" formatted="false">D\u00fc\u015f\u00fcm (%)</string>
+    <string name="report_column_loop">Zs (\u03a9)</string>
+    <string name="report_column_binding">Belirleyen</string>
     <string name="settings_appearance">Görünüm</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_light">Açık</string>
