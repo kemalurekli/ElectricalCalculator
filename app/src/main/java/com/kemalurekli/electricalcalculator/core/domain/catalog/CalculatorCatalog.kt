@@ -158,6 +158,17 @@ class CalculatorCatalog @Inject constructor() {
             icon = CalculatorIcon.COST,
             searchKeywords = listOf("cost", "kwh", "tariff", "payback", "energy", "bill"),
         ),
+        CalculatorDescriptor(
+            id = CalculatorId.SELECTIVITY,
+            titleRes = R.string.calculator_selectivity_title,
+            descriptionRes = R.string.calculator_selectivity_description,
+            category = CalculatorCategory.PROTECTION,
+            icon = CalculatorIcon.SELECTIVITY,
+            searchKeywords = listOf(
+                "selectivity", "discrimination", "coordination", "cascade",
+                "selektivite", "seçicilik", "koordinasyon",
+            ),
+        ),
     )
 
     private val byId: Map<CalculatorId, CalculatorDescriptor> = all.associateBy { it.id }

@@ -13,6 +13,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchKind
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchableItem
 import com.kemalurekli.electricalcalculator.features.calculators.energycost.presentation.EnergyCostRoute
+import com.kemalurekli.electricalcalculator.features.calculators.selectivity.presentation.SelectivityRoute
 import com.kemalurekli.electricalcalculator.features.calculators.lighting.presentation.LightingRoute
 import com.kemalurekli.electricalcalculator.features.calculators.neutralcurrent.presentation.NeutralCurrentRoute
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorDetailRoute
@@ -201,6 +202,12 @@ fun ElecNavHost(
                 CalculatorId.ENERGY_COST ->
                     EnergyCostRoute(
                         onReferenceClick = actions::navigateToReference,
+                        onNavigateBack = actions::navigateBack,
+                        recordId = recordId,
+                    )
+
+                CalculatorId.SELECTIVITY ->
+                    SelectivityRoute(
                         onNavigateBack = actions::navigateBack,
                         recordId = recordId,
                     )

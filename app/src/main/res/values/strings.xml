@@ -247,6 +247,33 @@
     <string name="tests_rcd_general">General</string>
     <string name="tests_rcd_selective">Type S</string>
     <string name="tests_note">A reading inside the limit can still be worth a second look: one well above what the design predicts means a loose termination, an unexpected joint, or a cable that is not what the schedule says.</string>
+    <string name="calculator_selectivity_title">Selectivity check</string>
+    <string name="calculator_selectivity_description">Whether a fault below one device leaves the device above it closed.</string>
+    <string name="sel_upstream">Upstream device</string>
+    <string name="sel_upstream_rating">Upstream rating, In</string>
+    <string name="sel_downstream">Downstream device</string>
+    <string name="sel_downstream_rating">Downstream rating, In</string>
+    <string name="sel_fault_current">Prospective fault current</string>
+    <string name="sel_fault_hint">At the downstream device\u2019s position. The answer changes with it.</string>
+    <string name="sel_grade_selective">Selective at this fault level</string>
+    <string name="sel_grade_partial">Partial \u2014 selective only below the limit</string>
+    <string name="sel_grade_none">Not selective</string>
+    <string name="sel_result_limit">Selectivity limit</string>
+    <string name="sel_result_ratio">Rating ratio</string>
+    <string name="sel_result_upstream_threshold">Upstream trips instantly above</string>
+    <string name="sel_result_downstream_threshold">Downstream trips instantly above</string>
+    <string name="sel_step_ratio">Overload end: rating ratio</string>
+    <string name="sel_step_ratio_clears" formatted="false">\u2014 clears the conventional 1.6</string>
+    <string name="sel_step_ratio_short" formatted="false">\u2014 short of the conventional 1.6</string>
+    <string name="sel_step_threshold">Short-circuit end: upstream instantaneous pickup</string>
+    <string name="sel_step_compare">Fault against that threshold</string>
+    <string name="sel_step_no_curve">This device has no instantaneous multiple the app can read</string>
+    <string name="sel_example_holds">Long final circuit, fault at the far end</string>
+    <string name="sel_example_close">Ratings only 1.6 apart</string>
+    <string name="sel_example_at_board">Same pair, fault at the board</string>
+    <string name="sel_history_title">%1$s A over %2$s A</string>
+    <string name="sel_note_bound" formatted="false">What the published curves allow is an upper bound, not a guarantee. Real behaviour at high fault currents depends on let-through energy, which is why manufacturers publish selectivity tables for specific pairs \u2014 and why those tables sometimes claim more than the curves do. Where such a table exists, it wins.</string>
+    <string name="sel_note_overload" formatted="false">The two ends fail independently. An overload is settled by the thermal elements and needs the ratings far enough apart; a short circuit is settled by the magnetic elements and needs the fault to stay below the upstream device\u2019s instantaneous pickup. A pair can pass one and fail the other.</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_theme_light">Light</string>

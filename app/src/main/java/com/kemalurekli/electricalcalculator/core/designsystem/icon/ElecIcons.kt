@@ -5,6 +5,7 @@ import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.TrendingDown
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.AccountTree
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Adjust
 import androidx.compose.material.icons.outlined.Autorenew
@@ -99,6 +100,8 @@ object ElecIcons {
         CalculatorIcon.SOLAR -> Icons.Outlined.WbSunny
         CalculatorIcon.NEUTRAL -> Icons.Outlined.Balance
         CalculatorIcon.COST -> Icons.Outlined.Savings
+        // Two devices in series, one above the other.
+        CalculatorIcon.SELECTIVITY -> Icons.Outlined.AccountTree
         CalculatorIcon.POWER_FACTOR -> Icons.Outlined.Insights
         CalculatorIcon.BATTERY -> Icons.Outlined.BatteryChargingFull
         CalculatorIcon.WEIGHT -> Icons.Outlined.Scale

@@ -189,6 +189,33 @@
     <string name="tests_rcd_general">Genel</string>
     <string name="tests_rcd_selective">Tip S</string>
     <string name="tests_note">Limit i\u00e7indeki bir okuma bile ikinci bir bak\u0131\u015f\u0131 hak edebilir: tasar\u0131m\u0131n \u00f6ng\u00f6rd\u00fc\u011f\u00fcn\u00fcn belirgin \u00fczerindeki bir de\u011fer gev\u015fek klemens, beklenmedik bir ek ya da listede yazandan farkl\u0131 bir kablo demektir.</string>
+    <string name="calculator_selectivity_title">Selektivite kontrol\u00fc</string>
+    <string name="calculator_selectivity_description">Bir cihaz\u0131n alt\u0131ndaki ar\u0131za, \u00fcst\u00fcndeki cihaz\u0131 kapal\u0131 b\u0131rak\u0131yor mu.</string>
+    <string name="sel_upstream">\u00dcstteki cihaz</string>
+    <string name="sel_upstream_rating">\u00dcst cihaz anmas\u0131, In</string>
+    <string name="sel_downstream">Alttaki cihaz</string>
+    <string name="sel_downstream_rating">Alt cihaz anmas\u0131, In</string>
+    <string name="sel_fault_current">Beklenen ar\u0131za ak\u0131m\u0131</string>
+    <string name="sel_fault_hint">Alttaki cihaz\u0131n bulundu\u011fu noktada. Cevap bununla birlikte de\u011fi\u015fir.</string>
+    <string name="sel_grade_selective">Bu ar\u0131za seviyesinde selektif</string>
+    <string name="sel_grade_partial">K\u0131smi \u2014 yaln\u0131zca s\u0131n\u0131r\u0131n alt\u0131nda selektif</string>
+    <string name="sel_grade_none">Selektif de\u011fil</string>
+    <string name="sel_result_limit">Selektiflik s\u0131n\u0131r\u0131</string>
+    <string name="sel_result_ratio">Anma oran\u0131</string>
+    <string name="sel_result_upstream_threshold">\u00dcst cihaz \u015fu de\u011ferin \u00fczerinde an\u0131nda a\u00e7ar</string>
+    <string name="sel_result_downstream_threshold">Alt cihaz \u015fu de\u011ferin \u00fczerinde an\u0131nda a\u00e7ar</string>
+    <string name="sel_step_ratio">A\u015f\u0131r\u0131 y\u00fck ucu: anma oran\u0131</string>
+    <string name="sel_step_ratio_clears" formatted="false">\u2014 geleneksel 1,6 e\u015fi\u011fini a\u015f\u0131yor</string>
+    <string name="sel_step_ratio_short" formatted="false">\u2014 geleneksel 1,6 e\u015fi\u011finin alt\u0131nda</string>
+    <string name="sel_step_threshold">K\u0131sa devre ucu: \u00fcst cihaz\u0131n ani a\u00e7ma e\u015fi\u011fi</string>
+    <string name="sel_step_compare">Ar\u0131zan\u0131n bu e\u015fi\u011fe kar\u015f\u0131 durumu</string>
+    <string name="sel_step_no_curve">Bu cihaz\u0131n uygulaman\u0131n okuyabilece\u011fi bir ani a\u00e7ma kat\u0131 yok</string>
+    <string name="sel_example_holds">Uzun son devre, ar\u0131za u\u00e7ta</string>
+    <string name="sel_example_close">Anmalar yaln\u0131zca 1,6 kat aral\u0131kl\u0131</string>
+    <string name="sel_example_at_board">Ayn\u0131 \u00e7ift, ar\u0131za panoda</string>
+    <string name="sel_history_title">%1$s A \u00fczerinde %2$s A</string>
+    <string name="sel_note_bound" formatted="false">Yay\u0131mlanm\u0131\u015f e\u011frilerin izin verdi\u011fi \u015fey bir \u00fcst s\u0131n\u0131rd\u0131r, garanti de\u011fil. Y\u00fcksek ar\u0131za ak\u0131mlar\u0131ndaki ger\u00e7ek davran\u0131\u015f ge\u00e7irilen enerjiye ba\u011fl\u0131d\u0131r; \u00fcreticiler bu y\u00fczden belirli \u00e7iftler i\u00e7in selektivite tablolar\u0131 yay\u0131mlar \u2014 ve o tablolar bazen e\u011frilerin s\u00f6yledi\u011finden fazlas\u0131n\u0131 iddia eder. B\u00f6yle bir tablo varsa o ge\u00e7erlidir.</string>
+    <string name="sel_note_overload" formatted="false">\u0130ki u\u00e7 birbirinden ba\u011f\u0131ms\u0131z olarak ba\u015far\u0131s\u0131z olur. A\u015f\u0131r\u0131 y\u00fck\u00fc termik elemanlar \u00e7\u00f6zer ve anmalar\u0131n yeterince ayr\u0131k olmas\u0131n\u0131 ister; k\u0131sa devreyi manyetik elemanlar \u00e7\u00f6zer ve ar\u0131zan\u0131n \u00fcst cihaz\u0131n ani a\u00e7ma e\u015fi\u011finin alt\u0131nda kalmas\u0131n\u0131 ister. Bir \u00e7ift birini ge\u00e7ip di\u011ferinde kalabilir.</string>
     <string name="settings_appearance">Görünüm</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_light">Açık</string>
