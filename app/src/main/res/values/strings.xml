@@ -310,6 +310,30 @@
     <string name="ms_warn_flicker">Deep enough to be seen in the lighting.</string>
     <string name="ms_note_torque" formatted="false">Torque follows the square of the voltage at the terminals, on top of whatever the starting method already gives up. A gentler start is not free: a method that thirds the current also thirds the pull, and a loaded machine may fail to turn.</string>
     <string name="ms_note_scope" formatted="false">The cable between transformer and motor is not counted, so the dip at the motor itself is deeper than this. Neither is the star-delta transition peak, which can approach the direct-on-line current for a few cycles.</string>
+    <string name="calculator_harmonics_title">Harmonics and THD</string>
+    <string name="calculator_harmonics_description">Distortion, true RMS, neutral current and transformer K-factor</string>
+    <string name="hm_fundamental">Fundamental current, I\u2081</string>
+    <string name="hm_spectrum">Spectrum, as a percentage of the fundamental</string>
+    <string name="hm_order">Harmonic %1$d</string>
+    <string name="hm_balanced">Three lines carry the same spectrum</string>
+    <string name="hm_balanced_hint">Triplen harmonics add in the neutral only when all three lines produce them together. On a mixed board the neutral cannot be worked out from one line.</string>
+    <string name="hm_result_thd">Current THD</string>
+    <string name="hm_result_rms">True RMS current</string>
+    <string name="hm_result_neutral">Neutral current</string>
+    <string name="hm_result_neutral_unknown">Not available on an unbalanced board</string>
+    <string name="hm_result_k">Transformer K-factor</string>
+    <string name="hm_result_dominant">Dominant order</string>
+    <string name="hm_step_thd">Distortion against the fundamental</string>
+    <string name="hm_step_rms">What the conductor heats on</string>
+    <string name="hm_step_neutral">What reaches the star point</string>
+    <string name="hm_step_k_factor">Weighting for eddy-current loss</string>
+    <string name="hm_example_office">Office floor, switch-mode supplies</string>
+    <string name="hm_example_drive">Six-pulse drive</string>
+    <string name="hm_example_lighting">LED lighting circuit</string>
+    <string name="hm_history_title">%1$s A with harmonics</string>
+    <string name="hm_history_summary" formatted="false">%1$s %% THD</string>
+    <string name="hm_warn_neutral">The neutral carries more than the lines it serves. This is not a fault — it is what triplen harmonics do, and it is why a neutral sized as half the phase burns.</string>
+    <string name="hm_note_scope">Cable derating is not included. IEC 60364-5-52 Annex E bands its reduction factors on third-harmonic content; those bands are transcribed figures, and everything shown here is derived and checked on every build.</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_theme_light">Light</string>

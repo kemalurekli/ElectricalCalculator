@@ -24,6 +24,7 @@ import androidx.compose.material.icons.outlined.ElectricalServices
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Functions
+import androidx.compose.material.icons.outlined.GraphicEq
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.Lightbulb
@@ -104,6 +105,8 @@ object ElecIcons {
         CalculatorIcon.SELECTIVITY -> Icons.Outlined.AccountTree
         // A line sagging under load.
         CalculatorIcon.MOTOR_STARTING -> Icons.AutoMirrored.Outlined.TrendingDown
+        // A waveform that is no longer a sine.
+        CalculatorIcon.HARMONICS -> Icons.Outlined.GraphicEq
         CalculatorIcon.POWER_FACTOR -> Icons.Outlined.Insights
         CalculatorIcon.BATTERY -> Icons.Outlined.BatteryChargingFull
         CalculatorIcon.WEIGHT -> Icons.Outlined.Scale

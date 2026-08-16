@@ -13,6 +13,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchKind
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchableItem
 import com.kemalurekli.electricalcalculator.features.calculators.energycost.presentation.EnergyCostRoute
+import com.kemalurekli.electricalcalculator.features.calculators.harmonics.presentation.HarmonicsRoute
 import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.presentation.MotorStartingRoute
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.presentation.SelectivityRoute
 import com.kemalurekli.electricalcalculator.features.calculators.lighting.presentation.LightingRoute
@@ -215,6 +216,12 @@ fun ElecNavHost(
 
                 CalculatorId.MOTOR_STARTING ->
                     MotorStartingRoute(
+                        onNavigateBack = actions::navigateBack,
+                        recordId = recordId,
+                    )
+
+                CalculatorId.HARMONICS ->
+                    HarmonicsRoute(
                         onNavigateBack = actions::navigateBack,
                         recordId = recordId,
                     )

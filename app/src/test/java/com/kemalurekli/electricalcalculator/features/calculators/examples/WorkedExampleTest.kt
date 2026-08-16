@@ -58,6 +58,9 @@ import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
 import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
 import com.kemalurekli.electricalcalculator.testing.FakeUserPreferencesRepository
+import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.CalculateHarmonicsUseCase
+import com.kemalurekli.electricalcalculator.features.calculators.harmonics.presentation.HarmonicsViewModel
+import com.kemalurekli.electricalcalculator.features.calculators.harmonics.presentation.harmonicsExamples
 import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.domain.CalculateMotorStartingUseCase
 import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.presentation.MotorStartingViewModel
 import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.presentation.motorStartingExamples
@@ -440,6 +443,37 @@ class WorkedExampleTest {
 
         model.onApplyExample(neutralCurrentExamples.single { it.key == "electronic_load" })
         assertTrue(requireNotNull(model.uiState.value.result).neutralExceedsLines)
+    }
+
+    @Test
+    fun `every harmonics example runs`() {
+        val model = HarmonicsViewModel(
+            CalculateHarmonicsUseCase(), history(), favorites(), strings, timeProvider,
+        )
+        assertEveryExampleRuns("harmonics", harmonicsExamples, model::onApplyExample) {
+            val s = model.uiState.value
+            Triple(s.errors.size, s.result != null, s.steps.size)
+        }
+    }
+
+    @Test
+    fun `the office floor puts more in the neutral than the drive does`() {
+        // The two spectra exist to be contrasted. A six-pulse drive produces no
+        // triplen at all: it heats the transformer and leaves the neutral
+        // alone, which is the opposite failure to the office floor.
+        val model = HarmonicsViewModel(
+            CalculateHarmonicsUseCase(), history(), favorites(), strings, timeProvider,
+        )
+
+        model.onApplyExample(harmonicsExamples.single { it.key == "office_floor" })
+        val office = requireNotNull(model.uiState.value.result)
+
+        model.onApplyExample(harmonicsExamples.single { it.key == "six_pulse_drive" })
+        val drive = requireNotNull(model.uiState.value.result)
+
+        assertTrue("the office neutral should overtake its lines", office.neutralExceedsLines)
+        assertEquals(0.0, drive.neutralAmps, 1e-9)
+        assertTrue("and the drive should still load the transformer", drive.kFactor > 1.0)
     }
 
     @Test

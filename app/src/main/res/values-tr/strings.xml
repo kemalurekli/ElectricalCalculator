@@ -252,6 +252,30 @@
     <string name="ms_warn_flicker">Ayd\u0131nlatmada g\u00f6r\u00fclecek kadar derin.</string>
     <string name="ms_note_torque" formatted="false">Tork, klemenslerdeki gerilimin karesiyle de\u011fi\u015fir \u2014 \u00fcstelik yol verme y\u00f6nteminin zaten verdi\u011fi tavizin \u00fczerine. Yumu\u015fak yol alma bedavaya gelmez: ak\u0131m\u0131 \u00fc\u00e7te bire indiren bir y\u00f6ntem \u00e7eki\u015fi de \u00fc\u00e7te bire indirir ve y\u00fckl\u00fc bir makine hi\u00e7 d\u00f6nmeyebilir.</string>
     <string name="ms_note_scope" formatted="false">Trafo ile motor aras\u0131ndaki kablo hesaba kat\u0131lmam\u0131\u015ft\u0131r; motorun kendi u\u00e7lar\u0131ndaki \u00e7\u00f6kme bundan daha derindir. Y\u0131ld\u0131z-\u00fc\u00e7gen ge\u00e7i\u015f tepesi de kat\u0131lmam\u0131\u015ft\u0131r; birka\u00e7 periyot boyunca do\u011frudan yol verme ak\u0131m\u0131na yakla\u015fabilir.</string>
+    <string name="calculator_harmonics_title">Harmonikler ve THD</string>
+    <string name="calculator_harmonics_description">Bozulma, ger\u00e7ek RMS, n\u00f6tr ak\u0131m\u0131 ve trafo K-fakt\u00f6r\u00fc</string>
+    <string name="hm_fundamental">Temel bile\u015fen ak\u0131m\u0131, I\u2081</string>
+    <string name="hm_spectrum">Spektrum, temel bile\u015fenin y\u00fczdesi olarak</string>
+    <string name="hm_order">%1$d. harmonik</string>
+    <string name="hm_balanced">\u00dc\u00e7 hat ayn\u0131 spektrumu ta\u015f\u0131yor</string>
+    <string name="hm_balanced_hint">\u00dc\u00e7\u00fcn kat\u0131 harmonikler n\u00f6trde ancak \u00fc\u00e7 hat da onlar\u0131 birlikte \u00fcretti\u011finde toplan\u0131r. Kar\u0131\u015f\u0131k bir panoda n\u00f6tr, tek bir hattan hesaplanamaz.</string>
+    <string name="hm_result_thd">Ak\u0131m THD\u2019si</string>
+    <string name="hm_result_rms">Ger\u00e7ek RMS ak\u0131m</string>
+    <string name="hm_result_neutral">N\u00f6tr ak\u0131m\u0131</string>
+    <string name="hm_result_neutral_unknown">Dengesiz panoda hesaplanamaz</string>
+    <string name="hm_result_k">Trafo K-fakt\u00f6r\u00fc</string>
+    <string name="hm_result_dominant">Bask\u0131n mertebe</string>
+    <string name="hm_step_thd">Temel bile\u015fene g\u00f6re bozulma</string>
+    <string name="hm_step_rms">\u0130letkenin \u0131s\u0131nd\u0131\u011f\u0131 ak\u0131m</string>
+    <string name="hm_step_neutral">Y\u0131ld\u0131z noktas\u0131na ula\u015fan</string>
+    <string name="hm_step_k_factor">Girdap ak\u0131m\u0131 kayb\u0131 a\u011f\u0131rl\u0131\u011f\u0131</string>
+    <string name="hm_example_office">Ofis kat\u0131, anahtarlamal\u0131 g\u00fc\u00e7 kaynaklar\u0131</string>
+    <string name="hm_example_drive">Alt\u0131 darbeli s\u00fcr\u00fcc\u00fc</string>
+    <string name="hm_example_lighting">LED ayd\u0131nlatma devresi</string>
+    <string name="hm_history_title">Harmonikli %1$s A</string>
+    <string name="hm_history_summary" formatted="false">%1$s %% THD</string>
+    <string name="hm_warn_neutral">N\u00f6tr, besledi\u011fi hatlardan daha fazla ak\u0131m ta\u015f\u0131yor. Bu bir ar\u0131za de\u011fil \u2014 \u00fc\u00e7\u00fcn kat\u0131 harmoniklerin yapt\u0131\u011f\u0131 \u015fey bu; faz\u0131n yar\u0131s\u0131 kadar se\u00e7ilen bir n\u00f6tr\u00fcn yanmas\u0131n\u0131n sebebi de bu.</string>
+    <string name="hm_note_scope">Kablo derating\u2019i dahil de\u011fildir. IEC 60364-5-52 Ek E, azaltma katsay\u0131lar\u0131n\u0131 \u00fc\u00e7\u00fcnc\u00fc harmonik i\u00e7eri\u011fine g\u00f6re bantlar; o bantlar transkribe say\u0131lard\u0131r, burada g\u00f6sterilen her \u015fey ise t\u00fcretilmi\u015f ve her derlemede s\u0131nan\u0131r.</string>
     <string name="settings_appearance">Görünüm</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_light">Açık</string>

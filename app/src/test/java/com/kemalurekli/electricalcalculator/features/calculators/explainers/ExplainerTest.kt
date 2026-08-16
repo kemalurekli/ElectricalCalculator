@@ -55,6 +55,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.CalculateHarmonicsUseCase
+import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.HarmonicComponent
+import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.HarmonicsInput
+import com.kemalurekli.electricalcalculator.features.calculators.harmonics.presentation.explainHarmonics
 import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.domain.CalculateMotorStartingUseCase
 import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.domain.MotorStartingInput
 import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.domain.StartingMethod
@@ -851,7 +855,35 @@ class ExplainerTest {
         assertTrue(steps[3].formula.startsWith("ΔU%"))
     }
 
+    private val harmonicsInput = HarmonicsInput(
+        fundamentalAmps = 100.0,
+        components = listOf(
+            HarmonicComponent(3, 70.0),
+            HarmonicComponent(5, 40.0),
+            HarmonicComponent(9, 10.0),
+        ),
+        balanced = true,
+    )
+
+    @Test
+    fun `the harmonics solution names the orders that reached the neutral`() {
+        // The neutral line is written as a sum over the triplen orders alone,
+        // so a reader can see which harmonics ended up there rather than being
+        // handed a figure to trust.
+        val steps = explainHarmonics(
+            harmonicsInput,
+            CalculateHarmonicsUseCase()(harmonicsInput),
+            us,
+        )
+
+        assertEquals(4, steps.size)
+        assertTrue(steps[2].substitution.contains("h3"))
+        assertTrue(steps[2].substitution.contains("h9"))
+        assertFalse("the fifth does not reach the star point", steps[2].substitution.contains("h5"))
+    }
+
     private fun everySolution(locale: Locale): List<ImmutableList<CalculationStep>> = listOf(
+        explainHarmonics(harmonicsInput, CalculateHarmonicsUseCase()(harmonicsInput), locale),
         explainSelectivity(selectivityInput, CheckSelectivityUseCase()(selectivityInput), locale),
         explainMotorStarting(
             motorStartingInput,

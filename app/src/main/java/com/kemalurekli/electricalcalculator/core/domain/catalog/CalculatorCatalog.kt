@@ -180,6 +180,17 @@ class CalculatorCatalog @Inject constructor() {
                 "yol alma", "kalkis", "cokme", "yildiz ucgen", "yumusak yol verme",
             ),
         ),
+        CalculatorDescriptor(
+            id = CalculatorId.HARMONICS,
+            titleRes = R.string.calculator_harmonics_title,
+            descriptionRes = R.string.calculator_harmonics_description,
+            category = CalculatorCategory.POWER_AND_LOAD,
+            icon = CalculatorIcon.HARMONICS,
+            searchKeywords = listOf(
+                "harmonic", "thd", "distortion", "k factor", "triplen", "rms", "spectrum",
+                "harmonik", "bozulma", "k faktoru", "spektrum",
+            ),
+        ),
     )
 
     private val byId: Map<CalculatorId, CalculatorDescriptor> = all.associateBy { it.id }
