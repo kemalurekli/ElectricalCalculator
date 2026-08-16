@@ -10,6 +10,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
 import com.kemalurekli.electricalcalculator.core.domain.model.InstallationMethod
 import com.kemalurekli.electricalcalculator.core.domain.model.Project
 import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
+import com.kemalurekli.electricalcalculator.core.domain.repository.InspectionRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
 import com.kemalurekli.electricalcalculator.core.ui.model.SystemVoltageDefaults
 import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.ProtectiveDeviceType
@@ -18,6 +19,10 @@ import com.kemalurekli.electricalcalculator.features.design.domain.DesignCircuit
 import com.kemalurekli.electricalcalculator.features.design.domain.ReportCsv
 import com.kemalurekli.electricalcalculator.features.design.domain.ScheduleReport
 import com.kemalurekli.electricalcalculator.features.design.domain.designInputOrNull
+import com.kemalurekli.electricalcalculator.features.inspection.domain.CircuitTest
+import com.kemalurekli.electricalcalculator.features.inspection.domain.EvaluateTestUseCase
+import com.kemalurekli.electricalcalculator.features.inspection.domain.TestKind
+import com.kemalurekli.electricalcalculator.features.inspection.domain.TestVerdict
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -26,6 +31,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -42,7 +48,26 @@ import javax.inject.Inject
 data class CircuitRow(
     val circuit: Circuit,
     val design: CircuitDesignResult?,
-)
+    /** Readings taken against this circuit, judged against [design]. */
+    val tests: ImmutableList<TestRow> = persistentListOf(),
+) {
+    fun reading(kind: TestKind): TestRow? = tests.firstOrNull { it.test.kind == kind }
+
+    /**
+     * The schedule's one-word answer for this circuit.
+     *
+     * A failure anywhere outranks everything else; otherwise a circuit is only
+     * a pass once something has actually been measured. A row with no readings
+     * is recorded, not passed — an export that called an untested circuit
+     * "pass" would be the worst thing this feature could produce.
+     */
+    val overallVerdict: TestVerdict
+        get() = when {
+            tests.any { it.evaluation.verdict == TestVerdict.FAIL } -> TestVerdict.FAIL
+            tests.any { it.evaluation.verdict == TestVerdict.PASS } -> TestVerdict.PASS
+            else -> TestVerdict.RECORDED
+        }
+}
 
 /** A rendered schedule, ready for the screen to write and share. */
 @Immutable
@@ -90,7 +115,9 @@ data class ProjectUiState(
 @HiltViewModel
 class ProjectViewModel @Inject constructor(
     private val repository: ProjectRepository,
+    private val inspectionRepository: InspectionRepository,
     private val designCircuit: DesignCircuitUseCase,
+    private val evaluateTest: EvaluateTestUseCase,
     private val reportBuilder: ScheduleReportBuilder,
 ) : ViewModel() {
 
@@ -123,23 +150,42 @@ class ProjectViewModel @Inject constructor(
         watchCircuits(id)
     }
 
+    /**
+     * Circuits and their readings together.
+     *
+     * Combined rather than collected separately: a row showing yesterday's
+     * verdict beside today's cross-section would be exactly the staleness the
+     * schedule avoids by never storing its results.
+     */
     private fun watchCircuits(id: Long) {
         circuitWatch?.cancel()
         circuitWatch = viewModelScope.launch {
-            repository.observeCircuits(id).collect { circuits ->
-                _uiState.update { state -> state.copy(rows = design(state.project, circuits)) }
-            }
+            combine(
+                repository.observeCircuits(id),
+                inspectionRepository.observeForProject(id),
+            ) { circuits, tests -> circuits to tests }
+                .collect { (circuits, tests) ->
+                    _uiState.update { state ->
+                        state.copy(rows = design(state.project, circuits, tests))
+                    }
+                }
         }
     }
 
-    private fun design(project: Project?, circuits: List<Circuit>): ImmutableList<CircuitRow> {
-        if (project == null) return circuits.map { CircuitRow(it, null) }.toImmutableList()
-        return circuits
-            .map { circuit ->
-                CircuitRow(circuit, designInputOrNull(project, circuit)?.let(designCircuit::invoke))
-            }
-            .toImmutableList()
-    }
+    private fun design(
+        project: Project?,
+        circuits: List<Circuit>,
+        tests: List<CircuitTest> = _uiState.value.rows.flatMap { row -> row.tests.map { it.test } },
+    ): ImmutableList<CircuitRow> = circuits
+        .map { circuit ->
+            val result = project?.let { designInputOrNull(it, circuit)?.let(designCircuit::invoke) }
+            val readings = tests
+                .filter { it.circuitId == circuit.id }
+                .map { TestRow(it, evaluateTest(it, result)) }
+                .toImmutableList()
+            CircuitRow(circuit, result, readings)
+        }
+        .toImmutableList()
 
     // -- The shared supply ---------------------------------------------------
 

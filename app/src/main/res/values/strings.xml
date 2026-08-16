@@ -214,6 +214,10 @@
     <string name="report_share_title">Share schedule</string>
     <string name="report_export_failed">Could not write the export.</string>
     <string name="report_export_empty">Add a circuit before exporting.</string>
+    <string name="report_column_measured_r1r2">R\u2081+R\u2082 meas. (\u03a9)</string>
+    <string name="report_column_measured_zs">Zs meas. (\u03a9)</string>
+    <string name="report_column_measured_insulation">Insulation (M\u03a9)</string>
+    <string name="report_column_result">Result</string>
     <string name="report_column_circuit">Circuit</string>
     <string name="report_column_load">Load</string>
     <string name="report_column_length">Length (m)</string>

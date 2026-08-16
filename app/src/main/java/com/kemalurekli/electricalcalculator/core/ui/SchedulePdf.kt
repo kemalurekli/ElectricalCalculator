@@ -21,9 +21,9 @@ import java.io.OutputStream
  *
  * ### Why landscape
  *
- * The table is ten columns wide. On portrait A4 each one gets about forty
- * points, which is not enough for a circuit name or for "Cross-section (mm²)",
- * and everything arrives ellipsised. A schedule is a wide document; printing it
+ * The table is fourteen columns wide once the measured readings are in it. On
+ * portrait A4 each one gets under thirty points, which is not enough for a
+ * circuit name or for "Cross-section (mm²)", and everything arrives ellipsised. A schedule is a wide document; printing it
  * on its side is what people already do with them.
  *
  * ### What this deliberately does not do
@@ -53,7 +53,8 @@ object SchedulePdf {
      * the rest are short figures. Sized by hand rather than measured, so the
      * same schedule always lays out the same way.
      */
-    private val COLUMN_WEIGHTS = floatArrayOf(2.2f, 1f, 1f, 1f, 1.3f, 1f, 1f, 1f, 1.1f, 1.9f)
+    private val COLUMN_WEIGHTS =
+        floatArrayOf(2f, 1f, 0.9f, 0.9f, 1.2f, 0.9f, 0.8f, 0.9f, 1f, 1.7f, 1f, 1f, 1.1f, 1.1f)
 
     fun write(report: ScheduleReport, output: OutputStream) {
         val document = PdfDocument()

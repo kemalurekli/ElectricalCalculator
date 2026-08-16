@@ -156,6 +156,10 @@
     <string name="report_share_title">Devre listesini payla\u015f</string>
     <string name="report_export_failed">D\u0131\u015fa aktarma dosyas\u0131 yaz\u0131lamad\u0131.</string>
     <string name="report_export_empty">D\u0131\u015fa aktarmadan \u00f6nce bir devre ekleyin.</string>
+    <string name="report_column_measured_r1r2">R\u2081+R\u2082 \u00f6l\u00e7. (\u03a9)</string>
+    <string name="report_column_measured_zs">Zs \u00f6l\u00e7. (\u03a9)</string>
+    <string name="report_column_measured_insulation">Yal\u0131t\u0131m (M\u03a9)</string>
+    <string name="report_column_result">Sonu\u00e7</string>
     <string name="report_column_circuit">Devre</string>
     <string name="report_column_load">Y\u00fck</string>
     <string name="report_column_length">Uzunluk (m)</string>

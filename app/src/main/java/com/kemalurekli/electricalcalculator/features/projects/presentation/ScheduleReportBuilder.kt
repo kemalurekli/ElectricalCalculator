@@ -6,6 +6,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.CircuitLoadKind
 import com.kemalurekli.electricalcalculator.core.domain.model.Project
 import com.kemalurekli.electricalcalculator.features.design.domain.ReportField
 import com.kemalurekli.electricalcalculator.features.design.domain.ScheduleReport
+import com.kemalurekli.electricalcalculator.features.inspection.domain.TestKind
 import javax.inject.Inject
 
 /**
@@ -23,6 +24,15 @@ import javax.inject.Inject
  *
  * The headings are still translated. They are read by a person; the numbers are
  * read by software first.
+ *
+ * ### What the measured columns do and do not carry
+ *
+ * The two readings the design has an opinion about — continuity and loop
+ * impedance — plus insulation, which is judged against a fixed minimum, and one
+ * overall result. The RCD timings and polarity are on the circuit screen but
+ * not here: a schedule already ten columns wide stops being readable, and a
+ * full test certificate is a different document with a different shape. That
+ * document does not exist yet.
  */
 class ScheduleReportBuilder @Inject constructor(
     private val stringResolver: StringResolver,
@@ -51,6 +61,10 @@ class ScheduleReportBuilder @Inject constructor(
             string(R.string.report_column_drop),
             string(R.string.report_column_loop),
             string(R.string.report_column_binding),
+            string(R.string.report_column_measured_r1r2),
+            string(R.string.report_column_measured_zs),
+            string(R.string.report_column_measured_insulation),
+            string(R.string.report_column_result),
         ),
         rows = rows.map { row(it, plainNumbers) },
     )
@@ -103,6 +117,12 @@ class ScheduleReportBuilder @Inject constructor(
                 !design.hasSolution -> string(R.string.project_circuit_no_solution)
                 else -> string(design.bindingConstraint.labelRes())
             },
+            // The measured columns sit to the right of the designed ones, so a
+            // reader scanning across meets the prediction before the reading.
+            row.reading(TestKind.CONTINUITY)?.test?.value?.forFile(plainNumbers).orEmpty(),
+            row.reading(TestKind.LOOP_IMPEDANCE)?.test?.value?.forFile(plainNumbers).orEmpty(),
+            row.reading(TestKind.INSULATION)?.test?.value?.forFile(plainNumbers).orEmpty(),
+            string(row.overallVerdict.labelRes()),
         )
     }
 
