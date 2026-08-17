@@ -3,8 +3,10 @@ package com.kemalurekli.electricalcalculator.features.forum.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
+import com.kemalurekli.electricalcalculator.core.domain.repository.ForumAuthRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ForumRepository
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumLanguage
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumSession
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumResult
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumThread
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +14,9 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,13 +25,17 @@ import javax.inject.Inject
 class ForumThreadsViewModel @Inject constructor(
     private val repository: ForumRepository,
     languageRepository: AppLanguageRepository,
+    authRepository: ForumAuthRepository,
 ) : ViewModel() {
+
+    val session: StateFlow<ForumSession> = authRepository.session
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000L), ForumSession.Unknown)
 
     private val _uiState =
         MutableStateFlow<ForumScreenState<ImmutableList<ForumThread>>>(ForumScreenState.Loading)
     val uiState: StateFlow<ForumScreenState<ImmutableList<ForumThread>>> = _uiState.asStateFlow()
 
-    private val language = ForumLanguage.forApp(languageRepository.language.value)
+    val language = ForumLanguage.forApp(languageRepository.language.value)
     private var categoryId: String? = null
 
     /** Does nothing when the category is already loaded, so the screen's

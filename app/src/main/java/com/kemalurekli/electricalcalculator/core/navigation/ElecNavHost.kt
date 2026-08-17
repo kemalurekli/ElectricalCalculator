@@ -37,6 +37,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.pre
 import com.kemalurekli.electricalcalculator.features.converter.presentation.ConverterRoute
 import com.kemalurekli.electricalcalculator.features.favorites.presentation.FavoritesRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumCategoriesRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumComposeThreadRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumProfileRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadsRoute
@@ -308,6 +309,19 @@ fun ElecNavHost(
                 categoryId = route.categoryId,
                 categoryTitle = route.title,
                 onThreadClick = { actions.navigateTo(Route.ForumThread(it.id, it.title)) },
+                onNewThread = { actions.navigateTo(Route.ForumComposeThread(route.categoryId, it)) },
+                onNavigateBack = actions::navigateBack,
+            )
+        }
+
+        composable<Route.ForumComposeThread> {
+            ForumComposeThreadRoute(
+                onThreadCreated = { id, title ->
+                    // Replaces the compose screen rather than stacking on it:
+                    // backing out of the new thread should land in the category
+                    // it now appears in, not in the form that created it.
+                    actions.navigateReplacing(Route.ForumThread(id, title))
+                },
                 onNavigateBack = actions::navigateBack,
             )
         }
@@ -386,6 +400,22 @@ class NavActions(private val navController: NavHostController) {
         // `launchSingleTop` prevents a second copy of a destination when a card
         // is double-tapped before the transition finishes.
         navController.navigate(route) { launchSingleTop = true }
+    }
+
+    /**
+     * Goes to [route] and drops the screen that asked for it.
+     *
+     * For a form whose job is finished once it succeeds: backing out of the
+     * thread somebody just opened should land in the category it now appears
+     * in, not in the empty form that created it.
+     */
+    fun navigateReplacing(route: Route) {
+        navController.navigate(route) {
+            launchSingleTop = true
+            navController.currentBackStackEntry?.destination?.route?.let { current ->
+                popUpTo(current) { inclusive = true }
+            }
+        }
     }
 
     fun navigateToCalculator(id: CalculatorId, recordId: Long? = null) {

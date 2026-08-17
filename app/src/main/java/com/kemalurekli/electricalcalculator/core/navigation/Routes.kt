@@ -113,6 +113,16 @@ sealed interface Route {
     data class ForumThread(val threadId: String, val title: String) : Route
 
     /**
+     * Composing a new thread in a category.
+     *
+     * Carries the language rather than letting the compose screen re-derive it
+     * from the device: the thread belongs to the forum it was opened from, and
+     * switching the app language midway must not move it to the other one.
+     */
+    @Serializable
+    data class ForumComposeThread(val categoryId: String, val language: String) : Route
+
+    /**
      * A forum member, their own or anyone else's.
      *
      * One route for both, because the screen is the same and only the actions

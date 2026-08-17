@@ -51,6 +51,42 @@ interface ForumRepository {
         after: java.time.Instant? = null,
     ): ForumResult<List<ForumPost>>
 
+    /**
+     * Opens a thread, and returns its id so the caller can go straight to it.
+     *
+     * The title and the opening message are written together because a thread
+     * with no message is not a question — the schema stores the opening post as
+     * an ordinary row, so this is two inserts, and a failure between them would
+     * leave an empty thread in a list somebody is reading.
+     */
+    suspend fun createThread(
+        categoryId: String,
+        language: ForumLanguage,
+        title: String,
+        body: String,
+    ): ForumResult<String>
+
+    suspend fun createReply(threadId: String, body: String): ForumResult<Unit>
+
+    /** Edits one's own message. The server refuses anyone else's. */
+    suspend fun updatePost(postId: String, body: String): ForumResult<Unit>
+
+    /**
+     * Withdraws one's own message.
+     *
+     * Soft, so that a message someone has reported does not vanish before it
+     * has been looked at.
+     */
+    suspend fun deletePost(postId: String): ForumResult<Unit>
+
+    /**
+     * Thanks a message, or takes it back.
+     *
+     * Nobody can thank their own — the policy refuses it, and the button is not
+     * offered. Inflating one's own counter is otherwise a two-tap job.
+     */
+    suspend fun setThanks(postId: String, thanked: Boolean): ForumResult<Unit>
+
     companion object {
         /**
          * Enough to fill a phone screen twice over.

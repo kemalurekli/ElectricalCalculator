@@ -11,6 +11,7 @@ import com.kemalurekli.electricalcalculator.features.forum.domain.ForumPost
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumResult
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumThread
 import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.postgrest.query.Order
@@ -18,6 +19,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import java.io.IOException
 import java.time.Instant
 import javax.inject.Inject
@@ -81,7 +84,129 @@ class ForumRepositoryImpl @Inject constructor(
             }
             .decodeList<PostDto>()
             .map(PostDto::toDomain)
+            .withThanksBy(it)
     }
+
+    /**
+     * Marks which of these the signed-in reader has already thanked.
+     *
+     * One extra request for the whole page rather than a column on each post:
+     * PostgREST can only embed the *rows* of forum_thanks, which for a popular
+     * message means downloading every thanks to learn one boolean.
+     *
+     * Signed out, the answer stays null — not false. The button is not shown at
+     * all in that case, and claiming "you have not thanked this" to someone who
+     * has no account would be a different statement than the truth.
+     */
+    private suspend fun List<ForumPost>.withThanksBy(client: SupabaseClient): List<ForumPost> {
+        val user = client.auth.currentUserOrNull()?.id ?: return this
+        if (isEmpty()) return this
+
+        val thanked = client.postgrest.from(TABLE_THANKS)
+            .select(Columns.list("post_id")) {
+                filter {
+                    eq("user_id", user)
+                    isIn("post_id", map { post -> post.id })
+                }
+            }
+            .decodeList<ThanksDto>()
+            .mapTo(mutableSetOf()) { row -> row.postId }
+
+        return map { post -> post.copy(thankedByMe = post.id in thanked) }
+    }
+
+    override suspend fun createThread(
+        categoryId: String,
+        language: ForumLanguage,
+        title: String,
+        body: String,
+    ) = query { client ->
+        val author = client.requireUserId()
+
+        val thread = client.postgrest.from(TABLE_THREADS)
+            .insert(
+                buildJsonObject {
+                    put("category_id", categoryId)
+                    put("author_id", author)
+                    put("language", language.code)
+                    put("title", title)
+                },
+            ) { select(Columns.list("id")) }
+            .decodeSingle<IdDto>()
+            .id
+
+        // The opening post is an ordinary row flagged as the opener, which is
+        // what lets thanking, editing and reporting work on one content type.
+        client.postgrest.from(TABLE_POSTS).insert(
+            buildJsonObject {
+                put("thread_id", thread)
+                put("author_id", author)
+                put("body", body)
+                put("is_opening_post", true)
+            },
+        )
+
+        thread
+    }
+
+    override suspend fun createReply(threadId: String, body: String) = query { client ->
+        client.postgrest.from(TABLE_POSTS).insert(
+            buildJsonObject {
+                put("thread_id", threadId)
+                put("author_id", client.requireUserId())
+                put("body", body)
+            },
+        )
+        Unit
+    }
+
+    override suspend fun updatePost(postId: String, body: String) = query { client ->
+        client.postgrest.from(TABLE_POSTS).update(
+            buildJsonObject {
+                put("body", body)
+                put("edited_at", Instant.now().toString())
+            },
+        ) { filter { eq("id", postId) } }
+        Unit
+    }
+
+    override suspend fun deletePost(postId: String) = query { client ->
+        client.postgrest.from(TABLE_POSTS)
+            .update(buildJsonObject { put("is_deleted", true) }) {
+                filter { eq("id", postId) }
+            }
+        Unit
+    }
+
+    override suspend fun setThanks(postId: String, thanked: Boolean) = query { client ->
+        val user = client.requireUserId()
+        if (thanked) {
+            client.postgrest.from(TABLE_THANKS).insert(
+                buildJsonObject {
+                    put("post_id", postId)
+                    put("user_id", user)
+                },
+            )
+        } else {
+            client.postgrest.from(TABLE_THANKS).delete {
+                filter {
+                    eq("post_id", postId)
+                    eq("user_id", user)
+                }
+            }
+        }
+        Unit
+    }
+
+    /**
+     * The signed-in user's id, for a call that has no meaning without one.
+     *
+     * The policies would refuse an anonymous write anyway; failing here turns
+     * that into a clear error instead of a rejected request that looks like a
+     * server fault.
+     */
+    private fun SupabaseClient.requireUserId(): String =
+        auth.currentUserOrNull()?.id ?: error("this call needs a signed-in user")
 
     /**
      * Runs [block] against the backend, turning anything that goes wrong into a
@@ -127,6 +252,12 @@ class ForumRepositoryImpl @Inject constructor(
     ) {
         fun toDomain() = ForumCategory(id, key, title, description)
     }
+
+    @Serializable
+    private data class IdDto(val id: String)
+
+    @Serializable
+    private data class ThanksDto(@SerialName("post_id") val postId: String)
 
     /** PostgREST returns an embedded row as an object, hence the nested type. */
     @Serializable
@@ -190,6 +321,7 @@ class ForumRepositoryImpl @Inject constructor(
         const val TABLE_CATEGORIES = "forum_categories"
         const val TABLE_THREADS = "forum_threads"
         const val TABLE_POSTS = "forum_posts"
+        const val TABLE_THANKS = "forum_thanks"
 
         const val THREAD_COLUMNS =
             "id, category_id, title, author_id, created_at, last_reply_at, reply_count, " +

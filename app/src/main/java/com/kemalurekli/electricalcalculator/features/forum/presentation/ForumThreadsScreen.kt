@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -30,11 +33,13 @@ fun ForumThreadsRoute(
     categoryId: String,
     categoryTitle: String,
     onThreadClick: (ForumThread) -> Unit,
+    onNewThread: (language: String) -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ForumThreadsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val session by viewModel.session.collectAsStateWithLifecycle()
 
     LaunchedEffect(categoryId) { viewModel.onOpen(categoryId) }
 
@@ -42,6 +47,8 @@ fun ForumThreadsRoute(
         title = categoryTitle,
         uiState = uiState,
         onThreadClick = onThreadClick,
+        onNewThread = { onNewThread(viewModel.language.code) },
+        canWrite = session.userId != null,
         onRetry = viewModel::onRefresh,
         onNavigateBack = onNavigateBack,
         modifier = modifier,
@@ -54,6 +61,8 @@ fun ForumThreadsScreen(
     title: String,
     uiState: ForumScreenState<List<ForumThread>>,
     onThreadClick: (ForumThread) -> Unit,
+    onNewThread: () -> Unit = {},
+    canWrite: Boolean = false,
     onRetry: () -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
@@ -73,6 +82,17 @@ fun ForumThreadsScreen(
                 onNavigateBack = onNavigateBack,
                 scrollBehavior = scrollBehavior,
             )
+        },
+        floatingActionButton = {
+            // Offered only to someone who can actually post. A button that
+            // opens a form and then refuses it at the end wastes the typing.
+            if (canWrite) {
+                ExtendedFloatingActionButton(
+                    onClick = onNewThread,
+                    icon = { Icon(ElecIcons.Add, contentDescription = null) },
+                    text = { Text(stringResource(R.string.forum_new_thread)) },
+                )
+            }
         },
     ) { innerPadding ->
         ForumStateHost(

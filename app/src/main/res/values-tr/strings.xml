@@ -3275,4 +3275,23 @@
     <string name="forum_delete_account_message">Profiliniz, açtığınız konular ve mesajlarınız kalıcı olarak silinir. Bu işlem geri alınamaz. Projeleriniz ve geçmişiniz dahil uygulamanın geri kalanı bu cihazda kalır, etkilenmez.</string>
     <string name="forum_delete_account_confirm">Kalıcı olarak sil</string>
     <string name="forum_delete_account_failed">Hesap silinemedi. Yeniden deneyin.</string>
+
+    <!-- Forum: yazma -->
+    <string name="forum_reply_hint">Cevap yazın</string>
+    <string name="forum_reply_send">Gönder</string>
+    <string name="forum_reply_failed">Cevap gönderilemedi. Yeniden deneyin.</string>
+    <string name="forum_thanks">Teşekkür et</string>
+    <string name="forum_thanks_undo">Teşekkür edildi</string>
+    <string name="forum_delete_post_title">Bu mesaj silinsin mi?</string>
+    <string name="forum_delete_post_message">Konuda görünmez olur. Bu işlem geri alınamaz.</string>
+    <string name="forum_new_thread">Yeni konu</string>
+    <string name="forum_new_thread_title">Konu aç</string>
+    <string name="forum_new_thread_title_hint">Başlık</string>
+    <string name="forum_new_thread_body_hint">Durumu anlatın</string>
+    <string name="forum_new_thread_send">Yayınla</string>
+    <string name="forum_new_thread_failed">Konu açılamadı. Yeniden deneyin.</string>
+    <string name="forum_rules_title">Yazmadan önce</string>
+    <string name="forum_rules_body">Buradaki cevaplar uygulamadan değil, diğer kullanıcılardan gelir. Forumda yazılan hiçbir şey geliştiriciler tarafından denetlenmez, doğrulanmaz veya onaylanmaz ve hiçbiri mühendislik tavsiyesi sayılamaz — uygulamanın geri kalanı için geçerli olan sorumluluk reddi forum için de geçerlidir.\n\nSahada konuşur gibi yazın: tesisatı anlatın, ne ölçtüğünüzü söyleyin ve kimsenin kişisel bilgilerini paylaşmayın. Hakaret içeren, ticari veya hukuka aykırı içerik kaldırılır, hesap kapatılır.\n\nYazdıklarınızdan siz sorumlusunuz.</string>
+    <string name="forum_rules_accept">Anladım</string>
+    <string name="action_edit">Düzenle</string>
 </resources>

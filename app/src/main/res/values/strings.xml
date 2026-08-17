@@ -3273,4 +3273,23 @@
     <string name="forum_delete_account_message">Your profile, threads and messages are deleted permanently. This cannot be undone. The rest of the app, including your projects and history, stays on this device and is not affected.</string>
     <string name="forum_delete_account_confirm">Delete permanently</string>
     <string name="forum_delete_account_failed">The account could not be deleted. Try again.</string>
+
+    <!-- Forum: writing -->
+    <string name="forum_reply_hint">Write a reply</string>
+    <string name="forum_reply_send">Send</string>
+    <string name="forum_reply_failed">The reply could not be sent. Try again.</string>
+    <string name="forum_thanks">Thank</string>
+    <string name="forum_thanks_undo">Thanked</string>
+    <string name="forum_delete_post_title">Delete this message?</string>
+    <string name="forum_delete_post_message">It stops being visible in the thread. This cannot be undone.</string>
+    <string name="forum_new_thread">New thread</string>
+    <string name="forum_new_thread_title">Open a thread</string>
+    <string name="forum_new_thread_title_hint">Title</string>
+    <string name="forum_new_thread_body_hint">Describe the situation</string>
+    <string name="forum_new_thread_send">Post</string>
+    <string name="forum_new_thread_failed">The thread could not be opened. Try again.</string>
+    <string name="forum_rules_title">Before you post</string>
+    <string name="forum_rules_body">Answers here are from other readers, not from the app. Nothing posted in the forum is checked, verified or endorsed by the developers, and none of it may be treated as engineering advice — the disclaimer that covers the rest of the app covers the forum too.\n\nWrite as you would on site: describe the installation, say what you measured, and do not post anyone\'s personal details. Content that is abusive, commercial or unlawful is removed and the account is closed.\n\nYou are responsible for what you post.</string>
+    <string name="forum_rules_accept">I understand</string>
+    <string name="action_edit">Edit</string>
 </resources>
