@@ -18,6 +18,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,10 +47,13 @@ fun ForumProfileRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isOwnProfile by viewModel.isOwnProfile.collectAsStateWithLifecycle()
+    val renameError by viewModel.renameError.collectAsStateWithLifecycle()
 
     ForumProfileScreen(
         uiState = uiState,
         isOwnProfile = isOwnProfile,
+        renameError = renameError,
+        onRenameErrorShown = viewModel::onRenameErrorShown,
         onRename = viewModel::onRename,
         onRetry = viewModel::load,
         onNavigateBack = onNavigateBack,
@@ -60,6 +66,8 @@ fun ForumProfileRoute(
 fun ForumProfileScreen(
     uiState: ForumScreenState<ForumProfile>,
     isOwnProfile: Boolean,
+    renameError: Boolean = false,
+    onRenameErrorShown: () -> Unit = {},
     onRename: (String) -> Unit,
     onRetry: () -> Unit,
     onNavigateBack: () -> Unit,
@@ -68,8 +76,20 @@ fun ForumProfileScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val spacing = ElecTheme.spacing
     var renaming by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    // The rename could fail and say nothing at all before this: the error was
+    // produced, never collected, and its string had no call site.
+    val renameFailed = stringResource(R.string.forum_profile_rename_failed)
+    LaunchedEffect(renameError) {
+        if (renameError) {
+            snackbarHostState.showSnackbar(renameFailed)
+            onRenameErrorShown()
+        }
+    }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         contentWindowInsets = WindowInsets.safeDrawing,
         modifier = modifier
             .fillMaxSize()
@@ -144,8 +164,15 @@ fun ForumProfileScreen(
     }
 }
 
-/** Matches the `display_name` limit in the schema. */
-private const val DISPLAY_NAME_MAX_LENGTH = 40
+/**
+ * The schema's `display_name` check is `between 2 and 32`.
+ *
+ * This said 40 and claimed to match. A 33-character name passed the field, was
+ * refused by the constraint, and the failure went nowhere — so the dialog
+ * closed and the name silently stayed as it was.
+ */
+private const val DISPLAY_NAME_MAX_LENGTH = 32
+private const val DISPLAY_NAME_MIN_LENGTH = 2
 
 @Composable
 private fun StatLine(label: String, value: String) {
@@ -190,7 +217,8 @@ private fun RenameDialog(
         confirmButton = {
             TextButton(
                 onClick = { onConfirm(value) },
-                enabled = value.isNotBlank() && value.trim() != current,
+                enabled = value.trim().length >= DISPLAY_NAME_MIN_LENGTH &&
+                    value.trim() != current,
             ) {
                 Text(stringResource(R.string.action_save))
             }

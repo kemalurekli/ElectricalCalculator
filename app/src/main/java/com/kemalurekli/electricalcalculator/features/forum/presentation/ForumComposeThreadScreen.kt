@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -43,9 +44,15 @@ fun ForumComposeThreadRoute(
     // Navigating on a state change rather than from the button's onClick: the
     // send is asynchronous, and a click handler that navigates optimistically
     // would open a thread that may not exist.
-    created?.let { id ->
-        onThreadCreated(id, title)
-        viewModel.onNavigated()
+    //
+    // Inside a LaunchedEffect because navigation is a side effect, and running
+    // it straight from the composable body means it fires again on every
+    // recomposition that happens before the state clears.
+    LaunchedEffect(created) {
+        created?.let { id ->
+            onThreadCreated(id, title)
+            viewModel.onNavigated()
+        }
     }
 
     ForumComposeThreadScreen(
@@ -103,11 +110,23 @@ fun ForumComposeThreadScreen(
                 .padding(spacing.screenHorizontal),
             verticalArrangement = Arrangement.spacedBy(spacing.md),
         ) {
+            // The schema requires a title of at least 5 characters and a body
+            // of at least 2. Without this the send button enabled on any
+            // non-blank input and the constraint refused it server-side, which
+            // surfaced as a generic failure.
+            val titleTooShort = title.isNotEmpty() && title.trim().length < TITLE_MIN_LENGTH
+
             ElecTextField(
                 value = title,
                 onValueChange = onTitleChange,
                 label = stringResource(R.string.forum_new_thread_title_hint),
                 maxLength = TITLE_MAX_LENGTH,
+                isError = titleTooShort,
+                supportingText = if (titleTooShort) {
+                    stringResource(R.string.forum_title_too_short, TITLE_MIN_LENGTH)
+                } else {
+                    null
+                },
             )
 
             ElecTextField(
@@ -128,7 +147,9 @@ fun ForumComposeThreadScreen(
 
             Button(
                 onClick = onSend,
-                enabled = title.isNotBlank() && body.isNotBlank() && !sending,
+                enabled = title.trim().length >= TITLE_MIN_LENGTH &&
+                    body.trim().length >= BODY_MIN_LENGTH &&
+                    !sending,
             ) {
                 Text(stringResource(R.string.forum_new_thread_send))
             }
@@ -136,6 +157,8 @@ fun ForumComposeThreadScreen(
     }
 }
 
-/** Matches the schema's limits. */
+/** Matches the schema's checks: title 5–140, body 2–8000. */
+private const val TITLE_MIN_LENGTH = 5
 private const val TITLE_MAX_LENGTH = 140
-private const val BODY_MAX_LENGTH = 5000
+private const val BODY_MIN_LENGTH = 2
+private const val BODY_MAX_LENGTH = 8000

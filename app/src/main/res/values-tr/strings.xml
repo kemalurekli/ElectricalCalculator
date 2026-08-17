@@ -3300,4 +3300,6 @@
     <string name="forum_delete_thread_title">Bu konu silinsin mi?</string>
     <string name="forum_delete_thread_message">Konu ve açılış mesajınız kalıcı olarak silinir. Bu yalnızca kimse cevap yazmamışken mümkündür.</string>
     <string name="forum_delete_thread_failed">Konu silinemedi. Az önce biri cevap yazmış olabilir.</string>
+    <string name="forum_title_too_short">En az %1$d karakter</string>
+    <string name="forum_thread_locked_notice">Bu konu yeni cevaplara kapalı.</string>
 </resources>

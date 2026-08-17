@@ -60,6 +60,7 @@ import com.kemalurekli.electricalcalculator.features.forum.domain.ForumPost
 fun ForumThreadRoute(
     threadId: String,
     threadTitle: String,
+    isLocked: Boolean = false,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ForumThreadViewModel = hiltViewModel(),
@@ -86,6 +87,7 @@ fun ForumThreadRoute(
     ForumThreadScreen(
         title = threadTitle,
         uiState = uiState,
+        isLocked = isLocked,
         currentUserId = session.userId,
         draft = draft,
         sending = sending,
@@ -128,6 +130,7 @@ fun ForumThreadRoute(
 fun ForumThreadScreen(
     title: String,
     uiState: ForumScreenState<List<ForumPost>>,
+    isLocked: Boolean = false,
     currentUserId: String?,
     draft: String,
     sending: Boolean,
@@ -184,7 +187,27 @@ fun ForumThreadScreen(
         bottomBar = {
             // Only for signed-in readers. Someone who is not signed in is shown
             // nothing here rather than a box that rejects them on submit.
-            if (currentUserId != null) {
+            if (isLocked) {
+                // The insert policy refuses posts to a locked thread, so a box
+                // here would take what somebody typed and lose it. Saying the
+                // thread is closed is the only useful thing left to do.
+                Surface(tonalElevation = 2.dp) {
+                    Text(
+                        text = stringResource(R.string.forum_thread_locked_notice),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .windowInsetsPadding(
+                                WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom),
+                            )
+                            .padding(
+                                horizontal = spacing.screenHorizontal,
+                                vertical = spacing.lg,
+                            ),
+                    )
+                }
+            } else if (currentUserId != null) {
                 ReplyComposer(
                     draft = draft,
                     sending = sending,
@@ -571,5 +594,5 @@ private fun EditPostDialog(
     )
 }
 
-/** Matches the `body` limit in the schema. */
-private const val POST_MAX_LENGTH = 5000
+/** Matches the schema's `body` check: 2–8000. */
+private const val POST_MAX_LENGTH = 8000

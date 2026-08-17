@@ -108,9 +108,21 @@ sealed interface Route {
     @Serializable
     data class ForumCategory(val categoryId: String, val title: String) : Route
 
-    /** One thread and its messages. */
+    /**
+     * One thread and its messages.
+     *
+     * Carries `isLocked` for the same reason it carries the title: the screen
+     * needs it on the first frame. The thread row is already loaded in the list
+     * that navigated here, and the detail screen only fetches posts — so
+     * without this the reply box renders for a locked thread and the server
+     * refuses whatever gets typed into it.
+     */
     @Serializable
-    data class ForumThread(val threadId: String, val title: String) : Route
+    data class ForumThread(
+        val threadId: String,
+        val title: String,
+        val isLocked: Boolean = false,
+    ) : Route
 
     /**
      * Composing a new thread in a category.

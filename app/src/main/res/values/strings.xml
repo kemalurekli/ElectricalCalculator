@@ -3298,4 +3298,6 @@
     <string name="forum_delete_thread_title">Delete this thread?</string>
     <string name="forum_delete_thread_message">The thread and your opening message are removed permanently. This is only possible while nobody has replied.</string>
     <string name="forum_delete_thread_failed">The thread could not be deleted. Somebody may have replied to it just now.</string>
+    <string name="forum_title_too_short">At least %1$d characters</string>
+    <string name="forum_thread_locked_notice">This thread is closed to new replies.</string>
 </resources>
