@@ -76,7 +76,11 @@ fun ForumThreadRoute(
         onDraftChange = viewModel::onDraftChange,
         // The rules come before the first post, not alongside it.
         onSendReply = {
-            if (rulesAccepted == false) showingRules = true else viewModel.onSendReply()
+            // `!= true` rather than `== false`: the preference is null until
+            // DataStore has been read, and treating that as "already accepted"
+            // would let a fast first reply through without the rules ever being
+            // shown. Seeing them once more is harmless; skipping them is not.
+            if (rulesAccepted != true) showingRules = true else viewModel.onSendReply()
         },
         onToggleThanks = viewModel::onToggleThanks,
         onEditPost = viewModel::onEditPost,
