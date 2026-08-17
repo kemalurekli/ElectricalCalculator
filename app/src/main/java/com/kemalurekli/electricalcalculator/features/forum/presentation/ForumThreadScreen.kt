@@ -50,12 +50,15 @@ fun ForumThreadRoute(
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ForumThreadViewModel = hiltViewModel(),
+    rulesViewModel: ForumRulesViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val session by viewModel.session.collectAsStateWithLifecycle()
     val draft by viewModel.draft.collectAsStateWithLifecycle()
     val sending by viewModel.sending.collectAsStateWithLifecycle()
     val sendFailed by viewModel.sendFailed.collectAsStateWithLifecycle()
+    val rulesAccepted by rulesViewModel.accepted.collectAsStateWithLifecycle()
+    var showingRules by remember { mutableStateOf(false) }
 
     LaunchedEffect(threadId) { viewModel.onOpen(threadId) }
 
@@ -67,7 +70,10 @@ fun ForumThreadRoute(
         sending = sending,
         sendFailed = sendFailed,
         onDraftChange = viewModel::onDraftChange,
-        onSendReply = viewModel::onSendReply,
+        // The rules come before the first post, not alongside it.
+        onSendReply = {
+            if (rulesAccepted == false) showingRules = true else viewModel.onSendReply()
+        },
         onToggleThanks = viewModel::onToggleThanks,
         onEditPost = viewModel::onEditPost,
         onDeletePost = viewModel::onDeletePost,
@@ -75,6 +81,17 @@ fun ForumThreadRoute(
         onNavigateBack = onNavigateBack,
         modifier = modifier,
     )
+
+    if (showingRules) {
+        ForumRulesDialog(
+            onAccept = {
+                rulesViewModel.onAccept()
+                showingRules = false
+                viewModel.onSendReply()
+            },
+            onDismiss = { showingRules = false },
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -29,6 +29,9 @@ interface UserPreferencesRepository {
     /** Records that the reader has acknowledged the disclaimer. */
     suspend fun setDisclaimerAccepted(accepted: Boolean)
 
+    /** Records that the reader has acknowledged the forum rules. */
+    suspend fun setForumRulesAccepted(accepted: Boolean)
+
     /** Replaces the engineering defaults, and marks them as the user's. */
     suspend fun setEngineeringDefaults(defaults: EngineeringDefaults)
 

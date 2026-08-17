@@ -44,6 +44,15 @@ data class UserPreferences(
      * that reappears each time reads as a bug and gets dismissed unread.
      */
     val disclaimerAccepted: Boolean = false,
+    /**
+     * Whether the forum rules have been acknowledged.
+     *
+     * Separate from [disclaimerAccepted] because they cover different things:
+     * that one is about the app's own calculations, this one is about content
+     * other readers wrote. Someone who accepted the first has not been told
+     * anything about the second.
+     */
+    val forumRulesAccepted: Boolean = false,
 ) {
     companion object {
         val Default = UserPreferences()

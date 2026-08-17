@@ -193,6 +193,10 @@ class FakeUserPreferencesRepository(
         state.value = state.value.copy(disclaimerAccepted = accepted)
     }
 
+    override suspend fun setForumRulesAccepted(accepted: Boolean) {
+        state.value = state.value.copy(forumRulesAccepted = accepted)
+    }
+
     override suspend fun setEngineeringDefaults(defaults: EngineeringDefaults) {
         state.value = state.value.copy(engineering = defaults, engineeringSeeded = true)
     }

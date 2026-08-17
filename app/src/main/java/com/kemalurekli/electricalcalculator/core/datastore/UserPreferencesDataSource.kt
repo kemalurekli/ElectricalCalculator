@@ -60,6 +60,10 @@ class UserPreferencesDataSource @Inject constructor(
         dataStore.edit { it[Keys.DISCLAIMER_ACCEPTED] = accepted }
     }
 
+    suspend fun setForumRulesAccepted(accepted: Boolean) {
+        dataStore.edit { it[Keys.FORUM_RULES_ACCEPTED] = accepted }
+    }
+
     /**
      * Writes engineering defaults, marking them as the user's from now on.
      *
@@ -109,6 +113,7 @@ class UserPreferencesDataSource @Inject constructor(
         engineering = toEngineeringDefaults(),
         engineeringSeeded = this[Keys.ENG_SEEDED] ?: false,
         disclaimerAccepted = this[Keys.DISCLAIMER_ACCEPTED] ?: false,
+        forumRulesAccepted = this[Keys.FORUM_RULES_ACCEPTED] ?: false,
     )
 
     private fun Preferences.toEngineeringDefaults(): EngineeringDefaults {
@@ -145,6 +150,7 @@ class UserPreferencesDataSource @Inject constructor(
         val ENG_INSTALLATION_METHOD = stringPreferencesKey("eng_installation_method")
         val ENG_SEEDED = booleanPreferencesKey("eng_seeded")
         val DISCLAIMER_ACCEPTED = booleanPreferencesKey("disclaimer_accepted")
+        val FORUM_RULES_ACCEPTED = booleanPreferencesKey("forum_rules_accepted")
     }
 
     private companion object {
