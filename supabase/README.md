@@ -7,10 +7,14 @@ Run these in the Supabase SQL editor, in order, as the project owner.
 | `01_forum_schema.sql` | Tables, indexes, counter triggers, row level security | Once, and again after any edit — it is idempotent |
 | `02_verify_policies.sql` | Proves the policies and counters hold | After every change to `01` |
 
-`02` creates two throwaway users, asserts, and rolls everything back. It raises
-on the first rule that does not hold; reaching `All forum policy and counter
-checks passed.` means all of them do. The final `rollback:` exception is
-deliberate — it is how the script guarantees it leaves nothing behind.
+`02` creates two throwaway users, asserts, and rolls everything back.
+
+**It always finishes with a red error, and that is the correct outcome.**
+Rolling back is the only way to leave no fixtures behind, and a rollback means
+raising — so read the message rather than the colour:
+
+- `PASSED — every forum policy and counter check held…` — everything holds
+- anything else — the message names the rule that does not
 
 ## Why the verification script exists
 

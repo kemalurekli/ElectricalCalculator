@@ -6,8 +6,13 @@
 -- one that is correct — from the app's side, everything simply works.
 --
 -- The script creates two throwaway users, asserts, and rolls everything back.
--- It raises an exception on the first rule that does not hold; reaching the
--- final notice means all of them do.
+--
+-- IT ALWAYS ENDS IN A RED ERROR, AND THAT IS CORRECT. Rolling back is the only
+-- way to leave no fixtures behind, and a rollback means raising. Read the
+-- message, not the colour:
+--
+--   PASSED — ...   every check held
+--   anything else  the rule named in the message does not hold
 
 do $$
 declare
@@ -125,6 +130,12 @@ begin
     if ok then raise exception 'a user was able to read the report queue'; end if;
 
     reset role;
-    raise notice 'All forum policy and counter checks passed.';
-    raise exception 'rollback: this script never keeps its fixtures';
+
+    -- The verdict is carried by the exception itself rather than by a NOTICE.
+    -- Rolling back is the only way to leave no fixtures behind, and a rollback
+    -- means raising — so the SQL editor is going to show something red either
+    -- way. It may as well say what happened: a message starting with PASSED is
+    -- success, and anything else is the rule that did not hold.
+    raise exception
+        'PASSED — every forum policy and counter check held. Fixtures rolled back; this red message is the expected result.';
 end $$;
