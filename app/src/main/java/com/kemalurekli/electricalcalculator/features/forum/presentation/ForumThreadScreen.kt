@@ -55,6 +55,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopA
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumPost
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportReason
 
 @Composable
 fun ForumThreadRoute(
@@ -75,6 +76,8 @@ fun ForumThreadRoute(
     val sent by viewModel.sent.collectAsStateWithLifecycle()
     val threadDeleted by viewModel.threadDeleted.collectAsStateWithLifecycle()
     val deleteFailed by viewModel.deleteFailed.collectAsStateWithLifecycle()
+    val reported by viewModel.reported.collectAsStateWithLifecycle()
+    val blocked by viewModel.blocked.collectAsStateWithLifecycle()
 
     // The thread is gone, so this screen has nothing left to show.
     LaunchedEffect(threadDeleted) {
@@ -107,6 +110,10 @@ fun ForumThreadRoute(
         sent = sent,
         deleteFailed = deleteFailed,
         onDeleteThread = viewModel::onDeleteThread,
+        reported = reported,
+        blocked = blocked,
+        onReport = { postId, reason, note -> viewModel.onReport(postId, reason, note) },
+        onBlock = viewModel::onBlock,
         onDeleteFailureShown = viewModel::onDeleteFailureShown,
         onRetry = viewModel::onRefresh,
         onNavigateBack = onNavigateBack,
@@ -142,6 +149,10 @@ fun ForumThreadScreen(
     onDeletePost: (String) -> Unit,
     sent: Int = 0,
     deleteFailed: Boolean = false,
+    reported: Int = 0,
+    blocked: Int = 0,
+    onReport: (String, ForumReportReason, String) -> Unit = { _, _, _ -> },
+    onBlock: (String) -> Unit = {},
     onDeleteThread: () -> Unit = {},
     onDeleteFailureShown: () -> Unit = {},
     onRetry: () -> Unit,
@@ -157,6 +168,16 @@ fun ForumThreadScreen(
     // first. Skips zero, which is the state before anything has been sent.
     LaunchedEffect(sent) {
         if (sent > 0) snackbarHostState.showSnackbar(sentMessage)
+    }
+
+    val reportedMessage = stringResource(R.string.forum_report_sent)
+    LaunchedEffect(reported) {
+        if (reported > 0) snackbarHostState.showSnackbar(reportedMessage)
+    }
+
+    val blockedMessage = stringResource(R.string.forum_blocked)
+    LaunchedEffect(blocked) {
+        if (blocked > 0) snackbarHostState.showSnackbar(blockedMessage)
     }
 
     val deleteFailedMessage = stringResource(R.string.forum_delete_thread_failed)
@@ -249,6 +270,9 @@ fun ForumThreadScreen(
                                 post.authorId == currentUserId &&
                                 !hasReplies,
                             onDeleteThread = onDeleteThread,
+                            canModerate = currentUserId != null,
+                            onReport = { reason, note -> onReport(post.id, reason, note) },
+                            onBlock = { onBlock(post.authorId) },
                             canThank = currentUserId != null && post.authorId != currentUserId,
                             onToggleThanks = { onToggleThanks(post) },
                             onEdit = { onEditPost(post.id, it) },
@@ -275,6 +299,9 @@ private fun PostCard(
     canThank: Boolean,
     canDeleteThread: Boolean = false,
     onDeleteThread: () -> Unit = {},
+    canModerate: Boolean = false,
+    onReport: (ForumReportReason, String) -> Unit = { _, _ -> },
+    onBlock: () -> Unit = {},
     onToggleThanks: () -> Unit,
     onEdit: (String) -> Unit,
     onDelete: () -> Unit,
@@ -283,6 +310,8 @@ private fun PostCard(
     var editing by remember { mutableStateOf(false) }
     var confirmingDelete by remember { mutableStateOf(false) }
     var confirmingThreadDelete by remember { mutableStateOf(false) }
+    var reporting by remember { mutableStateOf(false) }
+    var confirmingBlock by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -380,7 +409,10 @@ private fun PostCard(
             // Edit and delete behind one control. Two permanent text buttons
             // under every message you wrote turns your own thread into a row
             // of controls with the conversation squeezed between them.
-            if (isOwn) {
+            // The menu used to exist only on your own messages, which left a
+            // reader looking at somebody else's with no control at all — and
+            // the forum rules promise abusive content is removed.
+            if (isOwn || canModerate) {
                 Box {
                     var menuOpen by remember { mutableStateOf(false) }
                     IconButton(
@@ -398,6 +430,23 @@ private fun PostCard(
                         expanded = menuOpen,
                         onDismissRequest = { menuOpen = false },
                     ) {
+                        if (!isOwn) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.forum_report)) },
+                                onClick = {
+                                    menuOpen = false
+                                    reporting = true
+                                },
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.forum_block)) },
+                                onClick = {
+                                    menuOpen = false
+                                    confirmingBlock = true
+                                },
+                            )
+                        }
+                        if (isOwn) {
                         DropdownMenuItem(
                             text = { Text(stringResource(R.string.action_edit)) },
                             onClick = {
@@ -420,6 +469,7 @@ private fun PostCard(
                         // Deleting the opening post of an unanswered thread
                         // leaves a titled shell nobody can remove, so the
                         // thread goes with it.
+                        }
                         if (canDeleteThread) {
                             DropdownMenuItem(
                                 text = {
@@ -450,6 +500,39 @@ private fun PostCard(
                 editing = false
             },
             onDismiss = { editing = false },
+        )
+    }
+
+    if (reporting) {
+        ForumReportDialog(
+            onConfirm = { reason, note ->
+                reporting = false
+                onReport(reason, note)
+            },
+            onDismiss = { reporting = false },
+        )
+    }
+
+    if (confirmingBlock) {
+        AlertDialog(
+            onDismissRequest = { confirmingBlock = false },
+            title = { Text(stringResource(R.string.forum_block_title, post.authorName)) },
+            text = { Text(stringResource(R.string.forum_block_message)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        confirmingBlock = false
+                        onBlock()
+                    },
+                ) {
+                    Text(stringResource(R.string.forum_block))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmingBlock = false }) {
+                    Text(stringResource(R.string.action_cancel))
+                }
+            },
         )
     }
 

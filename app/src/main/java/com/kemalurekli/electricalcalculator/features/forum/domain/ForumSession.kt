@@ -50,3 +50,39 @@ enum class ForumAuthFailure {
     /** Anything else. */
     UNKNOWN,
 }
+
+/**
+ * Why something was reported.
+ *
+ * A fixed list rather than a free-text box. Free text produces a queue nobody
+ * can triage, and it asks the reporter to compose a sentence at the moment they
+ * are annoyed — which is when people write things a moderator cannot act on.
+ * The note is optional and comes after.
+ */
+enum class ForumReportReason(val key: String) {
+
+    /** Advertising, link spam, repetition. */
+    SPAM("spam"),
+
+    /** Abuse, harassment, or anything aimed at a person rather than a question. */
+    ABUSE("abuse"),
+
+    /**
+     * An answer that would be unsafe to follow.
+     *
+     * This forum is about mains electricity, so it needs a reason the others do
+     * not cover: a confidently wrong answer here is not merely unhelpful.
+     */
+    UNSAFE_ADVICE("unsafe_advice"),
+
+    /** Someone's personal details, or anything else that should not be public. */
+    PRIVACY("privacy"),
+
+    OTHER("other"),
+}
+
+/** What a report points at. Matches the `target_type` check in the schema. */
+enum class ForumReportTarget(val key: String) {
+    THREAD("thread"),
+    POST("post"),
+}

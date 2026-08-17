@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.core.domain.repository.ForumAuthRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ForumRepository
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumPost
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportReason
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportTarget
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumResult
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumSession
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,6 +56,13 @@ class ForumThreadViewModel @Inject constructor(
      */
     private val _threadDeleted = MutableStateFlow(false)
     val threadDeleted: StateFlow<Boolean> = _threadDeleted.asStateFlow()
+
+    /** Bumped per filed report, so the screen can confirm each one. */
+    private val _reported = MutableStateFlow(0)
+    val reported: StateFlow<Int> = _reported.asStateFlow()
+
+    private val _blocked = MutableStateFlow(0)
+    val blocked: StateFlow<Int> = _blocked.asStateFlow()
 
     private val _deleteFailed = MutableStateFlow(false)
     val deleteFailed: StateFlow<Boolean> = _deleteFailed.asStateFlow()
@@ -137,6 +146,32 @@ class ForumThreadViewModel @Inject constructor(
         _deleteFailed.value = false
     }
 
+    fun onReport(
+        targetId: String,
+        reason: ForumReportReason,
+        note: String,
+        target: ForumReportTarget = ForumReportTarget.POST,
+    ) {
+        viewModelScope.launch {
+            // The result is deliberately not distinguished for the reader. A
+            // report either reaches the queue or it does not; telling them
+            // anything about what happens next would tell them about the
+            // person they reported.
+            if (repository.report(target, targetId, reason, note) is ForumResult.Success) {
+                _reported.value += 1
+            }
+        }
+    }
+
+    fun onBlock(userId: String) {
+        viewModelScope.launch {
+            if (repository.block(userId) is ForumResult.Success) {
+                _blocked.value += 1
+                load(refreshing = true)
+            }
+        }
+    }
+
     fun onEditPost(postId: String, body: String) {
         val trimmed = body.trim()
         if (trimmed.isEmpty()) return
@@ -161,9 +196,18 @@ class ForumThreadViewModel @Inject constructor(
                 _uiState.value = ForumScreenState.Loading
             }
 
+            // Blocking is enforced on the reader's side: the rows still exist
+            // and are still visible to everyone else, which is what makes it a
+            // decision this reader made rather than a punishment.
+            val hidden = (repository.blockedUserIds() as? ForumResult.Success)?.value.orEmpty()
+
             _uiState.value = when (val result = repository.posts(id)) {
                 is ForumResult.Success ->
-                    ForumScreenState.Content(result.value.toImmutableList())
+                    ForumScreenState.Content(
+                        result.value
+                            .filterNot { it.authorId in hidden }
+                            .toImmutableList(),
+                    )
 
                 is ForumResult.Failure -> ForumScreenState.Error(result.reason)
             }

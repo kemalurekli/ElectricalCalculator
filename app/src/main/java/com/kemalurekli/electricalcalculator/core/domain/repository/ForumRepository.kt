@@ -3,6 +3,8 @@ package com.kemalurekli.electricalcalculator.core.domain.repository
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumCategory
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumLanguage
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumPost
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportReason
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportTarget
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumResult
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumThread
 
@@ -100,6 +102,35 @@ interface ForumRepository {
      * offered. Inflating one's own counter is otherwise a two-tap job.
      */
     suspend fun setThanks(postId: String, thanked: Boolean): ForumResult<Unit>
+
+    /**
+     * Files a report for a moderator to look at.
+     *
+     * Write-only by policy: the app can add to the queue and can never read it.
+     * The reporter gets no confirmation beyond "we have it", because telling
+     * them what happened next would tell them who they reported.
+     */
+    suspend fun report(
+        target: ForumReportTarget,
+        targetId: String,
+        reason: ForumReportReason,
+        note: String,
+    ): ForumResult<Unit>
+
+    /**
+     * Hides everything by [userId] from this reader.
+     *
+     * Blocking is one-sided and local to the reader: the blocked person is not
+     * told, and their posts stay where they are for everybody else. Play
+     * expects this alongside reporting, and the two solve different problems —
+     * reporting asks somebody to act, blocking does not wait for anyone.
+     */
+    suspend fun block(userId: String): ForumResult<Unit>
+
+    suspend fun unblock(userId: String): ForumResult<Unit>
+
+    /** The ids this reader has blocked, for filtering what they are shown. */
+    suspend fun blockedUserIds(): ForumResult<Set<String>>
 
     companion object {
         /**

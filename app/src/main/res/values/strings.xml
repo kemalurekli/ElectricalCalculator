@@ -3300,4 +3300,21 @@
     <string name="forum_delete_thread_failed">The thread could not be deleted. Somebody may have replied to it just now.</string>
     <string name="forum_title_too_short">At least %1$d characters</string>
     <string name="forum_thread_locked_notice">This thread is closed to new replies.</string>
+    <string name="forum_report">Report</string>
+    <string name="forum_report_title">Report this message</string>
+    <string name="forum_report_note">Anything else a moderator should know (optional)</string>
+    <string name="forum_report_send">Send report</string>
+    <string name="forum_report_sent">Reported. A moderator will look at it.</string>
+    <string name="forum_report_spam">Advertising or spam</string>
+    <string name="forum_report_abuse">Abusive or personal</string>
+    <string name="forum_report_unsafe">Unsafe advice</string>
+    <string name="forum_report_privacy">Personal details</string>
+    <string name="forum_report_other">Something else</string>
+    <string name="forum_block">Block this person</string>
+    <string name="forum_block_title">Block %1$s?</string>
+    <string name="forum_block_message">You stop seeing their messages. They are not told, and their messages stay where they are for everyone else. You can undo this in Settings.</string>
+    <string name="forum_blocked">Blocked. Their messages are hidden from you.</string>
+    <string name="forum_blocked_section">Blocked people</string>
+    <string name="forum_blocked_empty">You have not blocked anyone.</string>
+    <string name="forum_unblock">Unblock</string>
 </resources>

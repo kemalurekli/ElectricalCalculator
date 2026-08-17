@@ -6,6 +6,8 @@ import com.kemalurekli.electricalcalculator.features.forum.domain.ForumCategory
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumFailure
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumLanguage
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumPost
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportReason
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportTarget
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumProfile
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumResult
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumSession
@@ -114,6 +116,29 @@ class FakeForumRepository(
                 }
             }
         }
+
+    /** Everything reported, so a test can assert what reached the queue. */
+    val reports = mutableListOf<Triple<String, ForumReportReason, String>>()
+
+    val blocked = mutableSetOf<String>()
+
+    override suspend fun report(
+        target: ForumReportTarget,
+        targetId: String,
+        reason: ForumReportReason,
+        note: String,
+    ): ForumResult<Unit> = respond("report($targetId, ${reason.key})") {
+        reports += Triple(targetId, reason, note)
+    }
+
+    override suspend fun block(userId: String): ForumResult<Unit> =
+        respond("block($userId)") { blocked += userId }
+
+    override suspend fun unblock(userId: String): ForumResult<Unit> =
+        respond("unblock($userId)") { blocked -= userId }
+
+    override suspend fun blockedUserIds(): ForumResult<Set<String>> =
+        respond("blockedUserIds()") { blocked.toSet() }
 
     private inline fun <T> respond(call: String, block: () -> T): ForumResult<T> {
         calls += call

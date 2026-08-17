@@ -8,6 +8,8 @@ import com.kemalurekli.electricalcalculator.features.forum.domain.ForumCategory
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumFailure
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumLanguage
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumPost
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportReason
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportTarget
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumResult
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumThread
 import io.github.jan.supabase.SupabaseClient
@@ -203,6 +205,56 @@ class ForumRepositoryImpl @Inject constructor(
         Unit
     }
 
+    override suspend fun report(
+        target: ForumReportTarget,
+        targetId: String,
+        reason: ForumReportReason,
+        note: String,
+    ) = query { client ->
+        client.postgrest.from(TABLE_REPORTS).insert(
+            buildJsonObject {
+                put("reporter_id", client.requireUserId())
+                put("target_type", target.key)
+                put("target_id", targetId)
+                // The key first so the queue can be sorted and counted without
+                // reading prose, the note after for whatever the list misses.
+                put("reason", listOf(reason.key, note.trim()).filter { it.isNotEmpty() }
+                    .joinToString(" — ").take(REASON_MAX_LENGTH))
+            },
+        )
+        Unit
+    }
+
+    override suspend fun block(userId: String) = query { client ->
+        client.postgrest.from(TABLE_BLOCKS).insert(
+            buildJsonObject {
+                put("blocker_id", client.requireUserId())
+                put("blocked_id", userId)
+            },
+        )
+        Unit
+    }
+
+    override suspend fun unblock(userId: String) = query { client ->
+        client.postgrest.from(TABLE_BLOCKS).delete {
+            filter {
+                eq("blocker_id", client.requireUserId())
+                eq("blocked_id", userId)
+            }
+        }
+        Unit
+    }
+
+    override suspend fun blockedUserIds() = query { client ->
+        val user = client.auth.currentUserOrNull()?.id
+            ?: return@query emptySet<String>()
+
+        client.postgrest.from(TABLE_BLOCKS)
+            .select(Columns.list("blocked_id")) { filter { eq("blocker_id", user) } }
+            .decodeList<BlockDto>()
+            .mapTo(mutableSetOf()) { it.blockedId }
+    }
+
     /**
      * The signed-in user's id, for a call that has no meaning without one.
      *
@@ -263,6 +315,9 @@ class ForumRepositoryImpl @Inject constructor(
 
     @Serializable
     private data class ThanksDto(@SerialName("post_id") val postId: String)
+
+    @Serializable
+    private data class BlockDto(@SerialName("blocked_id") val blockedId: String)
 
     /** PostgREST returns an embedded row as an object, hence the nested type. */
     @Serializable
@@ -327,6 +382,11 @@ class ForumRepositoryImpl @Inject constructor(
         const val TABLE_THREADS = "forum_threads"
         const val TABLE_POSTS = "forum_posts"
         const val TABLE_THANKS = "forum_thanks"
+        const val TABLE_REPORTS = "forum_reports"
+        const val TABLE_BLOCKS = "forum_blocks"
+
+        /** The schema's `reason` check is `between 3 and 500`. */
+        const val REASON_MAX_LENGTH = 500
 
         const val THREAD_COLUMNS =
             "id, category_id, title, author_id, created_at, last_reply_at, reply_count, " +

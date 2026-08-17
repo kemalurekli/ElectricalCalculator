@@ -3302,4 +3302,21 @@
     <string name="forum_delete_thread_failed">Konu silinemedi. Az önce biri cevap yazmış olabilir.</string>
     <string name="forum_title_too_short">En az %1$d karakter</string>
     <string name="forum_thread_locked_notice">Bu konu yeni cevaplara kapalı.</string>
+    <string name="forum_report">Bildir</string>
+    <string name="forum_report_title">Bu mesajı bildir</string>
+    <string name="forum_report_note">Moderatörün bilmesi gereken başka bir şey (isteğe bağlı)</string>
+    <string name="forum_report_send">Bildirimi gönder</string>
+    <string name="forum_report_sent">Bildirildi. Bir moderatör inceleyecek.</string>
+    <string name="forum_report_spam">Reklam veya spam</string>
+    <string name="forum_report_abuse">Hakaret veya kişisel</string>
+    <string name="forum_report_unsafe">Güvenli olmayan tavsiye</string>
+    <string name="forum_report_privacy">Kişisel bilgi</string>
+    <string name="forum_report_other">Başka bir şey</string>
+    <string name="forum_block">Bu kişiyi engelle</string>
+    <string name="forum_block_title">%1$s engellensin mi?</string>
+    <string name="forum_block_message">Mesajlarını görmemeye başlarsınız. Kendisine bildirilmez ve mesajları herkes için yerinde kalır. Bunu Ayarlar\'dan geri alabilirsiniz.</string>
+    <string name="forum_blocked">Engellendi. Mesajları size gösterilmeyecek.</string>
+    <string name="forum_blocked_section">Engellenen kişiler</string>
+    <string name="forum_blocked_empty">Kimseyi engellemediniz.</string>
+    <string name="forum_unblock">Engeli kaldır</string>
 </resources>

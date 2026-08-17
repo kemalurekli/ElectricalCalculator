@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.forum
 
 import app.cash.turbine.test
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumFailure
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportReason
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumScreenState
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadViewModel
 import com.kemalurekli.electricalcalculator.testing.FakeForumAuthRepository
@@ -128,6 +129,46 @@ class ForumThreadViewModelTest {
         viewModel.onSendReply()
         advanceUntilIdle()
         assertEquals(2, viewModel.sent.value)
+    }
+
+    @Test
+    fun `blocking someone hides their messages from this reader`() = runTest {
+        // One-sided and local: the rows are untouched and everyone else still
+        // sees them, which is what makes it this reader's decision rather than
+        // a punishment applied to the author.
+        val repository = FakeForumRepository(
+            posts = listOf(
+                forumPost(id = "opening", isOpeningPost = true),
+                forumPost(id = "theirs", authorId = "loud-person"),
+            ),
+        )
+        val viewModel = viewModel(repository)
+        viewModel.onOpen("thread-1")
+        advanceUntilIdle()
+
+        viewModel.onBlock("loud-person")
+        advanceUntilIdle()
+
+        val shown = (viewModel.uiState.value as ForumScreenState.Content).value
+        assertEquals(listOf("opening"), shown.map { it.id })
+        assertEquals(2, repository.posts.size)
+    }
+
+    @Test
+    fun `a report reaches the queue with its reason`() = runTest {
+        val repository = FakeForumRepository(
+            posts = listOf(forumPost(id = "opening", isOpeningPost = true)),
+        )
+        val viewModel = viewModel(repository)
+        viewModel.onOpen("thread-1")
+        advanceUntilIdle()
+
+        viewModel.onReport("opening", ForumReportReason.UNSAFE_ADVICE, "topraklamasiz oneri")
+        advanceUntilIdle()
+
+        assertEquals(1, repository.reports.size)
+        assertEquals(ForumReportReason.UNSAFE_ADVICE, repository.reports.single().second)
+        assertEquals(1, viewModel.reported.value)
     }
 
     @Test
