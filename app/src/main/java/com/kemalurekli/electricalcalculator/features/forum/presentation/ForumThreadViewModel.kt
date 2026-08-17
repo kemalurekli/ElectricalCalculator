@@ -45,6 +45,19 @@ class ForumThreadViewModel @Inject constructor(
     private val _sent = MutableStateFlow(0)
     val sent: StateFlow<Int> = _sent.asStateFlow()
 
+    /**
+     * Set once the thread itself is gone, so the screen knows to leave.
+     *
+     * The screen cannot stay on a thread that no longer exists, and it must not
+     * decide to leave optimistically either — the server refuses the delete if
+     * somebody replied in the meantime.
+     */
+    private val _threadDeleted = MutableStateFlow(false)
+    val threadDeleted: StateFlow<Boolean> = _threadDeleted.asStateFlow()
+
+    private val _deleteFailed = MutableStateFlow(false)
+    val deleteFailed: StateFlow<Boolean> = _deleteFailed.asStateFlow()
+
     private val _sendFailed = MutableStateFlow(false)
     val sendFailed: StateFlow<Boolean> = _sendFailed.asStateFlow()
 
@@ -101,8 +114,27 @@ class ForumThreadViewModel @Inject constructor(
 
     fun onDeletePost(postId: String) {
         viewModelScope.launch {
-            if (repository.deletePost(postId) is ForumResult.Success) load(refreshing = true)
+            when (repository.deletePost(postId)) {
+                is ForumResult.Success -> load(refreshing = true)
+                is ForumResult.Failure -> _deleteFailed.value = true
+            }
         }
+    }
+
+    fun onDeleteThread() {
+        val id = threadId ?: return
+        viewModelScope.launch {
+            when (repository.deleteThread(id)) {
+                is ForumResult.Success -> _threadDeleted.value = true
+                // Most likely somebody replied between the menu opening and the
+                // tap, which the server refuses. Saying so beats a dead button.
+                is ForumResult.Failure -> _deleteFailed.value = true
+            }
+        }
+    }
+
+    fun onDeleteFailureShown() {
+        _deleteFailed.value = false
     }
 
     fun onEditPost(postId: String, body: String) {

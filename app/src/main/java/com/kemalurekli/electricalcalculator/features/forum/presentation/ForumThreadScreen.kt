@@ -72,6 +72,13 @@ fun ForumThreadRoute(
     val sendFailed by viewModel.sendFailed.collectAsStateWithLifecycle()
     val rulesAccepted by rulesViewModel.accepted.collectAsStateWithLifecycle()
     val sent by viewModel.sent.collectAsStateWithLifecycle()
+    val threadDeleted by viewModel.threadDeleted.collectAsStateWithLifecycle()
+    val deleteFailed by viewModel.deleteFailed.collectAsStateWithLifecycle()
+
+    // The thread is gone, so this screen has nothing left to show.
+    LaunchedEffect(threadDeleted) {
+        if (threadDeleted) onNavigateBack()
+    }
     var showingRules by remember { mutableStateOf(false) }
 
     LaunchedEffect(threadId) { viewModel.onOpen(threadId) }
@@ -96,6 +103,9 @@ fun ForumThreadRoute(
         onEditPost = viewModel::onEditPost,
         onDeletePost = viewModel::onDeletePost,
         sent = sent,
+        deleteFailed = deleteFailed,
+        onDeleteThread = viewModel::onDeleteThread,
+        onDeleteFailureShown = viewModel::onDeleteFailureShown,
         onRetry = viewModel::onRefresh,
         onNavigateBack = onNavigateBack,
         modifier = modifier,
@@ -128,6 +138,9 @@ fun ForumThreadScreen(
     onEditPost: (String, String) -> Unit,
     onDeletePost: (String) -> Unit,
     sent: Int = 0,
+    deleteFailed: Boolean = false,
+    onDeleteThread: () -> Unit = {},
+    onDeleteFailureShown: () -> Unit = {},
     onRetry: () -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
@@ -141,6 +154,14 @@ fun ForumThreadScreen(
     // first. Skips zero, which is the state before anything has been sent.
     LaunchedEffect(sent) {
         if (sent > 0) snackbarHostState.showSnackbar(sentMessage)
+    }
+
+    val deleteFailedMessage = stringResource(R.string.forum_delete_thread_failed)
+    LaunchedEffect(deleteFailed) {
+        if (deleteFailed) {
+            snackbarHostState.showSnackbar(deleteFailedMessage)
+            onDeleteFailureShown()
+        }
     }
 
     Scaffold(
@@ -192,10 +213,19 @@ fun ForumThreadScreen(
                         vertical = spacing.xs,
                     ),
                 ) {
+                    // Only while nobody has answered. The server refuses it
+                    // either way, but offering a button that is going to be
+                    // refused is a worse way to say the same thing.
+                    val hasReplies = posts.any { !it.isOpeningPost }
+
                     items(posts, key = { it.id }) { post ->
                         PostCard(
                             post = post,
                             isOwn = post.authorId == currentUserId,
+                            canDeleteThread = post.isOpeningPost &&
+                                post.authorId == currentUserId &&
+                                !hasReplies,
+                            onDeleteThread = onDeleteThread,
                             canThank = currentUserId != null && post.authorId != currentUserId,
                             onToggleThanks = { onToggleThanks(post) },
                             onEdit = { onEditPost(post.id, it) },
@@ -220,6 +250,8 @@ private fun PostCard(
     post: ForumPost,
     isOwn: Boolean,
     canThank: Boolean,
+    canDeleteThread: Boolean = false,
+    onDeleteThread: () -> Unit = {},
     onToggleThanks: () -> Unit,
     onEdit: (String) -> Unit,
     onDelete: () -> Unit,
@@ -227,6 +259,7 @@ private fun PostCard(
     val spacing = ElecTheme.spacing
     var editing by remember { mutableStateOf(false) }
     var confirmingDelete by remember { mutableStateOf(false) }
+    var confirmingThreadDelete by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -361,6 +394,23 @@ private fun PostCard(
                                 confirmingDelete = true
                             },
                         )
+                        // Deleting the opening post of an unanswered thread
+                        // leaves a titled shell nobody can remove, so the
+                        // thread goes with it.
+                        if (canDeleteThread) {
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = stringResource(R.string.forum_delete_thread),
+                                        color = MaterialTheme.colorScheme.error,
+                                    )
+                                },
+                                onClick = {
+                                    menuOpen = false
+                                    confirmingThreadDelete = true
+                                },
+                            )
+                        }
                     }
                 }
             }
@@ -377,6 +427,32 @@ private fun PostCard(
                 editing = false
             },
             onDismiss = { editing = false },
+        )
+    }
+
+    if (confirmingThreadDelete) {
+        AlertDialog(
+            onDismissRequest = { confirmingThreadDelete = false },
+            title = { Text(stringResource(R.string.forum_delete_thread_title)) },
+            text = { Text(stringResource(R.string.forum_delete_thread_message)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        confirmingThreadDelete = false
+                        onDeleteThread()
+                    },
+                ) {
+                    Text(
+                        text = stringResource(R.string.forum_delete_thread),
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmingThreadDelete = false }) {
+                    Text(stringResource(R.string.action_cancel))
+                }
+            },
         )
     }
 

@@ -72,12 +72,26 @@ interface ForumRepository {
     suspend fun updatePost(postId: String, body: String): ForumResult<Unit>
 
     /**
-     * Withdraws one's own message.
+     * Removes one's own message, for good.
      *
-     * Soft, so that a message someone has reported does not vanish before it
-     * has been looked at.
+     * The row goes rather than being flagged. A trigger copies the text, the
+     * author and the remover into `forum_deleted_posts` first, so nothing that
+     * moderation needs is lost — and once that archive existed, keeping a
+     * hidden second copy in the live table preserved nothing.
      */
     suspend fun deletePost(postId: String): ForumResult<Unit>
+
+    /**
+     * Removes one's own thread, which is only possible while nobody has
+     * answered it.
+     *
+     * The moment somebody replies the thread stops being one person's to
+     * erase: the replies are other people's work, and taking the question away
+     * would leave them answering nothing. The server enforces this — the
+     * delete policy carries `reply_count = 0` — so the caller must be ready for
+     * a refusal even when the button was showing.
+     */
+    suspend fun deleteThread(threadId: String): ForumResult<Unit>
 
     /**
      * Thanks a message, or takes it back.

@@ -171,10 +171,15 @@ class ForumRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deletePost(postId: String) = query { client ->
-        client.postgrest.from(TABLE_POSTS)
-            .update(buildJsonObject { put("is_deleted", true) }) {
-                filter { eq("id", postId) }
-            }
+        client.postgrest.from(TABLE_POSTS).delete { filter { eq("id", postId) } }
+        Unit
+    }
+
+    override suspend fun deleteThread(threadId: String) = query { client ->
+        // The posts go with it through the schema's cascade, and each one is
+        // archived on its way out by the same trigger that handles a single
+        // deletion. Nothing here has to walk the thread.
+        client.postgrest.from(TABLE_THREADS).delete { filter { eq("id", threadId) } }
         Unit
     }
 

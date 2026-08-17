@@ -3294,4 +3294,8 @@
     <string name="action_edit">Edit</string>
     <string name="forum_reply_sent">Reply sent</string>
     <string name="forum_post_actions">Message actions</string>
+    <string name="forum_delete_thread">Delete the thread</string>
+    <string name="forum_delete_thread_title">Delete this thread?</string>
+    <string name="forum_delete_thread_message">The thread and your opening message are removed permanently. This is only possible while nobody has replied.</string>
+    <string name="forum_delete_thread_failed">The thread could not be deleted. Somebody may have replied to it just now.</string>
 </resources>

@@ -129,6 +129,46 @@ begin
     select exists (select 1 from public.forum_reports) into ok;
     if ok then raise exception 'a user was able to read the report queue'; end if;
 
+    -- ---- deletion --------------------------------------------------------
+    -- None of this could be checked before 07: there were no delete policies
+    -- at all, so every one of these would have failed for the same reason.
+    reset role;
+    update public.forum_threads set is_locked = false where id = thr;
+    set local role authenticated;
+
+    -- Bob may not delete Alice's message.
+    perform set_config('request.jwt.claims', json_build_object('sub', bob, 'role', 'authenticated')::text, true);
+    delete from public.forum_posts where id = post;
+    if found then raise exception 'a user was able to delete another user''s post'; end if;
+
+    -- Alice may delete her own, and it lands in the archive.
+    perform set_config('request.jwt.claims', json_build_object('sub', alice, 'role', 'authenticated')::text, true);
+    delete from public.forum_posts where id = post;
+    if not found then raise exception 'an author could not delete their own post'; end if;
+
+    reset role;
+    select count(*) into n from public.forum_deleted_posts where post_id = post;
+    if n <> 1 then raise exception 'a deleted post was not archived (got % rows)', n; end if;
+    set local role authenticated;
+
+    -- The thread still has Bob's reply, so it must refuse to go.
+    perform set_config('request.jwt.claims', json_build_object('sub', alice, 'role', 'authenticated')::text, true);
+    delete from public.forum_threads where id = thr;
+    if found then raise exception 'a thread with replies was deleted'; end if;
+
+    -- With the replies gone it is hers alone again, and it may go.
+    reset role;
+    delete from public.forum_posts where thread_id = thr;
+    set local role authenticated;
+    perform set_config('request.jwt.claims', json_build_object('sub', alice, 'role', 'authenticated')::text, true);
+    delete from public.forum_threads where id = thr;
+    if not found then raise exception 'an author could not delete their own reply-free thread'; end if;
+
+    reset role;
+    select count(*) into n from public.forum_deleted_threads where thread_id = thr;
+    if n <> 1 then raise exception 'a deleted thread was not archived (got % rows)', n; end if;
+    set local role authenticated;
+
     reset role;
 
     -- The verdict is carried by the exception itself rather than by a NOTICE.

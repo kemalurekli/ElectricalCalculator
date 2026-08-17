@@ -3296,4 +3296,8 @@
     <string name="action_edit">Düzenle</string>
     <string name="forum_reply_sent">Cevap gönderildi</string>
     <string name="forum_post_actions">Mesaj işlemleri</string>
+    <string name="forum_delete_thread">Konuyu sil</string>
+    <string name="forum_delete_thread_title">Bu konu silinsin mi?</string>
+    <string name="forum_delete_thread_message">Konu ve açılış mesajınız kalıcı olarak silinir. Bu yalnızca kimse cevap yazmamışken mümkündür.</string>
+    <string name="forum_delete_thread_failed">Konu silinemedi. Az önce biri cevap yazmış olabilir.</string>
 </resources>
