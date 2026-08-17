@@ -173,16 +173,40 @@ class ForumRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deletePost(postId: String) = query { client ->
-        client.postgrest.from(TABLE_POSTS).delete { filter { eq("id", postId) } }
-        Unit
+        client.postgrest.from(TABLE_POSTS)
+            .delete {
+                select(Columns.list("id"))
+                filter { eq("id", postId) }
+            }
+            .decodeList<IdDto>()
+            .requireDeleted()
     }
 
     override suspend fun deleteThread(threadId: String) = query { client ->
         // The posts go with it through the schema's cascade, and each one is
         // archived on its way out by the same trigger that handles a single
         // deletion. Nothing here has to walk the thread.
-        client.postgrest.from(TABLE_THREADS).delete { filter { eq("id", threadId) } }
-        Unit
+        client.postgrest.from(TABLE_THREADS)
+            .delete {
+                select(Columns.list("id"))
+                filter { eq("id", threadId) }
+            }
+            .decodeList<IdDto>()
+            .requireDeleted()
+    }
+
+    /**
+     * Turns "the policy refused this" into a failure.
+     *
+     * A DELETE that no policy allows is not an error to PostgREST — it matches
+     * no rows and reports success, so a refused deletion and a completed one
+     * look identical. Asking for the deleted rows back is what tells them
+     * apart, and without it the app navigates away from a thread that is still
+     * there: exactly what happens when somebody replies a moment before the
+     * delete lands, which is the case the reply_count rule exists for.
+     */
+    private fun List<IdDto>.requireDeleted() {
+        if (isEmpty()) error("the server refused the deletion")
     }
 
     override suspend fun setThanks(postId: String, thanked: Boolean) = query { client ->

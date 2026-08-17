@@ -3317,4 +3317,5 @@
     <string name="forum_blocked_section">Blocked people</string>
     <string name="forum_blocked_empty">You have not blocked anyone.</string>
     <string name="forum_unblock">Unblock</string>
+    <string name="forum_thread_actions">Thread actions</string>
 </resources>

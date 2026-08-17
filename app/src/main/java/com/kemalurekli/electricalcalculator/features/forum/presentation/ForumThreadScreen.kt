@@ -62,6 +62,7 @@ fun ForumThreadRoute(
     threadId: String,
     threadTitle: String,
     isLocked: Boolean = false,
+    threadAuthorId: String = "",
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ForumThreadViewModel = hiltViewModel(),
@@ -91,6 +92,7 @@ fun ForumThreadRoute(
         title = threadTitle,
         uiState = uiState,
         isLocked = isLocked,
+        threadAuthorId = threadAuthorId,
         currentUserId = session.userId,
         draft = draft,
         sending = sending,
@@ -138,6 +140,7 @@ fun ForumThreadScreen(
     title: String,
     uiState: ForumScreenState<List<ForumPost>>,
     isLocked: Boolean = false,
+    threadAuthorId: String = "",
     currentUserId: String?,
     draft: String,
     sending: Boolean,
@@ -162,6 +165,16 @@ fun ForumThreadScreen(
     val spacing = ElecTheme.spacing
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
+    var confirmingThreadDelete by remember { mutableStateOf(false) }
+
+    // Derived from what is loaded rather than from a count carried in the
+    // route: the route's number was true when the list was drawn, and the
+    // server is the one that decides anyway.
+    val posts = (uiState as? ForumScreenState.Content)?.value.orEmpty()
+    val canDeleteThread = currentUserId != null &&
+        threadAuthorId == currentUserId &&
+        posts.none { !it.isOpeningPost }
+
     val sentMessage = stringResource(R.string.forum_reply_sent)
 
     // Keyed on the counter so the second reply confirms as clearly as the
@@ -203,6 +216,41 @@ fun ForumThreadScreen(
                 title = title,
                 onNavigateBack = onNavigateBack,
                 scrollBehavior = scrollBehavior,
+                actions = {
+                    // A thread action belongs to the thread, not to a message
+                    // inside it. Hanging it off the opening post meant that
+                    // deleting that post left the thread with no menu at all —
+                    // the titled shell this was supposed to prevent.
+                    if (canDeleteThread) {
+                        Box {
+                            var menuOpen by remember { mutableStateOf(false) }
+                            IconButton(onClick = { menuOpen = true }) {
+                                Icon(
+                                    imageVector = ElecIcons.More,
+                                    contentDescription =
+                                        stringResource(R.string.forum_thread_actions),
+                                )
+                            }
+                            DropdownMenu(
+                                expanded = menuOpen,
+                                onDismissRequest = { menuOpen = false },
+                            ) {
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            text = stringResource(R.string.forum_delete_thread),
+                                            color = MaterialTheme.colorScheme.error,
+                                        )
+                                    },
+                                    onClick = {
+                                        menuOpen = false
+                                        confirmingThreadDelete = true
+                                    },
+                                )
+                            }
+                        }
+                    }
+                },
             )
         },
         bottomBar = {
@@ -257,19 +305,10 @@ fun ForumThreadScreen(
                         vertical = spacing.xs,
                     ),
                 ) {
-                    // Only while nobody has answered. The server refuses it
-                    // either way, but offering a button that is going to be
-                    // refused is a worse way to say the same thing.
-                    val hasReplies = posts.any { !it.isOpeningPost }
-
                     items(posts, key = { it.id }) { post ->
                         PostCard(
                             post = post,
                             isOwn = post.authorId == currentUserId,
-                            canDeleteThread = post.isOpeningPost &&
-                                post.authorId == currentUserId &&
-                                !hasReplies,
-                            onDeleteThread = onDeleteThread,
                             canModerate = currentUserId != null,
                             onReport = { reason, note -> onReport(post.id, reason, note) },
                             onBlock = { onBlock(post.authorId) },
@@ -282,6 +321,32 @@ fun ForumThreadScreen(
                 }
             }
         }
+    }
+
+    if (confirmingThreadDelete) {
+        AlertDialog(
+            onDismissRequest = { confirmingThreadDelete = false },
+            title = { Text(stringResource(R.string.forum_delete_thread_title)) },
+            text = { Text(stringResource(R.string.forum_delete_thread_message)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        confirmingThreadDelete = false
+                        onDeleteThread()
+                    },
+                ) {
+                    Text(
+                        text = stringResource(R.string.forum_delete_thread),
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmingThreadDelete = false }) {
+                    Text(stringResource(R.string.action_cancel))
+                }
+            },
+        )
     }
 }
 
@@ -297,8 +362,6 @@ private fun PostCard(
     post: ForumPost,
     isOwn: Boolean,
     canThank: Boolean,
-    canDeleteThread: Boolean = false,
-    onDeleteThread: () -> Unit = {},
     canModerate: Boolean = false,
     onReport: (ForumReportReason, String) -> Unit = { _, _ -> },
     onBlock: () -> Unit = {},
@@ -309,7 +372,6 @@ private fun PostCard(
     val spacing = ElecTheme.spacing
     var editing by remember { mutableStateOf(false) }
     var confirmingDelete by remember { mutableStateOf(false) }
-    var confirmingThreadDelete by remember { mutableStateOf(false) }
     var reporting by remember { mutableStateOf(false) }
     var confirmingBlock by remember { mutableStateOf(false) }
 
@@ -466,23 +528,6 @@ private fun PostCard(
                                 confirmingDelete = true
                             },
                         )
-                        // Deleting the opening post of an unanswered thread
-                        // leaves a titled shell nobody can remove, so the
-                        // thread goes with it.
-                        }
-                        if (canDeleteThread) {
-                            DropdownMenuItem(
-                                text = {
-                                    Text(
-                                        text = stringResource(R.string.forum_delete_thread),
-                                        color = MaterialTheme.colorScheme.error,
-                                    )
-                                },
-                                onClick = {
-                                    menuOpen = false
-                                    confirmingThreadDelete = true
-                                },
-                            )
                         }
                     }
                 }
@@ -503,64 +548,6 @@ private fun PostCard(
         )
     }
 
-    if (reporting) {
-        ForumReportDialog(
-            onConfirm = { reason, note ->
-                reporting = false
-                onReport(reason, note)
-            },
-            onDismiss = { reporting = false },
-        )
-    }
-
-    if (confirmingBlock) {
-        AlertDialog(
-            onDismissRequest = { confirmingBlock = false },
-            title = { Text(stringResource(R.string.forum_block_title, post.authorName)) },
-            text = { Text(stringResource(R.string.forum_block_message)) },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        confirmingBlock = false
-                        onBlock()
-                    },
-                ) {
-                    Text(stringResource(R.string.forum_block))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { confirmingBlock = false }) {
-                    Text(stringResource(R.string.action_cancel))
-                }
-            },
-        )
-    }
-
-    if (confirmingThreadDelete) {
-        AlertDialog(
-            onDismissRequest = { confirmingThreadDelete = false },
-            title = { Text(stringResource(R.string.forum_delete_thread_title)) },
-            text = { Text(stringResource(R.string.forum_delete_thread_message)) },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        confirmingThreadDelete = false
-                        onDeleteThread()
-                    },
-                ) {
-                    Text(
-                        text = stringResource(R.string.forum_delete_thread),
-                        color = MaterialTheme.colorScheme.error,
-                    )
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { confirmingThreadDelete = false }) {
-                    Text(stringResource(R.string.action_cancel))
-                }
-            },
-        )
-    }
 
     if (confirmingDelete) {
         AlertDialog(

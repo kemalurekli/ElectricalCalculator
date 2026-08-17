@@ -122,6 +122,7 @@ sealed interface Route {
         val threadId: String,
         val title: String,
         val isLocked: Boolean = false,
+        val authorId: String = "",
     ) : Route
 
     /**
