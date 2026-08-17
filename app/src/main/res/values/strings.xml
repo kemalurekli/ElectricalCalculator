@@ -3292,4 +3292,5 @@
     <string name="forum_rules_body">Answers here are from other readers, not from the app. Nothing posted in the forum is checked, verified or endorsed by the developers, and none of it may be treated as engineering advice — the disclaimer that covers the rest of the app covers the forum too.\n\nWrite as you would on site: describe the installation, say what you measured, and do not post anyone\'s personal details. Content that is abusive, commercial or unlawful is removed and the account is closed.\n\nYou are responsible for what you post.</string>
     <string name="forum_rules_accept">I understand</string>
     <string name="action_edit">Edit</string>
+    <string name="forum_reply_sent">Reply sent</string>
 </resources>

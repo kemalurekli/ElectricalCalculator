@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.rememberScrollState
@@ -94,8 +93,12 @@ fun ForumComposeThreadScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                // No imePadding here. The Scaffold's safeDrawing insets
+                // already include the keyboard, and adding it again counts the
+                // keyboard twice — which pushes the field being typed into off
+                // the top of the screen. The text field brings itself into view
+                // within this scroll on its own.
                 .padding(innerPadding)
-                .imePadding()
                 .verticalScroll(rememberScrollState())
                 .padding(spacing.screenHorizontal),
             verticalArrangement = Arrangement.spacedBy(spacing.md),

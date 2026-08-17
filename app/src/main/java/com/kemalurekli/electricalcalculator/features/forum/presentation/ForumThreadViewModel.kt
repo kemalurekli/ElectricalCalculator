@@ -35,6 +35,16 @@ class ForumThreadViewModel @Inject constructor(
     private val _sending = MutableStateFlow(false)
     val sending: StateFlow<Boolean> = _sending.asStateFlow()
 
+    /**
+     * Bumped once per delivered reply, purely so the screen can confirm it.
+     *
+     * A counter rather than a boolean: two replies in a row are two separate
+     * confirmations, and a flag that is already true the second time would show
+     * nothing.
+     */
+    private val _sent = MutableStateFlow(0)
+    val sent: StateFlow<Int> = _sent.asStateFlow()
+
     private val _sendFailed = MutableStateFlow(false)
     val sendFailed: StateFlow<Boolean> = _sendFailed.asStateFlow()
 
@@ -70,6 +80,7 @@ class ForumThreadViewModel @Inject constructor(
                     // any cost.
                     _draft.value = ""
                     _sendFailed.value = false
+                    _sent.value += 1
                     load(refreshing = true)
                 }
 

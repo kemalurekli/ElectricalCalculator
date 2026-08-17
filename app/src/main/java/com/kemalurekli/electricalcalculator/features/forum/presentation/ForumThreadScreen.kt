@@ -6,15 +6,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.MaterialTheme
@@ -58,6 +61,7 @@ fun ForumThreadRoute(
     val sending by viewModel.sending.collectAsStateWithLifecycle()
     val sendFailed by viewModel.sendFailed.collectAsStateWithLifecycle()
     val rulesAccepted by rulesViewModel.accepted.collectAsStateWithLifecycle()
+    val sent by viewModel.sent.collectAsStateWithLifecycle()
     var showingRules by remember { mutableStateOf(false) }
 
     LaunchedEffect(threadId) { viewModel.onOpen(threadId) }
@@ -77,6 +81,7 @@ fun ForumThreadRoute(
         onToggleThanks = viewModel::onToggleThanks,
         onEditPost = viewModel::onEditPost,
         onDeletePost = viewModel::onDeletePost,
+        sent = sent,
         onRetry = viewModel::onRefresh,
         onNavigateBack = onNavigateBack,
         modifier = modifier,
@@ -108,15 +113,29 @@ fun ForumThreadScreen(
     onToggleThanks: (ForumPost) -> Unit,
     onEditPost: (String, String) -> Unit,
     onDeletePost: (String) -> Unit,
+    sent: Int = 0,
     onRetry: () -> Unit,
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val sentMessage = stringResource(R.string.forum_reply_sent)
+
+    // Keyed on the counter so the second reply confirms as clearly as the
+    // first. Skips zero, which is the state before anything has been sent.
+    LaunchedEffect(sent) {
+        if (sent > 0) snackbarHostState.showSnackbar(sentMessage)
+    }
 
     Scaffold(
-        contentWindowInsets = WindowInsets.safeDrawing,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        // The bottom is left to the reply box, which is a bottomBar and gets
+        // no insets from the Scaffold. Claiming it here as well would pad the
+        // list for a keyboard that the bar has already moved above.
+        contentWindowInsets = WindowInsets.safeDrawing
+            .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top),
         modifier = modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -313,9 +332,8 @@ private fun PostCard(
 /**
  * The reply box, pinned under the thread.
  *
- * `imePadding` rather than a scrolling footer: the box has to stay above the
- * keyboard while somebody types into it, which is the entire reason it is a
- * bottom bar and not the last item in the list.
+ * A bottom bar rather than the last item in the list, because it has to stay
+ * above the keyboard while somebody types into it.
  */
 @Composable
 private fun ReplyComposer(
@@ -331,8 +349,11 @@ private fun ReplyComposer(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .imePadding()
-                .navigationBarsPadding()
+                // One inset, not two. safeDrawing's bottom is the larger of the
+                // navigation bar and the keyboard; chaining imePadding and
+                // navigationBarsPadding adds them together instead, leaving a
+                // navigation-bar-sized gap under the keyboard.
+                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
                 .padding(horizontal = spacing.screenHorizontal, vertical = spacing.sm),
             verticalArrangement = Arrangement.spacedBy(spacing.xs),
         ) {

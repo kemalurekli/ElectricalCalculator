@@ -3294,4 +3294,5 @@
     <string name="forum_rules_body">Buradaki cevaplar uygulamadan değil, diğer kullanıcılardan gelir. Forumda yazılan hiçbir şey geliştiriciler tarafından denetlenmez, doğrulanmaz veya onaylanmaz ve hiçbiri mühendislik tavsiyesi sayılamaz — uygulamanın geri kalanı için geçerli olan sorumluluk reddi forum için de geçerlidir.\n\nSahada konuşur gibi yazın: tesisatı anlatın, ne ölçtüğünüzü söyleyin ve kimsenin kişisel bilgilerini paylaşmayın. Hakaret içeren, ticari veya hukuka aykırı içerik kaldırılır, hesap kapatılır.\n\nYazdıklarınızdan siz sorumlusunuz.</string>
     <string name="forum_rules_accept">Anladım</string>
     <string name="action_edit">Düzenle</string>
+    <string name="forum_reply_sent">Cevap gönderildi</string>
 </resources>
