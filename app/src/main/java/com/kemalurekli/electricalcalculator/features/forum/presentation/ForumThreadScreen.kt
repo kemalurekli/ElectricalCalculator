@@ -547,6 +547,39 @@ private fun PostCard(
 
     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
+    if (reporting) {
+        ForumReportDialog(
+            onConfirm = { reason, note ->
+                reporting = false
+                onReport(reason, note)
+            },
+            onDismiss = { reporting = false },
+        )
+    }
+
+    if (confirmingBlock) {
+        AlertDialog(
+            onDismissRequest = { confirmingBlock = false },
+            title = { Text(stringResource(R.string.forum_block_title, post.authorName)) },
+            text = { Text(stringResource(R.string.forum_block_message)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        confirmingBlock = false
+                        onBlock()
+                    },
+                ) {
+                    Text(stringResource(R.string.forum_block))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmingBlock = false }) {
+                    Text(stringResource(R.string.action_cancel))
+                }
+            },
+        )
+    }
+
     if (editing) {
         EditPostDialog(
             current = post.body,

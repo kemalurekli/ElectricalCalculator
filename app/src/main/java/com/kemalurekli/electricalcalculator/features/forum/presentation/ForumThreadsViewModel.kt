@@ -41,9 +41,14 @@ class ForumThreadsViewModel @Inject constructor(
     /** Does nothing when the category is already loaded, so the screen's
      *  `LaunchedEffect` can be keyed on its argument without refetching. */
     fun onOpen(id: String) {
-        if (categoryId == id) return
+        // Reloads even for the category already held. The guard that used to
+        // sit here was protecting against recompositions, but the caller is a
+        // LaunchedEffect keyed on the id — it already fires once per entry into
+        // composition, and the entry that matters is the one after coming back
+        // from a thread. Skipping that left a thread the reader had just
+        // deleted still sitting in the list.
         categoryId = id
-        load()
+        load(refreshing = uiState.value is ForumScreenState.Content)
     }
 
     fun onRefresh() = load(refreshing = true)
