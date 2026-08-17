@@ -3323,6 +3323,6 @@
       an empty value hides the link rather than offering one that 404s, and
       Play will not accept the listing until it is filled in.
     -->
-    <string name="privacy_policy_url" translatable="false"></string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
     <string name="settings_privacy_policy">Privacy policy</string>
 </resources>
