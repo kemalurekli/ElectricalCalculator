@@ -3320,4 +3320,5 @@
     <string name="forum_blocked_empty">Kimseyi engellemediniz.</string>
     <string name="forum_unblock">Engeli kaldır</string>
     <string name="forum_thread_actions">Konu işlemleri</string>
+    <string name="settings_privacy_policy">Gizlilik politikası</string>
 </resources>

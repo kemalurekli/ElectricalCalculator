@@ -123,32 +123,18 @@ class ForumRepositoryImpl @Inject constructor(
         title: String,
         body: String,
     ) = query { client ->
-        val author = client.requireUserId()
-
-        val thread = client.postgrest.from(TABLE_THREADS)
-            .insert(
-                buildJsonObject {
-                    put("category_id", categoryId)
-                    put("author_id", author)
-                    put("language", language.code)
-                    put("title", title)
-                },
-            ) { select(Columns.list("id")) }
-            .decodeSingle<IdDto>()
-            .id
-
-        // The opening post is an ordinary row flagged as the opener, which is
-        // what lets thanking, editing and reporting work on one content type.
-        client.postgrest.from(TABLE_POSTS).insert(
+        // One request, because a function body is one transaction. As two
+        // inserts a dropped connection between them left a thread with no
+        // message in it — titled, listed, opening onto nothing.
+        client.postgrest.rpc(
+            RPC_CREATE_THREAD,
             buildJsonObject {
-                put("thread_id", thread)
-                put("author_id", author)
-                put("body", body)
-                put("is_opening_post", true)
+                put("p_category_id", categoryId)
+                put("p_language", language.code)
+                put("p_title", title)
+                put("p_body", body)
             },
-        )
-
-        thread
+        ).decodeAs<String>()
     }
 
     override suspend fun createReply(threadId: String, body: String) = query { client ->
@@ -408,6 +394,7 @@ class ForumRepositoryImpl @Inject constructor(
         const val TABLE_THANKS = "forum_thanks"
         const val TABLE_REPORTS = "forum_reports"
         const val TABLE_BLOCKS = "forum_blocks"
+        const val RPC_CREATE_THREAD = "forum_create_thread"
 
         /** The schema's `reason` check is `between 3 and 500`. */
         const val REASON_MAX_LENGTH = 500

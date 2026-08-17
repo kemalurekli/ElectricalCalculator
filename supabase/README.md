@@ -10,7 +10,8 @@ Run these in the Supabase SQL editor, in order, as the project owner.
 | `04_account_deletion.sql` | `forum_delete_account()` — Play requires an in-app route | After `01` |
 | `05_deleted_posts_audit.sql` | Archives removed messages | After `01` |
 | `06_fix_soft_delete_policy.sql` | Lets an author's delete return its own row | After `01` |
-| `07_deletion.sql` | Real deletion: DELETE policies, thread archive | Last |
+| `07_deletion.sql` | Real deletion: DELETE policies, thread archive | After `01` |
+| `08_create_thread.sql` | Makes opening a thread one transaction | Last |
 
 ## Run them in order, and re-run the whole sequence
 
@@ -23,8 +24,8 @@ failing with
     new row violates row-level security policy for table "forum_posts"
 
 which reads like a permissions bug and is not one. `07` restates those two
-policies at the end of the sequence for exactly this reason: whatever else was
-run, finishing with `07` leaves them correct.
+policies for exactly this reason: whatever else was run, running `07` again
+leaves them correct.
 
 `02` creates two throwaway users, asserts, and rolls everything back.
 

@@ -30,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -230,6 +231,23 @@ fun SettingsScreen(
             }
 
             ElecSectionHeader(title = stringResource(R.string.settings_about))
+
+            // Hidden rather than broken when the address has not been filled
+            // in. The app now holds accounts and user content, so Play will not
+            // take the listing without one — but a link that 404s is worse than
+            // no link, and a fresh checkout has nothing to point at.
+            val privacyUrl = stringResource(R.string.privacy_policy_url)
+            if (privacyUrl.isNotBlank()) {
+                val uriHandler = LocalUriHandler.current
+                SettingsGroup {
+                    TextButton(
+                        onClick = { uriHandler.openUri(privacyUrl) },
+                        modifier = Modifier.padding(horizontal = spacing.sm),
+                    ) {
+                        Text(text = stringResource(R.string.settings_privacy_policy))
+                    }
+                }
+            }
 
             SettingsGroup {
                 Row(

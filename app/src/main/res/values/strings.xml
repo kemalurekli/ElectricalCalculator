@@ -3318,4 +3318,11 @@
     <string name="forum_blocked_empty">You have not blocked anyone.</string>
     <string name="forum_unblock">Unblock</string>
     <string name="forum_thread_actions">Thread actions</string>
+    <!--
+      The published address of docs/privacy-policy.md. Left empty on purpose:
+      an empty value hides the link rather than offering one that 404s, and
+      Play will not accept the listing until it is filled in.
+    -->
+    <string name="privacy_policy_url" translatable="false"></string>
+    <string name="settings_privacy_policy">Privacy policy</string>
 </resources>
