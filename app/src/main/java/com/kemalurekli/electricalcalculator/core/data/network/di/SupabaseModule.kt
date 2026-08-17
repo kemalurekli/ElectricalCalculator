@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.ktor.client.engine.okhttp.OkHttp
@@ -67,6 +68,11 @@ object SupabaseModule {
         return ForumBackend.Available(
             createSupabaseClient(supabaseUrl = url, supabaseKey = key) {
                 install(Postgrest)
+                // Auth keeps the session in encrypted storage and refreshes the
+                // access token on its own. Nothing here handles a password:
+                // sign-in is an ID token minted by Google and checked by
+                // Supabase, so the app never sees a credential worth stealing.
+                install(Auth)
                 httpEngine = OkHttp.create { preconfigured = okHttpClient }
             },
         )

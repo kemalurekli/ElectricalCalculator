@@ -37,6 +37,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.pre
 import com.kemalurekli.electricalcalculator.features.converter.presentation.ConverterRoute
 import com.kemalurekli.electricalcalculator.features.favorites.presentation.FavoritesRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumCategoriesRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumProfileRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadsRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.CircuitRoute
@@ -311,6 +312,10 @@ fun ElecNavHost(
             )
         }
 
+        composable<Route.ForumProfile> {
+            ForumProfileRoute(onNavigateBack = actions::navigateBack)
+        }
+
         composable<Route.ForumThread> { backStackEntry ->
             val route = backStackEntry.toRoute<Route.ForumThread>()
             ForumThreadRoute(
@@ -363,7 +368,10 @@ fun ElecNavHost(
         }
 
         composable<Route.Settings> {
-            SettingsRoute(onNavigateBack = actions::navigateBack)
+            SettingsRoute(
+                onNavigateBack = actions::navigateBack,
+                onOpenForumProfile = { actions.navigateTo(Route.ForumProfile(it)) },
+            )
         }
     }
 }

@@ -46,6 +46,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOpti
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumAccountSection
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
@@ -60,6 +61,7 @@ import java.util.Locale
 @Composable
 fun SettingsRoute(
     onNavigateBack: () -> Unit,
+    onOpenForumProfile: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
@@ -74,6 +76,7 @@ fun SettingsRoute(
         onEngineeringDefaultsChange = viewModel::onEngineeringDefaultsChange,
         onResetEngineeringDefaults = viewModel::onResetEngineeringDefaults,
         onNavigateBack = onNavigateBack,
+        onOpenForumProfile = onOpenForumProfile,
         modifier = modifier,
     )
 }
@@ -89,6 +92,7 @@ fun SettingsScreen(
     onEngineeringDefaultsChange: (EngineeringDefaults) -> Unit,
     onResetEngineeringDefaults: () -> Unit,
     onNavigateBack: () -> Unit,
+    onOpenForumProfile: (String) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
@@ -166,6 +170,12 @@ fun SettingsScreen(
                         )
                     }
                 }
+            }
+
+            ElecSectionHeader(title = stringResource(R.string.forum_account_section))
+
+            SettingsGroup {
+                ForumAccountSection(onOpenProfile = onOpenForumProfile)
             }
 
             ElecSectionHeader(title = stringResource(R.string.settings_units))

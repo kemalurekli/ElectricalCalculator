@@ -112,6 +112,17 @@ sealed interface Route {
     @Serializable
     data class ForumThread(val threadId: String, val title: String) : Route
 
+    /**
+     * A forum member, their own or anyone else's.
+     *
+     * One route for both, because the screen is the same and only the actions
+     * differ. Whether it is the reader's own is derived from the session rather
+     * than carried here — a stale flag in a back stack entry would offer a
+     * rename button that renames somebody else.
+     */
+    @Serializable
+    data class ForumProfile(val userId: String) : Route
+
     /** The list of jobs. */
     @Serializable
     data object Projects : Route

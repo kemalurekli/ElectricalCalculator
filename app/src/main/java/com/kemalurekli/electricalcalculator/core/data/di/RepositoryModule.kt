@@ -9,6 +9,7 @@ import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.data.repository.AppLanguageRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
+import com.kemalurekli.electricalcalculator.core.data.repository.ForumAuthRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.ForumRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.InspectionRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.ProjectRepositoryImpl
@@ -16,6 +17,7 @@ import com.kemalurekli.electricalcalculator.core.data.repository.UserPreferences
 import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
+import com.kemalurekli.electricalcalculator.core.domain.repository.ForumAuthRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ForumRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.InspectionRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
@@ -65,6 +67,12 @@ abstract class RepositoryModule {
     abstract fun bindForumRepository(
         impl: ForumRepositoryImpl,
     ): ForumRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindForumAuthRepository(
+        impl: ForumAuthRepositoryImpl,
+    ): ForumAuthRepository
 
     @Binds
     @Singleton

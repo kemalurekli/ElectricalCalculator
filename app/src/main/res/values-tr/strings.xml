@@ -3251,4 +3251,28 @@
     <string name="history_clear_message">Kaydedilmiş bütün hesaplar silinecek. Bu işlem geri alınamaz.</string>
     <string name="history_deleted">Hesap silindi</string>
     <string name="history_duplicated">Hesap çoğaltıldı</string>
+
+    <!-- Forum: hesap ve profil -->
+    <string name="forum_profile_title">Profil</string>
+    <string name="forum_profile_joined">Katılma</string>
+    <string name="forum_profile_posts">Mesaj</string>
+    <string name="forum_profile_thanks">Alınan teşekkür</string>
+    <string name="forum_profile_rename">Görünen adı değiştir</string>
+    <string name="forum_profile_display_name">Görünen ad</string>
+    <string name="forum_profile_rename_failed">Ad değiştirilemedi. Yeniden deneyin.</string>
+    <string name="forum_account_section">Forum hesabı</string>
+    <string name="forum_sign_in">Google ile giriş yap</string>
+    <string name="forum_sign_out">Çıkış yap</string>
+    <string name="forum_signed_in_as">%1$s olarak girildi</string>
+    <string name="forum_signed_out_summary">Konu açmak ve cevap yazmak için giriş yapın. Okumak için hesap gerekmez.</string>
+    <string name="forum_view_profile">Profili gör</string>
+    <string name="forum_sign_in_failed_no_account">Bu cihazda Google hesabı bulunamadı. Cihaz ayarlarından bir hesap ekleyip yeniden deneyin.</string>
+    <string name="forum_sign_in_failed_offline">Bağlantı yok. Giriş için bağlantı gerekiyor.</string>
+    <string name="forum_sign_in_failed_unconfigured">Bu sürümde giriş kullanılamıyor.</string>
+    <string name="forum_sign_in_failed">Giriş tamamlanmadı. Yeniden deneyin.</string>
+    <string name="forum_delete_account">Forum hesabını sil</string>
+    <string name="forum_delete_account_title">Forum hesabınız silinsin mi?</string>
+    <string name="forum_delete_account_message">Profiliniz, açtığınız konular ve mesajlarınız kalıcı olarak silinir. Bu işlem geri alınamaz. Projeleriniz ve geçmişiniz dahil uygulamanın geri kalanı bu cihazda kalır, etkilenmez.</string>
+    <string name="forum_delete_account_confirm">Kalıcı olarak sil</string>
+    <string name="forum_delete_account_failed">Hesap silinemedi. Yeniden deneyin.</string>
 </resources>

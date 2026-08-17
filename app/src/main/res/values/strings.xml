@@ -3249,4 +3249,28 @@
     <string name="history_clear_message">Every saved calculation will be removed. This cannot be undone.</string>
     <string name="history_deleted">Calculation deleted</string>
     <string name="history_duplicated">Calculation duplicated</string>
+
+    <!-- Forum: account and profile -->
+    <string name="forum_profile_title">Profile</string>
+    <string name="forum_profile_joined">Joined</string>
+    <string name="forum_profile_posts">Messages</string>
+    <string name="forum_profile_thanks">Thanks received</string>
+    <string name="forum_profile_rename">Change display name</string>
+    <string name="forum_profile_display_name">Display name</string>
+    <string name="forum_profile_rename_failed">The name could not be changed. Try again.</string>
+    <string name="forum_account_section">Forum account</string>
+    <string name="forum_sign_in">Sign in with Google</string>
+    <string name="forum_sign_out">Sign out</string>
+    <string name="forum_signed_in_as">Signed in as %1$s</string>
+    <string name="forum_signed_out_summary">Sign in to open threads and reply. Reading needs no account.</string>
+    <string name="forum_view_profile">View profile</string>
+    <string name="forum_sign_in_failed_no_account">No Google account was found on this device. Add one in your device settings and try again.</string>
+    <string name="forum_sign_in_failed_offline">No connection. Sign-in needs one.</string>
+    <string name="forum_sign_in_failed_unconfigured">Sign-in is not available in this build.</string>
+    <string name="forum_sign_in_failed">Sign-in did not complete. Try again.</string>
+    <string name="forum_delete_account">Delete forum account</string>
+    <string name="forum_delete_account_title">Delete your forum account?</string>
+    <string name="forum_delete_account_message">Your profile, threads and messages are deleted permanently. This cannot be undone. The rest of the app, including your projects and history, stays on this device and is not affected.</string>
+    <string name="forum_delete_account_confirm">Delete permanently</string>
+    <string name="forum_delete_account_failed">The account could not be deleted. Try again.</string>
 </resources>

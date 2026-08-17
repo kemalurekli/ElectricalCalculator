@@ -21,3 +21,18 @@ fun Instant.formatAsDateTime(
     .withLocale(locale)
     .withZone(zoneId)
     .format(this)
+
+/**
+ * The date alone, for timestamps where the hour is noise.
+ *
+ * A join date is the case this exists for: "joined 4 March 2026" is what the
+ * reader wants, and the minute they created the account is not information.
+ */
+fun Instant.formatAsDate(
+    locale: Locale = Locale.getDefault(),
+    zoneId: ZoneId = ZoneId.systemDefault(),
+): String = DateTimeFormatter
+    .ofLocalizedDate(FormatStyle.MEDIUM)
+    .withLocale(locale)
+    .withZone(zoneId)
+    .format(this)

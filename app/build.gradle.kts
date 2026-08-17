@@ -46,6 +46,14 @@ android {
 
         buildConfigField("String", "SUPABASE_URL", "\"${supabaseProperty("supabase.url")}\"")
         buildConfigField("String", "SUPABASE_ANON_KEY", "\"${supabaseProperty("supabase.anonKey")}\"")
+        // The *web* OAuth client id, not the Android one. Credential Manager
+        // sends it as the server client id, and Supabase checks the token was
+        // minted for it; the Android client only ties the SHA-1 to the package.
+        buildConfigField(
+            "String",
+            "GOOGLE_WEB_CLIENT_ID",
+            "\"${supabaseProperty("supabase.googleWebClientId")}\"",
+        )
     }
 
     buildTypes {
@@ -180,6 +188,10 @@ dependencies {
     // Forum backend
     implementation(platform(libs.supabase.bom))
     implementation(libs.supabase.postgrest)
+    implementation(libs.supabase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services)
+    implementation(libs.google.identity.googleid)
     implementation(libs.ktor.client.okhttp)
 
     // Networking — wired up now for future remote modules (standards / cable databases).
