@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.forum.auth
 
 import android.content.Context
+import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialCancellationException
@@ -74,12 +75,19 @@ class GoogleCredentialProvider @Inject constructor() {
                 .createFrom(response.credential.data)
                 .idToken
             GoogleCredential(idToken = token, rawNonce = rawNonce)
+        }.onFailure {
+            // Credential Manager reports several quite different problems as
+            // the same exception type, and the reason is only ever in the
+            // message. Without this line a failed sign-in leaves no trace at
+            // all, which makes it undiagnosable on a user's device.
+            Log.w(TAG, "Google credential request failed (filtered=$filterByAuthorizedAccounts)", it)
         }
     }
 
     class NotConfiguredException : IllegalStateException("No Google web client id in this build")
 
     private companion object {
+        const val TAG = "GoogleCredentials"
         const val NONCE_BYTES = 16
     }
 }
@@ -88,6 +96,10 @@ class GoogleCredentialProvider @Inject constructor() {
 fun Throwable.toGoogleSignInFailure(): ForumAuthFailure = when (this) {
     // Dismissing the sheet is a decision, not a fault. It gets no message.
     is GetCredentialCancellationException -> ForumAuthFailure.CANCELLED
+    // Credential Manager says "no credentials available" both when the device
+    // genuinely has no Google account and when this build is not registered for
+    // OAuth at all — the real reason is only in the log, never in the type. So
+    // the message this maps to must not assert either one.
     is NoCredentialException -> ForumAuthFailure.NO_ACCOUNT
     is GoogleCredentialProvider.NotConfiguredException -> ForumAuthFailure.NOT_CONFIGURED
     is IOException -> ForumAuthFailure.NO_CONNECTION

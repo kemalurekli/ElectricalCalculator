@@ -3266,7 +3266,7 @@
     <string name="forum_signed_in_as">%1$s olarak girildi</string>
     <string name="forum_signed_out_summary">Konu açmak ve cevap yazmak için giriş yapın. Okumak için hesap gerekmez.</string>
     <string name="forum_view_profile">Profili gör</string>
-    <string name="forum_sign_in_failed_no_account">Bu cihazda Google hesabı bulunamadı. Cihaz ayarlarından bir hesap ekleyip yeniden deneyin.</string>
+    <string name="forum_sign_in_failed_no_account">Google hesabı alınamadı. Bu cihazda Google oturumunuzun açık olduğundan emin olun.</string>
     <string name="forum_sign_in_failed_offline">Bağlantı yok. Giriş için bağlantı gerekiyor.</string>
     <string name="forum_sign_in_failed_unconfigured">Bu sürümde giriş kullanılamıyor.</string>
     <string name="forum_sign_in_failed">Giriş tamamlanmadı. Yeniden deneyin.</string>
