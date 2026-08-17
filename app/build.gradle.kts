@@ -1,3 +1,5 @@
+import java.util.Properties
+
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -7,6 +9,23 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
+
+/**
+ * Supabase connection details, read from `local.properties`.
+ *
+ * The anon key is public by design — row level security is what protects the
+ * data, not the key's secrecy — but it still stays out of version control so
+ * the repository can be shared and so debug and release can point at different
+ * projects. A missing value yields an empty string rather than failing the
+ * build: the app must still compile and run for everything that is not the
+ * forum.
+ */
+val supabaseProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
+fun supabaseProperty(key: String): String = supabaseProperties.getProperty(key).orEmpty()
 
 android {
     namespace = "com.kemalurekli.electricalcalculator"
@@ -24,6 +43,9 @@ android {
 
         testInstrumentationRunner = "com.kemalurekli.electricalcalculator.HiltTestRunner"
         vectorDrawables.useSupportLibrary = true
+
+        buildConfigField("String", "SUPABASE_URL", "\"${supabaseProperty("supabase.url")}\"")
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${supabaseProperty("supabase.anonKey")}\"")
     }
 
     buildTypes {
@@ -154,6 +176,11 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.datastore.preferences)
+
+    // Forum backend
+    implementation(platform(libs.supabase.bom))
+    implementation(libs.supabase.postgrest)
+    implementation(libs.ktor.client.okhttp)
 
     // Networking — wired up now for future remote modules (standards / cable databases).
     implementation(libs.retrofit.core)
