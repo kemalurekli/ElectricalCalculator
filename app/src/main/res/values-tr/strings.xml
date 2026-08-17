@@ -3295,4 +3295,5 @@
     <string name="forum_rules_accept">Anladım</string>
     <string name="action_edit">Düzenle</string>
     <string name="forum_reply_sent">Cevap gönderildi</string>
+    <string name="forum_post_actions">Mesaj işlemleri</string>
 </resources>

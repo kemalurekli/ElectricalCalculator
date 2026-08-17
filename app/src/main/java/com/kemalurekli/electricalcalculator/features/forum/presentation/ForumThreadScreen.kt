@@ -1,6 +1,10 @@
 package com.kemalurekli.electricalcalculator.features.forum.presentation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -15,14 +19,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,6 +40,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -218,82 +228,146 @@ private fun PostCard(
     var editing by remember { mutableStateOf(false) }
     var confirmingDelete by remember { mutableStateOf(false) }
 
-    ElecCard(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
+            .padding(
+                horizontal = spacing.screenHorizontal,
+                vertical = spacing.md,
+            ),
+        verticalArrangement = Arrangement.spacedBy(spacing.sm),
     ) {
-        Column(
-            modifier = Modifier.padding(spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.sm),
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
+            Text(
+                text = post.authorName,
+                style = MaterialTheme.typography.titleSmall,
+            )
             if (post.isOpeningPost) {
                 Text(
                     text = stringResource(R.string.forum_opening_post),
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(start = spacing.sm),
                 )
             }
+            Spacer(Modifier.weight(1f))
+            Text(
+                text = post.createdAt.formatAsDateTime(),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(
-                    text = post.authorName,
-                    style = MaterialTheme.typography.titleSmall,
-                )
-                Text(
-                    text = post.createdAt.formatAsDateTime(),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
+        Text(text = post.body, style = MaterialTheme.typography.bodyMedium)
 
-            Text(text = post.body, style = MaterialTheme.typography.bodyMedium)
-
-            val footer = buildList {
-                if (post.thanksCount > 0) {
-                    add(stringResource(R.string.forum_post_thanks, post.thanksCount))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            // Thanking and the count are one control, not a button beside a
+            // tally that says the same thing twice. Filled once you have
+            // thanked, so the state is visible without reading the label.
+            if (canThank) {
+                val thanked = post.thankedByMe == true
+                TextButton(
+                    onClick = onToggleThanks,
+                    contentPadding = PaddingValues(
+                        horizontal = spacing.sm,
+                        vertical = 0.dp,
+                    ),
+                ) {
+                    Icon(
+                        imageVector = if (thanked) ElecIcons.ThanksFilled else ElecIcons.Thanks,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                    )
+                    Text(
+                        text = if (post.thanksCount > 0) {
+                            " ${post.thanksCount}"
+                        } else {
+                            " " + stringResource(R.string.forum_thanks)
+                        },
+                        style = MaterialTheme.typography.labelLarge,
+                    )
                 }
-                if (post.editedAt != null) add(stringResource(R.string.forum_post_edited))
+            } else if (post.thanksCount > 0) {
+                // Somebody else's tally, with nothing to press.
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = ElecIcons.Thanks,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Text(
+                        text = " ${post.thanksCount}",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
-            if (footer.isNotEmpty()) {
+
+            if (post.editedAt != null) {
                 Text(
-                    text = footer.joinToString(" · "),
+                    text = stringResource(R.string.forum_post_edited),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(start = spacing.sm),
                 )
             }
 
-            Row(horizontalArrangement = Arrangement.spacedBy(spacing.sm)) {
-                // Never on one's own message. The policy refuses it too, but a
-                // button that exists only to be rejected is not a button.
-                if (canThank) {
-                    TextButton(onClick = onToggleThanks) {
-                        Text(
-                            text = if (post.thankedByMe == true) {
-                                stringResource(R.string.forum_thanks_undo)
-                            } else {
-                                stringResource(R.string.forum_thanks)
-                            },
+            Spacer(Modifier.weight(1f))
+
+            // Edit and delete behind one control. Two permanent text buttons
+            // under every message you wrote turns your own thread into a row
+            // of controls with the conversation squeezed between them.
+            if (isOwn) {
+                Box {
+                    var menuOpen by remember { mutableStateOf(false) }
+                    IconButton(
+                        onClick = { menuOpen = true },
+                        modifier = Modifier.size(32.dp),
+                    ) {
+                        Icon(
+                            imageVector = ElecIcons.More,
+                            contentDescription = stringResource(R.string.forum_post_actions),
+                            modifier = Modifier.size(20.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
-                }
-                if (isOwn) {
-                    TextButton(onClick = { editing = true }) {
-                        Text(stringResource(R.string.action_edit))
-                    }
-                    TextButton(onClick = { confirmingDelete = true }) {
-                        Text(
-                            text = stringResource(R.string.action_delete),
-                            color = MaterialTheme.colorScheme.error,
+                    DropdownMenu(
+                        expanded = menuOpen,
+                        onDismissRequest = { menuOpen = false },
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.action_edit)) },
+                            onClick = {
+                                menuOpen = false
+                                editing = true
+                            },
+                        )
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    text = stringResource(R.string.action_delete),
+                                    color = MaterialTheme.colorScheme.error,
+                                )
+                            },
+                            onClick = {
+                                menuOpen = false
+                                confirmingDelete = true
+                            },
                         )
                     }
                 }
             }
         }
     }
+
+    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
     if (editing) {
         EditPostDialog(

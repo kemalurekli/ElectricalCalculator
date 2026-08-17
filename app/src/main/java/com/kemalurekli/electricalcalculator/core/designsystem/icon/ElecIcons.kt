@@ -6,7 +6,10 @@ import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.TrendingDown
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.AccountTree
+import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Adjust
 import androidx.compose.material.icons.outlined.Autorenew
 import androidx.compose.material.icons.outlined.Balance
@@ -84,6 +87,9 @@ object ElecIcons {
 
     // Editable lists, where a row can be appended or taken back out
     val Add = Icons.Outlined.Add
+    val Lock = Icons.Outlined.Lock
+    val ThanksFilled = Icons.Filled.ThumbUp
+    val Thanks = Icons.Outlined.ThumbUp
     val Remove = Icons.Outlined.RemoveCircleOutline
 
     // Managing saved work: an overflow menu and the three things inside it

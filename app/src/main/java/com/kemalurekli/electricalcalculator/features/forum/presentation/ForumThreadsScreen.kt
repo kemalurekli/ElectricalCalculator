@@ -2,12 +2,23 @@ package com.kemalurekli.electricalcalculator.features.forum.presentation
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.Scaffold
@@ -109,11 +120,9 @@ fun ForumThreadsScreen(
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(threads, key = { it.id }) { thread ->
-                        ElecListItem(
-                            title = thread.title,
-                            description = thread.subtitle(),
-                            icon = ElecIcons.Forum,
-                            onClick = { onThreadClick(thread) },
+                        ForumThreadRow(thread = thread, onClick = { onThreadClick(thread) })
+                        HorizontalDivider(
+                            color = MaterialTheme.colorScheme.outlineVariant,
                         )
                     }
                 }
@@ -129,13 +138,70 @@ fun ForumThreadsScreen(
  * and a thread with three separate badges reads as a notification, not an
  * index entry.
  */
+/**
+ * One thread in the list.
+ *
+ * No leading icon. Every row would carry the same one, which tells the reader
+ * nothing and costs the width that the title needs — a thread list is read by
+ * its titles, and the glossary's icons earn their place only because they
+ * differ from row to row.
+ *
+ * The reply count sits on the right, where the eye can run down the column and
+ * find the busy threads without reading a word.
+ */
+@Composable
+private fun ForumThreadRow(thread: ForumThread, onClick: () -> Unit) {
+    val spacing = ElecTheme.spacing
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(
+                horizontal = spacing.screenHorizontal,
+                vertical = spacing.md,
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = thread.title,
+                style = MaterialTheme.typography.titleSmall,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = thread.subtitle(),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = spacing.xs),
+            )
+        }
+
+        if (thread.isLocked) {
+            Icon(
+                imageVector = ElecIcons.Lock,
+                contentDescription = stringResource(R.string.forum_thread_locked),
+                modifier = Modifier
+                    .padding(start = spacing.sm)
+                    .size(18.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+
+        Text(
+            text = thread.replyCount.toString(),
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(start = spacing.md),
+        )
+    }
+}
+
+/** The meta line: who asked, and when it last moved. */
 @Composable
 private fun ForumThread.subtitle(): String {
-    val replies = when (replyCount) {
-        0 -> stringResource(R.string.forum_thread_replies_none)
-        1 -> stringResource(R.string.forum_thread_replies_one)
-        else -> stringResource(R.string.forum_thread_replies, replyCount)
-    }
-    val locked = if (isLocked) " · " + stringResource(R.string.forum_thread_locked) else ""
-    return "$authorName · $replies · ${lastReplyAt.formatAsDateTime()}$locked"
+    return "$authorName · ${lastReplyAt.formatAsDateTime()}"
 }

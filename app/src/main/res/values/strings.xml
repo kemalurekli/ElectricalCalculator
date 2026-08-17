@@ -3293,4 +3293,5 @@
     <string name="forum_rules_accept">I understand</string>
     <string name="action_edit">Edit</string>
     <string name="forum_reply_sent">Reply sent</string>
+    <string name="forum_post_actions">Message actions</string>
 </resources>
