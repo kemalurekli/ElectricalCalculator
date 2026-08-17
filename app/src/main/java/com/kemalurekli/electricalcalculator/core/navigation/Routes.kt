@@ -94,6 +94,24 @@ sealed interface Route {
     @Serializable
     data class TheoryTopic(val topicKey: String) : Route
 
+    /** The forum's sections, for the language the app is showing. */
+    @Serializable
+    data object Forum : Route
+
+    /**
+     * One section's threads.
+     *
+     * Carries the title alongside the id so the top bar has something to show
+     * before the first request comes back. A screen that opens on a blank bar
+     * and fills it a second later reads as a stutter.
+     */
+    @Serializable
+    data class ForumCategory(val categoryId: String, val title: String) : Route
+
+    /** One thread and its messages. */
+    @Serializable
+    data class ForumThread(val threadId: String, val title: String) : Route
+
     /** The list of jobs. */
     @Serializable
     data object Projects : Route

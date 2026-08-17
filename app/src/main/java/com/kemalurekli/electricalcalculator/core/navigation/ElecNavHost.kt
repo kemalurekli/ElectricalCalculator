@@ -36,6 +36,9 @@ import com.kemalurekli.electricalcalculator.features.calculators.transformer.pre
 import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.presentation.VoltageDropRoute
 import com.kemalurekli.electricalcalculator.features.converter.presentation.ConverterRoute
 import com.kemalurekli.electricalcalculator.features.favorites.presentation.FavoritesRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumCategoriesRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadsRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.CircuitRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.ProjectRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.ProjectsRoute
@@ -287,6 +290,32 @@ fun ElecNavHost(
         composable<Route.Reference> { backStackEntry ->
             ReferenceDetailRoute(
                 topicKey = backStackEntry.toRoute<Route.Reference>().topicKey,
+                onNavigateBack = actions::navigateBack,
+            )
+        }
+
+        composable<Route.Forum> {
+            ForumCategoriesRoute(
+                onCategoryClick = { actions.navigateTo(Route.ForumCategory(it.id, it.title)) },
+                onNavigateBack = actions::navigateBack,
+            )
+        }
+
+        composable<Route.ForumCategory> { backStackEntry ->
+            val route = backStackEntry.toRoute<Route.ForumCategory>()
+            ForumThreadsRoute(
+                categoryId = route.categoryId,
+                categoryTitle = route.title,
+                onThreadClick = { actions.navigateTo(Route.ForumThread(it.id, it.title)) },
+                onNavigateBack = actions::navigateBack,
+            )
+        }
+
+        composable<Route.ForumThread> { backStackEntry ->
+            val route = backStackEntry.toRoute<Route.ForumThread>()
+            ForumThreadRoute(
+                threadId = route.threadId,
+                threadTitle = route.title,
                 onNavigateBack = actions::navigateBack,
             )
         }

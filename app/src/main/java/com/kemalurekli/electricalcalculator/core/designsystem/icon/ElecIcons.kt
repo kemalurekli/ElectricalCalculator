@@ -24,6 +24,7 @@ import androidx.compose.material.icons.outlined.ElectricalServices
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.EvStation
 import androidx.compose.material.icons.outlined.Folder
+import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Functions
 import androidx.compose.material.icons.outlined.GraphicEq
 import androidx.compose.material.icons.outlined.History
@@ -69,6 +70,9 @@ object ElecIcons {
 
     /** A job folder: the schedule of circuits, not a single calculation. */
     val Projects = Icons.Outlined.Folder
+
+    /** People talking, not a speech bubble with a number on it. */
+    val Forum = Icons.Outlined.Forum
     val History = Icons.Outlined.History
     val Settings = Icons.Outlined.Settings
 

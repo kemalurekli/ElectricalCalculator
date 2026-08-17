@@ -47,6 +47,14 @@ enum class TopLevelDestination(
         icon = ElecIcons.Projects,
         accent = ElecAccent.SECONDARY,
     ),
+    FORUM(
+        route = Route.Forum,
+        labelRes = R.string.destination_forum,
+        titleRes = R.string.dashboard_forum_title,
+        subtitleRes = R.string.dashboard_forum_subtitle,
+        icon = ElecIcons.Forum,
+        accent = ElecAccent.SECONDARY,
+    ),
     CALCULATORS(
         route = Route.Calculators,
         labelRes = R.string.destination_calculators,
@@ -128,7 +136,11 @@ enum class TopLevelDestination(
          * Everything except [SETTINGS], which is reached from the home top bar:
          * configuration is not something a user browses to alongside the tools.
          *
-         * That leaves nine, which does not divide by two — and a card stranded
+         * That leaves ten, which divides by two — so the odd-count rule below
+         * is dormant and every card sits in a row of two. It was live when
+         * there were nine, and it will be again at eleven.
+         *
+         * The rule, kept because the count keeps moving: — and a card stranded
          * alone on a final row is what an earlier version of this dashboard
          * looked like and was rebuilt to avoid.
          *
