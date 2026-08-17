@@ -47,6 +47,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSect
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumAccountSection
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumBlockedSection
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
@@ -176,6 +177,12 @@ fun SettingsScreen(
 
             SettingsGroup {
                 ForumAccountSection(onOpenProfile = onOpenForumProfile)
+            }
+
+            ElecSectionHeader(title = stringResource(R.string.forum_blocked_section))
+
+            SettingsGroup {
+                ForumBlockedSection()
             }
 
             ElecSectionHeader(title = stringResource(R.string.settings_units))
