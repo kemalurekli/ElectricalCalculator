@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,11 +29,13 @@ import com.kemalurekli.electricalcalculator.features.forum.domain.ForumFailure
  * backend is not the reader's problem at all, so it does not offer a button
  * that cannot help.
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> ForumStateHost(
     state: ForumScreenState<T>,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
+    onRefresh: () -> Unit = onRetry,
     content: @Composable (T) -> Unit,
 ) {
     when (state) {
@@ -47,7 +51,16 @@ fun <T> ForumStateHost(
         // content from the top of the window — underneath the app bar, where the
         // first rows are invisible and untappable while the rest of the list
         // looks perfectly fine. All three branches consume it for that reason.
-        is ForumScreenState.Content -> Box(modifier = modifier.fillMaxSize()) {
+        //
+        // The forum is the one part of this app that needs the network, so it is
+        // also the one part that can be looking at something stale. Until now
+        // the only way to ask again was the button on the no-connection page —
+        // which, by definition, a loaded list never shows.
+        is ForumScreenState.Content -> PullToRefreshBox(
+            isRefreshing = state.isRefreshing,
+            onRefresh = onRefresh,
+            modifier = modifier.fillMaxSize(),
+        ) {
             content(state.value)
         }
 

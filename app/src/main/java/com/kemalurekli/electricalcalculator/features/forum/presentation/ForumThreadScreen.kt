@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.forum.presentation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -64,6 +65,7 @@ fun ForumThreadRoute(
     isLocked: Boolean = false,
     threadAuthorId: String = "",
     onNavigateBack: () -> Unit,
+    onOpenProfile: (String) -> Unit = {},
     modifier: Modifier = Modifier,
     viewModel: ForumThreadViewModel = hiltViewModel(),
     rulesViewModel: ForumRulesViewModel = hiltViewModel(),
@@ -116,6 +118,7 @@ fun ForumThreadRoute(
         blocked = blocked,
         onReport = { postId, reason, note -> viewModel.onReport(postId, reason, note) },
         onBlock = viewModel::onBlock,
+        onOpenProfile = onOpenProfile,
         onDeleteFailureShown = viewModel::onDeleteFailureShown,
         onRetry = viewModel::onRefresh,
         onNavigateBack = onNavigateBack,
@@ -156,6 +159,7 @@ fun ForumThreadScreen(
     blocked: Int = 0,
     onReport: (String, ForumReportReason, String) -> Unit = { _, _, _ -> },
     onBlock: (String) -> Unit = {},
+    onOpenProfile: (String) -> Unit = {},
     onDeleteThread: () -> Unit = {},
     onDeleteFailureShown: () -> Unit = {},
     onRetry: () -> Unit,
@@ -312,6 +316,7 @@ fun ForumThreadScreen(
                             canModerate = currentUserId != null,
                             onReport = { reason, note -> onReport(post.id, reason, note) },
                             onBlock = { onBlock(post.authorId) },
+                            onOpenProfile = { onOpenProfile(post.authorId) },
                             canThank = currentUserId != null && post.authorId != currentUserId,
                             onToggleThanks = { onToggleThanks(post) },
                             onEdit = { onEditPost(post.id, it) },
@@ -365,6 +370,7 @@ private fun PostCard(
     canModerate: Boolean = false,
     onReport: (ForumReportReason, String) -> Unit = { _, _ -> },
     onBlock: () -> Unit = {},
+    onOpenProfile: () -> Unit = {},
     onToggleThanks: () -> Unit,
     onEdit: (String) -> Unit,
     onDelete: () -> Unit,
@@ -388,9 +394,13 @@ private fun PostCard(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            // The profile screen has existed since sign-in shipped and was
+            // reachable from exactly one place — your own, from Settings. The
+            // name is where anyone would look for it.
             Text(
                 text = post.authorName,
                 style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.clickable(onClick = onOpenProfile),
             )
             if (post.isOpeningPost) {
                 Text(

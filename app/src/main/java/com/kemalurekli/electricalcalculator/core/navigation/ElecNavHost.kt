@@ -337,6 +337,7 @@ fun ElecNavHost(
                 threadTitle = route.title,
                 isLocked = route.isLocked,
                 threadAuthorId = route.authorId,
+                onOpenProfile = { actions.navigateTo(Route.ForumProfile(it)) },
                 onNavigateBack = actions::navigateBack,
             )
         }
