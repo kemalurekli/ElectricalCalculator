@@ -75,6 +75,8 @@ class ForumThreadViewModel @Inject constructor(
     val uiState: StateFlow<ForumScreenState<ImmutableList<ForumPost>>> = _uiState.asStateFlow()
 
     private var threadId: String? = null
+    private var endReached = false
+    private var loadingMore = false
 
     fun onOpen(id: String) {
         if (threadId == id) return
@@ -186,8 +188,31 @@ class ForumThreadViewModel @Inject constructor(
         _sendFailed.value = false
     }
 
+    /** The next page of replies, oldest first, appended to what is shown. */
+    fun onLoadMore() {
+        val id = threadId ?: return
+        val current = _uiState.value as? ForumScreenState.Content ?: return
+        if (endReached || loadingMore) return
+
+        loadingMore = true
+        viewModelScope.launch {
+            val cursor = current.value.lastOrNull()?.createdAt
+            when (val result = repository.posts(id, after = cursor)) {
+                is ForumResult.Success -> {
+                    endReached = result.value.size < ForumRepository.DEFAULT_PAGE_SIZE
+                    _uiState.value = ForumScreenState.Content(
+                        (current.value + result.value).toImmutableList(),
+                    )
+                }
+                is ForumResult.Failure -> Unit
+            }
+            loadingMore = false
+        }
+    }
+
     private fun load(refreshing: Boolean = false) {
         val id = threadId ?: return
+        endReached = false
         viewModelScope.launch {
             val current = _uiState.value
             if (refreshing && current is ForumScreenState.Content) {

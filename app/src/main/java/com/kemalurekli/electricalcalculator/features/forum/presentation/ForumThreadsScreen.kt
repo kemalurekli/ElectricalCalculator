@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -23,6 +24,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -59,6 +63,7 @@ fun ForumThreadsRoute(
         uiState = uiState,
         onThreadClick = onThreadClick,
         onNewThread = { onNewThread(viewModel.language.code) },
+        onLoadMore = viewModel::onLoadMore,
         canWrite = session.userId != null,
         onRetry = viewModel::onRefresh,
         onNavigateBack = onNavigateBack,
@@ -73,6 +78,7 @@ fun ForumThreadsScreen(
     uiState: ForumScreenState<List<ForumThread>>,
     onThreadClick: (ForumThread) -> Unit,
     onNewThread: () -> Unit = {},
+    onLoadMore: () -> Unit = {},
     canWrite: Boolean = false,
     onRetry: () -> Unit,
     onNavigateBack: () -> Unit,
@@ -118,7 +124,13 @@ fun ForumThreadsScreen(
                     icon = ElecIcons.Forum,
                 )
             } else {
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                val listState = rememberLazyListState()
+                LoadMoreOnApproachingEnd(listState, threads.size, onLoadMore)
+
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.fillMaxSize(),
+                ) {
                     items(threads, key = { it.id }) { thread ->
                         ForumThreadRow(thread = thread, onClick = { onThreadClick(thread) })
                         HorizontalDivider(
@@ -205,3 +217,31 @@ private fun ForumThreadRow(thread: ForumThread, onClick: () -> Unit) {
 private fun ForumThread.subtitle(): String {
     return "$authorName · ${lastReplyAt.formatAsDateTime()}"
 }
+
+/**
+ * Calls [onLoadMore] as the reader nears the end of [state]'s list.
+ *
+ * Three rows early rather than at the very last one, so the next page is on its
+ * way before the scroll reaches the bottom and the list does not visibly stop.
+ * `derivedStateOf` keeps this from recomposing on every pixel of scroll — the
+ * question is only ever "are we close yet", and that answer changes rarely.
+ */
+@Composable
+internal fun LoadMoreOnApproachingEnd(
+    state: LazyListState,
+    itemCount: Int,
+    onLoadMore: () -> Unit,
+) {
+    val shouldLoad by remember(itemCount) {
+        derivedStateOf {
+            val last = state.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: return@derivedStateOf false
+            itemCount > 0 && last >= itemCount - LOAD_MORE_LEAD
+        }
+    }
+
+    LaunchedEffect(shouldLoad, itemCount) {
+        if (shouldLoad) onLoadMore()
+    }
+}
+
+private const val LOAD_MORE_LEAD = 3

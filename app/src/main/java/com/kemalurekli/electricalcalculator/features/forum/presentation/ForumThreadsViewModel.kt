@@ -38,6 +38,16 @@ class ForumThreadsViewModel @Inject constructor(
     val language = ForumLanguage.forApp(languageRepository.language.value)
     private var categoryId: String? = null
 
+    /**
+     * Whether the server has run out of older threads.
+     *
+     * A page that comes back short is the last one — asking again would spend a
+     * request to be told the same thing, and the list would keep asking every
+     * time the reader reached the bottom.
+     */
+    private var endReached = false
+    private var loadingMore = false
+
     /** Does nothing when the category is already loaded, so the screen's
      *  `LaunchedEffect` can be keyed on its argument without refetching. */
     fun onOpen(id: String) {
@@ -53,8 +63,39 @@ class ForumThreadsViewModel @Inject constructor(
 
     fun onRefresh() = load(refreshing = true)
 
+    /**
+     * Fetches the next page and appends it.
+     *
+     * The cursor is the oldest loaded thread's last-reply time rather than an
+     * offset. Offsets skip and repeat rows when something is posted while the
+     * reader is scrolling, which is exactly when a forum list moves.
+     */
+    fun onLoadMore() {
+        val id = categoryId ?: return
+        val current = _uiState.value as? ForumScreenState.Content ?: return
+        if (endReached || loadingMore) return
+
+        loadingMore = true
+        viewModelScope.launch {
+            val cursor = current.value.lastOrNull()?.lastReplyAt
+            when (val result = repository.threads(id, language, before = cursor)) {
+                is ForumResult.Success -> {
+                    endReached = result.value.size < ForumRepository.DEFAULT_PAGE_SIZE
+                    _uiState.value = ForumScreenState.Content(
+                        (current.value + result.value).toImmutableList(),
+                    )
+                }
+                // Keeps what is already on screen. A failed next page is not a
+                // reason to throw away the page the reader is reading.
+                is ForumResult.Failure -> Unit
+            }
+            loadingMore = false
+        }
+    }
+
     private fun load(refreshing: Boolean = false) {
         val id = categoryId ?: return
+        endReached = false
         viewModelScope.launch {
             val current = _uiState.value
             if (refreshing && current is ForumScreenState.Content) {

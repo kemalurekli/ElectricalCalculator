@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -119,6 +120,7 @@ fun ForumThreadRoute(
         onReport = { postId, reason, note -> viewModel.onReport(postId, reason, note) },
         onBlock = viewModel::onBlock,
         onOpenProfile = onOpenProfile,
+        onLoadMore = viewModel::onLoadMore,
         onDeleteFailureShown = viewModel::onDeleteFailureShown,
         onRetry = viewModel::onRefresh,
         onNavigateBack = onNavigateBack,
@@ -160,6 +162,7 @@ fun ForumThreadScreen(
     onReport: (String, ForumReportReason, String) -> Unit = { _, _, _ -> },
     onBlock: (String) -> Unit = {},
     onOpenProfile: (String) -> Unit = {},
+    onLoadMore: () -> Unit = {},
     onDeleteThread: () -> Unit = {},
     onDeleteFailureShown: () -> Unit = {},
     onRetry: () -> Unit,
@@ -303,7 +306,11 @@ fun ForumThreadScreen(
                     icon = ElecIcons.Forum,
                 )
             } else {
+                val listState = rememberLazyListState()
+                LoadMoreOnApproachingEnd(listState, posts.size, onLoadMore)
+
                 LazyColumn(
+                    state = listState,
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = androidx.compose.foundation.layout.PaddingValues(
                         vertical = spacing.xs,
