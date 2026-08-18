@@ -11,7 +11,8 @@ Run these in the Supabase SQL editor, in order, as the project owner.
 | `05_deleted_posts_audit.sql` | Archives removed messages | After `01` |
 | `06_fix_soft_delete_policy.sql` | Lets an author's delete return its own row | After `01` |
 | `07_deletion.sql` | Real deletion: DELETE policies, thread archive | After `01` |
-| `08_create_thread.sql` | Makes opening a thread one transaction | Last |
+| `08_create_thread.sql` | Makes opening a thread one transaction | After `01` |
+| `09_more_seed_content.sql` | More seed threads; fills one category past a page | Optional, after `03` |
 
 ## Run them in order, and re-run the whole sequence
 
