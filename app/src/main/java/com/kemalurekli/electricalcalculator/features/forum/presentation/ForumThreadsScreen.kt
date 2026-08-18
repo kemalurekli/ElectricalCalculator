@@ -11,6 +11,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
@@ -175,6 +178,13 @@ private fun ForumThreadRow(thread: ForumThread, onClick: () -> Unit) {
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        ForumAvatar(
+            name = thread.authorName,
+            userId = thread.authorId,
+            size = 36,
+            modifier = Modifier.padding(end = spacing.md),
+        )
+
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = thread.title,
@@ -203,12 +213,21 @@ private fun ForumThreadRow(thread: ForumThread, onClick: () -> Unit) {
             )
         }
 
-        Text(
-            text = thread.replyCount.toString(),
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(start = spacing.md),
-        )
+        // A count in a container rather than a bare digit at the margin. On
+        // its own the number read as part of the date it sat beside.
+        Box(
+            modifier = Modifier
+                .padding(start = spacing.md)
+                .clip(MaterialTheme.shapes.small)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .padding(horizontal = spacing.sm, vertical = spacing.xs),
+        ) {
+            Text(
+                text = thread.replyCount.toString(),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
     }
 }
 

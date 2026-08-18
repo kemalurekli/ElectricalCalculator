@@ -42,8 +42,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -189,8 +193,17 @@ fun ForumThreadScreen(
 
     // Keyed on the counter so the second reply confirms as clearly as the
     // first. Skips zero, which is the state before anything has been sent.
+    val keyboard = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
     LaunchedEffect(sent) {
-        if (sent > 0) snackbarHostState.showSnackbar(sentMessage)
+        if (sent > 0) {
+            // The reply is gone and the field is empty; leaving the keyboard up
+            // over the thread hides the very message that was just sent.
+            focusManager.clearFocus()
+            keyboard?.hide()
+            snackbarHostState.showSnackbar(sentMessage)
+        }
     }
 
     val reportedMessage = stringResource(R.string.forum_report_sent)
@@ -415,35 +428,55 @@ private fun PostCard(
             ),
         verticalArrangement = Arrangement.spacedBy(spacing.sm),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
+        // Avatar in its own column and everything else in the next one, rather
+        // than an indent guessed to match. The name, the body and the actions
+        // then share one left edge because they are in one column, and no
+        // magic number has to be kept in step with the avatar's size.
+        Row(modifier = Modifier.fillMaxWidth()) {
+            ForumAvatar(
+                name = post.authorName,
+                userId = post.authorId,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .clickable(onClick = onOpenProfile),
+            )
+
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = spacing.md),
+                verticalArrangement = Arrangement.spacedBy(spacing.sm),
+            ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
             // The profile screen has existed since sign-in shipped and was
             // reachable from exactly one place — your own, from Settings. The
             // name is where anyone would look for it.
-            Text(
-                text = post.authorName,
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.clickable(onClick = onOpenProfile),
-            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = post.authorName,
+                    style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier.clickable(onClick = onOpenProfile),
+                )
+                Text(
+                    text = post.createdAt.formatAsDateTime(),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+
             if (post.isOpeningPost) {
                 Text(
                     text = stringResource(R.string.forum_opening_post),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(start = spacing.sm),
                 )
             }
-            Spacer(Modifier.weight(1f))
-            Text(
-                text = post.createdAt.formatAsDateTime(),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
         }
 
-        Text(text = post.body, style = MaterialTheme.typography.bodyMedium)
+        Text(text = post.body, style = MaterialTheme.typography.bodyLarge)
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -566,6 +599,8 @@ private fun PostCard(
                         }
                     }
                 }
+            }
+        }
             }
         }
     }
