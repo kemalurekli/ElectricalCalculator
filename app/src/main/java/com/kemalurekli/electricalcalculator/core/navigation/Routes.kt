@@ -123,6 +123,14 @@ sealed interface Route {
         val title: String,
         val isLocked: Boolean = false,
         val authorId: String = "",
+        /**
+         * The section the thread sits in, for the app bar.
+         *
+         * The bar used to carry the thread title, which is a sentence and gets
+         * cut to a few words at that size. A title is a heading and belongs in
+         * the content where it can wrap; the bar says where you are.
+         */
+        val categoryTitle: String = "",
     ) : Route
 
     /**

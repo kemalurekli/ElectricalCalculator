@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -94,6 +94,20 @@ fun ForumComposeThreadScreen(
                 title = stringResource(R.string.forum_new_thread_title),
                 onNavigateBack = onNavigateBack,
                 scrollBehavior = scrollBehavior,
+                actions = {
+                    // In the bar rather than under the fields. At the bottom of
+                    // a growing body field it moved down with every newline
+                    // typed until it was off the screen — the writer had to
+                    // dismiss the keyboard and scroll to find the way to post.
+                    TextButton(
+                        onClick = onSend,
+                        enabled = title.trim().length >= TITLE_MIN_LENGTH &&
+                            body.trim().length >= BODY_MIN_LENGTH &&
+                            !sending,
+                    ) {
+                        Text(stringResource(R.string.forum_new_thread_send))
+                    }
+                },
             )
         },
     ) { innerPadding ->
@@ -121,6 +135,7 @@ fun ForumComposeThreadScreen(
                 onValueChange = onTitleChange,
                 label = stringResource(R.string.forum_new_thread_title_hint),
                 maxLength = TITLE_MAX_LENGTH,
+                showCounter = true,
                 isError = titleTooShort,
                 supportingText = if (titleTooShort) {
                     stringResource(R.string.forum_title_too_short, TITLE_MIN_LENGTH)
@@ -134,7 +149,11 @@ fun ForumComposeThreadScreen(
                 onValueChange = onBodyChange,
                 label = stringResource(R.string.forum_new_thread_body_hint),
                 maxLength = BODY_MAX_LENGTH,
+                showCounter = true,
                 minLines = 6,
+                // Stops growing well before it could push the screen around.
+                // Past this it scrolls inside itself, like any long document.
+                maxLines = 12,
             )
 
             if (failed) {
@@ -145,14 +164,6 @@ fun ForumComposeThreadScreen(
                 )
             }
 
-            Button(
-                onClick = onSend,
-                enabled = title.trim().length >= TITLE_MIN_LENGTH &&
-                    body.trim().length >= BODY_MIN_LENGTH &&
-                    !sending,
-            ) {
-                Text(stringResource(R.string.forum_new_thread_send))
-            }
         }
     }
 }

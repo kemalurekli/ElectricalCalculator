@@ -65,6 +65,7 @@ fun ForumThreadRoute(
     threadTitle: String,
     isLocked: Boolean = false,
     threadAuthorId: String = "",
+    categoryTitle: String = "",
     onNavigateBack: () -> Unit,
     onOpenProfile: (String) -> Unit = {},
     modifier: Modifier = Modifier,
@@ -96,6 +97,7 @@ fun ForumThreadRoute(
         uiState = uiState,
         isLocked = isLocked,
         threadAuthorId = threadAuthorId,
+        categoryTitle = categoryTitle,
         currentUserId = session.userId,
         draft = draft,
         sending = sending,
@@ -146,6 +148,7 @@ fun ForumThreadScreen(
     uiState: ForumScreenState<List<ForumPost>>,
     isLocked: Boolean = false,
     threadAuthorId: String = "",
+    categoryTitle: String = "",
     currentUserId: String?,
     draft: String,
     sending: Boolean,
@@ -220,7 +223,7 @@ fun ForumThreadScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             ElecTopAppBar(
-                title = title,
+                title = categoryTitle.ifBlank { stringResource(R.string.destination_forum) },
                 onNavigateBack = onNavigateBack,
                 scrollBehavior = scrollBehavior,
                 actions = {
@@ -316,6 +319,21 @@ fun ForumThreadScreen(
                         vertical = spacing.xs,
                     ),
                 ) {
+                    // The title, at the size a title should be and free to
+                    // use as many lines as it needs. In the app bar it was one
+                    // line of a sentence with the rest replaced by an ellipsis.
+                    item(key = "thread-title") {
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.headlineSmall,
+                            modifier = Modifier.padding(
+                                horizontal = spacing.screenHorizontal,
+                                vertical = spacing.md,
+                            ),
+                        )
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    }
+
                     items(posts, key = { it.id }) { post ->
                         PostCard(
                             post = post,
