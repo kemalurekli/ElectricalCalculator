@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.theory.presentation
 
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.theory.domain.NumberStyle
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryNumber
@@ -30,12 +31,12 @@ import java.util.Locale
  * the answer is in amps, and `230 / 529` leaves the reader to remember.
  */
 internal fun TheoryNumber.format(locale: Locale = Locale.getDefault()): String = when (style) {
-    NumberStyle.FIXED -> withUnit(NumberFormatter.format(value, decimals, locale))
-    NumberStyle.SIGNIFICANT -> withUnit(NumberFormatter.formatSignificant(value, decimals, locale))
+    NumberStyle.FIXED -> withUnit(NumberFormatter.format(value, decimals, locale.toNumberSymbols()))
+    NumberStyle.SIGNIFICANT -> withUnit(NumberFormatter.formatSignificant(value, decimals, locale.toNumberSymbols()))
     // formatWithSiPrefix carries the unit itself, since the prefix belongs to it.
     NumberStyle.SI_PREFIX ->
-        if (unit.isEmpty()) NumberFormatter.formatSignificant(value, decimals, locale)
-        else NumberFormatter.formatWithSiPrefix(value, unit, decimals, locale)
+        if (unit.isEmpty()) NumberFormatter.formatSignificant(value, decimals, locale.toNumberSymbols())
+        else NumberFormatter.formatWithSiPrefix(value, unit, decimals, locale.toNumberSymbols())
 }
 
 /**
@@ -46,8 +47,8 @@ internal fun TheoryNumber.format(locale: Locale = Locale.getDefault()): String =
  * back whole here and with an empty [unitLabel].
  */
 internal fun TheoryNumber.formatValue(locale: Locale = Locale.getDefault()): String = when (style) {
-    NumberStyle.FIXED -> NumberFormatter.format(value, decimals, locale)
-    NumberStyle.SIGNIFICANT -> NumberFormatter.formatSignificant(value, decimals, locale)
+    NumberStyle.FIXED -> NumberFormatter.format(value, decimals, locale.toNumberSymbols())
+    NumberStyle.SIGNIFICANT -> NumberFormatter.formatSignificant(value, decimals, locale.toNumberSymbols())
     NumberStyle.SI_PREFIX -> format(locale)
 }
 

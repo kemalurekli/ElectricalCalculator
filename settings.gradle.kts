@@ -23,4 +23,9 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Electrical Calculator"
+
+// `:app` is still the Android application and still holds most of the code.
+// Modules are carved out of it one at a time, each one moving to Kotlin
+// Multiplatform as it goes, so that Android keeps building at every step.
 include(":app")
+include(":core:common")

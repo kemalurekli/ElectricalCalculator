@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.neutralcurrent
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.neutralcurrent.domain.NeutralCurrentInput
 import com.kemalurekli.electricalcalculator.features.calculators.neutralcurrent.domain.NeutralCurrentResult
@@ -24,7 +25,7 @@ internal fun explainNeutralCurrent(
     locale: Locale = Locale.getDefault(),
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     val (i1, i2, i3) = input.lineCurrents
     val average = (i1 + i2 + i3) / PHASES

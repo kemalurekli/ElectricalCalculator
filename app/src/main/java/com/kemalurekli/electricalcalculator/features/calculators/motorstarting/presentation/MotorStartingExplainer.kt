@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.motorstarting.
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.domain.MotorStartingInput
 import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.domain.MotorStartingResult
@@ -60,4 +61,4 @@ internal fun explainMotorStarting(
 )
 
 private fun f(value: Double, locale: Locale) =
-    NumberFormatter.format(value, decimals = 2, locale = locale)
+    NumberFormatter.format(value, decimals = 2, symbols = locale.toNumberSymbols())

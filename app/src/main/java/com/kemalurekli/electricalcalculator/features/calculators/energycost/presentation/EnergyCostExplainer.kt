@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.energycost.pre
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.energycost.domain.EnergyCostInput
 import com.kemalurekli.electricalcalculator.features.calculators.energycost.domain.EnergyCostResult
@@ -26,7 +27,7 @@ internal fun explainEnergyCost(
     locale: Locale = Locale.getDefault(),
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     val annualHours = input.hoursPerDay * input.daysPerYear
     val steps = mutableListOf<CalculationStep>()

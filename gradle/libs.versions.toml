@@ -4,6 +4,15 @@ agp = "9.3.1"
 kotlin = "2.3.21"
 ksp = "2.3.10"
 
+# Compose Multiplatform. Verified against Kotlin 2.3.21 by compiling the app's
+# whole dependency set for iosSimulatorArm64 before any of this was written —
+# see docs/compose-multiplatform-readiness.md.
+composeMultiplatform = "1.11.1"
+
+# Dependency injection for the shared modules. Hilt is Android-only and has no
+# multiplatform port; Koin is what replaces it as code moves out of :app.
+koin = "4.2.2"
+
 # SDK levels
 compileSdk = "37"
 minSdk = "28"
@@ -144,7 +153,13 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+# AGP 9 refuses `com.android.library` alongside the Kotlin Multiplatform plugin
+# and points at this one instead. It configures the Android target from inside
+# the `kotlin { androidLibrary { } }` block rather than a sibling `android { }`.
+android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

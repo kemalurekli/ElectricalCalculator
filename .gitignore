@@ -8,7 +8,10 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
-/build
+# Every module's output, not just the root's. `/build` matched the root
+# directory only, and worked purely because `app/` carried its own ignore file —
+# so the first module added without one committed 343 build artefacts.
+build/
 /captures
 .externalNativeBuild
 .cxx

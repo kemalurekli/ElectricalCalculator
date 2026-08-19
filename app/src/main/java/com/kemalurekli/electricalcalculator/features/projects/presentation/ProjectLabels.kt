@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.projects.presentation
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
 import com.kemalurekli.electricalcalculator.core.domain.model.CircuitLoadKind
 import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
@@ -102,7 +103,7 @@ internal fun ProtectiveDeviceType.labelRes(): Int = when (this) {
  * read wrongly.
  */
 internal fun Double?.format(): String =
-    this?.let { NumberFormatter.formatSignificant(it, locale = Locale.getDefault()) }.orEmpty()
+    this?.let { NumberFormatter.formatSignificant(it, symbols = Locale.getDefault().toNumberSymbols()) }.orEmpty()
 
 internal fun TestKind.labelRes(): Int = when (this) {
     TestKind.CONTINUITY -> R.string.tests_kind_continuity

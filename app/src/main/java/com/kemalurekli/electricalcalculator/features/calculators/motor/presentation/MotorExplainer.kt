@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.motor.presenta
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.motor.domain.MotorInput
 import com.kemalurekli.electricalcalculator.features.calculators.motor.domain.MotorResult
@@ -28,7 +29,7 @@ internal fun explainMotorCurrent(
     locale: Locale = Locale.getDefault(),
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     val outputWatts = input.powerUnit.toWatts(input.ratedPower)
     val powerFactor = if (input.system.isAc) input.powerFactor else 1.0

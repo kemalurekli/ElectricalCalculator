@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.pr
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.domain.VoltageDropInput
 import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.domain.VoltageDropResult
@@ -22,7 +23,7 @@ internal fun explainVoltageDrop(
     locale: Locale = Locale.getDefault(),
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     val resistivity = input.material.resistivityAt(input.conductorTemperatureC)
     val powerFactor = if (input.system.isAc) input.powerFactor else 1.0

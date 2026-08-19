@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.harmonics.pres
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.HarmonicsInput
 import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.HarmonicsResult
@@ -63,4 +64,4 @@ internal fun explainHarmonics(
 }
 
 private fun f(value: Double, locale: Locale) =
-    NumberFormatter.format(value, decimals = 2, locale = locale)
+    NumberFormatter.format(value, decimals = 2, symbols = locale.toNumberSymbols())

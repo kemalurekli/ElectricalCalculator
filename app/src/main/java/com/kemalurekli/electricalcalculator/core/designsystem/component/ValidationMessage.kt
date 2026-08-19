@@ -6,6 +6,7 @@ import androidx.compose.ui.res.stringResource
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 
 /**
  * Renders a [ValidationError] as a localised message.
@@ -49,5 +50,5 @@ private fun formatBound(value: Double): String {
     // LocalConfiguration, not LocalContext.resources: reading through the
     // composition local makes this recompose when the locale changes.
     val locale = LocalConfiguration.current.locales[0]
-    return NumberFormatter.formatSignificant(value, significantDigits = 4, locale = locale)
+    return NumberFormatter.formatSignificant(value, significantDigits = 4, symbols = locale.toNumberSymbols())
 }

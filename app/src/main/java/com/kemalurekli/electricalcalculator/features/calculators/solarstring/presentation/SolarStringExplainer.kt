@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.solarstring.pr
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.solarstring.domain.SolarStringInput
 import com.kemalurekli.electricalcalculator.features.calculators.solarstring.domain.SolarStringResult
@@ -24,7 +25,7 @@ internal fun explainSolarString(
     locale: Locale = Locale.getDefault(),
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     val stc = n(SolarStringInput.STC_TEMPERATURE_C, 0)
 

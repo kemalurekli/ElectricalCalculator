@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.trayfill.prese
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.trayfill.domain.TrayFillInput
 import com.kemalurekli.electricalcalculator.features.calculators.trayfill.domain.TrayFillResult
@@ -38,7 +39,7 @@ private fun explainSingleLayer(
     locale: Locale,
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     val gaps = (result.cableCount - 1).coerceAtLeast(0)
 
@@ -86,7 +87,7 @@ private fun explainMultiLayer(
     locale: Locale,
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     val largestDiameter = input.cables.maxOfOrNull { it.diameterMm } ?: 0.0
     val perLayer = if (largestDiameter > 0.0) {

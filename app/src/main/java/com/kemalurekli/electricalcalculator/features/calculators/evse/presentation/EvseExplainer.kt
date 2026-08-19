@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.evse.presentat
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.EvseInput
 import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.EvseResult
@@ -38,4 +39,4 @@ internal fun explainEvse(
 )
 
 private fun f(value: Double, locale: Locale) =
-    NumberFormatter.format(value, decimals = 2, locale = locale)
+    NumberFormatter.format(value, decimals = 2, symbols = locale.toNumberSymbols())

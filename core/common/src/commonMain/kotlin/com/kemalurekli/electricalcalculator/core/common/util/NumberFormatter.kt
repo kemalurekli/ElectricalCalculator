@@ -1,11 +1,5 @@
 package com.kemalurekli.electricalcalculator.core.common.util
 
-import java.math.BigDecimal
-import java.math.MathContext
-import java.math.RoundingMode
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.log10
@@ -17,11 +11,27 @@ import kotlin.math.pow
  * Two rules drive the design:
  *
  * 1. **Display follows the locale.** A Turkish or German user expects `1,25 A`,
- *    not `1.25 A`, so formatting always goes through a locale-aware
- *    [DecimalFormat].
+ *    not `1.25 A`, so formatting goes through [NumberSymbols].
  * 2. **Parsing accepts both separators.** Physical keyboards, soft keyboards and
  *    copy-pasted values disagree about `.` versus `,`, and rejecting one of them
  *    is a constant source of user error in calculator apps.
+ *
+ * ### Why this no longer uses DecimalFormat
+ *
+ * It did, and `java.text` does not exist off the JVM. It could have become an
+ * `expect`/`actual` over `DecimalFormat` and `NSNumberFormatter`, and that
+ * would have been less code — but two platform formatters are two chances to
+ * render the same number differently, and this app's design language has
+ * exactly one rule: the same code draws the same pixels on both platforms.
+ *
+ * So the rounding and rendering happen here, in common Kotlin, on the exact
+ * decimal digits [DecimalDigits] extracts. The locale keeps only what genuinely
+ * varies, which is two characters.
+ *
+ * [DecimalDigits] is where the care went: it reproduces what `DecimalFormat`
+ * and `BigDecimal` did before, down to which side of a halfway case a value
+ * falls on, because that is the difference between this being a port and being
+ * a quiet change to every figure the app prints.
  */
 object NumberFormatter {
 
@@ -35,15 +45,12 @@ object NumberFormatter {
     fun format(
         value: Double,
         decimals: Int = DEFAULT_DECIMALS,
-        locale: Locale = Locale.getDefault(),
+        symbols: NumberSymbols = currentNumberSymbols(),
     ): String {
         require(decimals >= 0) { "decimals must not be negative, was $decimals" }
         if (!value.isFinite()) return value.toString()
 
-        val pattern = if (decimals == 0) "#,##0" else "#,##0." + "#".repeat(decimals)
-        return DecimalFormat(pattern, DecimalFormatSymbols.getInstance(locale))
-            .apply { roundingMode = RoundingMode.HALF_UP }
-            .format(value)
+        return render(DecimalDigits.of(value).roundToDecimals(decimals), decimals, symbols)
     }
 
     /**
@@ -56,22 +63,16 @@ object NumberFormatter {
     fun formatSignificant(
         value: Double,
         significantDigits: Int = DEFAULT_SIGNIFICANT_DIGITS,
-        locale: Locale = Locale.getDefault(),
+        symbols: NumberSymbols = currentNumberSymbols(),
     ): String {
         require(significantDigits > 0) {
             "significantDigits must be positive, was $significantDigits"
         }
         if (!value.isFinite()) return value.toString()
-        if (value == 0.0) return format(0.0, 0, locale)
+        if (value == 0.0) return format(0.0, 0, symbols)
 
-        val rounded = BigDecimal(value)
-            .round(MathContext(significantDigits, RoundingMode.HALF_UP))
-            .stripTrailingZeros()
-
-        // `scale` is the count of digits after the decimal point; a negative
-        // scale means the value was rounded above the decimal point.
-        val decimals = rounded.scale().coerceAtLeast(0)
-        return format(rounded.toDouble(), decimals, locale)
+        val rounded = DecimalDigits.of(value).roundToSignificant(significantDigits)
+        return render(rounded, rounded.trailingDecimals(), symbols)
     }
 
     /**
@@ -87,21 +88,21 @@ object NumberFormatter {
     fun formatEngineering(
         value: Double,
         significantDigits: Int = DEFAULT_SIGNIFICANT_DIGITS,
-        locale: Locale = Locale.getDefault(),
+        symbols: NumberSymbols = currentNumberSymbols(),
     ): String {
         if (!value.isFinite()) return value.toString()
-        if (value == 0.0) return format(0.0, 0, locale)
+        if (value == 0.0) return format(0.0, 0, symbols)
 
         val magnitude = abs(value)
         if (magnitude in PLAIN_MIN..PLAIN_MAX) {
-            return formatSignificant(value, significantDigits, locale)
+            return formatSignificant(value, significantDigits, symbols)
         }
 
         val exponent = floor(log10(magnitude)).toInt()
         val mantissa = value / 10.0.pow(exponent)
 
         return buildString {
-            append(formatSignificant(mantissa, significantDigits, locale))
+            append(formatSignificant(mantissa, significantDigits, symbols))
             append("×10")
             append(superscript(exponent))
         }
@@ -148,19 +149,72 @@ object NumberFormatter {
         value: Double,
         unit: String,
         significantDigits: Int = DEFAULT_SIGNIFICANT_DIGITS,
-        locale: Locale = Locale.getDefault(),
+        symbols: NumberSymbols = currentNumberSymbols(),
     ): String {
         if (!value.isFinite()) return "$value $unit"
         val magnitude = abs(value)
-        if (magnitude == 0.0) return "${format(0.0, 0, locale)} $unit"
+        if (magnitude == 0.0) return "${format(0.0, 0, symbols)} $unit"
 
         val exponentIndex = SI_PREFIXES.indexOfLast { magnitude >= it.threshold }
             .takeIf { it >= 0 } ?: 0
         val prefix = SI_PREFIXES[exponentIndex]
         val scaled = value / prefix.threshold
 
-        return "${formatSignificant(scaled, significantDigits, locale)} ${prefix.symbol}$unit"
+        return "${formatSignificant(scaled, significantDigits, symbols)} ${prefix.symbol}$unit"
     }
+
+    /**
+     * Writes out digits that have already been rounded.
+     *
+     * [maxDecimals] is a ceiling rather than a target — trailing zeros are
+     * dropped, which is what turns `12.50` into `12.5`.
+     */
+    private fun render(
+        value: DecimalDigits,
+        maxDecimals: Int,
+        symbols: NumberSymbols,
+    ): String {
+        val digits = value.digits
+        val point = value.pointPos
+
+        val whole = when {
+            point <= 0 -> "0"
+            // The digits ran out before the decimal point did: 1235 with the
+            // point four places further right is 12,350,000.
+            point >= digits.length -> digits + "0".repeat(point - digits.length)
+            else -> digits.substring(0, point)
+        }
+        val fraction = when {
+            point >= digits.length -> ""
+            // The point falls before the digits start: 1235 with point at -2
+            // is 0.001235.
+            point <= 0 -> "0".repeat(-point) + digits
+            else -> digits.substring(point)
+        }.take(maxDecimals).trimEnd('0')
+
+        return buildString {
+            // A value rounded away to nothing is "0", never "-0".
+            if (value.negative && !value.isZero) append('-')
+            append(group(whole, symbols.groupingSeparator))
+            if (fraction.isNotEmpty()) {
+                append(symbols.decimalSeparator)
+                append(fraction)
+            }
+        }
+    }
+
+    /** Inserts [separator] every three digits, counting from the right. */
+    private fun group(whole: String, separator: Char): String {
+        if (whole.length <= GROUP_SIZE) return whole
+        return buildString {
+            whole.forEachIndexed { index, digit ->
+                if (index > 0 && (whole.length - index) % GROUP_SIZE == 0) append(separator)
+                append(digit)
+            }
+        }
+    }
+
+    private const val GROUP_SIZE = 3
 
     /** Ordered smallest-first so `indexOfLast` selects the largest that fits. */
     private val SI_PREFIXES = listOf(
@@ -180,7 +234,7 @@ object NumberFormatter {
 
     private const val PLAIN_MAX = 1e9
 
-    private const val SUPERSCRIPT_DIGITS = "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079"
+    private const val SUPERSCRIPT_DIGITS = "⁰¹²³⁴⁵⁶⁷⁸⁹"
 
     /** Optional sign, digits, optional fraction, optional decimal exponent. */
     private val NUMERIC_PATTERN = Regex("""^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$""")

@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.lighting.prese
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.lighting.domain.LightingInput
 import com.kemalurekli.electricalcalculator.features.calculators.lighting.domain.LightingResult
@@ -23,7 +24,7 @@ internal fun explainLighting(
     locale: Locale = Locale.getDefault(),
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     return persistentListOf(
         CalculationStep(

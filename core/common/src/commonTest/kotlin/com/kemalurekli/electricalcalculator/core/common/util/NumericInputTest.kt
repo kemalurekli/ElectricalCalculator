@@ -4,9 +4,9 @@ import com.kemalurekli.electricalcalculator.core.common.result.Outcome
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
 import com.kemalurekli.electricalcalculator.core.common.result.errorOrNull
 import com.kemalurekli.electricalcalculator.core.common.result.getOrNull
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.test.Test
 
 class NumericInputTest {
 

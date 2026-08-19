@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.transformer.pr
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.transformer.domain.TransformerInput
 import com.kemalurekli.electricalcalculator.features.calculators.transformer.domain.TransformerResult
@@ -28,7 +29,7 @@ internal fun explainTransformer(
     locale: Locale = Locale.getDefault(),
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     val ratingVa = input.ratingKva * VA_PER_KVA
     val phaseFactor = input.system.powerPhaseFactor

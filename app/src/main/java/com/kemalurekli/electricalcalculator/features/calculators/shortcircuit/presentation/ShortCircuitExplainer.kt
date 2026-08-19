@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.p
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.domain.ShortCircuitInput
 import com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.domain.ShortCircuitResult
@@ -31,7 +32,7 @@ internal fun explainShortCircuit(
     locale: Locale = Locale.getDefault(),
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     val divisor = input.faultType.voltageDivisor
     val coldResistivity = input.material.resistivityAt20C

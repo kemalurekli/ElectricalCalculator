@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.powerfactor.pr
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.powerfactor.domain.PowerFactorInput
@@ -31,7 +32,7 @@ internal fun explainPowerFactor(
     locale: Locale = Locale.getDefault(),
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     val tanBefore = tan(acos(input.existingPowerFactor.coerceIn(-1.0, 1.0)))
     val tanAfter = tan(acos(input.targetPowerFactor.coerceIn(-1.0, 1.0)))

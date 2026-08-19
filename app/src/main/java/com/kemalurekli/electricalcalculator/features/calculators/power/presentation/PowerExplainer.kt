@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.calculators.power.presenta
 
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import com.kemalurekli.electricalcalculator.core.common.util.toNumberSymbols
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.power.domain.PowerInput
 import com.kemalurekli.electricalcalculator.features.calculators.power.domain.PowerResult
@@ -28,7 +29,7 @@ internal fun explainPower(
     locale: Locale = Locale.getDefault(),
 ): ImmutableList<CalculationStep> {
     fun n(value: Double, decimals: Int = DECIMALS) =
-        NumberFormatter.format(value, decimals, locale)
+        NumberFormatter.format(value, decimals, locale.toNumberSymbols())
 
     val isAc = input.system.isAc
     val powerFactor = if (isAc) input.powerFactor else 1.0
