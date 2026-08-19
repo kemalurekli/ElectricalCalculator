@@ -49,6 +49,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.background
+import androidx.compose.ui.text.style.TextOverflow
+import com.kemalurekli.electricalcalculator.features.forum.domain.authorLevel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
@@ -430,165 +433,199 @@ private fun PostCard(
             .fillMaxWidth()
             .padding(horizontal = spacing.screenHorizontal, vertical = spacing.sm),
     ) {
-        Row(modifier = Modifier.padding(spacing.lg)) {
-            ForumAuthorPanel(
-                name = post.authorName,
-                userId = post.authorId,
-                postCount = post.authorPostCount,
-                thanksReceived = post.authorThanksReceived,
-                onClick = onOpenProfile,
-            )
+        Column(
+            modifier = Modifier.padding(spacing.lg),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+        ) {
+            // Header. The author reads across one line instead of down a rail,
+            // which gives the message the full width of the card — the left
+            // column was costing a quarter of it and the message is the point.
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                ForumAvatar(
+                    name = post.authorName,
+                    userId = post.authorId,
+                    size = AVATAR_SIZE,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .clickable(onClick = onOpenProfile),
+                )
 
-            // A rule between the person and what they said. Two columns with
-            // nothing between them read as one ragged block.
-            VerticalDivider(
-                modifier = Modifier.padding(horizontal = spacing.md),
-                color = MaterialTheme.colorScheme.outlineVariant,
-            )
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = spacing.md),
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = post.authorName,
+                            style = MaterialTheme.typography.titleSmall,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .weight(1f, fill = false)
+                                .clickable(onClick = onOpenProfile),
+                        )
+                        Text(
+                            // The caption that used to sit above the rank has
+                            // nowhere to go in a single header row, so the
+                            // chip carries the word itself. "1 Volt" alone is
+                            // a puzzle; "Seviye: 1 Volt" is not.
+                            text = stringResource(
+                                R.string.forum_level_chip,
+                                stringResource(post.authorLevel.labelRes()),
+                            ),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            modifier = Modifier
+                                .padding(start = spacing.sm)
+                                .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.secondaryContainer)
+                                .padding(horizontal = spacing.sm, vertical = 2.dp),
+                        )
+                    }
 
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(spacing.md),
-            ) {
+                    Text(
+                        text = stringResource(
+                            R.string.forum_author_stats_inline,
+                            post.authorPostCount,
+                            post.authorThanksReceived,
+                        ),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+
                 if (post.isOpeningPost) {
                     Text(
                         text = stringResource(R.string.forum_opening_post),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(start = spacing.sm),
+                    )
+                }
+            }
+
+            Text(
+                text = post.body,
+                style = MaterialTheme.typography.bodyLarge,
+                lineHeight = MaterialTheme.typography.bodyLarge.fontSize * LINE_HEIGHT_RATIO,
+            )
+
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+
+            // What was said above the rule, what can be done about it below.
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = post.createdAt.formatAsDateTime() +
+                        if (post.editedAt != null) {
+                            " · " + stringResource(R.string.forum_post_edited)
+                        } else {
+                            ""
+                        },
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.weight(1f),
+                )
+
+                if (canThank) {
+                    val thanked = post.thankedByMe == true
+                    TextButton(
+                        onClick = onToggleThanks,
+                        contentPadding = PaddingValues(
+                            horizontal = spacing.sm,
+                            vertical = 0.dp,
+                        ),
+                    ) {
+                        Icon(
+                            imageVector = if (thanked) {
+                                ElecIcons.ThanksFilled
+                            } else {
+                                ElecIcons.Thanks
+                            },
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp),
+                        )
+                        Text(
+                            text = if (post.thanksCount > 0) {
+                                " ${post.thanksCount}"
+                            } else {
+                                " " + stringResource(R.string.forum_thanks)
+                            },
+                            style = MaterialTheme.typography.labelMedium,
+                        )
+                    }
+                } else if (post.thanksCount > 0) {
+                    Icon(
+                        imageVector = ElecIcons.Thanks,
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Text(
+                        text = " ${post.thanksCount}",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
 
-                Text(
-                    text = post.body,
-                    style = MaterialTheme.typography.bodyLarge,
-                    // Prose at default line height packs tightly enough to
-                    // read as a paragraph of terms and conditions. A forum
-                    // answer is meant to be read at length.
-                    lineHeight = MaterialTheme.typography.bodyLarge.fontSize * LINE_HEIGHT_RATIO,
-                )
-
-                // The timestamp sits under the message rather than over it. It
-                // is what the message was, not what to expect — nobody reads
-                // the date before deciding whether to read the answer.
-                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-
-                // The timestamp and the controls used to share one cramped
-                // row, so the date was squeezed by whatever the buttons needed.
-                // A rule under the message separates what was said from what
-                // can be done about it, and each gets its own end of the row.
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = post.createdAt.formatAsDateTime() +
-                            if (post.editedAt != null) {
-                                " · " + stringResource(R.string.forum_post_edited)
-                            } else {
-                                ""
-                            },
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.weight(1f),
-                    )
-
-                    if (canThank) {
-                        val thanked = post.thankedByMe == true
-                        TextButton(
-                            onClick = onToggleThanks,
-                            contentPadding = PaddingValues(
-                                horizontal = spacing.sm,
-                                vertical = 0.dp,
-                            ),
+                if (isOwn || canModerate) {
+                    Box {
+                        var menuOpen by remember { mutableStateOf(false) }
+                        IconButton(
+                            onClick = { menuOpen = true },
+                            modifier = Modifier.size(28.dp),
                         ) {
                             Icon(
-                                imageVector = if (thanked) {
-                                    ElecIcons.ThanksFilled
-                                } else {
-                                    ElecIcons.Thanks
-                                },
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp),
-                            )
-                            Text(
-                                text = if (post.thanksCount > 0) {
-                                    " ${post.thanksCount}"
-                                } else {
-                                    " " + stringResource(R.string.forum_thanks)
-                                },
-                                style = MaterialTheme.typography.labelMedium,
+                                imageVector = ElecIcons.More,
+                                contentDescription =
+                                    stringResource(R.string.forum_post_actions),
+                                modifier = Modifier.size(18.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
-                    } else if (post.thanksCount > 0) {
-                        Icon(
-                            imageVector = ElecIcons.Thanks,
-                            contentDescription = null,
-                            modifier = Modifier.size(16.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                        Text(
-                            text = " ${post.thanksCount}",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-
-                    if (isOwn || canModerate) {
-                        Box {
-                            var menuOpen by remember { mutableStateOf(false) }
-                            IconButton(
-                                onClick = { menuOpen = true },
-                                modifier = Modifier.size(28.dp),
-                            ) {
-                                Icon(
-                                    imageVector = ElecIcons.More,
-                                    contentDescription =
-                                        stringResource(R.string.forum_post_actions),
-                                    modifier = Modifier.size(18.dp),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        DropdownMenu(
+                            expanded = menuOpen,
+                            onDismissRequest = { menuOpen = false },
+                        ) {
+                            if (!isOwn) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.forum_report)) },
+                                    onClick = {
+                                        menuOpen = false
+                                        reporting = true
+                                    },
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.forum_block)) },
+                                    onClick = {
+                                        menuOpen = false
+                                        confirmingBlock = true
+                                    },
                                 )
                             }
-                            DropdownMenu(
-                                expanded = menuOpen,
-                                onDismissRequest = { menuOpen = false },
-                            ) {
-                                if (!isOwn) {
-                                    DropdownMenuItem(
-                                        text = { Text(stringResource(R.string.forum_report)) },
-                                        onClick = {
-                                            menuOpen = false
-                                            reporting = true
-                                        },
-                                    )
-                                    DropdownMenuItem(
-                                        text = { Text(stringResource(R.string.forum_block)) },
-                                        onClick = {
-                                            menuOpen = false
-                                            confirmingBlock = true
-                                        },
-                                    )
-                                }
-                                if (isOwn) {
-                                    DropdownMenuItem(
-                                        text = { Text(stringResource(R.string.action_edit)) },
-                                        onClick = {
-                                            menuOpen = false
-                                            editing = true
-                                        },
-                                    )
-                                    DropdownMenuItem(
-                                        text = {
-                                            Text(
-                                                text = stringResource(R.string.action_delete),
-                                                color = MaterialTheme.colorScheme.error,
-                                            )
-                                        },
-                                        onClick = {
-                                            menuOpen = false
-                                            confirmingDelete = true
-                                        },
-                                    )
-                                }
+                            if (isOwn) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.action_edit)) },
+                                    onClick = {
+                                        menuOpen = false
+                                        editing = true
+                                    },
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            text = stringResource(R.string.action_delete),
+                                            color = MaterialTheme.colorScheme.error,
+                                        )
+                                    },
+                                    onClick = {
+                                        menuOpen = false
+                                        confirmingDelete = true
+                                    },
+                                )
                             }
                         }
                     }
@@ -776,3 +813,6 @@ private const val POST_MAX_LENGTH = 8000
 
 /** Roughly 1.5×, which is where long prose stops feeling packed. */
 private const val LINE_HEIGHT_RATIO = 1.5f
+
+/** Small enough to caption the name rather than compete with it. */
+private const val AVATAR_SIZE = 32

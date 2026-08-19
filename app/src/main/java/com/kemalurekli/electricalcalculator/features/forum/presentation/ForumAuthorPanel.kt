@@ -93,7 +93,7 @@ fun ForumAuthorPanel(
     }
 }
 
-private fun ForumLevel.labelRes(): Int = when (this) {
+internal fun ForumLevel.labelRes(): Int = when (this) {
     ForumLevel.ELECTRON -> R.string.forum_level_electron
     ForumLevel.ONE_VOLT -> R.string.forum_level_one_volt
     ForumLevel.TWELVE_VOLT -> R.string.forum_level_twelve_volt

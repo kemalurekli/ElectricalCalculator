@@ -3340,4 +3340,6 @@
     <string name="forum_thread_pin_hint">Press and hold a thread to keep it at the top</string>
     <string name="forum_thread_unpinned">Unpinned</string>
     <string name="forum_level_caption">Membership level</string>
+    <string name="forum_author_stats_inline">%1$d msg · %2$d thanks</string>
+    <string name="forum_level_chip">Level: %1$s</string>
 </resources>
