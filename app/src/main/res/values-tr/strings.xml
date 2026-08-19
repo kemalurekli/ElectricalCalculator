@@ -3334,4 +3334,6 @@
     </plurals>
     <string name="forum_thread_pinned">En üste sabitlendi</string>
     <string name="forum_thread_pin_hint">Bir konuyu en üstte tutmak için basılı tutun</string>
+    <string name="forum_thread_unpinned">Sabitleme kaldırıldı</string>
+    <string name="forum_level_caption">Üyelik seviyesi</string>
 </resources>

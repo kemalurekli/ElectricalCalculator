@@ -3338,4 +3338,6 @@
     </plurals>
     <string name="forum_thread_pinned">Pinned to the top</string>
     <string name="forum_thread_pin_hint">Press and hold a thread to keep it at the top</string>
+    <string name="forum_thread_unpinned">Unpinned</string>
+    <string name="forum_level_caption">Membership level</string>
 </resources>

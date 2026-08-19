@@ -11,6 +11,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.foundation.clickable
+import kotlinx.coroutines.launch
+import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarHost
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -95,9 +100,15 @@ fun ForumThreadsScreen(
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val spacing = ElecTheme.spacing
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val pinnedMessage = stringResource(R.string.forum_thread_pinned)
+    val unpinnedMessage = stringResource(R.string.forum_thread_unpinned)
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         contentWindowInsets = WindowInsets.safeDrawing,
         modifier = modifier
             .fillMaxSize()
@@ -152,7 +163,18 @@ fun ForumThreadsScreen(
                             thread = thread,
                             isPinned = thread.id in pinned,
                             onClick = { onThreadClick(thread) },
-                            onLongClick = { onTogglePin(thread.id) },
+                            onLongClick = {
+                                val wasPinned = thread.id in pinned
+                                onTogglePin(thread.id)
+                                scope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        if (wasPinned) unpinnedMessage else pinnedMessage,
+                                    )
+                                }
+                            },
+                        )
+                        HorizontalDivider(
+                            color = MaterialTheme.colorScheme.outlineVariant,
                         )
                     }
                 }
@@ -189,16 +211,24 @@ private fun ForumThreadRow(
 ) {
     val spacing = ElecTheme.spacing
 
-    ElecCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
-    ) {
+    // A list, not a stack of cards. A forum index is read by running down it,
+    // and a card around every row turns each one into an island the eye has to
+    // enter and leave. Pinned rows are tinted instead of raised.
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .background(
+                if (isPinned) {
+                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = PINNED_TINT)
+                } else {
+                    Color.Transparent
+                },
+            )
             .combinedClickable(onClick = onClick, onLongClick = onLongClick)
-            .padding(spacing.lg),
+            .padding(
+                horizontal = spacing.screenHorizontal,
+                vertical = spacing.md,
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         ForumAvatar(
@@ -263,8 +293,10 @@ private fun ForumThreadRow(
             )
         }
     }
-    }
 }
+
+/** Enough tint to mark the row, not enough to shout. */
+private const val PINNED_TINT = 0.4f
 
 /** The meta line: who asked, and when it last moved. */
 @Composable

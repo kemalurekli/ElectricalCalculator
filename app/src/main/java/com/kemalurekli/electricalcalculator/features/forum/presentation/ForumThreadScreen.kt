@@ -470,10 +470,14 @@ private fun PostCard(
                 // The timestamp sits under the message rather than over it. It
                 // is what the message was, not what to expect — nobody reads
                 // the date before deciding whether to read the answer.
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+
+                // The timestamp and the controls used to share one cramped
+                // row, so the date was squeezed by whatever the buttons needed.
+                // A rule under the message separates what was said from what
+                // can be done about it, and each gets its own end of the row.
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = spacing.xs),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(

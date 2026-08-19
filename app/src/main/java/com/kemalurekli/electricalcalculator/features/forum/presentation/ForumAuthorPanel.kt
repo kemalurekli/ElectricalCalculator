@@ -63,8 +63,16 @@ fun ForumAuthorPanel(
             overflow = TextOverflow.Ellipsis,
         )
 
-        // The rank reads as a caption, not a medal. It is derived from the two
-        // numbers underneath it and says the same thing in a word.
+        // "1 Volt" on its own is a puzzle. The caption says what the word
+        // underneath it is measuring, which costs one line and removes the
+        // question entirely.
+        Text(
+            text = stringResource(R.string.forum_level_caption),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+        )
+
         Text(
             text = stringResource(level.labelRes()),
             style = MaterialTheme.typography.labelSmall,
@@ -94,5 +102,5 @@ private fun ForumLevel.labelRes(): Int = when (this) {
 }
 
 /** Wide enough for a rank chip and two lines of most names. */
-private const val PANEL_WIDTH = 104
-private const val AVATAR_SIZE = 44
+private const val PANEL_WIDTH = 100
+private const val AVATAR_SIZE = 56
