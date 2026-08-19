@@ -107,11 +107,20 @@ enum class ForumLevel {
             }
         }
 
+        // Calibrated for the forum that exists rather than the one it might
+        // become. The first set of thresholds spread 5 to 400 across five
+        // rungs, which on a forum where a busy member has twenty posts put
+        // every single person on the same rung — a ladder that never moves
+        // tells the reader nothing and is worse than no ladder.
+        //
+        // These are deliberately reachable. If the forum grows enough that
+        // everyone is at the top, they move again — the rank is derived, so
+        // that costs a constant and no migration.
         private const val THANKS_WEIGHT = 3
-        private const val ONE_VOLT_AT = 5
-        private const val TWELVE_AT = 30
-        private const val MAINS_AT = 120
-        private const val HIGH_VOLTAGE_AT = 400
+        private const val ONE_VOLT_AT = 3
+        private const val TWELVE_AT = 15
+        private const val MAINS_AT = 50
+        private const val HIGH_VOLTAGE_AT = 150
     }
 }
 
