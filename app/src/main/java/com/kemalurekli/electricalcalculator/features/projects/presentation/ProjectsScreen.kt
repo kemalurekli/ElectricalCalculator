@@ -33,7 +33,7 @@ import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectSummar
 @Composable
 fun ProjectsRoute(
     onOpenProject: (Long) -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     viewModel: ProjectsViewModel = hiltViewModel(),
 ) {
@@ -64,7 +64,7 @@ fun ProjectsScreen(
     uiState: ProjectsUiState,
     onOpenProject: (Long) -> Unit,
     onCreateProject: () -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()

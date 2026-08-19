@@ -44,7 +44,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun CalculatorsRoute(
     onCalculatorClick: (CalculatorId) -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     viewModel: CalculatorsViewModel = hiltViewModel(),
 ) {
@@ -67,7 +67,7 @@ fun CalculatorsScreen(
     onQueryChange: (String) -> Unit,
     onToggleFavorite: (CalculatorId) -> Unit,
     onCalculatorClick: (CalculatorId) -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing

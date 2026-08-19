@@ -108,6 +108,16 @@ fun HomeRoute(
  * A collapsing large bar spends about a fifth of the first screen restating the
  * app's own name, which the user just tapped to get here. The dashboard's job
  * is to put tools within reach, so the space goes to the tools.
+ *
+ * ### What the grid stopped being
+ *
+ * It used to hold every section the app had, because it was the only way to
+ * reach any of them. The tab bar now carries the three that are opened
+ * repeatedly and the More tab carries the rest, so a card here for Calculators
+ * would be a second door into the room the reader is already standing next to.
+ * What is left is the material that is genuinely looked up rather than lived
+ * in — reference tables, the glossary, theory, field notes — plus the two
+ * shelves built from the reader's own activity.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -21,6 +21,12 @@
     <string name="destination_favorites">Favoriler</string>
     <string name="destination_history">Geçmiş</string>
     <string name="destination_settings">Ayarlar</string>
+    <string name="destination_home">Ana sayfa</string>
+    <string name="destination_more">Daha fazla</string>
+    <!-- "Hesaplayıcılar" wraps to two lines in a tab; "Araçlar" does not. -->
+    <string name="tab_calculators">Araçlar</string>
+    <string name="more_title">Daha fazla</string>
+    <string name="more_subtitle">Kaynaklar, kaydedilen işler ve ayarlar</string>
 
     <!-- Panel kartları -->
     <string name="dashboard_calculators_title">Hesaplayıcılar</string>

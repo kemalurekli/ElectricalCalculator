@@ -37,6 +37,8 @@ import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Functions
 import androidx.compose.material.icons.outlined.GraphicEq
 import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.Lightbulb
 import androidx.compose.material.icons.outlined.OfflineBolt
@@ -68,6 +70,17 @@ object ElecIcons {
 
     // Navigation and chrome
     val Back = Icons.AutoMirrored.Outlined.ArrowBack
+    val Home = Icons.Outlined.Home
+
+    /**
+     * The More tab.
+     *
+     * A horizontal ellipsis, not the vertical [More] used for overflow menus.
+     * They mean different things — one opens a section, the other opens actions
+     * on the thing beside it — and using the same glyph for both would teach
+     * the reader that the dots are unpredictable.
+     */
+    val MoreTab = Icons.Outlined.MoreHoriz
     val Search = Icons.Outlined.Search
     val Clear = Icons.Outlined.Close
     val Calculators = Icons.Outlined.Calculate

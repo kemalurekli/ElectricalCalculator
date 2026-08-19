@@ -86,6 +86,11 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-material3-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-adaptive = { group = "androidx.compose.material3.adaptive", name = "adaptive", version.ref = "composeAdaptive" }
+# Drives the app shell: a bottom bar on a phone, a navigation rail on a tablet
+# or an unfolded foldable, decided from the window rather than by the caller.
+# Versioned by the Compose BOM, and available on Compose Multiplatform, which is
+# why the shell is built on it rather than on a hand-rolled NavigationBar.
+androidx-compose-material3-navigation-suite = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite" }
 
 # Navigation
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }

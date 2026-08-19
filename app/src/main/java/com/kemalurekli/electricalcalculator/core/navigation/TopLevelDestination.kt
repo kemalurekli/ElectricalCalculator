@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecAccent
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
+import kotlin.reflect.KClass
 
 /**
  * The destinations reachable from the home dashboard.
@@ -136,24 +137,132 @@ enum class TopLevelDestination(
         /**
          * The destinations that appear as cards on the dashboard.
          *
-         * Everything except [SETTINGS], which is reached from the home top bar:
-         * configuration is not something a user browses to alongside the tools.
+         * Everything except the three that are now a tab in their own right —
+         * a card that duplicates the tab directly beneath it is a second door
+         * into the same room — and except [SETTINGS], which is reached from the
+         * home top bar and from More: configuration is not something a user
+         * browses to alongside the tools.
          *
-         * That leaves ten, which divides by two — so the odd-count rule below
-         * is dormant and every card sits in a row of two. It was live when
-         * there were nine, and it will be again at eleven.
-         *
-         * The rule, kept because the count keeps moving: — and a card stranded
-         * alone on a final row is what an earlier version of this dashboard
-         * looked like and was rebuilt to avoid.
-         *
-         * The dashboard solves it by giving the *first* card the full width
-         * whenever the count is odd, which is a rule rather than a special
-         * case: these are declared in order of how central they are, so the
-         * one that gets the extra room is the one that has earned it.
-         * [PROJECTS] is first because keeping a job is what the app is for;
-         * everything else is a tool the job reaches for.
+         * The count moves as sections are added, and a card stranded alone on a
+         * final row is what an earlier version of this dashboard looked like
+         * and was rebuilt to avoid. The dashboard solves it by giving the
+         * *first* card the full width whenever the count is odd, which is a
+         * rule rather than a special case: these are declared in order of how
+         * central they are, so the one that gets the extra room is the one that
+         * has earned it.
          */
-        val dashboardCards: List<TopLevelDestination> = entries - SETTINGS
+        val dashboardCards: List<TopLevelDestination> =
+            entries - SETTINGS - tabDestinations.toSet()
+
+        /**
+         * Everything reachable from the More tab.
+         *
+         * The complement of the tab bar, in the same declared order, with
+         * [SETTINGS] last because it is the one entry that configures the app
+         * rather than doing work in it.
+         */
+        val moreDestinations: List<TopLevelDestination> = dashboardCards + SETTINGS
     }
 }
+
+/**
+ * The tabs along the bottom of the app.
+ *
+ * Four sections plus a way to reach the rest. Until now the app's ten shelves
+ * were reachable only by returning to the dashboard and tapping a card, which
+ * left it with no persistent sense of place: nothing on screen said where you
+ * were or what else there was. On iOS, where this same code will run, an app
+ * with sections and no tab bar reads as unfinished.
+ *
+ * Which four is a question about what people open repeatedly, not about what
+ * the app contains. [TopLevelDestination.PROJECTS] is the job in progress,
+ * [TopLevelDestination.CALCULATORS] is the work, and
+ * [TopLevelDestination.FORUM] is the one part that changes while you are not
+ * looking. Everything else — reference tables, the glossary, theory, saved
+ * work — is looked up rather than lived in, and belongs behind [MORE].
+ *
+ * Five is also the ceiling both platforms set: a sixth tab does not fit a
+ * phone's width at an accessible label size.
+ */
+enum class ElecTab(
+    val destination: TopLevelDestination?,
+    val labelRes: Int,
+    val icon: ImageVector,
+) {
+    HOME(null, R.string.destination_home, ElecIcons.Home),
+    CALCULATORS(
+        TopLevelDestination.CALCULATORS,
+        // Not `destination_calculators`. A tab is about 72dp wide and the
+        // Turkish "Hesaplayıcılar" wraps to two lines in it, which throws the
+        // whole bar out of alignment. The screen it opens keeps the full name.
+        R.string.tab_calculators,
+        ElecIcons.Calculators,
+    ),
+    PROJECTS(TopLevelDestination.PROJECTS, R.string.destination_projects, ElecIcons.Projects),
+    FORUM(TopLevelDestination.FORUM, R.string.destination_forum, ElecIcons.Forum),
+    MORE(null, R.string.destination_more, ElecIcons.MoreTab),
+    ;
+
+    /** Where selecting this tab navigates. */
+    val route: Route
+        get() = when (this) {
+            HOME -> Route.Home
+            MORE -> Route.More
+            else -> requireNotNull(destination).route
+        }
+
+    /**
+     * Every destination this tab owns.
+     *
+     * Listed rather than derived, because "which tab is this screen in" has no
+     * answer the navigation graph can give: the graph is flat, so a thread and
+     * the forum it belongs to are siblings as far as it knows. The bar reads
+     * this to decide what to highlight, which is why a detail screen has to
+     * name its tab — otherwise opening a thread would appear to leave the forum.
+     */
+    val routes: List<KClass<out Route>>
+        get() = when (this) {
+            HOME -> listOf(Route.Home::class)
+
+            CALCULATORS -> listOf(Route.Calculators::class, Route.Calculator::class)
+
+            PROJECTS -> listOf(
+                Route.Projects::class,
+                Route.Project::class,
+                Route.Circuit::class,
+            )
+
+            FORUM -> listOf(
+                Route.Forum::class,
+                Route.ForumCategory::class,
+                Route.ForumThread::class,
+                Route.ForumComposeThread::class,
+                Route.ForumProfile::class,
+            )
+
+            // Everything with no tab of its own. Settings is here as well as in
+            // the home top bar: two doors into a room nobody visits often is
+            // better than one nobody can find.
+            MORE -> listOf(
+                Route.More::class,
+                Route.Converter::class,
+                Route.References::class,
+                Route.Reference::class,
+                Route.Glossary::class,
+                Route.Theory::class,
+                Route.TheoryTopic::class,
+                Route.FieldNotes::class,
+                Route.Favorites::class,
+                Route.History::class,
+                Route.Settings::class,
+            )
+        }
+}
+
+/** The tab destinations, for the dashboard to exclude. */
+private val tabDestinations: List<TopLevelDestination>
+    get() = listOf(
+        TopLevelDestination.CALCULATORS,
+        TopLevelDestination.PROJECTS,
+        TopLevelDestination.FORUM,
+    )

@@ -186,4 +186,14 @@ sealed interface Route {
 
     @Serializable
     data object Settings : Route
+
+    /**
+     * The shelves that did not earn a tab.
+     *
+     * A destination rather than a sheet, because it is a tab root: it has to be
+     * somewhere the back stack can return to, and a sheet that reopens itself
+     * on back is not that.
+     */
+    @Serializable
+    data object More : Route
 }

@@ -44,7 +44,7 @@ import com.kemalurekli.electricalcalculator.features.forum.domain.ForumCategory
 @Composable
 fun ForumCategoriesRoute(
     onCategoryClick: (ForumCategory) -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     viewModel: ForumCategoriesViewModel = hiltViewModel(),
 ) {
@@ -72,7 +72,7 @@ fun ForumCategoriesScreen(
     uiState: ForumScreenState<List<ForumCategory>>,
     onCategoryClick: (ForumCategory) -> Unit,
     onRetry: () -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()

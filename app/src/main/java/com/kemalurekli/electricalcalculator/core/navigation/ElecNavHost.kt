@@ -3,6 +3,7 @@ package com.kemalurekli.electricalcalculator.core.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -50,6 +51,7 @@ import com.kemalurekli.electricalcalculator.features.theory.presentation.TheoryT
 import com.kemalurekli.electricalcalculator.features.glossary.presentation.GlossaryRoute
 import com.kemalurekli.electricalcalculator.features.history.presentation.HistoryRoute
 import com.kemalurekli.electricalcalculator.features.home.presentation.HomeRoute
+import com.kemalurekli.electricalcalculator.features.more.presentation.MoreRoute
 import com.kemalurekli.electricalcalculator.features.references.presentation.ReferenceDetailRoute
 import com.kemalurekli.electricalcalculator.features.references.presentation.ReferencesRoute
 import com.kemalurekli.electricalcalculator.features.settings.presentation.SettingsRoute
@@ -87,11 +89,16 @@ fun ElecNavHost(
             )
         }
 
+        // The four tab roots pass no back handler. A back arrow on a tab root
+        // has nowhere honest to point: the reader did not arrive from
+        // somewhere, they switched tabs, and the bar below is what takes them
+        // back. ElecTopAppBar draws no affordance when the handler is null.
         composable<Route.Calculators> {
-            CalculatorsRoute(
-                onCalculatorClick = actions::navigateToCalculator,
-                onNavigateBack = actions::navigateBack,
-            )
+            CalculatorsRoute(onCalculatorClick = actions::navigateToCalculator)
+        }
+
+        composable<Route.More> {
+            MoreRoute(onNavigate = actions::navigateTo)
         }
 
         composable<Route.Calculator> { backStackEntry ->
@@ -299,7 +306,6 @@ fun ElecNavHost(
         composable<Route.Forum> {
             ForumCategoriesRoute(
                 onCategoryClick = { actions.navigateTo(Route.ForumCategory(it.id, it.title)) },
-                onNavigateBack = actions::navigateBack,
             )
         }
 
@@ -344,10 +350,7 @@ fun ElecNavHost(
         }
 
         composable<Route.Projects> {
-            ProjectsRoute(
-                onOpenProject = { actions.navigateTo(Route.Project(it)) },
-                onNavigateBack = actions::navigateBack,
-            )
+            ProjectsRoute(onOpenProject = { actions.navigateTo(Route.Project(it)) })
         }
 
         composable<Route.Project> { backStackEntry ->
@@ -404,6 +407,25 @@ class NavActions(private val navController: NavHostController) {
         // `launchSingleTop` prevents a second copy of a destination when a card
         // is double-tapped before the transition finishes.
         navController.navigate(route) { launchSingleTop = true }
+    }
+
+    /**
+     * Switches to a tab, keeping where the reader had got to inside it.
+     *
+     * Three flags, each answering a question the reader would otherwise ask.
+     * `popUpTo(start) { saveState }` means the back stack does not accumulate
+     * one entry per tab press — after tapping around the bar for a minute, one
+     * back gesture still leaves the app rather than replaying the tour.
+     * `restoreState` puts the tab back where it was, so returning to a
+     * half-written forum thread finds it half-written. `launchSingleTop` keeps
+     * a second tap on the current tab from stacking a copy of it.
+     */
+    fun navigateToTab(tab: ElecTab) {
+        navController.navigate(tab.route) {
+            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+            launchSingleTop = true
+            restoreState = true
+        }
     }
 
     /**

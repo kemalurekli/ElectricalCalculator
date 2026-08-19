@@ -22,7 +22,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitT
 import com.kemalurekli.electricalcalculator.core.domain.model.ThemeMode
 import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import com.kemalurekli.electricalcalculator.core.designsystem.component.DisclaimerDialog
-import com.kemalurekli.electricalcalculator.core.navigation.ElecNavHost
+import com.kemalurekli.electricalcalculator.core.navigation.ElecAppShell
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    ElecNavHost(navController = rememberNavController())
+                    ElecAppShell(navController = rememberNavController())
 
                     // Shown over the app rather than before it: the reader can
                     // see what they are agreeing to use. Held until accepted,

@@ -11,6 +11,17 @@
     <string name="destination_favorites">Favorites</string>
     <string name="destination_history">History</string>
     <string name="destination_settings">Settings</string>
+    <string name="destination_home">Home</string>
+    <string name="destination_more">More</string>
+    <!--
+      Tab labels are separate from the screen titles they lead to. A tab is
+      about 72dp wide and a label that does not fit wraps to two lines, which
+      throws the whole bar out of alignment. Each language picks what fits
+      rather than every language being held to the shortest one's limit.
+    -->
+    <string name="tab_calculators">Calculators</string>
+    <string name="more_title">More</string>
+    <string name="more_subtitle">Reference material, saved work and settings</string>
 
     <!-- Home -->
     <string name="home_browse">Browse</string>
