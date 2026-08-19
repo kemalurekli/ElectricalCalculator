@@ -1,7 +1,9 @@
 package com.kemalurekli.electricalcalculator.features.home
 
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.platform.LocalContext
@@ -11,6 +13,7 @@ import androidx.compose.ui.test.performTextInput
 import android.content.Context
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
+import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorCategory
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorIcon
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -25,6 +28,7 @@ import kotlinx.collections.immutable.persistentListOf
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import java.time.Instant
 
 /**
  * Drives the stateless [HomeScreen] with fixed state, so these assertions cover
@@ -95,12 +99,19 @@ class HomeScreenTest {
      * by content description. That also makes these tests verify the
      * screen-reader contract, not just that pixels were drawn.
      */
+    /**
+     * The dashboard shows what is not a tab, and nothing that is.
+     *
+     * Calculators, Projects and Forum used to have cards here, back when the
+     * dashboard was the only way to reach anything. They are tabs now, and a
+     * card directly above the tab that opens the same room is a second door
+     * into it — so their absence is the assertion, not an omission.
+     */
     @Test
     fun showsEveryDashboardCard() {
         setContent(HomeUiState(isLoading = false))
 
         listOf(
-            strings.calculators,
             strings.converter,
             strings.references,
             strings.glossary,
@@ -114,6 +125,10 @@ class HomeScreenTest {
                 .performScrollTo()
                 .assertIsDisplayed()
         }
+
+        composeTestRule
+            .onAllNodesWithContentDescription(strings.calculators, substring = true)
+            .assertCountEquals(0)
     }
 
     @Test
@@ -291,11 +306,53 @@ class HomeScreenTest {
         assertEquals(CalculatorId.VOLTAGE_DROP, clicked)
     }
 
+    /**
+     * The row reports the whole record, not just which calculator it was.
+     *
+     * It used to call `onCalculatorClick(record.calculatorId)`, which has
+     * nowhere to put the row's id — so tapping a past calculation opened an
+     * empty form of the right calculator. Nothing failed and nothing was
+     * logged; the screen just quietly forgot which calculation you asked for.
+     * The identical row on the History screen always passed the id, which is
+     * what made the difference so easy to miss.
+     */
+    @Test
+    fun tappingARecentCalculationReportsTheWholeRecord() {
+        var opened: CalculationRecord? = null
+        setContent(
+            HomeUiState(recent = persistentListOf(recentRecord), isLoading = false),
+            onOpenRecord = { opened = it },
+        )
+
+        // By description, not by text: the row collapses to a single
+        // accessibility node reading "title. summary. timestamp", so a
+        // screen-reader user hears one target instead of three fragments —
+        // which also means its title is not a node of its own to click.
+        composeTestRule
+            .onNodeWithContentDescription(recentRecord.title, substring = true)
+            .performScrollTo()
+            .performClick()
+
+        assertEquals(recentRecord.id, opened?.id)
+        assertEquals(CalculatorId.VOLTAGE_DROP, opened?.calculatorId)
+    }
+
+    private val recentRecord = CalculationRecord(
+        id = 42L,
+        calculatorId = CalculatorId.VOLTAGE_DROP,
+        title = "Voltage drop — 4 mm², 30 m",
+        summary = "5.36 V",
+        inputs = mapOf("length" to "30"),
+        results = mapOf("drop" to "5.36"),
+        createdAt = Instant.parse("2026-08-01T12:00:00Z"),
+    )
+
     private fun setContent(
         uiState: HomeUiState,
         onQueryChange: (String) -> Unit = {},
         onNavigate: (Route) -> Unit = {},
         onCalculatorClick: (CalculatorId) -> Unit = {},
+        onOpenRecord: (CalculationRecord) -> Unit = {},
         onOpenSearchHit: (SearchableItem) -> Unit = {},
     ) {
         composeTestRule.setContent {
@@ -307,6 +364,7 @@ class HomeScreenTest {
                     onToggleFavorite = {},
                     onNavigate = onNavigate,
                     onCalculatorClick = onCalculatorClick,
+                    onOpenRecord = onOpenRecord,
                     onOpenSearchHit = onOpenSearchHit,
                 )
             }

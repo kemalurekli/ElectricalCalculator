@@ -46,6 +46,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.remember
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
+import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorCategory
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorIcon
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -62,6 +63,7 @@ import kotlinx.collections.immutable.persistentListOf
 fun HomeRoute(
     onNavigate: (Route) -> Unit,
     onCalculatorClick: (CalculatorId) -> Unit,
+    onOpenRecord: (CalculationRecord) -> Unit,
     onOpenSearchHit: (SearchableItem) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
@@ -74,6 +76,7 @@ fun HomeRoute(
         onToggleFavorite = viewModel::onToggleFavorite,
         onNavigate = onNavigate,
         onCalculatorClick = onCalculatorClick,
+        onOpenRecord = onOpenRecord,
         onOpenSearchHit = onOpenSearchHit,
         modifier = modifier,
     )
@@ -122,6 +125,7 @@ fun HomeScreen(
     onToggleFavorite: (CalculatorId) -> Unit,
     onNavigate: (Route) -> Unit,
     onCalculatorClick: (CalculatorId) -> Unit,
+    onOpenRecord: (CalculationRecord) -> Unit,
     onOpenSearchHit: (SearchableItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -193,7 +197,12 @@ fun HomeScreen(
                                 summary = record.summary,
                                 timestamp = record.createdAt.toRelativeTime(),
                                 icon = ElecIcons.History,
-                                onClick = { onCalculatorClick(record.calculatorId) },
+                                // The whole record, not just which calculator
+                                // it was. `onCalculatorClick` cannot carry the
+                                // row's id, and opening a past calculation on
+                                // an empty form is the one thing this row is
+                                // not for.
+                                onClick = { onOpenRecord(record) },
                             )
                         }
                     }
@@ -492,6 +501,7 @@ private fun HomeScreenPreview() {
             onToggleFavorite = {},
             onNavigate = {},
             onCalculatorClick = {},
+            onOpenRecord = {},
             onOpenSearchHit = {},
         )
     }
@@ -507,6 +517,7 @@ private fun HomeScreenTabletPreview() {
             onToggleFavorite = {},
             onNavigate = {},
             onCalculatorClick = {},
+            onOpenRecord = {},
             onOpenSearchHit = {},
         )
     }

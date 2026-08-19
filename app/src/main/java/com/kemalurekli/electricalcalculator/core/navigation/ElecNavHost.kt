@@ -85,6 +85,12 @@ fun ElecNavHost(
             HomeRoute(
                 onNavigate = actions::navigateTo,
                 onCalculatorClick = actions::navigateToCalculator,
+                // The same call the History screen makes. The dashboard's
+                // recent rows used to drop the record id here and open a blank
+                // form instead of the calculation they were showing.
+                onOpenRecord = { record ->
+                    actions.navigateToCalculator(record.calculatorId, record.id)
+                },
                 onOpenSearchHit = actions::navigateToSearchHit,
             )
         }
