@@ -1,5 +1,7 @@
 package com.kemalurekli.electricalcalculator.core.domain.model
 
+import com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon
+
 /**
  * Stable identifier for a calculator.
  *
@@ -47,36 +49,6 @@ enum class CalculatorCategory {
     ENERGY_STORAGE,
     LIGHTING,
     RENEWABLES,
-}
-
-/**
- * Icon choice for a calculator, expressed as a domain-level enum.
- *
- * The domain layer names the *concept*; the design system maps each concept to
- * an `ImageVector`. That indirection is what keeps `androidx.compose` off the
- * domain classpath and lets the icon set be restyled without touching domain code.
- */
-enum class CalculatorIcon {
-    VOLTAGE_DROP,
-    CABLE,
-    TRANSFORMER,
-    MOTOR,
-    POWER,
-    POWER_FACTOR,
-    BATTERY,
-    WEIGHT,
-    CONDUIT,
-    TRAY,
-    FAULT,
-    EARTH,
-    LIGHTING,
-    SOLAR,
-    NEUTRAL,
-    COST,
-    SELECTIVITY,
-    MOTOR_STARTING,
-    HARMONICS,
-    EVSE,
 }
 
 /**

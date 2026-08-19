@@ -26,6 +26,11 @@ import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.pre
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_copy
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_share
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.validation_must_be_positive
+import com.kemalurekli.electricalcalculator.testing.designSystemString
 
 /**
  * Drives the stateless screen with fixed state. Calculation correctness is
@@ -59,12 +64,12 @@ class VoltageDropScreenTest {
         val designCurrent: String = context.getString(R.string.common_design_current)
         val powerFactor: String = context.getString(R.string.common_power_factor)
         val calculate: String = context.getString(R.string.action_calculate)
-        val copy: String = context.getString(R.string.action_copy)
-        val share: String = context.getString(R.string.action_share)
+        val copy: String = designSystemString(Res.string.action_copy)
+        val share: String = designSystemString(Res.string.action_share)
         val formulaHeading: String = context.getString(R.string.calculator_formula)
         val notesHeading: String = context.getString(R.string.calculator_notes)
         val reactanceNote: String = context.getString(R.string.vd_note_reactance)
-        val mustBePositive: String = context.getString(R.string.validation_must_be_positive)
+        val mustBePositive: String = designSystemString(Res.string.validation_must_be_positive)
         val resultLabel: String = context.getString(R.string.vd_result_label)
         val voltageAtLoad: String = context.getString(R.string.vd_result_voltage_at_load)
 

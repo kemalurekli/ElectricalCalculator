@@ -31,6 +31,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.validation_required
+import com.kemalurekli.electricalcalculator.testing.designSystemString
 
 /**
  * End-to-end coverage of the voltage drop calculator against the real Hilt
@@ -69,7 +72,7 @@ class VoltageDropEndToEndTest {
         val crossSection: String = context.getString(R.string.common_cross_section)
         val temperature: String = context.getString(R.string.vd_temperature_label)
         val calculate: String = context.getString(R.string.action_calculate)
-        val required: String = context.getString(R.string.validation_required)
+        val required: String = designSystemString(Res.string.validation_required)
         val resultLabel: String = context.getString(R.string.vd_result_label)
     }
 

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Strings owned by the design system.
+
+  Compose Resources generates one `Res` class per module, so a component
+  can only read strings declared alongside it. These moved out of the
+  app's strings.xml with the components that use them.
+-->
+<resources>
+    <string name="action_back">Geri</string>
+    <string name="action_copy">Kopyala</string>
+    <string name="action_favorite_add">Favorilere ekle</string>
+    <string name="action_favorite_remove">Favorilerden çıkar</string>
+    <string name="action_retry">Yeniden dene</string>
+    <string name="action_share">Paylaş</string>
+    <string name="cable_row_diameter">Dış çap</string>
+    <string name="cable_row_quantity">Adet</string>
+    <string name="cable_row_remove">Bu kabloyu kaldır</string>
+    <string name="calculator_notes_read_more">Ayrıntılı bilgi</string>
+    <string name="disclaimer_accept">Okudum, kabul ediyorum</string>
+    <string name="disclaimer_body" formatted="false">Bu uygulama yalnızca genel bilgilendirme amacıyla sunulmaktadır.\n\nİçerdiği hesaplamalardan, sonuçlardan, tablolardan ve bilgilendirici metinlerden hiçbir şekilde sorumluluk kabul edilmez. Sonuçlar bilimsel veya mühendislik çalışmalarında dayanak olarak kullanılamaz.\n\nUygulamanın her türlü kullanımından ve buradan alınan her bilginin doğrulanmasından sorumluluk tamamen kullanıcıya aittir. Uygulama ve geliştiricileri, kullanımından doğabilecek hiçbir zarardan hiçbir şekilde sorumlu tutulamaz.\n\nİçerik ve uygulamanın kendisi yapay zekâ yardımıyla hazırlanmıştır. Bunu göze alarak kullanınız.\n\nUygulamanın herhangi bir yerinde aksi ileri sürülüyor gibi görünse dahi, bu metinde yer alan maddeler esas alınır.\n\nForumda diğer kullanıcıların yazdığı mesajlar yer alır. Orada yazılan hiçbir şey geliştiriciler tarafından denetlenmez, doğrulanmaz veya onaylanmaz; mühendislik tavsiyesi değildir ve buna dayanarak yapılan her işin sorumluluğu okuyana aittir. Yazdıklarınızdan ve kimsenin kişisel bilgilerini paylaşmamaktan siz sorumlusunuz.\n\nBu uygulamayı kullanarak yukarıdakileri kabul etmiş sayılırsınız.</string>
+    <string name="disclaimer_title">Sorumluluk reddi</string>
+    <string name="search_clear">Aramayı temizle</string>
+    <string name="search_hint">Hesaplayıcı, dönüştürücü, referans ara</string>
+    <string name="state_empty_favorites_message">Bir hesaplayıcıyı sabitleyerek ana ekranınızda tutun.</string>
+    <string name="state_empty_favorites_title">Henüz favori yok</string>
+    <string name="state_error_title">Bir sorun oluştu</string>
+    <string name="state_in_development_message">Bu bölüm geliştiriliyor ve yakın bir sürümde eklenecek.</string>
+    <string name="state_in_development_title">Henüz kullanılamıyor</string>
+    <string name="state_loading">Yükleniyor</string>
+    <string name="validation_below_minimum">En az %1$s değerinde bir sayı girin</string>
+    <string name="validation_exceeds_maximum">En fazla %1$s değerinde bir sayı girin</string>
+    <string name="validation_must_be_positive">Sıfırdan büyük bir değer girin</string>
+    <string name="validation_must_not_be_negative">Sıfır veya daha büyük bir değer girin</string>
+    <string name="validation_not_a_number">Geçerli bir sayı girin</string>
+    <string name="validation_out_of_range">%1$s ile %2$s arasında bir değer girin</string>
+    <string name="validation_required">Bu değer gereklidir</string>
+</resources>

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
-import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorIcon
+import com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository

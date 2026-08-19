@@ -171,6 +171,7 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.compose.adaptive)
     implementation(project(":core:common"))
+    implementation(project(":core:designsystem"))
     implementation(libs.androidx.compose.material3.navigation.suite)
 
     // Navigation

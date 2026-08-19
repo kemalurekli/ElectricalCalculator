@@ -5,7 +5,7 @@ import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.domain.catalog.SearchableCalculator
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorCategory
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorDescriptor
-import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorIcon
+import com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 
 /**

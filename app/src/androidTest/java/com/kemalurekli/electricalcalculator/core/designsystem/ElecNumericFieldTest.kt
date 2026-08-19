@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
@@ -17,6 +17,9 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitT
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.validation_must_be_positive
+import com.kemalurekli.electricalcalculator.testing.designSystemString
 
 /**
  * Verifies the input filtering and error rendering that every calculator form
@@ -74,7 +77,7 @@ class ElecNumericFieldTest {
         // that may correctly be showing Turkish.
         lateinit var mustBePositive: String
         composeTestRule.setContent {
-            mustBePositive = stringResource(R.string.validation_must_be_positive)
+            mustBePositive = stringResource(Res.string.validation_must_be_positive)
             ElecToolkitTheme {
                 ElecNumericField(
                     value = "0",

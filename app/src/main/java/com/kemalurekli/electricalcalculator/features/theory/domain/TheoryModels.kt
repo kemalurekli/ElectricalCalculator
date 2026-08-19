@@ -112,7 +112,7 @@ enum class TheoryLevel {
  * The circuit a topic is talking about.
  *
  * A concept here rather than a drawing, for the same reason
- * [com.kemalurekli.electricalcalculator.core.domain.model.CalculatorIcon] is a
+ * [com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon] is a
  * concept: the domain layer does not depend on Compose. The mapping to an actual
  * drawing lives in `TheoryDiagrams.kt`, in an exhaustive `when`, so a value added
  * here without a drawing is a build error rather than a blank card.

@@ -29,6 +29,7 @@ rootProject.name = "Electrical Calculator"
 // Multiplatform as it goes, so that Android keeps building at every step.
 include(":app")
 include(":core:common")
+include(":core:designsystem")
 
 // The iOS composition root — what MainActivity is on Android. Xcode links the
 // framework this produces and calls one function in it.

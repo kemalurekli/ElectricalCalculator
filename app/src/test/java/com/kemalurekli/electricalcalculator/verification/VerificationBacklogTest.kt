@@ -208,6 +208,15 @@ class VerificationBacklogTest {
         private const val CALCULATORS =
             "app/src/main/java/com/kemalurekli/electricalcalculator/features/calculators"
         private const val CORE = "app/src/main/java/com/kemalurekli/electricalcalculator/core"
+
+        /**
+         * The design system left `:app` for its own multiplatform module, so
+         * the paths registered here follow it. This test found the stale ones
+         * the moment they moved, which is the whole reason it walks the disk
+         * rather than trusting the document.
+         */
+        private const val DESIGNSYSTEM =
+            "core/designsystem/src/commonMain/kotlin/com/kemalurekli/electricalcalculator/core/designsystem"
         private const val FEATURES = "app/src/main/java/com/kemalurekli/electricalcalculator/features"
 
         /**
@@ -229,7 +238,7 @@ class VerificationBacklogTest {
             "$CORE/domain/model/CableModels.kt",
             "$CORE/domain/model/ConductorMaterial.kt",
             "$CORE/ui/model/SystemVoltageDefaults.kt",
-            "$CORE/designsystem/symbol",
+            "$DESIGNSYSTEM/symbol",
             "$FEATURES/references/domain/ReferenceCatalog.kt",
             "$FEATURES/glossary/domain/GlossaryCatalog.kt",
             "$FEATURES/fieldnotes/domain/FieldNoteCatalog.kt",

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Strings owned by the design system.
+
+  Compose Resources generates one `Res` class per module, so a component
+  can only read strings declared alongside it. These moved out of the
+  app's strings.xml with the components that use them.
+-->
+<resources>
+    <string name="action_back">Back</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_favorite_add">Add to favorites</string>
+    <string name="action_favorite_remove">Remove from favorites</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_share">Share</string>
+    <string name="cable_row_diameter">Outside diameter</string>
+    <string name="cable_row_quantity">Qty</string>
+    <string name="cable_row_remove">Remove this cable</string>
+    <string name="calculator_notes_read_more">Read more</string>
+    <string name="disclaimer_accept">I have read and accept</string>
+    <string name="disclaimer_body" formatted="false">This application is provided for general information only.\n\nNo responsibility whatsoever is accepted for the calculations, results, tables or explanatory texts it contains. The results must not be used as a basis for scientific or engineering work.\n\nResponsibility for any use of this application, and for verifying anything taken from it, rests entirely with the user. Under no circumstances may the application or its developers be held liable for any loss or damage arising from its use.\n\nThe content and the application itself were produced with the assistance of artificial intelligence. Use it in the knowledge of that.\n\nThe forum carries messages written by other users. Nothing posted there is checked, verified or endorsed by the developers, it is not engineering advice, and the responsibility for anything acted upon rests with the reader. You are responsible for what you post, and for not posting anyone's personal details.\n\nWhere anything elsewhere in this application appears to say otherwise, the terms set out here prevail.\n\nBy using this application you are deemed to have accepted the above.</string>
+    <string name="disclaimer_title">Disclaimer</string>
+    <string name="search_clear">Clear search</string>
+    <string name="search_hint">Search calculators, converters, references</string>
+    <string name="state_empty_favorites_message">Pin a calculator to keep it on your home screen.</string>
+    <string name="state_empty_favorites_title">No favorites yet</string>
+    <string name="state_error_title">Something went wrong</string>
+    <string name="state_in_development_message">This section is being built and will arrive in an upcoming release.</string>
+    <string name="state_in_development_title">Not available yet</string>
+    <string name="state_loading">Loading</string>
+    <string name="validation_below_minimum">Enter a value of %1$s or more</string>
+    <string name="validation_exceeds_maximum">Enter a value of %1$s or less</string>
+    <string name="validation_must_be_positive">Enter a value greater than zero</string>
+    <string name="validation_must_not_be_negative">Enter a value of zero or more</string>
+    <string name="validation_not_a_number">Enter a valid number</string>
+    <string name="validation_out_of_range">Enter a value between %1$s and %2$s</string>
+    <string name="validation_required">This value is required</string>
+</resources>

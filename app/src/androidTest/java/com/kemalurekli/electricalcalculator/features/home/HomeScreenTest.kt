@@ -15,7 +15,7 @@ import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorCategory
-import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorIcon
+import com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchKind
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchableItem
@@ -29,6 +29,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import java.time.Instant
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.search_hint
+import com.kemalurekli.electricalcalculator.testing.designSystemString
 
 /**
  * Drives the stateless [HomeScreen] with fixed state, so these assertions cover
@@ -56,7 +59,7 @@ class HomeScreenTest {
     private lateinit var strings: Strings
 
     private class Strings(context: Context) {
-        val searchHint: String = context.getString(R.string.search_hint)
+        val searchHint: String = designSystemString(Res.string.search_hint)
         val browse: String = context.getString(R.string.home_browse)
         val noMatches: String = context.getString(R.string.state_empty_calculators_title)
 

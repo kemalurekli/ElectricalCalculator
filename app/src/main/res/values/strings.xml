@@ -41,10 +41,7 @@
     <string name="dashboard_settings_subtitle">Theme, units and app information</string>
 
     <!-- Calculator categories -->
-    <string name="category_power_and_load">Power &amp; Load</string>
     <string name="category_cable_and_conduit">Cable &amp; Conduit</string>
-    <string name="category_machines">Machines</string>
-    <string name="category_energy_storage">Energy Storage</string>
 
     <!-- Calculator catalog -->
     <string name="calculator_voltage_drop_title">Voltage Drop</string>
@@ -69,17 +66,11 @@
     <string name="calculator_cable_tray_fill_description">Tray occupancy for a cable bundle</string>
 
     <!-- Search -->
-    <string name="search_hint">Search calculators, converters, references</string>
     <string name="search_history_hint">Search saved calculations</string>
-    <string name="search_clear">Clear search</string>
 
     <!-- Generic actions -->
-    <string name="action_back">Back</string>
-    <string name="action_retry">Retry</string>
     <string name="action_favorite_add">Add to favorites</string>
     <string name="action_favorite_remove">Remove from favorites</string>
-    <string name="action_copy">Copy</string>
-    <string name="action_share">Share</string>
     <string name="action_calculate">Calculate</string>
     <string name="action_reset">Reset</string>
     <string name="message_copied">Result copied</string>
@@ -151,7 +142,6 @@
     <string name="vd_export_power_loss">Power loss: %1$s W</string>
 
     <!-- Common states -->
-    <string name="state_loading">Loading</string>
     <string name="state_empty_favorites_title">No favorites yet</string>
     <string name="state_empty_favorites_message">Pin a calculator to keep it on your home screen.</string>
     <string name="state_empty_history_title">No calculations yet</string>
@@ -286,8 +276,6 @@
     <string name="sel_note_bound" formatted="false">What the published curves allow is an upper bound, not a guarantee. Real behaviour at high fault currents depends on let-through energy, which is why manufacturers publish selectivity tables for specific pairs \u2014 and why those tables sometimes claim more than the curves do. Where such a table exists, it wins.</string>
     <string name="sel_note_overload" formatted="false">The two ends fail independently. An overload is settled by the thermal elements and needs the ratings far enough apart; a short circuit is settled by the magnetic elements and needs the fault to stay below the upstream device\u2019s instantaneous pickup. A pair can pass one and fail the other.</string>
     <string name="disclaimer_title">Disclaimer</string>
-    <string name="disclaimer_accept">I have read and accept</string>
-    <string name="disclaimer_body" formatted="false">This application is provided for general information only.\n\nNo responsibility whatsoever is accepted for the calculations, results, tables or explanatory texts it contains. The results must not be used as a basis for scientific or engineering work.\n\nResponsibility for any use of this application, and for verifying anything taken from it, rests entirely with the user. Under no circumstances may the application or its developers be held liable for any loss or damage arising from its use.\n\nThe content and the application itself were produced with the assistance of artificial intelligence. Use it in the knowledge of that.\n\nThe forum carries messages written by other users. Nothing posted there is checked, verified or endorsed by the developers, it is not engineering advice, and the responsibility for anything acted upon rests with the reader. You are responsible for what you post, and for not posting anyone\'s personal details.\n\nWhere anything elsewhere in this application appears to say otherwise, the terms set out here prevail.\n\nBy using this application you are deemed to have accepted the above.</string>
     <string name="settings_legal">Legal</string>
     <string name="calculator_motor_starting_title">Motor Starting Dip</string>
     <string name="calculator_motor_starting_description">Voltage the supply sags to while a motor runs up</string>
@@ -522,13 +510,6 @@
     <string name="settings_version">Version</string>
 
     <!-- Validation — mapped from domain ValidationError values -->
-    <string name="validation_required">This value is required</string>
-    <string name="validation_not_a_number">Enter a valid number</string>
-    <string name="validation_must_be_positive">Enter a value greater than zero</string>
-    <string name="validation_must_not_be_negative">Enter a value of zero or more</string>
-    <string name="validation_out_of_range">Enter a value between %1$s and %2$s</string>
-    <string name="validation_exceeds_maximum">Enter a value of %1$s or less</string>
-    <string name="validation_below_minimum">Enter a value of %1$s or more</string>
 
     <!-- Cable size calculator -->
     <string name="cs_insulation">Insulation</string>
@@ -872,10 +853,7 @@
     <string name="cf_custom_limit_hint">For example 45 for a trunking space factor</string>
 
     <string name="cable_list_title">Cables</string>
-    <string name="cable_row_diameter">Outside diameter</string>
-    <string name="cable_row_quantity">Qty</string>
     <string name="cable_list_add">Add cable</string>
-    <string name="cable_row_remove">Remove this cable</string>
 
     <string name="cf_result_fill">Fill</string>
     <string name="cf_result_within">Within the %1$s %% limit</string>
@@ -1152,7 +1130,6 @@
     <string name="ref_pf_transformer_idle">Transformer, no load</string>
 
     <!-- Short-circuit current calculator -->
-    <string name="category_protection">Protection</string>
     <string name="calculator_short_circuit_title">Short-Circuit Current</string>
     <string name="calculator_short_circuit_description">Prospective fault current at a point in the run</string>
 
@@ -1473,11 +1450,8 @@
     <string name="ef_step_fault_current">Current that actually flows</string>
     <string name="ef_step_adiabatic">Smallest protective conductor that survives it</string>
 
-    <string name="calculator_notes_read_more">Read more</string>
 
     <!-- Lighting, solar, neutral current and energy cost -->
-    <string name="category_lighting">Lighting</string>
-    <string name="category_renewables">Renewables</string>
     <string name="calculator_lighting_title">Lighting — Lumen Method</string>
     <string name="calculator_lighting_description">How many luminaires a room needs</string>
     <string name="lt_illuminance_label">Target illuminance</string>
@@ -2364,8 +2338,6 @@
     <string name="ref_mistakes_callout">If you find one of these on an existing installation, assume it is not the only one. They cluster: whoever made this decision made the others too.</string>
 
     <!-- Worked example scenarios -->
-    <string name="calculator_examples">Example scenarios</string>
-    <string name="calculator_examples_hint">Load a realistic job and see it worked through.</string>
 
     <string name="vd_example_workshop">Workshop submain, 63 A</string>
     <string name="vd_example_lighting">Garden lighting, 90 m</string>
@@ -3353,4 +3325,12 @@
     <string name="forum_level_caption">Membership level</string>
     <string name="forum_author_stats_inline">%1$d msg · %2$d thanks</string>
     <string name="forum_level_chip">Level: %1$s</string>
+    <string name="calculator_examples">Example scenarios</string>
+    <string name="calculator_examples_hint">Load a realistic job and see it worked through.</string>
+    <string name="category_energy_storage">Energy Storage</string>
+    <string name="category_lighting">Lighting</string>
+    <string name="category_machines">Machines</string>
+    <string name="category_power_and_load">Power &amp; Load</string>
+    <string name="category_protection">Protection</string>
+    <string name="category_renewables">Renewables</string>
 </resources>

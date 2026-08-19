@@ -43,10 +43,7 @@
     <string name="dashboard_settings_subtitle">Tema, birimler ve uygulama bilgisi</string>
 
     <!-- Hesaplayıcı kategorileri -->
-    <string name="category_power_and_load">Güç ve Yük</string>
     <string name="category_cable_and_conduit">Kablo ve Boru</string>
-    <string name="category_machines">Makineler</string>
-    <string name="category_energy_storage">Enerji Depolama</string>
 
     <!-- Hesaplayıcı kataloğu -->
     <string name="calculator_voltage_drop_title">Gerilim Düşümü</string>
@@ -71,17 +68,11 @@
     <string name="calculator_cable_tray_fill_description">Bir kablo demeti için tava doluluğu</string>
 
     <!-- Arama -->
-    <string name="search_hint">Hesaplayıcı, dönüştürücü, referans ara</string>
     <string name="search_history_hint">Kayıtlı hesaplamalarda ara</string>
-    <string name="search_clear">Aramayı temizle</string>
 
     <!-- Genel eylemler -->
-    <string name="action_back">Geri</string>
-    <string name="action_retry">Yeniden dene</string>
     <string name="action_favorite_add">Favorilere ekle</string>
     <string name="action_favorite_remove">Favorilerden çıkar</string>
-    <string name="action_copy">Kopyala</string>
-    <string name="action_share">Paylaş</string>
     <string name="action_calculate">Hesapla</string>
     <string name="action_reset">Sıfırla</string>
     <string name="message_copied">Sonuç kopyalandı</string>
@@ -93,7 +84,6 @@
     <string name="calculator_share_subject">%1$s — ElecToolkit</string>
 
     <!-- Durumlar -->
-    <string name="state_loading">Yükleniyor</string>
     <string name="state_empty_favorites_title">Henüz favori yok</string>
     <string name="state_empty_favorites_message">Bir hesaplayıcıyı sabitleyerek ana ekranınızda tutun.</string>
     <string name="state_empty_history_title">Henüz hesaplama yok</string>
@@ -223,8 +213,6 @@
     <string name="sel_note_bound" formatted="false">Yay\u0131mlanm\u0131\u015f e\u011frilerin izin verdi\u011fi \u015fey bir \u00fcst s\u0131n\u0131rd\u0131r, garanti de\u011fil. Y\u00fcksek ar\u0131za ak\u0131mlar\u0131ndaki ger\u00e7ek davran\u0131\u015f ge\u00e7irilen enerjiye ba\u011fl\u0131d\u0131r; \u00fcreticiler bu y\u00fczden belirli \u00e7iftler i\u00e7in selektivite tablolar\u0131 yay\u0131mlar \u2014 ve o tablolar bazen e\u011frilerin s\u00f6yledi\u011finden fazlas\u0131n\u0131 iddia eder. B\u00f6yle bir tablo varsa o ge\u00e7erlidir.</string>
     <string name="sel_note_overload" formatted="false">\u0130ki u\u00e7 birbirinden ba\u011f\u0131ms\u0131z olarak ba\u015far\u0131s\u0131z olur. A\u015f\u0131r\u0131 y\u00fck\u00fc termik elemanlar \u00e7\u00f6zer ve anmalar\u0131n yeterince ayr\u0131k olmas\u0131n\u0131 ister; k\u0131sa devreyi manyetik elemanlar \u00e7\u00f6zer ve ar\u0131zan\u0131n \u00fcst cihaz\u0131n ani a\u00e7ma e\u015fi\u011finin alt\u0131nda kalmas\u0131n\u0131 ister. Bir \u00e7ift birini ge\u00e7ip di\u011ferinde kalabilir.</string>
     <string name="disclaimer_title">Sorumluluk reddi</string>
-    <string name="disclaimer_accept">Okudum, kabul ediyorum</string>
-    <string name="disclaimer_body" formatted="false">Bu uygulama yaln\u0131zca genel bilgilendirme amac\u0131yla sunulmaktad\u0131r.\n\n\u0130\u00e7erdi\u011fi hesaplamalardan, sonu\u00e7lardan, tablolardan ve bilgilendirici metinlerden hi\u00e7bir \u015fekilde sorumluluk kabul edilmez. Sonu\u00e7lar bilimsel veya m\u00fchendislik \u00e7al\u0131\u015fmalar\u0131nda dayanak olarak kullan\u0131lamaz.\n\nUygulaman\u0131n her t\u00fcrl\u00fc kullan\u0131m\u0131ndan ve buradan al\u0131nan her bilginin do\u011frulanmas\u0131ndan sorumluluk tamamen kullan\u0131c\u0131ya aittir. Uygulama ve geli\u015ftiricileri, kullan\u0131m\u0131ndan do\u011fabilecek hi\u00e7bir zarardan hi\u00e7bir \u015fekilde sorumlu tutulamaz.\n\n\u0130\u00e7erik ve uygulaman\u0131n kendisi yapay zek\u00e2 yard\u0131m\u0131yla haz\u0131rlanm\u0131\u015ft\u0131r. Bunu g\u00f6ze alarak kullan\u0131n\u0131z.\n\nUygulaman\u0131n herhangi bir yerinde aksi ileri s\u00fcr\u00fcl\u00fcyor gibi g\u00f6r\u00fcnse dahi, bu metinde yer alan maddeler esas al\u0131n\u0131r.\n\nForumda diğer kullanıcıların yazdığı mesajlar yer alır. Orada yazılan hiçbir şey geliştiriciler tarafından denetlenmez, doğrulanmaz veya onaylanmaz; mühendislik tavsiyesi değildir ve buna dayanarak yapılan her işin sorumluluğu okuyana aittir. Yazdıklarınızdan ve kimsenin kişisel bilgilerini paylaşmamaktan siz sorumlusunuz.\n\nBu uygulamay\u0131 kullanarak yukar\u0131dakileri kabul etmi\u015f say\u0131l\u0131rs\u0131n\u0131z.</string>
     <string name="settings_legal">Yasal</string>
     <string name="calculator_motor_starting_title">Motor Yol Alma \u00c7\u00f6kmesi</string>
     <string name="calculator_motor_starting_description">Motor devreye girerken beslemenin d\u00fc\u015ft\u00fc\u011f\u00fc gerilim</string>
@@ -458,13 +446,6 @@
     <string name="settings_version">Sürüm</string>
 
     <!-- Doğrulama — domain katmanındaki ValidationError değerlerinden eşlenir -->
-    <string name="validation_required">Bu değer gereklidir</string>
-    <string name="validation_not_a_number">Geçerli bir sayı girin</string>
-    <string name="validation_must_be_positive">Sıfırdan büyük bir değer girin</string>
-    <string name="validation_must_not_be_negative">Sıfır veya daha büyük bir değer girin</string>
-    <string name="validation_out_of_range">%1$s ile %2$s arasında bir değer girin</string>
-    <string name="validation_exceeds_maximum">En fazla %1$s değerinde bir sayı girin</string>
-    <string name="validation_below_minimum">En az %1$s değerinde bir sayı girin</string>
 
     <!-- Gerilim düşümü hesaplayıcısı -->
     <string name="common_supply_system">Besleme sistemi</string>
@@ -868,10 +849,7 @@
     <string name="cf_custom_limit_hint">Örneğin kablo kanalı alan katsayısı için 45</string>
 
     <string name="cable_list_title">Kablolar</string>
-    <string name="cable_row_diameter">Dış çap</string>
-    <string name="cable_row_quantity">Adet</string>
     <string name="cable_list_add">Kablo ekle</string>
-    <string name="cable_row_remove">Bu kabloyu kaldır</string>
 
     <string name="cf_result_fill">Doluluk</string>
     <string name="cf_result_within">%%%1$s sınırı içinde</string>
@@ -1148,7 +1126,6 @@
     <string name="ref_pf_transformer_idle">Transformatör, boşta</string>
 
     <!-- Kısa devre akımı hesaplayıcısı -->
-    <string name="category_protection">Koruma</string>
     <string name="calculator_short_circuit_title">Kısa Devre Akımı</string>
     <string name="calculator_short_circuit_description">Hat üzerindeki bir noktada beklenen arıza akımı</string>
 
@@ -1479,11 +1456,8 @@
     <string name="glossary_open_calculator">Hesaplayıcıyı aç</string>
     <string name="glossary_open_reference">Tabloyu aç</string>
 
-    <string name="calculator_notes_read_more">Ayrıntılı bilgi</string>
 
     <!-- Lighting, solar, neutral current and energy cost -->
-    <string name="category_lighting">Aydınlatma</string>
-    <string name="category_renewables">Yenilenebilir</string>
     <string name="calculator_lighting_title">Aydınlatma — Lümen Yöntemi</string>
     <string name="calculator_lighting_description">Bir odanın kaç armatüre ihtiyacı olduğu</string>
     <string name="lt_illuminance_label">Hedef aydınlık düzeyi</string>
@@ -2370,8 +2344,6 @@
     <string name="ref_mistakes_callout">Mevcut bir tesisatta bunlardan birini bulursanız, tek olmadığını varsayın. Kümelenirler: bu kararı veren, diğerlerini de vermiştir.</string>
 
     <!-- Örnek senaryolar -->
-    <string name="calculator_examples">Örnek senaryolar</string>
-    <string name="calculator_examples_hint">Gerçek bir işi yükleyin, çözümü adımlarıyla görün.</string>
 
     <string name="vd_example_workshop">Atölye kolon hattı, 63 A</string>
     <string name="vd_example_lighting">Bahçe aydınlatması, 90 m</string>
@@ -3344,4 +3316,12 @@
     <string name="forum_level_caption">Üyelik seviyesi</string>
     <string name="forum_author_stats_inline">%1$d mesaj · %2$d teşekkür</string>
     <string name="forum_level_chip">Seviye: %1$s</string>
+    <string name="calculator_examples">Örnek senaryolar</string>
+    <string name="calculator_examples_hint">Gerçek bir işi yükleyin, çözümü adımlarıyla görün.</string>
+    <string name="category_energy_storage">Enerji Depolama</string>
+    <string name="category_lighting">Aydınlatma</string>
+    <string name="category_machines">Makineler</string>
+    <string name="category_power_and_load">Güç ve Yük</string>
+    <string name="category_protection">Koruma</string>
+    <string name="category_renewables">Yenilenebilir</string>
 </resources>

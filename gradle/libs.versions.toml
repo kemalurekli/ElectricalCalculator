@@ -8,6 +8,7 @@ ksp = "2.3.10"
 # whole dependency set for iosSimulatorArm64 before any of this was written —
 # see docs/compose-multiplatform-readiness.md.
 composeMultiplatform = "1.11.1"
+composeAdaptiveMultiplatform = "1.3.0-beta02"
 
 # Dependency injection for the shared modules. Hilt is Android-only and has no
 # multiplatform port; Koin is what replaces it as code moves out of :app.
@@ -95,6 +96,9 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-material3-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-adaptive = { group = "androidx.compose.material3.adaptive", name = "adaptive", version.ref = "composeAdaptive" }
+# The multiplatform build of the same thing, for the shared modules. JetBrains
+# publishes it with iOS variants; the androidx one above is Android-only.
+compose-adaptive = { group = "org.jetbrains.compose.material3.adaptive", name = "adaptive", version.ref = "composeAdaptiveMultiplatform" }
 # Drives the app shell: a bottom bar on a phone, a navigation rail on a tablet
 # or an unfolded foldable, decided from the window rather than by the caller.
 # Versioned by the Compose BOM, and available on Compose Multiplatform, which is
