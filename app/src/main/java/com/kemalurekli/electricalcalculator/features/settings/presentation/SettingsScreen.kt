@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,7 +19,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
@@ -72,7 +70,6 @@ fun SettingsRoute(
     SettingsScreen(
         uiState = uiState,
         onThemeModeChange = viewModel::onThemeModeChange,
-        onDynamicColorChange = viewModel::onDynamicColorChange,
         onUnitSystemChange = viewModel::onUnitSystemChange,
         onLanguageChange = viewModel::onLanguageChange,
         onEngineeringDefaultsChange = viewModel::onEngineeringDefaultsChange,
@@ -88,7 +85,6 @@ fun SettingsRoute(
 fun SettingsScreen(
     uiState: SettingsUiState,
     onThemeModeChange: (ThemeMode) -> Unit,
-    onDynamicColorChange: (Boolean) -> Unit,
     onUnitSystemChange: (UnitSystem) -> Unit,
     onLanguageChange: (AppLanguage) -> Unit,
     onEngineeringDefaultsChange: (EngineeringDefaults) -> Unit,
@@ -144,19 +140,6 @@ fun SettingsScreen(
                             onSelect = { onThemeModeChange(mode) },
                         )
                     }
-                }
-
-                if (uiState.isDynamicColorAvailable) {
-                    HorizontalDivider(
-                        modifier = Modifier.padding(horizontal = spacing.lg),
-                        color = MaterialTheme.colorScheme.outlineVariant,
-                    )
-                    SettingsSwitchRow(
-                        title = stringResource(R.string.settings_dynamic_color),
-                        subtitle = stringResource(R.string.settings_dynamic_color_summary),
-                        checked = uiState.preferences.useDynamicColor,
-                        onCheckedChange = onDynamicColorChange,
-                    )
                 }
             }
 
@@ -447,34 +430,6 @@ private fun SettingsRadioRow(
     }
 }
 
-@Composable
-private fun SettingsSwitchRow(
-    title: String,
-    subtitle: String,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-) {
-    val spacing = ElecTheme.spacing
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .toggleable(value = checked, role = Role.Switch, onValueChange = onCheckedChange)
-            .padding(horizontal = spacing.lg, vertical = spacing.md),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(spacing.md),
-    ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(text = title, style = MaterialTheme.typography.bodyLarge)
-            Text(
-                text = subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-        Switch(checked = checked, onCheckedChange = null)
-    }
-}
-
 private fun ThemeMode.labelRes(): Int = when (this) {
     ThemeMode.LIGHT -> R.string.settings_theme_light
     ThemeMode.DARK -> R.string.settings_theme_dark
@@ -532,9 +487,8 @@ private fun InstallationMethod.fullLabelRes(): Int = when (this) {
 private fun SettingsScreenPreview() {
     ElecToolkitTheme {
         SettingsScreen(
-            uiState = SettingsUiState(isDynamicColorAvailable = true),
+            uiState = SettingsUiState(),
             onThemeModeChange = {},
-            onDynamicColorChange = {},
             onUnitSystemChange = {},
             onLanguageChange = {},
             onEngineeringDefaultsChange = {},

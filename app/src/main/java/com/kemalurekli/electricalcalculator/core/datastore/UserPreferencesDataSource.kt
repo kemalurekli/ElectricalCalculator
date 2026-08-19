@@ -49,10 +49,6 @@ class UserPreferencesDataSource @Inject constructor(
         dataStore.edit { it[Keys.THEME_MODE] = themeMode.name }
     }
 
-    suspend fun setDynamicColor(enabled: Boolean) {
-        dataStore.edit { it[Keys.DYNAMIC_COLOR] = enabled }
-    }
-
     suspend fun setUnitSystem(unitSystem: UnitSystem) {
         dataStore.edit { it[Keys.UNIT_SYSTEM] = unitSystem.name }
     }
@@ -125,7 +121,6 @@ class UserPreferencesDataSource @Inject constructor(
 
     private fun Preferences.toUserPreferences() = UserPreferences(
         themeMode = enumOrDefault(this[Keys.THEME_MODE], UserPreferences.Default.themeMode),
-        useDynamicColor = this[Keys.DYNAMIC_COLOR] ?: UserPreferences.Default.useDynamicColor,
         unitSystem = enumOrDefault(this[Keys.UNIT_SYSTEM], UserPreferences.Default.unitSystem),
         engineering = toEngineeringDefaults(),
         engineeringSeeded = this[Keys.ENG_SEEDED] ?: false,
@@ -156,8 +151,12 @@ class UserPreferencesDataSource @Inject constructor(
 
     private object Keys {
         val THEME_MODE = stringPreferencesKey("theme_mode")
-        val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
         val UNIT_SYSTEM = stringPreferencesKey("unit_system")
+
+        // "dynamic_color" was written here until the wallpaper-derived scheme
+        // was dropped for the iOS port. Nothing reads it now; the orphaned
+        // boolean is left in existing stores rather than migrated out, because
+        // a migration that deletes one unused key is more code than the key.
 
         val ENG_SINGLE_PHASE_VOLTAGE = stringPreferencesKey("eng_single_phase_voltage")
         val ENG_THREE_PHASE_VOLTAGE = stringPreferencesKey("eng_three_phase_voltage")

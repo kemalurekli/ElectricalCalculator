@@ -181,10 +181,6 @@ class FakeUserPreferencesRepository(
         state.value = state.value.copy(themeMode = themeMode)
     }
 
-    override suspend fun setDynamicColor(enabled: Boolean) {
-        state.value = state.value.copy(useDynamicColor = enabled)
-    }
-
     override suspend fun setUnitSystem(unitSystem: UnitSystem) {
         state.value = state.value.copy(unitSystem = unitSystem)
     }

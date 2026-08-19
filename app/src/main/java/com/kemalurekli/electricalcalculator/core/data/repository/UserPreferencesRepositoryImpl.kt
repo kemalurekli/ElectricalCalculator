@@ -28,9 +28,6 @@ class UserPreferencesRepositoryImpl @Inject constructor(
     override suspend fun setThemeMode(themeMode: ThemeMode) =
         dataSource.setThemeMode(themeMode)
 
-    override suspend fun setDynamicColor(enabled: Boolean) =
-        dataSource.setDynamicColor(enabled)
-
     override suspend fun setUnitSystem(unitSystem: UnitSystem) =
         dataSource.setUnitSystem(unitSystem)
 

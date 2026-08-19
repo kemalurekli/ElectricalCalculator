@@ -22,8 +22,6 @@ interface UserPreferencesRepository {
 
     suspend fun setThemeMode(themeMode: ThemeMode)
 
-    suspend fun setDynamicColor(enabled: Boolean)
-
     suspend fun setUnitSystem(unitSystem: UnitSystem)
 
     /** Records that the reader has acknowledged the disclaimer. */

@@ -61,10 +61,7 @@ class MainActivity : AppCompatActivity() {
 
             ApplySystemBarStyle(darkTheme)
 
-            ElecToolkitTheme(
-                darkTheme = darkTheme,
-                dynamicColor = preferences.useDynamicColor,
-            ) {
+            ElecToolkitTheme(darkTheme = darkTheme) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,

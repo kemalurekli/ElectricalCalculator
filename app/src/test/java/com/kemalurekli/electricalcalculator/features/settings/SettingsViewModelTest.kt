@@ -44,16 +44,6 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun `changing dynamic colour is reflected in state`() = runTest {
-        viewModel.uiState.test {
-            assertEquals(false, awaitItem().preferences.useDynamicColor)
-
-            viewModel.onDynamicColorChange(true)
-            assertEquals(true, awaitItem().preferences.useDynamicColor)
-        }
-    }
-
-    @Test
     fun `changing the unit system is reflected in state`() = runTest {
         viewModel.uiState.test {
             assertEquals(UnitSystem.METRIC, awaitItem().preferences.unitSystem)

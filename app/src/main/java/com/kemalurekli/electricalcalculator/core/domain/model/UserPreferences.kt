@@ -24,7 +24,6 @@ enum class UnitSystem {
  */
 data class UserPreferences(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
-    val useDynamicColor: Boolean = false,
     val unitSystem: UnitSystem = UnitSystem.METRIC,
     /** What every calculator opens with. See [EngineeringDefaults]. */
     val engineering: EngineeringDefaults = EngineeringDefaults.Default,

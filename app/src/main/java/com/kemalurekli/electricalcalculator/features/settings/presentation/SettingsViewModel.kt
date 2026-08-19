@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.BuildConfig
 import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
-import com.kemalurekli.electricalcalculator.core.designsystem.theme.supportsDynamicColor
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
 import com.kemalurekli.electricalcalculator.core.domain.model.EngineeringDefaults
 import com.kemalurekli.electricalcalculator.core.domain.model.ThemeMode
@@ -26,8 +25,6 @@ data class SettingsUiState(
     val language: AppLanguage = AppLanguage.SYSTEM,
     /** What every calculator opens with; see [EngineeringDefaults]. */
     val engineering: EngineeringDefaults = EngineeringDefaults.Default,
-    /** Wallpaper-based colour only exists on Android 12+; hidden elsewhere. */
-    val isDynamicColorAvailable: Boolean = supportsDynamicColor,
     val versionName: String = BuildConfig.VERSION_NAME,
 )
 
@@ -70,10 +67,6 @@ class SettingsViewModel @Inject constructor(
 
     fun onThemeModeChange(themeMode: ThemeMode) {
         viewModelScope.launch { repository.setThemeMode(themeMode) }
-    }
-
-    fun onDynamicColorChange(enabled: Boolean) {
-        viewModelScope.launch { repository.setDynamicColor(enabled) }
     }
 
     fun onUnitSystemChange(unitSystem: UnitSystem) {

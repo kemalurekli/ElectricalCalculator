@@ -1,17 +1,13 @@
 package com.kemalurekli.electricalcalculator.core.designsystem.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.ui.platform.LocalContext
 
 private val LightColorScheme = lightColorScheme(
     primary = PrimaryLight,
@@ -85,33 +81,27 @@ private val DarkColorScheme = darkColorScheme(
     scrim = ScrimDark,
 )
 
-/** True when the device can source a colour scheme from the user's wallpaper. */
-val supportsDynamicColor: Boolean
-    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-
 /**
  * Root theme for the application.
  *
+ * ### Why there is no wallpaper-derived option
+ *
+ * The app carried one until the iOS port was decided. Wallpaper-derived colour
+ * is an Android-only API with no counterpart on the other platform, so keeping
+ * it would have meant the two builds could never show the same product — and
+ * the brand palette, the thing that makes the app recognisable as itself, would
+ * have been the part users were invited to switch off. One scheme, defined in
+ * [Color.kt], is what both platforms render.
+ *
  * @param darkTheme whether to use the dark scheme; resolved by the caller from
  *   the persisted theme preference so the choice survives process death.
- * @param dynamicColor opt in to wallpaper-derived colour on Android 12+. The
- *   brand scheme is used on older devices, or when the user turns it off.
  */
 @Composable
 fun ElecToolkitTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    val colorScheme: ColorScheme = when {
-        dynamicColor && supportsDynamicColor -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme: ColorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     CompositionLocalProvider(
         LocalElecSpacing provides ElecSpacing(),
