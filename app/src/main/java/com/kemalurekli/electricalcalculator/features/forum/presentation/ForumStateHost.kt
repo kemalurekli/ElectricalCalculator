@@ -1,14 +1,9 @@
 package com.kemalurekli.electricalcalculator.features.forum.presentation
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +12,6 @@ import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecLoadingState
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
-import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumFailure
 
 /**
@@ -73,29 +67,27 @@ fun <T> ForumStateHost(
     }
 }
 
+/**
+ * The forum's three failures, drawn as the app's one empty state.
+ *
+ * This used to be its own Column with its own button placement — a second way
+ * of saying "there is nothing here", differing from the shared one by a few
+ * pixels of spacing that nobody had chosen. [ElecEmptyState] now takes an
+ * optional action, which is all this needed from it.
+ */
 @Composable
 private fun ForumError(failure: ForumFailure, onRetry: () -> Unit) {
-    val spacing = ElecTheme.spacing
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(spacing.md),
-    ) {
-        ElecEmptyState(
-            title = stringResource(failure.titleRes()),
-            message = stringResource(failure.messageRes()),
-            icon = ElecIcons.Forum,
-        )
-        // Only where trying again could plausibly change the answer.
-        if (failure == ForumFailure.NO_CONNECTION) {
-            OutlinedButton(
-                onClick = onRetry,
-                modifier = Modifier.padding(horizontal = spacing.lg),
-            ) {
-                Text(stringResource(R.string.forum_retry))
-            }
-        }
-    }
+    ElecEmptyState(
+        title = stringResource(failure.titleRes()),
+        message = stringResource(failure.messageRes()),
+        icon = ElecIcons.Forum,
+        // Only where trying again could plausibly change the answer. A dropped
+        // connection is worth another tap; a build with no backend configured
+        // is not the reader's problem and gets no button to press at it.
+        actionLabel = stringResource(R.string.forum_retry)
+            .takeIf { failure == ForumFailure.NO_CONNECTION },
+        onAction = onRetry.takeIf { failure == ForumFailure.NO_CONNECTION },
+    )
 }
 
 private fun ForumFailure.titleRes(): Int = when (this) {

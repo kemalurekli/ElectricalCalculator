@@ -3,26 +3,20 @@ package com.kemalurekli.electricalcalculator.features.glossary.presentation
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.foundation.layout.size
@@ -33,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
@@ -43,9 +36,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -111,7 +105,7 @@ private fun GlossaryScreen(
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     val listState = rememberLazyListState()
 
     // Where the open term sits in the flat list, so it can be scrolled to.
@@ -135,77 +129,67 @@ private fun GlossaryScreen(
         openIndex?.let { listState.animateScrollToItem(it) }
     }
 
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        Scaffold(
-            contentWindowInsets = WindowInsets.safeDrawing,
+    ElecScreenScaffold(
+        title = stringResource(R.string.dashboard_glossary_title),
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        scrollBehavior = scrollBehavior,
+    ) { innerPadding ->
+        LazyColumn(
+            state = listState,
             modifier = Modifier
-                .widthIn(max = layout.contentMaxWidth)
                 .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                ElecTopAppBar(
-                    title = stringResource(R.string.dashboard_glossary_title),
-                    onNavigateBack = onNavigateBack,
-                    scrollBehavior = scrollBehavior,
+                .padding(innerPadding),
+            contentPadding = PaddingValues(
+                start = spacing.lg,
+                end = spacing.lg,
+                bottom = spacing.xxl,
+            ),
+            verticalArrangement = Arrangement.spacedBy(spacing.xs),
+        ) {
+            item(key = "search") {
+                ElecSearchBar(
+                    query = uiState.query,
+                    onQueryChange = onQueryChange,
+                    placeholder = stringResource(R.string.glossary_search_hint),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = spacing.sm),
                 )
-            },
-        ) { innerPadding ->
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentPadding = PaddingValues(
-                    start = spacing.lg,
-                    end = spacing.lg,
-                    bottom = spacing.xxl,
-                ),
-                verticalArrangement = Arrangement.spacedBy(spacing.xs),
-            ) {
-                item(key = "search") {
-                    ElecSearchBar(
-                        query = uiState.query,
-                        onQueryChange = onQueryChange,
-                        placeholder = stringResource(R.string.glossary_search_hint),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = spacing.sm),
+            }
+
+            if (uiState.hasNoResults) {
+                item(key = "empty") {
+                    ElecEmptyState(
+                        title = stringResource(R.string.glossary_empty_title),
+                        message = stringResource(R.string.glossary_empty_message),
+                        icon = ElecIcons.Search,
+                        modifier = Modifier.padding(top = spacing.xxl),
                     )
                 }
+            }
 
-                if (uiState.hasNoResults) {
-                    item(key = "empty") {
-                        ElecEmptyState(
-                            title = stringResource(R.string.glossary_empty_title),
-                            message = stringResource(R.string.glossary_empty_message),
-                            icon = ElecIcons.Search,
-                            modifier = Modifier.padding(top = spacing.xxl),
-                        )
+            uiState.sections.forEach { section ->
+                if (section.letter.isNotEmpty()) {
+                    item(key = "letter-${section.letter}") {
+                        ElecSectionHeader(title = section.letter)
                     }
                 }
-
-                uiState.sections.forEach { section ->
-                    if (section.letter.isNotEmpty()) {
-                        item(key = "letter-${section.letter}") {
-                            ElecSectionHeader(title = section.letter)
-                        }
-                    }
-                    items(
-                        count = section.terms.size,
-                        key = { index -> section.terms[index].key },
-                    ) { index ->
-                        val term = section.terms[index]
-                        TermCard(
-                            term = term,
-                            isExpanded = term.key == uiState.expandedKey,
-                            isFavorite = term.key in pinned,
-                            onToggleFavorite = { onToggleFavorite(term.key) },
-                            onToggle = { onToggleExpanded(term.key) },
-                            onFollowLink = onFollowLink,
-                            onCalculatorClick = onCalculatorClick,
-                            onReferenceClick = onReferenceClick,
-                        )
-                    }
+                items(
+                    count = section.terms.size,
+                    key = { index -> section.terms[index].key },
+                ) { index ->
+                    val term = section.terms[index]
+                    TermCard(
+                        term = term,
+                        isExpanded = term.key == uiState.expandedKey,
+                        isFavorite = term.key in pinned,
+                        onToggleFavorite = { onToggleFavorite(term.key) },
+                        onToggle = { onToggleExpanded(term.key) },
+                        onFollowLink = onFollowLink,
+                        onCalculatorClick = onCalculatorClick,
+                        onReferenceClick = onReferenceClick,
+                    )
                 }
             }
         }

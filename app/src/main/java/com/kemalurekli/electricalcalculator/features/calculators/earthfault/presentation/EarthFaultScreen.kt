@@ -1,16 +1,12 @@
 package com.kemalurekli.electricalcalculator.features.calculators.earthfault.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
@@ -19,19 +15,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -49,14 +40,15 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNume
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -154,276 +146,266 @@ fun EarthFaultScreen(
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     val listState = rememberLazyListState()
 
     LaunchedEffect(uiState.result) {
         if (uiState.result != null) listState.animateScrollToItem(0)
     }
 
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        Scaffold(
-            contentWindowInsets = WindowInsets.safeDrawing,
-            modifier = Modifier
-                .widthIn(max = layout.contentMaxWidth)
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            snackbarHost = { SnackbarHost(snackbarHostState) },
-            topBar = {
-                ElecTopAppBar(
-                    title = stringResource(R.string.calculator_earth_fault_title),
-                    onNavigateBack = onNavigateBack,
-                    scrollBehavior = scrollBehavior,
-                    actions = {
-                        IconButton(onClick = onToggleFavorite) {
-                            Icon(
-                                imageVector = if (uiState.isFavorite) {
-                                    ElecIcons.FavoriteOn
-                                } else {
-                                    ElecIcons.FavoriteOff
-                                },
-                                contentDescription = stringResource(
-                                    if (uiState.isFavorite) {
-                                        R.string.action_favorite_remove
-                                    } else {
-                                        R.string.action_favorite_add
-                                    },
-                                ),
-                                tint = if (uiState.isFavorite) {
-                                    MaterialTheme.colorScheme.primary
-                                } else {
-                                    MaterialTheme.colorScheme.onSurfaceVariant
-                                },
-                            )
-                        }
+    ElecScreenScaffold(
+        title = stringResource(R.string.calculator_earth_fault_title),
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        actions = {
+            IconButton(onClick = onToggleFavorite) {
+                Icon(
+                    imageVector = if (uiState.isFavorite) {
+                        ElecIcons.FavoriteOn
+                    } else {
+                        ElecIcons.FavoriteOff
+                    },
+                    contentDescription = stringResource(
+                        if (uiState.isFavorite) {
+                            R.string.action_favorite_remove
+                        } else {
+                            R.string.action_favorite_add
+                        },
+                    ),
+                    tint = if (uiState.isFavorite) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
                     },
                 )
-            },
-        ) { innerPadding ->
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .testTag(ElecTestTags.CALCULATOR_FORM),
-                contentPadding = PaddingValues(
-                    start = spacing.screenHorizontal,
-                    end = spacing.screenHorizontal,
-                    bottom = spacing.xxl,
-                ),
-                verticalArrangement = Arrangement.spacedBy(spacing.md),
-            ) {
-                uiState.result?.let { result ->
-                    item(key = "result") { ResultSection(result, onCopy, onShare) }
-                }
+            }
+        },
+        scrollBehavior = scrollBehavior,
+        snackbarHostState = snackbarHostState,
+    ) { innerPadding ->
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .testTag(ElecTestTags.CALCULATOR_FORM),
+            contentPadding = PaddingValues(
+                start = spacing.screenHorizontal,
+                end = spacing.screenHorizontal,
+                bottom = spacing.xxl,
+            ),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+        ) {
+            uiState.result?.let { result ->
+                item(key = "result") { ResultSection(result, onCopy, onShare) }
+            }
 
-                item(key = "examples") {
-                    ElecExamplesCard(
-                        examples = earthFaultExamples,
-                        onSelect = onApplyExample,
-                    )
-                }
+            item(key = "examples") {
+                ElecExamplesCard(
+                    examples = earthFaultExamples,
+                    onSelect = onApplyExample,
+                )
+            }
 
-                item(key = "inputs-header") {
-                    ElecSectionHeader(
-                        title = stringResource(R.string.calculator_inputs),
-                        modifier = Modifier.padding(horizontal = 0.dp),
-                    )
-                }
+            item(key = "inputs-header") {
+                ElecSectionHeader(
+                    title = stringResource(R.string.calculator_inputs),
+                    modifier = Modifier.padding(horizontal = 0.dp),
+                )
+            }
 
-                item(key = "device") {
-                    Column {
-                        ElecOptionSelector(
-                            label = stringResource(R.string.ef_device),
-                            options = ProtectiveDeviceType.entries.toImmutableList(),
-                            selected = uiState.deviceType,
-                            onSelect = onDeviceTypeChange,
-                            optionLabel = { stringResource(it.labelRes()) },
-                        )
-                        Text(
-                            text = stringResource(uiState.deviceType.hintRes()),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
-                        )
-                    }
-                }
-
-                item(key = "device-rating") {
-                    ElecNumericField(
-                        value = uiState.deviceRating,
-                        onValueChange = onDeviceRatingChange,
-                        label = stringResource(uiState.deviceType.ratingLabelRes()),
-                        unit = "A",
-                        error = uiState.errors[EarthFaultField.DEVICE_RATING],
-                    )
-                }
-
-                item(key = "external-impedance") {
-                    ElecNumericField(
-                        value = uiState.externalImpedance,
-                        onValueChange = onExternalImpedanceChange,
-                        label = stringResource(R.string.ef_ze),
-                        unit = "Ω",
-                        error = uiState.errors[EarthFaultField.EXTERNAL_IMPEDANCE],
-                        supportingText = stringResource(R.string.ef_ze_hint),
-                    )
-                }
-
-                item(key = "voltage") {
-                    ElecNumericField(
-                        value = uiState.voltage,
-                        onValueChange = onVoltageChange,
-                        label = stringResource(R.string.ef_voltage),
-                        unit = "V",
-                        error = uiState.errors[EarthFaultField.VOLTAGE],
-                        supportingText = stringResource(R.string.ef_voltage_hint),
-                    )
-                }
-
-                item(key = "material") {
+            item(key = "device") {
+                Column {
                     ElecOptionSelector(
-                        label = stringResource(R.string.common_conductor_material),
-                        options = ConductorMaterial.entries.toImmutableList(),
-                        selected = uiState.material,
-                        onSelect = onMaterialChange,
+                        label = stringResource(R.string.ef_device),
+                        options = ProtectiveDeviceType.entries.toImmutableList(),
+                        selected = uiState.deviceType,
+                        onSelect = onDeviceTypeChange,
                         optionLabel = { stringResource(it.labelRes()) },
                     )
-                }
-
-                item(key = "insulation") {
-                    ElecOptionSelector(
-                        label = stringResource(R.string.cs_insulation),
-                        options = CableInsulation.entries.toImmutableList(),
-                        selected = uiState.insulation,
-                        onSelect = onInsulationChange,
-                        optionLabel = { stringResource(it.labelRes()) },
+                    Text(
+                        text = stringResource(uiState.deviceType.hintRes()),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
                     )
                 }
+            }
 
-                item(key = "line-section") {
-                    ElecNumericField(
-                        value = uiState.lineSection,
-                        onValueChange = onLineSectionChange,
-                        label = stringResource(R.string.ef_line_section),
-                        unit = "mm²",
-                        error = uiState.errors[EarthFaultField.LINE_SECTION],
-                    )
-                }
+            item(key = "device-rating") {
+                ElecNumericField(
+                    value = uiState.deviceRating,
+                    onValueChange = onDeviceRatingChange,
+                    label = stringResource(uiState.deviceType.ratingLabelRes()),
+                    unit = "A",
+                    error = uiState.errors[EarthFaultField.DEVICE_RATING],
+                )
+            }
 
-                item(key = "protective-section") {
-                    ElecNumericField(
-                        value = uiState.protectiveSection,
-                        onValueChange = onProtectiveSectionChange,
-                        label = stringResource(R.string.ef_protective_section),
-                        unit = "mm²",
-                        error = uiState.errors[EarthFaultField.PROTECTIVE_SECTION],
-                    )
-                }
+            item(key = "external-impedance") {
+                ElecNumericField(
+                    value = uiState.externalImpedance,
+                    onValueChange = onExternalImpedanceChange,
+                    label = stringResource(R.string.ef_ze),
+                    unit = "Ω",
+                    error = uiState.errors[EarthFaultField.EXTERNAL_IMPEDANCE],
+                    supportingText = stringResource(R.string.ef_ze_hint),
+                )
+            }
 
-                item(key = "length") {
-                    ElecNumericField(
-                        value = uiState.length,
-                        onValueChange = onLengthChange,
-                        label = stringResource(R.string.cw_length),
-                        unit = "m",
-                        error = uiState.errors[EarthFaultField.LENGTH],
-                    )
-                }
+            item(key = "voltage") {
+                ElecNumericField(
+                    value = uiState.voltage,
+                    onValueChange = onVoltageChange,
+                    label = stringResource(R.string.ef_voltage),
+                    unit = "V",
+                    error = uiState.errors[EarthFaultField.VOLTAGE],
+                    supportingText = stringResource(R.string.ef_voltage_hint),
+                )
+            }
 
-                item(key = "parallel") {
-                    ElecNumericField(
-                        value = uiState.parallelConductors,
-                        onValueChange = onParallelChange,
-                        label = stringResource(R.string.common_parallel_conductors),
-                        error = uiState.errors[EarthFaultField.PARALLEL],
-                    )
-                }
+            item(key = "material") {
+                ElecOptionSelector(
+                    label = stringResource(R.string.common_conductor_material),
+                    options = ConductorMaterial.entries.toImmutableList(),
+                    selected = uiState.material,
+                    onSelect = onMaterialChange,
+                    optionLabel = { stringResource(it.labelRes()) },
+                )
+            }
 
-                item(key = "clearing-time") {
-                    ElecNumericField(
-                        value = uiState.clearingTime,
-                        onValueChange = onClearingTimeChange,
-                        label = stringResource(R.string.ef_clearing_time),
-                        unit = "s",
-                        error = uiState.errors[EarthFaultField.CLEARING_TIME],
-                        supportingText = stringResource(R.string.ef_clearing_time_hint),
-                        imeAction = ImeAction.Done,
-                    )
-                }
+            item(key = "insulation") {
+                ElecOptionSelector(
+                    label = stringResource(R.string.cs_insulation),
+                    options = CableInsulation.entries.toImmutableList(),
+                    selected = uiState.insulation,
+                    onSelect = onInsulationChange,
+                    optionLabel = { stringResource(it.labelRes()) },
+                )
+            }
 
-                item(key = "actions") {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = spacing.xs),
-                        horizontalArrangement = Arrangement.spacedBy(spacing.sm),
-                    ) {
-                        OutlinedButton(onClick = onReset) {
-                            Text(text = stringResource(R.string.action_reset))
-                        }
-                        Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
-                            Text(text = stringResource(R.string.action_calculate))
-                        }
+            item(key = "line-section") {
+                ElecNumericField(
+                    value = uiState.lineSection,
+                    onValueChange = onLineSectionChange,
+                    label = stringResource(R.string.ef_line_section),
+                    unit = "mm²",
+                    error = uiState.errors[EarthFaultField.LINE_SECTION],
+                )
+            }
+
+            item(key = "protective-section") {
+                ElecNumericField(
+                    value = uiState.protectiveSection,
+                    onValueChange = onProtectiveSectionChange,
+                    label = stringResource(R.string.ef_protective_section),
+                    unit = "mm²",
+                    error = uiState.errors[EarthFaultField.PROTECTIVE_SECTION],
+                )
+            }
+
+            item(key = "length") {
+                ElecNumericField(
+                    value = uiState.length,
+                    onValueChange = onLengthChange,
+                    label = stringResource(R.string.cw_length),
+                    unit = "m",
+                    error = uiState.errors[EarthFaultField.LENGTH],
+                )
+            }
+
+            item(key = "parallel") {
+                ElecNumericField(
+                    value = uiState.parallelConductors,
+                    onValueChange = onParallelChange,
+                    label = stringResource(R.string.common_parallel_conductors),
+                    error = uiState.errors[EarthFaultField.PARALLEL],
+                )
+            }
+
+            item(key = "clearing-time") {
+                ElecNumericField(
+                    value = uiState.clearingTime,
+                    onValueChange = onClearingTimeChange,
+                    label = stringResource(R.string.ef_clearing_time),
+                    unit = "s",
+                    error = uiState.errors[EarthFaultField.CLEARING_TIME],
+                    supportingText = stringResource(R.string.ef_clearing_time_hint),
+                    imeAction = ImeAction.Done,
+                )
+            }
+
+            item(key = "actions") {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = spacing.xs),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.sm),
+                ) {
+                    OutlinedButton(onClick = onReset) {
+                        Text(text = stringResource(R.string.action_reset))
+                    }
+                    Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
+                        Text(text = stringResource(R.string.action_calculate))
                     }
                 }
+            }
 
-                if (uiState.steps.isNotEmpty()) {
-                    item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
-                }
+            if (uiState.steps.isNotEmpty()) {
+                item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
+            }
 
-                item(key = "formula") {
-                    ElecFormulaCard(
-                        title = stringResource(R.string.calculator_formula),
-                        formula = stringResource(R.string.ef_formula),
-                        variables = persistentListOf(
-                            FormulaVariable("Z_s", stringResource(R.string.ef_var_zs), "Ω"),
-                            FormulaVariable("Z_e", stringResource(R.string.ef_var_ze), "Ω"),
-                            FormulaVariable("R₁", stringResource(R.string.ef_var_r1), "Ω"),
-                            FormulaVariable("R₂", stringResource(R.string.ef_var_r2), "Ω"),
-                            FormulaVariable("I_a", stringResource(R.string.ef_var_ia), "A"),
-                            FormulaVariable("c", stringResource(R.string.ef_var_c), "—"),
-                            FormulaVariable("S", stringResource(R.string.ef_var_s), "mm²"),
-                            FormulaVariable("t", stringResource(R.string.ef_var_t), "s"),
-                            FormulaVariable("k", stringResource(R.string.ef_var_k), "—"),
-                        ),
-                    )
-                }
+            item(key = "formula") {
+                ElecFormulaCard(
+                    title = stringResource(R.string.calculator_formula),
+                    formula = stringResource(R.string.ef_formula),
+                    variables = persistentListOf(
+                        FormulaVariable("Z_s", stringResource(R.string.ef_var_zs), "Ω"),
+                        FormulaVariable("Z_e", stringResource(R.string.ef_var_ze), "Ω"),
+                        FormulaVariable("R₁", stringResource(R.string.ef_var_r1), "Ω"),
+                        FormulaVariable("R₂", stringResource(R.string.ef_var_r2), "Ω"),
+                        FormulaVariable("I_a", stringResource(R.string.ef_var_ia), "A"),
+                        FormulaVariable("c", stringResource(R.string.ef_var_c), "—"),
+                        FormulaVariable("S", stringResource(R.string.ef_var_s), "mm²"),
+                        FormulaVariable("t", stringResource(R.string.ef_var_t), "s"),
+                        FormulaVariable("k", stringResource(R.string.ef_var_k), "—"),
+                    ),
+                )
+            }
 
-                item(key = "notes") {
-                    ElecNotesCard(
-                        title = stringResource(R.string.calculator_notes),
-                        notes = persistentListOf(
-                            stringResource(R.string.ef_note_two_checks),
-                            stringResource(R.string.ef_note_curve),
-                            stringResource(R.string.ef_note_length),
-                            stringResource(R.string.ef_note_temperature),
-                            stringResource(R.string.ef_note_rcd),
-                            stringResource(R.string.ef_note_adiabatic_table),
-                            stringResource(R.string.ef_note_k_source),
-                            stringResource(R.string.ef_note_measure),
+            item(key = "notes") {
+                ElecNotesCard(
+                    title = stringResource(R.string.calculator_notes),
+                    notes = persistentListOf(
+                        stringResource(R.string.ef_note_two_checks),
+                        stringResource(R.string.ef_note_curve),
+                        stringResource(R.string.ef_note_length),
+                        stringResource(R.string.ef_note_temperature),
+                        stringResource(R.string.ef_note_rcd),
+                        stringResource(R.string.ef_note_adiabatic_table),
+                        stringResource(R.string.ef_note_k_source),
+                        stringResource(R.string.ef_note_measure),
+                    ),
+                    links = persistentListOf(
+                        NoteLink(
+                            topicKey = "earthing_systems",
+                            label = stringResource(ReferenceCatalog.titleResOf("earthing_systems")),
                         ),
-                        links = persistentListOf(
-                            NoteLink(
-                                topicKey = "earthing_systems",
-                                label = stringResource(ReferenceCatalog.titleResOf("earthing_systems")),
-                            ),
-                            NoteLink(
-                                topicKey = "disconnection_times",
-                                label = stringResource(ReferenceCatalog.titleResOf("disconnection_times")),
-                            ),
-                            NoteLink(
-                                topicKey = "rcd_types",
-                                label = stringResource(ReferenceCatalog.titleResOf("rcd_types")),
-                            ),
-                            NoteLink(
-                                topicKey = "primer_bonding",
-                                label = stringResource(ReferenceCatalog.titleResOf("primer_bonding")),
-                            ),
+                        NoteLink(
+                            topicKey = "disconnection_times",
+                            label = stringResource(ReferenceCatalog.titleResOf("disconnection_times")),
                         ),
-                        onLinkClick = onReferenceClick,
-                    )
-                }
+                        NoteLink(
+                            topicKey = "rcd_types",
+                            label = stringResource(ReferenceCatalog.titleResOf("rcd_types")),
+                        ),
+                        NoteLink(
+                            topicKey = "primer_bonding",
+                            label = stringResource(ReferenceCatalog.titleResOf("primer_bonding")),
+                        ),
+                    ),
+                    onLinkClick = onReferenceClick,
+                )
             }
         }
     }

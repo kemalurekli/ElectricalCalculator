@@ -31,10 +31,20 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 
 /**
- * Placeholder shown when a list has no content.
+ * Placeholder shown when a screen has nothing to show.
+ *
+ * One shape for "this list is empty", "the network is down" and "this build has
+ * no backend", because to the reader those are the same event — they came for
+ * something and it is not here — and three different-looking pages for one
+ * event is how an app starts to feel assembled rather than made. The forum
+ * carried its own near-copy of this until it was folded back in.
  *
  * The whole block is one accessibility node so it is announced as a single
  * sentence, and the icon is dropped from the tree as decoration.
+ *
+ * @param actionLabel with [onAction], shows a button. Offered only where doing
+ *   the thing could plausibly change the answer: retrying a dropped connection
+ *   is worth a tap, retrying a build with no server configured is not.
  */
 @Composable
 fun ElecEmptyState(
@@ -42,34 +52,53 @@ fun ElecEmptyState(
     message: String,
     icon: ImageVector,
     modifier: Modifier = Modifier,
+    actionLabel: String? = null,
+    onAction: (() -> Unit)? = null,
 ) {
     val spacing = ElecTheme.spacing
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(spacing.xl)
-            .clearAndSetSemantics { contentDescription = "$title. $message" },
+            // Cleared *around* the action: a button inside a cleared node is a
+            // button a screen reader cannot reach, so the description covers
+            // the text and the button keeps its own node.
+            .semantics(mergeDescendants = false) {},
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(spacing.md, Alignment.CenterVertically),
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier.size(48.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center,
-        )
-        Text(
-            text = message,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+            modifier = Modifier.clearAndSetSemantics {
+                contentDescription = "$title. $message"
+            },
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(ICON_SIZE),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
+            )
+            Text(
+                text = message,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        if (actionLabel != null && onAction != null) {
+            OutlinedButton(onClick = onAction) {
+                Text(text = actionLabel)
+            }
+        }
     }
 }
 
@@ -112,6 +141,9 @@ fun ElecErrorState(
         }
     }
 }
+
+/** The empty state's icon. Large enough to read as an illustration, not a glyph. */
+private val ICON_SIZE = 48.dp
 
 /** Centred progress indicator for content that is still resolving. */
 @Composable

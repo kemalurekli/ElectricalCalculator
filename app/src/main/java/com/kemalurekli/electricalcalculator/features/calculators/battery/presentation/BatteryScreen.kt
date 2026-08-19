@@ -1,16 +1,12 @@
 package com.kemalurekli.electricalcalculator.features.calculators.battery.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
@@ -19,19 +15,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -48,14 +39,15 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNote
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -143,213 +135,203 @@ fun BatteryScreen(
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     val listState = rememberLazyListState()
 
     LaunchedEffect(uiState.result) {
         if (uiState.result != null) listState.animateScrollToItem(0)
     }
 
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        Scaffold(
-            contentWindowInsets = WindowInsets.safeDrawing,
-            modifier = Modifier
-                .widthIn(max = layout.contentMaxWidth)
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            snackbarHost = { SnackbarHost(snackbarHostState) },
-            topBar = {
-                ElecTopAppBar(
-                    title = stringResource(R.string.calculator_battery_runtime_title),
-                    onNavigateBack = onNavigateBack,
-                    scrollBehavior = scrollBehavior,
-                    actions = {
-                        IconButton(onClick = onToggleFavorite) {
-                            Icon(
-                                imageVector = if (uiState.isFavorite) {
-                                    ElecIcons.FavoriteOn
-                                } else {
-                                    ElecIcons.FavoriteOff
-                                },
-                                contentDescription = stringResource(
-                                    if (uiState.isFavorite) {
-                                        R.string.action_favorite_remove
-                                    } else {
-                                        R.string.action_favorite_add
-                                    },
-                                ),
-                                tint = if (uiState.isFavorite) {
-                                    MaterialTheme.colorScheme.primary
-                                } else {
-                                    MaterialTheme.colorScheme.onSurfaceVariant
-                                },
-                            )
-                        }
+    ElecScreenScaffold(
+        title = stringResource(R.string.calculator_battery_runtime_title),
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        actions = {
+            IconButton(onClick = onToggleFavorite) {
+                Icon(
+                    imageVector = if (uiState.isFavorite) {
+                        ElecIcons.FavoriteOn
+                    } else {
+                        ElecIcons.FavoriteOff
+                    },
+                    contentDescription = stringResource(
+                        if (uiState.isFavorite) {
+                            R.string.action_favorite_remove
+                        } else {
+                            R.string.action_favorite_add
+                        },
+                    ),
+                    tint = if (uiState.isFavorite) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
                     },
                 )
-            },
-        ) { innerPadding ->
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .testTag(ElecTestTags.CALCULATOR_FORM),
-                contentPadding = PaddingValues(
-                    start = spacing.screenHorizontal,
-                    end = spacing.screenHorizontal,
-                    bottom = spacing.xxl,
-                ),
-                verticalArrangement = Arrangement.spacedBy(spacing.md),
-            ) {
-                uiState.result?.let { result ->
-                    item(key = "result") { ResultSection(result, onCopy, onShare) }
-                }
+            }
+        },
+        scrollBehavior = scrollBehavior,
+        snackbarHostState = snackbarHostState,
+    ) { innerPadding ->
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .testTag(ElecTestTags.CALCULATOR_FORM),
+            contentPadding = PaddingValues(
+                start = spacing.screenHorizontal,
+                end = spacing.screenHorizontal,
+                bottom = spacing.xxl,
+            ),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+        ) {
+            uiState.result?.let { result ->
+                item(key = "result") { ResultSection(result, onCopy, onShare) }
+            }
 
-                item(key = "examples") {
-                    ElecExamplesCard(
-                        examples = batteryExamples,
-                        onSelect = onApplyExample,
-                    )
-                }
+            item(key = "examples") {
+                ElecExamplesCard(
+                    examples = batteryExamples,
+                    onSelect = onApplyExample,
+                )
+            }
 
-                item(key = "inputs-header") {
-                    ElecSectionHeader(
-                        title = stringResource(R.string.calculator_inputs),
-                        modifier = Modifier.padding(horizontal = 0.dp),
-                    )
-                }
+            item(key = "inputs-header") {
+                ElecSectionHeader(
+                    title = stringResource(R.string.calculator_inputs),
+                    modifier = Modifier.padding(horizontal = 0.dp),
+                )
+            }
 
-                item(key = "capacity") {
-                    ElecNumericField(
-                        value = uiState.capacityAh,
-                        onValueChange = onCapacityChange,
-                        label = stringResource(R.string.bt_capacity),
-                        unit = "Ah",
-                        error = uiState.errors[BatteryField.CAPACITY],
-                        supportingText = stringResource(R.string.bt_capacity_hint),
-                    )
-                }
+            item(key = "capacity") {
+                ElecNumericField(
+                    value = uiState.capacityAh,
+                    onValueChange = onCapacityChange,
+                    label = stringResource(R.string.bt_capacity),
+                    unit = "Ah",
+                    error = uiState.errors[BatteryField.CAPACITY],
+                    supportingText = stringResource(R.string.bt_capacity_hint),
+                )
+            }
 
-                item(key = "rated-hours") {
-                    ElecNumericField(
-                        value = uiState.ratedHours,
-                        onValueChange = onRatedHoursChange,
-                        label = stringResource(R.string.bt_rated_hours),
-                        unit = "h",
-                        error = uiState.errors[BatteryField.RATED_HOURS],
-                        supportingText = stringResource(R.string.bt_rated_hours_hint),
-                    )
-                }
+            item(key = "rated-hours") {
+                ElecNumericField(
+                    value = uiState.ratedHours,
+                    onValueChange = onRatedHoursChange,
+                    label = stringResource(R.string.bt_rated_hours),
+                    unit = "h",
+                    error = uiState.errors[BatteryField.RATED_HOURS],
+                    supportingText = stringResource(R.string.bt_rated_hours_hint),
+                )
+            }
 
-                item(key = "voltage") {
-                    ElecNumericField(
-                        value = uiState.voltage,
-                        onValueChange = onVoltageChange,
-                        label = stringResource(R.string.bt_bank_voltage),
-                        unit = "V",
-                        error = uiState.errors[BatteryField.VOLTAGE],
-                    )
-                }
+            item(key = "voltage") {
+                ElecNumericField(
+                    value = uiState.voltage,
+                    onValueChange = onVoltageChange,
+                    label = stringResource(R.string.bt_bank_voltage),
+                    unit = "V",
+                    error = uiState.errors[BatteryField.VOLTAGE],
+                )
+            }
 
-                item(key = "load") {
-                    ElecNumericField(
-                        value = uiState.loadWatts,
-                        onValueChange = onLoadPowerChange,
-                        label = stringResource(R.string.bt_load_power),
-                        unit = "W",
-                        error = uiState.errors[BatteryField.LOAD_POWER],
-                    )
-                }
+            item(key = "load") {
+                ElecNumericField(
+                    value = uiState.loadWatts,
+                    onValueChange = onLoadPowerChange,
+                    label = stringResource(R.string.bt_load_power),
+                    unit = "W",
+                    error = uiState.errors[BatteryField.LOAD_POWER],
+                )
+            }
 
-                item(key = "efficiency") {
-                    ElecNumericField(
-                        value = uiState.efficiency,
-                        onValueChange = onEfficiencyChange,
-                        label = stringResource(R.string.bt_efficiency),
-                        unit = "%",
-                        error = uiState.errors[BatteryField.EFFICIENCY],
-                        supportingText = stringResource(R.string.bt_efficiency_hint),
-                    )
-                }
+            item(key = "efficiency") {
+                ElecNumericField(
+                    value = uiState.efficiency,
+                    onValueChange = onEfficiencyChange,
+                    label = stringResource(R.string.bt_efficiency),
+                    unit = "%",
+                    error = uiState.errors[BatteryField.EFFICIENCY],
+                    supportingText = stringResource(R.string.bt_efficiency_hint),
+                )
+            }
 
-                item(key = "depth-of-discharge") {
-                    ElecNumericField(
-                        value = uiState.depthOfDischarge,
-                        onValueChange = onDepthOfDischargeChange,
-                        label = stringResource(R.string.bt_depth_of_discharge),
-                        unit = "%",
-                        error = uiState.errors[BatteryField.DEPTH_OF_DISCHARGE],
-                        supportingText = stringResource(R.string.bt_depth_of_discharge_hint),
-                    )
-                }
+            item(key = "depth-of-discharge") {
+                ElecNumericField(
+                    value = uiState.depthOfDischarge,
+                    onValueChange = onDepthOfDischargeChange,
+                    label = stringResource(R.string.bt_depth_of_discharge),
+                    unit = "%",
+                    error = uiState.errors[BatteryField.DEPTH_OF_DISCHARGE],
+                    supportingText = stringResource(R.string.bt_depth_of_discharge_hint),
+                )
+            }
 
-                item(key = "peukert") {
-                    ElecNumericField(
-                        value = uiState.peukert,
-                        onValueChange = onPeukertChange,
-                        label = stringResource(R.string.bt_peukert),
-                        error = uiState.errors[BatteryField.PEUKERT],
-                        supportingText = stringResource(R.string.bt_peukert_hint),
-                        imeAction = ImeAction.Done,
-                    )
-                }
+            item(key = "peukert") {
+                ElecNumericField(
+                    value = uiState.peukert,
+                    onValueChange = onPeukertChange,
+                    label = stringResource(R.string.bt_peukert),
+                    error = uiState.errors[BatteryField.PEUKERT],
+                    supportingText = stringResource(R.string.bt_peukert_hint),
+                    imeAction = ImeAction.Done,
+                )
+            }
 
-                item(key = "actions") {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = spacing.xs),
-                        horizontalArrangement = Arrangement.spacedBy(spacing.sm),
-                    ) {
-                        OutlinedButton(onClick = onReset) {
-                            Text(text = stringResource(R.string.action_reset))
-                        }
-                        Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
-                            Text(text = stringResource(R.string.action_calculate))
-                        }
+            item(key = "actions") {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = spacing.xs),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.sm),
+                ) {
+                    OutlinedButton(onClick = onReset) {
+                        Text(text = stringResource(R.string.action_reset))
+                    }
+                    Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
+                        Text(text = stringResource(R.string.action_calculate))
                     }
                 }
+            }
 
-                if (uiState.steps.isNotEmpty()) {
-                    item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
-                }
+            if (uiState.steps.isNotEmpty()) {
+                item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
+            }
 
-                item(key = "formula") {
-                    ElecFormulaCard(
-                        title = stringResource(R.string.calculator_formula),
-                        formula = stringResource(R.string.bt_formula),
-                        variables = persistentListOf(
-                            FormulaVariable("t", stringResource(R.string.bt_var_t), "h"),
-                            FormulaVariable("H", stringResource(R.string.bt_var_h), "h"),
-                            FormulaVariable("I_r", stringResource(R.string.bt_var_irated), "A"),
-                            FormulaVariable("I", stringResource(R.string.bt_var_i), "A"),
-                            FormulaVariable("k", stringResource(R.string.bt_var_k), "—"),
-                            FormulaVariable("DoD", stringResource(R.string.bt_var_dod), "—"),
-                            FormulaVariable("η", stringResource(R.string.bt_var_eff), "—"),
-                        ),
-                    )
-                }
+            item(key = "formula") {
+                ElecFormulaCard(
+                    title = stringResource(R.string.calculator_formula),
+                    formula = stringResource(R.string.bt_formula),
+                    variables = persistentListOf(
+                        FormulaVariable("t", stringResource(R.string.bt_var_t), "h"),
+                        FormulaVariable("H", stringResource(R.string.bt_var_h), "h"),
+                        FormulaVariable("I_r", stringResource(R.string.bt_var_irated), "A"),
+                        FormulaVariable("I", stringResource(R.string.bt_var_i), "A"),
+                        FormulaVariable("k", stringResource(R.string.bt_var_k), "—"),
+                        FormulaVariable("DoD", stringResource(R.string.bt_var_dod), "—"),
+                        FormulaVariable("η", stringResource(R.string.bt_var_eff), "—"),
+                    ),
+                )
+            }
 
-                item(key = "notes") {
-                    ElecNotesCard(
-                        title = stringResource(R.string.calculator_notes),
-                        notes = persistentListOf(
-                            stringResource(R.string.bt_note_peukert),
-                            stringResource(R.string.bt_note_rate_matters),
-                            stringResource(R.string.bt_note_dod),
-                            stringResource(R.string.bt_note_efficiency),
-                            stringResource(R.string.bt_note_conditions),
+            item(key = "notes") {
+                ElecNotesCard(
+                    title = stringResource(R.string.calculator_notes),
+                    notes = persistentListOf(
+                        stringResource(R.string.bt_note_peukert),
+                        stringResource(R.string.bt_note_rate_matters),
+                        stringResource(R.string.bt_note_dod),
+                        stringResource(R.string.bt_note_efficiency),
+                        stringResource(R.string.bt_note_conditions),
+                    ),
+                    links = persistentListOf(
+                        NoteLink(
+                            topicKey = "selection_battery",
+                            label = stringResource(ReferenceCatalog.titleResOf("selection_battery")),
                         ),
-                        links = persistentListOf(
-                            NoteLink(
-                                topicKey = "selection_battery",
-                                label = stringResource(ReferenceCatalog.titleResOf("selection_battery")),
-                            ),
-                        ),
-                        onLinkClick = onReferenceClick,
-                    )
-                }
+                    ),
+                    onLinkClick = onReferenceClick,
+                )
             }
         }
     }

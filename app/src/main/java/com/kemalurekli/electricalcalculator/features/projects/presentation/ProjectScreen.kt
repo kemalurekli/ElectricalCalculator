@@ -4,11 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
@@ -23,9 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -34,7 +30,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -44,8 +39,9 @@ import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
@@ -168,7 +164,7 @@ fun ProjectScreen(
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
     var exportMenuOpen by remember { mutableStateOf(false) }
     val project = uiState.project
@@ -184,58 +180,51 @@ fun ProjectScreen(
         }
     }
 
-    Scaffold(
-        contentWindowInsets = WindowInsets.safeDrawing,
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            ElecTopAppBar(
-                title = project?.reference?.ifBlank { null }
+    ElecScreenScaffold(
+        title = project?.reference?.ifBlank { null }
                     ?: stringResource(R.string.projects_untitled),
-                onNavigateBack = onNavigateBack,
-                scrollBehavior = scrollBehavior,
-                actions = {
-                    // A menu rather than two icons: the choice is between two
-                    // formats of one action, and two share buttons side by side
-                    // reads as two different things to share.
-                    Box {
-                        IconButton(onClick = { exportMenuOpen = true }) {
-                            Icon(
-                                imageVector = ElecIcons.Share,
-                                contentDescription = stringResource(R.string.report_export),
-                            )
-                        }
-                        DropdownMenu(
-                            expanded = exportMenuOpen,
-                            onDismissRequest = { exportMenuOpen = false },
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.report_export_csv)) },
-                                onClick = {
-                                    exportMenuOpen = false
-                                    onExportCsv()
-                                },
-                            )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.report_export_pdf)) },
-                                onClick = {
-                                    exportMenuOpen = false
-                                    onExportPdf()
-                                },
-                            )
-                        }
-                    }
-                    IconButton(onClick = { confirmDelete = true }) {
-                        Icon(
-                            imageVector = ElecIcons.Delete,
-                            contentDescription = stringResource(R.string.action_delete),
-                        )
-                    }
-                },
-            )
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        actions = {
+            // A menu rather than two icons: the choice is between two
+            // formats of one action, and two share buttons side by side
+            // reads as two different things to share.
+            Box {
+                IconButton(onClick = { exportMenuOpen = true }) {
+                    Icon(
+                        imageVector = ElecIcons.Share,
+                        contentDescription = stringResource(R.string.report_export),
+                    )
+                }
+                DropdownMenu(
+                    expanded = exportMenuOpen,
+                    onDismissRequest = { exportMenuOpen = false },
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.report_export_csv)) },
+                        onClick = {
+                            exportMenuOpen = false
+                            onExportCsv()
+                        },
+                    )
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.report_export_pdf)) },
+                        onClick = {
+                            exportMenuOpen = false
+                            onExportPdf()
+                        },
+                    )
+                }
+            }
+            IconButton(onClick = { confirmDelete = true }) {
+                Icon(
+                    imageVector = ElecIcons.Delete,
+                    contentDescription = stringResource(R.string.action_delete),
+                )
+            }
         },
+        scrollBehavior = scrollBehavior,
+        snackbarHostState = snackbarHostState,
         floatingActionButton = {
             if (project != null) {
                 ExtendedFloatingActionButton(
@@ -246,7 +235,7 @@ fun ProjectScreen(
             }
         },
     ) { innerPadding ->
-        if (project == null) return@Scaffold
+        if (project == null) return@ElecScreenScaffold
 
         LazyColumn(
             modifier = Modifier

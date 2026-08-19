@@ -1,16 +1,12 @@
 package com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
@@ -19,19 +15,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -49,14 +40,15 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNume
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -150,7 +142,7 @@ fun VoltageDropScreen(
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     val listState = rememberLazyListState()
 
     // The Calculate button sits below the form, so by the time it is pressed
@@ -163,249 +155,236 @@ fun VoltageDropScreen(
         }
     }
 
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter,
-    ) {
-        Scaffold(
-            modifier = Modifier
-                .widthIn(max = layout.contentMaxWidth)
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            contentWindowInsets = WindowInsets.safeDrawing,
-            snackbarHost = { SnackbarHost(snackbarHostState) },
-            topBar = {
-                ElecTopAppBar(
-                    title = stringResource(R.string.calculator_voltage_drop_title),
-                    onNavigateBack = onNavigateBack,
-                    scrollBehavior = scrollBehavior,
-                    actions = {
-                        IconButton(onClick = onToggleFavorite) {
-                            Icon(
-                                imageVector = if (uiState.isFavorite) {
-                                    ElecIcons.FavoriteOn
-                                } else {
-                                    ElecIcons.FavoriteOff
-                                },
-                                contentDescription = stringResource(
-                                    if (uiState.isFavorite) {
-                                        R.string.action_favorite_remove
-                                    } else {
-                                        R.string.action_favorite_add
-                                    },
-                                ),
-                                tint = if (uiState.isFavorite) {
-                                    MaterialTheme.colorScheme.primary
-                                } else {
-                                    MaterialTheme.colorScheme.onSurfaceVariant
-                                },
-                            )
-                        }
+    ElecScreenScaffold(
+        title = stringResource(R.string.calculator_voltage_drop_title),
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        actions = {
+            IconButton(onClick = onToggleFavorite) {
+                Icon(
+                    imageVector = if (uiState.isFavorite) {
+                        ElecIcons.FavoriteOn
+                    } else {
+                        ElecIcons.FavoriteOff
+                    },
+                    contentDescription = stringResource(
+                        if (uiState.isFavorite) {
+                            R.string.action_favorite_remove
+                        } else {
+                            R.string.action_favorite_add
+                        },
+                    ),
+                    tint = if (uiState.isFavorite) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
                     },
                 )
-            },
-        ) { innerPadding ->
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .testTag(ElecTestTags.CALCULATOR_FORM),
-                contentPadding = PaddingValues(
-                    start = spacing.screenHorizontal,
-                    end = spacing.screenHorizontal,
-                    bottom = spacing.xxl,
-                ),
-                verticalArrangement = Arrangement.spacedBy(spacing.md),
-            ) {
-                // The result sits above the form once it exists: after pressing
-                // Calculate the user is looking for the number, not the inputs
-                // they just finished typing.
-                if (uiState.result != null) {
-                    item(key = "result") {
-                        ResultSection(uiState.result, onCopy, onShare)
+            }
+        },
+        scrollBehavior = scrollBehavior,
+        snackbarHostState = snackbarHostState,
+    ) { innerPadding ->
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .testTag(ElecTestTags.CALCULATOR_FORM),
+            contentPadding = PaddingValues(
+                start = spacing.screenHorizontal,
+                end = spacing.screenHorizontal,
+                bottom = spacing.xxl,
+            ),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+        ) {
+            // The result sits above the form once it exists: after pressing
+            // Calculate the user is looking for the number, not the inputs
+            // they just finished typing.
+            if (uiState.result != null) {
+                item(key = "result") {
+                    ResultSection(uiState.result, onCopy, onShare)
+                }
+            }
+
+            item(key = "examples") {
+                ElecExamplesCard(
+                    examples = voltageDropExamples,
+                    onSelect = onApplyExample,
+                )
+            }
+
+            item(key = "inputs-header") {
+                ElecSectionHeader(
+                    title = stringResource(R.string.calculator_inputs),
+                    modifier = Modifier.padding(horizontal = 0.dp),
+                )
+            }
+
+            item(key = "system") {
+                ElecOptionSelector(
+                    label = stringResource(R.string.common_supply_system),
+                    options = SupplySystem.entries.toImmutableList(),
+                    selected = uiState.system,
+                    onSelect = onSystemChange,
+                    optionLabel = { stringResource(it.labelRes()) },
+                )
+            }
+
+            item(key = "material") {
+                ElecOptionSelector(
+                    label = stringResource(R.string.common_conductor_material),
+                    options = ConductorMaterial.entries.toImmutableList(),
+                    selected = uiState.material,
+                    onSelect = onMaterialChange,
+                    optionLabel = { stringResource(it.labelRes()) },
+                )
+            }
+
+            item(key = "voltage") {
+                ElecNumericField(
+                    value = uiState.voltage,
+                    onValueChange = onVoltageChange,
+                    label = stringResource(R.string.common_system_voltage),
+                    unit = "V",
+                    error = uiState.errors[VoltageDropField.VOLTAGE],
+                    supportingText = if (uiState.system == SupplySystem.THREE_PHASE_AC) {
+                        stringResource(R.string.common_system_voltage_hint)
+                    } else {
+                        null
+                    },
+                )
+            }
+
+            item(key = "current") {
+                ElecNumericField(
+                    value = uiState.current,
+                    onValueChange = onCurrentChange,
+                    label = stringResource(R.string.common_design_current),
+                    unit = "A",
+                    error = uiState.errors[VoltageDropField.CURRENT],
+                )
+            }
+
+            item(key = "length") {
+                ElecNumericField(
+                    value = uiState.length,
+                    onValueChange = onLengthChange,
+                    label = stringResource(R.string.common_route_length),
+                    unit = "m",
+                    error = uiState.errors[VoltageDropField.LENGTH],
+                    supportingText = stringResource(R.string.common_route_length_hint),
+                )
+            }
+
+            item(key = "cross-section") {
+                ElecNumericField(
+                    value = uiState.crossSection,
+                    onValueChange = onCrossSectionChange,
+                    label = stringResource(R.string.common_cross_section),
+                    unit = "mm²",
+                    error = uiState.errors[VoltageDropField.CROSS_SECTION],
+                )
+            }
+
+            if (uiState.showPowerFactor) {
+                item(key = "power-factor") {
+                    ElecNumericField(
+                        value = uiState.powerFactor,
+                        onValueChange = onPowerFactorChange,
+                        label = stringResource(R.string.common_power_factor),
+                        error = uiState.errors[VoltageDropField.POWER_FACTOR],
+                    )
+                }
+            }
+
+            item(key = "temperature") {
+                ElecNumericField(
+                    value = uiState.temperature,
+                    onValueChange = onTemperatureChange,
+                    label = stringResource(R.string.vd_temperature_label),
+                    unit = "°C",
+                    error = uiState.errors[VoltageDropField.TEMPERATURE],
+                    supportingText = stringResource(R.string.vd_temperature_hint),
+                    allowNegative = true,
+                )
+            }
+
+            item(key = "parallel") {
+                ElecNumericField(
+                    value = uiState.parallelConductors,
+                    onValueChange = onParallelConductorsChange,
+                    label = stringResource(R.string.common_parallel_conductors),
+                    error = uiState.errors[VoltageDropField.PARALLEL_CONDUCTORS],
+                    imeAction = ImeAction.Done,
+                )
+            }
+
+            item(key = "actions") {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = spacing.xs),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.sm),
+                ) {
+                    OutlinedButton(onClick = onReset) {
+                        Text(text = stringResource(R.string.action_reset))
+                    }
+                    Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
+                        Text(text = stringResource(R.string.action_calculate))
                     }
                 }
+            }
 
-                item(key = "examples") {
-                    ElecExamplesCard(
-                        examples = voltageDropExamples,
-                        onSelect = onApplyExample,
-                    )
-                }
+            if (uiState.steps.isNotEmpty()) {
+                item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
+            }
 
-                item(key = "inputs-header") {
-                    ElecSectionHeader(
-                        title = stringResource(R.string.calculator_inputs),
-                        modifier = Modifier.padding(horizontal = 0.dp),
-                    )
-                }
+            item(key = "formula") {
+                ElecFormulaCard(
+                    title = stringResource(R.string.calculator_formula),
+                    formula = stringResource(R.string.vd_formula),
+                    variables = persistentListOf(
+                        FormulaVariable("ΔU", stringResource(R.string.vd_var_drop), "V"),
+                        FormulaVariable("k", stringResource(R.string.vd_var_k), "—"),
+                        FormulaVariable("I", stringResource(R.string.vd_var_current), "A"),
+                        FormulaVariable("R", stringResource(R.string.vd_var_resistance), "Ω"),
+                        FormulaVariable("ρ(θ)", stringResource(R.string.vd_var_resistivity), "Ω·mm²/m"),
+                        FormulaVariable("L", stringResource(R.string.vd_var_length), "m"),
+                        FormulaVariable("A", stringResource(R.string.vd_var_area), "mm²"),
+                        FormulaVariable("n", stringResource(R.string.vd_var_parallel), "—"),
+                        FormulaVariable("cos φ", stringResource(R.string.vd_var_power_factor), "—"),
+                    ),
+                )
+            }
 
-                item(key = "system") {
-                    ElecOptionSelector(
-                        label = stringResource(R.string.common_supply_system),
-                        options = SupplySystem.entries.toImmutableList(),
-                        selected = uiState.system,
-                        onSelect = onSystemChange,
-                        optionLabel = { stringResource(it.labelRes()) },
-                    )
-                }
-
-                item(key = "material") {
-                    ElecOptionSelector(
-                        label = stringResource(R.string.common_conductor_material),
-                        options = ConductorMaterial.entries.toImmutableList(),
-                        selected = uiState.material,
-                        onSelect = onMaterialChange,
-                        optionLabel = { stringResource(it.labelRes()) },
-                    )
-                }
-
-                item(key = "voltage") {
-                    ElecNumericField(
-                        value = uiState.voltage,
-                        onValueChange = onVoltageChange,
-                        label = stringResource(R.string.common_system_voltage),
-                        unit = "V",
-                        error = uiState.errors[VoltageDropField.VOLTAGE],
-                        supportingText = if (uiState.system == SupplySystem.THREE_PHASE_AC) {
-                            stringResource(R.string.common_system_voltage_hint)
-                        } else {
-                            null
-                        },
-                    )
-                }
-
-                item(key = "current") {
-                    ElecNumericField(
-                        value = uiState.current,
-                        onValueChange = onCurrentChange,
-                        label = stringResource(R.string.common_design_current),
-                        unit = "A",
-                        error = uiState.errors[VoltageDropField.CURRENT],
-                    )
-                }
-
-                item(key = "length") {
-                    ElecNumericField(
-                        value = uiState.length,
-                        onValueChange = onLengthChange,
-                        label = stringResource(R.string.common_route_length),
-                        unit = "m",
-                        error = uiState.errors[VoltageDropField.LENGTH],
-                        supportingText = stringResource(R.string.common_route_length_hint),
-                    )
-                }
-
-                item(key = "cross-section") {
-                    ElecNumericField(
-                        value = uiState.crossSection,
-                        onValueChange = onCrossSectionChange,
-                        label = stringResource(R.string.common_cross_section),
-                        unit = "mm²",
-                        error = uiState.errors[VoltageDropField.CROSS_SECTION],
-                    )
-                }
-
-                if (uiState.showPowerFactor) {
-                    item(key = "power-factor") {
-                        ElecNumericField(
-                            value = uiState.powerFactor,
-                            onValueChange = onPowerFactorChange,
-                            label = stringResource(R.string.common_power_factor),
-                            error = uiState.errors[VoltageDropField.POWER_FACTOR],
-                        )
-                    }
-                }
-
-                item(key = "temperature") {
-                    ElecNumericField(
-                        value = uiState.temperature,
-                        onValueChange = onTemperatureChange,
-                        label = stringResource(R.string.vd_temperature_label),
-                        unit = "°C",
-                        error = uiState.errors[VoltageDropField.TEMPERATURE],
-                        supportingText = stringResource(R.string.vd_temperature_hint),
-                        allowNegative = true,
-                    )
-                }
-
-                item(key = "parallel") {
-                    ElecNumericField(
-                        value = uiState.parallelConductors,
-                        onValueChange = onParallelConductorsChange,
-                        label = stringResource(R.string.common_parallel_conductors),
-                        error = uiState.errors[VoltageDropField.PARALLEL_CONDUCTORS],
-                        imeAction = ImeAction.Done,
-                    )
-                }
-
-                item(key = "actions") {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = spacing.xs),
-                        horizontalArrangement = Arrangement.spacedBy(spacing.sm),
-                    ) {
-                        OutlinedButton(onClick = onReset) {
-                            Text(text = stringResource(R.string.action_reset))
-                        }
-                        Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
-                            Text(text = stringResource(R.string.action_calculate))
-                        }
-                    }
-                }
-
-                if (uiState.steps.isNotEmpty()) {
-                    item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
-                }
-
-                item(key = "formula") {
-                    ElecFormulaCard(
-                        title = stringResource(R.string.calculator_formula),
-                        formula = stringResource(R.string.vd_formula),
-                        variables = persistentListOf(
-                            FormulaVariable("ΔU", stringResource(R.string.vd_var_drop), "V"),
-                            FormulaVariable("k", stringResource(R.string.vd_var_k), "—"),
-                            FormulaVariable("I", stringResource(R.string.vd_var_current), "A"),
-                            FormulaVariable("R", stringResource(R.string.vd_var_resistance), "Ω"),
-                            FormulaVariable("ρ(θ)", stringResource(R.string.vd_var_resistivity), "Ω·mm²/m"),
-                            FormulaVariable("L", stringResource(R.string.vd_var_length), "m"),
-                            FormulaVariable("A", stringResource(R.string.vd_var_area), "mm²"),
-                            FormulaVariable("n", stringResource(R.string.vd_var_parallel), "—"),
-                            FormulaVariable("cos φ", stringResource(R.string.vd_var_power_factor), "—"),
+            item(key = "notes") {
+                ElecNotesCard(
+                    title = stringResource(R.string.calculator_notes),
+                    notes = persistentListOf(
+                        stringResource(R.string.vd_note_length),
+                        stringResource(R.string.vd_note_temperature),
+                        stringResource(R.string.vd_note_reactance),
+                        stringResource(R.string.vd_note_limits),
+                        stringResource(R.string.vd_note_balanced),
+                        stringResource(R.string.vd_note_dc_pf),
+                    ),
+                    links = persistentListOf(
+                        NoteLink(
+                            topicKey = "materials",
+                            label = stringResource(ReferenceCatalog.titleResOf("materials")),
                         ),
-                    )
-                }
-
-                item(key = "notes") {
-                    ElecNotesCard(
-                        title = stringResource(R.string.calculator_notes),
-                        notes = persistentListOf(
-                            stringResource(R.string.vd_note_length),
-                            stringResource(R.string.vd_note_temperature),
-                            stringResource(R.string.vd_note_reactance),
-                            stringResource(R.string.vd_note_limits),
-                            stringResource(R.string.vd_note_balanced),
-                            stringResource(R.string.vd_note_dc_pf),
+                        NoteLink(
+                            topicKey = "primer_cableanatomy",
+                            label = stringResource(ReferenceCatalog.titleResOf("primer_cableanatomy")),
                         ),
-                        links = persistentListOf(
-                            NoteLink(
-                                topicKey = "materials",
-                                label = stringResource(ReferenceCatalog.titleResOf("materials")),
-                            ),
-                            NoteLink(
-                                topicKey = "primer_cableanatomy",
-                                label = stringResource(ReferenceCatalog.titleResOf("primer_cableanatomy")),
-                            ),
-                            NoteLink(
-                                topicKey = "standard_voltages",
-                                label = stringResource(ReferenceCatalog.titleResOf("standard_voltages")),
-                            ),
+                        NoteLink(
+                            topicKey = "standard_voltages",
+                            label = stringResource(ReferenceCatalog.titleResOf("standard_voltages")),
                         ),
-                        onLinkClick = onReferenceClick,
-                    )
-                }
+                    ),
+                    onLinkClick = onReferenceClick,
+                )
             }
         }
     }

@@ -1,18 +1,14 @@
 package com.kemalurekli.electricalcalculator.features.theory.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -25,18 +21,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -55,12 +47,13 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNume
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -174,7 +167,7 @@ fun TheoryTopicScreen(
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     val topic = uiState.topic
     val solution = uiState.solution
 
@@ -186,224 +179,214 @@ fun TheoryTopicScreen(
         if (uiState.result != null) listState.animateScrollToItem(0)
     }
 
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        Scaffold(
-            contentWindowInsets = WindowInsets.safeDrawing,
-            modifier = Modifier
-                .widthIn(max = layout.contentMaxWidth)
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            snackbarHost = { SnackbarHost(snackbarHostState) },
-            topBar = {
-                ElecTopAppBar(
-                    title = topic?.let { stringResource(it.titleRes) }
+    ElecScreenScaffold(
+        title = topic?.let { stringResource(it.titleRes) }
                         ?: stringResource(R.string.destination_theory),
-                    onNavigateBack = onNavigateBack,
-                    scrollBehavior = scrollBehavior,
-                    actions = {
-                        if (topic != null) {
-                            IconButton(onClick = onToggleFavorite) {
-                                Icon(
-                                    imageVector = if (uiState.isFavorite) ElecIcons.FavoriteOn
-                                    else ElecIcons.FavoriteOff,
-                                    contentDescription = stringResource(
-                                        if (uiState.isFavorite) R.string.action_favorite_remove
-                                        else R.string.action_favorite_add,
-                                    ),
-                                )
-                            }
-                        }
-                    },
-                )
-            },
-        ) { innerPadding ->
-            if (topic == null || solution == null) {
-                ElecEmptyState(
-                    title = stringResource(R.string.th_not_found_title),
-                    message = stringResource(R.string.th_not_found_message),
-                    icon = ElecIcons.Theory,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                        .padding(spacing.lg),
-                )
-                return@Scaffold
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        actions = {
+            if (topic != null) {
+                IconButton(onClick = onToggleFavorite) {
+                    Icon(
+                        imageVector = if (uiState.isFavorite) ElecIcons.FavoriteOn
+                        else ElecIcons.FavoriteOff,
+                        contentDescription = stringResource(
+                            if (uiState.isFavorite) R.string.action_favorite_remove
+                            else R.string.action_favorite_add,
+                        ),
+                    )
+                }
             }
-
-            LazyColumn(
-                state = listState,
+        },
+        scrollBehavior = scrollBehavior,
+        snackbarHostState = snackbarHostState,
+    ) { innerPadding ->
+        if (topic == null || solution == null) {
+            ElecEmptyState(
+                title = stringResource(R.string.th_not_found_title),
+                message = stringResource(R.string.th_not_found_message),
+                icon = ElecIcons.Theory,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .testTag(ElecTestTags.THEORY_FORM),
-                contentPadding = PaddingValues(
-                    start = spacing.screenHorizontal,
-                    end = spacing.screenHorizontal,
-                    bottom = spacing.xxl,
-                ),
-                verticalArrangement = Arrangement.spacedBy(spacing.md),
-            ) {
-                uiState.result?.let { result ->
-                    item(key = "result") {
-                        Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-                            ElecResultCard(
-                                label = result.primary.label,
-                                value = result.primary.value,
-                                unit = result.primary.unit,
-                                tone = ResultTone.NEUTRAL,
-                                secondaryRows = result.secondary
-                                    .map { ResultRow(it.label, it.value, it.unit) }
-                                    .toImmutableList(),
-                            )
-                            ElecResultActions(onCopy = onCopy, onShare = onShare)
-                        }
-                    }
-                }
+                    .padding(spacing.lg),
+            )
+            return@ElecScreenScaffold
+        }
 
-                topic.diagram?.let { diagram ->
-                    item(key = "diagram") {
-                        ElecCard(modifier = Modifier.fillMaxWidth()) {
-                            TheoryDiagramFigure(
-                                diagram = diagram,
-                                labels = uiState.diagramLabels,
-                            )
-                        }
-                    }
-                }
-
-                item(key = "theory") {
-                    TheoryProseCard(
-                        title = stringResource(R.string.th_section_theory),
-                        text = stringResource(topic.theoryRes),
-                    )
-                }
-
-                if (solution.examples.isNotEmpty()) {
-                    item(key = "examples") {
-                        // ElecExamplesCard is generic over the state an example
-                        // fills, because a calculator's example has to preserve
-                        // the parts of that state it does not own. A theory form
-                        // holds nothing worth preserving, so the transform is the
-                        // identity and the values travel in the domain example.
-                        ElecExamplesCard(
-                            examples = solution.examples
-                                .map { WorkedExample<Unit>(it.key, it.titleRes) { unit -> unit } }
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .testTag(ElecTestTags.THEORY_FORM),
+            contentPadding = PaddingValues(
+                start = spacing.screenHorizontal,
+                end = spacing.screenHorizontal,
+                bottom = spacing.xxl,
+            ),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+        ) {
+            uiState.result?.let { result ->
+                item(key = "result") {
+                    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
+                        ElecResultCard(
+                            label = result.primary.label,
+                            value = result.primary.value,
+                            unit = result.primary.unit,
+                            tone = ResultTone.NEUTRAL,
+                            secondaryRows = result.secondary
+                                .map { ResultRow(it.label, it.value, it.unit) }
                                 .toImmutableList(),
-                            onSelect = { chosen ->
-                                solution.examples
-                                    .firstOrNull { it.key == chosen.key }
-                                    ?.let(onApplyExample)
-                            },
+                        )
+                        ElecResultActions(onCopy = onCopy, onShare = onShare)
+                    }
+                }
+            }
+
+            topic.diagram?.let { diagram ->
+                item(key = "diagram") {
+                    ElecCard(modifier = Modifier.fillMaxWidth()) {
+                        TheoryDiagramFigure(
+                            diagram = diagram,
+                            labels = uiState.diagramLabels,
                         )
                     }
                 }
+            }
 
-                uiState.question?.let { question ->
-                    item(key = "quiz") {
-                        QuizCard(
-                            question = question,
-                            answer = uiState.quizAnswer,
-                            verdict = uiState.quizVerdict,
-                            expected = uiState.quizExpected,
-                            fieldLabel = { key ->
-                                solution.fields.firstOrNull { it.key == key }?.labelRes
-                            },
-                            onAnswerChange = onQuizAnswerChange,
-                            onCheck = onCheckAnswer,
-                            onNext = onNextQuestion,
-                        )
-                    }
-                }
+            item(key = "theory") {
+                TheoryProseCard(
+                    title = stringResource(R.string.th_section_theory),
+                    text = stringResource(topic.theoryRes),
+                )
+            }
 
-                item(key = "inputs-header") {
-                    ElecSectionHeader(title = stringResource(R.string.calculator_inputs))
-                }
-
-                if (uiState.hasChoiceOfTarget) {
-                    item(key = "solve-for") {
-                        ElecOptionSelector(
-                            label = stringResource(topic.selectorLabelRes ?: R.string.th_solve_for),
-                            options = topic.solutions.map { it.key }.toImmutableList(),
-                            selected = uiState.solutionKey,
-                            onSelect = onSolutionChange,
-                            optionLabel = { key ->
-                                val target = topic.solutions.first { it.key == key }
-                                stringResource(target.targetLabelRes)
-                            },
-                        )
-                    }
-                }
-
-                itemsIndexed(
-                    items = solution.fields,
-                    key = { _, field -> "field-${solution.key}-${field.key}" },
-                ) { index, field ->
-                    ElecNumericField(
-                        value = uiState.values[field.key].orEmpty(),
-                        onValueChange = { onFieldChange(field.key, it) },
-                        label = stringResource(field.labelRes),
-                        unit = field.unit,
-                        error = uiState.errors[field.key],
-                        supportingText = field.hintRes?.let { stringResource(it) },
-                        allowNegative = field.allowNegative,
-                        imeAction = if (index == solution.fields.lastIndex) ImeAction.Done
-                        else ImeAction.Next,
-                    )
-                }
-
-                item(key = "actions") {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = spacing.xs),
-                        horizontalArrangement = Arrangement.spacedBy(spacing.sm),
-                    ) {
-                        OutlinedButton(onClick = onReset) {
-                            Text(text = stringResource(R.string.action_reset))
-                        }
-                        Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
-                            Text(text = stringResource(R.string.action_calculate))
-                        }
-                    }
-                }
-
-                if (uiState.steps.isNotEmpty()) {
-                    item(key = "steps") {
-                        ElecStepsCard(steps = uiState.steps, initiallyExpanded = true)
-                    }
-                }
-
-                item(key = "formula") {
-                    ElecFormulaCard(
-                        title = stringResource(R.string.calculator_formula),
-                        formula = solution.formula,
-                        variables = solution.variables
-                            .map { FormulaVariable(it.symbol, stringResource(it.meaningRes), it.unit) }
+            if (solution.examples.isNotEmpty()) {
+                item(key = "examples") {
+                    // ElecExamplesCard is generic over the state an example
+                    // fills, because a calculator's example has to preserve
+                    // the parts of that state it does not own. A theory form
+                    // holds nothing worth preserving, so the transform is the
+                    // identity and the values travel in the domain example.
+                    ElecExamplesCard(
+                        examples = solution.examples
+                            .map { WorkedExample<Unit>(it.key, it.titleRes) { unit -> unit } }
                             .toImmutableList(),
-                        initiallyExpanded = true,
+                        onSelect = { chosen ->
+                            solution.examples
+                                .firstOrNull { it.key == chosen.key }
+                                ?.let(onApplyExample)
+                        },
                     )
                 }
+            }
 
-                if (topic.assumptionsRes.isNotEmpty()) {
-                    item(key = "assumptions") {
-                        ElecNotesCard(
-                            title = stringResource(R.string.th_section_assumptions),
-                            notes = topic.assumptionsRes
-                                .map { stringResource(it) }
-                                .toImmutableList(),
-                        )
+            uiState.question?.let { question ->
+                item(key = "quiz") {
+                    QuizCard(
+                        question = question,
+                        answer = uiState.quizAnswer,
+                        verdict = uiState.quizVerdict,
+                        expected = uiState.quizExpected,
+                        fieldLabel = { key ->
+                            solution.fields.firstOrNull { it.key == key }?.labelRes
+                        },
+                        onAnswerChange = onQuizAnswerChange,
+                        onCheck = onCheckAnswer,
+                        onNext = onNextQuestion,
+                    )
+                }
+            }
+
+            item(key = "inputs-header") {
+                ElecSectionHeader(title = stringResource(R.string.calculator_inputs))
+            }
+
+            if (uiState.hasChoiceOfTarget) {
+                item(key = "solve-for") {
+                    ElecOptionSelector(
+                        label = stringResource(topic.selectorLabelRes ?: R.string.th_solve_for),
+                        options = topic.solutions.map { it.key }.toImmutableList(),
+                        selected = uiState.solutionKey,
+                        onSelect = onSolutionChange,
+                        optionLabel = { key ->
+                            val target = topic.solutions.first { it.key == key }
+                            stringResource(target.targetLabelRes)
+                        },
+                    )
+                }
+            }
+
+            itemsIndexed(
+                items = solution.fields,
+                key = { _, field -> "field-${solution.key}-${field.key}" },
+            ) { index, field ->
+                ElecNumericField(
+                    value = uiState.values[field.key].orEmpty(),
+                    onValueChange = { onFieldChange(field.key, it) },
+                    label = stringResource(field.labelRes),
+                    unit = field.unit,
+                    error = uiState.errors[field.key],
+                    supportingText = field.hintRes?.let { stringResource(it) },
+                    allowNegative = field.allowNegative,
+                    imeAction = if (index == solution.fields.lastIndex) ImeAction.Done
+                    else ImeAction.Next,
+                )
+            }
+
+            item(key = "actions") {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = spacing.xs),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.sm),
+                ) {
+                    OutlinedButton(onClick = onReset) {
+                        Text(text = stringResource(R.string.action_reset))
+                    }
+                    Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
+                        Text(text = stringResource(R.string.action_calculate))
                     }
                 }
+            }
 
-                if (topic.hasLinks) {
-                    item(key = "links") {
-                        TheoryLinksCard(
-                            topic = topic,
-                            onCalculatorClick = onCalculatorClick,
-                            onReferenceClick = onReferenceClick,
-                            onGlossaryClick = onGlossaryClick,
-                        )
-                    }
+            if (uiState.steps.isNotEmpty()) {
+                item(key = "steps") {
+                    ElecStepsCard(steps = uiState.steps, initiallyExpanded = true)
+                }
+            }
+
+            item(key = "formula") {
+                ElecFormulaCard(
+                    title = stringResource(R.string.calculator_formula),
+                    formula = solution.formula,
+                    variables = solution.variables
+                        .map { FormulaVariable(it.symbol, stringResource(it.meaningRes), it.unit) }
+                        .toImmutableList(),
+                    initiallyExpanded = true,
+                )
+            }
+
+            if (topic.assumptionsRes.isNotEmpty()) {
+                item(key = "assumptions") {
+                    ElecNotesCard(
+                        title = stringResource(R.string.th_section_assumptions),
+                        notes = topic.assumptionsRes
+                            .map { stringResource(it) }
+                            .toImmutableList(),
+                    )
+                }
+            }
+
+            if (topic.hasLinks) {
+                item(key = "links") {
+                    TheoryLinksCard(
+                        topic = topic,
+                        onCalculatorClick = onCalculatorClick,
+                        onReferenceClick = onReferenceClick,
+                        onGlossaryClick = onGlossaryClick,
+                    )
                 }
             }
         }

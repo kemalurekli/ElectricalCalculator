@@ -3,11 +3,9 @@ package com.kemalurekli.electricalcalculator.features.projects.presentation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -20,7 +18,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,7 +26,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,8 +33,9 @@ import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.CircuitLoadKind
@@ -107,33 +104,26 @@ fun CircuitScreen(
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
     val circuit = uiState.circuit
 
-    Scaffold(
-        contentWindowInsets = WindowInsets.safeDrawing,
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            ElecTopAppBar(
-                title = circuit?.name?.ifBlank { null }
+    ElecScreenScaffold(
+        title = circuit?.name?.ifBlank { null }
                     ?: stringResource(R.string.circuit_untitled),
-                onNavigateBack = onNavigateBack,
-                scrollBehavior = scrollBehavior,
-                actions = {
-                    IconButton(onClick = { confirmDelete = true }) {
-                        Icon(
-                            imageVector = ElecIcons.Delete,
-                            contentDescription = stringResource(R.string.action_delete),
-                        )
-                    }
-                },
-            )
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        actions = {
+            IconButton(onClick = { confirmDelete = true }) {
+                Icon(
+                    imageVector = ElecIcons.Delete,
+                    contentDescription = stringResource(R.string.action_delete),
+                )
+            }
         },
+        scrollBehavior = scrollBehavior,
     ) { innerPadding ->
-        if (circuit == null) return@Scaffold
+        if (circuit == null) return@ElecScreenScaffold
 
         Column(
             modifier = Modifier

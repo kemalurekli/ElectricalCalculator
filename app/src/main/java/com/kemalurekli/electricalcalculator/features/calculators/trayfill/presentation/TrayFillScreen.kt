@@ -1,17 +1,13 @@
 package com.kemalurekli.electricalcalculator.features.calculators.trayfill.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
@@ -20,19 +16,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -51,14 +42,15 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNume
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -150,252 +142,242 @@ fun TrayFillScreen(
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     val listState = rememberLazyListState()
 
     LaunchedEffect(uiState.result) {
         if (uiState.result != null) listState.animateScrollToItem(0)
     }
 
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        Scaffold(
-            contentWindowInsets = WindowInsets.safeDrawing,
-            modifier = Modifier
-                .widthIn(max = layout.contentMaxWidth)
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            snackbarHost = { SnackbarHost(snackbarHostState) },
-            topBar = {
-                ElecTopAppBar(
-                    title = stringResource(R.string.calculator_cable_tray_fill_title),
-                    onNavigateBack = onNavigateBack,
-                    scrollBehavior = scrollBehavior,
-                    actions = {
-                        IconButton(onClick = onToggleFavorite) {
-                            Icon(
-                                imageVector = if (uiState.isFavorite) {
-                                    ElecIcons.FavoriteOn
-                                } else {
-                                    ElecIcons.FavoriteOff
-                                },
-                                contentDescription = stringResource(
-                                    if (uiState.isFavorite) {
-                                        R.string.action_favorite_remove
-                                    } else {
-                                        R.string.action_favorite_add
-                                    },
-                                ),
-                                tint = if (uiState.isFavorite) {
-                                    MaterialTheme.colorScheme.primary
-                                } else {
-                                    MaterialTheme.colorScheme.onSurfaceVariant
-                                },
-                            )
-                        }
+    ElecScreenScaffold(
+        title = stringResource(R.string.calculator_cable_tray_fill_title),
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        actions = {
+            IconButton(onClick = onToggleFavorite) {
+                Icon(
+                    imageVector = if (uiState.isFavorite) {
+                        ElecIcons.FavoriteOn
+                    } else {
+                        ElecIcons.FavoriteOff
+                    },
+                    contentDescription = stringResource(
+                        if (uiState.isFavorite) {
+                            R.string.action_favorite_remove
+                        } else {
+                            R.string.action_favorite_add
+                        },
+                    ),
+                    tint = if (uiState.isFavorite) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
                     },
                 )
-            },
-        ) { innerPadding ->
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .testTag(ElecTestTags.CALCULATOR_FORM),
-                contentPadding = PaddingValues(
-                    start = spacing.screenHorizontal,
-                    end = spacing.screenHorizontal,
-                    bottom = spacing.xxl,
-                ),
-                verticalArrangement = Arrangement.spacedBy(spacing.md),
-            ) {
-                uiState.result?.let { result ->
-                    item(key = "result") { ResultSection(result, onCopy, onShare) }
-                }
+            }
+        },
+        scrollBehavior = scrollBehavior,
+        snackbarHostState = snackbarHostState,
+    ) { innerPadding ->
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .testTag(ElecTestTags.CALCULATOR_FORM),
+            contentPadding = PaddingValues(
+                start = spacing.screenHorizontal,
+                end = spacing.screenHorizontal,
+                bottom = spacing.xxl,
+            ),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+        ) {
+            uiState.result?.let { result ->
+                item(key = "result") { ResultSection(result, onCopy, onShare) }
+            }
 
-                item(key = "examples") {
-                    ElecExamplesCard(
-                        examples = trayFillExamples,
-                        onSelect = onApplyExample,
+            item(key = "examples") {
+                ElecExamplesCard(
+                    examples = trayFillExamples,
+                    onSelect = onApplyExample,
+                )
+            }
+
+            item(key = "inputs-header") {
+                ElecSectionHeader(
+                    title = stringResource(R.string.calculator_inputs),
+                    modifier = Modifier.padding(horizontal = 0.dp),
+                )
+            }
+
+            item(key = "arrangement") {
+                Column {
+                    ElecOptionSelector(
+                        label = stringResource(R.string.tf_arrangement),
+                        options = TrayArrangement.entries.toImmutableList(),
+                        selected = uiState.arrangement,
+                        onSelect = onArrangementChange,
+                        optionLabel = { stringResource(it.labelRes()) },
+                    )
+                    Text(
+                        text = stringResource(uiState.arrangement.hintRes()),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
                     )
                 }
+            }
 
-                item(key = "inputs-header") {
-                    ElecSectionHeader(
-                        title = stringResource(R.string.calculator_inputs),
-                        modifier = Modifier.padding(horizontal = 0.dp),
+            item(key = "tray-width") {
+                ElecNumericField(
+                    value = uiState.trayWidth,
+                    onValueChange = onTrayWidthChange,
+                    label = stringResource(R.string.tf_tray_width),
+                    unit = "mm",
+                    error = uiState.errors[TrayFillField.TRAY_WIDTH],
+                )
+            }
+
+            if (uiState.showDepthAndLimit) {
+                item(key = "tray-depth") {
+                    ElecNumericField(
+                        value = uiState.trayDepth,
+                        onValueChange = onTrayDepthChange,
+                        label = stringResource(R.string.tf_tray_depth),
+                        unit = "mm",
+                        error = uiState.errors[TrayFillField.TRAY_DEPTH],
+                        supportingText = stringResource(R.string.tf_tray_depth_hint),
                     )
                 }
+            }
 
-                item(key = "arrangement") {
-                    Column {
-                        ElecOptionSelector(
-                            label = stringResource(R.string.tf_arrangement),
-                            options = TrayArrangement.entries.toImmutableList(),
-                            selected = uiState.arrangement,
-                            onSelect = onArrangementChange,
-                            optionLabel = { stringResource(it.labelRes()) },
+            if (uiState.showSpacing) {
+                item(key = "spacing") {
+                    ElecNumericField(
+                        value = uiState.spacing,
+                        onValueChange = onSpacingChange,
+                        label = stringResource(R.string.tf_spacing),
+                        unit = "mm",
+                        error = uiState.errors[TrayFillField.SPACING],
+                        supportingText = stringResource(R.string.tf_spacing_hint),
+                    )
+                }
+            }
+
+            item(key = "cables-header") {
+                ElecSectionHeader(
+                    title = stringResource(R.string.cable_list_title),
+                    modifier = Modifier.padding(horizontal = 0.dp),
+                )
+            }
+
+            items(
+                count = uiState.cables.size,
+                key = { index -> "cable-${uiState.cables[index].id}" },
+            ) { index ->
+                val row = uiState.cables[index]
+                ElecCableRow(
+                    diameter = row.diameter,
+                    quantity = row.quantity,
+                    onDiameterChange = { onCableDiameterChange(row.id, it) },
+                    onQuantityChange = { onCableQuantityChange(row.id, it) },
+                    onRemove = { onRemoveCable(row.id) },
+                    diameterError = row.diameterError,
+                    quantityError = row.quantityError,
+                    canRemove = uiState.canRemoveCable,
+                    isLast = index == uiState.cables.lastIndex && !uiState.showDepthAndLimit,
+                )
+            }
+
+            if (uiState.canAddCable) {
+                item(key = "add-cable") {
+                    OutlinedButton(onClick = onAddCable) {
+                        Icon(
+                            imageVector = ElecIcons.Add,
+                            contentDescription = null,
+                            modifier = Modifier.size(ICON_SIZE),
                         )
                         Text(
-                            text = stringResource(uiState.arrangement.hintRes()),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
+                            text = stringResource(R.string.cable_list_add),
+                            modifier = Modifier.padding(start = spacing.xs),
                         )
                     }
                 }
+            }
 
-                item(key = "tray-width") {
+            if (uiState.showDepthAndLimit) {
+                item(key = "limit") {
                     ElecNumericField(
-                        value = uiState.trayWidth,
-                        onValueChange = onTrayWidthChange,
-                        label = stringResource(R.string.tf_tray_width),
-                        unit = "mm",
-                        error = uiState.errors[TrayFillField.TRAY_WIDTH],
+                        value = uiState.limit,
+                        onValueChange = onLimitChange,
+                        label = stringResource(R.string.tf_limit),
+                        unit = "%",
+                        error = uiState.errors[TrayFillField.LIMIT],
+                        supportingText = stringResource(R.string.tf_limit_hint),
+                        imeAction = ImeAction.Done,
                     )
                 }
+            }
 
-                if (uiState.showDepthAndLimit) {
-                    item(key = "tray-depth") {
-                        ElecNumericField(
-                            value = uiState.trayDepth,
-                            onValueChange = onTrayDepthChange,
-                            label = stringResource(R.string.tf_tray_depth),
-                            unit = "mm",
-                            error = uiState.errors[TrayFillField.TRAY_DEPTH],
-                            supportingText = stringResource(R.string.tf_tray_depth_hint),
-                        )
+            item(key = "actions") {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = spacing.xs),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.sm),
+                ) {
+                    OutlinedButton(onClick = onReset) {
+                        Text(text = stringResource(R.string.action_reset))
+                    }
+                    Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
+                        Text(text = stringResource(R.string.action_calculate))
                     }
                 }
+            }
 
-                if (uiState.showSpacing) {
-                    item(key = "spacing") {
-                        ElecNumericField(
-                            value = uiState.spacing,
-                            onValueChange = onSpacingChange,
-                            label = stringResource(R.string.tf_spacing),
-                            unit = "mm",
-                            error = uiState.errors[TrayFillField.SPACING],
-                            supportingText = stringResource(R.string.tf_spacing_hint),
-                        )
-                    }
-                }
+            if (uiState.steps.isNotEmpty()) {
+                item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
+            }
 
-                item(key = "cables-header") {
-                    ElecSectionHeader(
-                        title = stringResource(R.string.cable_list_title),
-                        modifier = Modifier.padding(horizontal = 0.dp),
-                    )
-                }
+            item(key = "formula") {
+                ElecFormulaCard(
+                    title = stringResource(R.string.calculator_formula),
+                    formula = stringResource(R.string.tf_formula),
+                    variables = persistentListOf(
+                        FormulaVariable("W_req", stringResource(R.string.tf_var_wreq), "mm"),
+                        FormulaVariable("W", stringResource(R.string.tf_var_w), "mm"),
+                        FormulaVariable("H", stringResource(R.string.tf_var_h), "mm"),
+                        FormulaVariable("d", stringResource(R.string.tf_var_d), "mm"),
+                        FormulaVariable("n", stringResource(R.string.tf_var_n), "—"),
+                        FormulaVariable("N", stringResource(R.string.tf_var_bign), "—"),
+                        FormulaVariable("s", stringResource(R.string.tf_var_s), "mm"),
+                    ),
+                )
+            }
 
-                items(
-                    count = uiState.cables.size,
-                    key = { index -> "cable-${uiState.cables[index].id}" },
-                ) { index ->
-                    val row = uiState.cables[index]
-                    ElecCableRow(
-                        diameter = row.diameter,
-                        quantity = row.quantity,
-                        onDiameterChange = { onCableDiameterChange(row.id, it) },
-                        onQuantityChange = { onCableQuantityChange(row.id, it) },
-                        onRemove = { onRemoveCable(row.id) },
-                        diameterError = row.diameterError,
-                        quantityError = row.quantityError,
-                        canRemove = uiState.canRemoveCable,
-                        isLast = index == uiState.cables.lastIndex && !uiState.showDepthAndLimit,
-                    )
-                }
-
-                if (uiState.canAddCable) {
-                    item(key = "add-cable") {
-                        OutlinedButton(onClick = onAddCable) {
-                            Icon(
-                                imageVector = ElecIcons.Add,
-                                contentDescription = null,
-                                modifier = Modifier.size(ICON_SIZE),
-                            )
-                            Text(
-                                text = stringResource(R.string.cable_list_add),
-                                modifier = Modifier.padding(start = spacing.xs),
-                            )
-                        }
-                    }
-                }
-
-                if (uiState.showDepthAndLimit) {
-                    item(key = "limit") {
-                        ElecNumericField(
-                            value = uiState.limit,
-                            onValueChange = onLimitChange,
-                            label = stringResource(R.string.tf_limit),
-                            unit = "%",
-                            error = uiState.errors[TrayFillField.LIMIT],
-                            supportingText = stringResource(R.string.tf_limit_hint),
-                            imeAction = ImeAction.Done,
-                        )
-                    }
-                }
-
-                item(key = "actions") {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = spacing.xs),
-                        horizontalArrangement = Arrangement.spacedBy(spacing.sm),
-                    ) {
-                        OutlinedButton(onClick = onReset) {
-                            Text(text = stringResource(R.string.action_reset))
-                        }
-                        Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
-                            Text(text = stringResource(R.string.action_calculate))
-                        }
-                    }
-                }
-
-                if (uiState.steps.isNotEmpty()) {
-                    item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
-                }
-
-                item(key = "formula") {
-                    ElecFormulaCard(
-                        title = stringResource(R.string.calculator_formula),
-                        formula = stringResource(R.string.tf_formula),
-                        variables = persistentListOf(
-                            FormulaVariable("W_req", stringResource(R.string.tf_var_wreq), "mm"),
-                            FormulaVariable("W", stringResource(R.string.tf_var_w), "mm"),
-                            FormulaVariable("H", stringResource(R.string.tf_var_h), "mm"),
-                            FormulaVariable("d", stringResource(R.string.tf_var_d), "mm"),
-                            FormulaVariable("n", stringResource(R.string.tf_var_n), "—"),
-                            FormulaVariable("N", stringResource(R.string.tf_var_bign), "—"),
-                            FormulaVariable("s", stringResource(R.string.tf_var_s), "mm"),
+            item(key = "notes") {
+                ElecNotesCard(
+                    title = stringResource(R.string.calculator_notes),
+                    notes = persistentListOf(
+                        stringResource(R.string.tf_note_arrangement),
+                        stringResource(R.string.tf_note_single_layer),
+                        stringResource(R.string.tf_note_spacing),
+                        stringResource(R.string.tf_note_standards),
+                        stringResource(R.string.tf_note_load),
+                        stringResource(R.string.tf_note_depth),
+                    ),
+                    links = persistentListOf(
+                        NoteLink(
+                            topicKey = "selection_cabletype",
+                            label = stringResource(ReferenceCatalog.titleResOf("selection_cabletype")),
                         ),
-                    )
-                }
-
-                item(key = "notes") {
-                    ElecNotesCard(
-                        title = stringResource(R.string.calculator_notes),
-                        notes = persistentListOf(
-                            stringResource(R.string.tf_note_arrangement),
-                            stringResource(R.string.tf_note_single_layer),
-                            stringResource(R.string.tf_note_spacing),
-                            stringResource(R.string.tf_note_standards),
-                            stringResource(R.string.tf_note_load),
-                            stringResource(R.string.tf_note_depth),
+                        NoteLink(
+                            topicKey = "primer_cableanatomy",
+                            label = stringResource(ReferenceCatalog.titleResOf("primer_cableanatomy")),
                         ),
-                        links = persistentListOf(
-                            NoteLink(
-                                topicKey = "selection_cabletype",
-                                label = stringResource(ReferenceCatalog.titleResOf("selection_cabletype")),
-                            ),
-                            NoteLink(
-                                topicKey = "primer_cableanatomy",
-                                label = stringResource(ReferenceCatalog.titleResOf("primer_cableanatomy")),
-                            ),
-                        ),
-                        onLinkClick = onReferenceClick,
-                    )
-                }
+                    ),
+                    onLinkClick = onReferenceClick,
+                )
             }
         }
     }

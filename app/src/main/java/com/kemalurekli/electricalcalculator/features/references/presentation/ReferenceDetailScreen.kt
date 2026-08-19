@@ -5,16 +5,13 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -28,11 +25,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.core.ui.FavoriteToggleViewModel
@@ -42,7 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
@@ -52,7 +49,6 @@ import androidx.compose.ui.unit.dp
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.NumericCompactTextStyle
@@ -92,142 +88,132 @@ fun ReferenceDetailRoute(
 
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
 
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        Scaffold(
-            contentWindowInsets = WindowInsets.safeDrawing,
-            modifier = Modifier
-                .widthIn(max = layout.contentMaxWidth)
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                ElecTopAppBar(
-                    title = topic?.let { stringResource(it.titleRes) }
+    ElecScreenScaffold(
+        title = topic?.let { stringResource(it.titleRes) }
                         ?: stringResource(R.string.dashboard_references_title),
-                    onNavigateBack = onNavigateBack,
-                    scrollBehavior = scrollBehavior,
-                    actions = {
-                        if (topic != null) {
-                            IconButton(onClick = favoriteViewModel::toggle) {
-                                Icon(
-                                    imageVector = if (isFavorite) ElecIcons.FavoriteOn
-                                    else ElecIcons.FavoriteOff,
-                                    contentDescription = stringResource(
-                                        if (isFavorite) R.string.action_favorite_remove
-                                        else R.string.action_favorite_add,
-                                    ),
-                                )
-                            }
-                        }
-                    },
-                )
-            },
-        ) { innerPadding ->
-            if (topic == null) return@Scaffold
-
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentPadding = PaddingValues(bottom = spacing.xxl),
-                verticalArrangement = Arrangement.spacedBy(spacing.xs),
-            ) {
-                item(key = "source") {
-                    // Named up front: a reference table is only as trustworthy
-                    // as the document behind it, and one that cites nothing
-                    // invites more trust than it has earned.
-                    Text(
-                        text = stringResource(
-                            R.string.ref_source_label,
-                            stringResource(topic.sourceRes),
-                        ),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(
-                            horizontal = spacing.screenHorizontal,
-                            vertical = spacing.xs,
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        actions = {
+            if (topic != null) {
+                IconButton(onClick = favoriteViewModel::toggle) {
+                    Icon(
+                        imageVector = if (isFavorite) ElecIcons.FavoriteOn
+                        else ElecIcons.FavoriteOff,
+                        contentDescription = stringResource(
+                            if (isFavorite) R.string.action_favorite_remove
+                            else R.string.action_favorite_add,
                         ),
                     )
                 }
+            }
+        },
+        scrollBehavior = scrollBehavior,
+    ) { innerPadding ->
+        if (topic == null) return@ElecScreenScaffold
 
-                topic.sections.forEachIndexed { sectionIndex, section ->
-                    item(key = "header-$sectionIndex") {
-                        ElecSectionHeader(title = stringResource(section.titleRes))
-                    }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            contentPadding = PaddingValues(bottom = spacing.xxl),
+            verticalArrangement = Arrangement.spacedBy(spacing.xs),
+        ) {
+            item(key = "source") {
+                // Named up front: a reference table is only as trustworthy
+                // as the document behind it, and one that cites nothing
+                // invites more trust than it has earned.
+                Text(
+                    text = stringResource(
+                        R.string.ref_source_label,
+                        stringResource(topic.sourceRes),
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(
+                        horizontal = spacing.screenHorizontal,
+                        vertical = spacing.xs,
+                    ),
+                )
+            }
 
-                    section.blocks.forEachIndexed { blockIndex, block ->
-                        val blockKey = "$sectionIndex-$blockIndex"
-                        when (block) {
-                            is ReferenceBlock.Table -> items(
-                                count = block.rows.size,
-                                key = { index -> "$blockKey-row-$index" },
+            topic.sections.forEachIndexed { sectionIndex, section ->
+                item(key = "header-$sectionIndex") {
+                    ElecSectionHeader(title = stringResource(section.titleRes))
+                }
+
+                section.blocks.forEachIndexed { blockIndex, block ->
+                    val blockKey = "$sectionIndex-$blockIndex"
+                    when (block) {
+                        is ReferenceBlock.Table -> items(
+                            count = block.rows.size,
+                            key = { index -> "$blockKey-row-$index" },
+                        ) { index ->
+                            TableRow(block.rows[index])
+                        }
+
+                        is ReferenceBlock.Prose -> items(
+                            count = block.paragraphsRes.size,
+                            key = { index -> "$blockKey-para-$index" },
+                        ) { index ->
+                            Paragraph(block.paragraphsRes[index])
+                        }
+
+                        is ReferenceBlock.Ordered -> items(
+                            count = block.stepsRes.size,
+                            key = { index -> "$blockKey-step-$index" },
+                        ) { index ->
+                            ProcedureStep(number = index + 1, textRes = block.stepsRes[index])
+                        }
+
+                        is ReferenceBlock.Comparison -> item(key = blockKey) {
+                            ComparisonTable(block)
+                        }
+
+                        is ReferenceBlock.SymbolGrid -> items(
+                            count = block.symbols.size,
+                            key = { index -> "$blockKey-sym-${block.symbols[index].key}" },
+                        ) { index ->
+                            SymbolRow(block.symbols[index])
+                        }
+
+                        is ReferenceBlock.SymbolComparison -> {
+                            item(key = "$blockKey-head") {
+                                SymbolComparisonHeader(block)
+                            }
+                            items(
+                                count = block.pairs.size,
+                                key = { index -> "$blockKey-pair-${block.pairs[index].key}" },
                             ) { index ->
-                                TableRow(block.rows[index])
-                            }
-
-                            is ReferenceBlock.Prose -> items(
-                                count = block.paragraphsRes.size,
-                                key = { index -> "$blockKey-para-$index" },
-                            ) { index ->
-                                Paragraph(block.paragraphsRes[index])
-                            }
-
-                            is ReferenceBlock.Ordered -> items(
-                                count = block.stepsRes.size,
-                                key = { index -> "$blockKey-step-$index" },
-                            ) { index ->
-                                ProcedureStep(number = index + 1, textRes = block.stepsRes[index])
-                            }
-
-                            is ReferenceBlock.Comparison -> item(key = blockKey) {
-                                ComparisonTable(block)
-                            }
-
-                            is ReferenceBlock.SymbolGrid -> items(
-                                count = block.symbols.size,
-                                key = { index -> "$blockKey-sym-${block.symbols[index].key}" },
-                            ) { index ->
-                                SymbolRow(block.symbols[index])
-                            }
-
-                            is ReferenceBlock.SymbolComparison -> {
-                                item(key = "$blockKey-head") {
-                                    SymbolComparisonHeader(block)
-                                }
-                                items(
-                                    count = block.pairs.size,
-                                    key = { index -> "$blockKey-pair-${block.pairs[index].key}" },
-                                ) { index ->
-                                    SymbolPairRow(block.pairs[index])
-                                }
-                            }
-
-                            is ReferenceBlock.Callout -> item(key = blockKey) {
-                                Callout(kind = block.kind, textRes = block.textRes)
+                                SymbolPairRow(block.pairs[index])
                             }
                         }
-                    }
 
-                    section.footnoteRes?.let { footnote ->
-                        item(key = "footnote-$sectionIndex") {
-                            Text(
-                                text = stringResource(footnote),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(
-                                    horizontal = spacing.screenHorizontal,
-                                    vertical = spacing.sm,
-                                ),
-                            )
+                        is ReferenceBlock.Callout -> item(key = blockKey) {
+                            Callout(kind = block.kind, textRes = block.textRes)
                         }
                     }
+                }
 
-                    item(key = "divider-$sectionIndex") {
-                        HorizontalDivider(
-                            modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+                section.footnoteRes?.let { footnote ->
+                    item(key = "footnote-$sectionIndex") {
+                        Text(
+                            text = stringResource(footnote),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(
+                                horizontal = spacing.screenHorizontal,
+                                vertical = spacing.sm,
+                            ),
                         )
                     }
+                }
+
+                item(key = "divider-$sectionIndex") {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+                    )
                 }
             }
         }

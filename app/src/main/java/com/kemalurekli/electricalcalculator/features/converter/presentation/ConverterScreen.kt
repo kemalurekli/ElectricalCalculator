@@ -2,16 +2,12 @@ package com.kemalurekli.electricalcalculator.features.converter.presentation
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -27,9 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,7 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -49,8 +42,9 @@ import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -97,173 +91,163 @@ fun ConverterScreen(
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
 
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        Scaffold(
-            contentWindowInsets = WindowInsets.safeDrawing,
+    ElecScreenScaffold(
+        title = stringResource(R.string.dashboard_converter_title),
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        scrollBehavior = scrollBehavior,
+    ) { innerPadding ->
+        LazyColumn(
             modifier = Modifier
-                .widthIn(max = layout.contentMaxWidth)
                 .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                ElecTopAppBar(
-                    title = stringResource(R.string.dashboard_converter_title),
-                    onNavigateBack = onNavigateBack,
-                    scrollBehavior = scrollBehavior,
-                )
-            },
-        ) { innerPadding ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentPadding = PaddingValues(bottom = spacing.xxl),
-                verticalArrangement = Arrangement.spacedBy(spacing.md),
-            ) {
-                item(key = "categories") {
-                    // Thirteen categories will not fit as a segmented control,
-                    // and a dropdown would hide the choice behind a tap. A
-                    // scrolling chip row keeps every one a single gesture away.
-                    Row(
-                        modifier = Modifier
-                            .horizontalScroll(rememberScrollState())
-                            .padding(horizontal = spacing.screenHorizontal),
-                        horizontalArrangement = Arrangement.spacedBy(spacing.xs),
-                    ) {
-                        uiState.categories.forEach { category ->
-                            FilterChip(
-                                selected = category.key == uiState.category.key,
-                                onClick = { onCategoryChange(category) },
-                                label = { Text(text = stringResource(category.categoryLabelRes())) },
-                            )
-                        }
+                .padding(innerPadding),
+            contentPadding = PaddingValues(bottom = spacing.xxl),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+        ) {
+            item(key = "categories") {
+                // Thirteen categories will not fit as a segmented control,
+                // and a dropdown would hide the choice behind a tap. A
+                // scrolling chip row keeps every one a single gesture away.
+                Row(
+                    modifier = Modifier
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = spacing.screenHorizontal),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.xs),
+                ) {
+                    uiState.categories.forEach { category ->
+                        FilterChip(
+                            selected = category.key == uiState.category.key,
+                            onClick = { onCategoryChange(category) },
+                            label = { Text(text = stringResource(category.categoryLabelRes())) },
+                        )
                     }
                 }
+            }
 
-                item(key = "value") {
-                    OutlinedTextField(
-                        value = uiState.input,
-                        onValueChange = {
-                            onInputChange(
-                                NumericInput.sanitise(uiState.input, it, allowNegative = true),
-                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = spacing.screenHorizontal),
-                        label = { Text(text = stringResource(R.string.cv_value)) },
-                        singleLine = true,
-                        shape = MaterialTheme.shapes.medium,
-                        colors = OutlinedTextFieldDefaults.colors(
-                            unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                        ),
-                        // Negatives are ordinary input here: −40 °C, and AWG
-                        // 0000 entered as −3.
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Number,
-                            imeAction = ImeAction.Done,
-                        ),
+            item(key = "value") {
+                OutlinedTextField(
+                    value = uiState.input,
+                    onValueChange = {
+                        onInputChange(
+                            NumericInput.sanitise(uiState.input, it, allowNegative = true),
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = spacing.screenHorizontal),
+                    label = { Text(text = stringResource(R.string.cv_value)) },
+                    singleLine = true,
+                    shape = MaterialTheme.shapes.medium,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                    ),
+                    // Negatives are ordinary input here: −40 °C, and AWG
+                    // 0000 entered as −3.
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done,
+                    ),
+                )
+            }
+
+            item(key = "units") {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = spacing.screenHorizontal),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.xs),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    UnitDropdown(
+                        label = stringResource(R.string.cv_from),
+                        selected = uiState.from,
+                        units = uiState.category.units,
+                        onSelect = onFromChange,
+                        modifier = Modifier.weight(1f),
+                    )
+                    IconButton(onClick = onSwap) {
+                        Icon(
+                            imageVector = ElecIcons.Converter,
+                            contentDescription = stringResource(R.string.cv_swap),
+                        )
+                    }
+                    UnitDropdown(
+                        label = stringResource(R.string.cv_to),
+                        selected = uiState.to,
+                        units = uiState.category.units,
+                        onSelect = onToChange,
+                        modifier = Modifier.weight(1f),
                     )
                 }
+            }
 
-                item(key = "units") {
+            item(key = "result") {
+                ResultBanner(
+                    uiState = uiState,
+                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+                )
+            }
+
+            if (!uiState.isEmpty) {
+                item(key = "all-header") {
+                    ElecSectionHeader(title = stringResource(R.string.cv_all_units))
+                }
+
+                items(
+                    count = uiState.allUnits.size,
+                    key = { index -> "unit-${uiState.allUnits[index].unit.key}" },
+                ) { index ->
+                    val converted = uiState.allUnits[index]
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = spacing.screenHorizontal),
-                        horizontalArrangement = Arrangement.spacedBy(spacing.xs),
+                            .padding(
+                                horizontal = spacing.screenHorizontal,
+                                vertical = spacing.xs,
+                            ),
+                        horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        UnitDropdown(
-                            label = stringResource(R.string.cv_from),
-                            selected = uiState.from,
-                            units = uiState.category.units,
-                            onSelect = onFromChange,
-                            modifier = Modifier.weight(1f),
+                        Text(
+                            text = converted.unit.symbol,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
-                        IconButton(onClick = onSwap) {
-                            Icon(
-                                imageVector = ElecIcons.Converter,
-                                contentDescription = stringResource(R.string.cv_swap),
-                            )
-                        }
-                        UnitDropdown(
-                            label = stringResource(R.string.cv_to),
-                            selected = uiState.to,
-                            units = uiState.category.units,
-                            onSelect = onToChange,
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
-                }
-
-                item(key = "result") {
-                    ResultBanner(
-                        uiState = uiState,
-                        modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
-                    )
-                }
-
-                if (!uiState.isEmpty) {
-                    item(key = "all-header") {
-                        ElecSectionHeader(title = stringResource(R.string.cv_all_units))
-                    }
-
-                    items(
-                        count = uiState.allUnits.size,
-                        key = { index -> "unit-${uiState.allUnits[index].unit.key}" },
-                    ) { index ->
-                        val converted = uiState.allUnits[index]
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    horizontal = spacing.screenHorizontal,
-                                    vertical = spacing.xs,
-                                ),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                text = converted.unit.symbol,
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                            Text(
-                                text = NumberFormatter.formatEngineering(
-                                    converted.value,
-                                    SIGNIFICANT_DIGITS,
-                                ),
-                                style = NumericCompactTextStyle,
-                            )
-                        }
-                    }
-
-                    item(key = "divider") {
-                        HorizontalDivider(
-                            modifier = Modifier.padding(
-                                horizontal = spacing.screenHorizontal,
-                                vertical = spacing.sm,
+                        Text(
+                            text = NumberFormatter.formatEngineering(
+                                converted.value,
+                                SIGNIFICANT_DIGITS,
                             ),
+                            style = NumericCompactTextStyle,
                         )
                     }
                 }
 
-                item(key = "notes") {
-                    ElecNotesCard(
-                        title = stringResource(R.string.calculator_notes),
-                        notes = persistentListOf(
-                            stringResource(R.string.cv_note_awg),
-                            stringResource(R.string.cv_note_kcmil),
-                            stringResource(R.string.cv_note_va),
-                            stringResource(R.string.cv_note_horsepower),
-                            stringResource(R.string.cv_note_temperature),
-                            stringResource(R.string.cv_note_calorie),
+                item(key = "divider") {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(
+                            horizontal = spacing.screenHorizontal,
+                            vertical = spacing.sm,
                         ),
-                        modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
                     )
                 }
+            }
+
+            item(key = "notes") {
+                ElecNotesCard(
+                    title = stringResource(R.string.calculator_notes),
+                    notes = persistentListOf(
+                        stringResource(R.string.cv_note_awg),
+                        stringResource(R.string.cv_note_kcmil),
+                        stringResource(R.string.cv_note_va),
+                        stringResource(R.string.cv_note_horsepower),
+                        stringResource(R.string.cv_note_temperature),
+                        stringResource(R.string.cv_note_calorie),
+                    ),
+                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+                )
             }
         }
     }

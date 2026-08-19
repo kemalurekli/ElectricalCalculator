@@ -1,21 +1,20 @@
 package com.kemalurekli.electricalcalculator.features.forum.presentation
 
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.foundation.clickable
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import kotlinx.coroutines.launch
 import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarHost
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -33,8 +32,6 @@ import androidx.compose.ui.unit.dp
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -42,7 +39,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -50,7 +46,6 @@ import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.formatAsDateTime
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumThread
 
@@ -101,27 +96,18 @@ fun ForumThreadsScreen(
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val pinnedMessage = stringResource(R.string.forum_thread_pinned)
     val unpinnedMessage = stringResource(R.string.forum_thread_unpinned)
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        contentWindowInsets = WindowInsets.safeDrawing,
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            // The title came with the route, so the bar is right from the first
-            // frame rather than filling in after the request returns.
-            ElecTopAppBar(
-                title = title,
-                onNavigateBack = onNavigateBack,
-                scrollBehavior = scrollBehavior,
-            )
-        },
+    ElecScreenScaffold(
+        title = title,
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        scrollBehavior = scrollBehavior,
+        snackbarHostState = snackbarHostState,
         floatingActionButton = {
             // Offered only to someone who can actually post. A button that
             // opens a form and then refuses it at the end wastes the typing.

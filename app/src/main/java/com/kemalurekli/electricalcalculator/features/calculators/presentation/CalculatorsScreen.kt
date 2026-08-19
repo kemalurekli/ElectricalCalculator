@@ -2,20 +2,15 @@ package com.kemalurekli.electricalcalculator.features.calculators.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -23,9 +18,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -71,20 +67,13 @@ fun CalculatorsScreen(
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
 
-    Scaffold(
-        contentWindowInsets = WindowInsets.safeDrawing,
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            ElecTopAppBar(
-                title = stringResource(R.string.destination_calculators),
-                onNavigateBack = onNavigateBack,
-                scrollBehavior = scrollBehavior,
-            )
-        },
+    ElecScreenScaffold(
+        title = stringResource(R.string.destination_calculators),
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        scrollBehavior = scrollBehavior,
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier

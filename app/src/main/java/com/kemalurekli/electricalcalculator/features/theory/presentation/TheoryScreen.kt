@@ -2,16 +2,12 @@ package com.kemalurekli.electricalcalculator.features.theory.presentation
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -19,14 +15,10 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,9 +27,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -93,89 +86,76 @@ fun TheoryScreen(
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
 
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter,
-    ) {
-        Scaffold(
-            contentWindowInsets = WindowInsets.safeDrawing,
+    ElecScreenScaffold(
+        title = stringResource(R.string.destination_theory),
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        scrollBehavior = scrollBehavior,
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
-                .widthIn(max = layout.contentMaxWidth)
                 .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                ElecTopAppBar(
-                    title = stringResource(R.string.destination_theory),
-                    onNavigateBack = onNavigateBack,
-                    scrollBehavior = scrollBehavior,
+                .padding(innerPadding),
+        ) {
+            ElecSearchBar(
+                query = uiState.query,
+                onQueryChange = onQueryChange,
+                placeholder = stringResource(R.string.th_search_hint),
+                modifier = Modifier.padding(
+                    start = spacing.screenHorizontal,
+                    end = spacing.screenHorizontal,
+                    bottom = spacing.sm,
+                ),
+            )
+
+            LevelFilter(
+                levels = uiState.levels,
+                selected = uiState.filter,
+                onFilterChange = onFilterChange,
+            )
+
+            if (uiState.hasNoResults) {
+                ElecEmptyState(
+                    title = stringResource(R.string.th_empty_title),
+                    message = stringResource(R.string.th_empty_message),
+                    icon = ElecIcons.Search,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(spacing.lg),
                 )
-            },
-        ) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
+                return@Column
+            }
+
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(
+                    start = spacing.screenHorizontal,
+                    end = spacing.screenHorizontal,
+                    top = spacing.sm,
+                    bottom = spacing.xxl,
+                ),
+                verticalArrangement = Arrangement.spacedBy(spacing.xs),
             ) {
-                ElecSearchBar(
-                    query = uiState.query,
-                    onQueryChange = onQueryChange,
-                    placeholder = stringResource(R.string.th_search_hint),
-                    modifier = Modifier.padding(
-                        start = spacing.screenHorizontal,
-                        end = spacing.screenHorizontal,
-                        bottom = spacing.sm,
-                    ),
-                )
-
-                LevelFilter(
-                    levels = uiState.levels,
-                    selected = uiState.filter,
-                    onFilterChange = onFilterChange,
-                )
-
-                if (uiState.hasNoResults) {
-                    ElecEmptyState(
-                        title = stringResource(R.string.th_empty_title),
-                        message = stringResource(R.string.th_empty_message),
-                        icon = ElecIcons.Search,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(spacing.lg),
-                    )
-                    return@Column
-                }
-
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(
-                        start = spacing.screenHorizontal,
-                        end = spacing.screenHorizontal,
-                        top = spacing.sm,
-                        bottom = spacing.xxl,
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(spacing.xs),
-                ) {
-                    uiState.sections.forEach { section ->
-                        item(key = "header-${section.level.name}") {
-                            ElecSectionHeader(
-                                title = stringResource(section.titleRes),
-                                modifier = Modifier.padding(horizontal = 0.dp),
-                            )
-                        }
-                        items(
-                            items = section.topics,
-                            key = { "topic-${it.key}" },
-                        ) { topic ->
-                            ElecListItem(
-                                title = topic.title,
-                                description = topic.summary,
-                                icon = ElecIcons.Theory,
-                                onClick = { onTopicClick(topic.key) },
-                            )
-                        }
+                uiState.sections.forEach { section ->
+                    item(key = "header-${section.level.name}") {
+                        ElecSectionHeader(
+                            title = stringResource(section.titleRes),
+                            modifier = Modifier.padding(horizontal = 0.dp),
+                        )
+                    }
+                    items(
+                        items = section.topics,
+                        key = { "topic-${it.key}" },
+                    ) { topic ->
+                        ElecListItem(
+                            title = topic.title,
+                            description = topic.summary,
+                            icon = ElecIcons.Theory,
+                            onClick = { onTopicClick(topic.key) },
+                        )
                     }
                 }
             }

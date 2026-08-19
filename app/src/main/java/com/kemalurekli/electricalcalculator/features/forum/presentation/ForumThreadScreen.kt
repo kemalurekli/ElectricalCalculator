@@ -33,13 +33,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -51,9 +48,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.background
 import androidx.compose.ui.text.style.TextOverflow
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.features.forum.domain.authorLevel
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -65,7 +63,6 @@ import com.kemalurekli.electricalcalculator.core.common.util.formatAsDateTime
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTextField
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumPost
@@ -185,7 +182,7 @@ fun ForumThreadScreen(
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
     var confirmingThreadDelete by remember { mutableStateOf(false) }
 
@@ -232,58 +229,47 @@ fun ForumThreadScreen(
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        // The bottom is left to the reply box, which is a bottomBar and gets
-        // no insets from the Scaffold. Claiming it here as well would pad the
-        // list for a keyboard that the bar has already moved above.
-        contentWindowInsets = WindowInsets.safeDrawing
-            .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top),
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            ElecTopAppBar(
-                title = categoryTitle.ifBlank { stringResource(R.string.destination_forum) },
-                onNavigateBack = onNavigateBack,
-                scrollBehavior = scrollBehavior,
-                actions = {
-                    // A thread action belongs to the thread, not to a message
-                    // inside it. Hanging it off the opening post meant that
-                    // deleting that post left the thread with no menu at all —
-                    // the titled shell this was supposed to prevent.
-                    if (canDeleteThread) {
-                        Box {
-                            var menuOpen by remember { mutableStateOf(false) }
-                            IconButton(onClick = { menuOpen = true }) {
-                                Icon(
-                                    imageVector = ElecIcons.More,
-                                    contentDescription =
-                                        stringResource(R.string.forum_thread_actions),
-                                )
-                            }
-                            DropdownMenu(
-                                expanded = menuOpen,
-                                onDismissRequest = { menuOpen = false },
-                            ) {
-                                DropdownMenuItem(
-                                    text = {
-                                        Text(
-                                            text = stringResource(R.string.forum_delete_thread),
-                                            color = MaterialTheme.colorScheme.error,
-                                        )
-                                    },
-                                    onClick = {
-                                        menuOpen = false
-                                        confirmingThreadDelete = true
-                                    },
-                                )
-                            }
-                        }
+    ElecScreenScaffold(
+        title = categoryTitle.ifBlank { stringResource(R.string.destination_forum) },
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        actions = {
+            // A thread action belongs to the thread, not to a message
+            // inside it. Hanging it off the opening post meant that
+            // deleting that post left the thread with no menu at all —
+            // the titled shell this was supposed to prevent.
+            if (canDeleteThread) {
+                Box {
+                    var menuOpen by remember { mutableStateOf(false) }
+                    IconButton(onClick = { menuOpen = true }) {
+                        Icon(
+                            imageVector = ElecIcons.More,
+                            contentDescription =
+                                stringResource(R.string.forum_thread_actions),
+                        )
                     }
-                },
-            )
+                    DropdownMenu(
+                        expanded = menuOpen,
+                        onDismissRequest = { menuOpen = false },
+                    ) {
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    text = stringResource(R.string.forum_delete_thread),
+                                    color = MaterialTheme.colorScheme.error,
+                                )
+                            },
+                            onClick = {
+                                menuOpen = false
+                                confirmingThreadDelete = true
+                            },
+                        )
+                    }
+                }
+            }
         },
+        scrollBehavior = scrollBehavior,
+        snackbarHostState = snackbarHostState,
         bottomBar = {
             // Only for signed-in readers. Someone who is not signed in is shown
             // nothing here rather than a box that rejects them on submit.

@@ -1,21 +1,18 @@
 package com.kemalurekli.electricalcalculator.features.home.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -28,12 +25,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,9 +39,10 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecDash
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecRecentRow
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -132,110 +127,91 @@ fun HomeScreen(
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
 
-    // On a wide window the whole screen — title included — is capped and
-    // centred rather than stretched edge to edge. Full-bleed rows on a large
-    // tablet strand the trailing control an uncomfortable reach from the label
-    // it belongs to. Capping the Scaffold rather than just its content is what
-    // keeps the heading aligned with the cards beneath it.
-    //
-    // `widthIn` must precede `fillMaxSize`: constraints flow outside in, so
-    // filling first would pin the minimum width to the full window and leave
-    // nothing for the cap to reduce.
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter,
-    ) {
-        Scaffold(
-            contentWindowInsets = WindowInsets.safeDrawing,
-            modifier = Modifier
-                .widthIn(max = layout.contentMaxWidth)
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                ElecTopAppBar(
-                    title = stringResource(R.string.app_name),
-                    scrollBehavior = scrollBehavior,
-                    actions = {
-                        IconButton(onClick = { onNavigate(TopLevelDestination.SETTINGS.route) }) {
-                            Icon(
-                                imageVector = TopLevelDestination.SETTINGS.icon,
-                                contentDescription = stringResource(
-                                    TopLevelDestination.SETTINGS.titleRes,
-                                ),
-                            )
-                        }
-                    },
+    // The width cap on a wide window, the insets and the title bar all live in
+    // ElecScreenScaffold now; this screen used to argue for them here, back
+    // when it was one of the two that had got them right.
+    ElecScreenScaffold(
+        title = stringResource(R.string.app_name),
+        modifier = modifier,
+        actions = {
+            IconButton(onClick = { onNavigate(TopLevelDestination.SETTINGS.route) }) {
+                Icon(
+                    imageVector = TopLevelDestination.SETTINGS.icon,
+                    contentDescription = stringResource(
+                        TopLevelDestination.SETTINGS.titleRes,
+                    ),
                 )
-            },
-        ) { innerPadding ->
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(layout.dashboardColumns),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentPadding = PaddingValues(
-                    start = spacing.screenHorizontal,
-                    end = spacing.screenHorizontal,
-                    bottom = spacing.xxl,
-                ),
-                horizontalArrangement = Arrangement.spacedBy(spacing.md),
-                verticalArrangement = Arrangement.spacedBy(spacing.md),
-            ) {
-                fullWidthItem(key = "search") {
-                    ElecSearchBar(
-                        query = uiState.query,
-                        onQueryChange = onQueryChange,
-                        modifier = Modifier.padding(bottom = spacing.xs),
-                    )
+            }
+        },
+        scrollBehavior = scrollBehavior,
+    ) { innerPadding ->
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(layout.dashboardColumns),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            contentPadding = PaddingValues(
+                start = spacing.screenHorizontal,
+                end = spacing.screenHorizontal,
+                bottom = spacing.xxl,
+            ),
+            horizontalArrangement = Arrangement.spacedBy(spacing.md),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+        ) {
+            fullWidthItem(key = "search") {
+                ElecSearchBar(
+                    query = uiState.query,
+                    onQueryChange = onQueryChange,
+                    modifier = Modifier.padding(bottom = spacing.xs),
+                )
+            }
+
+            if (uiState.isSearching) {
+                searchResults(uiState, onOpenSearchHit)
+            } else {
+                if (uiState.hasFavorites) {
+                    fullWidthItem(key = "favorites") {
+                        SectionGroup(
+                            title = stringResource(R.string.destination_favorites),
+                            items = uiState.favorites,
+                        ) { item ->
+                            CalculatorRow(item, onCalculatorClick, onToggleFavorite)
+                        }
+                    }
                 }
 
-                if (uiState.isSearching) {
-                    searchResults(uiState, onOpenSearchHit)
-                } else {
-                    if (uiState.hasFavorites) {
-                        fullWidthItem(key = "favorites") {
-                            SectionGroup(
-                                title = stringResource(R.string.destination_favorites),
-                                items = uiState.favorites,
-                            ) { item ->
-                                CalculatorRow(item, onCalculatorClick, onToggleFavorite)
-                            }
+                if (uiState.hasRecent) {
+                    fullWidthItem(key = "recent") {
+                        SectionGroup(
+                            title = stringResource(R.string.home_recent),
+                            items = uiState.recent,
+                        ) { record ->
+                            ElecRecentRow(
+                                title = record.title,
+                                summary = record.summary,
+                                timestamp = record.createdAt.toRelativeTime(),
+                                icon = ElecIcons.History,
+                                onClick = { onCalculatorClick(record.calculatorId) },
+                            )
                         }
                     }
+                }
 
-                    if (uiState.hasRecent) {
-                        fullWidthItem(key = "recent") {
-                            SectionGroup(
-                                title = stringResource(R.string.home_recent),
-                                items = uiState.recent,
-                            ) { record ->
-                                ElecRecentRow(
-                                    title = record.title,
-                                    summary = record.summary,
-                                    timestamp = record.createdAt.toRelativeTime(),
-                                    icon = ElecIcons.History,
-                                    onClick = { onCalculatorClick(record.calculatorId) },
-                                )
-                            }
-                        }
-                    }
-
-                    fullWidthItem(key = "browse-header") {
-                        ElecSectionHeader(
-                            title = stringResource(R.string.home_browse),
-                            modifier = Modifier.padding(horizontal = 0.dp),
-                        )
-                    }
-                    fullWidthItem(key = "dashboard") {
-                        DashboardGrid(
-                            columns = layout.dashboardColumns,
-                            favoriteCount = uiState.favorites.size,
-                            savedCount = uiState.savedCount,
-                            onNavigate = onNavigate,
-                        )
-                    }
+                fullWidthItem(key = "browse-header") {
+                    ElecSectionHeader(
+                        title = stringResource(R.string.home_browse),
+                        modifier = Modifier.padding(horizontal = 0.dp),
+                    )
+                }
+                fullWidthItem(key = "dashboard") {
+                    DashboardGrid(
+                        columns = layout.dashboardColumns,
+                        favoriteCount = uiState.favorites.size,
+                        savedCount = uiState.savedCount,
+                        onNavigate = onNavigate,
+                    )
                 }
             }
         }

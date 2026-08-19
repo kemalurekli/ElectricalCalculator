@@ -1,16 +1,12 @@
 package com.kemalurekli.electricalcalculator.features.calculators.cablesize.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
@@ -19,19 +15,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -50,14 +41,15 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNume
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
@@ -161,300 +153,290 @@ fun CableSizeScreen(
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     val listState = rememberLazyListState()
 
     LaunchedEffect(uiState.result) {
         if (uiState.result != null) listState.animateScrollToItem(0)
     }
 
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        Scaffold(
-            contentWindowInsets = WindowInsets.safeDrawing,
-            modifier = Modifier
-                .widthIn(max = layout.contentMaxWidth)
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            snackbarHost = { SnackbarHost(snackbarHostState) },
-            topBar = {
-                ElecTopAppBar(
-                    title = stringResource(R.string.calculator_cable_size_title),
-                    onNavigateBack = onNavigateBack,
-                    scrollBehavior = scrollBehavior,
-                    actions = {
-                        IconButton(onClick = onToggleFavorite) {
-                            Icon(
-                                imageVector = if (uiState.isFavorite) {
-                                    ElecIcons.FavoriteOn
-                                } else {
-                                    ElecIcons.FavoriteOff
-                                },
-                                contentDescription = stringResource(
-                                    if (uiState.isFavorite) {
-                                        R.string.action_favorite_remove
-                                    } else {
-                                        R.string.action_favorite_add
-                                    },
-                                ),
-                                tint = if (uiState.isFavorite) {
-                                    MaterialTheme.colorScheme.primary
-                                } else {
-                                    MaterialTheme.colorScheme.onSurfaceVariant
-                                },
-                            )
-                        }
+    ElecScreenScaffold(
+        title = stringResource(R.string.calculator_cable_size_title),
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        actions = {
+            IconButton(onClick = onToggleFavorite) {
+                Icon(
+                    imageVector = if (uiState.isFavorite) {
+                        ElecIcons.FavoriteOn
+                    } else {
+                        ElecIcons.FavoriteOff
+                    },
+                    contentDescription = stringResource(
+                        if (uiState.isFavorite) {
+                            R.string.action_favorite_remove
+                        } else {
+                            R.string.action_favorite_add
+                        },
+                    ),
+                    tint = if (uiState.isFavorite) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
                     },
                 )
-            },
-        ) { innerPadding ->
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .testTag(ElecTestTags.CALCULATOR_FORM),
-                contentPadding = PaddingValues(
-                    start = spacing.screenHorizontal,
-                    end = spacing.screenHorizontal,
-                    bottom = spacing.xxl,
-                ),
-                verticalArrangement = Arrangement.spacedBy(spacing.md),
-            ) {
-                uiState.result?.let { result ->
-                    item(key = "result") {
-                        if (result.hasSolution) {
-                            ResultSection(result, uiState, onCopy, onShare)
-                        } else {
-                            ElecEmptyState(
-                                title = stringResource(R.string.cs_no_solution_title),
-                                message = stringResource(R.string.cs_no_solution_message),
-                                icon = ElecIcons.Calculators,
-                                modifier = Modifier.fillMaxWidth(),
-                            )
-                        }
-                    }
-                }
-
-                item(key = "examples") {
-                    ElecExamplesCard(
-                        examples = cableSizeExamples,
-                        onSelect = onApplyExample,
-                    )
-                }
-
-                item(key = "inputs-header") {
-                    ElecSectionHeader(
-                        title = stringResource(R.string.calculator_inputs),
-                        modifier = Modifier.padding(horizontal = 0.dp),
-                    )
-                }
-
-                item(key = "system") {
-                    ElecOptionSelector(
-                        label = stringResource(R.string.common_supply_system),
-                        options = SupplySystem.entries.toImmutableList(),
-                        selected = uiState.system,
-                        onSelect = onSystemChange,
-                        optionLabel = { stringResource(it.labelRes()) },
-                    )
-                }
-
-                item(key = "material") {
-                    ElecOptionSelector(
-                        label = stringResource(R.string.common_conductor_material),
-                        options = ConductorMaterial.entries.toImmutableList(),
-                        selected = uiState.material,
-                        onSelect = onMaterialChange,
-                        optionLabel = { stringResource(it.labelRes()) },
-                    )
-                }
-
-                item(key = "insulation") {
-                    ElecOptionSelector(
-                        label = stringResource(R.string.cs_insulation),
-                        options = CableInsulation.entries.toImmutableList(),
-                        selected = uiState.insulation,
-                        onSelect = onInsulationChange,
-                        optionLabel = { stringResource(it.labelRes()) },
-                    )
-                }
-
-                item(key = "method") {
-                    Column {
-                        ElecOptionSelector(
-                            label = stringResource(R.string.cs_installation_method),
-                            options = InstallationMethod.entries.toImmutableList(),
-                            selected = uiState.method,
-                            onSelect = onMethodChange,
-                            optionLabel = { stringResource(it.shortLabelRes()) },
-                        )
-                        // The segmented buttons only have room for the code, so
-                        // the selected method is spelled out beneath them.
-                        Text(
-                            text = stringResource(uiState.method.fullLabelRes()),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
+            }
+        },
+        scrollBehavior = scrollBehavior,
+        snackbarHostState = snackbarHostState,
+    ) { innerPadding ->
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .testTag(ElecTestTags.CALCULATOR_FORM),
+            contentPadding = PaddingValues(
+                start = spacing.screenHorizontal,
+                end = spacing.screenHorizontal,
+                bottom = spacing.xxl,
+            ),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+        ) {
+            uiState.result?.let { result ->
+                item(key = "result") {
+                    if (result.hasSolution) {
+                        ResultSection(result, uiState, onCopy, onShare)
+                    } else {
+                        ElecEmptyState(
+                            title = stringResource(R.string.cs_no_solution_title),
+                            message = stringResource(R.string.cs_no_solution_message),
+                            icon = ElecIcons.Calculators,
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     }
                 }
+            }
 
-                item(key = "voltage") {
-                    ElecNumericField(
-                        value = uiState.voltage,
-                        onValueChange = onVoltageChange,
-                        label = stringResource(R.string.common_system_voltage),
-                        unit = "V",
-                        error = uiState.errors[CableSizeField.VOLTAGE],
-                        supportingText = if (uiState.system == SupplySystem.THREE_PHASE_AC) {
-                            stringResource(R.string.common_system_voltage_hint)
-                        } else {
-                            null
-                        },
+            item(key = "examples") {
+                ElecExamplesCard(
+                    examples = cableSizeExamples,
+                    onSelect = onApplyExample,
+                )
+            }
+
+            item(key = "inputs-header") {
+                ElecSectionHeader(
+                    title = stringResource(R.string.calculator_inputs),
+                    modifier = Modifier.padding(horizontal = 0.dp),
+                )
+            }
+
+            item(key = "system") {
+                ElecOptionSelector(
+                    label = stringResource(R.string.common_supply_system),
+                    options = SupplySystem.entries.toImmutableList(),
+                    selected = uiState.system,
+                    onSelect = onSystemChange,
+                    optionLabel = { stringResource(it.labelRes()) },
+                )
+            }
+
+            item(key = "material") {
+                ElecOptionSelector(
+                    label = stringResource(R.string.common_conductor_material),
+                    options = ConductorMaterial.entries.toImmutableList(),
+                    selected = uiState.material,
+                    onSelect = onMaterialChange,
+                    optionLabel = { stringResource(it.labelRes()) },
+                )
+            }
+
+            item(key = "insulation") {
+                ElecOptionSelector(
+                    label = stringResource(R.string.cs_insulation),
+                    options = CableInsulation.entries.toImmutableList(),
+                    selected = uiState.insulation,
+                    onSelect = onInsulationChange,
+                    optionLabel = { stringResource(it.labelRes()) },
+                )
+            }
+
+            item(key = "method") {
+                Column {
+                    ElecOptionSelector(
+                        label = stringResource(R.string.cs_installation_method),
+                        options = InstallationMethod.entries.toImmutableList(),
+                        selected = uiState.method,
+                        onSelect = onMethodChange,
+                        optionLabel = { stringResource(it.shortLabelRes()) },
+                    )
+                    // The segmented buttons only have room for the code, so
+                    // the selected method is spelled out beneath them.
+                    Text(
+                        text = stringResource(uiState.method.fullLabelRes()),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
                     )
                 }
+            }
 
-                item(key = "current") {
+            item(key = "voltage") {
+                ElecNumericField(
+                    value = uiState.voltage,
+                    onValueChange = onVoltageChange,
+                    label = stringResource(R.string.common_system_voltage),
+                    unit = "V",
+                    error = uiState.errors[CableSizeField.VOLTAGE],
+                    supportingText = if (uiState.system == SupplySystem.THREE_PHASE_AC) {
+                        stringResource(R.string.common_system_voltage_hint)
+                    } else {
+                        null
+                    },
+                )
+            }
+
+            item(key = "current") {
+                ElecNumericField(
+                    value = uiState.current,
+                    onValueChange = onCurrentChange,
+                    label = stringResource(R.string.common_design_current),
+                    unit = "A",
+                    error = uiState.errors[CableSizeField.CURRENT],
+                )
+            }
+
+            item(key = "length") {
+                ElecNumericField(
+                    value = uiState.length,
+                    onValueChange = onLengthChange,
+                    label = stringResource(R.string.common_route_length),
+                    unit = "m",
+                    error = uiState.errors[CableSizeField.LENGTH],
+                    supportingText = stringResource(R.string.common_route_length_hint),
+                )
+            }
+
+            if (uiState.showPowerFactor) {
+                item(key = "power-factor") {
                     ElecNumericField(
-                        value = uiState.current,
-                        onValueChange = onCurrentChange,
-                        label = stringResource(R.string.common_design_current),
-                        unit = "A",
-                        error = uiState.errors[CableSizeField.CURRENT],
+                        value = uiState.powerFactor,
+                        onValueChange = onPowerFactorChange,
+                        label = stringResource(R.string.common_power_factor),
+                        error = uiState.errors[CableSizeField.POWER_FACTOR],
                     )
                 }
+            }
 
-                item(key = "length") {
-                    ElecNumericField(
-                        value = uiState.length,
-                        onValueChange = onLengthChange,
-                        label = stringResource(R.string.common_route_length),
-                        unit = "m",
-                        error = uiState.errors[CableSizeField.LENGTH],
-                        supportingText = stringResource(R.string.common_route_length_hint),
-                    )
-                }
+            item(key = "max-drop") {
+                ElecNumericField(
+                    value = uiState.maxDropPercent,
+                    onValueChange = onMaxDropChange,
+                    label = stringResource(R.string.cs_max_drop_label),
+                    unit = "%",
+                    error = uiState.errors[CableSizeField.MAX_DROP],
+                    supportingText = stringResource(R.string.cs_max_drop_hint),
+                )
+            }
 
-                if (uiState.showPowerFactor) {
-                    item(key = "power-factor") {
-                        ElecNumericField(
-                            value = uiState.powerFactor,
-                            onValueChange = onPowerFactorChange,
-                            label = stringResource(R.string.common_power_factor),
-                            error = uiState.errors[CableSizeField.POWER_FACTOR],
-                        )
+            item(key = "ambient") {
+                ElecNumericField(
+                    value = uiState.ambientTemperature,
+                    onValueChange = onAmbientChange,
+                    label = stringResource(R.string.cs_ambient_label),
+                    unit = "°C",
+                    error = uiState.errors[CableSizeField.AMBIENT],
+                    supportingText = stringResource(R.string.cs_ambient_hint),
+                    allowNegative = true,
+                )
+            }
+
+            item(key = "circuits") {
+                ElecNumericField(
+                    value = uiState.groupedCircuits,
+                    onValueChange = onCircuitsChange,
+                    label = stringResource(R.string.cs_circuits_label),
+                    error = uiState.errors[CableSizeField.CIRCUITS],
+                    supportingText = stringResource(R.string.cs_circuits_hint),
+                )
+            }
+
+            item(key = "parallel") {
+                ElecNumericField(
+                    value = uiState.parallelConductors,
+                    onValueChange = onParallelConductorsChange,
+                    label = stringResource(R.string.common_parallel_conductors),
+                    error = uiState.errors[CableSizeField.PARALLEL_CONDUCTORS],
+                    imeAction = ImeAction.Done,
+                )
+            }
+
+            item(key = "actions") {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = spacing.xs),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.sm),
+                ) {
+                    OutlinedButton(onClick = onReset) {
+                        Text(text = stringResource(R.string.action_reset))
+                    }
+                    Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
+                        Text(text = stringResource(R.string.action_calculate))
                     }
                 }
+            }
 
-                item(key = "max-drop") {
-                    ElecNumericField(
-                        value = uiState.maxDropPercent,
-                        onValueChange = onMaxDropChange,
-                        label = stringResource(R.string.cs_max_drop_label),
-                        unit = "%",
-                        error = uiState.errors[CableSizeField.MAX_DROP],
-                        supportingText = stringResource(R.string.cs_max_drop_hint),
-                    )
-                }
+            if (uiState.steps.isNotEmpty()) {
+                item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
+            }
 
-                item(key = "ambient") {
-                    ElecNumericField(
-                        value = uiState.ambientTemperature,
-                        onValueChange = onAmbientChange,
-                        label = stringResource(R.string.cs_ambient_label),
-                        unit = "°C",
-                        error = uiState.errors[CableSizeField.AMBIENT],
-                        supportingText = stringResource(R.string.cs_ambient_hint),
-                        allowNegative = true,
-                    )
-                }
+            item(key = "formula") {
+                ElecFormulaCard(
+                    title = stringResource(R.string.calculator_formula),
+                    formula = stringResource(R.string.cs_formula),
+                    variables = persistentListOf(
+                        FormulaVariable("I_z", stringResource(R.string.cs_var_iz), "A"),
+                        FormulaVariable("I_b", stringResource(R.string.cs_var_ib), "A"),
+                        FormulaVariable("Ca", stringResource(R.string.cs_var_ca), "—"),
+                        FormulaVariable("Cg", stringResource(R.string.cs_var_cg), "—"),
+                        FormulaVariable("A", stringResource(R.string.cs_var_area), "mm²"),
+                        FormulaVariable("ΔU", stringResource(R.string.cs_var_dumax), "V"),
+                    ),
+                )
+            }
 
-                item(key = "circuits") {
-                    ElecNumericField(
-                        value = uiState.groupedCircuits,
-                        onValueChange = onCircuitsChange,
-                        label = stringResource(R.string.cs_circuits_label),
-                        error = uiState.errors[CableSizeField.CIRCUITS],
-                        supportingText = stringResource(R.string.cs_circuits_hint),
-                    )
-                }
-
-                item(key = "parallel") {
-                    ElecNumericField(
-                        value = uiState.parallelConductors,
-                        onValueChange = onParallelConductorsChange,
-                        label = stringResource(R.string.common_parallel_conductors),
-                        error = uiState.errors[CableSizeField.PARALLEL_CONDUCTORS],
-                        imeAction = ImeAction.Done,
-                    )
-                }
-
-                item(key = "actions") {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = spacing.xs),
-                        horizontalArrangement = Arrangement.spacedBy(spacing.sm),
-                    ) {
-                        OutlinedButton(onClick = onReset) {
-                            Text(text = stringResource(R.string.action_reset))
-                        }
-                        Button(onClick = onCalculate, modifier = Modifier.weight(1f)) {
-                            Text(text = stringResource(R.string.action_calculate))
-                        }
-                    }
-                }
-
-                if (uiState.steps.isNotEmpty()) {
-                    item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
-                }
-
-                item(key = "formula") {
-                    ElecFormulaCard(
-                        title = stringResource(R.string.calculator_formula),
-                        formula = stringResource(R.string.cs_formula),
-                        variables = persistentListOf(
-                            FormulaVariable("I_z", stringResource(R.string.cs_var_iz), "A"),
-                            FormulaVariable("I_b", stringResource(R.string.cs_var_ib), "A"),
-                            FormulaVariable("Ca", stringResource(R.string.cs_var_ca), "—"),
-                            FormulaVariable("Cg", stringResource(R.string.cs_var_cg), "—"),
-                            FormulaVariable("A", stringResource(R.string.cs_var_area), "mm²"),
-                            FormulaVariable("ΔU", stringResource(R.string.cs_var_dumax), "V"),
+            item(key = "notes") {
+                ElecNotesCard(
+                    title = stringResource(R.string.calculator_notes),
+                    notes = persistentListOf(
+                        stringResource(R.string.cs_note_two_constraints),
+                        stringResource(R.string.cs_note_derating),
+                        stringResource(R.string.cs_note_tables),
+                        stringResource(R.string.cs_note_worst_case),
+                        stringResource(R.string.cs_note_protection),
+                    ),
+                    links = persistentListOf(
+                        NoteLink(
+                            topicKey = "rating_series",
+                            label = stringResource(ReferenceCatalog.titleResOf("rating_series")),
                         ),
-                    )
-                }
-
-                item(key = "notes") {
-                    ElecNotesCard(
-                        title = stringResource(R.string.calculator_notes),
-                        notes = persistentListOf(
-                            stringResource(R.string.cs_note_two_constraints),
-                            stringResource(R.string.cs_note_derating),
-                            stringResource(R.string.cs_note_tables),
-                            stringResource(R.string.cs_note_worst_case),
-                            stringResource(R.string.cs_note_protection),
+                        NoteLink(
+                            topicKey = "primer_cableanatomy",
+                            label = stringResource(ReferenceCatalog.titleResOf("primer_cableanatomy")),
                         ),
-                        links = persistentListOf(
-                            NoteLink(
-                                topicKey = "rating_series",
-                                label = stringResource(ReferenceCatalog.titleResOf("rating_series")),
-                            ),
-                            NoteLink(
-                                topicKey = "primer_cableanatomy",
-                                label = stringResource(ReferenceCatalog.titleResOf("primer_cableanatomy")),
-                            ),
-                            NoteLink(
-                                topicKey = "selection_insulation",
-                                label = stringResource(ReferenceCatalog.titleResOf("selection_insulation")),
-                            ),
-                            NoteLink(
-                                topicKey = "selection_cabletype",
-                                label = stringResource(ReferenceCatalog.titleResOf("selection_cabletype")),
-                            ),
+                        NoteLink(
+                            topicKey = "selection_insulation",
+                            label = stringResource(ReferenceCatalog.titleResOf("selection_insulation")),
                         ),
-                        onLinkClick = onReferenceClick,
-                    )
-                }
+                        NoteLink(
+                            topicKey = "selection_cabletype",
+                            label = stringResource(ReferenceCatalog.titleResOf("selection_cabletype")),
+                        ),
+                    ),
+                    onLinkClick = onReferenceClick,
+                )
             }
         }
     }

@@ -1,12 +1,9 @@
 package com.kemalurekli.electricalcalculator.core.designsystem.component
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +20,9 @@ import com.kemalurekli.electricalcalculator.R
  * that adopts this is replaced wholesale by its own implementation — nothing
  * here is meant to survive into the finished feature.
  */
+// The opt-in is for ElecScreenScaffold's `scrollBehavior` parameter, whose type
+// is still experimental in Material 3 — every screen in the app carries it for
+// the same reason.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ElecInDevelopmentScreen(
@@ -31,12 +31,10 @@ fun ElecInDevelopmentScreen(
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Scaffold(
-        contentWindowInsets = WindowInsets.safeDrawing,
-        modifier = modifier.fillMaxSize(),
-        topBar = {
-            ElecTopAppBar(title = title, onNavigateBack = onNavigateBack)
-        },
+    ElecScreenScaffold(
+        title = title,
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
     ) { innerPadding ->
         Box(
             modifier = Modifier

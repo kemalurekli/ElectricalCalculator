@@ -2,7 +2,6 @@ package com.kemalurekli.electricalcalculator.features.forum.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -13,18 +12,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.R
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTextField
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecTopAppBar
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 
 /** Opening a thread: a title, and the question itself. */
@@ -81,35 +79,28 @@ fun ForumComposeThreadScreen(
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = rememberElecScrollBehavior()
     val spacing = ElecTheme.spacing
 
-    Scaffold(
-        contentWindowInsets = WindowInsets.safeDrawing,
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            ElecTopAppBar(
-                title = stringResource(R.string.forum_new_thread_title),
-                onNavigateBack = onNavigateBack,
-                scrollBehavior = scrollBehavior,
-                actions = {
-                    // In the bar rather than under the fields. At the bottom of
-                    // a growing body field it moved down with every newline
-                    // typed until it was off the screen — the writer had to
-                    // dismiss the keyboard and scroll to find the way to post.
-                    TextButton(
-                        onClick = onSend,
-                        enabled = title.trim().length >= TITLE_MIN_LENGTH &&
-                            body.trim().length >= BODY_MIN_LENGTH &&
-                            !sending,
-                    ) {
-                        Text(stringResource(R.string.forum_new_thread_send))
-                    }
-                },
-            )
+    ElecScreenScaffold(
+        title = stringResource(R.string.forum_new_thread_title),
+        modifier = modifier,
+        onNavigateBack = onNavigateBack,
+        actions = {
+            // In the bar rather than under the fields. At the bottom of
+            // a growing body field it moved down with every newline
+            // typed until it was off the screen — the writer had to
+            // dismiss the keyboard and scroll to find the way to post.
+            TextButton(
+                onClick = onSend,
+                enabled = title.trim().length >= TITLE_MIN_LENGTH &&
+                    body.trim().length >= BODY_MIN_LENGTH &&
+                    !sending,
+            ) {
+                Text(stringResource(R.string.forum_new_thread_send))
+            }
         },
+        scrollBehavior = scrollBehavior,
     ) { innerPadding ->
         Column(
             modifier = Modifier
