@@ -25,6 +25,11 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.VerticalDivider
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -340,11 +345,12 @@ fun ForumThreadScreen(
                             text = title,
                             style = MaterialTheme.typography.headlineSmall,
                             modifier = Modifier.padding(
-                                horizontal = spacing.screenHorizontal,
-                                vertical = spacing.md,
+                                start = spacing.screenHorizontal,
+                                end = spacing.screenHorizontal,
+                                top = spacing.lg,
+                                bottom = spacing.md,
                             ),
                         )
-                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                     }
 
                     items(posts, key = { it.id }) { post ->
@@ -419,193 +425,164 @@ private fun PostCard(
     var reporting by remember { mutableStateOf(false) }
     var confirmingBlock by remember { mutableStateOf(false) }
 
-    Column(
+    ElecCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(
-                horizontal = spacing.screenHorizontal,
-                vertical = spacing.md,
-            ),
-        verticalArrangement = Arrangement.spacedBy(spacing.sm),
+            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
     ) {
-        // Avatar in its own column and everything else in the next one, rather
-        // than an indent guessed to match. The name, the body and the actions
-        // then share one left edge because they are in one column, and no
-        // magic number has to be kept in step with the avatar's size.
-        Row(modifier = Modifier.fillMaxWidth()) {
-            ForumAvatar(
+        Row(modifier = Modifier.padding(spacing.md)) {
+            ForumAuthorPanel(
                 name = post.authorName,
                 userId = post.authorId,
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .clickable(onClick = onOpenProfile),
+                postCount = post.authorPostCount,
+                thanksReceived = post.authorThanksReceived,
+                onClick = onOpenProfile,
+            )
+
+            // A rule between the person and what they said. Two columns with
+            // nothing between them read as one ragged block.
+            VerticalDivider(
+                modifier = Modifier.padding(end = spacing.md),
+                color = MaterialTheme.colorScheme.outlineVariant,
             )
 
             Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = spacing.md),
+                modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(spacing.sm),
             ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-            // The profile screen has existed since sign-in shipped and was
-            // reachable from exactly one place — your own, from Settings. The
-            // name is where anyone would look for it.
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = post.authorName,
-                    style = MaterialTheme.typography.titleSmall,
-                    modifier = Modifier.clickable(onClick = onOpenProfile),
-                )
-                Text(
-                    text = post.createdAt.formatAsDateTime(),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
+                if (post.isOpeningPost) {
+                    Text(
+                        text = stringResource(R.string.forum_opening_post),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                }
 
-            if (post.isOpeningPost) {
-                Text(
-                    text = stringResource(R.string.forum_opening_post),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-            }
-        }
+                Text(text = post.body, style = MaterialTheme.typography.bodyLarge)
 
-        Text(text = post.body, style = MaterialTheme.typography.bodyLarge)
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            // Thanking and the count are one control, not a button beside a
-            // tally that says the same thing twice. Filled once you have
-            // thanked, so the state is visible without reading the label.
-            if (canThank) {
-                val thanked = post.thankedByMe == true
-                TextButton(
-                    onClick = onToggleThanks,
-                    contentPadding = PaddingValues(
-                        horizontal = spacing.sm,
-                        vertical = 0.dp,
-                    ),
+                // The timestamp sits under the message rather than over it. It
+                // is what the message was, not what to expect — nobody reads
+                // the date before deciding whether to read the answer.
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(
-                        imageVector = if (thanked) ElecIcons.ThanksFilled else ElecIcons.Thanks,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp),
-                    )
                     Text(
-                        text = if (post.thanksCount > 0) {
-                            " ${post.thanksCount}"
-                        } else {
-                            " " + stringResource(R.string.forum_thanks)
-                        },
-                        style = MaterialTheme.typography.labelLarge,
-                    )
-                }
-            } else if (post.thanksCount > 0) {
-                // Somebody else's tally, with nothing to press.
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = ElecIcons.Thanks,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Text(
-                        text = " ${post.thanksCount}",
-                        style = MaterialTheme.typography.labelLarge,
+                        text = post.createdAt.formatAsDateTime() +
+                            if (post.editedAt != null) {
+                                " · " + stringResource(R.string.forum_post_edited)
+                            } else {
+                                ""
+                            },
+                        style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.weight(1f),
                     )
-                }
-            }
 
-            if (post.editedAt != null) {
-                Text(
-                    text = stringResource(R.string.forum_post_edited),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(start = spacing.sm),
-                )
-            }
-
-            Spacer(Modifier.weight(1f))
-
-            // Edit and delete behind one control. Two permanent text buttons
-            // under every message you wrote turns your own thread into a row
-            // of controls with the conversation squeezed between them.
-            // The menu used to exist only on your own messages, which left a
-            // reader looking at somebody else's with no control at all — and
-            // the forum rules promise abusive content is removed.
-            if (isOwn || canModerate) {
-                Box {
-                    var menuOpen by remember { mutableStateOf(false) }
-                    IconButton(
-                        onClick = { menuOpen = true },
-                        modifier = Modifier.size(32.dp),
-                    ) {
+                    if (canThank) {
+                        val thanked = post.thankedByMe == true
+                        TextButton(
+                            onClick = onToggleThanks,
+                            contentPadding = PaddingValues(
+                                horizontal = spacing.sm,
+                                vertical = 0.dp,
+                            ),
+                        ) {
+                            Icon(
+                                imageVector = if (thanked) {
+                                    ElecIcons.ThanksFilled
+                                } else {
+                                    ElecIcons.Thanks
+                                },
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                            )
+                            Text(
+                                text = if (post.thanksCount > 0) {
+                                    " ${post.thanksCount}"
+                                } else {
+                                    " " + stringResource(R.string.forum_thanks)
+                                },
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+                        }
+                    } else if (post.thanksCount > 0) {
                         Icon(
-                            imageVector = ElecIcons.More,
-                            contentDescription = stringResource(R.string.forum_post_actions),
-                            modifier = Modifier.size(20.dp),
+                            imageVector = ElecIcons.Thanks,
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
+                        Text(
+                            text = " ${post.thanksCount}",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
                     }
-                    DropdownMenu(
-                        expanded = menuOpen,
-                        onDismissRequest = { menuOpen = false },
-                    ) {
-                        if (!isOwn) {
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.forum_report)) },
-                                onClick = {
-                                    menuOpen = false
-                                    reporting = true
-                                },
-                            )
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.forum_block)) },
-                                onClick = {
-                                    menuOpen = false
-                                    confirmingBlock = true
-                                },
-                            )
-                        }
-                        if (isOwn) {
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.action_edit)) },
-                            onClick = {
-                                menuOpen = false
-                                editing = true
-                            },
-                        )
-                        DropdownMenuItem(
-                            text = {
-                                Text(
-                                    text = stringResource(R.string.action_delete),
-                                    color = MaterialTheme.colorScheme.error,
+
+                    if (isOwn || canModerate) {
+                        Box {
+                            var menuOpen by remember { mutableStateOf(false) }
+                            IconButton(
+                                onClick = { menuOpen = true },
+                                modifier = Modifier.size(28.dp),
+                            ) {
+                                Icon(
+                                    imageVector = ElecIcons.More,
+                                    contentDescription =
+                                        stringResource(R.string.forum_post_actions),
+                                    modifier = Modifier.size(18.dp),
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
-                            },
-                            onClick = {
-                                menuOpen = false
-                                confirmingDelete = true
-                            },
-                        )
+                            }
+                            DropdownMenu(
+                                expanded = menuOpen,
+                                onDismissRequest = { menuOpen = false },
+                            ) {
+                                if (!isOwn) {
+                                    DropdownMenuItem(
+                                        text = { Text(stringResource(R.string.forum_report)) },
+                                        onClick = {
+                                            menuOpen = false
+                                            reporting = true
+                                        },
+                                    )
+                                    DropdownMenuItem(
+                                        text = { Text(stringResource(R.string.forum_block)) },
+                                        onClick = {
+                                            menuOpen = false
+                                            confirmingBlock = true
+                                        },
+                                    )
+                                }
+                                if (isOwn) {
+                                    DropdownMenuItem(
+                                        text = { Text(stringResource(R.string.action_edit)) },
+                                        onClick = {
+                                            menuOpen = false
+                                            editing = true
+                                        },
+                                    )
+                                    DropdownMenuItem(
+                                        text = {
+                                            Text(
+                                                text = stringResource(R.string.action_delete),
+                                                color = MaterialTheme.colorScheme.error,
+                                            )
+                                        },
+                                        onClick = {
+                                            menuOpen = false
+                                            confirmingDelete = true
+                                        },
+                                    )
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }
             }
         }
     }
-
-    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
     if (reporting) {
         ForumReportDialog(
@@ -682,6 +659,10 @@ private fun PostCard(
 /**
  * The reply box, pinned under the thread.
  *
+ * The send control lives inside the field rather than on a row of its own.
+ * A separate button cost a whole line of a screen that is mostly keyboard once
+ * anybody starts typing, and it sat far from the text it applies to.
+ *
  * A bottom bar rather than the last item in the list, because it has to stay
  * above the keyboard while somebody types into it.
  */
@@ -695,39 +676,49 @@ private fun ReplyComposer(
 ) {
     val spacing = ElecTheme.spacing
 
-    Surface(tonalElevation = 2.dp) {
+    Surface(tonalElevation = 3.dp) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                // One inset, not two. safeDrawing's bottom is the larger of the
-                // navigation bar and the keyboard; chaining imePadding and
-                // navigationBarsPadding adds them together instead, leaving a
-                // navigation-bar-sized gap under the keyboard.
                 .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
                 .padding(horizontal = spacing.screenHorizontal, vertical = spacing.sm),
-            verticalArrangement = Arrangement.spacedBy(spacing.xs),
         ) {
-            ElecTextField(
+            OutlinedTextField(
                 value = draft,
-                onValueChange = onDraftChange,
-                label = stringResource(R.string.forum_reply_hint),
-                maxLength = POST_MAX_LENGTH,
-                minLines = 2,
+                onValueChange = { if (it.length <= POST_MAX_LENGTH) onDraftChange(it) },
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = { Text(stringResource(R.string.forum_reply_hint)) },
+                trailingIcon = {
+                    IconButton(onClick = onSend, enabled = draft.isNotBlank() && !sending) {
+                        Icon(
+                            imageVector = ElecIcons.Send,
+                            contentDescription = stringResource(R.string.forum_reply_send),
+                            tint = if (draft.isNotBlank() && !sending) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            },
+                        )
+                    }
+                },
+                // Grows to four lines and then scrolls inside itself. Past that
+                // it would be eating the thread it is a reply to.
+                minLines = 1,
+                maxLines = 4,
+                shape = MaterialTheme.shapes.extraLarge,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    capitalization = KeyboardCapitalization.Sentences,
+                ),
             )
+
             if (failed) {
                 Text(
                     text = stringResource(R.string.forum_reply_failed),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(top = spacing.xs),
                 )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-            ) {
-                Button(onClick = onSend, enabled = draft.isNotBlank() && !sending) {
-                    Text(stringResource(R.string.forum_reply_send))
-                }
             }
         }
     }

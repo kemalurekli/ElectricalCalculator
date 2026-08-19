@@ -333,6 +333,8 @@ class ForumRepositoryImpl @Inject constructor(
     @Serializable
     private data class AuthorDto(
         @SerialName("display_name") val displayName: String = "",
+        @SerialName("post_count") val postCount: Int = 0,
+        @SerialName("thanks_received") val thanksReceived: Int = 0,
     )
 
     @Serializable
@@ -377,6 +379,8 @@ class ForumRepositoryImpl @Inject constructor(
             threadId = threadId,
             authorId = authorId,
             authorName = author?.displayName.orEmpty(),
+            authorPostCount = author?.postCount ?: 0,
+            authorThanksReceived = author?.thanksReceived ?: 0,
             body = body,
             isOpeningPost = isOpeningPost,
             createdAt = Instant.parse(createdAt),
@@ -405,6 +409,7 @@ class ForumRepositoryImpl @Inject constructor(
 
         const val POST_COLUMNS =
             "id, thread_id, author_id, body, is_opening_post, created_at, edited_at, " +
-                "thanks_count, author:forum_profiles!author_id(display_name)"
+                "thanks_count, " +
+                "author:forum_profiles!author_id(display_name, post_count, thanks_received)"
     }
 }

@@ -69,11 +69,60 @@ data class ForumThread(
  * [thankedByMe] is null until it is known — a signed-out reader is not "has not
  * thanked", they are "cannot thank", and the button has to tell those apart.
  */
+/**
+ * How far along a member is, from what they have actually contributed.
+ *
+ * The ladder is the trade's own — apprentice, journeyman, master — because this
+ * is a forum for electricians and that progression already means something to
+ * them. Invented tiers ("Level 7", "Gold") would mean nothing and would have to
+ * be explained.
+ *
+ * Derived from the counters rather than stored, so it can never disagree with
+ * them and no migration is needed to change where a threshold sits.
+ */
+enum class ForumLevel {
+    NEWCOMER,
+    APPRENTICE,
+    JOURNEYMAN,
+    MASTER,
+    EXPERT;
+
+    companion object {
+        /**
+         * Thanks count for more than messages do.
+         *
+         * Posting is something anyone can do a hundred times in an afternoon;
+         * being thanked requires somebody else to have found the answer worth
+         * something. Weighting them equally would make the ladder a measure of
+         * how much someone talks.
+         */
+        fun of(postCount: Int, thanksReceived: Int): ForumLevel {
+            val score = postCount + thanksReceived * THANKS_WEIGHT
+            return when {
+                score >= EXPERT_AT -> EXPERT
+                score >= MASTER_AT -> MASTER
+                score >= JOURNEYMAN_AT -> JOURNEYMAN
+                score >= APPRENTICE_AT -> APPRENTICE
+                else -> NEWCOMER
+            }
+        }
+
+        private const val THANKS_WEIGHT = 3
+        private const val APPRENTICE_AT = 5
+        private const val JOURNEYMAN_AT = 30
+        private const val MASTER_AT = 120
+        private const val EXPERT_AT = 400
+    }
+}
+
 data class ForumPost(
     val id: String,
     val threadId: String,
     val authorId: String,
     val authorName: String,
+    /** The author's totals, embedded with the post so a thread is one request. */
+    val authorPostCount: Int = 0,
+    val authorThanksReceived: Int = 0,
     val body: String,
     val isOpeningPost: Boolean,
     val createdAt: Instant,
@@ -83,6 +132,10 @@ data class ForumPost(
 )
 
 /** A member, and the two numbers the forum makes public about them. */
+/** The author's standing, from the counters carried alongside their message. */
+val ForumPost.authorLevel: ForumLevel
+    get() = ForumLevel.of(authorPostCount, authorThanksReceived)
+
 data class ForumProfile(
     val id: String,
     val displayName: String,

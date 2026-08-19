@@ -3321,4 +3321,11 @@
     <string name="forum_unblock">Engeli kaldır</string>
     <string name="forum_thread_actions">Konu işlemleri</string>
     <string name="settings_privacy_policy">Gizlilik politikası</string>
+    <!-- Forum: seviye -->
+    <string name="forum_author_stats">%1$d mesaj\n%2$d teşekkür</string>
+    <string name="forum_level_newcomer">Yeni</string>
+    <string name="forum_level_apprentice">Çırak</string>
+    <string name="forum_level_journeyman">Kalfa</string>
+    <string name="forum_level_master">Usta</string>
+    <string name="forum_level_expert">Uzman</string>
 </resources>
