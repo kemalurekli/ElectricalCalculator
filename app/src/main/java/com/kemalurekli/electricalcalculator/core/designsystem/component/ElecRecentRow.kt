@@ -81,12 +81,25 @@ fun ElecRecentRow(
                 horizontalArrangement = Arrangement.spacedBy(spacing.sm),
                 verticalAlignment = Alignment.Bottom,
             ) {
+                // The timestamp is the unweighted one, and that is the whole
+                // fix. A Row measures its unweighted children first and lets
+                // them take what they ask for; the weighted ones then divide
+                // whatever is left. With the weight on the timestamp instead,
+                // a long summary — "Kısmi — yalnızca sınırın altında selektif"
+                // is a real one — measured at its full width, squeezed the
+                // timestamp down to "Evvelsi", and still ran off the card.
+                //
+                // Which of the two is bounded decides which gets the weight.
+                // The timestamp comes from the platform's relative formatter
+                // and is a handful of words in any language; the summary is
+                // whatever a calculator produced. So the timestamp measures
+                // naturally, and the summary absorbs the remainder and
+                // ellipsizes when there is not enough of it.
                 Text(
                     text = timestamp,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
-                    modifier = Modifier.weight(1f),
                 )
                 // Proportional, not the tabular face. These summaries carry
                 // their units as words — "16 luminaires", "5 – 13 panels" — and
@@ -100,6 +113,7 @@ fun ElecRecentRow(
                     textAlign = TextAlign.End,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f),
                 )
             }
         }
