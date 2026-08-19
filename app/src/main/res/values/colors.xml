@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Mirrors the Compose light `surface` / `surfaceContainerLowest` tones. -->
-    <color name="window_background">#FDFBFF</color>
-    <color name="splash_background">#FDFBFF</color>
+    <!--
+      Mirrors the Compose light `surface` tone from Color.kt. These two must be
+      changed together: this is the colour the window and the splash are painted
+      before the first Compose frame exists, so a stale value here shows as a
+      flash of the old palette on every cold start.
+    -->
+    <color name="window_background">#FBFCFD</color>
+    <color name="splash_background">#FBFCFD</color>
 </resources>

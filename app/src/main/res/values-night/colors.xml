@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Mirrors the Compose dark `surface` tone. -->
-    <color name="window_background">#111318</color>
-    <color name="splash_background">#111318</color>
+    <!-- Mirrors the Compose dark `surface` tone from Color.kt. See values/colors.xml. -->
+    <color name="window_background">#0E1419</color>
+    <color name="splash_background">#0E1419</color>
 </resources>

@@ -21,11 +21,14 @@ import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
  * nothing, and alternating hues at random is what makes a set of cards look
  * assembled rather than designed.
  *
- * Only two of the four roles are in play deliberately. In this palette
- * `secondaryContainer` (#DAE2F9) and `primaryContainer` (#D8E2FF) are within a
- * couple of steps of each other, so a primary/secondary split encodes a
- * difference the eye cannot resolve — it reads as four identical blue cards
- * while the code claims three groups.
+ * Three roles are in play, which is one more than the old palette could carry:
+ * its `secondaryContainer` (#DAE2F9) and `primaryContainer` (#D8E2FF) were
+ * within a couple of steps of each other, so the primary/secondary split
+ * encoded a difference the eye could not resolve. The brand palette separates
+ * them properly — `primaryContainer` is now a steel blue and `secondaryContainer`
+ * a near-neutral slate — so [PROJECTS] and [FORUM], the two places where the
+ * user's own work meets other people's, read as their own group rather than as
+ * two more blue tiles.
  *
  * [SETTINGS] carries no accent role of its own because it is not a dashboard
  * card — it lives in the home top bar. It stays in this enum so that its route,
