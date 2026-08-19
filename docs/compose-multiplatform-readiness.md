@@ -1,15 +1,44 @@
 # Moving ElecToolkit to Compose Multiplatform
 
-_Written 19 August 2026, against the tree at the "Build every screen the same
-way" commit._
+_Written 19 August 2026. Revised the same day with the toolchain verified by
+building it, and with a correction — see "What the first draft missed"._
 
 The app is one Gradle module targeting Android. The decision has been taken to
 ship iOS from the same Compose UI code. This is the inventory of what stands in
-the way, gathered by reading the tree rather than by guessing — so the size of
-the job is known before anyone starts it.
+the way, so the size of the job is known before anyone starts it.
 
-**Nothing here is scheduled.** The design work that preceded this document
-deliberately stopped at "do not make the problem worse".
+---
+
+## The toolchain, verified
+
+Not researched — **compiled.** A throwaway KMP module was built against
+`iosSimulatorArm64` with the app's entire dependency set, at the versions the
+project already uses:
+
+| Dependency | Version | iOS |
+|---|---|---|
+| Kotlin | 2.3.21 (current) | ✅ |
+| Compose Multiplatform | 1.11.1 | ✅ |
+| `material3`, `material-icons-extended`, `components.resources` | via CMP | ✅ |
+| `material3-adaptive-navigation-suite` | 1.12.0-alpha03 | ✅ the tab shell ports |
+| `org.jetbrains.androidx.navigation:navigation-compose` | 2.9.2 | ✅ |
+| `org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose` | 2.11.0 | ✅ |
+| Koin (`core`, `compose-viewmodel`) | 4.2.2 | ✅ |
+| Room | **2.8.4 — already in use** | ✅ full iOS variants |
+| DataStore | **1.2.1 — already in use** | ✅ |
+| supabase-kt (`postgrest`, `auth`) | **3.1.4 — already in use** | ✅ |
+| Ktor Darwin engine | **3.1.3 — already in use** | ✅ |
+| kotlinx-datetime | 0.8.0 (new) | ✅ |
+
+`BUILD SUCCESSFUL`. **No version bumps are required** — Room, DataStore,
+supabase-kt and Ktor are already at versions that publish iOS artifacts, which
+is a consequence of having chosen multiplatform libraries when the forum was
+built.
+
+Two notes. Room's iOS variants are on **Google's Maven**, not Maven Central, so
+`google()` must be in `dependencyResolutionManagement`. And CMP's library
+artifacts are versioned independently of the CMP plugin — `1.12.0-alpha03`
+libraries under plugin `1.11.1` is normal, not a mistake.
 
 ---
 
@@ -18,14 +47,48 @@ deliberately stopped at "do not make the problem worse".
 - **`core/designsystem/theme/`** — `Color.kt`, `Shape.kt`, `Spacing.kt` and
   `Theme.kt` contain no Android API at all. `Theme.kt` was cleaned out when the
   wallpaper-derived colour scheme was removed; that was the last of it.
-- **The data layer's two network dependencies.** supabase-kt and Ktor are
-  Kotlin Multiplatform already, which is why they were chosen. DataStore is
-  multiplatform too.
-- **The domain layer** — catalogs, use cases, formatters, validation — is plain
-  Kotlin with no Android imports.
-- **Material 3 and the icon set.** `material3`, `material-icons-extended` and
-  `material3-adaptive-navigation-suite` all publish multiplatform artifacts, so
-  the app shell and every component survive the move.
+- **The domain layer** — catalogs, use cases, validation — is plain Kotlin.
+- **Material 3, the icon set and the app shell**, per the table above.
+
+---
+
+## What the first draft missed
+
+This document's first draft looked for `android.*` imports and Compose APIs and
+declared the domain layer "plain Kotlin with no Android imports". That was true
+and beside the point: **it never looked for the JVM standard library**, which is
+just as absent from Kotlin/Native.
+
+| API | Files | Where |
+|---|---|---|
+| `java.util.Locale` | 37 | Everywhere; most are `uppercase(Locale)` and mechanical |
+| `java.time.*` | 12 | Domain models, repositories, formatting |
+| `java.text` + `java.math` | 1 | **`NumberFormatter.kt`** — `DecimalFormat`, `BigDecimal` |
+| `java.text.Collator` / `Normalizer` | 2 | `SearchNormalizer`, `GlossaryViewModel` |
+| `java.security` | 1 | `GoogleCredentialProvider` (deferred with the forum) |
+
+Concentrated rather than scattered, which is the good news: **all number
+formatting is in one file**, and that file is on the critical path of the first
+screen to be ported. The first problem to solve is therefore both the most
+necessary and the most representative.
+
+### The trap inside NumberFormatter
+
+`NumberFormatterTest` asserts `format(2.345, decimals = 2) == "2.35"`. As a
+double, `2.345` is `2.34499999999999997…`, so arithmetic rounding yields
+`2.34`. The JDK's `DecimalFormat` gets `2.35` because it rounds the double's
+**shortest round-tripping decimal representation** — `"2.345"` — not its exact
+binary value.
+
+Any reimplementation has to do the same or it will silently change results
+across the whole app. The approach is therefore string-based decimal rounding
+of `value.toString()`, in common Kotlin, with `Locale` reduced to the two
+characters that actually vary — the decimal and grouping separators.
+
+Writing it in common code rather than as `expect`/`actual` over `DecimalFormat`
+and `NSNumberFormatter` is deliberate: two platform formatters would be free to
+disagree about the same number, and "same code, same pixels" is the one rule the
+design language has.
 
 ---
 
@@ -39,9 +102,10 @@ factories. This is the largest single item and it touches every ViewModel.
 
 ### 2. Room
 
-12 files. Room has supported KMP since 2.7, so this is a migration rather than a
-replacement — but the schema, the DAOs and the migration tests all move with it,
-and the app has a migration test suite that must keep passing.
+12 files, and cheaper than it looks: **2.8.4 — the version already in the
+project — publishes full iOS variants**, so this is a migration rather than a
+replacement and needs no upgrade. The schema, the DAOs and the migration tests
+move with it, and that migration suite must stay green.
 
 ### 3. `PlatformTextStyle(includeFontPadding = false)`
 
@@ -114,16 +178,39 @@ door — where the design decisions actually live — moves untouched.
 
 ---
 
-## Suggested order
+## The order, as agreed
 
-1. **Split the module.** `:core:designsystem` first, since it is nearly clean;
-   then `:core:domain`, then data, then features. Do this while still
-   Android-only — a module split that compiles is a checkpoint worth having.
-2. **Replace Hilt.** The biggest job, and everything downstream depends on it.
-3. **Room to KMP**, keeping the migration tests green.
-4. **Add the iOS target** to `:core:designsystem` alone and get the previews
-   rendering. Nothing else needs to work yet.
-5. **Resources**, then `@Preview`, then the `expect`/`actual` platform
-   capabilities.
-6. **`PlatformTextStyle` and `DateUtils` last**, when there is a device to
-   compare against.
+The first draft suggested splitting every module while still Android-only and
+adding iOS at step 4. That was rejected in favour of proving iOS works first,
+on the grounds that a month of restructuring against an unproven target is a
+month you cannot get back if the target does not hold.
+
+**1. The proof — the Converter screen on the iOS simulator.**
+Six files, no Android APIs, one dependency-free use case, seventeen
+`stringResource` calls, and it uses the whole design system. Porting it
+exercises the module setup, Compose Multiplatform, the palette and bundled
+fonts, Compose Resources, Koin, the KMP ViewModel and the iOS shell — in one
+screen. The modules it needs (`:core:common` → `:core:designsystem` →
+`:feature:converter`) are the first three of the layered structure, so the proof
+is not a detour; it is the foundation with something running on top of it.
+
+`NumberFormatter` is the one hard piece and it lands here.
+
+**2. Shared infrastructure.** `:core:domain` (`java.time` → `kotlinx-datetime`),
+`:core:database` (Room to KMP), `:core:datastore`, `:core:data` (Ktor Darwin
+engine on iOS), and one `expect`/`actual` per platform capability — sharing,
+clipboard, locale, file export.
+
+**3. Features**, fewest dependencies first: glossary, references, theory, field
+notes → favourites, history → calculators (129 files, the largest single lump
+but a repeating pattern) → projects → home, more and the navigation shell.
+
+**4. Forum and the store.** Last, because it holds the only platform-specific
+authentication. Credential Manager has no iOS counterpart, and **App Store
+guideline 4.8 requires Sign in with Apple wherever third-party sign-in is
+offered** — Supabase supports Apple, so the work is in the iOS client and the
+dashboard. `SchedulePdf.kt` (Core Graphics instead of `android.graphics.pdf`)
+is independent and can ship later than the first iOS release.
+
+Throughout: **Android keeps working.** There is a published app; a port that
+breaks it to make progress is not making progress.
