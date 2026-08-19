@@ -36,7 +36,10 @@ class ForumRepositoryImpl @Inject constructor(
 
     override suspend fun categories(language: ForumLanguage) = query {
         it.postgrest.from(TABLE_CATEGORIES)
-            .select(Columns.list("id", "key", "title", "description")) {
+            // The thread count comes back with the row as an aggregate rather
+            // than as six more requests, or as a counter column that would need
+            // a trigger and could drift out of step with the threads it counts.
+            .select(Columns.raw("id, key, title, description, threads:forum_threads(count)")) {
                 filter {
                     eq("language", language.code)
                     eq("is_active", true)
@@ -316,9 +319,20 @@ class ForumRepositoryImpl @Inject constructor(
         val key: String,
         val title: String,
         val description: String = "",
+        /** PostgREST returns an aggregate embed as a one-element array. */
+        val threads: List<CountDto> = emptyList(),
     ) {
-        fun toDomain() = ForumCategory(id, key, title, description)
+        fun toDomain() = ForumCategory(
+            id = id,
+            key = key,
+            title = title,
+            description = description,
+            threadCount = threads.firstOrNull()?.count ?: 0,
+        )
     }
+
+    @Serializable
+    private data class CountDto(val count: Int = 0)
 
     @Serializable
     private data class IdDto(val id: String)

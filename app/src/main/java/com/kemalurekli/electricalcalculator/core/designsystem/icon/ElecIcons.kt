@@ -9,6 +9,10 @@ import androidx.compose.material.icons.outlined.AccountTree
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.automirrored.outlined.Send
+import androidx.compose.material.icons.outlined.Troubleshoot
+import androidx.compose.material.icons.outlined.Architecture
+import androidx.compose.material.icons.outlined.MenuBook
+import androidx.compose.material.icons.outlined.School
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Adjust
@@ -88,6 +92,12 @@ object ElecIcons {
 
     // Editable lists, where a row can be appended or taken back out
     val Add = Icons.Outlined.Add
+    val ForumLearning = Icons.Outlined.School
+    val ForumStandards = Icons.Outlined.MenuBook
+    val ForumDesign = Icons.Outlined.Architecture
+    val ForumTroubleshooting = Icons.Outlined.Troubleshoot
+    val ForumProtection = Icons.Outlined.Shield
+    val ForumInstallations = Icons.Outlined.ElectricalServices
     val Send = Icons.AutoMirrored.Outlined.Send
     val Lock = Icons.Outlined.Lock
     val ThanksFilled = Icons.Filled.ThumbUp

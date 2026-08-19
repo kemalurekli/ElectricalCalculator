@@ -3328,4 +3328,8 @@
     <string name="forum_level_twelve_volt">12 Volt</string>
     <string name="forum_level_mains">220 Volt</string>
     <string name="forum_level_high_voltage">Yüksek Gerilim</string>
+    <plurals name="forum_category_threads">
+        <item quantity="one">%1$d konu</item>
+        <item quantity="other">%1$d konu</item>
+    </plurals>
 </resources>

@@ -9,6 +9,24 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.unit.dp
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -86,10 +104,8 @@ fun ForumCategoriesScreen(
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(categories, key = { it.id }) { category ->
-                        ElecListItem(
-                            title = category.title,
-                            description = category.description,
-                            icon = ElecIcons.Forum,
+                        ForumCategoryCard(
+                            category = category,
                             onClick = { onCategoryClick(category) },
                         )
                     }
@@ -97,4 +113,86 @@ fun ForumCategoriesScreen(
             }
         }
     }
+}
+
+/**
+ * One section of the forum.
+ *
+ * Every row used to carry the same forum icon, which is six identical glyphs
+ * telling the reader nothing. The icon now says what the section is about, and
+ * the count says whether there is anything in it — which is the question
+ * somebody is actually asking when they look at a list of empty-looking
+ * categories.
+ */
+@Composable
+private fun ForumCategoryCard(category: ForumCategory, onClick: () -> Unit) {
+    val spacing = ElecTheme.spacing
+
+    ElecCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.sm),
+    ) {
+        Row(
+            modifier = Modifier
+                .clickable(onClick = onClick)
+                .padding(spacing.lg),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.secondaryContainer),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = category.icon(),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier.size(24.dp),
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = spacing.lg),
+                verticalArrangement = Arrangement.spacedBy(spacing.xs),
+            ) {
+                Text(text = category.title, style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = category.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Text(
+                    text = pluralStringResource(
+                        R.plurals.forum_category_threads,
+                        category.threadCount,
+                        category.threadCount,
+                    ),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
+        }
+    }
+}
+
+/**
+ * The section's own icon, chosen by its key rather than its title.
+ *
+ * Keys are stable and the same in both languages; titles are neither.
+ */
+private fun ForumCategory.icon() = when (key) {
+    "installations" -> ElecIcons.ForumInstallations
+    "protection" -> ElecIcons.ForumProtection
+    "troubleshooting" -> ElecIcons.ForumTroubleshooting
+    "design" -> ElecIcons.ForumDesign
+    "standards" -> ElecIcons.ForumStandards
+    "learning" -> ElecIcons.ForumLearning
+    // A category added in the dashboard that this build has never heard of
+    // still gets a row, just a generic one.
+    else -> ElecIcons.Forum
 }
