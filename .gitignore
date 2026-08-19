@@ -31,6 +31,15 @@ local.properties
 keystore.properties
 signing.properties
 
+# Xcode. `xcuserdata` is per-developer window and breakpoint state, and
+# DerivedData is Xcode's build output — both are rewritten constantly and mean
+# nothing on another machine. The .xcodeproj itself is committed: it carries the
+# build phase that calls Gradle, without which the app does not link.
+xcuserdata/
+*.xcuserstate
+DerivedData/
+*.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+
 # Machine-specific: which device or emulator this workstation last deployed to.
 # Rewritten by Studio on nearly every run, and meaningless on any other machine.
 /.idea/deploymentTargetSelector.xml
