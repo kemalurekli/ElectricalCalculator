@@ -281,6 +281,7 @@
 					"$(SRCROOT)/../iosEntry/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -322,6 +323,7 @@
 					"$(SRCROOT)/../iosEntry/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
