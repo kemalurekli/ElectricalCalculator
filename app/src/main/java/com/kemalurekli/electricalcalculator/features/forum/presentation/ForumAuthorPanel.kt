@@ -51,7 +51,7 @@ fun ForumAuthorPanel(
             .clickable(onClick = onClick)
             .padding(end = spacing.sm),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(spacing.xs),
+        verticalArrangement = Arrangement.spacedBy(spacing.sm),
     ) {
         ForumAvatar(name = name, userId = userId, size = AVATAR_SIZE)
 
@@ -72,7 +72,7 @@ fun ForumAuthorPanel(
             modifier = Modifier
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.secondaryContainer)
-                .padding(horizontal = spacing.sm, vertical = 2.dp),
+                .padding(horizontal = spacing.sm, vertical = 4.dp),
         )
 
         Text(
@@ -80,18 +80,19 @@ fun ForumAuthorPanel(
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
+            lineHeight = MaterialTheme.typography.labelSmall.fontSize * 1.4f,
         )
     }
 }
 
 private fun ForumLevel.labelRes(): Int = when (this) {
-    ForumLevel.NEWCOMER -> R.string.forum_level_newcomer
-    ForumLevel.APPRENTICE -> R.string.forum_level_apprentice
-    ForumLevel.JOURNEYMAN -> R.string.forum_level_journeyman
-    ForumLevel.MASTER -> R.string.forum_level_master
-    ForumLevel.EXPERT -> R.string.forum_level_expert
+    ForumLevel.ELECTRON -> R.string.forum_level_electron
+    ForumLevel.ONE_VOLT -> R.string.forum_level_one_volt
+    ForumLevel.TWELVE_VOLT -> R.string.forum_level_twelve_volt
+    ForumLevel.MAINS_VOLT -> R.string.forum_level_mains
+    ForumLevel.HIGH_VOLTAGE -> R.string.forum_level_high_voltage
 }
 
 /** Wide enough for a rank chip and two lines of most names. */
-private const val PANEL_WIDTH = 96
+private const val PANEL_WIDTH = 104
 private const val AVATAR_SIZE = 44

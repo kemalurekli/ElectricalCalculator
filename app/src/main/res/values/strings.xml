@@ -3327,9 +3327,9 @@
     <string name="settings_privacy_policy">Privacy policy</string>
     <!-- Forum: standing -->
     <string name="forum_author_stats">%1$d msg\n%2$d thanks</string>
-    <string name="forum_level_newcomer">Newcomer</string>
-    <string name="forum_level_apprentice">Apprentice</string>
-    <string name="forum_level_journeyman">Journeyman</string>
-    <string name="forum_level_master">Master</string>
-    <string name="forum_level_expert">Expert</string>
+    <string name="forum_level_electron">Electron</string>
+    <string name="forum_level_one_volt">1 Volt</string>
+    <string name="forum_level_twelve_volt">12 Volt</string>
+    <string name="forum_level_mains">220 Volt</string>
+    <string name="forum_level_high_voltage">High Voltage</string>
 </resources>

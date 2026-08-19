@@ -428,9 +428,9 @@ private fun PostCard(
     ElecCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
+            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.sm),
     ) {
-        Row(modifier = Modifier.padding(spacing.md)) {
+        Row(modifier = Modifier.padding(spacing.lg)) {
             ForumAuthorPanel(
                 name = post.authorName,
                 userId = post.authorId,
@@ -442,13 +442,13 @@ private fun PostCard(
             // A rule between the person and what they said. Two columns with
             // nothing between them read as one ragged block.
             VerticalDivider(
-                modifier = Modifier.padding(end = spacing.md),
+                modifier = Modifier.padding(horizontal = spacing.md),
                 color = MaterialTheme.colorScheme.outlineVariant,
             )
 
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(spacing.sm),
+                verticalArrangement = Arrangement.spacedBy(spacing.md),
             ) {
                 if (post.isOpeningPost) {
                     Text(
@@ -458,13 +458,22 @@ private fun PostCard(
                     )
                 }
 
-                Text(text = post.body, style = MaterialTheme.typography.bodyLarge)
+                Text(
+                    text = post.body,
+                    style = MaterialTheme.typography.bodyLarge,
+                    // Prose at default line height packs tightly enough to
+                    // read as a paragraph of terms and conditions. A forum
+                    // answer is meant to be read at length.
+                    lineHeight = MaterialTheme.typography.bodyLarge.fontSize * LINE_HEIGHT_RATIO,
+                )
 
                 // The timestamp sits under the message rather than over it. It
                 // is what the message was, not what to expect — nobody reads
                 // the date before deciding whether to read the answer.
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = spacing.xs),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
@@ -760,3 +769,6 @@ private fun EditPostDialog(
 
 /** Matches the schema's `body` check: 2–8000. */
 private const val POST_MAX_LENGTH = 8000
+
+/** Roughly 1.5×, which is where long prose stops feeling packed. */
+private const val LINE_HEIGHT_RATIO = 1.5f

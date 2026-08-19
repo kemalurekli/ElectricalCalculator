@@ -72,20 +72,20 @@ data class ForumThread(
 /**
  * How far along a member is, from what they have actually contributed.
  *
- * The ladder is the trade's own — apprentice, journeyman, master — because this
- * is a forum for electricians and that progression already means something to
- * them. Invented tiers ("Level 7", "Gold") would mean nothing and would have to
- * be explained.
+ * The ladder climbs in volts, which is the one scale everybody reading this
+ * already has a feel for: an electron, a single volt, a car battery, a wall
+ * socket, a substation. Nobody has to be told which end is which, and unlike
+ * "Level 7" or "Gold" it belongs to the subject rather than to the app.
  *
  * Derived from the counters rather than stored, so it can never disagree with
  * them and no migration is needed to change where a threshold sits.
  */
 enum class ForumLevel {
-    NEWCOMER,
-    APPRENTICE,
-    JOURNEYMAN,
-    MASTER,
-    EXPERT;
+    ELECTRON,
+    ONE_VOLT,
+    TWELVE_VOLT,
+    MAINS_VOLT,
+    HIGH_VOLTAGE;
 
     companion object {
         /**
@@ -99,19 +99,19 @@ enum class ForumLevel {
         fun of(postCount: Int, thanksReceived: Int): ForumLevel {
             val score = postCount + thanksReceived * THANKS_WEIGHT
             return when {
-                score >= EXPERT_AT -> EXPERT
-                score >= MASTER_AT -> MASTER
-                score >= JOURNEYMAN_AT -> JOURNEYMAN
-                score >= APPRENTICE_AT -> APPRENTICE
-                else -> NEWCOMER
+                score >= HIGH_VOLTAGE_AT -> HIGH_VOLTAGE
+                score >= MAINS_AT -> MAINS_VOLT
+                score >= TWELVE_AT -> TWELVE_VOLT
+                score >= ONE_VOLT_AT -> ONE_VOLT
+                else -> ELECTRON
             }
         }
 
         private const val THANKS_WEIGHT = 3
-        private const val APPRENTICE_AT = 5
-        private const val JOURNEYMAN_AT = 30
-        private const val MASTER_AT = 120
-        private const val EXPERT_AT = 400
+        private const val ONE_VOLT_AT = 5
+        private const val TWELVE_AT = 30
+        private const val MAINS_AT = 120
+        private const val HIGH_VOLTAGE_AT = 400
     }
 }
 
