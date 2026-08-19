@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -65,6 +66,22 @@ class UserPreferencesDataSource @Inject constructor(
     }
 
     /**
+     * Pins or unpins a thread, on this device only.
+     *
+     * Deliberately not on the server. Pinning is one reader keeping track of
+     * one conversation; it is nobody else's business, it needs no account, and
+     * a thread somebody is following should not stop being followed because
+     * they are offline.
+     */
+    suspend fun setThreadPinned(threadId: String, pinned: Boolean) {
+        dataStore.edit { prefs ->
+            val current = prefs[Keys.PINNED_THREADS].orEmpty()
+            prefs[Keys.PINNED_THREADS] =
+                if (pinned) current + threadId else current - threadId
+        }
+    }
+
+    /**
      * Writes engineering defaults, marking them as the user's from now on.
      *
      * The seeded flag is set by every write, not only by seeding: a user who
@@ -114,6 +131,7 @@ class UserPreferencesDataSource @Inject constructor(
         engineeringSeeded = this[Keys.ENG_SEEDED] ?: false,
         disclaimerAccepted = this[Keys.DISCLAIMER_ACCEPTED] ?: false,
         forumRulesAccepted = this[Keys.FORUM_RULES_ACCEPTED] ?: false,
+        pinnedThreadIds = this[Keys.PINNED_THREADS].orEmpty(),
     )
 
     private fun Preferences.toEngineeringDefaults(): EngineeringDefaults {
@@ -151,6 +169,7 @@ class UserPreferencesDataSource @Inject constructor(
         val ENG_SEEDED = booleanPreferencesKey("eng_seeded")
         val DISCLAIMER_ACCEPTED = booleanPreferencesKey("disclaimer_accepted")
         val FORUM_RULES_ACCEPTED = booleanPreferencesKey("forum_rules_accepted")
+        val PINNED_THREADS = stringSetPreferencesKey("pinned_forum_threads")
     }
 
     private companion object {

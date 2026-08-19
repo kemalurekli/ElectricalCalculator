@@ -3336,4 +3336,6 @@
         <item quantity="one">%1$d thread</item>
         <item quantity="other">%1$d threads</item>
     </plurals>
+    <string name="forum_thread_pinned">Pinned to the top</string>
+    <string name="forum_thread_pin_hint">Press and hold a thread to keep it at the top</string>
 </resources>

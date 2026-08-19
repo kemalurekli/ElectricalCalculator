@@ -14,6 +14,7 @@ import androidx.compose.material.icons.outlined.Architecture
 import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material.icons.outlined.School
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Adjust
 import androidx.compose.material.icons.outlined.Autorenew
@@ -92,6 +93,7 @@ object ElecIcons {
 
     // Editable lists, where a row can be appended or taken back out
     val Add = Icons.Outlined.Add
+    val Pin = Icons.Outlined.PushPin
     val ForumLearning = Icons.Outlined.School
     val ForumStandards = Icons.Outlined.MenuBook
     val ForumDesign = Icons.Outlined.Architecture

@@ -53,6 +53,8 @@ data class UserPreferences(
      * anything about the second.
      */
     val forumRulesAccepted: Boolean = false,
+    /** Threads this reader keeps at the top of their list, on this device. */
+    val pinnedThreadIds: Set<String> = emptySet(),
 ) {
     companion object {
         val Default = UserPreferences()

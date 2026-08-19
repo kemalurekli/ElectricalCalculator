@@ -3332,4 +3332,6 @@
         <item quantity="one">%1$d konu</item>
         <item quantity="other">%1$d konu</item>
     </plurals>
+    <string name="forum_thread_pinned">En üste sabitlendi</string>
+    <string name="forum_thread_pin_hint">Bir konuyu en üstte tutmak için basılı tutun</string>
 </resources>

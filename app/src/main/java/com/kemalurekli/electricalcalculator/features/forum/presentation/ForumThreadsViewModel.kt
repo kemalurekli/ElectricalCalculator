@@ -12,6 +12,9 @@ import com.kemalurekli.electricalcalculator.features.forum.domain.ForumThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Job
+import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,7 +29,24 @@ class ForumThreadsViewModel @Inject constructor(
     private val repository: ForumRepository,
     languageRepository: AppLanguageRepository,
     authRepository: ForumAuthRepository,
+    private val preferences: UserPreferencesRepository,
 ) : ViewModel() {
+
+    /**
+     * The reader's pinned threads, kept on this device.
+     *
+     * Held separately from the list rather than folded into it, so pinning
+     * re-sorts what is already loaded instead of costing a request.
+     */
+    val pinned: StateFlow<Set<String>> = preferences.preferences
+        .map { it.pinnedThreadIds }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000L), emptySet())
+
+    fun onTogglePin(threadId: String) {
+        viewModelScope.launch {
+            preferences.setThreadPinned(threadId, threadId !in pinned.value)
+        }
+    }
 
     val session: StateFlow<ForumSession> = authRepository.session
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000L), ForumSession.Unknown)
@@ -47,6 +67,15 @@ class ForumThreadsViewModel @Inject constructor(
      */
     private var endReached = false
     private var loadingMore = false
+
+    /**
+     * The load in flight, so a second one replaces it rather than racing it.
+     *
+     * Without this the screen issued the same page three times: re-entering
+     * composition restarts the load, and a next-page request already on its way
+     * carried a cursor computed from the list as it was before either landed.
+     */
+    private var loadJob: Job? = null
 
     /** Does nothing when the category is already loaded, so the screen's
      *  `LaunchedEffect` can be keyed on its argument without refetching. */
@@ -76,7 +105,7 @@ class ForumThreadsViewModel @Inject constructor(
         if (endReached || loadingMore) return
 
         loadingMore = true
-        viewModelScope.launch {
+        loadJob = viewModelScope.launch {
             val cursor = current.value.lastOrNull()?.lastReplyAt
             when (val result = repository.threads(id, language, before = cursor)) {
                 is ForumResult.Success -> {
@@ -96,7 +125,10 @@ class ForumThreadsViewModel @Inject constructor(
     private fun load(refreshing: Boolean = false) {
         val id = categoryId ?: return
         endReached = false
-        viewModelScope.launch {
+        loadingMore = false
+        // Whatever was being fetched was for the list as it used to be.
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
             val current = _uiState.value
             if (refreshing && current is ForumScreenState.Content) {
                 _uiState.value = current.copy(isRefreshing = true)

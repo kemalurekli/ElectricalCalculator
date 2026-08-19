@@ -32,6 +32,9 @@ interface UserPreferencesRepository {
     /** Records that the reader has acknowledged the forum rules. */
     suspend fun setForumRulesAccepted(accepted: Boolean)
 
+    /** Pins or unpins a forum thread, on this device only. */
+    suspend fun setThreadPinned(threadId: String, pinned: Boolean)
+
     /** Replaces the engineering defaults, and marks them as the user's. */
     suspend fun setEngineeringDefaults(defaults: EngineeringDefaults)
 

@@ -11,6 +11,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.foundation.clickable
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.background
@@ -58,6 +61,7 @@ fun ForumThreadsRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val session by viewModel.session.collectAsStateWithLifecycle()
+    val pinned by viewModel.pinned.collectAsStateWithLifecycle()
 
     LaunchedEffect(categoryId) { viewModel.onOpen(categoryId) }
 
@@ -67,6 +71,8 @@ fun ForumThreadsRoute(
         onThreadClick = onThreadClick,
         onNewThread = { onNewThread(viewModel.language.code) },
         onLoadMore = viewModel::onLoadMore,
+        pinned = pinned,
+        onTogglePin = viewModel::onTogglePin,
         canWrite = session.userId != null,
         onRetry = viewModel::onRefresh,
         onNavigateBack = onNavigateBack,
@@ -82,6 +88,8 @@ fun ForumThreadsScreen(
     onThreadClick: (ForumThread) -> Unit,
     onNewThread: () -> Unit = {},
     onLoadMore: () -> Unit = {},
+    pinned: Set<String> = emptySet(),
+    onTogglePin: (String) -> Unit = {},
     canWrite: Boolean = false,
     onRetry: () -> Unit,
     onNavigateBack: () -> Unit,
@@ -127,17 +135,24 @@ fun ForumThreadsScreen(
                     icon = ElecIcons.Forum,
                 )
             } else {
+                // Pinned first, the rest in the order the server sent them.
+                // A stable sort, so nothing else moves.
+                val ordered = remember(threads, pinned) {
+                    threads.sortedByDescending { it.id in pinned }
+                }
                 val listState = rememberLazyListState()
-                LoadMoreOnApproachingEnd(listState, threads.size, onLoadMore)
+                LoadMoreOnApproachingEnd(listState, ordered.size, onLoadMore)
 
                 LazyColumn(
                     state = listState,
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    items(threads, key = { it.id }) { thread ->
-                        ForumThreadRow(thread = thread, onClick = { onThreadClick(thread) })
-                        HorizontalDivider(
-                            color = MaterialTheme.colorScheme.outlineVariant,
+                    items(ordered, key = { it.id }) { thread ->
+                        ForumThreadRow(
+                            thread = thread,
+                            isPinned = thread.id in pinned,
+                            onClick = { onThreadClick(thread) },
+                            onLongClick = { onTogglePin(thread.id) },
                         )
                     }
                 }
@@ -164,18 +179,26 @@ fun ForumThreadsScreen(
  * The reply count sits on the right, where the eye can run down the column and
  * find the busy threads without reading a word.
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ForumThreadRow(thread: ForumThread, onClick: () -> Unit) {
+private fun ForumThreadRow(
+    thread: ForumThread,
+    isPinned: Boolean,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+) {
     val spacing = ElecTheme.spacing
 
+    ElecCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
+    ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(
-                horizontal = spacing.screenHorizontal,
-                vertical = spacing.md,
-            ),
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick)
+            .padding(spacing.lg),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         ForumAvatar(
@@ -199,6 +222,17 @@ private fun ForumThreadRow(thread: ForumThread, onClick: () -> Unit) {
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(top = spacing.xs),
+            )
+        }
+
+        if (isPinned) {
+            Icon(
+                imageVector = ElecIcons.Pin,
+                contentDescription = stringResource(R.string.forum_thread_pinned),
+                modifier = Modifier
+                    .padding(start = spacing.sm)
+                    .size(18.dp),
+                tint = MaterialTheme.colorScheme.primary,
             )
         }
 
@@ -228,6 +262,7 @@ private fun ForumThreadRow(thread: ForumThread, onClick: () -> Unit) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
+    }
     }
 }
 

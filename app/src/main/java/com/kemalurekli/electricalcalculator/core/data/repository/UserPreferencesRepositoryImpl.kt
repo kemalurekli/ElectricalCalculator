@@ -40,6 +40,9 @@ class UserPreferencesRepositoryImpl @Inject constructor(
     override suspend fun setForumRulesAccepted(accepted: Boolean) =
         dataSource.setForumRulesAccepted(accepted)
 
+    override suspend fun setThreadPinned(threadId: String, pinned: Boolean) =
+        dataSource.setThreadPinned(threadId, pinned)
+
     override suspend fun setEngineeringDefaults(defaults: EngineeringDefaults) =
         dataSource.setEngineeringDefaults(defaults)
 

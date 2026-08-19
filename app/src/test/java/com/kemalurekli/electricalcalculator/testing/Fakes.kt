@@ -193,6 +193,13 @@ class FakeUserPreferencesRepository(
         state.value = state.value.copy(disclaimerAccepted = accepted)
     }
 
+    override suspend fun setThreadPinned(threadId: String, pinned: Boolean) {
+        val current = state.value.pinnedThreadIds
+        state.value = state.value.copy(
+            pinnedThreadIds = if (pinned) current + threadId else current - threadId,
+        )
+    }
+
     override suspend fun setForumRulesAccepted(accepted: Boolean) {
         state.value = state.value.copy(forumRulesAccepted = accepted)
     }
