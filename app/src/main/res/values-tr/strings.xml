@@ -3319,6 +3319,8 @@
     <string name="forum_unblock">Engeli kaldır</string>
     <string name="forum_thread_actions">Konu işlemleri</string>
     <string name="settings_privacy_policy">Gizlilik politikası</string>
+    <string name="settings_licenses">Açık kaynak lisansları</string>
+    <string name="action_close">Kapat</string>
     <!-- Forum: seviye -->
     <string name="forum_author_stats">%1$d mesaj\n%2$d teşekkür</string>
     <string name="forum_level_electron">Elektron</string>

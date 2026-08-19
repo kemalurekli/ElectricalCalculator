@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.rememberScrollState
@@ -25,9 +26,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -35,6 +38,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.R
@@ -96,6 +102,7 @@ fun SettingsScreen(
     val spacing = ElecTheme.spacing
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showDisclaimer by rememberSaveable { mutableStateOf(false) }
+    var showLicenses by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         contentWindowInsets = WindowInsets.safeDrawing,
@@ -232,6 +239,19 @@ fun SettingsScreen(
                 }
             }
 
+            // Not optional. The app's typefaces are SIL Open Font License, and
+            // that licence requires its own text to travel with them — so a
+            // build that ships Inter without a way to read the licence is not
+            // licensed to ship Inter.
+            SettingsGroup {
+                TextButton(
+                    onClick = { showLicenses = true },
+                    modifier = Modifier.padding(horizontal = spacing.sm),
+                ) {
+                    Text(text = stringResource(R.string.settings_licenses))
+                }
+            }
+
             SettingsGroup {
                 Row(
                     modifier = Modifier
@@ -256,7 +276,67 @@ fun SettingsScreen(
     if (showDisclaimer) {
         DisclaimerDialog(onAccept = {}, onDismiss = { showDisclaimer = false })
     }
+
+    if (showLicenses) {
+        LicensesDialog(onDismiss = { showLicenses = false })
+    }
 }
+
+/**
+ * The full licence text for every third-party asset the app embeds.
+ *
+ * Read from `assets/licenses/` rather than pasted into `strings.xml`: these are
+ * legal texts that must ship verbatim, and a translator's file is the last
+ * place a verbatim text should live. Nothing here is translated for the same
+ * reason — the OFL is the OFL in every locale.
+ */
+@Composable
+private fun LicensesDialog(onDismiss: () -> Unit) {
+    val spacing = ElecTheme.spacing
+    val context = LocalContext.current
+
+    // Read once and held, not re-read on every recomposition of the dialog.
+    val text by produceState(initialValue = "", context) {
+        value = withContext(Dispatchers.IO) {
+            runCatching {
+                context.assets.list("licenses").orEmpty().sorted().joinToString("\n\n") { name ->
+                    context.assets.open("licenses/$name").bufferedReader().use { it.readText() }
+                }
+            }.getOrDefault("")
+        }
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.settings_licenses)) },
+        text = {
+            Column(
+                modifier = Modifier
+                    .heightIn(max = LICENSE_DIALOG_MAX_HEIGHT)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(spacing.sm),
+            ) {
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_close)) }
+        },
+    )
+}
+
+/**
+ * Ceiling for the licence text.
+ *
+ * An AlertDialog sizes itself to its content, and eight thousand characters of
+ * licence would push the dismiss button off the bottom of the screen — leaving
+ * a dialog that cannot be closed by the one control meant to close it.
+ */
+private val LICENSE_DIALOG_MAX_HEIGHT = 420.dp
 
 /**
  * The values every calculator opens with.

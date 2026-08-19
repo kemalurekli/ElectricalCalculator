@@ -11,10 +11,24 @@ import androidx.compose.ui.unit.sp
 /**
  * Typography for ElecToolkit.
  *
- * Body and label styles use the platform sans-serif so system font scaling and
- * per-locale fallbacks work untouched. Numeric output uses [NumericTextStyle],
- * a monospace style, so that digits stay column-aligned when results update —
- * proportional digits visibly jitter as values change.
+ * Text is set in Inter and figures in JetBrains Mono, both bundled — see
+ * [InterFamily] for why the app carries typefaces rather than asking the
+ * platform for one. Sizes are in `sp` throughout, so the reader's own font-size
+ * setting still scales everything.
+ *
+ * ### On the tracking
+ *
+ * Material 3's body styles ship with 0.5sp of letter spacing at 16sp and 0.25sp
+ * at 14sp. That looseness is tuned for Roboto and, more to the point, it is the
+ * single most recognisable thing about a default Compose app after its colours:
+ * paragraphs that read as slightly airy, the way a consumer app's do. Inter is
+ * drawn tight and does not need the help. Body and label tracking is pulled in
+ * to 0.1–0.2sp, which reads as denser and more instrument-like without
+ * crossing into cramped.
+ *
+ * [titleLarge] came down from 22sp to 20sp for a related reason: it is the top
+ * app bar's size, and at 22sp a Turkish screen title such as "Solar PV Dizi
+ * Boyutlandırma" was one character from being ellipsized on a narrow phone.
  */
 
 private val DefaultLineHeightStyle = LineHeightStyle(
@@ -27,7 +41,7 @@ private fun elecTextStyle(
     fontSize: androidx.compose.ui.unit.TextUnit,
     lineHeight: androidx.compose.ui.unit.TextUnit,
     letterSpacing: androidx.compose.ui.unit.TextUnit,
-    fontFamily: FontFamily = FontFamily.SansSerif,
+    fontFamily: FontFamily = InterFamily,
 ): TextStyle = TextStyle(
     fontFamily = fontFamily,
     fontWeight = fontWeight,
@@ -49,17 +63,17 @@ val ElecTypography = Typography(
     headlineMedium = elecTextStyle(FontWeight.SemiBold, 28.sp, 36.sp, 0.sp),
     headlineSmall = elecTextStyle(FontWeight.SemiBold, 24.sp, 32.sp, 0.sp),
 
-    titleLarge = elecTextStyle(FontWeight.SemiBold, 22.sp, 28.sp, 0.sp),
-    titleMedium = elecTextStyle(FontWeight.SemiBold, 16.sp, 24.sp, 0.15.sp),
+    titleLarge = elecTextStyle(FontWeight.SemiBold, 20.sp, 26.sp, 0.sp),
+    titleMedium = elecTextStyle(FontWeight.SemiBold, 16.sp, 24.sp, 0.1.sp),
     titleSmall = elecTextStyle(FontWeight.Medium, 14.sp, 20.sp, 0.1.sp),
 
-    bodyLarge = elecTextStyle(FontWeight.Normal, 16.sp, 24.sp, 0.5.sp),
-    bodyMedium = elecTextStyle(FontWeight.Normal, 14.sp, 20.sp, 0.25.sp),
-    bodySmall = elecTextStyle(FontWeight.Normal, 12.sp, 16.sp, 0.4.sp),
+    bodyLarge = elecTextStyle(FontWeight.Normal, 16.sp, 24.sp, 0.1.sp),
+    bodyMedium = elecTextStyle(FontWeight.Normal, 14.sp, 20.sp, 0.1.sp),
+    bodySmall = elecTextStyle(FontWeight.Normal, 12.sp, 16.sp, 0.2.sp),
 
     labelLarge = elecTextStyle(FontWeight.Medium, 14.sp, 20.sp, 0.1.sp),
-    labelMedium = elecTextStyle(FontWeight.Medium, 12.sp, 16.sp, 0.5.sp),
-    labelSmall = elecTextStyle(FontWeight.Medium, 11.sp, 16.sp, 0.5.sp),
+    labelMedium = elecTextStyle(FontWeight.Medium, 12.sp, 16.sp, 0.2.sp),
+    labelSmall = elecTextStyle(FontWeight.Medium, 11.sp, 16.sp, 0.2.sp),
 )
 
 /** Tabular style for primary result values. */
@@ -68,7 +82,7 @@ val NumericTextStyle: TextStyle = elecTextStyle(
     fontSize = 32.sp,
     lineHeight = 40.sp,
     letterSpacing = (-0.5).sp,
-    fontFamily = FontFamily.Monospace,
+    fontFamily = JetBrainsMonoFamily,
 )
 
 /** Tabular style for secondary values and table cells. */
@@ -77,7 +91,7 @@ val NumericCompactTextStyle: TextStyle = elecTextStyle(
     fontSize = 15.sp,
     lineHeight = 20.sp,
     letterSpacing = 0.sp,
-    fontFamily = FontFamily.Monospace,
+    fontFamily = JetBrainsMonoFamily,
 )
 
 /** Style for rendered formulas and variable definitions. */
@@ -86,5 +100,5 @@ val FormulaTextStyle: TextStyle = elecTextStyle(
     fontSize = 14.sp,
     lineHeight = 22.sp,
     letterSpacing = 0.sp,
-    fontFamily = FontFamily.Monospace,
+    fontFamily = JetBrainsMonoFamily,
 )

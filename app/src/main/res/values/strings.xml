@@ -3323,6 +3323,8 @@
     -->
     <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
     <string name="settings_privacy_policy">Privacy policy</string>
+    <string name="settings_licenses">Open-source licences</string>
+    <string name="action_close">Close</string>
     <!-- Forum: standing -->
     <string name="forum_author_stats">%1$d msg\n%2$d thanks</string>
     <string name="forum_level_electron">Electron</string>
