@@ -17,6 +17,10 @@ import com.kemalurekli.electricalcalculator.core.common.di.coreCommonModule
 import com.kemalurekli.electricalcalculator.core.data.di.coreDataModule
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
+import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
+import com.kemalurekli.electricalcalculator.features.calculators.calculatorsModule
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorDestination
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorsRoute
 import com.kemalurekli.electricalcalculator.features.converter.converterModule
 import com.kemalurekli.electricalcalculator.features.fieldnotes.fieldNotesModule
 import com.kemalurekli.electricalcalculator.features.fieldnotes.presentation.FieldNotesRoute
@@ -34,6 +38,8 @@ import org.koin.core.context.startKoin
 import platform.UIKit.UIViewController
 import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.Res as ConverterRes
 import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.Res as FieldNotesRes
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.Res as NavigationRes
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.tab_calculators
 import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.Res as GlossaryRes
 import com.kemalurekli.electricalcalculator.feature.history.generated.resources.Res as HistoryRes
 
@@ -59,6 +65,7 @@ fun MainViewController(): UIViewController {
             historyModule,
             glossaryModule,
             fieldNotesModule,
+            calculatorsModule,
         )
     }
     return ComposeUIViewController {
@@ -69,7 +76,7 @@ fun MainViewController(): UIViewController {
 }
 
 /** The screens ported so far. */
-private enum class IosTab { Converter, Glossary, FieldNotes, History }
+private enum class IosTab { Calculators, Converter, Glossary, FieldNotes, History }
 
 /**
  * A stand-in for `ElecAppShell` until navigation itself is multiplatform.
@@ -89,13 +96,24 @@ private enum class IosTab { Converter, Glossary, FieldNotes, History }
 private fun IosShell() {
     // The ordinal rather than the entry itself: `rememberSaveable` stores
     // primitives, and an enum needs a Saver spelled out to survive the trip.
-    var selectedOrdinal by rememberSaveable { mutableStateOf(IosTab.Converter.ordinal) }
+    var selectedOrdinal by rememberSaveable { mutableStateOf(IosTab.Calculators.ordinal) }
     val selected = IosTab.entries[selectedOrdinal]
+
+    // One level of stack, by hand. The calculators are a list that opens a
+    // screen, and until `ElecNavHost` is multiplatform there is nothing here to
+    // ask. Storing the key rather than the enum for the reason above.
+    var openCalculatorKey by rememberSaveable { mutableStateOf<String?>(null) }
 
     NavigationSuiteScaffold(
         modifier = Modifier.fillMaxSize(),
         layoutType = NavigationSuiteScaffoldDefaults.navigationSuiteType(currentWindowAdaptiveInfo()),
         navigationSuiteItems = {
+            item(
+                selected = selected == IosTab.Calculators,
+                onClick = { selectedOrdinal = IosTab.Calculators.ordinal },
+                icon = { Icon(ElecIcons.Calculators, contentDescription = null) },
+                label = { Text(stringResource(NavigationRes.string.tab_calculators)) },
+            )
             item(
                 selected = selected == IosTab.Converter,
                 onClick = { selectedOrdinal = IosTab.Converter.ordinal },
@@ -123,6 +141,23 @@ private fun IosShell() {
         },
     ) {
         when (selected) {
+            IosTab.Calculators -> {
+                val open = openCalculatorKey?.let(CalculatorId::fromKeyOrNull)
+                if (open == null) {
+                    CalculatorsRoute(onCalculatorClick = { openCalculatorKey = it.key })
+                } else {
+                    CalculatorDestination(
+                        id = open,
+                        recordId = null,
+                        // The reference section is a tab of its own on Android
+                        // and not here yet, so a "see the table" link has
+                        // nowhere to go.
+                        onReferenceClick = {},
+                        onNavigateBack = { openCalculatorKey = null },
+                    )
+                }
+            }
+
             IosTab.Converter -> ConverterRoute(onNavigateBack = null)
             // The glossary's outbound links go to screens that have not moved
             // yet, so they do nothing here rather than pretending to.

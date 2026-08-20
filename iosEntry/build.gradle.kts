@@ -43,6 +43,8 @@ kotlin {
             implementation(project(":feature:converter"))
             implementation(project(":feature:history"))
             implementation(project(":feature:glossary"))
+            implementation(project(":core:navigation"))
+            implementation(project(":feature:calculators"))
             implementation(project(":feature:fieldnotes"))
             implementation(project(":core:data"))
 

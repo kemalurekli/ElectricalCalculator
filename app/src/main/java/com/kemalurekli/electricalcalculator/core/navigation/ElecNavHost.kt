@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.navigation
 
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorDestination
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -13,28 +14,8 @@ import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.features.home.domain.SearchKind
 import com.kemalurekli.electricalcalculator.features.home.domain.SearchableItem
-import com.kemalurekli.electricalcalculator.features.calculators.energycost.presentation.EnergyCostRoute
-import com.kemalurekli.electricalcalculator.features.calculators.evse.presentation.EvseRoute
-import com.kemalurekli.electricalcalculator.features.calculators.harmonics.presentation.HarmonicsRoute
-import com.kemalurekli.electricalcalculator.features.calculators.motorstarting.presentation.MotorStartingRoute
-import com.kemalurekli.electricalcalculator.features.calculators.selectivity.presentation.SelectivityRoute
-import com.kemalurekli.electricalcalculator.features.calculators.lighting.presentation.LightingRoute
-import com.kemalurekli.electricalcalculator.features.calculators.neutralcurrent.presentation.NeutralCurrentRoute
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorDetailRoute
-import com.kemalurekli.electricalcalculator.features.calculators.battery.presentation.BatteryRoute
-import com.kemalurekli.electricalcalculator.features.calculators.cablesize.presentation.CableSizeRoute
-import com.kemalurekli.electricalcalculator.features.calculators.cableweight.presentation.CableWeightRoute
-import com.kemalurekli.electricalcalculator.features.calculators.conduitfill.presentation.ConduitFillRoute
-import com.kemalurekli.electricalcalculator.features.calculators.earthfault.presentation.EarthFaultRoute
-import com.kemalurekli.electricalcalculator.features.calculators.solarstring.presentation.SolarStringRoute
-import com.kemalurekli.electricalcalculator.features.calculators.trayfill.presentation.TrayFillRoute
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorsRoute
-import com.kemalurekli.electricalcalculator.features.calculators.motor.presentation.MotorRoute
-import com.kemalurekli.electricalcalculator.features.calculators.power.presentation.PowerRoute
-import com.kemalurekli.electricalcalculator.features.calculators.powerfactor.presentation.PowerFactorRoute
-import com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.presentation.ShortCircuitRoute
-import com.kemalurekli.electricalcalculator.features.calculators.transformer.presentation.TransformerRoute
-import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.presentation.VoltageDropRoute
 import com.kemalurekli.electricalcalculator.features.converter.presentation.ConverterRoute
 import com.kemalurekli.electricalcalculator.features.favorites.presentation.FavoritesRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumCategoriesRoute
@@ -114,145 +95,12 @@ fun ElecNavHost(
             val route = backStackEntry.toRoute<Route.Calculator>()
             val calculatorId = CalculatorId.fromKeyOrNull(route.calculatorKey)
             val recordId = route.recordId
-            when (calculatorId) {
-                CalculatorId.VOLTAGE_DROP ->
-                    VoltageDropRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.CABLE_SIZE ->
-                    CableSizeRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.TRANSFORMER_CURRENT ->
-                    TransformerRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.MOTOR_CURRENT ->
-                    MotorRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.POWER ->
-                    PowerRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.POWER_FACTOR_CORRECTION ->
-                    PowerFactorRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.BATTERY_RUNTIME ->
-                    BatteryRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.CABLE_WEIGHT ->
-                    CableWeightRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.CONDUIT_FILL ->
-                    ConduitFillRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.CABLE_TRAY_FILL ->
-                    TrayFillRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.SHORT_CIRCUIT ->
-                    ShortCircuitRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.EARTH_FAULT_LOOP ->
-                    EarthFaultRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.LIGHTING_LUMEN ->
-                    LightingRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.SOLAR_STRING ->
-                    SolarStringRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.NEUTRAL_CURRENT ->
-                    NeutralCurrentRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.ENERGY_COST ->
-                    EnergyCostRoute(
-                        onReferenceClick = actions::navigateToReference,
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.SELECTIVITY ->
-                    SelectivityRoute(
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.MOTOR_STARTING ->
-                    MotorStartingRoute(
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.HARMONICS ->
-                    HarmonicsRoute(
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                CalculatorId.EVSE ->
-                    EvseRoute(
-                        onNavigateBack = actions::navigateBack,
-                        recordId = recordId,
-                    )
-
-                else -> CalculatorDetailRoute(onNavigateBack = actions::navigateBack)
-            }
+            CalculatorDestination(
+                id = calculatorId,
+                recordId = recordId,
+                onReferenceClick = actions::navigateToReference,
+                onNavigateBack = actions::navigateBack,
+            )
         }
 
         composable<Route.Converter> {
