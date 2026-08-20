@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import com.kemalurekli.electricalcalculator.core.common.di.ApplicationScope
 import com.kemalurekli.electricalcalculator.core.common.di.IoDispatcher
+import com.kemalurekli.electricalcalculator.core.datastore.UserPreferencesDataSource
 import com.kemalurekli.electricalcalculator.core.datastore.di.DataStoreModule
 import dagger.Module
 import dagger.Provides
@@ -55,4 +56,19 @@ object TestDataStoreModule {
             produceFile = { file },
         )
     }
+
+    /**
+     * Provided here as well, because replacing [DataStoreModule] replaces every
+     * binding in it.
+     *
+     * `UserPreferencesDataSource` used to carry an `@Inject constructor` and
+     * needed no binding at all. It lost the annotation when it moved to a
+     * multiplatform module — `javax.inject` is a JVM API — so the module that
+     * builds it has to say how, and so does the module that stands in for it.
+     */
+    @Provides
+    @Singleton
+    fun provideTestUserPreferencesDataSource(
+        dataStore: DataStore<Preferences>,
+    ): UserPreferencesDataSource = UserPreferencesDataSource(dataStore)
 }

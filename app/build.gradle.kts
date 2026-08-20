@@ -170,6 +170,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:database"))
+    implementation(project(":core:datastore"))
     implementation(project(":core:designsystem"))
     implementation(project(":feature:converter"))
     implementation(libs.androidx.compose.material3.navigation.suite)

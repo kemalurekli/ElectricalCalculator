@@ -31,6 +31,7 @@ include(":app")
 include(":core:common")
 include(":core:domain")
 include(":core:database")
+include(":core:datastore")
 include(":core:designsystem")
 include(":feature:converter")
 

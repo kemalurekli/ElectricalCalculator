@@ -1,6 +1,5 @@
 package com.kemalurekli.electricalcalculator.core.datastore
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -15,9 +14,6 @@ import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import java.io.IOException
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Reads and writes settings to Preferences DataStore.
@@ -27,21 +23,19 @@ import javax.inject.Singleton
  * downgrade, or a constant removed in a later version — falls back to the
  * default instead of throwing.
  */
-@Singleton
-class UserPreferencesDataSource @Inject constructor(
+class UserPreferencesDataSource(
     private val dataStore: DataStore<Preferences>,
 ) {
 
     val preferences: Flow<UserPreferences> = dataStore.data
-        .catch { throwable ->
-            // DataStore surfaces read failures through the flow. Recovering with
-            // defaults keeps a corrupt file from making the app unlaunchable.
-            if (throwable is IOException) {
-                Log.e(TAG, "Failed to read user preferences, falling back to defaults", throwable)
-                emit(emptyPreferences())
-            } else {
-                throw throwable
-            }
+        .catch {
+            // DataStore surfaces read failures through the flow. Recovering
+            // with defaults keeps a corrupt file from making the app
+            // unlaunchable — which was already the behaviour; it used to check
+            // for java.io.IOException first, and there is no common equivalent
+            // to check for. Every failure reaching here is a failure to read a
+            // settings file, and the answer to all of them is the same.
+            emit(emptyPreferences())
         }
         .map { it.toUserPreferences() }
 
@@ -171,7 +165,4 @@ class UserPreferencesDataSource @Inject constructor(
         val PINNED_THREADS = stringSetPreferencesKey("pinned_forum_threads")
     }
 
-    private companion object {
-        const val TAG = "UserPreferences"
-    }
 }

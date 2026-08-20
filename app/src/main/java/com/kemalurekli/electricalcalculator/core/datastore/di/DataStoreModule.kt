@@ -2,11 +2,10 @@ package com.kemalurekli.electricalcalculator.core.datastore.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.preferencesDataStoreFile
+import com.kemalurekli.electricalcalculator.core.datastore.UserPreferencesDataSource
+import com.kemalurekli.electricalcalculator.core.datastore.createPreferencesDataStore
+import com.kemalurekli.electricalcalculator.core.datastore.preferencesContext
 import com.kemalurekli.electricalcalculator.core.common.di.ApplicationScope
 import com.kemalurekli.electricalcalculator.core.common.di.IoDispatcher
 import dagger.Module
@@ -23,19 +22,28 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
 
-    private const val PREFERENCES_NAME = "user_preferences"
-
+    /**
+     * Hilt owns the store's lifetime; the shared module owns how it is opened.
+     *
+     * The corruption handling and the file name moved into
+     * `createPreferencesDataStore` so both platforms get them. What is left
+     * here is handing the shared code the two things only Android supplies: a
+     * `Context` to resolve a path from, and the application's coroutine scope.
+     */
     @Provides
     @Singleton
     fun providePreferencesDataStore(
         @ApplicationContext context: Context,
         @ApplicationScope scope: CoroutineScope,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
-    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
-        // A corrupted preferences file resets to defaults rather than crashing
-        // on every launch, which would otherwise require a reinstall.
-        corruptionHandler = ReplaceFileCorruptionHandler { emptyPreferences() },
-        scope = scope + ioDispatcher,
-        produceFile = { context.preferencesDataStoreFile(PREFERENCES_NAME) },
-    )
+    ): DataStore<Preferences> {
+        preferencesContext = context
+        return createPreferencesDataStore(scope + ioDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserPreferencesDataSource(
+        dataStore: DataStore<Preferences>,
+    ): UserPreferencesDataSource = UserPreferencesDataSource(dataStore)
 }
