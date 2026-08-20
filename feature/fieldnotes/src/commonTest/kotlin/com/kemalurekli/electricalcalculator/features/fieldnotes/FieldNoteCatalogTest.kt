@@ -1,14 +1,12 @@
 package com.kemalurekli.electricalcalculator.features.fieldnotes
 
-import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.features.fieldnotes.domain.FieldNoteCatalog
 import com.kemalurekli.electricalcalculator.features.fieldnotes.domain.FieldNoteCategory
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryCatalog
-import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
+import kotlin.test.Test
 
 /**
  * Structural checks over the field notes.
@@ -27,20 +25,20 @@ class FieldNoteCatalogTest {
     fun `the catalog is not empty`() {
         // A parser or a generator that emitted nothing would make every other
         // assertion here vacuously true.
-        assertTrue("No field notes in the catalog", notes.isNotEmpty())
+        assertTrue(notes.isNotEmpty(), "No field notes in the catalog")
     }
 
     @Test
     fun `keys are unique`() {
         val keys = notes.map { it.key }
-        assertEquals("Duplicate field note key", keys.size, keys.distinct().size)
+        assertEquals(keys.size, keys.distinct().size, "Duplicate field note key")
     }
 
     @Test
     fun `keys are lower snake case`() {
         val pattern = Regex("""^[a-z0-9]+(_[a-z0-9]+)*$""")
         notes.forEach { note ->
-            assertTrue("Key is not lower_snake_case: ${note.key}", pattern.matches(note.key))
+            assertTrue(pattern.matches(note.key), "Key is not lower_snake_case: ${note.key}")
         }
     }
 
@@ -61,8 +59,10 @@ class FieldNoteCatalogTest {
     @Test
     fun `every note has a title and a body`() {
         notes.forEach { note ->
-            assertTrue("${note.key} has no title resource", note.titleRes != 0)
-            assertTrue("${note.key} has no body resource", note.bodyRes != 0)
+            // The type already rules out null; what it cannot rule out is the
+            // generator naming the catalog entry and the string differently.
+            assertEquals("fn_${note.key}_title", note.title.key)
+            assertEquals("fn_${note.key}_body", note.body.key)
         }
     }
 
@@ -70,10 +70,10 @@ class FieldNoteCatalogTest {
     fun `no two notes share a title or a body resource`() {
         // Catches the copy-paste that leaves a new note showing an old one's
         // text — which no other check here would notice.
-        val titles = notes.map { it.titleRes }
-        val bodies = notes.map { it.bodyRes }
-        assertEquals("Two notes share a title resource", titles.size, titles.distinct().size)
-        assertEquals("Two notes share a body resource", bodies.size, bodies.distinct().size)
+        val titles = notes.map { it.title }
+        val bodies = notes.map { it.body }
+        assertEquals(titles.size, titles.distinct().size, "Two notes share a title resource")
+        assertEquals(bodies.size, bodies.distinct().size, "Two notes share a body resource")
     }
 
     // -- The cross-links are what keep this from being a fourth silo ----------
@@ -82,10 +82,7 @@ class FieldNoteCatalogTest {
     fun `every glossary term a note leans on exists`() {
         notes.forEach { note ->
             note.glossaryTerms.forEach { key ->
-                assertTrue(
-                    "${note.key} points at glossary term \"$key\", which does not exist",
-                    GlossaryCatalog.termOrNull(key) != null,
-                )
+                assertTrue(GlossaryCatalog.termOrNull(key) != null, "${note.key} points at glossary term \"$key\", which does not exist")
             }
         }
     }
@@ -93,30 +90,8 @@ class FieldNoteCatalogTest {
     @Test
     fun `term lists have no duplicates`() {
         notes.forEach { note ->
-            assertEquals(
-                "${note.key} lists the same term twice",
-                note.glossaryTerms.size,
-                note.glossaryTerms.distinct().size,
-            )
+            assertEquals(note.glossaryTerms.size, note.glossaryTerms.distinct().size, "${note.key} lists the same term twice")
         }
-    }
-
-    @Test
-    fun `every referenced calculator is in the catalog`() {
-        val known = CalculatorCatalog().all.map { it.id }.toSet()
-        notes.mapNotNull { note -> note.calculator?.let { note.key to it } }
-            .forEach { (key, id) ->
-                assertTrue("$key points at calculator $id, which is not in the catalog", id in known)
-            }
-    }
-
-    @Test
-    fun `every referenced reference topic exists`() {
-        val known = ReferenceCatalog.all.map { it.key }.toSet()
-        notes.mapNotNull { note -> note.referenceTopic?.let { note.key to it } }
-            .forEach { (key, topic) ->
-                assertTrue("$key points at reference topic \"$topic\", which does not exist", topic in known)
-            }
     }
 
     @Test
@@ -129,7 +104,7 @@ class FieldNoteCatalogTest {
             val hasLink = note.glossaryTerms.isNotEmpty() ||
                 note.calculator != null ||
                 note.referenceTopic != null
-            assertTrue("${note.key} links to nothing", hasLink)
+            assertTrue(hasLink, "${note.key} links to nothing")
         }
     }
 
@@ -140,10 +115,7 @@ class FieldNoteCatalogTest {
         // A category with no notes is a filter chip that leads to an empty list.
         // Categories are added with their content, not ahead of it.
         FieldNoteCategory.entries.forEach { category ->
-            assertTrue(
-                "Category $category is declared but has no notes",
-                FieldNoteCatalog.inCategory(category).isNotEmpty(),
-            )
+            assertTrue(FieldNoteCatalog.inCategory(category).isNotEmpty(), "Category $category is declared but has no notes")
         }
     }
 

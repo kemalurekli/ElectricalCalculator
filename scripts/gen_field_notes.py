@@ -36,12 +36,19 @@ thumb makes them act and feel sure about it. Registered in
 Usage:
     python3 scripts/gen_field_notes.py
 """
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from pathlib import Path
 import re
 
-ROOT = Path(__file__).resolve().parent.parent / "app/src/main"
-RES = ROOT / "res"
+MODULE = Path(__file__).resolve().parent.parent / "feature/fieldnotes/src/commonMain"
+ROOT = MODULE / "kotlin"
+RES = MODULE / "composeResources"
+
+# Declared in feature/fieldnotes/build.gradle.kts and repeated here because the
+# catalog imports from it.
+RES_PACKAGE = "com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources"
 
 
 @dataclass
@@ -361,22 +368,25 @@ NOTES: list[N] = [
 
 
 def escape(text: str) -> str:
-    """XML-escape, and protect the characters Android string resources treat specially."""
-    return (
-        text.replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-        .replace("'", "\\'")
-        .replace('"', '\\"')
-    )
+    """XML-escape, and nothing else.
+
+    `aapt` also wanted `\\'` and `\\"`; Compose Resources does not, and passes
+    a backslash written here straight to the reader. See gen_glossary.py.
+    """
+    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
 def kotlin() -> str:
+    imports = [f"import {RES_PACKAGE}.Res"]
+    for n in NOTES:
+        imports.append(f"import {RES_PACKAGE}.fn_{n.key}_title")
+        imports.append(f"import {RES_PACKAGE}.fn_{n.key}_body")
+
     lines = [
         "package com.kemalurekli.electricalcalculator.features.fieldnotes.domain",
         "",
-        "import com.kemalurekli.electricalcalculator.R",
         "import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId",
+        *imports,
         "",
         "/**",
         " * Every field note the app ships.",
@@ -398,8 +408,8 @@ def kotlin() -> str:
         lines.append("        FieldNote(")
         lines.append(f'            key = "{n.key}",')
         lines.append(f"            category = FieldNoteCategory.{n.cat},")
-        lines.append(f"            titleRes = R.string.fn_{n.key}_title,")
-        lines.append(f"            bodyRes = R.string.fn_{n.key}_body,")
+        lines.append(f"            title = Res.string.fn_{n.key}_title,")
+        lines.append(f"            body = Res.string.fn_{n.key}_body,")
         if n.terms:
             joined = ", ".join(f'"{k}"' for k in n.terms)
             lines.append(f"            glossaryTerms = listOf({joined}),")
@@ -429,15 +439,10 @@ def kotlin() -> str:
 def english_block() -> str:
     lines = ["", "    <!-- Field notes -->"]
     for n in NOTES:
-        # A literal % with no positional argument must declare formatted="false",
-        # or String.format sees a conversion specifier and lint sees a bug.
-        # `StringResourceIntegrityTest` enforces this.
-        title_attr = ' formatted="false"' if "%" in n.en_title else ""
-        body_attr = ' formatted="false"' if "%" in n.en else ""
-        lines.append(
-            f'    <string name="fn_{n.key}_title"{title_attr}>{escape(n.en_title)}</string>'
-        )
-        lines.append(f'    <string name="fn_{n.key}_body"{body_attr}>{escape(n.en)}</string>')
+        # No formatted="false": Compose Resources does no formatting unless the
+        # caller passes arguments, so there is nothing to opt out of.
+        lines.append(f'    <string name="fn_{n.key}_title">{escape(n.en_title)}</string>')
+        lines.append(f'    <string name="fn_{n.key}_body">{escape(n.en)}</string>')
     return "\n".join(lines) + "\n"
 
 
@@ -479,7 +484,7 @@ assert len(keys) == len(set(keys)), "duplicate note key"
 
 catalog = (
     ROOT
-    / "java/com/kemalurekli/electricalcalculator/features/fieldnotes/domain/FieldNoteCatalog.kt"
+    / "com/kemalurekli/electricalcalculator/features/fieldnotes/domain/FieldNoteCatalog.kt"
 )
 catalog.write_text(kotlin())
 rewrite_english()

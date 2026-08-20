@@ -99,7 +99,7 @@ class FavoritesViewModel @Inject constructor(
         }
 
         FavoriteKind.FIELD_NOTE -> FieldNoteCatalog.noteOrNull(item.key)?.let {
-            FavoriteRow(item, stringResolver.get(it.titleRes), stringResolver.get(it.bodyRes))
+            FavoriteRow(item, stringResolver.get(it.title), stringResolver.get(it.body))
         }
 
         FavoriteKind.THEORY -> TheoryCatalog.topicOrNull(item.key)?.let {

@@ -17,6 +17,7 @@
     <string name="cv_to">To</string>
     <string name="cv_value">Value</string>
     <string name="dashboard_converter_title">Unit Converter</string>
+    <string name="tab_converter">Converter</string>
     <string name="unit_category_angle">Angle</string>
     <string name="unit_category_area">Area</string>
     <string name="unit_category_capacitance">Capacitance</string>

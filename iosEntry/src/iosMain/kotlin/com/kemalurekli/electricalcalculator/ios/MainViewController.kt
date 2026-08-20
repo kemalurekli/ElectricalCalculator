@@ -18,10 +18,13 @@ import com.kemalurekli.electricalcalculator.core.data.di.coreDataModule
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.features.converter.converterModule
+import com.kemalurekli.electricalcalculator.features.fieldnotes.fieldNotesModule
+import com.kemalurekli.electricalcalculator.features.fieldnotes.presentation.FieldNotesRoute
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.destination_field_notes
 import com.kemalurekli.electricalcalculator.features.glossary.glossaryModule
 import com.kemalurekli.electricalcalculator.features.glossary.presentation.GlossaryRoute
 import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.dashboard_glossary_title
-import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.dashboard_converter_title
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.tab_converter
 import com.kemalurekli.electricalcalculator.features.history.historyModule
 import com.kemalurekli.electricalcalculator.features.history.presentation.HistoryRoute
 import com.kemalurekli.electricalcalculator.features.converter.presentation.ConverterRoute
@@ -30,6 +33,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.core.context.startKoin
 import platform.UIKit.UIViewController
 import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.Res as ConverterRes
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.Res as FieldNotesRes
 import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.Res as GlossaryRes
 import com.kemalurekli.electricalcalculator.feature.history.generated.resources.Res as HistoryRes
 
@@ -54,6 +58,7 @@ fun MainViewController(): UIViewController {
             converterModule,
             historyModule,
             glossaryModule,
+            fieldNotesModule,
         )
     }
     return ComposeUIViewController {
@@ -64,7 +69,7 @@ fun MainViewController(): UIViewController {
 }
 
 /** The screens ported so far. */
-private enum class IosTab { Converter, Glossary, History }
+private enum class IosTab { Converter, Glossary, FieldNotes, History }
 
 /**
  * A stand-in for `ElecAppShell` until navigation itself is multiplatform.
@@ -95,13 +100,19 @@ private fun IosShell() {
                 selected = selected == IosTab.Converter,
                 onClick = { selectedOrdinal = IosTab.Converter.ordinal },
                 icon = { Icon(ElecIcons.Converter, contentDescription = null) },
-                label = { Text(stringResource(ConverterRes.string.dashboard_converter_title)) },
+                label = { Text(stringResource(ConverterRes.string.tab_converter)) },
             )
             item(
                 selected = selected == IosTab.Glossary,
                 onClick = { selectedOrdinal = IosTab.Glossary.ordinal },
                 icon = { Icon(ElecIcons.Glossary, contentDescription = null) },
                 label = { Text(stringResource(GlossaryRes.string.dashboard_glossary_title)) },
+            )
+            item(
+                selected = selected == IosTab.FieldNotes,
+                onClick = { selectedOrdinal = IosTab.FieldNotes.ordinal },
+                icon = { Icon(ElecIcons.FieldNotes, contentDescription = null) },
+                label = { Text(stringResource(FieldNotesRes.string.destination_field_notes)) },
             )
             item(
                 selected = selected == IosTab.History,
@@ -119,6 +130,13 @@ private fun IosShell() {
                 openTermKey = null,
                 onCalculatorClick = {},
                 onReferenceClick = {},
+                onNavigateBack = null,
+            )
+            IosTab.FieldNotes -> FieldNotesRoute(
+                openNoteKey = null,
+                onCalculatorClick = {},
+                onReferenceClick = {},
+                onGlossaryClick = {},
                 onNavigateBack = null,
             )
             IosTab.History -> HistoryRoute(onOpenRecord = {}, onNavigateBack = null)

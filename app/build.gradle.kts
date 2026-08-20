@@ -176,6 +176,7 @@ dependencies {
     implementation(project(":feature:converter"))
     implementation(project(":feature:history"))
     implementation(project(":feature:glossary"))
+    implementation(project(":feature:fieldnotes"))
     implementation(libs.androidx.compose.material3.navigation.suite)
 
     // Navigation

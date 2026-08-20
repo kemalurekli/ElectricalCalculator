@@ -232,7 +232,15 @@ layer passing its own test separately. The glossary went next because it is the
 root of the feature dependency tree: field notes, theory and favourites all
 reach into `glossary.domain`, and nothing reaches into them from below.
 
-Three screens run on iOS now, under a real tab bar.
+Field notes followed the glossary, and were the first move that had nothing new
+in it: the generator retargeted, the strings decoded, the `@StringRes Int`
+fields renamed. Four screens run on iOS now, under a real tab bar.
+
+One trap, which the next generated catalogue will hit too. The screen's own
+strings share the `fn_` prefix with the generated ones, so stripping the
+generated block by prefix took nine hand-written strings with it — invisible in
+Turkish, because those had been copied to the module already, and visible only
+in English. Check what a prefix sweep actually matched before deleting.
 
 ### What the glossary settled
 

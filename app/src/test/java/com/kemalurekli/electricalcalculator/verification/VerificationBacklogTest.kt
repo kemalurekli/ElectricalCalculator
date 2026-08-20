@@ -235,6 +235,8 @@ class VerificationBacklogTest {
          */
         private const val GLOSSARY =
             "feature/glossary/src/commonMain/kotlin/com/kemalurekli/electricalcalculator/features/glossary"
+        private const val FIELDNOTES =
+            "feature/fieldnotes/src/commonMain/kotlin/com/kemalurekli/electricalcalculator/features/fieldnotes"
 
         /**
          * Every place in the app that holds a figure read out of a standard, a
@@ -258,7 +260,7 @@ class VerificationBacklogTest {
             "$DESIGNSYSTEM/symbol",
             "$FEATURES/references/domain/ReferenceCatalog.kt",
             "$GLOSSARY/domain/GlossaryCatalog.kt",
-            "$FEATURES/fieldnotes/domain/FieldNoteCatalog.kt",
+            "$FIELDNOTES/domain/FieldNoteCatalog.kt",
             "$FEATURES/theory/domain",
             "app/src/main/res/values-tr/strings.xml",
         )

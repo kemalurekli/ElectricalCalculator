@@ -1,13 +1,11 @@
 package com.kemalurekli.electricalcalculator.features.fieldnotes.presentation
 
-import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.SearchNormalizer
-import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
+import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
@@ -16,7 +14,6 @@ import com.kemalurekli.electricalcalculator.features.fieldnotes.domain.FieldNote
 import com.kemalurekli.electricalcalculator.features.fieldnotes.domain.FieldNoteCatalog
 import com.kemalurekli.electricalcalculator.features.fieldnotes.domain.FieldNoteCategory
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryCatalog
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -28,7 +25,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.fn_cat_measurement_and_testing
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.fn_cat_rules_of_thumb
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.fn_cat_safety_and_practice
+import org.jetbrains.compose.resources.StringResource
 
 /** A note with its text resolved and its cross-references named. */
 @Immutable
@@ -50,7 +51,7 @@ data class FieldNoteLink(val key: String, val name: String)
 @Immutable
 data class FieldNoteSection(
     val category: FieldNoteCategory,
-    @StringRes val titleRes: Int,
+    val title: StringResource,
     val notes: ImmutableList<FieldNoteUiModel>,
 )
 
@@ -83,9 +84,8 @@ data class FieldNotesUiState(
  * grouping. That way an empty result is empty once — there is no state where a
  * category header sits above nothing because the query removed its contents.
  */
-@HiltViewModel
-class FieldNotesViewModel @Inject constructor(
-    private val stringResolver: ResourceIdResolver,
+class FieldNotesViewModel(
+    private val stringResolver: StringResolver,
     private val savedStateHandle: SavedStateHandle,
     private val favoritesRepository: FavoritesRepository,
 ) : ViewModel() {
@@ -176,7 +176,7 @@ class FieldNotesViewModel @Inject constructor(
                 if (notes.isEmpty()) {
                     null
                 } else {
-                    FieldNoteSection(category, category.titleRes(), notes.toImmutableList())
+                    FieldNoteSection(category, category.title(), notes.toImmutableList())
                 }
             }
             .toImmutableList()
@@ -212,8 +212,8 @@ class FieldNotesViewModel @Inject constructor(
     private fun toUiModel(note: FieldNote) = FieldNoteUiModel(
         key = note.key,
         category = note.category,
-        title = stringResolver.get(note.titleRes),
-        body = stringResolver.get(note.bodyRes),
+        title = stringResolver.get(note.title),
+        body = stringResolver.get(note.body),
         terms = note.glossaryTerms
             .mapNotNull { key ->
                 GlossaryCatalog.termOrNull(key)?.let {
@@ -237,9 +237,8 @@ class FieldNotesViewModel @Inject constructor(
 }
 
 /** The heading a category renders under. */
-@StringRes
-fun FieldNoteCategory.titleRes(): Int = when (this) {
-    FieldNoteCategory.SAFETY_AND_PRACTICE -> R.string.fn_cat_safety_and_practice
-    FieldNoteCategory.RULES_OF_THUMB -> R.string.fn_cat_rules_of_thumb
-    FieldNoteCategory.MEASUREMENT_AND_TESTING -> R.string.fn_cat_measurement_and_testing
+fun FieldNoteCategory.title(): StringResource = when (this) {
+    FieldNoteCategory.SAFETY_AND_PRACTICE -> Res.string.fn_cat_safety_and_practice
+    FieldNoteCategory.RULES_OF_THUMB -> Res.string.fn_cat_rules_of_thumb
+    FieldNoteCategory.MEASUREMENT_AND_TESTING -> Res.string.fn_cat_measurement_and_testing
 }

@@ -31,13 +31,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
@@ -51,6 +50,18 @@ import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.features.fieldnotes.domain.FieldNoteCategory
 import kotlinx.collections.immutable.persistentListOf
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.destination_field_notes
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.fn_cat_safety_and_practice
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.fn_empty_message
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.fn_empty_title
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.fn_filter_all
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.fn_related_calculator
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.fn_related_reference
+import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resources.fn_search_hint
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignSystemRes
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_add
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_remove
 
 @Composable
 fun FieldNotesRoute(
@@ -58,9 +69,9 @@ fun FieldNotesRoute(
     onCalculatorClick: (CalculatorId) -> Unit,
     onReferenceClick: (String) -> Unit,
     onGlossaryClick: (String) -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
-    viewModel: FieldNotesViewModel = hiltViewModel(),
+    viewModel: FieldNotesViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val pinned by viewModel.pinned.collectAsStateWithLifecycle()
@@ -116,7 +127,7 @@ fun FieldNotesScreen(
     onCalculatorClick: (CalculatorId) -> Unit,
     onReferenceClick: (String) -> Unit,
     onGlossaryClick: (String) -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     pinned: Set<String> = emptySet(),
     onToggleFavorite: (String) -> Unit = {},
     modifier: Modifier = Modifier,
@@ -127,7 +138,7 @@ fun FieldNotesScreen(
     val scrollBehavior = rememberElecScrollBehavior()
 
     ElecScreenScaffold(
-        title = stringResource(R.string.destination_field_notes),
+        title = stringResource(Res.string.destination_field_notes),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
         scrollBehavior = scrollBehavior,
@@ -140,7 +151,7 @@ fun FieldNotesScreen(
             ElecSearchBar(
                 query = uiState.query,
                 onQueryChange = onQueryChange,
-                placeholder = stringResource(R.string.fn_search_hint),
+                placeholder = stringResource(Res.string.fn_search_hint),
                 modifier = Modifier.padding(
                     start = spacing.screenHorizontal,
                     end = spacing.screenHorizontal,
@@ -156,8 +167,8 @@ fun FieldNotesScreen(
 
             if (uiState.hasNoResults) {
                 ElecEmptyState(
-                    title = stringResource(R.string.fn_empty_title),
-                    message = stringResource(R.string.fn_empty_message),
+                    title = stringResource(Res.string.fn_empty_title),
+                    message = stringResource(Res.string.fn_empty_message),
                     icon = ElecIcons.Search,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -180,7 +191,7 @@ fun FieldNotesScreen(
                 uiState.sections.forEach { section ->
                     item(key = "header-${section.category.name}") {
                         ElecSectionHeader(
-                            title = stringResource(section.titleRes),
+                            title = stringResource(section.title),
                             modifier = Modifier.padding(horizontal = 0.dp),
                         )
                     }
@@ -231,13 +242,13 @@ private fun CategoryFilter(
         FilterChip(
             selected = selected == null,
             onClick = { onFilterChange(null) },
-            label = { Text(stringResource(R.string.fn_filter_all)) },
+            label = { Text(stringResource(Res.string.fn_filter_all)) },
         )
         categories.forEach { category ->
             FilterChip(
                 selected = selected == category,
                 onClick = { onFilterChange(category) },
-                label = { Text(stringResource(category.titleRes())) },
+                label = { Text(stringResource(category.title())) },
             )
         }
     }
@@ -289,8 +300,8 @@ private fun NoteCard(
                                 imageVector = if (isFavorite) ElecIcons.FavoriteOn
                                 else ElecIcons.FavoriteOff,
                                 contentDescription = stringResource(
-                                    if (isFavorite) R.string.action_favorite_remove
-                                    else R.string.action_favorite_add,
+                                    if (isFavorite) DesignSystemRes.string.action_favorite_remove
+                                    else DesignSystemRes.string.action_favorite_add,
                                 ),
                                 tint = MaterialTheme.colorScheme.primary,
                             )
@@ -324,13 +335,13 @@ private fun NoteCard(
                             note.calculator?.let { id ->
                                 AssistChip(
                                     onClick = { onCalculatorClick(id) },
-                                    label = { Text(stringResource(R.string.fn_related_calculator)) },
+                                    label = { Text(stringResource(Res.string.fn_related_calculator)) },
                                 )
                             }
                             note.referenceTopic?.let { topicKey ->
                                 AssistChip(
                                     onClick = { onReferenceClick(topicKey) },
-                                    label = { Text(stringResource(R.string.fn_related_reference)) },
+                                    label = { Text(stringResource(Res.string.fn_related_reference)) },
                                 )
                             }
                             note.terms.forEach { link ->
@@ -357,7 +368,7 @@ private fun FieldNotesScreenPreview() {
                 sections = persistentListOf(
                     FieldNoteSection(
                         category = FieldNoteCategory.SAFETY_AND_PRACTICE,
-                        titleRes = R.string.fn_cat_safety_and_practice,
+                        title = Res.string.fn_cat_safety_and_practice,
                         notes = persistentListOf(
                             FieldNoteUiModel(
                                 key = "neutral_is_a_live_conductor",

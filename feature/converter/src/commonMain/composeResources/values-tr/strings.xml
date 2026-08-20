@@ -17,6 +17,7 @@
     <string name="cv_to">Hedef</string>
     <string name="cv_value">Değer</string>
     <string name="dashboard_converter_title">Birim Dönüştürücü</string>
+    <string name="tab_converter">Dönüştürücü</string>
     <string name="unit_category_angle">Açı</string>
     <string name="unit_category_area">Alan</string>
     <string name="unit_category_capacitance">Kapasitans</string>

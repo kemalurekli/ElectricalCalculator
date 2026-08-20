@@ -7,7 +7,7 @@ import com.kemalurekli.electricalcalculator.core.domain.search.SearchableItem
 import com.kemalurekli.electricalcalculator.features.converter.domain.UnitCatalog
 import com.kemalurekli.electricalcalculator.features.converter.presentation.categoryLabelRes
 import com.kemalurekli.electricalcalculator.features.fieldnotes.domain.FieldNoteCatalog
-import com.kemalurekli.electricalcalculator.features.fieldnotes.presentation.titleRes
+import com.kemalurekli.electricalcalculator.features.fieldnotes.presentation.title
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryCatalog
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceBlock
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
@@ -101,9 +101,9 @@ class SearchIndexBuilder @Inject constructor(
         SearchableItem(
             kind = SearchKind.FIELD_NOTE,
             key = note.key,
-            title = stringResolver.get(note.titleRes),
-            subtitle = stringResolver.get(note.category.titleRes()),
-            body = stringResolver.get(note.bodyRes),
+            title = stringResolver.get(note.title),
+            subtitle = stringResolver.get(note.category.title()),
+            body = stringResolver.get(note.body),
         )
     }
 

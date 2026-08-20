@@ -1,7 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.fieldnotes.domain
 
-import androidx.annotation.StringRes
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
+import org.jetbrains.compose.resources.StringResource
 
 /**
  * One field note — a piece of working knowledge, in card form.
@@ -53,8 +53,8 @@ import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 data class FieldNote(
     val key: String,
     val category: FieldNoteCategory,
-    @StringRes val titleRes: Int,
-    @StringRes val bodyRes: Int,
+    val title: StringResource,
+    val body: StringResource,
     val glossaryTerms: List<String> = emptyList(),
     val calculator: CalculatorId? = null,
     val referenceTopic: String? = null,

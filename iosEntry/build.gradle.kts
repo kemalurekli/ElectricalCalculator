@@ -43,6 +43,7 @@ kotlin {
             implementation(project(":feature:converter"))
             implementation(project(":feature:history"))
             implementation(project(":feature:glossary"))
+            implementation(project(":feature:fieldnotes"))
             implementation(project(":core:data"))
 
             implementation(compose.runtime)

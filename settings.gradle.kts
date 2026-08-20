@@ -37,6 +37,7 @@ include(":core:designsystem")
 include(":feature:converter")
 include(":feature:history")
 include(":feature:glossary")
+include(":feature:fieldnotes")
 
 // The iOS composition root — what MainActivity is on Android. Xcode links the
 // framework this produces and calls one function in it.

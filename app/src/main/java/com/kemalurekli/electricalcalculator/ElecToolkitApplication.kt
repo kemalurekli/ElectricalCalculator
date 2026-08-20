@@ -3,6 +3,7 @@ package com.kemalurekli.electricalcalculator
 import android.app.Application
 import com.kemalurekli.electricalcalculator.core.di.hiltBridgeModule
 import com.kemalurekli.electricalcalculator.features.converter.converterModule
+import com.kemalurekli.electricalcalculator.features.fieldnotes.fieldNotesModule
 import com.kemalurekli.electricalcalculator.features.glossary.glossaryModule
 import com.kemalurekli.electricalcalculator.features.history.historyModule
 import dagger.hilt.android.HiltAndroidApp
@@ -31,7 +32,13 @@ class ElecToolkitApplication : Application() {
             androidContext(this@ElecToolkitApplication)
             // `hiltBridgeModule` comes first only for readability; Koin resolves
             // by type, not by declaration order.
-            modules(hiltBridgeModule, converterModule, historyModule, glossaryModule)
+            modules(
+                hiltBridgeModule,
+                converterModule,
+                historyModule,
+                glossaryModule,
+                fieldNotesModule,
+            )
         }
     }
 }
