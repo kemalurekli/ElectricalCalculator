@@ -29,7 +29,10 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":core:domain"))
-            implementation(libs.androidx.room.runtime)
+            // `api`, not `implementation`: `ElecToolkitDatabase` extends
+            // `RoomDatabase`, so anyone holding one needs that supertype on
+            // their classpath to call anything on it.
+            api(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
             implementation(libs.kotlinx.coroutines.core)
             // StringMapConverter stores the input and result maps as JSON.

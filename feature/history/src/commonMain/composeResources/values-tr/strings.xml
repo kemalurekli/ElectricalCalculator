@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings owned by the history screen. -->
+<resources>
+    <string name="action_cancel">Vazgeç</string>
+    <string name="action_clear_all">Tümünü sil</string>
+    <string name="action_delete">Sil</string>
+    <string name="action_duplicate">Çoğalt</string>
+    <string name="action_rename">Yeniden adlandır</string>
+    <string name="action_save">Kaydet</string>
+    <string name="action_undo">Geri al</string>
+    <string name="destination_history">Geçmiş</string>
+    <string name="history_actions">Diğer işlemler</string>
+    <string name="history_clear_message">Kaydedilmiş bütün hesaplar silinecek. Bu işlem geri alınamaz.</string>
+    <string name="history_clear_title">Geçmiş silinsin mi?</string>
+    <string name="history_deleted">Hesap silindi</string>
+    <string name="history_rename_label">Ad</string>
+    <string name="history_rename_title">Hesabı yeniden adlandır</string>
+    <string name="search_history_hint">Kayıtlı hesaplamalarda ara</string>
+    <string name="state_empty_history_message">Hesapladıkça sonuçlar burada otomatik olarak kaydedilir.</string>
+    <string name="state_empty_history_title">Henüz hesaplama yok</string>
+</resources>

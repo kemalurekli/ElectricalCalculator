@@ -174,6 +174,7 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:designsystem"))
     implementation(project(":feature:converter"))
+    implementation(project(":feature:history"))
     implementation(libs.androidx.compose.material3.navigation.suite)
 
     // Navigation

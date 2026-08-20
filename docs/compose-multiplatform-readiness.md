@@ -214,3 +214,29 @@ is independent and can ship later than the first iOS release.
 
 Throughout: **Android keeps working.** There is a published app; a port that
 breaks it to make progress is not making progress.
+
+## Where this has got to
+
+Step 1 is done: the converter runs on the simulator in both languages, and
+`NumberFormatter` was harder than expected — see the trap above.
+
+Step 2 is done bar the platform capabilities. `:core:common`, `:core:domain`,
+`:core:database`, `:core:datastore` and `:core:data` all build for iOS, and
+`HistoryRepositoryIosTest` puts a record through Room on a simulator and reads
+it back.
+
+Step 3 has begun out of order. The plan named the read-only screens first
+because they are easiest; history went first instead because it is the most
+*informative* — it is the first screen that reads the database, so it puts the
+whole of step 2 on screen rather than each layer passing its own test
+separately. It is on iOS now, beside the converter, under a real tab bar.
+
+### The one thing worth knowing before porting the next feature
+
+Android has one object graph, not two. A ported feature's Koin module names the
+repositories it needs, and on iOS `coreDataModule` builds them; registering that
+same module on Android would build a **second** `ElecToolkitDatabase` over the
+same file, and two connections with their own write-ahead logs is how a saved
+calculation goes missing. `core/di/HiltBridgeModule.kt` is the answer: a Hilt
+`@EntryPoint` that hands Koin the objects Hilt already made. Each feature that
+moves adds a line to it; the file goes when Hilt does.

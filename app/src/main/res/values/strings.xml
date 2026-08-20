@@ -66,7 +66,6 @@
     <string name="calculator_cable_tray_fill_description">Tray occupancy for a cable bundle</string>
 
     <!-- Search -->
-    <string name="search_history_hint">Search saved calculations</string>
 
     <!-- Generic actions -->
     <string name="action_favorite_add">Add to favorites</string>
@@ -144,8 +143,6 @@
     <!-- Common states -->
     <string name="state_empty_favorites_title">No favorites yet</string>
     <string name="state_empty_favorites_message">Pin a calculator to keep it on your home screen.</string>
-    <string name="state_empty_history_title">No calculations yet</string>
-    <string name="state_empty_history_message">Results are saved here automatically as you calculate.</string>
     <string name="state_error_title">Something went wrong</string>
     <string name="state_empty_calculators_title">No matches</string>
     <string name="state_empty_calculators_message">No calculator matches that search. Try a different term.</string>
@@ -3184,19 +3181,9 @@
     <string name="th_ydelta_example_equal">Three equal star arms</string>
     <string name="th_ydelta_example_uneven">Uneven star</string>
     <string name="th_ydelta_example_delta_equal">Three equal delta arms</string>
-    <string name="action_rename">Rename</string>
-    <string name="action_duplicate">Duplicate</string>
     <string name="action_delete">Delete</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_save">Save</string>
-    <string name="action_undo">Undo</string>
-    <string name="action_clear_all">Clear all</string>
-    <string name="history_actions">More actions</string>
-    <string name="history_rename_title">Rename calculation</string>
-    <string name="history_rename_label">Name</string>
-    <string name="history_clear_title">Clear the history?</string>
-    <string name="history_clear_message">Every saved calculation will be removed. This cannot be undone.</string>
-    <string name="history_deleted">Calculation deleted</string>
     <string name="history_duplicated">Calculation duplicated</string>
 
     <!-- Forum: account and profile -->

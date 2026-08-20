@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings owned by the history screen. -->
+<resources>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_clear_all">Clear all</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_duplicate">Duplicate</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_save">Save</string>
+    <string name="action_undo">Undo</string>
+    <string name="destination_history">History</string>
+    <string name="history_actions">More actions</string>
+    <string name="history_clear_message">Every saved calculation will be removed. This cannot be undone.</string>
+    <string name="history_clear_title">Clear the history?</string>
+    <string name="history_deleted">Calculation deleted</string>
+    <string name="history_rename_label">Name</string>
+    <string name="history_rename_title">Rename calculation</string>
+    <string name="search_history_hint">Search saved calculations</string>
+    <string name="state_empty_history_message">Results are saved here automatically as you calculate.</string>
+    <string name="state_empty_history_title">No calculations yet</string>
+</resources>

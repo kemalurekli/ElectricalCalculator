@@ -68,7 +68,6 @@
     <string name="calculator_cable_tray_fill_description">Bir kablo demeti için tava doluluğu</string>
 
     <!-- Arama -->
-    <string name="search_history_hint">Kayıtlı hesaplamalarda ara</string>
 
     <!-- Genel eylemler -->
     <string name="action_favorite_add">Favorilere ekle</string>
@@ -86,8 +85,6 @@
     <!-- Durumlar -->
     <string name="state_empty_favorites_title">Henüz favori yok</string>
     <string name="state_empty_favorites_message">Bir hesaplayıcıyı sabitleyerek ana ekranınızda tutun.</string>
-    <string name="state_empty_history_title">Henüz hesaplama yok</string>
-    <string name="state_empty_history_message">Hesapladıkça sonuçlar burada otomatik olarak kaydedilir.</string>
     <string name="state_error_title">Bir sorun oluştu</string>
     <string name="state_empty_calculators_title">Sonuç yok</string>
     <string name="state_empty_calculators_message">Bu aramaya uyan hesaplayıcı yok. Farklı bir terim deneyin.</string>
@@ -3181,19 +3178,9 @@
     <string name="th_ydelta_example_equal">Üç eşit yıldız kolu</string>
     <string name="th_ydelta_example_uneven">Eşit olmayan yıldız</string>
     <string name="th_ydelta_example_delta_equal">Üç eşit üçgen kolu</string>
-    <string name="action_rename">Yeniden adlandır</string>
-    <string name="action_duplicate">Çoğalt</string>
     <string name="action_delete">Sil</string>
     <string name="action_cancel">Vazgeç</string>
     <string name="action_save">Kaydet</string>
-    <string name="action_undo">Geri al</string>
-    <string name="action_clear_all">Tümünü sil</string>
-    <string name="history_actions">Diğer işlemler</string>
-    <string name="history_rename_title">Hesabı yeniden adlandır</string>
-    <string name="history_rename_label">Ad</string>
-    <string name="history_clear_title">Geçmiş silinsin mi?</string>
-    <string name="history_clear_message">Kaydedilmiş bütün hesaplar silinecek. Bu işlem geri alınamaz.</string>
-    <string name="history_deleted">Hesap silindi</string>
     <string name="history_duplicated">Hesap çoğaltıldı</string>
 
     <!-- Forum: hesap ve profil -->

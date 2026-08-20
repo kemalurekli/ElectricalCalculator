@@ -74,7 +74,7 @@ import com.kemalurekli.electricalcalculator.feature.converter.generated.resource
 
 @Composable
 fun ConverterRoute(
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     viewModel: ConverterViewModel = koinViewModel(),
 ) {
@@ -101,7 +101,7 @@ fun ConverterScreen(
     onFromChange: (MeasurementUnit) -> Unit,
     onToChange: (MeasurementUnit) -> Unit,
     onSwap: () -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing

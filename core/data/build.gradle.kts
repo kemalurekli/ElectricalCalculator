@@ -33,6 +33,7 @@ kotlin {
             api(project(":core:database"))
             api(project(":core:datastore"))
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.koin.core)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))

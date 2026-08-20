@@ -41,11 +41,21 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":core:designsystem"))
             implementation(project(":feature:converter"))
+            implementation(project(":feature:history"))
+            implementation(project(":core:data"))
 
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(libs.compose.adaptive)
+            // The tab bar itself. `androidx.compose.material3:material3-adaptive-
+            // navigation-suite`, which :app uses, is Android-only; this is the
+            // multiplatform build of the same package, so the shell code reads
+            // identically on both sides.
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.material3AdaptiveNavigationSuite)
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)

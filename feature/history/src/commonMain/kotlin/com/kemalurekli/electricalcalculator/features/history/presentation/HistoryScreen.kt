@@ -31,11 +31,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.formatAsDateTime
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
@@ -48,21 +47,39 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.NumericCompactTextStyle
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
 import kotlinx.coroutines.launch
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.action_cancel
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.action_clear_all
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.action_delete
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.action_duplicate
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.action_rename
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.action_save
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.action_undo
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.destination_history
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.history_actions
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.history_clear_message
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.history_clear_title
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.history_deleted
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.history_rename_label
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.history_rename_title
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.search_history_hint
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.state_empty_history_message
+import com.kemalurekli.electricalcalculator.feature.history.generated.resources.state_empty_history_title
 
 @Composable
 fun HistoryRoute(
     onOpenRecord: (CalculationRecord) -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
-    viewModel: HistoryViewModel = hiltViewModel(),
+    viewModel: HistoryViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val query by viewModel.query.collectAsStateWithLifecycle()
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    val deletedMessage = stringResource(R.string.history_deleted)
-    val undoLabel = stringResource(R.string.action_undo)
+    val deletedMessage = stringResource(Res.string.history_deleted)
+    val undoLabel = stringResource(Res.string.action_undo)
 
     HistoryScreen(
         uiState = uiState,
@@ -113,7 +130,7 @@ fun HistoryScreen(
     onDuplicate: (Long) -> Unit,
     onDelete: (CalculationRecord) -> Unit,
     onClearAll: () -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
@@ -124,7 +141,7 @@ fun HistoryScreen(
     var confirmingClear by rememberSaveable { mutableStateOf(false) }
 
     ElecScreenScaffold(
-        title = stringResource(R.string.destination_history),
+        title = stringResource(Res.string.destination_history),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
         actions = {
@@ -132,7 +149,7 @@ fun HistoryScreen(
                 IconButton(onClick = { confirmingClear = true }) {
                     Icon(
                         imageVector = ElecIcons.Delete,
-                        contentDescription = stringResource(R.string.action_clear_all),
+                        contentDescription = stringResource(Res.string.action_clear_all),
                     )
                 }
             }
@@ -150,7 +167,7 @@ fun HistoryScreen(
                 onQueryChange = onQueryChange,
                 // This field searches saved calculations, not the catalog, so
                 // it must not borrow the home screen's placeholder.
-                placeholder = stringResource(R.string.search_history_hint),
+                placeholder = stringResource(Res.string.search_history_hint),
                 modifier = Modifier.padding(
                     horizontal = spacing.screenHorizontal,
                     vertical = spacing.sm,
@@ -161,8 +178,8 @@ fun HistoryScreen(
                 uiState.isLoading -> ElecLoadingState()
 
                 uiState.records.isEmpty() -> ElecEmptyState(
-                    title = stringResource(R.string.state_empty_history_title),
-                    message = stringResource(R.string.state_empty_history_message),
+                    title = stringResource(Res.string.state_empty_history_title),
+                    message = stringResource(Res.string.state_empty_history_message),
                     icon = ElecIcons.History,
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -203,19 +220,19 @@ fun HistoryScreen(
     if (confirmingClear) {
         AlertDialog(
             onDismissRequest = { confirmingClear = false },
-            title = { Text(stringResource(R.string.history_clear_title)) },
-            text = { Text(stringResource(R.string.history_clear_message)) },
+            title = { Text(stringResource(Res.string.history_clear_title)) },
+            text = { Text(stringResource(Res.string.history_clear_message)) },
             confirmButton = {
                 TextButton(
                     onClick = {
                         onClearAll()
                         confirmingClear = false
                     },
-                ) { Text(stringResource(R.string.action_clear_all)) }
+                ) { Text(stringResource(Res.string.action_clear_all)) }
             },
             dismissButton = {
                 TextButton(onClick = { confirmingClear = false }) {
-                    Text(stringResource(R.string.action_cancel))
+                    Text(stringResource(Res.string.action_cancel))
                 }
             },
         )
@@ -269,12 +286,12 @@ private fun HistoryCard(
                 IconButton(onClick = { menuOpen = true }) {
                     Icon(
                         imageVector = ElecIcons.More,
-                        contentDescription = stringResource(R.string.history_actions),
+                        contentDescription = stringResource(Res.string.history_actions),
                     )
                 }
                 DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.action_rename)) },
+                        text = { Text(stringResource(Res.string.action_rename)) },
                         leadingIcon = { Icon(ElecIcons.Rename, contentDescription = null) },
                         onClick = {
                             menuOpen = false
@@ -282,7 +299,7 @@ private fun HistoryCard(
                         },
                     )
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.action_duplicate)) },
+                        text = { Text(stringResource(Res.string.action_duplicate)) },
                         leadingIcon = { Icon(ElecIcons.Copy, contentDescription = null) },
                         onClick = {
                             menuOpen = false
@@ -290,7 +307,7 @@ private fun HistoryCard(
                         },
                     )
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.action_delete)) },
+                        text = { Text(stringResource(Res.string.action_delete)) },
                         leadingIcon = { Icon(ElecIcons.Delete, contentDescription = null) },
                         onClick = {
                             menuOpen = false
@@ -313,12 +330,12 @@ private fun RenameDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.history_rename_title)) },
+        title = { Text(stringResource(Res.string.history_rename_title)) },
         text = {
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it },
-                label = { Text(stringResource(R.string.history_rename_label)) },
+                label = { Text(stringResource(Res.string.history_rename_label)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -329,10 +346,10 @@ private fun RenameDialog(
                 // A blank title would leave the row with nothing to identify it
                 // by; the repository ignores it, so the button says so first.
                 enabled = title.isNotBlank(),
-            ) { Text(stringResource(R.string.action_save)) }
+            ) { Text(stringResource(Res.string.action_save)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
+            TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_cancel)) }
         },
     )
 }
