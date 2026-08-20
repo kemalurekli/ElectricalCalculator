@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="converter">
+    <output-path>$PROJECT_DIR$/feature/converter/build/libs</output-path>
+    <root id="archive" name="converter.jar" />
+  </artifact>
+</component>

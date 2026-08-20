@@ -2,7 +2,7 @@
 # Build toolchain
 agp = "9.3.1"
 kotlin = "2.3.21"
-ksp = "2.3.10"
+ksp = "2.3.11"
 
 # Compose Multiplatform. Verified against Kotlin 2.3.21 by compiling the app's
 # whole dependency set for iosSimulatorArm64 before any of this was written —
