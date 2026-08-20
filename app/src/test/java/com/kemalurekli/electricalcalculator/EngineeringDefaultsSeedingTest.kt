@@ -1,6 +1,5 @@
-package com.kemalurekli.electricalcalculator.features.settings
+package com.kemalurekli.electricalcalculator
 
-import com.kemalurekli.electricalcalculator.MainViewModel
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
 import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial

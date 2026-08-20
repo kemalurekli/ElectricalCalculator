@@ -14,7 +14,6 @@
     <!-- Ana ekran -->
 
     <!-- Üst düzey bölümler -->
-    <string name="destination_settings">Ayarlar</string>
     <!-- "Hesaplayıcılar" wraps to two lines in a tab; "Araçlar" does not. -->
     <string name="more_subtitle">Kaynaklar, kaydedilen işler ve ayarlar</string>
 
@@ -29,7 +28,6 @@
     <!-- Genel eylemler -->
     <string name="action_favorite_add">Favorilere ekle</string>
     <string name="action_favorite_remove">Favorilerden çıkar</string>
-    <string name="action_reset">Sıfırla</string>
 
     <!-- Hesaplayıcı iskeleti -->
 
@@ -45,55 +43,18 @@
     <string name="sel_step_ratio_short" formatted="false">\u2014 geleneksel 1,6 e\u015fi\u011finin alt\u0131nda</string>
     <string name="sel_step_no_curve">Bu cihaz\u0131n uygulaman\u0131n okuyabilece\u011fi bir ani a\u00e7ma kat\u0131 yok</string>
     <string name="disclaimer_title">Sorumluluk reddi</string>
-    <string name="settings_legal">Yasal</string>
     <string name="forum_thread_replies">%1$d cevap</string>
     <string name="forum_thread_replies_one">1 cevap</string>
     <string name="forum_thread_replies_none">Cevap yok</string>
     <string name="forum_post_thanks">%1$d te\u015fekk\u00fcr</string>
-    <string name="settings_appearance">Görünüm</string>
-    <string name="settings_theme">Tema</string>
-    <string name="settings_theme_light">Açık</string>
-    <string name="settings_theme_dark">Koyu</string>
-    <string name="settings_theme_system">Sistem varsayılanı</string>
-    <string name="settings_language">Dil</string>
-    <string name="settings_language_system">Sistem varsayılanı</string>
-    <string name="settings_units">Birimler</string>
-    <string name="settings_unit_system">Birim sistemi</string>
-    <string name="settings_unit_system_metric">Metrik (mm², m)</string>
-    <string name="settings_unit_system_imperial">İngiliz (AWG, ft)</string>
-    <string name="settings_engineering">M\u00fchendislik varsay\u0131lanlar\u0131</string>
-    <string name="settings_engineering_summary">Her hesaplay\u0131c\u0131n\u0131n a\u00e7\u0131l\u0131\u015fta kulland\u0131\u011f\u0131 de\u011ferler. Uygulama ilk kuruldu\u011funda b\u00f6lgenizden bir kez tahmin edildi, o andan itibaren sizindir \u2014 uygulama dilini de\u011fi\u015ftirmek bunlar\u0131 de\u011fi\u015ftirmez. S\u0131f\u0131rlama, o tahmini yeniden yapar.</string>
-    <string name="settings_engineering_single_phase">Tek fazl\u0131 gerilim</string>
-    <string name="settings_engineering_three_phase">\u00dc\u00e7 fazl\u0131 gerilim</string>
-    <string name="settings_engineering_frequency">\u015eebeke frekans\u0131</string>
-    <string name="settings_engineering_ambient">Ortam s\u0131cakl\u0131\u011f\u0131</string>
-    <string name="settings_engineering_material">\u0130letken malzemesi</string>
-    <string name="settings_engineering_insulation">Yal\u0131t\u0131m</string>
-    <string name="settings_engineering_method">D\u00f6\u015feme y\u00f6ntemi</string>
-    <string name="settings_engineering_reset">Varsay\u0131lanlar\u0131 s\u0131f\u0131rla</string>
-    <string name="settings_engineering_reset_message">Yukar\u0131daki t\u00fcm de\u011ferleri, b\u00f6lgeniz i\u00e7in yeni bir kurulumun kullanaca\u011f\u0131 de\u011ferlerle de\u011fi\u015ftirir. Kay\u0131tl\u0131 hesaplamalar etkilenmez.</string>
-    <string name="settings_about">Hakkında</string>
-    <string name="settings_version">Sürüm</string>
 
     <!-- Doğrulama — domain katmanındaki ValidationError değerlerinden eşlenir -->
 
     <!-- Gerilim düşümü hesaplayıcısı -->
-    <string name="common_material_copper">Bakır</string>
-    <string name="common_material_aluminium">Alüminyum</string>
 
     <!-- Kopyala ve Paylaş için düz metin çıktısı -->
 
     <!-- Kablo kesiti hesaplayıcısı -->
-    <string name="cs_insulation_pvc">PVC 70 °C</string>
-    <string name="cs_insulation_xlpe">XLPE 90 °C</string>
-    <string name="cs_method_b1">B1</string>
-    <string name="cs_method_b2">B2</string>
-    <string name="cs_method_c">C</string>
-    <string name="cs_method_e">E</string>
-    <string name="cs_method_b1_full">B1 — duvarda boru içinde iletkenler</string>
-    <string name="cs_method_b2_full">B2 — boru içinde çok damarlı kablo</string>
-    <string name="cs_method_c_full">C — yüzeye doğrudan kroşeli</string>
-    <string name="cs_method_e_full">E — serbest havada veya delikli tavada</string>
 
     <!-- Transformatör tam yük akımı hesaplayıcısı -->
 
@@ -148,18 +109,12 @@
 
     <!-- Theory -->
 
-    <string name="action_cancel">Vazgeç</string>
     <string name="history_duplicated">Hesap çoğaltıldı</string>
 
     <!-- Forum: hesap ve profil -->
-    <string name="forum_account_section">Forum hesabı</string>
 
     <!-- Forum: yazma -->
     <string name="forum_thanks_undo">Teşekkür edildi</string>
-    <string name="forum_blocked_section">Engellenen kişiler</string>
-    <string name="settings_privacy_policy">Gizlilik politikası</string>
-    <string name="settings_licenses">Açık kaynak lisansları</string>
-    <string name="action_close">Kapat</string>
     <!-- Forum: seviye -->
     <string name="forum_thread_pin_hint">Bir konuyu en üstte tutmak için basılı tutun</string>
     <string name="calculator_examples">Örnek senaryolar</string>

@@ -385,7 +385,6 @@ class HomeScreenTest {
                     onCalculatorClick = onCalculatorClick,
                     onOpenRecord = onOpenRecord,
                     onOpenSearchHit = onOpenSearchHit,
-            hasSettings = true,
                 )
             }
         }

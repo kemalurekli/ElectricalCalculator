@@ -185,6 +185,7 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:projects"))
     implementation(project(":feature:forum"))
+    implementation(project(":feature:settings"))
     implementation(project(":feature:more"))
     implementation(libs.androidx.compose.material3.navigation.suite)
 

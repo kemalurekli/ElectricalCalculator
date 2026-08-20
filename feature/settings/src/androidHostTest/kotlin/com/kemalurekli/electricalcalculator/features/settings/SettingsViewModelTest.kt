@@ -30,7 +30,10 @@ class SettingsViewModelTest {
     fun `initial state exposes the defaults`() = runTest {
         assertEquals(ThemeMode.SYSTEM, viewModel.uiState.value.preferences.themeMode)
         assertEquals(UnitSystem.METRIC, viewModel.uiState.value.preferences.unitSystem)
-        assertTrue(viewModel.uiState.value.versionName.isNotEmpty())
+        // The version is not asserted. It used to read BuildConfig.VERSION_NAME
+        // and the assertion tested that Gradle had set it — a build fact, not
+        // app behaviour. It comes from the platform's bundle now, which a JVM
+        // test has none of.
     }
 
     @Test

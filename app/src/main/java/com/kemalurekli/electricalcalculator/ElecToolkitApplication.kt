@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator
 
+import com.kemalurekli.electricalcalculator.core.common.util.appInfoContext
 import com.kemalurekli.electricalcalculator.core.datastore.preferencesContext
 import com.kemalurekli.electricalcalculator.core.database.databaseContext
 import android.app.Application
@@ -15,6 +16,7 @@ import com.kemalurekli.electricalcalculator.features.glossary.glossaryModule
 import com.kemalurekli.electricalcalculator.features.home.homeModule
 import com.kemalurekli.electricalcalculator.features.projects.projectsModule
 import com.kemalurekli.electricalcalculator.features.references.referencesModule
+import com.kemalurekli.electricalcalculator.features.settings.settingsModule
 import com.kemalurekli.electricalcalculator.features.theory.theoryModule
 import com.kemalurekli.electricalcalculator.features.history.historyModule
 import org.koin.android.ext.koin.androidContext
@@ -41,6 +43,7 @@ class ElecToolkitApplication : Application() {
         // set these are gone, and nothing else runs early enough.
         databaseContext = this
         preferencesContext = this
+        appInfoContext = this
         startKoin {
             androidContext(this@ElecToolkitApplication)
             modules(
@@ -58,6 +61,7 @@ class ElecToolkitApplication : Application() {
                 homeModule,
                 projectsModule,
                 forumModule,
+                settingsModule,
             )
         }
     }

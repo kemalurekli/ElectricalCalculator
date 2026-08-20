@@ -93,6 +93,7 @@ kotlin {
             api(project(":feature:more"))
             api(project(":feature:projects"))
             api(project(":feature:references"))
+            api(project(":feature:settings"))
             api(project(":feature:theory"))
             api(libs.navigation.compose)
 

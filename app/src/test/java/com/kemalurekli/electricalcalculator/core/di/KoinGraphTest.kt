@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.core.di
 
 import androidx.lifecycle.SavedStateHandle
+import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.database.dao.CircuitTestDao
@@ -25,6 +26,7 @@ import com.kemalurekli.electricalcalculator.features.history.historyModule
 import com.kemalurekli.electricalcalculator.features.home.homeModule
 import com.kemalurekli.electricalcalculator.features.projects.projectsModule
 import com.kemalurekli.electricalcalculator.features.references.referencesModule
+import com.kemalurekli.electricalcalculator.features.settings.settingsModule
 import com.kemalurekli.electricalcalculator.features.theory.theoryModule
 import org.junit.Test
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -58,12 +60,14 @@ class KoinGraphTest {
         featureModules.forEach { module ->
             module.verify(
                 extraTypes = listOf(
-                    // Provided by Hilt on Android, by coreDataModule on iOS.
+                    // Registered by coreCommonModule, coreDataModule or
+                    // androidAppModule rather than by the feature under test.
                     HistoryRepository::class,
                     FavoritesRepository::class,
                     ProjectRepository::class,
                     UserPreferencesRepository::class,
                     StringResolver::class,
+                    RegionProvider::class,
                     TimeProvider::class,
                     CorrectionFactors::class,
                     CircuitTestDao::class,
@@ -100,5 +104,6 @@ class KoinGraphTest {
         homeModule,
         projectsModule,
         forumModule,
+        settingsModule,
     )
 }

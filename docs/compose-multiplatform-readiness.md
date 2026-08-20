@@ -392,14 +392,35 @@ on a device set to English with Turkish added it is English. Compose Resources
 resolves against `preferredLanguages`, so the formatter has to as well, or the
 app disagrees with itself in one line of every history row.
 
+### Settings, and the end of `:app`
+
+The version number came from `BuildConfig`; it comes from each platform's own
+bundle now — `PackageManager` and `CFBundleShortVersionString` — rather than
+being generated into shared code, because both are already single sources and a
+third would give the number two places to be wrong in.
+
+The language picker is the interesting half. Android sets a per-app locale
+through `AppCompatDelegate`; iOS has no equivalent and does not want one —
+per-app language lives in Settings, one screen per app. A picker here would be
+a second place to set the same thing, able to disagree with the first. So
+`canChangeLanguageInApp` is false there and the section offers a way into
+Settings instead of radio buttons.
+
+The font licences moved from Android assets into Compose Resources `files/`,
+read by name rather than by listing a directory — two fonts, two licences, and
+a third would be added beside the font it covers anyway.
+
+**`:app` is 4 files**: the Application, `MainActivity`, `MainViewModel`, and one
+Koin module holding the device region. `platformDestinations` is gone; the
+navigation graph is shared entire.
+
 ### What is genuinely left
 
 **The schedule PDF on iOS**, via Core Graphics. Independent of everything else.
 
-**The settings screen.** It drives `AppCompatDelegate` for the per-app language
-and reads `BuildConfig.VERSION_NAME`; both need an iOS counterpart.
-
-**TestFlight**, and the App Privacy form.
+**TestFlight**, the App Privacy form, and the Sign in with Apple entitlement in
+Xcode — the code is there, but a real sign-in needs the capability on the target
+and the provider enabled in Supabase.
 
 ### The schedule PDF is not on iOS, deliberately
 

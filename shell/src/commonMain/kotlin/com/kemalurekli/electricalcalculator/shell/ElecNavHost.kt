@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.shell
 
+import com.kemalurekli.electricalcalculator.features.settings.presentation.SettingsRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadsRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumProfileRoute
@@ -8,7 +9,6 @@ import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumCat
 import com.kemalurekli.electricalcalculator.core.navigation.TopLevelDestination
 import com.kemalurekli.electricalcalculator.core.navigation.ElecTab
 import com.kemalurekli.electricalcalculator.core.navigation.Route
-import androidx.navigation.NavGraphBuilder
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorDestination
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -55,8 +55,6 @@ import com.kemalurekli.electricalcalculator.features.references.presentation.Ref
 fun ElecNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    platformDestinations: NavGraphBuilder.(NavActions) -> Unit = {},
-    hasSettings: Boolean = false,
 ) {
     // Remembered so the lambdas passed to screens keep a stable identity and do
     // not invalidate every destination on each recomposition of the host.
@@ -69,7 +67,6 @@ fun ElecNavHost(
     ) {
         composable<Route.Home> {
             HomeRoute(
-                hasSettings = hasSettings,
                 onNavigate = actions::navigateTo,
                 onCalculatorClick = actions::navigateToCalculator,
                 // The same call the History screen makes. The dashboard's
@@ -91,14 +88,7 @@ fun ElecNavHost(
         }
 
         composable<Route.More> {
-            MoreRoute(
-                onNavigate = actions::navigateTo,
-                destinations = if (hasSettings) {
-                    TopLevelDestination.moreDestinations
-                } else {
-                    TopLevelDestination.moreDestinations - TopLevelDestination.SETTINGS
-                },
-            )
+            MoreRoute(onNavigate = actions::navigateTo)
         }
 
         composable<Route.Forum> {
@@ -147,9 +137,12 @@ fun ElecNavHost(
             )
         }
 
-        // Settings has not left `:app`; the caller supplies it. See the
-        // parameter's documentation.
-        platformDestinations(actions)
+        composable<Route.Settings> {
+            SettingsRoute(
+                onNavigateBack = actions::navigateBack,
+                onOpenForumProfile = { actions.navigateTo(Route.ForumProfile(it)) },
+            )
+        }
 
         composable<Route.Calculator> { backStackEntry ->
             // Each calculator gets its own screen as its phase lands. Until

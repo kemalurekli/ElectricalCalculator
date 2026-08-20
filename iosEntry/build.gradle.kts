@@ -42,6 +42,7 @@ kotlin {
             implementation(project(":core:designsystem"))
             implementation(project(":shell"))
             implementation(project(":feature:forum"))
+            implementation(project(":feature:settings"))
             implementation(project(":feature:converter"))
             implementation(project(":feature:history"))
             implementation(project(":feature:glossary"))

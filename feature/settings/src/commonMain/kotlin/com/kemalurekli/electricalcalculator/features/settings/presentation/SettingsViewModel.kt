@@ -2,7 +2,7 @@ package com.kemalurekli.electricalcalculator.features.settings.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kemalurekli.electricalcalculator.BuildConfig
+import com.kemalurekli.electricalcalculator.core.common.util.appVersionName
 import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
 import com.kemalurekli.electricalcalculator.core.domain.model.EngineeringDefaults
@@ -23,7 +23,7 @@ data class SettingsUiState(
     val language: AppLanguage = AppLanguage.SYSTEM,
     /** What every calculator opens with; see [EngineeringDefaults]. */
     val engineering: EngineeringDefaults = EngineeringDefaults.Default,
-    val versionName: String = BuildConfig.VERSION_NAME,
+    val versionName: String = appVersionName(),
 )
 
 class SettingsViewModel(

@@ -14,6 +14,7 @@ import com.kemalurekli.electricalcalculator.features.home.homeModule
 import com.kemalurekli.electricalcalculator.features.forum.forumModule
 import com.kemalurekli.electricalcalculator.features.projects.projectsModule
 import com.kemalurekli.electricalcalculator.features.references.referencesModule
+import com.kemalurekli.electricalcalculator.features.settings.settingsModule
 import com.kemalurekli.electricalcalculator.features.theory.theoryModule
 import com.kemalurekli.electricalcalculator.shell.ElecAppShell
 import org.koin.core.context.startKoin
@@ -52,19 +53,11 @@ fun MainViewController(): UIViewController {
             homeModule,
             projectsModule,
             forumModule,
+            settingsModule,
         )
     }
     return ComposeUIViewController {
         ElecToolkitTheme {
-            // No `hasSettings`: that screen is the last one still in `:app`,
-            // because it drives AppCompatDelegate for the per-app language and
-            // reads BuildConfig. The shell leaves the gear off rather than
-            // offering one that opens a route with no destination.
-            //
-            // The forum is here, and signs in with Apple. The two platforms use
-            // different providers — App Store guideline 4.8 requires an
-            // equivalent to any third-party sign-in, and Apple is both the
-            // smaller build and the one that cannot be refused.
             ElecAppShell()
         }
     }

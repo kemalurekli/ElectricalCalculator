@@ -3,7 +3,6 @@ package com.kemalurekli.electricalcalculator.shell
 import com.kemalurekli.electricalcalculator.core.navigation.ElecTab
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.foundation.layout.ime
-import androidx.navigation.NavGraphBuilder
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -70,14 +69,7 @@ import androidx.navigation.compose.rememberNavController
 fun ElecAppShell(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    platformDestinations: NavGraphBuilder.(NavActions) -> Unit = {},
-    hasSettings: Boolean = false,
 ) {
-    // The settings screen is the last one still in `:app`; a platform that does
-    // not supply it must not show the gear that opens it, because a route with
-    // no destination throws rather than doing nothing. The forum used to be
-    // here too, and is not: it became multiplatform when Sign in with Apple
-    // gave iOS a way to sign in.
     val actions = remember(navController) { NavActions(navController) }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val current = backStackEntry?.destination
@@ -113,8 +105,6 @@ fun ElecAppShell(
     ) {
         ElecNavHost(
             navController = navController,
-            platformDestinations = platformDestinations,
-            hasSettings = hasSettings,
             modifier = Modifier
                 .fillMaxSize()
                 // Nothing to consume when the suite is not there: the screens

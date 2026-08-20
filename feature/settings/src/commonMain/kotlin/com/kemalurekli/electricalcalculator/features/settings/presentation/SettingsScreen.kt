@@ -1,5 +1,10 @@
 package com.kemalurekli.electricalcalculator.features.settings.presentation
 
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_language_system_managed
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_language_open_settings
+import com.kemalurekli.electricalcalculator.features.settings.openSystemLanguageSettings
+import com.kemalurekli.electricalcalculator.core.common.util.canChangeLanguageInApp
+import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -26,21 +31,17 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.DisclaimerDialog
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
@@ -58,11 +59,59 @@ import com.kemalurekli.electricalcalculator.core.domain.model.InstallationMethod
 import com.kemalurekli.electricalcalculator.core.domain.model.ThemeMode
 import com.kemalurekli.electricalcalculator.core.domain.model.UnitSystem
 import kotlinx.collections.immutable.toImmutableList
-import java.util.Locale
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.action_cancel
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.action_close
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.action_reset
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.common_material_aluminium
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.common_material_copper
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.cs_insulation_pvc
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.cs_insulation_xlpe
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.cs_method_b1
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.cs_method_b1_full
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.cs_method_b2
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.cs_method_b2_full
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.cs_method_c
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.cs_method_c_full
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.cs_method_e
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.cs_method_e_full
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.destination_settings
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.forum_account_section
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.forum_blocked_section
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.privacy_policy_url
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_about
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_appearance
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_engineering
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_engineering_ambient
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_engineering_frequency
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_engineering_insulation
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_engineering_material
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_engineering_method
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_engineering_reset
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_engineering_reset_message
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_engineering_single_phase
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_engineering_summary
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_engineering_three_phase
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_language
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_language_system
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_legal
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_licenses
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_privacy_policy
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_theme
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_theme_dark
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_theme_light
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_theme_system
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_unit_system
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_unit_system_imperial
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_unit_system_metric
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_units
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_version
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignSystemRes
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.disclaimer_title
 
 @Composable
 fun SettingsRoute(
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     onOpenForumProfile: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel(),
@@ -91,7 +140,7 @@ fun SettingsScreen(
     onLanguageChange: (AppLanguage) -> Unit,
     onEngineeringDefaultsChange: (EngineeringDefaults) -> Unit,
     onResetEngineeringDefaults: () -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     onOpenForumProfile: (String) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -101,7 +150,7 @@ fun SettingsScreen(
     var showLicenses by rememberSaveable { mutableStateOf(false) }
 
     ElecScreenScaffold(
-        title = stringResource(R.string.destination_settings),
+        title = stringResource(Res.string.destination_settings),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
         scrollBehavior = scrollBehavior,
@@ -113,11 +162,11 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = spacing.xl),
         ) {
-            ElecSectionHeader(title = stringResource(R.string.settings_appearance))
+            ElecSectionHeader(title = stringResource(Res.string.settings_appearance))
 
             SettingsGroup {
                 Text(
-                    text = stringResource(R.string.settings_theme),
+                    text = stringResource(Res.string.settings_theme),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(
                         start = spacing.lg,
@@ -131,7 +180,7 @@ fun SettingsScreen(
                 Column(Modifier.selectableGroup()) {
                     ThemeMode.entries.forEach { mode ->
                         SettingsRadioRow(
-                            label = stringResource(mode.labelRes()),
+                            label = stringResource(mode.label()),
                             selected = uiState.preferences.themeMode == mode,
                             onSelect = { onThemeModeChange(mode) },
                         )
@@ -139,37 +188,57 @@ fun SettingsScreen(
                 }
             }
 
-            ElecSectionHeader(title = stringResource(R.string.settings_language))
+            ElecSectionHeader(title = stringResource(Res.string.settings_language))
 
             SettingsGroup {
-                Column(Modifier.selectableGroup()) {
-                    AppLanguage.entries.forEach { language ->
-                        SettingsRadioRow(
-                            label = language.displayName(),
-                            selected = uiState.language == language,
-                            onSelect = { onLanguageChange(language) },
+                // Radio buttons where the app owns the setting, a way out where
+                // the platform does. iOS keeps per-app language in Settings —
+                // one screen per app — and a picker here would be a second
+                // place to set the same thing, able to disagree with the first.
+                if (canChangeLanguageInApp) {
+                    Column(Modifier.selectableGroup()) {
+                        AppLanguage.entries.forEach { language ->
+                            SettingsRadioRow(
+                                label = language.displayName(),
+                                selected = uiState.language == language,
+                                onSelect = { onLanguageChange(language) },
+                            )
+                        }
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier.padding(spacing.lg),
+                        verticalArrangement = Arrangement.spacedBy(spacing.sm),
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.settings_language_system_managed),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
+                        TextButton(onClick = ::openSystemLanguageSettings) {
+                            Text(stringResource(Res.string.settings_language_open_settings))
+                        }
                     }
                 }
             }
 
-            ElecSectionHeader(title = stringResource(R.string.forum_account_section))
+            ElecSectionHeader(title = stringResource(Res.string.forum_account_section))
 
             SettingsGroup {
                 ForumAccountSection(onOpenProfile = onOpenForumProfile)
             }
 
-            ElecSectionHeader(title = stringResource(R.string.forum_blocked_section))
+            ElecSectionHeader(title = stringResource(Res.string.forum_blocked_section))
 
             SettingsGroup {
                 ForumBlockedSection()
             }
 
-            ElecSectionHeader(title = stringResource(R.string.settings_units))
+            ElecSectionHeader(title = stringResource(Res.string.settings_units))
 
             SettingsGroup {
                 Text(
-                    text = stringResource(R.string.settings_unit_system),
+                    text = stringResource(Res.string.settings_unit_system),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(
                         start = spacing.lg,
@@ -180,7 +249,7 @@ fun SettingsScreen(
                 Column(Modifier.selectableGroup()) {
                     UnitSystem.entries.forEach { system ->
                         SettingsRadioRow(
-                            label = stringResource(system.labelRes()),
+                            label = stringResource(system.label()),
                             selected = uiState.preferences.unitSystem == system,
                             onSelect = { onUnitSystemChange(system) },
                         )
@@ -188,7 +257,7 @@ fun SettingsScreen(
                 }
             }
 
-            ElecSectionHeader(title = stringResource(R.string.settings_engineering))
+            ElecSectionHeader(title = stringResource(Res.string.settings_engineering))
 
             EngineeringDefaultsGroup(
                 defaults = uiState.engineering,
@@ -196,7 +265,7 @@ fun SettingsScreen(
                 onReset = onResetEngineeringDefaults,
             )
 
-            ElecSectionHeader(title = stringResource(R.string.settings_legal))
+            ElecSectionHeader(title = stringResource(Res.string.settings_legal))
 
             SettingsGroup {
                 // Reachable at any time, not only on the first launch. Terms
@@ -205,17 +274,17 @@ fun SettingsScreen(
                     onClick = { showDisclaimer = true },
                     modifier = Modifier.padding(horizontal = spacing.sm),
                 ) {
-                    Text(text = stringResource(R.string.disclaimer_title))
+                    Text(text = stringResource(DesignSystemRes.string.disclaimer_title))
                 }
             }
 
-            ElecSectionHeader(title = stringResource(R.string.settings_about))
+            ElecSectionHeader(title = stringResource(Res.string.settings_about))
 
             // Hidden rather than broken when the address has not been filled
             // in. The app now holds accounts and user content, so Play will not
             // take the listing without one — but a link that 404s is worse than
             // no link, and a fresh checkout has nothing to point at.
-            val privacyUrl = stringResource(R.string.privacy_policy_url)
+            val privacyUrl = stringResource(Res.string.privacy_policy_url)
             if (privacyUrl.isNotBlank()) {
                 val uriHandler = LocalUriHandler.current
                 SettingsGroup {
@@ -223,7 +292,7 @@ fun SettingsScreen(
                         onClick = { uriHandler.openUri(privacyUrl) },
                         modifier = Modifier.padding(horizontal = spacing.sm),
                     ) {
-                        Text(text = stringResource(R.string.settings_privacy_policy))
+                        Text(text = stringResource(Res.string.settings_privacy_policy))
                     }
                 }
             }
@@ -237,7 +306,7 @@ fun SettingsScreen(
                     onClick = { showLicenses = true },
                     modifier = Modifier.padding(horizontal = spacing.sm),
                 ) {
-                    Text(text = stringResource(R.string.settings_licenses))
+                    Text(text = stringResource(Res.string.settings_licenses))
                 }
             }
 
@@ -249,7 +318,7 @@ fun SettingsScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
-                        text = stringResource(R.string.settings_version),
+                        text = stringResource(Res.string.settings_version),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                     Text(
@@ -282,22 +351,23 @@ fun SettingsScreen(
 @Composable
 private fun LicensesDialog(onDismiss: () -> Unit) {
     val spacing = ElecTheme.spacing
-    val context = LocalContext.current
 
     // Read once and held, not re-read on every recomposition of the dialog.
-    val text by produceState(initialValue = "", context) {
-        value = withContext(Dispatchers.IO) {
-            runCatching {
-                context.assets.list("licenses").orEmpty().sorted().joinToString("\n\n") { name ->
-                    context.assets.open("licenses/$name").bufferedReader().use { it.readText() }
-                }
-            }.getOrDefault("")
-        }
+    //
+    // Named rather than listed: the assets directory could be enumerated and a
+    // Compose Resources `files/` directory cannot. Two fonts, two licences, and
+    // a third would be added here beside the font it covers anyway.
+    val text by produceState(initialValue = "") {
+        value = runCatching {
+            LICENCE_FILES
+                .map { name -> Res.readBytes("files/licenses/$name").decodeToString() }
+                .joinToString("\n\n")
+        }.getOrDefault("")
     }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.settings_licenses)) },
+        title = { Text(stringResource(Res.string.settings_licenses)) },
         text = {
             Column(
                 modifier = Modifier
@@ -313,7 +383,7 @@ private fun LicensesDialog(onDismiss: () -> Unit) {
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_close)) }
+            TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_close)) }
         },
     )
 }
@@ -358,7 +428,7 @@ private fun EngineeringDefaultsGroup(
             verticalArrangement = Arrangement.spacedBy(spacing.md),
         ) {
             Text(
-                text = stringResource(R.string.settings_engineering_summary),
+                text = stringResource(Res.string.settings_engineering_summary),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -366,55 +436,55 @@ private fun EngineeringDefaultsGroup(
             ElecNumericField(
                 value = defaults.singlePhaseVoltage,
                 onValueChange = { onChange(defaults.copy(singlePhaseVoltage = it)) },
-                label = stringResource(R.string.settings_engineering_single_phase),
+                label = stringResource(Res.string.settings_engineering_single_phase),
                 unit = "V",
             )
             ElecNumericField(
                 value = defaults.threePhaseVoltage,
                 onValueChange = { onChange(defaults.copy(threePhaseVoltage = it)) },
-                label = stringResource(R.string.settings_engineering_three_phase),
+                label = stringResource(Res.string.settings_engineering_three_phase),
                 unit = "V",
             )
             ElecNumericField(
                 value = defaults.frequency,
                 onValueChange = { onChange(defaults.copy(frequency = it)) },
-                label = stringResource(R.string.settings_engineering_frequency),
+                label = stringResource(Res.string.settings_engineering_frequency),
                 unit = "Hz",
             )
             ElecNumericField(
                 value = defaults.ambientTemperature,
                 onValueChange = { onChange(defaults.copy(ambientTemperature = it)) },
-                label = stringResource(R.string.settings_engineering_ambient),
+                label = stringResource(Res.string.settings_engineering_ambient),
                 unit = "°C",
                 allowNegative = true,
                 imeAction = ImeAction.Done,
             )
 
             ElecOptionSelector(
-                label = stringResource(R.string.settings_engineering_material),
+                label = stringResource(Res.string.settings_engineering_material),
                 options = ConductorMaterial.entries.toImmutableList(),
                 selected = defaults.material,
                 onSelect = { onChange(defaults.copy(material = it)) },
-                optionLabel = { stringResource(it.labelRes()) },
+                optionLabel = { stringResource(it.label()) },
             )
             ElecOptionSelector(
-                label = stringResource(R.string.settings_engineering_insulation),
+                label = stringResource(Res.string.settings_engineering_insulation),
                 options = CableInsulation.entries.toImmutableList(),
                 selected = defaults.insulation,
                 onSelect = { onChange(defaults.copy(insulation = it)) },
-                optionLabel = { stringResource(it.labelRes()) },
+                optionLabel = { stringResource(it.label()) },
             )
             Column {
                 ElecOptionSelector(
-                    label = stringResource(R.string.settings_engineering_method),
+                    label = stringResource(Res.string.settings_engineering_method),
                     options = InstallationMethod.entries.toImmutableList(),
                     selected = defaults.installationMethod,
                     onSelect = { onChange(defaults.copy(installationMethod = it)) },
-                    optionLabel = { stringResource(it.labelRes()) },
+                    optionLabel = { stringResource(it.label()) },
                 )
                 // B1 on its own is a table column heading, not an instruction.
                 Text(
-                    text = stringResource(defaults.installationMethod.fullLabelRes()),
+                    text = stringResource(defaults.installationMethod.fullLabel()),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
@@ -431,7 +501,7 @@ private fun EngineeringDefaultsGroup(
             onClick = { confirmReset = true },
             modifier = Modifier.padding(horizontal = spacing.sm),
         ) {
-            Text(text = stringResource(R.string.settings_engineering_reset))
+            Text(text = stringResource(Res.string.settings_engineering_reset))
         }
     }
 
@@ -440,8 +510,8 @@ private fun EngineeringDefaultsGroup(
         // that throws away values the user set, and it is one tap from them.
         AlertDialog(
             onDismissRequest = { confirmReset = false },
-            title = { Text(stringResource(R.string.settings_engineering_reset)) },
-            text = { Text(stringResource(R.string.settings_engineering_reset_message)) },
+            title = { Text(stringResource(Res.string.settings_engineering_reset)) },
+            text = { Text(stringResource(Res.string.settings_engineering_reset_message)) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -449,12 +519,12 @@ private fun EngineeringDefaultsGroup(
                         onReset()
                     },
                 ) {
-                    Text(stringResource(R.string.action_reset))
+                    Text(stringResource(Res.string.action_reset))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { confirmReset = false }) {
-                    Text(stringResource(R.string.action_cancel))
+                    Text(stringResource(Res.string.action_cancel))
                 }
             },
         )
@@ -499,10 +569,10 @@ private fun SettingsRadioRow(
     }
 }
 
-private fun ThemeMode.labelRes(): Int = when (this) {
-    ThemeMode.LIGHT -> R.string.settings_theme_light
-    ThemeMode.DARK -> R.string.settings_theme_dark
-    ThemeMode.SYSTEM -> R.string.settings_theme_system
+private fun ThemeMode.label(): StringResource = when (this) {
+    ThemeMode.LIGHT -> Res.string.settings_theme_light
+    ThemeMode.DARK -> Res.string.settings_theme_dark
+    ThemeMode.SYSTEM -> Res.string.settings_theme_system
 }
 
 /**
@@ -513,42 +583,50 @@ private fun ThemeMode.labelRes(): Int = when (this) {
  * to escape. "Türkçe" is legible to a Turkish speaker whatever the current UI
  * language is; a translated "Turkish" is not.
  */
+/**
+ * The name of a language, in that language.
+ *
+ * Written out rather than asked of the platform. `Locale.getDisplayLanguage` is
+ * a JVM API and its iOS counterpart capitalises differently; there are two
+ * languages, and a list of two is easier to be right about than two platforms
+ * agreeing.
+ */
 @Composable
-private fun AppLanguage.displayName(): String {
-    val tag = languageTag ?: return stringResource(R.string.settings_language_system)
-    val locale = Locale.forLanguageTag(tag)
-    return locale.getDisplayLanguage(locale).replaceFirstChar { it.titlecase(locale) }
+private fun AppLanguage.displayName(): String = when (this) {
+    AppLanguage.SYSTEM -> stringResource(Res.string.settings_language_system)
+    AppLanguage.ENGLISH -> "English"
+    AppLanguage.TURKISH -> "Türkçe"
 }
 
-private fun UnitSystem.labelRes(): Int = when (this) {
-    UnitSystem.METRIC -> R.string.settings_unit_system_metric
-    UnitSystem.IMPERIAL -> R.string.settings_unit_system_imperial
+private fun UnitSystem.label(): StringResource = when (this) {
+    UnitSystem.METRIC -> Res.string.settings_unit_system_metric
+    UnitSystem.IMPERIAL -> Res.string.settings_unit_system_imperial
 }
 
 // The same labels the calculators use, so a default set here reads identically
 // where it lands.
-private fun ConductorMaterial.labelRes(): Int = when (this) {
-    ConductorMaterial.COPPER -> R.string.common_material_copper
-    ConductorMaterial.ALUMINIUM -> R.string.common_material_aluminium
+private fun ConductorMaterial.label(): StringResource = when (this) {
+    ConductorMaterial.COPPER -> Res.string.common_material_copper
+    ConductorMaterial.ALUMINIUM -> Res.string.common_material_aluminium
 }
 
-private fun CableInsulation.labelRes(): Int = when (this) {
-    CableInsulation.PVC -> R.string.cs_insulation_pvc
-    CableInsulation.XLPE -> R.string.cs_insulation_xlpe
+private fun CableInsulation.label(): StringResource = when (this) {
+    CableInsulation.PVC -> Res.string.cs_insulation_pvc
+    CableInsulation.XLPE -> Res.string.cs_insulation_xlpe
 }
 
-private fun InstallationMethod.labelRes(): Int = when (this) {
-    InstallationMethod.B1_CONDUIT_ON_WALL -> R.string.cs_method_b1
-    InstallationMethod.B2_MULTICORE_IN_CONDUIT -> R.string.cs_method_b2
-    InstallationMethod.C_CLIPPED_DIRECT -> R.string.cs_method_c
-    InstallationMethod.E_FREE_AIR -> R.string.cs_method_e
+private fun InstallationMethod.label(): StringResource = when (this) {
+    InstallationMethod.B1_CONDUIT_ON_WALL -> Res.string.cs_method_b1
+    InstallationMethod.B2_MULTICORE_IN_CONDUIT -> Res.string.cs_method_b2
+    InstallationMethod.C_CLIPPED_DIRECT -> Res.string.cs_method_c
+    InstallationMethod.E_FREE_AIR -> Res.string.cs_method_e
 }
 
-private fun InstallationMethod.fullLabelRes(): Int = when (this) {
-    InstallationMethod.B1_CONDUIT_ON_WALL -> R.string.cs_method_b1_full
-    InstallationMethod.B2_MULTICORE_IN_CONDUIT -> R.string.cs_method_b2_full
-    InstallationMethod.C_CLIPPED_DIRECT -> R.string.cs_method_c_full
-    InstallationMethod.E_FREE_AIR -> R.string.cs_method_e_full
+private fun InstallationMethod.fullLabel(): StringResource = when (this) {
+    InstallationMethod.B1_CONDUIT_ON_WALL -> Res.string.cs_method_b1_full
+    InstallationMethod.B2_MULTICORE_IN_CONDUIT -> Res.string.cs_method_b2_full
+    InstallationMethod.C_CLIPPED_DIRECT -> Res.string.cs_method_c_full
+    InstallationMethod.E_FREE_AIR -> Res.string.cs_method_e_full
 }
 
 @Preview(showBackground = true, heightDp = 900)
@@ -566,3 +644,5 @@ private fun SettingsScreenPreview() {
         )
     }
 }
+
+private val LICENCE_FILES = listOf("inter-OFL.txt", "jetbrains-mono-OFL.txt")

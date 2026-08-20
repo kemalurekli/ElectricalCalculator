@@ -1,4 +1,4 @@
-package com.kemalurekli.electricalcalculator.core.data.repository
+package com.kemalurekli.electricalcalculator.features.settings
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
  * declared in the manifest. Using it rather than the platform API directly is
  * what lets this work down to minSdk 28.
  */
-class AppLanguageRepositoryImpl() : AppLanguageRepository {
+internal class AppLanguageRepositoryImpl() : AppLanguageRepository {
 
     private val _language = MutableStateFlow(readCurrentLanguage())
     override val language: StateFlow<AppLanguage> = _language.asStateFlow()

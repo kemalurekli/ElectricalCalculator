@@ -22,7 +22,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitT
 import com.kemalurekli.electricalcalculator.core.domain.model.ThemeMode
 import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import com.kemalurekli.electricalcalculator.core.designsystem.component.DisclaimerDialog
-import com.kemalurekli.electricalcalculator.core.navigation.androidDestinations
 import com.kemalurekli.electricalcalculator.shell.ElecAppShell
 
 /**
@@ -68,12 +67,7 @@ class MainActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    ElecAppShell(
-                        navController = rememberNavController(),
-                        platformDestinations = { androidDestinations(it) },
-                        // The forum and the settings screen are still here.
-                        hasSettings = true,
-                    )
+                    ElecAppShell(navController = rememberNavController())
 
                     // Shown over the app rather than before it: the reader can
                     // see what they are agreeing to use. Held until accepted,
