@@ -1,6 +1,5 @@
 package com.kemalurekli.electricalcalculator.core.data.repository
 
-import com.kemalurekli.electricalcalculator.core.common.di.IoDispatcher
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.database.dao.CircuitDao
 import com.kemalurekli.electricalcalculator.core.database.dao.ProjectDao
@@ -21,15 +20,12 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlin.time.Instant
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class ProjectRepositoryImpl @Inject constructor(
+class ProjectRepositoryImpl(
     private val projectDao: ProjectDao,
     private val circuitDao: CircuitDao,
     private val timeProvider: TimeProvider,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val ioDispatcher: CoroutineDispatcher,
 ) : ProjectRepository {
 
     override fun observeProjects(): Flow<List<ProjectSummary>> = combine(

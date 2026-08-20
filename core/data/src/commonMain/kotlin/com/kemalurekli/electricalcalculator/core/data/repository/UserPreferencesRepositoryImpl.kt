@@ -7,9 +7,6 @@ import com.kemalurekli.electricalcalculator.core.domain.model.UnitSystem
 import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
 import kotlinx.coroutines.flow.Flow
-import java.util.Locale
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Backs [UserPreferencesRepository] with Preferences DataStore.
@@ -18,8 +15,7 @@ import javax.inject.Singleton
  * interface rather than on DataStore, which is what lets a future release move
  * settings to cloud backup without touching any consumer.
  */
-@Singleton
-class UserPreferencesRepositoryImpl @Inject constructor(
+class UserPreferencesRepositoryImpl(
     private val dataSource: UserPreferencesDataSource,
 ) : UserPreferencesRepository {
 

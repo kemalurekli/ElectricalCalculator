@@ -1,6 +1,5 @@
 package com.kemalurekli.electricalcalculator.core.data.repository
 
-import com.kemalurekli.electricalcalculator.core.common.di.IoDispatcher
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
 import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteItemEntity
@@ -12,14 +11,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class FavoritesRepositoryImpl @Inject constructor(
+class FavoritesRepositoryImpl(
     private val dao: FavoriteItemDao,
     private val timeProvider: TimeProvider,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val ioDispatcher: CoroutineDispatcher,
 ) : FavoritesRepository {
 
     override fun observeAll(): Flow<List<FavoriteItem>> =

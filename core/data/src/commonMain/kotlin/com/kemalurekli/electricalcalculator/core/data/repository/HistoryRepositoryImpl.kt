@@ -1,6 +1,5 @@
 package com.kemalurekli.electricalcalculator.core.data.repository
 
-import com.kemalurekli.electricalcalculator.core.common.di.IoDispatcher
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.database.dao.CalculationHistoryDao
 import com.kemalurekli.electricalcalculator.core.database.entity.CalculationHistoryEntity
@@ -13,14 +12,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlin.time.Instant
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class HistoryRepositoryImpl @Inject constructor(
+class HistoryRepositoryImpl(
     private val dao: CalculationHistoryDao,
     private val timeProvider: TimeProvider,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val ioDispatcher: CoroutineDispatcher,
 ) : HistoryRepository {
 
     override fun observeAll(): Flow<List<CalculationRecord>> =

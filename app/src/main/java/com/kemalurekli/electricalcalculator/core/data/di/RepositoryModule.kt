@@ -22,8 +22,16 @@ import com.kemalurekli.electricalcalculator.core.domain.repository.ForumReposito
 import com.kemalurekli.electricalcalculator.core.domain.repository.InspectionRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
+import com.kemalurekli.electricalcalculator.core.database.dao.CalculationHistoryDao
+import com.kemalurekli.electricalcalculator.core.database.dao.CircuitDao
+import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
+import com.kemalurekli.electricalcalculator.core.database.dao.ProjectDao
+import com.kemalurekli.electricalcalculator.core.datastore.UserPreferencesDataSource
+import com.kemalurekli.electricalcalculator.core.common.di.IoDispatcher
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -31,36 +39,15 @@ import javax.inject.Singleton
 /**
  * Binds each domain repository contract to its data-layer implementation.
  *
- * `@Binds` rather than `@Provides` because the implementations are already
- * constructor-injected; this generates no factory of its own.
+ * `@Binds` where the implementation still carries an `@Inject constructor`, and
+ * `@Provides` in [SharedRepositoryModule] where it no longer can — the
+ * repositories that moved to multiplatform modules lost those annotations,
+ * because `javax.inject` is a JVM API. Hilt caught every one of them at compile
+ * time.
  */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
-
-    @Binds
-    @Singleton
-    abstract fun bindUserPreferencesRepository(
-        impl: UserPreferencesRepositoryImpl,
-    ): UserPreferencesRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindHistoryRepository(
-        impl: HistoryRepositoryImpl,
-    ): HistoryRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindFavoritesRepository(
-        impl: FavoritesRepositoryImpl,
-    ): FavoritesRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindTimeProvider(
-        impl: SystemTimeProvider,
-    ): TimeProvider
 
     @Binds
     @Singleton
@@ -79,12 +66,6 @@ abstract class RepositoryModule {
     abstract fun bindInspectionRepository(
         impl: InspectionRepositoryImpl,
     ): InspectionRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindProjectRepository(
-        impl: ProjectRepositoryImpl,
-    ): ProjectRepository
 
     @Binds
     @Singleton
