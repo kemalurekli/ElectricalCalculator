@@ -220,10 +220,23 @@ breaks it to make progress is not making progress.
 Step 1 is done: the converter runs on the simulator in both languages, and
 `NumberFormatter` was harder than expected — see the trap above.
 
-Step 2 is done bar the platform capabilities. `:core:common`, `:core:domain`,
+Step 2 is done, `SchedulePdf` excepted — that one is Core Graphics work and
+belongs with the projects screen. `:core:common`, `:core:domain`,
 `:core:database`, `:core:datastore` and `:core:data` all build for iOS, and
 `HistoryRepositoryIosTest` puts a record through Room on a simulator and reads
 it back.
+
+`RegionProvider` returns a country code now rather than a `java.util.Locale` —
+every caller read `.country` off it anyway, so the narrower type says what it is
+for and drops a JVM type from shared code in the same move.
+
+`ResultSharing` stopped being an object taking a `Context` and became
+`rememberResultSharing()`, obtained from composition. Neither platform can share
+from nothing: Android needs a `Context`, iOS needs the view controller to
+present from. Putting the split at the implementation removed the same
+dependency from 34 call sites, and both sides answer the copy-confirmation
+question honestly — Android says no from 13 onwards because the system draws its
+own clipboard preview, iOS says yes because it draws nothing.
 
 Step 3 has begun, and not in the order the plan named. History went before the
 read-only screens because it is the most *informative* — the first screen that

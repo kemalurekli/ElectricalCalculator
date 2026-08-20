@@ -1,7 +1,9 @@
 package com.kemalurekli.electricalcalculator.core.data.di
 
-import com.kemalurekli.electricalcalculator.core.common.util.AndroidRegionProvider
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import com.kemalurekli.electricalcalculator.core.common.util.AndroidStringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.PlatformRegionProvider
 import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
 import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
@@ -86,11 +88,18 @@ abstract class RepositoryModule {
         impl: AndroidStringResolver,
     ): StringResolver
 
-    @Binds
-    @Singleton
-    abstract fun bindRegionProvider(
-        impl: AndroidRegionProvider,
-    ): RegionProvider
+    companion object {
+        /**
+         * Constructed rather than bound: `PlatformRegionProvider` lives in
+         * `:core:common` and takes a plain `Context`, because a multiplatform
+         * module cannot carry Hilt's annotations.
+         */
+        @Provides
+        @Singleton
+        fun provideRegionProvider(
+            @ApplicationContext context: Context,
+        ): RegionProvider = PlatformRegionProvider(context)
+    }
 
     @Binds
     @Singleton

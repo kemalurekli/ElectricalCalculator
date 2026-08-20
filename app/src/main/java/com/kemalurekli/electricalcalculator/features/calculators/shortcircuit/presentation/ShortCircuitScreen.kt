@@ -23,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -54,7 +53,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
 import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
-import com.kemalurekli.electricalcalculator.core.ui.ResultSharing
+import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.ui.model.WorkedExample
 import com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.domain.FaultType
@@ -77,7 +76,7 @@ fun ShortCircuitRoute(
     // Opening from the history restores that record's inputs. Keyed on the id so
     // a second record opens over the first without leaving the screen.
     LaunchedEffect(recordId) { recordId?.let(viewModel::onRestore) }
-    val context = LocalContext.current
+    val sharing = rememberResultSharing()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
@@ -104,12 +103,12 @@ fun ShortCircuitRoute(
         onToggleFavorite = viewModel::onToggleFavorite,
         onCopy = {
             summary?.let {
-                if (ResultSharing.copy(context, title, it)) {
+                if (sharing.copy(title, it)) {
                     scope.launch { snackbarHostState.showSnackbar(copiedMessage) }
                 }
             }
         },
-        onShare = { summary?.let { ResultSharing.share(context, shareSubject, it) } },
+        onShare = { summary?.let { sharing.share(shareSubject, it) } },
         onReferenceClick = onReferenceClick,
         onNavigateBack = onNavigateBack,
         snackbarHostState = snackbarHostState,

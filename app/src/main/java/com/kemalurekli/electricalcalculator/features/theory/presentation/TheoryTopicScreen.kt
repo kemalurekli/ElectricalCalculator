@@ -29,7 +29,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import org.jetbrains.compose.resources.stringResource as composeStringResource
@@ -58,7 +57,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.remember
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
-import com.kemalurekli.electricalcalculator.core.ui.ResultSharing
+import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculationStep
 import com.kemalurekli.electricalcalculator.core.ui.model.WorkedExample
@@ -83,7 +82,7 @@ fun TheoryTopicRoute(
     viewModel: TheoryTopicViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
+    val sharing = rememberResultSharing()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
@@ -105,12 +104,12 @@ fun TheoryTopicRoute(
         snackbarHostState = snackbarHostState,
         onCopy = {
             summary?.let {
-                if (ResultSharing.copy(context, title, it)) {
+                if (sharing.copy(title, it)) {
                     scope.launch { snackbarHostState.showSnackbar(copiedMessage) }
                 }
             }
         },
-        onShare = { summary?.let { ResultSharing.share(context, shareSubject, it) } },
+        onShare = { summary?.let { sharing.share(shareSubject, it) } },
         onSolutionChange = viewModel::onSolutionChange,
         onFieldChange = viewModel::onFieldChange,
         onCalculate = viewModel::onCalculate,

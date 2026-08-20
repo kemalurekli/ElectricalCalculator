@@ -18,7 +18,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
-import java.util.Locale
 
 /**
  * Engineering defaults are guessed once and then belong to the user.
@@ -40,7 +39,7 @@ class EngineeringDefaultsSeedingTest {
 
     private val repository = FakeUserPreferencesRepository()
     private val languageRepository = FakeAppLanguageRepository()
-    private val region = FakeRegionProvider(Locale.forLanguageTag("tr-TR"))
+    private val region = FakeRegionProvider("TR")
 
     /** A fresh activity, as created on launch and after a language change. */
     private fun launch() = MainViewModel(repository, region)
@@ -51,7 +50,7 @@ class EngineeringDefaultsSeedingTest {
 
     @Test
     fun `the first launch seeds from the region`() = runTest {
-        region.locale = Locale.US
+        region.region = "US"
         launch()
         advanceUntilIdle()
 
@@ -89,14 +88,14 @@ class EngineeringDefaultsSeedingTest {
 
     @Test
     fun `seeding never runs twice, even before the user changes anything`() = runTest {
-        region.locale = Locale.forLanguageTag("de-DE")
+        region.region = "DE"
         launch()
         advanceUntilIdle()
         val seeded = stored()
 
         // The seed for Germany and the seed for the United States differ, so a
         // second run would be visible rather than silently identical.
-        region.locale = Locale.US
+        region.region = "US"
         launch()
         advanceUntilIdle()
 
@@ -105,7 +104,7 @@ class EngineeringDefaultsSeedingTest {
 
     @Test
     fun `resetting is the one thing that guesses again`() = runTest {
-        region.locale = Locale.US
+        region.region = "US"
         launch()
         advanceUntilIdle()
 
@@ -129,7 +128,7 @@ class EngineeringDefaultsSeedingTest {
         // United States reading the app in Turkish. The app's own picker stores
         // a bare `tr` with no country, so anything reading the app locale would
         // hand them a 400 V supply they have never worked on.
-        region.locale = Locale.US
+        region.region = "US"
         launch()
         advanceUntilIdle()
 

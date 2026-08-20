@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlin.time.Instant
-import java.util.Locale
 import org.jetbrains.compose.resources.StringResource
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -174,8 +173,8 @@ class FakeAppLanguageRepository(
 }
 
 /** A device region the test states outright, rather than mutating a JVM global. */
-class FakeRegionProvider(var locale: Locale = Locale.forLanguageTag("tr-TR")) : RegionProvider {
-    override fun current(): Locale = locale
+class FakeRegionProvider(var region: String = "TR") : RegionProvider {
+    override fun currentRegion(): String = region
 }
 
 /** In-memory [UserPreferencesRepository]. */
