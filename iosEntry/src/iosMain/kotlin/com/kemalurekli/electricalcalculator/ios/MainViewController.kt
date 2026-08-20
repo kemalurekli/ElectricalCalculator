@@ -38,6 +38,34 @@ import platform.UIKit.UIViewController
  * graph is known. On Android the equivalent call is in the Application class.
  */
 fun MainViewController(): UIViewController {
+    startGraphOnce()
+    return ComposeUIViewController {
+        ElecToolkitTheme {
+            // The whole app, and the same shell Android runs. There is nothing
+            // platform-specific left to pass in.
+            ElecAppShell()
+        }
+    }
+}
+
+/**
+ * Builds the object graph the first time, and only the first time.
+ *
+ * `MainViewController()` is called from SwiftUI's `makeUIViewController`, and
+ * SwiftUI is free to call that more than once — a scene reconnecting, the view's
+ * identity changing, a state restoration. `startKoin` is not idempotent: the
+ * second call throws `KoinAppAlreadyStartedException`, which crosses back into
+ * Swift as a fatal error, or takes the composition down and leaves a live
+ * process showing nothing.
+ *
+ * Android has no equivalent problem — `Application.onCreate` runs once per
+ * process by construction — which is exactly why this was easy to miss.
+ */
+private var graphStarted = false
+
+private fun startGraphOnce() {
+    if (graphStarted) return
+    graphStarted = true
     startKoin {
         modules(
             coreCommonModule,
@@ -55,10 +83,5 @@ fun MainViewController(): UIViewController {
             forumModule,
             settingsModule,
         )
-    }
-    return ComposeUIViewController {
-        ElecToolkitTheme {
-            ElecAppShell()
-        }
     }
 }

@@ -30,11 +30,6 @@
 			path = iosApp;
 			sourceTree = "<group>";
 		};
-		0A49D111303768200012A401 /* Electical Portal */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Electical Portal";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +47,6 @@
 			isa = PBXGroup;
 			children = (
 				0A2514163035DC9700790AD3 /* iosApp */,
-				0A49D111303768200012A401 /* Electical Portal */,
 				0A49D10E303768200012A401 /* Frameworks */,
 				0A2514153035DC9700790AD3 /* Products */,
 			);

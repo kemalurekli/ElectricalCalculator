@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.common.util
 
+import platform.Foundation.preferredLanguages
 import platform.Foundation.languageCode
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
@@ -58,4 +59,15 @@ actual fun String.firstCharacter(): String {
 actual fun String.uppercaseLocalized(): String =
     (this as NSString).uppercaseStringWithLocale(NSLocale.currentLocale)
 
-actual fun currentLanguageTag(): String = NSLocale.currentLocale.languageCode
+/**
+ * `preferredLanguages`, not `currentLocale`.
+ *
+ * `currentLocale` is the *formats* locale — dates, numbers, region — and on a
+ * device set to English with Turkish added it is English. Compose Resources
+ * resolves against `preferredLanguages`, so anything asking "what language is
+ * the app in" has to as well. The forum picked its board from this and served
+ * English categories under Turkish chrome before it did.
+ */
+actual fun currentLanguageTag(): String =
+    (NSLocale.preferredLanguages.firstOrNull() as? String)?.substringBefore('-')
+        ?: NSLocale.currentLocale.languageCode

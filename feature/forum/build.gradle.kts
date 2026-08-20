@@ -122,6 +122,11 @@ kotlin {
         }
 
         androidMain.dependencies {
+            // Ktor's engine for this target. It used to come from `:app`, which
+            // worked until the forum moved out and iOS had none — the app built,
+            // installed, and died the first time anyone opened the Forum tab.
+            implementation(libs.ktor.client.okhttp)
+
             // Credential Manager and the Google ID helper: the Android half of
             // `ForumSignIn`, and the only thing in this module that is not
             // multiplatform.
@@ -131,6 +136,12 @@ kotlin {
         }
 
         commonMain.configure { kotlin.srcDir(generateForumConfig) }
+
+        iosMain.dependencies {
+            // The counterpart of OkHttp above. Darwin is the only engine on
+            // this platform and NSURLSession is what it wraps.
+            implementation(libs.ktor.client.darwin)
+        }
 
         commonMain.dependencies {
             api(project(":core:designsystem"))
