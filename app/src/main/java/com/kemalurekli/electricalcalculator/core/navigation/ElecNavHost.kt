@@ -11,8 +11,8 @@ import androidx.navigation.toRoute
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
-import com.kemalurekli.electricalcalculator.core.domain.search.SearchKind
-import com.kemalurekli.electricalcalculator.core.domain.search.SearchableItem
+import com.kemalurekli.electricalcalculator.features.home.domain.SearchKind
+import com.kemalurekli.electricalcalculator.features.home.domain.SearchableItem
 import com.kemalurekli.electricalcalculator.features.calculators.energycost.presentation.EnergyCostRoute
 import com.kemalurekli.electricalcalculator.features.calculators.evse.presentation.EvseRoute
 import com.kemalurekli.electricalcalculator.features.calculators.harmonics.presentation.HarmonicsRoute

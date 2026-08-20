@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="favorites">
+    <output-path>$PROJECT_DIR$/feature/favorites/build/libs</output-path>
+    <root id="archive" name="favorites.jar">
+      <element id="module-output" name="Electrical_Calculator.feature.favorites.androidMain" />
+    </root>
+  </artifact>
+</component>

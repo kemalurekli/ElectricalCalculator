@@ -298,10 +298,23 @@ card cannot carry `StringResource` for one caller and `Int` for the other.
 
 ### What is left in `:app`, and why
 
-Navigation, the forum, home, settings, more, projects, the circuit designer and
-the inspection feature. All but the first two are ordinary ports; navigation is
-the shell everything else hangs from, and the forum holds the only
-platform-specific authentication.
+Favourites, home and more followed immediately — favourites because it reads
+every catalogue and all five had finally moved, home and more because the route
+types and the five top-level destinations went into `:core:navigation`.
+
+`ElecNavHost` did not go with them, and cannot: it names every feature's entry
+composable, so a module holding it would depend on all of them. `ElecAppShell`
+stayed with it, because the shell calls the graph.
+
+What is left is the forum (22 files, the only platform-specific
+authentication), projects and the circuit designer (PDF export via
+`android.graphics.pdf`), settings (it renders two forum sections), the
+inspection feature, and navigation itself. `:app` is 63 files.
+
+`formatAsRelativeTime` is the third and last of the deliberate divergences,
+after dates and collation: "3 dakika önce", "yesterday", "2 weeks ago". Both
+platforms ship the plural rules and the thresholds; writing our own would mean
+getting Turkish, Arabic and Russian right unaided.
 
 ### Three things this taught that the smaller moves did not
 

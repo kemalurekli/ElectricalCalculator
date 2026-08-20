@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
@@ -92,7 +92,7 @@ fun ElecAppShell(
                     icon = { Icon(imageVector = tab.icon, contentDescription = null) },
                     // Resolved inside the slot, not above the loop: this
                     // builder is a plain lambda, not a composable one.
-                    label = { Text(text = stringResource(tab.labelRes)) },
+                    label = { Text(text = stringResource(tab.label)) },
                 )
             }
         },

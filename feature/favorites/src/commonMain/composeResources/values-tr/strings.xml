@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="destination_calculators">Hesaplayıcılar</string>
+    <string name="destination_favorites">Favoriler</string>
+    <string name="destination_field_notes">Genel Bilgiler</string>
+    <string name="destination_glossary">Sözlük</string>
+    <string name="destination_references">Referanslar</string>
+    <string name="destination_theory">Teori</string>
+</resources>

@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.common.util
 
+import android.text.format.DateUtils
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -22,3 +23,15 @@ actual fun Instant.formatAsDate(): String =
 
 private fun Instant.toJavaInstant(): java.time.Instant =
     java.time.Instant.ofEpochMilli(toEpochMilliseconds())
+
+/**
+ * `DateUtils` is the platform's own relative formatter — the one the system UI
+ * uses — so the phrasing matches the rest of the device without the app
+ * shipping plural rules of its own.
+ */
+actual fun Instant.formatAsRelativeTime(): String =
+    DateUtils.getRelativeTimeSpanString(
+        toEpochMilliseconds(),
+        System.currentTimeMillis(),
+        DateUtils.MINUTE_IN_MILLIS,
+    ).toString()

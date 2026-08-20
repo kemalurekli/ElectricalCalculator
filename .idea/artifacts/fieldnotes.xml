@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="fieldnotes">
+    <output-path>$PROJECT_DIR$/feature/fieldnotes/build/libs</output-path>
+    <root id="archive" name="fieldnotes.jar">
+      <element id="module-output" name="Electrical_Calculator.feature.fieldnotes.androidMain" />
+    </root>
+  </artifact>
+</component>

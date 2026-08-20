@@ -33,3 +33,20 @@ expect fun Instant.formatAsDateTime(): String
  * reader wants, and the minute they created the account is not information.
  */
 expect fun Instant.formatAsDate(): String
+
+/**
+ * How long ago [this] was, phrased the way the platform phrases it.
+ *
+ * "3 dakika önce", "yesterday", "2 weeks ago" — the plural rules and the
+ * thresholds differ by language, and both platforms already ship them. Writing
+ * our own would mean shipping plural rules for every language the app is
+ * translated into, and getting Turkish, Arabic and Russian right on our own.
+ *
+ * Exempt from "the same pixels on both platforms" for the same reason
+ * [formatAsDateTime] is: a reader should see the phrasing the rest of their
+ * device uses.
+ *
+ * Anything under a minute is the caller's problem. Both formatters render it as
+ * "0 minutes ago", which reads as broken for something that just happened.
+ */
+expect fun Instant.formatAsRelativeTime(): String

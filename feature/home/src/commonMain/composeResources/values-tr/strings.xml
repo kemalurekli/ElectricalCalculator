@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="destination_favorites">Favoriler</string>
+    <string name="home_badge_pinned">%1$d sabit</string>
+    <string name="home_badge_saved">%1$d kayıt</string>
+    <string name="home_browse">Gözat</string>
+    <string name="home_just_now">Az önce</string>
+    <string name="home_recent">Son hesaplamalar</string>
+    <string name="search_group_calculators">Hesaplayıcılar</string>
+    <string name="search_group_converter">Birim dönüştürücü</string>
+    <string name="search_group_field_notes">Genel bilgiler</string>
+    <string name="search_group_glossary">Sözlük</string>
+    <string name="search_group_references">Referanslar</string>
+    <string name="search_group_symbols">Çizim sembolleri</string>
+    <string name="search_group_theory">Teori</string>
+    <string name="state_empty_calculators_message">Bu aramaya uyan hesaplayıcı yok. Farklı bir terim deneyin.</string>
+    <string name="state_empty_calculators_title">Sonuç yok</string>
+</resources>

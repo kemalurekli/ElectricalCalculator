@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="theory">
+    <output-path>$PROJECT_DIR$/feature/theory/build/libs</output-path>
+    <root id="archive" name="theory.jar">
+      <element id="module-output" name="Electrical_Calculator.feature.theory.androidMain" />
+    </root>
+  </artifact>
+</component>

@@ -173,6 +173,7 @@ dependencies {
     implementation(project(":core:datastore"))
     implementation(project(":core:data"))
     implementation(project(":core:designsystem"))
+    implementation(project(":core:navigation"))
     implementation(project(":feature:converter"))
     implementation(project(":feature:history"))
     implementation(project(":feature:glossary"))
@@ -180,6 +181,9 @@ dependencies {
     implementation(project(":feature:references"))
     implementation(project(":feature:calculators"))
     implementation(project(":feature:theory"))
+    implementation(project(":feature:favorites"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:more"))
     implementation(libs.androidx.compose.material3.navigation.suite)
 
     // Navigation

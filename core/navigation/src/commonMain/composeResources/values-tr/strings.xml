@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dashboard_calculators_subtitle">Gerilim düşümü, kablo kesiti, motor akımı</string>
+    <string name="dashboard_calculators_title">Hesaplayıcılar</string>
+    <string name="dashboard_converter_subtitle">Elektriksel, fiziksel ve AWG dönüşümleri</string>
+    <string name="dashboard_converter_title">Birim Dönüştürücü</string>
+    <string name="dashboard_favorites_subtitle">Sabitlediğiniz hesaplayıcılar</string>
+    <string name="dashboard_favorites_title">Favoriler</string>
+    <string name="dashboard_field_notes_subtitle">Neden böyle yapılır, yapılmazsa ne olur</string>
+    <string name="dashboard_field_notes_title">Genel Bilgiler</string>
+    <string name="dashboard_forum_subtitle">Hesaplayıcının cevaplayamadığı soruyu sorun</string>
+    <string name="dashboard_forum_title">Forum</string>
+    <string name="dashboard_glossary_subtitle">Elektrik terimleri, Türkçe ve İngilizce</string>
+    <string name="dashboard_glossary_title">Sözlük</string>
+    <string name="dashboard_history_subtitle">Yaptığınız tüm hesaplamalar</string>
+    <string name="dashboard_history_title">Geçmiş</string>
+    <string name="dashboard_projects_subtitle">Bir işin devrelerini bir arada tutun ve tek seferde tasarlayın</string>
+    <string name="dashboard_projects_title">Projeler</string>
+    <string name="dashboard_references_subtitle">IP/IK sınıfları, renk kodları ve standart tablolar</string>
+    <string name="dashboard_references_title">Referanslar</string>
+    <string name="dashboard_settings_subtitle">Tema, birimler ve uygulama bilgisi</string>
+    <string name="dashboard_settings_title">Ayarlar</string>
+    <string name="dashboard_theory_subtitle">Formüller nereden geliyor, kendi sayılarınızla</string>
+    <string name="dashboard_theory_title">Teori</string>
+    <string name="destination_calculators">Hesaplayıcılar</string>
+    <string name="destination_converter">Dönüştürücü</string>
+    <string name="destination_favorites">Favoriler</string>
+    <string name="destination_field_notes">Genel Bilgiler</string>
+    <string name="destination_forum">Forum</string>
+    <string name="destination_glossary">Sözlük</string>
+    <string name="destination_history">Geçmiş</string>
+    <string name="destination_home">Ana sayfa</string>
+    <string name="destination_more">Daha fazla</string>
+    <string name="destination_projects">Projeler</string>
+    <string name="destination_references">Referanslar</string>
+    <string name="destination_settings">Ayarlar</string>
+    <string name="destination_theory">Teori</string>
+    <string name="tab_calculators">Araçlar</string>
+</resources>

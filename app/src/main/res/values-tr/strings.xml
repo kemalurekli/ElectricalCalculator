@@ -12,35 +12,13 @@
     <!-- Uygulama adı bir marka adıdır; çevrilmez. -->
 
     <!-- Ana ekran -->
-    <string name="home_browse">Gözat</string>
 
     <!-- Üst düzey bölümler -->
-    <string name="destination_calculators">Hesaplayıcılar</string>
-    <string name="destination_converter">Dönüştürücü</string>
-    <string name="destination_references">Referanslar</string>
-    <string name="destination_favorites">Favoriler</string>
-    <string name="destination_history">Geçmiş</string>
     <string name="destination_settings">Ayarlar</string>
-    <string name="destination_home">Ana sayfa</string>
-    <string name="destination_more">Daha fazla</string>
     <!-- "Hesaplayıcılar" wraps to two lines in a tab; "Araçlar" does not. -->
-    <string name="tab_calculators">Araçlar</string>
-    <string name="more_title">Daha fazla</string>
     <string name="more_subtitle">Kaynaklar, kaydedilen işler ve ayarlar</string>
 
     <!-- Panel kartları -->
-    <string name="dashboard_calculators_title">Hesaplayıcılar</string>
-    <string name="dashboard_calculators_subtitle">Gerilim düşümü, kablo kesiti, motor akımı</string>
-    <string name="dashboard_converter_title">Birim Dönüştürücü</string>
-    <string name="dashboard_converter_subtitle">Elektriksel, fiziksel ve AWG dönüşümleri</string>
-    <string name="dashboard_references_title">Referanslar</string>
-    <string name="dashboard_references_subtitle">IP/IK sınıfları, renk kodları ve standart tablolar</string>
-    <string name="dashboard_favorites_title">Favoriler</string>
-    <string name="dashboard_favorites_subtitle">Sabitlediğiniz hesaplayıcılar</string>
-    <string name="dashboard_history_title">Geçmiş</string>
-    <string name="dashboard_history_subtitle">Yaptığınız tüm hesaplamalar</string>
-    <string name="dashboard_settings_title">Ayarlar</string>
-    <string name="dashboard_settings_subtitle">Tema, birimler ve uygulama bilgisi</string>
 
     <!-- Hesaplayıcı kategorileri -->
 
@@ -59,15 +37,11 @@
     <string name="state_empty_favorites_title">Henüz favori yok</string>
     <string name="state_empty_favorites_message">Bir hesaplayıcıyı sabitleyerek ana ekranınızda tutun.</string>
     <string name="state_error_title">Bir sorun oluştu</string>
-    <string name="state_empty_calculators_title">Sonuç yok</string>
-    <string name="state_empty_calculators_message">Bu aramaya uyan hesaplayıcı yok. Farklı bir terim deneyin.</string>
     <string name="state_in_development_title">Henüz kullanılamıyor</string>
     <string name="state_in_development_message">Bu bölüm geliştiriliyor ve yakın bir sürümde eklenecek.</string>
 
     <!-- Ayarlar -->
     <string name="destination_projects">Projeler</string>
-    <string name="dashboard_projects_title">Projeler</string>
-    <string name="dashboard_projects_subtitle">Bir i\u015fin devrelerini bir arada tutun ve tek seferde tasarlay\u0131n</string>
     <string name="projects_empty_title">Hen\u00fcz proje yok</string>
     <string name="projects_empty_message">Bir proje, tek bir beslemeyi ve ondan beslenen devreleri tutar. Gerilimi, ortam s\u0131cakl\u0131\u011f\u0131n\u0131 ve kablo tipini bir kez girin; her devre onlara g\u00f6re tasarlan\u0131r.</string>
     <string name="projects_new">Yeni proje</string>
@@ -161,8 +135,6 @@
     <string name="disclaimer_title">Sorumluluk reddi</string>
     <string name="settings_legal">Yasal</string>
     <string name="destination_forum">Forum</string>
-    <string name="dashboard_forum_title">Forum</string>
-    <string name="dashboard_forum_subtitle">Hesaplay\u0131c\u0131n\u0131n cevaplayamad\u0131\u011f\u0131 soruyu sorun</string>
     <string name="forum_categories_title">Forum</string>
     <string name="forum_threads_empty_title">Hen\u00fcz konu yok</string>
     <string name="forum_threads_empty_message">Burada hen\u00fcz bir \u015fey sorulmam\u0131\u015f. \u0130\u015fe yarayan\u0131 ilk sorudur.</string>
@@ -248,11 +220,6 @@
 
     <!-- Güç hesaplayıcısı -->
 
-    <string name="home_recent">Son hesaplamalar</string>
-    <string name="home_badge_pinned">%1$d sabit</string>
-    <string name="home_badge_saved">%1$d kayıt</string>
-
-    <string name="home_just_now">Az önce</string>
     <!-- Kompanzasyon hesaplayıcısı -->
 
     <!-- Akü çalışma süresi hesaplayıcısı -->
@@ -284,17 +251,8 @@
     <string name="calculator_steps">Adım adım</string>
 
     <!-- Sözlük ekranı -->
-    <string name="destination_glossary">Sözlük</string>
-    <string name="dashboard_glossary_title">Sözlük</string>
-    <string name="dashboard_glossary_subtitle">Elektrik terimleri, Türkçe ve İngilizce</string>
 
     <!-- Lighting, solar, neutral current and energy cost -->
-
-    <string name="search_group_calculators">Hesaplayıcılar</string>
-    <string name="search_group_converter">Birim dönüştürücü</string>
-    <string name="search_group_references">Referanslar</string>
-    <string name="search_group_glossary">Sözlük</string>
-    <string name="search_group_symbols">Çizim sembolleri</string>
 
     <!-- Reference depth: codes, factors, safety, formulas, standards -->
 
@@ -309,16 +267,8 @@
     <!-- Örnek senaryolar -->
 
     <!-- Field notes screen -->
-    <string name="destination_field_notes">Genel Bilgiler</string>
-    <string name="dashboard_field_notes_title">Genel Bilgiler</string>
-    <string name="dashboard_field_notes_subtitle">Neden böyle yapılır, yapılmazsa ne olur</string>
-    <string name="search_group_field_notes">Genel bilgiler</string>
 
     <!-- Theory screen -->
-    <string name="destination_theory">Teori</string>
-    <string name="dashboard_theory_title">Teori</string>
-    <string name="dashboard_theory_subtitle">Formüller nereden geliyor, kendi sayılarınızla</string>
-    <string name="search_group_theory">Teori</string>
 
     <!-- Theory -->
 

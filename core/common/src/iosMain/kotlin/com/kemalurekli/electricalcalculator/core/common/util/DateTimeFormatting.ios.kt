@@ -1,5 +1,7 @@
 package com.kemalurekli.electricalcalculator.core.common.util
 
+import platform.Foundation.NSRelativeDateTimeFormatterStyleNamed
+import platform.Foundation.NSRelativeDateTimeFormatter
 import kotlin.time.Instant
 import platform.Foundation.NSDate
 import platform.Foundation.NSDateFormatter
@@ -30,3 +32,22 @@ private fun formatter(dateStyle: ULong, timeStyle: ULong) = NSDateFormatter().ap
 
 private fun Instant.toNSDate(): NSDate =
     NSDate.dateWithTimeIntervalSince1970(toEpochMilliseconds() / 1000.0)
+
+/**
+ * `NSRelativeDateTimeFormatter` is Foundation's answer to `DateUtils`, and
+ * arrived in iOS 13. `.named` lets it say "yesterday" rather than "1 day ago"
+ * where the language has a word for it, which is what the Android formatter
+ * does too.
+ *
+ * Built fresh per call, like the absolute formatter above and for the same
+ * reason: a cached one keeps the language it was created with.
+ */
+actual fun Instant.formatAsRelativeTime(): String {
+    // No locale set: the formatter takes the current one, and setting it
+    // explicitly would only pin the language it was built with.
+    val formatter = NSRelativeDateTimeFormatter().apply {
+        dateTimeStyle = NSRelativeDateTimeFormatterStyleNamed
+    }
+    val date = NSDate.dateWithTimeIntervalSince1970(toEpochMilliseconds() / 1000.0)
+    return formatter.localizedStringForDate(date, relativeToDate = NSDate())
+}

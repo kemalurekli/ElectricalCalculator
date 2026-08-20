@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="destination_calculators">Calculators</string>
+    <string name="destination_favorites">Favorites</string>
+    <string name="destination_field_notes">General Info</string>
+    <string name="destination_glossary">Glossary</string>
+    <string name="destination_references">References</string>
+    <string name="destination_theory">Theory</string>
+</resources>

@@ -10,6 +10,7 @@ ksp = "2.3.11"
 composeMultiplatform = "1.11.1"
 composeAdaptiveMultiplatform = "1.3.0-beta02"
 lifecycleMultiplatform = "2.11.0"
+navigationComposeMultiplatform = "2.9.1"
 
 # Dependency injection for the shared modules. Hilt is Android-only and has no
 # multiplatform port; Koin is what replaces it as code moves out of :app.
@@ -169,6 +170,9 @@ lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name
 # SavedStateHandle, for a ViewModel that keeps an in-progress search across
 # process death rather than only across rotation.
 lifecycle-viewmodel-savedstate = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "lifecycleMultiplatform" }
+# The multiplatform navigation graph. `androidx.navigation` above is the
+# Android-only build of the same API, package names included.
+navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigationComposeMultiplatform" }
 
 # Images
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }

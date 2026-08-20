@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">ElecToolkit</string>
+    <string name="destination_favorites">Favorites</string>
+    <string name="home_badge_pinned">%1$d pinned</string>
+    <string name="home_badge_saved">%1$d saved</string>
+    <string name="home_browse">Browse</string>
+    <string name="home_just_now">Just now</string>
+    <string name="home_recent">Recent</string>
+    <string name="search_group_calculators">Calculators</string>
+    <string name="search_group_converter">Unit converter</string>
+    <string name="search_group_field_notes">General info</string>
+    <string name="search_group_glossary">Glossary</string>
+    <string name="search_group_references">References</string>
+    <string name="search_group_symbols">Drawing symbols</string>
+    <string name="search_group_theory">Theory</string>
+    <string name="state_empty_calculators_message">No calculator matches that search. Try a different term.</string>
+    <string name="state_empty_calculators_title">No matches</string>
+</resources>
