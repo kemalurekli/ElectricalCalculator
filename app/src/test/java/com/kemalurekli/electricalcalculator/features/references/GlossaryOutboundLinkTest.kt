@@ -1,6 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.references
 
-import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryCatalog
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import org.junit.Assert.assertNotNull

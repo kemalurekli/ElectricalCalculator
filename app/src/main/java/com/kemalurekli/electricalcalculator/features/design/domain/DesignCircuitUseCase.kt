@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.design.domain
 
+import com.kemalurekli.electricalcalculator.core.domain.table.ProtectiveDeviceRatings
 import com.kemalurekli.electricalcalculator.core.domain.model.LoadedConductors
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.AmpacityTable
 import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors

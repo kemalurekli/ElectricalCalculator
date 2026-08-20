@@ -19,4 +19,7 @@ import org.jetbrains.compose.resources.getString
  */
 class ComposeStringResolver : StringResolver {
     override fun get(resource: StringResource): String = runBlocking { getString(resource) }
+
+    override fun get(resource: StringResource, vararg args: Any): String =
+        runBlocking { getString(resource, *args) }
 }

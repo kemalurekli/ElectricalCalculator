@@ -20,7 +20,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchKind
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchableItem
 import com.kemalurekli.electricalcalculator.core.navigation.Route
-import com.kemalurekli.electricalcalculator.core.ui.model.CalculatorUiModel
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorUiModel
 import com.kemalurekli.electricalcalculator.features.home.presentation.HomeScreen
 import com.kemalurekli.electricalcalculator.features.home.presentation.HomeUiState
 import com.kemalurekli.electricalcalculator.features.home.presentation.SearchSection

@@ -1,7 +1,7 @@
 package com.kemalurekli.electricalcalculator.core.ui.search
 
 import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
-import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchKind
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchableItem
 import com.kemalurekli.electricalcalculator.features.converter.domain.UnitCatalog
@@ -61,9 +61,9 @@ class SearchIndexBuilder @Inject constructor(
         SearchableItem(
             kind = SearchKind.THEORY,
             key = topic.key,
-            title = stringResolver.get(topic.titleRes),
-            subtitle = stringResolver.get(topic.summaryRes),
-            body = stringResolver.get(topic.theoryRes),
+            title = stringResolver.get(topic.title),
+            subtitle = stringResolver.get(topic.summary),
+            body = stringResolver.get(topic.theory),
         )
     }
 
@@ -71,10 +71,10 @@ class SearchIndexBuilder @Inject constructor(
         SearchableItem(
             kind = SearchKind.CALCULATOR,
             key = descriptor.id.key,
-            title = stringResolver.get(descriptor.titleRes),
-            subtitle = stringResolver.get(descriptor.descriptionRes),
+            title = stringResolver.get(descriptor.title),
+            subtitle = stringResolver.get(descriptor.description),
             keywords = descriptor.searchKeywords,
-            body = stringResolver.get(descriptor.descriptionRes),
+            body = stringResolver.get(descriptor.description),
         )
     }
 

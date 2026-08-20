@@ -280,6 +280,48 @@ collation algorithm, so the two platforms file *Çalışma* in the same place
 without either being handed a list of rules — the simulator lists *Açık, Açma,
 Adyabatik, Akım, Aktif*, which is ç < d < k and then ı < t.
 
+## The calculators, and everything that had to move with them
+
+The plan called this the largest single lump and expected it late. It came
+earlier because everything else was waiting behind it: theory shares
+`WorkedExample` and `CalculationStep` with the calculators, favourites reads
+theory and references, and references and the calculators used to reach into
+each other.
+
+That last one had to be untangled first. `CorrectionFactors` went down to
+`:core:domain` — it is table data with no feature of its own, and two features
+read it — which turned a cycle into a line. Then references, then the
+calculators, then theory in the same breath, because the shared worked-solution
+card cannot carry `StringResource` for one caller and `Int` for the other.
+
+`:app` is 72 files now. It was 318.
+
+### What is left in `:app`, and why
+
+Navigation, the forum, home, settings, more, projects, the circuit designer and
+the inspection feature. All but the first two are ordinary ports; navigation is
+the shell everything else hangs from, and the forum holds the only
+platform-specific authentication.
+
+### Three things this taught that the smaller moves did not
+
+**A generated Koin module is only correct at the moment it is generated.** Two
+ViewModels arrived after `CalculatorsModule` was written, and neither was a
+compile error — Koin resolves by type at runtime, so the screens threw
+`NoDefinitionFoundException` the first time anyone opened them. Hilt made that
+a compile error. `CalculatorsModuleTest` gets it back by reading the sources.
+
+**`Math.toDegrees(acos(pf))` does not survive a regex.** Replacing it with a
+multiplication caught the first closing parenthesis rather than the matching
+one and produced `acos(pf * DEGREES_PER_RADIAN)` — which compiles, runs, and
+is wrong by a factor no reviewer would spot in a diff. `TheorySolverTest`
+failed on the phase angle, which is what those tests are for.
+
+**A test fake has to lie the same way the real thing does.** The module's
+`StringResolver` fake appended its arguments instead of substituting them, so
+every assertion about *which* string was asked for passed and the ones about
+what came out failed. It uses `formatPositional` now, the same as production.
+
 ### The one thing worth knowing before porting the next feature
 
 Android has one object graph, not two. A ported feature's Koin module names the

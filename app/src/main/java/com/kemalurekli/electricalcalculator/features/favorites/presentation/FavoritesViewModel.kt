@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
-import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
@@ -84,8 +84,8 @@ class FavoritesViewModel @Inject constructor(
         FavoriteKind.CALCULATOR -> catalog.all.firstOrNull { it.key == item.key }?.let {
             FavoriteRow(
                 item = item,
-                title = stringResolver.get(it.titleRes),
-                description = stringResolver.get(it.descriptionRes),
+                title = stringResolver.get(it.title),
+                description = stringResolver.get(it.description),
                 calculatorIcon = it.icon,
             )
         }
@@ -103,7 +103,7 @@ class FavoritesViewModel @Inject constructor(
         }
 
         FavoriteKind.THEORY -> TheoryCatalog.topicOrNull(item.key)?.let {
-            FavoriteRow(item, stringResolver.get(it.titleRes), stringResolver.get(it.summaryRes))
+            FavoriteRow(item, stringResolver.get(it.title), stringResolver.get(it.summary))
         }
     }
 
@@ -113,5 +113,5 @@ class FavoritesViewModel @Inject constructor(
 }
 
 /** The catalog descriptor's key, which the favourite stores. */
-private val com.kemalurekli.electricalcalculator.core.domain.model.CalculatorDescriptor.key: String
+private val com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorDescriptor.key: String
     get() = id.key

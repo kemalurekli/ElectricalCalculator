@@ -206,7 +206,9 @@ class VerificationBacklogTest {
         val EDITION_YEAR = Regex("""\b(19|20)\d{2}\b""")
 
         private const val CALCULATORS =
-            "app/src/main/java/com/kemalurekli/electricalcalculator/features/calculators"
+            "feature/calculators/src/commonMain/kotlin/com/kemalurekli/electricalcalculator/features/calculators"
+        private const val THEORY =
+            "feature/theory/src/commonMain/kotlin/com/kemalurekli/electricalcalculator/features/theory"
         private const val CORE = "app/src/main/java/com/kemalurekli/electricalcalculator/core"
 
         /**
@@ -258,12 +260,12 @@ class VerificationBacklogTest {
             "$CALCULATORS/lighting/presentation/LightingExamples.kt",
             "$DOMAIN/model/CableModels.kt",
             "$DOMAIN/model/ConductorMaterial.kt",
-            "$CORE/ui/model/SystemVoltageDefaults.kt",
+            "$DOMAIN/model/SystemVoltageDefaults.kt",
             "$DESIGNSYSTEM/symbol",
             "$REFERENCES/domain/ReferenceCatalog.kt",
             "$GLOSSARY/domain/GlossaryCatalog.kt",
             "$FIELDNOTES/domain/FieldNoteCatalog.kt",
-            "$FEATURES/theory/domain",
+            "$THEORY/domain",
             "app/src/main/res/values-tr/strings.xml",
         )
     }

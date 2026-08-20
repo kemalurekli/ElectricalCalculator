@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
-import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
@@ -41,8 +41,8 @@ class HomeViewModelTest {
         ioDispatcher = UnconfinedTestDispatcher(),
     )
     private val stringResolver = FakeStringResolver(
-        catalog.all.associate { it.titleRes to "Title ${it.id.key}" } +
-            catalog.all.associate { it.descriptionRes to "Description ${it.id.key}" },
+        catalog.all.associate { it.title to "Title ${it.id.key}" } +
+            catalog.all.associate { it.description to "Description ${it.id.key}" },
     )
 
     private val historyRepository: HistoryRepository = HistoryRepositoryImpl(

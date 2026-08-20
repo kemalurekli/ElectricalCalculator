@@ -58,6 +58,8 @@ class GlossaryViewModelTest {
     ) : StringResolver {
         override fun get(resource: StringResource): String =
             strings[resource] ?: resource.key
+
+        override fun get(resource: StringResource, vararg args: Any): String = get(resource)
     }
 
     /** Pin order, in memory — the module has no access to `:app`'s fakes. */

@@ -35,4 +35,7 @@
     <string name="validation_not_a_number">Geçerli bir sayı girin</string>
     <string name="validation_out_of_range">%1$s ile %2$s arasında bir değer girin</string>
     <string name="validation_required">Bu değer gereklidir</string>
+    <string name="calculator_examples">Örnek senaryolar</string>
+    <string name="calculator_examples_hint">Gerçek bir işi yükleyin, çözümü adımlarıyla görün.</string>
+    <string name="calculator_steps">Adım adım</string>
 </resources>

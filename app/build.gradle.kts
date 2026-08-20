@@ -178,6 +178,8 @@ dependencies {
     implementation(project(":feature:glossary"))
     implementation(project(":feature:fieldnotes"))
     implementation(project(":feature:references"))
+    implementation(project(":feature:calculators"))
+    implementation(project(":feature:theory"))
     implementation(libs.androidx.compose.material3.navigation.suite)
 
     // Navigation

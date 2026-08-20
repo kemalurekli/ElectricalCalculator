@@ -1,6 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.fieldnotes
 
-import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.features.fieldnotes.domain.FieldNoteCatalog
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import org.junit.Assert.assertTrue

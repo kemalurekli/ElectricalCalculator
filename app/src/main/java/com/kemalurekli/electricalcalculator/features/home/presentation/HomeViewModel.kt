@@ -5,8 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
-import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
-import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorSearch
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorCatalog
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorSearch
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
@@ -14,9 +14,9 @@ import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryReposi
 import com.kemalurekli.electricalcalculator.core.domain.search.AppSearch
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchKind
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchableItem
-import com.kemalurekli.electricalcalculator.core.ui.model.CalculatorUiModel
-import com.kemalurekli.electricalcalculator.core.ui.model.toSearchable
-import com.kemalurekli.electricalcalculator.core.ui.model.toUiModel
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorUiModel
+import com.kemalurekli.electricalcalculator.features.calculators.domain.toSearchable
+import com.kemalurekli.electricalcalculator.features.calculators.domain.toUiModel
 import com.kemalurekli.electricalcalculator.core.ui.search.SearchIndexBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList

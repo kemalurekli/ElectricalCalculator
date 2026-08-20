@@ -43,4 +43,7 @@ class AndroidStringResolver @Inject constructor(
      * sorting a glossary — are off the main thread.
      */
     override fun get(resource: StringResource): String = runBlocking { getString(resource) }
+
+    override fun get(resource: StringResource, vararg args: Any): String =
+        runBlocking { getString(resource, *args) }
 }

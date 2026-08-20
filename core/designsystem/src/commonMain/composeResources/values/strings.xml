@@ -35,4 +35,7 @@
     <string name="validation_not_a_number">Enter a valid number</string>
     <string name="validation_out_of_range">Enter a value between %1$s and %2$s</string>
     <string name="validation_required">This value is required</string>
+    <string name="calculator_examples">Example scenarios</string>
+    <string name="calculator_examples_hint">Load a realistic job and see it worked through.</string>
+    <string name="calculator_steps">Step by step</string>
 </resources>

@@ -12,7 +12,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.Project
 import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import com.kemalurekli.electricalcalculator.core.domain.repository.InspectionRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
-import com.kemalurekli.electricalcalculator.core.ui.model.SystemVoltageDefaults
+import com.kemalurekli.electricalcalculator.core.domain.model.SystemVoltageDefaults
 import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.ProtectiveDeviceType
 import com.kemalurekli.electricalcalculator.features.design.domain.CircuitDesignResult
 import com.kemalurekli.electricalcalculator.features.design.domain.DesignCircuitUseCase

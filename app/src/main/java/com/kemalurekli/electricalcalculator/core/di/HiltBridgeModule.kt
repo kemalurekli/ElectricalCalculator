@@ -1,6 +1,9 @@
 package com.kemalurekli.electricalcalculator.core.di
 
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
+import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
+import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
 import dagger.hilt.EntryPoint
@@ -30,7 +33,10 @@ import org.koin.dsl.module
 interface SharedGraphEntryPoint {
     fun historyRepository(): HistoryRepository
     fun favoritesRepository(): FavoritesRepository
+    fun userPreferencesRepository(): UserPreferencesRepository
     fun stringResolver(): StringResolver
+    fun timeProvider(): TimeProvider
+    fun correctionFactors(): CorrectionFactors
 }
 
 /**
@@ -44,5 +50,8 @@ val hiltBridgeModule: Module = module {
 
     single<HistoryRepository> { entryPoint(androidApplication()).historyRepository() }
     single<FavoritesRepository> { entryPoint(androidApplication()).favoritesRepository() }
+    single<UserPreferencesRepository> { entryPoint(androidApplication()).userPreferencesRepository() }
     single<StringResolver> { entryPoint(androidApplication()).stringResolver() }
+    single<TimeProvider> { entryPoint(androidApplication()).timeProvider() }
+    single { entryPoint(androidApplication()).correctionFactors() }
 }

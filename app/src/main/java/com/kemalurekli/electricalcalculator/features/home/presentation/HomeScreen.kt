@@ -50,13 +50,13 @@ import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorCategory
 import com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
-import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchKind
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchableItem
 import com.kemalurekli.electricalcalculator.core.navigation.Route
 import com.kemalurekli.electricalcalculator.core.navigation.TopLevelDestination
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
-import com.kemalurekli.electricalcalculator.core.ui.model.CalculatorUiModel
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorUiModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlin.time.Instant
 

@@ -15,7 +15,7 @@ import com.kemalurekli.electricalcalculator.features.design.domain.CircuitDesign
 import com.kemalurekli.electricalcalculator.features.design.domain.CircuitLoad
 import com.kemalurekli.electricalcalculator.features.design.domain.DesignCircuitUseCase
 import com.kemalurekli.electricalcalculator.features.design.domain.DesignFailure
-import com.kemalurekli.electricalcalculator.features.design.domain.ProtectiveDeviceRatings
+import com.kemalurekli.electricalcalculator.core.domain.table.ProtectiveDeviceRatings
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull

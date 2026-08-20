@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.testing
 
 import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
 import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
+import com.kemalurekli.electricalcalculator.core.common.util.formatPositional
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.database.dao.CalculationHistoryDao
 import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
@@ -42,16 +43,19 @@ class FakeTimeProvider(private var current: Instant = Instant.fromEpochMilliseco
 class FakeStringResolver(
     private val values: Map<Int, String> = emptyMap(),
     private val default: String? = null,
+    private val resources: Map<StringResource, String> = emptyMap(),
 ) : ResourceIdResolver {
+
+    /** For a screen whose catalogue has moved and carries handles, not ids. */
+    constructor(resources: Map<StringResource, String>) : this(resources = resources, values = emptyMap())
+
     override fun get(id: Int): String = values[id] ?: default ?: "res:$id"
 
-    /**
-     * The modules that have left `:app` own their strings now, and a test fake
-     * has no resource table to read them from. The key is the string's name in
-     * the XML, which is enough for a test asserting that the right entry was
-     * asked for; a test asserting on the text itself resolves it directly.
-     */
-    override fun get(resource: StringResource): String = resource.key
+    override fun get(resource: StringResource): String =
+        resources[resource] ?: default ?: resource.key
+
+    override fun get(resource: StringResource, vararg args: Any): String =
+        get(resource).formatPositional(*args)
 }
 
 /**
