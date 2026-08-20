@@ -133,17 +133,14 @@ kotlin {
     }
 }
 
-// Room writes generated schemas here so migrations stay reviewable and testable.
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-    arg("room.generateKotlin", "true")
-}
-
-// MigrationTestHelper reads the exported schemas from the test APK's assets, so
-// the directory KSP writes them to has to be packaged with the instrumented
-// tests. Without this a migration test fails with "cannot find the schema file"
-// rather than with anything about the migration.
-android.sourceSets.getByName("androidTest").assets.srcDir("$projectDir/schemas")
+// MigrationTestHelper reads the exported schemas from the test APK's assets. The
+// schemas now live with the database module that generates them, so this points
+// there rather than at a second copy that would drift. Without this a migration
+// test fails with "cannot find the schema file" rather than with anything about
+// the migration.
+android.sourceSets.getByName("androidTest").assets.srcDir(
+    rootProject.file("core/database/schemas"),
+)
 
 dependencies {
     // Compose BOM aligns every Compose artifact to one tested version set.
@@ -172,6 +169,7 @@ dependencies {
     implementation(libs.androidx.compose.adaptive)
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
+    implementation(project(":core:database"))
     implementation(project(":core:designsystem"))
     implementation(project(":feature:converter"))
     implementation(libs.androidx.compose.material3.navigation.suite)

@@ -30,6 +30,7 @@ rootProject.name = "Electrical Calculator"
 include(":app")
 include(":core:common")
 include(":core:domain")
+include(":core:database")
 include(":core:designsystem")
 include(":feature:converter")
 

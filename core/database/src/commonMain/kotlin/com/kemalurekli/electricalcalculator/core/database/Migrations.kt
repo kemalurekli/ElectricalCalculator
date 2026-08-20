@@ -1,7 +1,8 @@
 package com.kemalurekli.electricalcalculator.core.database
 
 import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.sqlite.SQLiteConnection
+import androidx.sqlite.execSQL
 
 /**
  * Schema changes, one object per step.
@@ -9,6 +10,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase
  * Every migration carries the data forward. A user who has pinned calculators
  * across several releases should not find the shelf empty after an update, and
  * "they can just pin them again" is not a migration.
+ *
+ * These take a `SQLiteConnection` rather than the `SupportSQLiteDatabase` they
+ * were written against. That is the multiplatform Room API — the support
+ * library is an Android artefact — and the SQL inside each step is unchanged,
+ * which is what the migration tests continue to check.
  */
 
 /**
@@ -21,8 +27,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
  * survives.
  */
 val MIGRATION_1_2 = object : Migration(1, 2) {
-    override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL(
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL(
             """
             CREATE TABLE IF NOT EXISTS `favorite_items` (
                 `kind` TEXT NOT NULL,
@@ -32,13 +38,13 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
             )
             """.trimIndent(),
         )
-        db.execSQL(
+        connection.execSQL(
             """
             INSERT OR REPLACE INTO `favorite_items` (`kind`, `item_key`, `pinned_at`)
             SELECT 'CALCULATOR', `calculator_id`, `pinned_at` FROM `favorite_calculators`
             """.trimIndent(),
         )
-        db.execSQL("DROP TABLE `favorite_calculators`")
+        connection.execSQL("DROP TABLE `favorite_calculators`")
     }
 }
 
@@ -51,8 +57,8 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
  * has no meaning without the supply parameters it was designed against.
  */
 val MIGRATION_2_3 = object : Migration(2, 3) {
-    override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL(
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL(
             """
             CREATE TABLE IF NOT EXISTS `projects` (
                 `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -71,8 +77,8 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
             )
             """.trimIndent(),
         )
-        db.execSQL("CREATE INDEX IF NOT EXISTS `index_projects_updated_at` ON `projects` (`updated_at`)")
-        db.execSQL(
+        connection.execSQL("CREATE INDEX IF NOT EXISTS `index_projects_updated_at` ON `projects` (`updated_at`)")
+        connection.execSQL(
             """
             CREATE TABLE IF NOT EXISTS `circuits` (
                 `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -92,7 +98,7 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
             )
             """.trimIndent(),
         )
-        db.execSQL("CREATE INDEX IF NOT EXISTS `index_circuits_project_id` ON `circuits` (`project_id`)")
+        connection.execSQL("CREATE INDEX IF NOT EXISTS `index_circuits_project_id` ON `circuits` (`project_id`)")
     }
 }
 
@@ -104,8 +110,8 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
  * before the table existed.
  */
 val MIGRATION_3_4 = object : Migration(3, 4) {
-    override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL(
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL(
             """
             CREATE TABLE IF NOT EXISTS `circuit_tests` (
                 `circuit_id` INTEGER NOT NULL,
@@ -120,7 +126,7 @@ val MIGRATION_3_4 = object : Migration(3, 4) {
             )
             """.trimIndent(),
         )
-        db.execSQL(
+        connection.execSQL(
             "CREATE INDEX IF NOT EXISTS `index_circuit_tests_circuit_id` ON `circuit_tests` (`circuit_id`)",
         )
     }

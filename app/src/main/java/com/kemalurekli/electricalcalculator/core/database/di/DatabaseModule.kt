@@ -1,12 +1,10 @@
 package com.kemalurekli.electricalcalculator.core.database.di
 
 import android.content.Context
-import androidx.room.Room
 import com.kemalurekli.electricalcalculator.core.database.ElecToolkitDatabase
+import com.kemalurekli.electricalcalculator.core.database.createElecToolkitDatabase
+import com.kemalurekli.electricalcalculator.core.database.databaseContext
 import com.kemalurekli.electricalcalculator.core.database.dao.CalculationHistoryDao
-import com.kemalurekli.electricalcalculator.core.database.MIGRATION_1_2
-import com.kemalurekli.electricalcalculator.core.database.MIGRATION_2_3
-import com.kemalurekli.electricalcalculator.core.database.MIGRATION_3_4
 import com.kemalurekli.electricalcalculator.core.database.dao.CircuitDao
 import com.kemalurekli.electricalcalculator.core.database.dao.CircuitTestDao
 import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
@@ -24,18 +22,21 @@ object DatabaseModule {
 
     @Provides
     @Singleton
+    /**
+     * Hilt still owns the *lifetime* of the database on Android; the shared
+     * module owns how it is opened.
+     *
+     * The migrations, the SQLite driver and the file location moved into
+     * `createElecToolkitDatabase` so that iOS opens exactly the same database
+     * the same way. What is left here is handing the shared code the one thing
+     * only Android has.
+     */
     fun provideDatabase(
         @ApplicationContext context: Context,
-    ): ElecToolkitDatabase = Room.databaseBuilder(
-        context,
-        ElecToolkitDatabase::class.java,
-        ElecToolkitDatabase.NAME,
-    )
-        // Explicit rather than destructive: a user's pinned shelf and their
-        // saved calculations are the only data this app holds, and losing
-        // them to an update would be losing all of it.
-        .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
-        .build()
+    ): ElecToolkitDatabase {
+        databaseContext = context
+        return createElecToolkitDatabase()
+    }
 
     @Provides
     fun provideCalculationHistoryDao(
