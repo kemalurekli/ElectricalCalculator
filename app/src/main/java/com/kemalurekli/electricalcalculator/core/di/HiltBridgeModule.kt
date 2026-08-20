@@ -1,5 +1,7 @@
 package com.kemalurekli.electricalcalculator.core.di
 
+import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
@@ -27,6 +29,8 @@ import org.koin.dsl.module
 @InstallIn(SingletonComponent::class)
 interface SharedGraphEntryPoint {
     fun historyRepository(): HistoryRepository
+    fun favoritesRepository(): FavoritesRepository
+    fun stringResolver(): StringResolver
 }
 
 /**
@@ -35,7 +39,10 @@ interface SharedGraphEntryPoint {
  * Hilt's component already built by the time either is asked for.
  */
 val hiltBridgeModule: Module = module {
-    single<HistoryRepository> {
-        EntryPoints.get(androidApplication(), SharedGraphEntryPoint::class.java).historyRepository()
-    }
+    fun entryPoint(application: android.app.Application) =
+        EntryPoints.get(application, SharedGraphEntryPoint::class.java)
+
+    single<HistoryRepository> { entryPoint(androidApplication()).historyRepository() }
+    single<FavoritesRepository> { entryPoint(androidApplication()).favoritesRepository() }
+    single<StringResolver> { entryPoint(androidApplication()).stringResolver() }
 }

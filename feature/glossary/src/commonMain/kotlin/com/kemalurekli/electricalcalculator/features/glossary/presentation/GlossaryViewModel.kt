@@ -5,6 +5,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.firstCharacter
+import com.kemalurekli.electricalcalculator.core.common.util.localizedComparator
+import com.kemalurekli.electricalcalculator.core.common.util.uppercaseLocalized
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
@@ -12,7 +15,6 @@ import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryCatalog
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossarySearch
 import com.kemalurekli.electricalcalculator.features.glossary.domain.SearchableTerm
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -24,10 +26,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.update
-import java.text.BreakIterator
-import java.text.Collator
-import java.util.Locale
-import javax.inject.Inject
 
 /** A term with its text resolved and its cross-references named. */
 @Immutable
@@ -84,12 +82,11 @@ data class GlossaryUiState(
  * ### Sorting
  *
  * A–Z is not the same sequence in every language, so ordering goes through
- * [Collator] rather than [String.compareTo]. In Turkish that puts *Çalışma*
- * after *Cihaz* instead of after *Z*, which is where a naive code-point sort
- * would file it.
+ * [localizedComparator] rather than [String.compareTo]. In Turkish that puts
+ * *Çalışma* after *Cihaz* instead of after *Z*, which is where a naive
+ * code-point sort would file it.
  */
-@HiltViewModel
-class GlossaryViewModel @Inject constructor(
+class GlossaryViewModel(
     private val stringResolver: StringResolver,
     private val savedStateHandle: SavedStateHandle,
     private val favoritesRepository: FavoritesRepository,
@@ -113,8 +110,6 @@ class GlossaryViewModel @Inject constructor(
     fun onToggleFavorite(key: String) {
         viewModelScope.launch { favoritesRepository.toggle(FavoriteItem(FavoriteKind.GLOSSARY, key)) }
     }
-
-    private val locale: Locale get() = Locale.getDefault()
 
     private val _uiState = MutableStateFlow(GlossaryUiState())
     val uiState: StateFlow<GlossaryUiState> = _uiState.asStateFlow()
@@ -154,18 +149,18 @@ class GlossaryViewModel @Inject constructor(
     }
 
     private fun rebuild(query: String) {
-        val collator = Collator.getInstance(locale)
+        val collator = localizedComparator()
         val searchable = GlossaryCatalog.all
             .map { term ->
                 SearchableTerm(
                     term = term,
-                    name = stringResolver.get(term.termRes),
-                    definition = stringResolver.get(term.definitionRes),
+                    name = stringResolver.get(term.term),
+                    definition = stringResolver.get(term.definition),
                 )
             }
             .sortedWith(compareBy(collator) { it.name })
 
-        val matches = GlossarySearch.filter(searchable, query, locale)
+        val matches = GlossarySearch.filter(searchable, query)
 
         _uiState.update {
             it.copy(
@@ -193,21 +188,15 @@ class GlossaryViewModel @Inject constructor(
      * The heading a term is filed under: its first *character* as a reader sees
      * one.
      *
-     * Not `take(1)`. That returns one UTF-16 unit, which is a letter only by
-     * coincidence — it splits a surrogate pair down the middle and severs a
-     * base letter from its combining mark. A break iterator asks the locale
-     * where one character ends, which is the question actually being asked.
+     * The two halves are both language questions rather than string ones, and
+     * both live in `:core:common` for it — see [firstCharacter] for why this is
+     * not `take(1)`, and [uppercaseLocalized] for why it is not `uppercase()`.
      */
-    private fun initialOf(name: String): String {
-        if (name.isEmpty()) return ""
-        val characters = BreakIterator.getCharacterInstance(locale)
-        characters.setText(name)
-        return name.substring(0, characters.next()).uppercase(locale)
-    }
+    private fun initialOf(name: String): String = name.firstCharacter().uppercaseLocalized()
 
     private fun groupByLetter(
         items: List<SearchableTerm>,
-        collator: Collator,
+        collator: Comparator<String>,
     ): ImmutableList<GlossarySection> = items
         .groupBy { initialOf(it.name) }
         .toList()
@@ -231,7 +220,7 @@ class GlossaryViewModel @Inject constructor(
             seeAlso = term.seeAlso
                 .mapNotNull { key -> GlossaryCatalog.termOrNull(key)?.let { key to it } }
                 .map { (key, related) ->
-                    GlossaryLink(key = key, name = stringResolver.get(related.termRes))
+                    GlossaryLink(key = key, name = stringResolver.get(related.term))
                 }
                 .toImmutableList(),
             calculator = term.calculator,

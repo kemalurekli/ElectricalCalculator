@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.core.common.result.Outcome
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
@@ -97,7 +97,7 @@ data class TheoryTopicUiState(
  */
 @HiltViewModel
 class TheoryTopicViewModel @Inject constructor(
-    private val stringResolver: StringResolver,
+    private val stringResolver: ResourceIdResolver,
     private val favoritesRepository: FavoritesRepository,
 ) : ViewModel() {
 

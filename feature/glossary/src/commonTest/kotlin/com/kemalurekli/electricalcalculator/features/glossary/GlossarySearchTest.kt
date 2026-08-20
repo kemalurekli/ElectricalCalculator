@@ -4,10 +4,12 @@ import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryCat
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossarySearch
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryTerm
 import com.kemalurekli.electricalcalculator.features.glossary.domain.SearchableTerm
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
-import java.util.Locale
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.test.Test
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.gl_ampacity_def
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.gl_ampacity_term
 
 /**
  * Ranking over the glossary.
@@ -19,8 +21,6 @@ import java.util.Locale
  */
 class GlossarySearchTest {
 
-    private val turkey = Locale.forLanguageTag("tr-TR")
-    private val us = Locale.US
 
     private fun entry(
         key: String,
@@ -32,8 +32,12 @@ class GlossarySearchTest {
         term = GlossaryTerm(
             key = key,
             englishTerm = english,
-            termRes = 1,
-            definitionRes = 2,
+            // Never resolved. `filter` reads the key, the English term and
+            // the symbol, and takes the localised name and definition as the
+            // strings passed in — but the field is typed, so it gets real
+            // handles rather than a pair of made-up numbers.
+            term = Res.string.gl_ampacity_term,
+            definition = Res.string.gl_ampacity_def,
             symbol = symbol,
         ),
         name = name,
@@ -59,8 +63,8 @@ class GlossarySearchTest {
         ),
     )
 
-    private fun keysFor(query: String, locale: Locale = turkey) =
-        GlossarySearch.filter(items, query, locale).map { it.term.key }
+    private fun keysFor(query: String) =
+        GlossarySearch.filter(items, query).map { it.term.key }
 
     // -- Ranking ---------------------------------------------------------------------
 
@@ -117,7 +121,7 @@ class GlossarySearchTest {
     @Test
     fun `case does not matter in either language`() {
         assertEquals(keysFor("TOPRAKLAMA"), keysFor("topraklama"))
-        assertEquals(keysFor("Ampacity", us), keysFor("ampacity", us))
+        assertEquals(keysFor("Ampacity"), keysFor("ampacity"))
     }
 
     // -- Behaviour -----------------------------------------------------------------------
@@ -126,8 +130,8 @@ class GlossarySearchTest {
     fun `a blank query returns everything unchanged`() {
         // The caller passes search text straight through, so the empty state is
         // this function's job rather than the screen's.
-        assertEquals(items, GlossarySearch.filter(items, "", turkey))
-        assertEquals(items, GlossarySearch.filter(items, "   ", turkey))
+        assertEquals(items, GlossarySearch.filter(items, ""))
+        assertEquals(items, GlossarySearch.filter(items, "   "))
     }
 
     @Test
@@ -141,7 +145,7 @@ class GlossarySearchTest {
         // do not reshuffle themselves between keystrokes.
         val alphabetical = items.sortedBy { it.name }
 
-        val results = GlossarySearch.filter(alphabetical, "topraklama", turkey)
+        val results = GlossarySearch.filter(alphabetical, "topraklama")
 
         assertEquals(listOf("earthing", "earth_electrode"), results.map { it.term.key }.take(2))
     }

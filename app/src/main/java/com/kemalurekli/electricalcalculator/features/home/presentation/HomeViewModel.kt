@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorSearch
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
@@ -68,7 +68,7 @@ class HomeViewModel @Inject constructor(
     private val searchIndexBuilder: SearchIndexBuilder,
     private val favoritesRepository: FavoritesRepository,
     private val historyRepository: HistoryRepository,
-    private val stringResolver: StringResolver,
+    private val stringResolver: ResourceIdResolver,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 

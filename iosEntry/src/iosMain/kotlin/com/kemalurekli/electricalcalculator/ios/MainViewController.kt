@@ -13,10 +13,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
+import com.kemalurekli.electricalcalculator.core.common.di.coreCommonModule
 import com.kemalurekli.electricalcalculator.core.data.di.coreDataModule
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.features.converter.converterModule
+import com.kemalurekli.electricalcalculator.features.glossary.glossaryModule
+import com.kemalurekli.electricalcalculator.features.glossary.presentation.GlossaryRoute
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.dashboard_glossary_title
 import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.dashboard_converter_title
 import com.kemalurekli.electricalcalculator.features.history.historyModule
 import com.kemalurekli.electricalcalculator.features.history.presentation.HistoryRoute
@@ -26,6 +30,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.core.context.startKoin
 import platform.UIKit.UIViewController
 import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.Res as ConverterRes
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.Res as GlossaryRes
 import com.kemalurekli.electricalcalculator.feature.history.generated.resources.Res as HistoryRes
 
 /**
@@ -43,7 +48,13 @@ import com.kemalurekli.electricalcalculator.feature.history.generated.resources.
  */
 fun MainViewController(): UIViewController {
     startKoin {
-        modules(coreDataModule, converterModule, historyModule)
+        modules(
+            coreCommonModule,
+            coreDataModule,
+            converterModule,
+            historyModule,
+            glossaryModule,
+        )
     }
     return ComposeUIViewController {
         ElecToolkitTheme {
@@ -52,8 +63,8 @@ fun MainViewController(): UIViewController {
     }
 }
 
-/** The two screens ported so far. */
-private enum class IosTab { Converter, History }
+/** The screens ported so far. */
+private enum class IosTab { Converter, Glossary, History }
 
 /**
  * A stand-in for `ElecAppShell` until navigation itself is multiplatform.
@@ -87,6 +98,12 @@ private fun IosShell() {
                 label = { Text(stringResource(ConverterRes.string.dashboard_converter_title)) },
             )
             item(
+                selected = selected == IosTab.Glossary,
+                onClick = { selectedOrdinal = IosTab.Glossary.ordinal },
+                icon = { Icon(ElecIcons.Glossary, contentDescription = null) },
+                label = { Text(stringResource(GlossaryRes.string.dashboard_glossary_title)) },
+            )
+            item(
                 selected = selected == IosTab.History,
                 onClick = { selectedOrdinal = IosTab.History.ordinal },
                 icon = { Icon(ElecIcons.History, contentDescription = null) },
@@ -96,6 +113,14 @@ private fun IosShell() {
     ) {
         when (selected) {
             IosTab.Converter -> ConverterRoute(onNavigateBack = null)
+            // The glossary's outbound links go to screens that have not moved
+            // yet, so they do nothing here rather than pretending to.
+            IosTab.Glossary -> GlossaryRoute(
+                openTermKey = null,
+                onCalculatorClick = {},
+                onReferenceClick = {},
+                onNavigateBack = null,
+            )
             IosTab.History -> HistoryRoute(onOpenRecord = {}, onNavigateBack = null)
         }
     }

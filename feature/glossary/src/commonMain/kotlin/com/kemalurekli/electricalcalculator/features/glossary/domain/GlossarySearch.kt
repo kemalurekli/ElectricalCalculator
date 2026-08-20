@@ -1,12 +1,11 @@
 package com.kemalurekli.electricalcalculator.features.glossary.domain
 
 import com.kemalurekli.electricalcalculator.core.common.util.SearchNormalizer
-import java.util.Locale
 
 /**
  * A glossary entry with its text already resolved for the active locale.
  *
- * The catalog stores resource ids, which only the UI layer can resolve, so the
+ * The catalog stores resource handles, which only the UI layer can resolve, so the
  * presentation layer builds these and hands them here. That keeps the ranking
  * itself pure and testable without an Android context — the same split
  * [com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorSearch]
@@ -43,14 +42,13 @@ object GlossarySearch {
     fun filter(
         items: List<SearchableTerm>,
         query: String,
-        locale: Locale = Locale.getDefault(),
     ): List<SearchableTerm> {
         val needle = SearchNormalizer.normalise(query)
         if (needle.isEmpty()) return items
 
         return items
             .mapNotNull { item ->
-                val score = score(item, needle, locale)
+                val score = score(item, needle)
                 if (score == NO_MATCH) null else item to score
             }
             // Stable, so equally-scored entries keep the order they arrived in
@@ -59,7 +57,7 @@ object GlossarySearch {
             .map { (item, _) -> item }
     }
 
-    private fun score(item: SearchableTerm, needle: String, locale: Locale): Int {
+    private fun score(item: SearchableTerm, needle: String): Int {
         val name = SearchNormalizer.normalise(item.name)
         val english = SearchNormalizer.normalise(item.term.englishTerm)
 

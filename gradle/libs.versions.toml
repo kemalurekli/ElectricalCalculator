@@ -102,6 +102,11 @@ androidx-compose-adaptive = { group = "androidx.compose.material3.adaptive", nam
 # The multiplatform build of the same thing, for the shared modules. JetBrains
 # publishes it with iOS variants; the androidx one above is Android-only.
 compose-adaptive = { group = "org.jetbrains.compose.material3.adaptive", name = "adaptive", version.ref = "composeAdaptiveMultiplatform" }
+# Normally reached through the `compose.components.resources` accessor. Named
+# outright for :core:common, which wants the `StringResource` type without the
+# Compose plugin — the plugin brings a compiler that then insists on a runtime
+# the module has no use for.
+compose-components-resources = { group = "org.jetbrains.compose.components", name = "components-resources", version.ref = "composeMultiplatform" }
 # Drives the app shell: a bottom bar on a phone, a navigation rail on a tablet
 # or an unfolded foldable, decided from the window rather than by the caller.
 # Versioned by the Compose BOM, and available on Compose Multiplatform, which is
@@ -161,6 +166,9 @@ koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = 
 # The multiplatform lifecycle, so a ViewModel can live in a shared module.
 # `androidx.lifecycle` above is the Android-only build of the same thing.
 lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleMultiplatform" }
+# SavedStateHandle, for a ViewModel that keeps an in-progress search across
+# process death rather than only across rotation.
+lifecycle-viewmodel-savedstate = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "lifecycleMultiplatform" }
 
 # Images
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }

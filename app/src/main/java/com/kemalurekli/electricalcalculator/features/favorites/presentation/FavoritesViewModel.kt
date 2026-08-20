@@ -3,7 +3,7 @@ package com.kemalurekli.electricalcalculator.features.favorites.presentation
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
@@ -60,7 +60,7 @@ data class FavoritesUiState(
 class FavoritesViewModel @Inject constructor(
     private val catalog: CalculatorCatalog,
     private val favoritesRepository: FavoritesRepository,
-    private val stringResolver: StringResolver,
+    private val stringResolver: ResourceIdResolver,
 ) : ViewModel() {
 
     val uiState: StateFlow<FavoritesUiState> = favoritesRepository.observeAll()
@@ -95,7 +95,7 @@ class FavoritesViewModel @Inject constructor(
         }
 
         FavoriteKind.GLOSSARY -> GlossaryCatalog.termOrNull(item.key)?.let {
-            FavoriteRow(item, stringResolver.get(it.termRes), stringResolver.get(it.definitionRes))
+            FavoriteRow(item, stringResolver.get(it.term), stringResolver.get(it.definition))
         }
 
         FavoriteKind.FIELD_NOTE -> FieldNoteCatalog.noteOrNull(item.key)?.let {

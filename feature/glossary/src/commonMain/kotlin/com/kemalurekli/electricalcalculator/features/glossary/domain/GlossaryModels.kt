@@ -1,7 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.glossary.domain
 
-import androidx.annotation.StringRes
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
+import org.jetbrains.compose.resources.StringResource
 
 /**
  * One entry in the glossary.
@@ -30,8 +30,8 @@ import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
  * @param key stable identifier, used for cross-references and saved state. Never
  *   reused or renamed, for the same reason calculator and topic keys are not.
  * @param englishTerm the term as an English-language catalogue prints it.
- * @param termRes the term in the reader's language.
- * @param definitionRes the explanation, in the reader's language.
+ * @param term the term in the reader's language.
+ * @param definition the explanation, in the reader's language.
  * @param symbol the letter it is written as in a formula — `Iz`, `Zs`, `cos φ` —
  *   or null when the term is not a quantity.
  * @param unit the SI unit it is measured in, or null for a term that is not
@@ -47,8 +47,8 @@ import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 data class GlossaryTerm(
     val key: String,
     val englishTerm: String,
-    @StringRes val termRes: Int,
-    @StringRes val definitionRes: Int,
+    val term: StringResource,
+    val definition: StringResource,
     val symbol: String? = null,
     val unit: String? = null,
     val seeAlso: List<String> = emptyList(),

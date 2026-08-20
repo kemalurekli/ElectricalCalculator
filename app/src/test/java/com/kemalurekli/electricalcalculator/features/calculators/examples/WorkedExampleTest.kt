@@ -1,6 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.examples
 
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.ui.model.WorkedExample
@@ -103,7 +103,7 @@ class WorkedExampleTest {
     private val timeProvider = FakeTimeProvider()
 
     /** Every label resolves; this test is about arithmetic, not about copy. */
-    private val strings = object : StringResolver {
+    private val strings = object : ResourceIdResolver {
         override fun get(id: Int): String = "text"
 
     /**

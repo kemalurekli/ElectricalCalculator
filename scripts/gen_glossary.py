@@ -5,8 +5,9 @@
 
 The app ships in more than two languages, so this script owns exactly two
 things: the Kotlin catalog, and the **English** strings. Every translation lives
-in its own `values-<tag>/strings.xml`, is written by whoever speaks that
-language, and is never generated, overwritten or fabricated here. A generator
+in its own `values-<tag>/strings.xml` under the module's `composeResources`, is
+written by whoever speaks that language, and is never generated, overwritten or
+fabricated here. A generator
 that emitted all eight languages would either need eight columns per term — a
 table no translator can work in — or would quietly seed English text under a
 Turkish key, which is worse than an obvious gap.
@@ -24,12 +25,20 @@ rather than quoted.
 Usage:
     python3 scripts/gen_glossary.py
 """
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from pathlib import Path
 import re
 
-ROOT = Path(__file__).resolve().parent.parent / "app/src/main"
-RES = ROOT / "res"
+MODULE = Path(__file__).resolve().parent.parent / "feature/glossary/src/commonMain"
+ROOT = MODULE / "kotlin"
+RES = MODULE / "composeResources"
+
+# Where the Compose Resources plugin puts the generated accessors for this
+# module. Declared in feature/glossary/build.gradle.kts and repeated here
+# because the catalog has to import from it.
+RES_PACKAGE = "com.kemalurekli.electricalcalculator.feature.glossary.generated.resources"
 
 
 @dataclass
@@ -402,22 +411,28 @@ TERMS: list[T] = [
 
 
 def escape(text: str) -> str:
-    """XML-escape, and protect the characters Android string resources treat specially."""
-    return (
-        text.replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-        .replace("'", "\\'")
-        .replace('"', '\\"')
-    )
+    """XML-escape.
+
+    Only the three XML characters. Android's `aapt` also wanted `\\'` and `\\"`,
+    and Compose Resources does not — it hands the parsed text straight to the
+    UI, so a backslash written here reaches the reader as a backslash. That
+    trap has already been sprung once in this port: `anyone\\'s personal
+    details` shipped to a device before anyone noticed.
+    """
+    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
 def kotlin() -> str:
+    imports = [f"import {RES_PACKAGE}.Res"]
+    for t in TERMS:
+        imports.append(f"import {RES_PACKAGE}.gl_{t.key}_term")
+        imports.append(f"import {RES_PACKAGE}.gl_{t.key}_def")
+
     lines = [
         "package com.kemalurekli.electricalcalculator.features.glossary.domain",
         "",
-        "import com.kemalurekli.electricalcalculator.R",
         "import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId",
+        *imports,
         "",
         "/**",
         " * Every glossary term the app knows.",
@@ -439,8 +454,8 @@ def kotlin() -> str:
         lines.append("        GlossaryTerm(")
         lines.append(f'            key = "{t.key}",')
         lines.append(f'            englishTerm = "{t.en_term}",')
-        lines.append(f"            termRes = R.string.gl_{t.key}_term,")
-        lines.append(f"            definitionRes = R.string.gl_{t.key}_def,")
+        lines.append(f"            term = Res.string.gl_{t.key}_term,")
+        lines.append(f"            definition = Res.string.gl_{t.key}_def,")
         if t.symbol:
             lines.append(f'            symbol = "{t.symbol}",')
         if t.unit:
@@ -471,11 +486,11 @@ def english_block() -> str:
     lines = ["", "    <!-- Glossary -->"]
     for t in TERMS:
         lines.append(f'    <string name="gl_{t.key}_term">{escape(t.en_term)}</string>')
-        # A literal % with no positional argument must declare formatted="false",
-        # or String.format sees a conversion specifier and lint sees a bug.
-        # `StringResourceIntegrityTest` enforces this.
-        attr = ' formatted="false"' if "%" in t.en else ""
-        lines.append(f'    <string name="gl_{t.key}_def"{attr}>{escape(t.en)}</string>')
+        # No formatted="false" here. That attribute exists to stop aapt and
+        # lint reading a bare % as a format specifier; Compose Resources does
+        # no formatting unless the caller passes arguments, so there is nothing
+        # to opt out of.
+        lines.append(f'    <string name="gl_{t.key}_def">{escape(t.en)}</string>')
     return "\n".join(lines) + "\n"
 
 
@@ -495,9 +510,9 @@ def rewrite_english() -> None:
 def translation_coverage() -> dict[str, set[str]]:
     """Which glossary keys each shipped language is still missing.
 
-    Read-only. A missing key is not an error here — Android falls back to the
-    English string, which is honest — but it is something the person adding a
-    language needs a list of.
+    Read-only. A missing key is not an error here — both platforms fall back to
+    the base `values/` string, which is honest — but it is something the person
+    adding a language needs a list of.
     """
     wanted = {f"gl_{t.key}_term" for t in TERMS} | {f"gl_{t.key}_def" for t in TERMS}
     name_attr = re.compile(r'<string\s+name="([^"]+)"')
@@ -505,7 +520,6 @@ def translation_coverage() -> dict[str, set[str]]:
     coverage: dict[str, set[str]] = {}
     for folder in sorted(RES.glob("values-*")):
         strings = folder / "strings.xml"
-        # values-night and friends carry no strings.
         if not strings.exists():
             continue
         present = set(name_attr.findall(strings.read_text()))
@@ -520,7 +534,7 @@ assert not unknown, f"see-also points at missing terms: {sorted(unknown)}"
 
 catalog = (
     ROOT
-    / "java/com/kemalurekli/electricalcalculator/features/glossary/domain/GlossaryCatalog.kt"
+    / "com/kemalurekli/electricalcalculator/features/glossary/domain/GlossaryCatalog.kt"
 )
 catalog.write_text(kotlin())
 rewrite_english()

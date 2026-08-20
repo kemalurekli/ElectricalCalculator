@@ -1,7 +1,5 @@
 package com.kemalurekli.electricalcalculator.core.data.di
 
-import com.kemalurekli.electricalcalculator.core.common.util.SystemTimeProvider
-import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.ProjectRepositoryImpl
@@ -29,14 +27,15 @@ import org.koin.dsl.module
  * as separate files rather than one clever shared thing is what makes the
  * eventual deletion a deletion.
  *
+ * Expects `coreCommonModule` alongside it: the repositories take a
+ * `TimeProvider`, which is not a data concern and is registered there.
+ *
  * The database and the preference store are singletons because they hold open
  * file handles. Asking for a second `ElecToolkitDatabase` would not fail — it
  * would quietly open the same file twice, and two connections with their own
  * write-ahead logs are how a row disappears.
  */
 val coreDataModule: Module = module {
-    single<TimeProvider> { SystemTimeProvider() }
-
     single { createElecToolkitDatabase() }
     single { get<ElecToolkitDatabase>().calculationHistoryDao() }
     single { get<ElecToolkitDatabase>().favoriteItemDao() }

@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -39,7 +39,7 @@ class CalculatorDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     catalog: CalculatorCatalog,
     private val favoritesRepository: FavoritesRepository,
-    stringResolver: StringResolver,
+    stringResolver: ResourceIdResolver,
 ) : ViewModel() {
 
     // Decoded from the type-safe route rather than a raw string key, so a

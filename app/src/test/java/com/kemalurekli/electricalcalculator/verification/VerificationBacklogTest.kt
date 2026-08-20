@@ -229,6 +229,14 @@ class VerificationBacklogTest {
         private const val FEATURES = "app/src/main/java/com/kemalurekli/electricalcalculator/features"
 
         /**
+         * The glossary was the first feature out of `:app`, and the first
+         * catalogue to carry `StringResource` handles instead of `R.string`
+         * ids. The rest follow it here as they move.
+         */
+        private const val GLOSSARY =
+            "feature/glossary/src/commonMain/kotlin/com/kemalurekli/electricalcalculator/features/glossary"
+
+        /**
          * Every place in the app that holds a figure read out of a standard, a
          * catalogue or common practice rather than computed from inputs.
          *
@@ -249,7 +257,7 @@ class VerificationBacklogTest {
             "$CORE/ui/model/SystemVoltageDefaults.kt",
             "$DESIGNSYSTEM/symbol",
             "$FEATURES/references/domain/ReferenceCatalog.kt",
-            "$FEATURES/glossary/domain/GlossaryCatalog.kt",
+            "$GLOSSARY/domain/GlossaryCatalog.kt",
             "$FEATURES/fieldnotes/domain/FieldNoteCatalog.kt",
             "$FEATURES/theory/domain",
             "app/src/main/res/values-tr/strings.xml",

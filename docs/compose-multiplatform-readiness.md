@@ -225,11 +225,39 @@ Step 2 is done bar the platform capabilities. `:core:common`, `:core:domain`,
 `HistoryRepositoryIosTest` puts a record through Room on a simulator and reads
 it back.
 
-Step 3 has begun out of order. The plan named the read-only screens first
-because they are easiest; history went first instead because it is the most
-*informative* — it is the first screen that reads the database, so it puts the
-whole of step 2 on screen rather than each layer passing its own test
-separately. It is on iOS now, beside the converter, under a real tab bar.
+Step 3 has begun, and not in the order the plan named. History went before the
+read-only screens because it is the most *informative* — the first screen that
+reads the database, so it puts the whole of step 2 on screen rather than each
+layer passing its own test separately. The glossary went next because it is the
+root of the feature dependency tree: field notes, theory and favourites all
+reach into `glossary.domain`, and nothing reaches into them from below.
+
+Three screens run on iOS now, under a real tab bar.
+
+### What the glossary settled
+
+**Catalogues carry `StringResource`, not `@StringRes Int`.** An `R.string` id is
+an Android build artefact, and it was in 48 places. `GlossaryTerm` now holds
+handles, and `scripts/gen_glossary.py` writes the catalogue and the English
+strings into the module together — so the next regeneration cannot undo it.
+
+Two traps came with that. Compose Resources does not read `aapt`'s escapes, so
+`\'` reaches the screen as a backslash; the generator's `escape()` now does XML
+and nothing else. And `formatted="false"` is gone — it exists to stop `aapt`
+reading a bare `%` as a specifier, and Compose Resources does no formatting
+unless the caller passes arguments.
+
+**`StringResolver` split in two.** The multiplatform half is in `:core:common`
+and takes a `StringResource`. The Android half, `ResourceIdResolver`, adds the
+integer overload — so the number of ViewModels injecting *that* is a running
+count of the migration left, and the type is deleted when the count is zero.
+
+**Collation, grapheme boundaries and upper-casing are language questions.** All
+three are `expect`/`actual` in `:core:common` now. The JDK's `Collator` and
+Foundation's `compare(options:range:locale:)` both implement the Unicode
+collation algorithm, so the two platforms file *Çalışma* in the same place
+without either being handed a list of rules — the simulator lists *Açık, Açma,
+Adyabatik, Akım, Aktif*, which is ç < d < k and then ı < t.
 
 ### The one thing worth knowing before porting the next feature
 

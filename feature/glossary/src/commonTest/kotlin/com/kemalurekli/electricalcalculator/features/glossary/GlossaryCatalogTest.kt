@@ -1,13 +1,11 @@
 package com.kemalurekli.electricalcalculator.features.glossary
 
-import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.features.glossary.domain.GlossaryCatalog
-import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
+import kotlin.test.Test
 
 /**
  * What can and cannot be tested here.
@@ -27,7 +25,7 @@ class GlossaryCatalogTest {
 
     @Test
     fun `the glossary is not empty`() {
-        assertTrue("the catalog has no terms", terms.size > 100)
+        assertTrue(terms.size > 100, "the catalog has no terms")
     }
 
     @Test
@@ -54,9 +52,13 @@ class GlossaryCatalogTest {
     @Test
     fun `every term has a name and a definition`() {
         terms.forEach { term ->
-            assertTrue("${term.key} has no term resource", term.termRes != 0)
-            assertTrue("${term.key} has no definition resource", term.definitionRes != 0)
-            assertTrue("${term.key} has a blank English name", term.englishTerm.isNotBlank())
+            // A stronger claim than the old `!= 0`, and one the type does not
+            // already make: the generator derives the catalog entry and the
+            // string name from the same key, so a drift between the two shows
+            // up here rather than as a term with no text on the screen.
+            assertEquals("gl_${term.key}_term", term.term.key)
+            assertEquals("gl_${term.key}_def", term.definition.key)
+            assertTrue(term.englishTerm.isNotBlank(), "${term.key} has a blank English name")
         }
     }
 
@@ -67,7 +69,7 @@ class GlossaryCatalogTest {
         val shape = Regex("^[a-z][a-z0-9_]*$")
 
         terms.forEach { term ->
-            assertTrue("${term.key} is not a well-formed key", shape.matches(term.key))
+            assertTrue(shape.matches(term.key), "${term.key} is not a well-formed key")
         }
     }
 
@@ -80,10 +82,7 @@ class GlossaryCatalogTest {
         // the check that survives someone editing the Kotlin directly.
         terms.forEach { term ->
             term.seeAlso.forEach { key ->
-                assertNotNull(
-                    "${term.key} refers to missing term $key",
-                    GlossaryCatalog.termOrNull(key),
-                )
+                assertNotNull(GlossaryCatalog.termOrNull(key), "${term.key} refers to missing term $key")
             }
         }
     }
@@ -91,42 +90,14 @@ class GlossaryCatalogTest {
     @Test
     fun `no term refers to itself`() {
         terms.forEach { term ->
-            assertTrue(
-                "${term.key} lists itself as a related term",
-                term.key !in term.seeAlso,
-            )
+            assertTrue(term.key !in term.seeAlso, "${term.key} lists itself as a related term")
         }
     }
 
     @Test
     fun `see-also lists have no duplicates`() {
         terms.forEach { term ->
-            assertEquals(
-                "${term.key} repeats a related term",
-                term.seeAlso.size,
-                term.seeAlso.distinct().size,
-            )
-        }
-    }
-
-    @Test
-    fun `every referenced calculator is in the catalog`() {
-        val catalog = CalculatorCatalog()
-
-        terms.mapNotNull { it.calculator }.distinct().forEach { id ->
-            assertNotNull("$id is not in the calculator catalog", catalog.findById(id))
-        }
-    }
-
-    @Test
-    fun `every referenced reference topic exists`() {
-        terms.forEach { term ->
-            term.referenceTopic?.let { key ->
-                assertNotNull(
-                    "${term.key} points at missing reference topic $key",
-                    ReferenceCatalog.topicOrNull(key),
-                )
-            }
+            assertEquals(term.seeAlso.size, term.seeAlso.distinct().size, "${term.key} repeats a related term")
         }
     }
 
@@ -137,14 +108,14 @@ class GlossaryCatalogTest {
         // A unit with nothing to attach to renders as a bare "A" beside a name,
         // which reads as a mistake.
         terms.filter { it.unit != null }.forEach { term ->
-            assertTrue("${term.key} has a blank unit", term.unit!!.isNotBlank())
+            assertTrue(term.unit!!.isNotBlank(), "${term.key} has a blank unit")
         }
     }
 
     @Test
     fun `no symbol is blank`() {
         terms.mapNotNull { it.symbol }.forEach { symbol ->
-            assertTrue("a term has a blank symbol", symbol.isNotBlank())
+            assertTrue(symbol.isNotBlank(), "a term has a blank symbol")
         }
     }
 
@@ -165,7 +136,7 @@ class GlossaryCatalogTest {
             "tt_system",
             "it_system",
         ).forEach { key ->
-            assertNotNull("$key is missing from the glossary", GlossaryCatalog.termOrNull(key))
+            assertNotNull(GlossaryCatalog.termOrNull(key), "$key is missing from the glossary")
         }
     }
 }

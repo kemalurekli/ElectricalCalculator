@@ -27,13 +27,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
@@ -45,6 +44,16 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.dashboard_glossary_title
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.glossary_empty_message
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.glossary_empty_title
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.glossary_open_calculator
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.glossary_open_reference
+import com.kemalurekli.electricalcalculator.feature.glossary.generated.resources.glossary_search_hint
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignSystemRes
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_add
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_remove
 
 /**
  * The glossary: an A–Z of the vocabulary, searchable in either language.
@@ -62,9 +71,9 @@ fun GlossaryRoute(
     openTermKey: String?,
     onCalculatorClick: (CalculatorId) -> Unit,
     onReferenceClick: (String) -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
-    viewModel: GlossaryViewModel = hiltViewModel(),
+    viewModel: GlossaryViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val pinned by viewModel.pinned.collectAsStateWithLifecycle()
@@ -98,7 +107,7 @@ private fun GlossaryScreen(
     onFollowLink: (String) -> Unit,
     onCalculatorClick: (CalculatorId) -> Unit,
     onReferenceClick: (String) -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     pinned: Set<String> = emptySet(),
     onToggleFavorite: (String) -> Unit = {},
     modifier: Modifier = Modifier,
@@ -130,7 +139,7 @@ private fun GlossaryScreen(
     }
 
     ElecScreenScaffold(
-        title = stringResource(R.string.dashboard_glossary_title),
+        title = stringResource(Res.string.dashboard_glossary_title),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
         scrollBehavior = scrollBehavior,
@@ -151,7 +160,7 @@ private fun GlossaryScreen(
                 ElecSearchBar(
                     query = uiState.query,
                     onQueryChange = onQueryChange,
-                    placeholder = stringResource(R.string.glossary_search_hint),
+                    placeholder = stringResource(Res.string.glossary_search_hint),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = spacing.sm),
@@ -161,8 +170,8 @@ private fun GlossaryScreen(
             if (uiState.hasNoResults) {
                 item(key = "empty") {
                     ElecEmptyState(
-                        title = stringResource(R.string.glossary_empty_title),
-                        message = stringResource(R.string.glossary_empty_message),
+                        title = stringResource(Res.string.glossary_empty_title),
+                        message = stringResource(Res.string.glossary_empty_message),
                         icon = ElecIcons.Search,
                         modifier = Modifier.padding(top = spacing.xxl),
                     )
@@ -251,8 +260,8 @@ private fun TermCard(
                                 imageVector = if (isFavorite) ElecIcons.FavoriteOn
                                 else ElecIcons.FavoriteOff,
                                 contentDescription = stringResource(
-                                    if (isFavorite) R.string.action_favorite_remove
-                                    else R.string.action_favorite_add,
+                                    if (isFavorite) DesignSystemRes.string.action_favorite_remove
+                                    else DesignSystemRes.string.action_favorite_add,
                                 ),
                                 tint = MaterialTheme.colorScheme.primary,
                             )
@@ -298,7 +307,7 @@ private fun TermCard(
                                 AssistChip(
                                     onClick = { onCalculatorClick(id) },
                                     label = {
-                                        Text(stringResource(R.string.glossary_open_calculator))
+                                        Text(stringResource(Res.string.glossary_open_calculator))
                                     },
                                 )
                             }
@@ -306,7 +315,7 @@ private fun TermCard(
                                 AssistChip(
                                     onClick = { onReferenceClick(topicKey) },
                                     label = {
-                                        Text(stringResource(R.string.glossary_open_reference))
+                                        Text(stringResource(Res.string.glossary_open_reference))
                                     },
                                 )
                             }

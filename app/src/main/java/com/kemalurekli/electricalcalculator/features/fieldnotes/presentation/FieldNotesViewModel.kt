@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.SearchNormalizer
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
@@ -85,7 +85,7 @@ data class FieldNotesUiState(
  */
 @HiltViewModel
 class FieldNotesViewModel @Inject constructor(
-    private val stringResolver: StringResolver,
+    private val stringResolver: ResourceIdResolver,
     private val savedStateHandle: SavedStateHandle,
     private val favoritesRepository: FavoritesRepository,
 ) : ViewModel() {
@@ -217,7 +217,7 @@ class FieldNotesViewModel @Inject constructor(
         terms = note.glossaryTerms
             .mapNotNull { key ->
                 GlossaryCatalog.termOrNull(key)?.let {
-                    FieldNoteLink(key, stringResolver.get(it.termRes))
+                    FieldNoteLink(key, stringResolver.get(it.term))
                 }
             }
             .toImmutableList(),

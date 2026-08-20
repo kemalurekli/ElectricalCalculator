@@ -8,7 +8,7 @@ import com.kemalurekli.electricalcalculator.core.common.result.Outcome
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.common.util.enumOrNull
 import com.kemalurekli.electricalcalculator.core.common.util.pick
@@ -74,7 +74,7 @@ class EvseViewModel @Inject constructor(
     private val calculateEvse: CalculateEvseUseCase,
     private val historyRepository: HistoryRepository,
     private val favoritesRepository: FavoritesRepository,
-    private val stringResolver: StringResolver,
+    private val stringResolver: ResourceIdResolver,
     private val timeProvider: TimeProvider,
     private val userPreferences: UserPreferencesRepository,
 ) : ViewModel() {

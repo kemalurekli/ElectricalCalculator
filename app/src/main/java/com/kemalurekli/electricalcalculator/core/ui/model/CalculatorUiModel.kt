@@ -1,7 +1,7 @@
 package com.kemalurekli.electricalcalculator.core.ui.model
 
 import com.kemalurekli.electricalcalculator.R
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.domain.catalog.SearchableCalculator
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorCategory
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorDescriptor
@@ -27,7 +27,7 @@ data class CalculatorUiModel(
 
 /** Resolves a catalog entry for display. */
 fun CalculatorDescriptor.toUiModel(
-    stringResolver: StringResolver,
+    stringResolver: ResourceIdResolver,
     isFavorite: Boolean,
 ) = CalculatorUiModel(
     id = id,
@@ -49,7 +49,7 @@ fun SearchableCalculator.toUiModel(isFavorite: Boolean) = CalculatorUiModel(
 )
 
 /** Builds the searchable view of the whole catalog for the active locale. */
-fun List<CalculatorDescriptor>.toSearchable(stringResolver: StringResolver) =
+fun List<CalculatorDescriptor>.toSearchable(stringResolver: ResourceIdResolver) =
     map { descriptor ->
         SearchableCalculator(
             descriptor = descriptor,

@@ -15,9 +15,14 @@ import java.text.Collator
 import java.util.Locale
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
-import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
+import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
+import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
+import com.kemalurekli.electricalcalculator.core.database.entity.FavoriteItemEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
+import kotlin.time.Instant
 import org.jetbrains.compose.resources.StringResource
 
 /**
@@ -38,26 +43,57 @@ class GlossaryViewModelTest {
      * resolver that returned "res123" for everything would file all 117 terms
      * under R and let a broken alphabet pass unnoticed.
      */
-    private val defaultNames: Map<Int, String> =
-        GlossaryCatalog.all.associate { it.termRes to it.englishTerm }
-
-    private class MapResolver(private val strings: Map<Int, String>) : StringResolver {
-        override fun get(id: Int): String = strings[id] ?: "res$id"
+    private val defaultNames: Map<StringResource, String> =
+        GlossaryCatalog.all.associate { it.term to it.englishTerm }
 
     /**
-     * The design system and the converter own their strings now, and a test
-     * fake has no resource table to read them from. Tests that assert on this
-     * text resolve it themselves; nothing currently does.
+     * Falls back to the resource's own name, which is what the definitions get.
+     *
+     * A definition resolving to `gl_ampacity_def` rather than its 300 words is
+     * the point: these tests are about grouping, ordering and ranking by name,
+     * and rewording an entry must not fail one of them.
      */
-    override fun get(resource: StringResource): String = resource.key
+    private class MapResolver(
+        private val strings: Map<StringResource, String>,
+    ) : StringResolver {
+        override fun get(resource: StringResource): String =
+            strings[resource] ?: resource.key
     }
 
-    private fun viewModel(overrides: Map<Int, String> = emptyMap()) = GlossaryViewModel(
+    /** Pin order, in memory — the module has no access to `:app`'s fakes. */
+    private class FakeFavoriteItemDao : FavoriteItemDao {
+        private val rows = MutableStateFlow<List<FavoriteItemEntity>>(emptyList())
+
+        override fun observeAll(): Flow<List<FavoriteItemEntity>> =
+            rows.map { list -> list.sortedBy { it.pinnedAtEpochMillis } }
+
+        override fun observeIsFavorite(kind: String, key: String): Flow<Boolean> =
+            rows.map { list -> list.any { it.kind == kind && it.key == key } }
+
+        override suspend fun isFavorite(kind: String, key: String): Boolean =
+            rows.value.any { it.kind == kind && it.key == key }
+
+        override suspend fun insert(entity: FavoriteItemEntity) {
+            rows.value = rows.value.filterNot {
+                it.kind == entity.kind && it.key == entity.key
+            } + entity
+        }
+
+        override suspend fun delete(kind: String, key: String) {
+            rows.value = rows.value.filterNot { it.kind == kind && it.key == key }
+        }
+    }
+
+    private object FixedTime : TimeProvider {
+        override fun now(): Instant = Instant.fromEpochMilliseconds(1_000L)
+    }
+
+    private fun viewModel(overrides: Map<StringResource, String> = emptyMap()) = GlossaryViewModel(
         stringResolver = MapResolver(defaultNames + overrides),
         savedStateHandle = SavedStateHandle(),
         favoritesRepository = FavoritesRepositoryImpl(
             dao = FakeFavoriteItemDao(),
-            timeProvider = FakeTimeProvider(),
+            timeProvider = FixedTime,
             ioDispatcher = UnconfinedTestDispatcher(),
         ),
     )
@@ -116,9 +152,9 @@ class GlossaryViewModelTest {
 
             val letters = viewModel(
                 mapOf(
-                    ampacity.termRes to "Cihaz",
-                    conductor.termRes to "Çalışma",
-                    efficiency.termRes to "Dağıtım",
+                    ampacity.term to "Cihaz",
+                    conductor.term to "Çalışma",
+                    efficiency.term to "Dağıtım",
                 ),
             ).uiState.value.sections.map { it.letter }
 
@@ -153,7 +189,7 @@ class GlossaryViewModelTest {
         // In an English build the two are the same words, and a second line
         // saying it again would be noise.
         val ampacity = requireNotNull(GlossaryCatalog.termOrNull("ampacity"))
-        val model = viewModel(mapOf(ampacity.termRes to "Ampacity"))
+        val model = viewModel(mapOf(ampacity.term to "Ampacity"))
             .uiState.value
             .sections
             .flatMap { it.terms }
@@ -165,7 +201,7 @@ class GlossaryViewModelTest {
     @Test
     fun `the English name is kept when it differs`() {
         val ampacity = requireNotNull(GlossaryCatalog.termOrNull("ampacity"))
-        val model = viewModel(mapOf(ampacity.termRes to "Akım taşıma kapasitesi"))
+        val model = viewModel(mapOf(ampacity.term to "Akım taşıma kapasitesi"))
             .uiState.value
             .sections
             .flatMap { it.terms }
@@ -266,7 +302,7 @@ class GlossaryViewModelTest {
     @Test
     fun `related terms arrive named, not as keys`() {
         val derating = requireNotNull(GlossaryCatalog.termOrNull("derating"))
-        val model = viewModel(mapOf(derating.termRes to "Kapasite düşürme"))
+        val model = viewModel(mapOf(derating.term to "Kapasite düşürme"))
             .uiState.value
             .sections
             .flatMap { it.terms }

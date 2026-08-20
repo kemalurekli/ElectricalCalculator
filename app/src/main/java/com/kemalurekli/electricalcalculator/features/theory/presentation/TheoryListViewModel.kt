@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.SearchNormalizer
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryCatalog
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryLevel
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryTopic
@@ -61,7 +61,7 @@ data class TheoryListUiState(
  */
 @HiltViewModel
 class TheoryListViewModel @Inject constructor(
-    private val stringResolver: StringResolver,
+    private val stringResolver: ResourceIdResolver,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 

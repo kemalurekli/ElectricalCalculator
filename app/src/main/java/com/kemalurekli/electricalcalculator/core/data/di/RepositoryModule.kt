@@ -3,6 +3,7 @@ package com.kemalurekli.electricalcalculator.core.data.di
 import com.kemalurekli.electricalcalculator.core.common.util.AndroidRegionProvider
 import com.kemalurekli.electricalcalculator.core.common.util.AndroidStringResolver
 import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.common.util.SystemTimeProvider
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
@@ -67,6 +68,18 @@ abstract class RepositoryModule {
         impl: InspectionRepositoryImpl,
     ): InspectionRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindResourceIdResolver(
+        impl: AndroidStringResolver,
+    ): ResourceIdResolver
+
+    /**
+     * The same object under its multiplatform supertype, for the screens that
+     * have left `:app` and carry `StringResource` handles rather than ids.
+     * Both bindings must name one instance — it caches nothing, but two would
+     * still be two.
+     */
     @Binds
     @Singleton
     abstract fun bindStringResolver(

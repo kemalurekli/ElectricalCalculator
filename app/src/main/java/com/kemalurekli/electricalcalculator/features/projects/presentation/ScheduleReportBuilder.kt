@@ -1,7 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.projects.presentation
 
 import com.kemalurekli.electricalcalculator.R
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.domain.model.CircuitLoadKind
 import com.kemalurekli.electricalcalculator.core.domain.model.Project
 import com.kemalurekli.electricalcalculator.features.design.domain.ReportField
@@ -35,7 +35,7 @@ import javax.inject.Inject
  * document does not exist yet.
  */
 class ScheduleReportBuilder @Inject constructor(
-    private val stringResolver: StringResolver,
+    private val stringResolver: ResourceIdResolver,
 ) {
 
     /**

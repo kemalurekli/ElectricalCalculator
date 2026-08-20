@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource as composeStringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -514,7 +515,10 @@ private fun TheoryLinksCard(
                     val term = GlossaryCatalog.termOrNull(key) ?: return@forEach
                     AssistChip(
                         onClick = { onGlossaryClick(key) },
-                        label = { Text(stringResource(term.termRes)) },
+                        // The glossary's text lives in :feature:glossary now, so this one
+                        // reads through Compose Resources while the rest of the
+                        // screen still reads R.string ids.
+                        label = { Text(composeStringResource(term.term)) },
                     )
                 }
             }

@@ -1,6 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.ui.search
 
-import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.ResourceIdResolver
 import com.kemalurekli.electricalcalculator.core.domain.catalog.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchKind
 import com.kemalurekli.electricalcalculator.core.domain.search.SearchableItem
@@ -35,7 +35,7 @@ import javax.inject.Inject
  */
 class SearchIndexBuilder @Inject constructor(
     private val catalog: CalculatorCatalog,
-    private val stringResolver: StringResolver,
+    private val stringResolver: ResourceIdResolver,
 ) {
 
     fun build(): List<SearchableItem> = buildList {
@@ -126,10 +126,10 @@ class SearchIndexBuilder @Inject constructor(
         SearchableItem(
             kind = SearchKind.GLOSSARY,
             key = term.key,
-            title = stringResolver.get(term.termRes),
+            title = stringResolver.get(term.term),
             subtitle = term.englishTerm,
             keywords = listOfNotNull(term.englishTerm, term.symbol),
-            body = stringResolver.get(term.definitionRes),
+            body = stringResolver.get(term.definition),
         )
     }
 
