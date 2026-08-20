@@ -70,7 +70,7 @@ object AppSearch {
         query: String,
         locale: Locale = Locale.getDefault(),
     ): List<SearchableItem> {
-        val needle = SearchNormalizer.normalise(query, locale)
+        val needle = SearchNormalizer.normalise(query)
         // Unlike the calculator list, a blank query here means "show the
         // dashboard", not "show all 254 things".
         if (needle.isEmpty()) return emptyList()
@@ -93,21 +93,21 @@ object AppSearch {
         filter(items, query, locale).groupBy { it.kind }
 
     private fun score(item: SearchableItem, needle: String, locale: Locale): Int {
-        val title = SearchNormalizer.normalise(item.title, locale)
+        val title = SearchNormalizer.normalise(item.title)
 
         if (title == needle) return EXACT
         if (title.startsWith(needle)) return TITLE_PREFIX
         if (wordsOf(title).any { it.startsWith(needle) }) return TITLE_WORD_PREFIX
         if (title.contains(needle)) return TITLE_CONTAINS
 
-        if (item.keywords.any { SearchNormalizer.normalise(it, locale).startsWith(needle) }) {
+        if (item.keywords.any { SearchNormalizer.normalise(it).startsWith(needle) }) {
             return KEYWORD_PREFIX
         }
-        if (item.keywords.any { SearchNormalizer.normalise(it, locale).contains(needle) }) {
+        if (item.keywords.any { SearchNormalizer.normalise(it).contains(needle) }) {
             return KEYWORD
         }
         if (item.body.isNotEmpty() &&
-            SearchNormalizer.normalise(item.body, locale).contains(needle)
+            SearchNormalizer.normalise(item.body).contains(needle)
         ) {
             return BODY
         }

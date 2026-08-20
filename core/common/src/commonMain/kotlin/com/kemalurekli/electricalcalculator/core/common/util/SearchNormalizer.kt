@@ -1,7 +1,5 @@
 package com.kemalurekli.electricalcalculator.core.common.util
 
-import java.text.Normalizer
-import java.util.Locale
 
 /**
  * Folds text down to what a search should actually compare.
@@ -21,8 +19,17 @@ import java.util.Locale
  *
  * ### How
  *
- * Lowercase in the reader's locale first — so Turkish `I`/`İ` follow Turkish
- * rules — then decompose to NFD and drop the combining marks. That handles
+ * Lowercase, then decompose to NFD and drop the combining marks.
+ *
+ * The lowercasing is locale-*independent*, which took some checking. Turkish
+ * rules would map `I → ı` and `İ → i`; the invariant rules map `I → i` and
+ * `İ → i̇`. Those differ — but not after the rest of the pipeline runs, because
+ * [ATOMIC_FOLDINGS] already folds `ı → i` and the mark-stripping already
+ * removes the combining dot. Both paths land on `i`, which is what
+ * `foldingIsTheSameWithOrWithoutTurkishRules` pins.
+ *
+ * So the locale parameter this used to take bought nothing, and dropping it
+ * removed a platform capability the shared code would otherwise have needed. That handles
  * every accent that is a base letter plus a mark: `ş → s`, `ğ → g`, `ö → o`,
  * `ü → u`, `ç → c`, and the same across French, German, Spanish and Portuguese,
  * which this app will ship in. In Cyrillic it folds `ё → е` and `й → и`, and in
@@ -113,12 +120,8 @@ object SearchNormalizer {
      * Returns [text] reduced to its searchable form: lowercase, unaccented,
      * and trimmed.
      */
-    fun normalise(text: String, locale: Locale = Locale.getDefault()): String {
-        val lowered = text.lowercase(locale)
-        val stripped = COMBINING_MARKS.replace(
-            Normalizer.normalize(lowered, Normalizer.Form.NFD),
-            "",
-        )
+    fun normalise(text: String): String {
+        val stripped = COMBINING_MARKS.replace(text.lowercase().decomposeCanonically(), "")
 
         return buildString(stripped.length) {
             stripped.forEach { char ->
@@ -133,6 +136,6 @@ object SearchNormalizer {
     }
 
     /** True when [haystack] contains [needle] once both are folded. */
-    fun contains(haystack: String, needle: String, locale: Locale = Locale.getDefault()): Boolean =
-        normalise(haystack, locale).contains(normalise(needle, locale))
+    fun contains(haystack: String, needle: String): Boolean =
+        normalise(haystack).contains(normalise(needle))
 }

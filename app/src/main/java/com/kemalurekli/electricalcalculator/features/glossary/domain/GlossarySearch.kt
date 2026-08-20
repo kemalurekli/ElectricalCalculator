@@ -45,7 +45,7 @@ object GlossarySearch {
         query: String,
         locale: Locale = Locale.getDefault(),
     ): List<SearchableTerm> {
-        val needle = SearchNormalizer.normalise(query, locale)
+        val needle = SearchNormalizer.normalise(query)
         if (needle.isEmpty()) return items
 
         return items
@@ -60,8 +60,8 @@ object GlossarySearch {
     }
 
     private fun score(item: SearchableTerm, needle: String, locale: Locale): Int {
-        val name = SearchNormalizer.normalise(item.name, locale)
-        val english = SearchNormalizer.normalise(item.term.englishTerm, locale)
+        val name = SearchNormalizer.normalise(item.name)
+        val english = SearchNormalizer.normalise(item.term.englishTerm)
 
         if (name == needle || english == needle) return EXACT
         if (name.startsWith(needle) || english.startsWith(needle)) return NAME_PREFIX
@@ -79,11 +79,11 @@ object GlossarySearch {
         // The symbol is how a formula names the quantity, so a reader who has
         // met "Zs" on a test sheet can look it up as written.
         val symbol = item.term.symbol
-        if (symbol != null && SearchNormalizer.normalise(symbol, locale).contains(needle)) {
+        if (symbol != null && SearchNormalizer.normalise(symbol).contains(needle)) {
             return SYMBOL
         }
 
-        if (SearchNormalizer.normalise(item.definition, locale).contains(needle)) {
+        if (SearchNormalizer.normalise(item.definition).contains(needle)) {
             return DEFINITION
         }
 

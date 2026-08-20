@@ -40,7 +40,7 @@ object CalculatorSearch {
         query: String,
         locale: Locale = Locale.getDefault(),
     ): List<SearchableCalculator> {
-        val normalisedQuery = SearchNormalizer.normalise(query, locale)
+        val normalisedQuery = SearchNormalizer.normalise(query)
         if (normalisedQuery.isEmpty()) return items
 
         return items
@@ -54,7 +54,7 @@ object CalculatorSearch {
     }
 
     private fun score(item: SearchableCalculator, query: String, locale: Locale): Int {
-        val title = SearchNormalizer.normalise(item.title, locale)
+        val title = SearchNormalizer.normalise(item.title)
         if (title.startsWith(query)) return TITLE_PREFIX
         if (title.contains(query)) return TITLE_CONTAINS
 
@@ -62,12 +62,12 @@ object CalculatorSearch {
         if (title.split(' ').any { it.startsWith(query) }) return TITLE_WORD_PREFIX
 
         if (item.descriptor.searchKeywords.any {
-                SearchNormalizer.normalise(it, locale).contains(query)
+                SearchNormalizer.normalise(it).contains(query)
             }
         ) {
             return KEYWORD
         }
-        if (SearchNormalizer.normalise(item.description, locale).contains(query)) {
+        if (SearchNormalizer.normalise(item.description).contains(query)) {
             return DESCRIPTION
         }
 
