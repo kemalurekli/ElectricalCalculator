@@ -74,6 +74,12 @@ kotlin {
             )
         }
 
+        androidMain.dependencies {
+            // `FileProvider`: sharing a file needs a content URI, and a
+            // `file://` one has been refused since Android 7.
+            implementation(libs.androidx.core.ktx)
+        }
+
         commonMain.dependencies {
             api(project(":core:common"))
 

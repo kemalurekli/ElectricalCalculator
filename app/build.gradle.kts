@@ -183,6 +183,7 @@ dependencies {
     implementation(project(":feature:theory"))
     implementation(project(":feature:favorites"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:projects"))
     implementation(project(":feature:more"))
     implementation(libs.androidx.compose.material3.navigation.suite)
 
@@ -229,6 +230,7 @@ dependencies {
 
     // Unit tests
     testImplementation(libs.junit)
+    testImplementation(libs.koin.test)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
     testImplementation(libs.kotlinx.coroutines.test)

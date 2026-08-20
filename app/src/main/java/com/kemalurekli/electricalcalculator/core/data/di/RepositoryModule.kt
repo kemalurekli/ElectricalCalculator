@@ -14,7 +14,7 @@ import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesReposi
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.ForumAuthRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.ForumRepositoryImpl
-import com.kemalurekli.electricalcalculator.core.data.repository.InspectionRepositoryImpl
+import com.kemalurekli.electricalcalculator.features.inspection.data.InspectionRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.ProjectRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.UserPreferencesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
@@ -22,7 +22,7 @@ import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepo
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ForumAuthRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ForumRepository
-import com.kemalurekli.electricalcalculator.core.domain.repository.InspectionRepository
+import com.kemalurekli.electricalcalculator.features.inspection.domain.InspectionRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
 import com.kemalurekli.electricalcalculator.core.database.dao.CalculationHistoryDao

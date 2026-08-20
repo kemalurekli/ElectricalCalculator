@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="projects">
+    <output-path>$PROJECT_DIR$/feature/projects/build/libs</output-path>
+    <root id="archive" name="projects.jar" />
+  </artifact>
+</component>

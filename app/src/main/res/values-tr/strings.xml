@@ -41,94 +41,6 @@
     <string name="state_in_development_message">Bu bölüm geliştiriliyor ve yakın bir sürümde eklenecek.</string>
 
     <!-- Ayarlar -->
-    <string name="destination_projects">Projeler</string>
-    <string name="projects_empty_title">Hen\u00fcz proje yok</string>
-    <string name="projects_empty_message">Bir proje, tek bir beslemeyi ve ondan beslenen devreleri tutar. Gerilimi, ortam s\u0131cakl\u0131\u011f\u0131n\u0131 ve kablo tipini bir kez girin; her devre onlara g\u00f6re tasarlan\u0131r.</string>
-    <string name="projects_new">Yeni proje</string>
-    <string name="projects_untitled">Ads\u0131z proje</string>
-    <string name="projects_circuit_count">%1$d devre</string>
-    <string name="projects_circuit_count_one">1 devre</string>
-    <string name="projects_circuit_count_none">Devre yok</string>
-    <string name="projects_delete_title">Proje silinsin mi?</string>
-    <string name="projects_delete_message">Proje ve i\u00e7indeki t\u00fcm devreler kald\u0131r\u0131l\u0131r. Bu i\u015flem geri al\u0131namaz.</string>
-    <string name="project_supply">Besleme</string>
-    <string name="project_reference">Proje ad\u0131</string>
-    <string name="project_site">Saha</string>
-    <string name="project_external_impedance">Besleme \u00e7evrim empedans\u0131, Ze</string>
-    <string name="project_external_impedance_hint">Ba\u015flang\u0131\u00e7ta \u00f6l\u00e7\u00fcl\u00fcr ya da da\u011f\u0131t\u0131c\u0131dan al\u0131n\u0131r</string>
-    <string name="project_max_drop">\u0130zin verilen gerilim d\u00fc\u015f\u00fcm\u00fc</string>
-    <string name="project_schedule">Devreler</string>
-    <string name="project_add_circuit">Devre ekle</string>
-    <string name="project_circuit_incomplete">Hen\u00fcz tasarlanmad\u0131 \u2014 y\u00fck\u00fc ve uzunlu\u011fu girin</string>
-    <string name="project_circuit_no_solution">Hi\u00e7bir tablo kesiti yetmiyor</string>
-    <string name="project_circuit_summary">%1$s mm\u00b2 \u00b7 %2$s A cihaz</string>
-    <string name="circuit_untitled">Yeni devre</string>
-    <string name="circuit_name">Devre ad\u0131</string>
-    <string name="circuit_load_kind">Y\u00fck \u015fu \u015fekilde verildi</string>
-    <string name="circuit_load_kind_current">Ak\u0131m</string>
-    <string name="circuit_load_kind_power">G\u00fc\u00e7</string>
-    <string name="circuit_load_current">Tasar\u0131m ak\u0131m\u0131, Ib</string>
-    <string name="circuit_load_power">Aktif g\u00fc\u00e7</string>
-    <string name="circuit_disconnection">A\u00e7ma s\u00fcresi</string>
-    <string name="circuit_disconnection_hint">Son devre i\u00e7in 0,4 s; da\u011f\u0131t\u0131m devresi i\u00e7in 5 s</string>
-    <string name="circuit_delete_title">Devre silinsin mi?</string>
-    <string name="circuit_result">Tasar\u0131m</string>
-    <string name="circuit_result_size">Kesit</string>
-    <string name="circuit_result_protective">Koruma iletkeni</string>
-    <string name="circuit_result_device">Koruma cihaz\u0131</string>
-    <string name="circuit_result_binding">Belirleyen</string>
-    <string name="circuit_chain">Zincir</string>
-    <string name="circuit_stage_capacity">Ak\u0131m ta\u015f\u0131ma kapasitesi, Iz \u2265 In</string>
-    <string name="circuit_stage_drop">Gerilim d\u00fc\u015f\u00fcm\u00fc</string>
-    <string name="circuit_stage_loop">Toprak ar\u0131za \u00e7evrimi, Zs</string>
-    <string name="circuit_stage_protective">Koruma iletkeni dayan\u0131m\u0131</string>
-    <string name="circuit_binding_capacity">Ak\u0131m ta\u015f\u0131ma kapasitesi</string>
-    <string name="circuit_binding_drop">Gerilim d\u00fc\u015f\u00fcm\u00fc</string>
-    <string name="circuit_binding_loop">Toprak ar\u0131za \u00e7evrimi</string>
-    <string name="circuit_binding_protective">Koruma iletkeni</string>
-    <string name="circuit_binding_none">Hi\u00e7biri \u2014 en k\u00fc\u00e7\u00fck kesit zaten yetiyor</string>
-    <string name="circuit_failure_device_range">Y\u00fck, bu uygulaman\u0131n modelledi\u011fi en b\u00fcy\u00fck cihaz\u0131n \u00fczerinde.</string>
-    <string name="circuit_failure_no_size">Hi\u00e7bir tablo kesiti t\u00fcm a\u015famalar\u0131 ge\u00e7miyor. Ba\u015far\u0131s\u0131z a\u015famaya bak\u0131n: a\u00e7mayan bir \u00e7evrim, daha fazla bak\u0131r de\u011fil ba\u015fka bir cihaz ister.</string>
-    <string name="circuit_incomplete">Bu devreyi tasarlamak i\u00e7in y\u00fck\u00fc ve uzunlu\u011fu girin.</string>
-    <string name="report_export">D\u0131\u015fa aktar</string>
-    <string name="report_export_pdf">PDF olarak d\u0131\u015fa aktar</string>
-    <string name="report_export_csv">CSV olarak d\u0131\u015fa aktar</string>
-    <string name="report_share_title">Devre listesini payla\u015f</string>
-    <string name="report_export_failed">D\u0131\u015fa aktarma dosyas\u0131 yaz\u0131lamad\u0131.</string>
-    <string name="report_export_empty">D\u0131\u015fa aktarmadan \u00f6nce bir devre ekleyin.</string>
-    <string name="report_column_measured_r1r2">R\u2081+R\u2082 \u00f6l\u00e7. (\u03a9)</string>
-    <string name="report_column_measured_zs">Zs \u00f6l\u00e7. (\u03a9)</string>
-    <string name="report_column_measured_insulation">Yal\u0131t\u0131m (M\u03a9)</string>
-    <string name="report_column_result">Sonu\u00e7</string>
-    <string name="report_column_circuit">Devre</string>
-    <string name="report_column_load">Y\u00fck</string>
-    <string name="report_column_length">Uzunluk (m)</string>
-    <string name="report_column_device">Cihaz (A)</string>
-    <string name="report_column_size">Kesit (mm\u00b2)</string>
-    <string name="report_column_protective">Koruma iletkeni (mm\u00b2)</string>
-    <string name="report_column_capacity">Iz (A)</string>
-    <string name="report_column_drop" formatted="false">D\u00fc\u015f\u00fcm (%)</string>
-    <string name="report_column_loop">Zs (\u03a9)</string>
-    <string name="report_column_binding">Belirleyen</string>
-    <string name="tests_section">Test sonu\u00e7lar\u0131</string>
-    <string name="tests_kind_continuity">S\u00fcreklilik, R\u2081 + R\u2082</string>
-    <string name="tests_kind_insulation">Yal\u0131t\u0131m direnci</string>
-    <string name="tests_kind_polarity">Polarite</string>
-    <string name="tests_kind_loop">Toprak ar\u0131za \u00e7evrimi, Zs</string>
-    <string name="tests_kind_rcd_rated">RCD, I\u0394n\'de</string>
-    <string name="tests_kind_rcd_five">RCD, 5 \u00d7 I\u0394n\'de</string>
-    <string name="tests_expected">Tasar\u0131m %1$s bekliyor</string>
-    <string name="tests_ratio">Hesaplanan de\u011ferin %1$s kat\u0131</string>
-    <string name="tests_verdict_pass">Ge\u00e7ti</string>
-    <string name="tests_verdict_fail">Kald\u0131</string>
-    <string name="tests_verdict_recorded">Kaydedildi</string>
-    <string name="tests_polarity_correct">Do\u011fru</string>
-    <string name="tests_polarity_wrong">Yanl\u0131\u015f</string>
-    <string name="tests_test_voltage">Test gerilimi</string>
-    <string name="tests_rcd_type">RCD tipi</string>
-    <string name="tests_rcd_general">Genel</string>
-    <string name="tests_rcd_selective">Tip S</string>
-    <string name="tests_note">Limit i\u00e7indeki bir okuma bile ikinci bir bak\u0131\u015f\u0131 hak edebilir: tasar\u0131m\u0131n \u00f6ng\u00f6rd\u00fc\u011f\u00fcn\u00fcn belirgin \u00fczerindeki bir de\u011fer gev\u015fek klemens, beklenmedik bir ek ya da listede yazandan farkl\u0131 bir kablo demektir.</string>
     <string name="sel_step_ratio_clears" formatted="false">\u2014 geleneksel 1,6 e\u015fi\u011fini a\u015f\u0131yor</string>
     <string name="sel_step_ratio_short" formatted="false">\u2014 geleneksel 1,6 e\u015fi\u011finin alt\u0131nda</string>
     <string name="sel_step_no_curve">Bu cihaz\u0131n uygulaman\u0131n okuyabilece\u011fi bir ani a\u00e7ma kat\u0131 yok</string>
@@ -184,17 +96,8 @@
     <!-- Doğrulama — domain katmanındaki ValidationError değerlerinden eşlenir -->
 
     <!-- Gerilim düşümü hesaplayıcısı -->
-    <string name="common_supply_system">Besleme sistemi</string>
-    <string name="common_system_dc">DC</string>
-    <string name="common_system_single_phase">1 fazlı</string>
-    <string name="common_system_three_phase">3 fazlı</string>
     <string name="common_material_copper">Bakır</string>
     <string name="common_material_aluminium">Alüminyum</string>
-
-    <string name="common_system_voltage">Şebeke gerilimi</string>
-    <string name="common_route_length">Hat uzunluğu (tek yön)</string>
-    <string name="common_power_factor">Güç faktörü (cos φ)</string>
-    <string name="common_parallel_conductors">Faz başına iletken sayısı</string>
 
     <!-- Kopyala ve Paylaş için düz metin çıktısı -->
 
@@ -209,8 +112,6 @@
     <string name="cs_method_b2_full">B2 — boru içinde çok damarlı kablo</string>
     <string name="cs_method_c_full">C — yüzeye doğrudan kroşeli</string>
     <string name="cs_method_e_full">E — serbest havada veya delikli tavada</string>
-
-    <string name="cs_circuits_label">Gruplanmış devre sayısı</string>
 
     <!-- Transformatör tam yük akımı hesaplayıcısı -->
 
@@ -237,13 +138,6 @@
     <!-- Kısa devre akımı hesaplayıcısı -->
 
     <!-- Hata döngüsü hesaplayıcısı -->
-
-    <string name="ef_device">Koruma cihazı</string>
-    <string name="ef_device_b">B tipi</string>
-    <string name="ef_device_c">C tipi</string>
-    <string name="ef_device_d">D tipi</string>
-    <string name="ef_device_custom">Özel</string>
-    <string name="ef_device_rcd">RCD</string>
 
     <!-- Koruma ve topraklama referansları -->
 

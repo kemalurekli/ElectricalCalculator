@@ -306,10 +306,36 @@ types and the five top-level destinations went into `:core:navigation`.
 composable, so a module holding it would depend on all of them. `ElecAppShell`
 stayed with it, because the shell calls the graph.
 
+Projects went next, and took the circuit designer and the inspection feature
+with it — three packages that only make sense together, and nothing else in the
+app uses either of the first two.
+
 What is left is the forum (22 files, the only platform-specific
-authentication), projects and the circuit designer (PDF export via
-`android.graphics.pdf`), settings (it renders two forum sections), the
-inspection feature, and navigation itself. `:app` is 63 files.
+authentication), settings (it renders two forum sections), and `ElecNavHost`
+with the shell that calls it. `:app` is 45 files.
+
+### The schedule PDF is not on iOS, deliberately
+
+`SchedulePdf` draws with `android.graphics.pdf`: a table with measured column
+widths, wrapped cells and page breaks. Core Graphics can do all of it, but that
+is a rewrite rather than a port. `isSchedulePdfSupported` is false on iOS and
+the menu item is absent — not disabled, because a greyed-out item invites the
+reader to work out what unlocks it and nothing does. The CSV export works on
+both and carries the same figures.
+
+`FileSharing` is the other half, and takes bytes. The Android version used to
+take a `ScheduleReport` and an `OutputStream` so the PDF could be drawn
+straight into the file — the right trade when both halves lived in one module,
+but a `ScheduleReport` is a projects concept and a stream is a JVM type.
+
+### The check Hilt used to make
+
+Five missing Koin registrations were found the same way: open the app, tap
+through to a screen, read `NoDefinitionFoundException` out of logcat. That is
+not a process. `KoinGraphTest` runs `Module.verify()` over every feature
+module, which walks each definition's constructor by reflection and reports
+what is unbuildable — the compile-time guarantee Hilt gave, bought back as a
+unit test.
 
 `formatAsRelativeTime` is the third and last of the deliberate divergences,
 after dates and collation: "3 dakika önce", "yesterday", "2 weeks ago". Both

@@ -1,0 +1,96 @@
+package com.kemalurekli.electricalcalculator.core.di
+
+import androidx.lifecycle.SavedStateHandle
+import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
+import com.kemalurekli.electricalcalculator.core.database.dao.CircuitTestDao
+import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
+import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
+import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
+import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
+import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors
+import com.kemalurekli.electricalcalculator.features.calculators.calculatorsModule
+import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorCatalog
+import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.CalculateEarthFaultUseCase
+import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.domain.CalculateVoltageDropUseCase
+import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.AmpacityTable
+import com.kemalurekli.electricalcalculator.features.converter.converterModule
+import com.kemalurekli.electricalcalculator.features.favorites.favoritesModule
+import com.kemalurekli.electricalcalculator.features.fieldnotes.fieldNotesModule
+import com.kemalurekli.electricalcalculator.features.glossary.glossaryModule
+import com.kemalurekli.electricalcalculator.features.history.historyModule
+import com.kemalurekli.electricalcalculator.features.home.homeModule
+import com.kemalurekli.electricalcalculator.features.projects.projectsModule
+import com.kemalurekli.electricalcalculator.features.references.referencesModule
+import com.kemalurekli.electricalcalculator.features.theory.theoryModule
+import org.junit.Test
+import org.koin.core.annotation.KoinExperimentalAPI
+import org.koin.core.module.Module
+import org.koin.test.verify.verify
+
+/**
+ * Every Koin definition can actually be built.
+ *
+ * This is the check Hilt used to make at compile time. Koin resolves by type at
+ * runtime, so a ViewModel whose dependency nobody registered compiles, ships,
+ * and throws `NoDefinitionFoundException` the first time its screen is opened —
+ * which, for a screen behind two taps, is not during any test run.
+ *
+ * It happened five times while the features were being moved, once per missing
+ * binding, each found by opening the app and reading logcat. `verify()` walks
+ * every definition's constructor by reflection and reports them together.
+ *
+ * ### Why the extra types are listed
+ *
+ * `hiltBridgeModule` builds its objects out of a running Hilt component, so its
+ * definitions cannot be constructed here. The types it provides are declared as
+ * external instead: the question this answers is whether every *feature*
+ * declares what it needs, not whether Hilt is running.
+ */
+class KoinGraphTest {
+
+    @OptIn(KoinExperimentalAPI::class)
+    @Test
+    fun `every definition can be constructed`() {
+        featureModules.forEach { module ->
+            module.verify(
+                extraTypes = listOf(
+                    // Provided by Hilt on Android, by coreDataModule on iOS.
+                    HistoryRepository::class,
+                    FavoritesRepository::class,
+                    ProjectRepository::class,
+                    UserPreferencesRepository::class,
+                    StringResolver::class,
+                    TimeProvider::class,
+                    CorrectionFactors::class,
+                    CircuitTestDao::class,
+                    // Koin supplies this from the creation extras a ViewModel is
+                    // built with; there is no definition to find.
+                    SavedStateHandle::class,
+                    // Registered by another feature's module. `verify()` reads
+                    // one module at a time, so a dependency that crosses a
+                    // module boundary has to be named — the check that remains
+                    // is the one that matters: whether a feature registers
+                    // everything it owns.
+                    CalculatorCatalog::class,
+                    AmpacityTable::class,
+                    CalculateVoltageDropUseCase::class,
+                    CalculateEarthFaultUseCase::class,
+                ),
+            )
+        }
+    }
+
+    private val featureModules: List<Module> = listOf(
+        converterModule,
+        historyModule,
+        glossaryModule,
+        fieldNotesModule,
+        referencesModule,
+        calculatorsModule,
+        theoryModule,
+        favoritesModule,
+        homeModule,
+        projectsModule,
+    )
+}

@@ -8,6 +8,7 @@ import com.kemalurekli.electricalcalculator.features.favorites.favoritesModule
 import com.kemalurekli.electricalcalculator.features.fieldnotes.fieldNotesModule
 import com.kemalurekli.electricalcalculator.features.glossary.glossaryModule
 import com.kemalurekli.electricalcalculator.features.home.homeModule
+import com.kemalurekli.electricalcalculator.features.projects.projectsModule
 import com.kemalurekli.electricalcalculator.features.references.referencesModule
 import com.kemalurekli.electricalcalculator.features.theory.theoryModule
 import com.kemalurekli.electricalcalculator.features.history.historyModule
@@ -48,6 +49,7 @@ class ElecToolkitApplication : Application() {
                 theoryModule,
                 favoritesModule,
                 homeModule,
+                projectsModule,
             )
         }
     }

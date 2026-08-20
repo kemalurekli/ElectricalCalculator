@@ -1,11 +1,13 @@
 package com.kemalurekli.electricalcalculator.core.di
 
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.database.dao.CircuitTestDao
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
 import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
+import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
@@ -34,9 +36,11 @@ interface SharedGraphEntryPoint {
     fun historyRepository(): HistoryRepository
     fun favoritesRepository(): FavoritesRepository
     fun userPreferencesRepository(): UserPreferencesRepository
+    fun projectRepository(): ProjectRepository
     fun stringResolver(): StringResolver
     fun timeProvider(): TimeProvider
     fun correctionFactors(): CorrectionFactors
+    fun circuitTestDao(): CircuitTestDao
 }
 
 /**
@@ -51,7 +55,9 @@ val hiltBridgeModule: Module = module {
     single<HistoryRepository> { entryPoint(androidApplication()).historyRepository() }
     single<FavoritesRepository> { entryPoint(androidApplication()).favoritesRepository() }
     single<UserPreferencesRepository> { entryPoint(androidApplication()).userPreferencesRepository() }
+    single<ProjectRepository> { entryPoint(androidApplication()).projectRepository() }
     single<StringResolver> { entryPoint(androidApplication()).stringResolver() }
     single<TimeProvider> { entryPoint(androidApplication()).timeProvider() }
     single { entryPoint(androidApplication()).correctionFactors() }
+    single { entryPoint(androidApplication()).circuitTestDao() }
 }

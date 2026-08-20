@@ -25,6 +25,9 @@
             <option value="$PROJECT_DIR$/feature/fieldnotes" />
             <option value="$PROJECT_DIR$/feature/glossary" />
             <option value="$PROJECT_DIR$/feature/history" />
+            <option value="$PROJECT_DIR$/feature/home" />
+            <option value="$PROJECT_DIR$/feature/more" />
+            <option value="$PROJECT_DIR$/feature/projects" />
             <option value="$PROJECT_DIR$/feature/references" />
             <option value="$PROJECT_DIR$/feature/theory" />
             <option value="$PROJECT_DIR$/iosEntry" />
