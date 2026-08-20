@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator
 
+import com.kemalurekli.electricalcalculator.core.common.util.regionContext
 import com.kemalurekli.electricalcalculator.core.common.util.appInfoContext
 import com.kemalurekli.electricalcalculator.core.datastore.preferencesContext
 import com.kemalurekli.electricalcalculator.core.database.databaseContext
@@ -44,6 +45,7 @@ class ElecToolkitApplication : Application() {
         databaseContext = this
         preferencesContext = this
         appInfoContext = this
+        regionContext = this
         startKoin {
             androidContext(this@ElecToolkitApplication)
             modules(

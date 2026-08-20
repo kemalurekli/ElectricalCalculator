@@ -31,3 +31,13 @@ interface RegionProvider {
     /** An ISO 3166-1 alpha-2 country code, or an empty string if unknown. */
     fun currentRegion(): String
 }
+
+/**
+ * The platform's answer, ready to register.
+ *
+ * A factory rather than a class the graph can construct, because Android needs
+ * a `Context` and iOS needs nothing — the same split the database and the
+ * preference store already have, and the same solution: the platform holds what
+ * it needs and the graph asks for one expression.
+ */
+expect fun createRegionProvider(): RegionProvider

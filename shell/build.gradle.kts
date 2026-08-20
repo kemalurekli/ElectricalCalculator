@@ -111,6 +111,8 @@ kotlin {
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.material3AdaptiveNavigationSuite)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
             implementation(libs.kotlinx.collections.immutable)
         }
     }

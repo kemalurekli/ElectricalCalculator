@@ -2,7 +2,6 @@ package com.kemalurekli.electricalcalculator
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
 import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
 import kotlinx.coroutines.flow.SharingStarted
@@ -28,19 +27,8 @@ sealed interface MainUiState {
 
 class MainViewModel(
     private val userPreferencesRepository: UserPreferencesRepository,
-    private val regionProvider: RegionProvider,
 ) : ViewModel() {
 
-    init {
-        // The first-run guess at supply voltage and frequency. Runs on every
-        // launch and does nothing after the first, which is what makes it safe
-        // to sit on the path a language change also takes: choosing Turkish
-        // recreates the activity and lands here again, finds the values already
-        // owned by the user, and leaves them exactly as they are.
-        viewModelScope.launch {
-            userPreferencesRepository.seedEngineeringDefaults(regionProvider.currentRegion())
-        }
-    }
 
     fun onAcceptDisclaimer() {
         viewModelScope.launch { userPreferencesRepository.setDisclaimerAccepted(true) }

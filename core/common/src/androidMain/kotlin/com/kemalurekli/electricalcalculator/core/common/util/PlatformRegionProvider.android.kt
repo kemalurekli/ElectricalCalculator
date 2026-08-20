@@ -21,6 +21,16 @@ import java.util.Locale
  * nothing to read it from otherwise; the iOS side needs no such handle, which
  * is why the platform split is at the implementation and not the interface.
  */
+/**
+ * Set once from the Application, beside the database and preference contexts.
+ */
+lateinit var regionContext: Context
+
+actual fun createRegionProvider(): RegionProvider {
+    check(::regionContext.isInitialized) { "regionContext must be set before the region is read" }
+    return PlatformRegionProvider(regionContext)
+}
+
 class PlatformRegionProvider(private val context: Context) : RegionProvider {
 
     override fun currentRegion(): String {

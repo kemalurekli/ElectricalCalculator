@@ -1,4 +1,4 @@
-package com.kemalurekli.electricalcalculator
+package com.kemalurekli.electricalcalculator.features.settings
 
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
@@ -40,8 +40,14 @@ class EngineeringDefaultsSeedingTest {
     private val languageRepository = FakeAppLanguageRepository()
     private val region = FakeRegionProvider("TR")
 
-    /** A fresh activity, as created on launch and after a language change. */
-    private fun launch() = MainViewModel(repository, region)
+    /**
+     * What the shell does on every launch.
+     *
+     * `ElecAppShell` calls this from a `LaunchedEffect`; it used to be in
+     * `MainViewModel`, which only Android has. Calling the repository directly
+     * is what the shell does, minus the composition.
+     */
+    private suspend fun launch() = repository.seedEngineeringDefaults(region.currentRegion())
 
     private fun settings() = SettingsViewModel(repository, languageRepository, region)
 

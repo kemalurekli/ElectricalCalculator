@@ -1,5 +1,9 @@
 package com.kemalurekli.electricalcalculator.shell
 
+import org.koin.compose.koinInject
+import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
+import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
+import androidx.compose.runtime.LaunchedEffect
 import com.kemalurekli.electricalcalculator.core.navigation.ElecTab
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.foundation.layout.ime
@@ -70,6 +74,8 @@ fun ElecAppShell(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
+    SeedEngineeringDefaults()
+
     val actions = remember(navController) { NavActions(navController) }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val current = backStackEntry?.destination
@@ -131,4 +137,26 @@ fun ElecAppShell(
 private fun NavDestination?.isIn(tab: ElecTab): Boolean {
     val destination = this ?: return false
     return tab.routes.any { route -> destination.hasRoute(route) }
+}
+
+/**
+ * The first-run guess at supply voltage and frequency.
+ *
+ * Runs once per launch and does nothing after the first, which is what makes it
+ * safe to sit here rather than behind a first-run check: a language change on
+ * Android recreates the activity and lands here again, finds the values already
+ * owned by the user, and leaves them.
+ *
+ * It used to be in `MainViewModel`, which only Android has — so an iPhone
+ * opened for the first time in Texas got the 230 V defaults the rest of the
+ * world uses, and no screen said why.
+ */
+@Composable
+private fun SeedEngineeringDefaults(
+    preferences: UserPreferencesRepository = koinInject(),
+    regionProvider: RegionProvider = koinInject(),
+) {
+    LaunchedEffect(Unit) {
+        preferences.seedEngineeringDefaults(regionProvider.currentRegion())
+    }
 }

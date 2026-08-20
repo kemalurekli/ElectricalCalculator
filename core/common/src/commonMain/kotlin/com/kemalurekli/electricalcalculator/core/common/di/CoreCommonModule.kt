@@ -2,7 +2,9 @@ package com.kemalurekli.electricalcalculator.core.common.di
 
 import com.kemalurekli.electricalcalculator.core.common.util.ComposeStringResolver
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
 import com.kemalurekli.electricalcalculator.core.common.util.SystemTimeProvider
+import com.kemalurekli.electricalcalculator.core.common.util.createRegionProvider
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -19,10 +21,5 @@ import org.koin.dsl.module
 val coreCommonModule: Module = module {
     single<TimeProvider> { SystemTimeProvider() }
     single<StringResolver> { ComposeStringResolver() }
-
-    // `RegionProvider` is deliberately absent. Its Android implementation needs
-    // a `Context` and its iOS one needs nothing, so there is no expression that
-    // constructs both — and the only screens asking for it, settings and the
-    // launcher, are still in `:app`. Whichever module those land in registers
-    // it there.
+    single<RegionProvider> { createRegionProvider() }
 }

@@ -17,3 +17,5 @@ import platform.Foundation.currentLocale
 class PlatformRegionProvider : RegionProvider {
     override fun currentRegion(): String = NSLocale.currentLocale.countryCode ?: ""
 }
+
+actual fun createRegionProvider(): RegionProvider = PlatformRegionProvider()
