@@ -174,6 +174,7 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:navigation"))
+    implementation(project(":shell"))
     implementation(project(":feature:converter"))
     implementation(project(":feature:history"))
     implementation(project(":feature:glossary"))

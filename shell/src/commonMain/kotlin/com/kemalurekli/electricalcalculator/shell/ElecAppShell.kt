@@ -1,10 +1,13 @@
-package com.kemalurekli.electricalcalculator.core.navigation
+package com.kemalurekli.electricalcalculator.shell
 
+import com.kemalurekli.electricalcalculator.core.navigation.ElecTab
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.foundation.layout.ime
+import androidx.navigation.NavGraphBuilder
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -67,12 +70,23 @@ import androidx.navigation.compose.rememberNavController
 fun ElecAppShell(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    platformDestinations: NavGraphBuilder.(NavActions) -> Unit = {},
+    hasPlatformScreens: Boolean = false,
 ) {
+    // One flag for two effects, because it is one fact: the forum and the
+    // settings screen are exactly the two features still in `:app`, and a
+    // platform that does not supply them must show neither. A tab or a gear
+    // pointing at a route with no destination throws rather than doing nothing.
+    val tabs = if (hasPlatformScreens) ElecTab.entries else ElecTab.entries - ElecTab.FORUM
     val actions = remember(navController) { NavActions(navController) }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val current = backStackEntry?.destination
 
-    val keyboardVisible = WindowInsets.isImeVisible
+    // `WindowInsets.isImeVisible` is Android-only. The inset itself is not, and
+    // a keyboard that occupies no space is not showing — which is the question
+    // being asked.
+    val density = LocalDensity.current
+    val keyboardVisible = WindowInsets.ime.getBottom(density) > 0
     val suiteType = if (keyboardVisible) {
         NavigationSuiteType.None
     } else {
@@ -83,7 +97,7 @@ fun ElecAppShell(
         modifier = modifier.fillMaxSize(),
         layoutType = suiteType,
         navigationSuiteItems = {
-            ElecTab.entries.forEach { tab ->
+            tabs.forEach { tab ->
                 item(
                     selected = current.isIn(tab),
                     onClick = { actions.navigateToTab(tab) },
@@ -99,6 +113,8 @@ fun ElecAppShell(
     ) {
         ElecNavHost(
             navController = navController,
+            platformDestinations = platformDestinations,
+            hasPlatformScreens = hasPlatformScreens,
             modifier = Modifier
                 .fillMaxSize()
                 // Nothing to consume when the suite is not there: the screens

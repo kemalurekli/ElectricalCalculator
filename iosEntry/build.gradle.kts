@@ -40,6 +40,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:designsystem"))
+            implementation(project(":shell"))
             implementation(project(":feature:converter"))
             implementation(project(":feature:history"))
             implementation(project(":feature:glossary"))

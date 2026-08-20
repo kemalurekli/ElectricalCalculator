@@ -42,6 +42,7 @@ import com.kemalurekli.electricalcalculator.feature.more.generated.resources.mor
 fun MoreRoute(
     onNavigate: (Route) -> Unit,
     modifier: Modifier = Modifier,
+    destinations: List<TopLevelDestination> = TopLevelDestination.moreDestinations,
 ) {
     val spacing = ElecTheme.spacing
     val layout = currentWindowLayout()
@@ -63,7 +64,7 @@ fun MoreRoute(
             ),
         ) {
             items(
-                items = TopLevelDestination.moreDestinations,
+                items = destinations,
                 key = { it.name },
             ) { destination ->
                 ElecListItem(

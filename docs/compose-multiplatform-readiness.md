@@ -310,9 +310,22 @@ Projects went next, and took the circuit designer and the inspection feature
 with it — three packages that only make sense together, and nothing else in the
 app uses either of the first two.
 
-What is left is the forum (22 files, the only platform-specific
-authentication), settings (it renders two forum sections), and `ElecNavHost`
-with the shell that calls it. `:app` is 45 files.
+`ElecNavHost` and `ElecAppShell` then moved to `:shell` — the one module that
+depends on every feature, which is why it is not under `core/`: `core` is what
+features build on, and this is what builds on features.
+
+The forum and the settings screen are slots rather than dependencies.
+`:app` passes them in through `platformDestinations`; iOS passes nothing.
+`hasPlatformScreens` is one flag with two effects because it is one fact: a
+platform without those screens must show neither the Forum tab nor the settings
+gear, and a tab pointing at a route with no destination throws rather than doing
+nothing.
+
+**iOS runs the same shell Android does.** There is no separate iOS UI left.
+
+What is left in `:app` is the forum (22 files, the only platform-specific
+authentication) and settings (it renders two of the forum's sections). `:app` is
+45 files.
 
 ### The schedule PDF is not on iOS, deliberately
 

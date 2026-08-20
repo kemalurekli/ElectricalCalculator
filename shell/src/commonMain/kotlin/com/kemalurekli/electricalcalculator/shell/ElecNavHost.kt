@@ -1,5 +1,9 @@
-package com.kemalurekli.electricalcalculator.core.navigation
+package com.kemalurekli.electricalcalculator.shell
 
+import com.kemalurekli.electricalcalculator.core.navigation.TopLevelDestination
+import com.kemalurekli.electricalcalculator.core.navigation.ElecTab
+import com.kemalurekli.electricalcalculator.core.navigation.Route
+import androidx.navigation.NavGraphBuilder
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorDestination
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -18,11 +22,6 @@ import com.kemalurekli.electricalcalculator.features.calculators.presentation.Ca
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorsRoute
 import com.kemalurekli.electricalcalculator.features.converter.presentation.ConverterRoute
 import com.kemalurekli.electricalcalculator.features.favorites.presentation.FavoritesRoute
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumCategoriesRoute
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumComposeThreadRoute
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumProfileRoute
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadRoute
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadsRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.CircuitRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.ProjectRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.ProjectsRoute
@@ -35,7 +34,6 @@ import com.kemalurekli.electricalcalculator.features.home.presentation.HomeRoute
 import com.kemalurekli.electricalcalculator.features.more.presentation.MoreRoute
 import com.kemalurekli.electricalcalculator.features.references.presentation.ReferenceDetailRoute
 import com.kemalurekli.electricalcalculator.features.references.presentation.ReferencesRoute
-import com.kemalurekli.electricalcalculator.features.settings.presentation.SettingsRoute
 
 /**
  * The application's navigation graph.
@@ -52,6 +50,8 @@ import com.kemalurekli.electricalcalculator.features.settings.presentation.Setti
 fun ElecNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    platformDestinations: NavGraphBuilder.(NavActions) -> Unit = {},
+    hasPlatformScreens: Boolean = false,
 ) {
     // Remembered so the lambdas passed to screens keep a stable identity and do
     // not invalidate every destination on each recomposition of the host.
@@ -64,6 +64,7 @@ fun ElecNavHost(
     ) {
         composable<Route.Home> {
             HomeRoute(
+                hasSettings = hasPlatformScreens,
                 onNavigate = actions::navigateTo,
                 onCalculatorClick = actions::navigateToCalculator,
                 // The same call the History screen makes. The dashboard's
@@ -85,8 +86,19 @@ fun ElecNavHost(
         }
 
         composable<Route.More> {
-            MoreRoute(onNavigate = actions::navigateTo)
+            MoreRoute(
+                onNavigate = actions::navigateTo,
+                destinations = if (hasPlatformScreens) {
+                    TopLevelDestination.moreDestinations
+                } else {
+                    TopLevelDestination.moreDestinations - TopLevelDestination.SETTINGS
+                },
+            )
         }
+
+        // The forum and the settings screen have not left `:app`; the
+        // caller supplies them. See the parameter's documentation.
+        platformDestinations(actions)
 
         composable<Route.Calculator> { backStackEntry ->
             // Each calculator gets its own screen as its phase lands. Until
@@ -157,51 +169,10 @@ fun ElecNavHost(
             )
         }
 
-        composable<Route.Forum> {
-            ForumCategoriesRoute(
-                onCategoryClick = { actions.navigateTo(Route.ForumCategory(it.id, it.title)) },
-            )
-        }
 
-        composable<Route.ForumCategory> { backStackEntry ->
-            val route = backStackEntry.toRoute<Route.ForumCategory>()
-            ForumThreadsRoute(
-                categoryId = route.categoryId,
-                categoryTitle = route.title,
-                onThreadClick = { actions.navigateTo(Route.ForumThread(it.id, it.title, it.isLocked, it.authorId, route.title)) },
-                onNewThread = { actions.navigateTo(Route.ForumComposeThread(route.categoryId, it)) },
-                onNavigateBack = actions::navigateBack,
-            )
-        }
 
-        composable<Route.ForumComposeThread> {
-            ForumComposeThreadRoute(
-                onThreadCreated = { id, title ->
-                    // Replaces the compose screen rather than stacking on it:
-                    // backing out of the new thread should land in the category
-                    // it now appears in, not in the form that created it.
-                    actions.navigateReplacing(Route.ForumThread(id, title))
-                },
-                onNavigateBack = actions::navigateBack,
-            )
-        }
 
-        composable<Route.ForumProfile> {
-            ForumProfileRoute(onNavigateBack = actions::navigateBack)
-        }
 
-        composable<Route.ForumThread> { backStackEntry ->
-            val route = backStackEntry.toRoute<Route.ForumThread>()
-            ForumThreadRoute(
-                threadId = route.threadId,
-                threadTitle = route.title,
-                isLocked = route.isLocked,
-                threadAuthorId = route.authorId,
-                categoryTitle = route.categoryTitle,
-                onOpenProfile = { actions.navigateTo(Route.ForumProfile(it)) },
-                onNavigateBack = actions::navigateBack,
-            )
-        }
 
         composable<Route.Projects> {
             ProjectsRoute(onOpenProject = { actions.navigateTo(Route.Project(it)) })
@@ -242,12 +213,6 @@ fun ElecNavHost(
             )
         }
 
-        composable<Route.Settings> {
-            SettingsRoute(
-                onNavigateBack = actions::navigateBack,
-                onOpenForumProfile = { actions.navigateTo(Route.ForumProfile(it)) },
-            )
-        }
     }
 }
 

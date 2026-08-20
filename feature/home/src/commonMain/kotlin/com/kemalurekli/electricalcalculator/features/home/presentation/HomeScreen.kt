@@ -82,6 +82,7 @@ import com.kemalurekli.electricalcalculator.feature.home.generated.resources.sta
 @Composable
 fun HomeRoute(
     onNavigate: (Route) -> Unit,
+    hasSettings: Boolean,
     onCalculatorClick: (CalculatorId) -> Unit,
     onOpenRecord: (CalculationRecord) -> Unit,
     onOpenSearchHit: (SearchableItem) -> Unit,
@@ -92,6 +93,7 @@ fun HomeRoute(
 
     HomeScreen(
         uiState = uiState,
+        hasSettings = hasSettings,
         onQueryChange = viewModel::onQueryChange,
         onToggleFavorite = viewModel::onToggleFavorite,
         onNavigate = onNavigate,
@@ -141,6 +143,7 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     uiState: HomeUiState,
+    hasSettings: Boolean,
     onQueryChange: (String) -> Unit,
     onToggleFavorite: (CalculatorId) -> Unit,
     onNavigate: (Route) -> Unit,
@@ -160,7 +163,9 @@ fun HomeScreen(
         title = stringResource(Res.string.app_name),
         modifier = modifier,
         actions = {
-            IconButton(onClick = { onNavigate(TopLevelDestination.SETTINGS.route) }) {
+            // Absent where the settings screen is — see `ElecAppShell`. A
+            // gear that navigated to a route with no destination throws.
+            if (hasSettings) IconButton(onClick = { onNavigate(TopLevelDestination.SETTINGS.route) }) {
                 Icon(
                     imageVector = TopLevelDestination.SETTINGS.icon,
                     contentDescription = stringResource(
@@ -518,6 +523,7 @@ private fun HomeScreenPreview() {
             onCalculatorClick = {},
             onOpenRecord = {},
             onOpenSearchHit = {},
+            hasSettings = true,
         )
     }
 }
@@ -534,6 +540,7 @@ private fun HomeScreenTabletPreview() {
             onCalculatorClick = {},
             onOpenRecord = {},
             onOpenSearchHit = {},
+            hasSettings = true,
         )
     }
 }
