@@ -1,5 +1,15 @@
 package com.kemalurekli.electricalcalculator.shell
 
+import kotlinx.coroutines.launch
+import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
+import com.kemalurekli.electricalcalculator.core.domain.model.ThemeMode
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
+import com.kemalurekli.electricalcalculator.core.designsystem.component.DisclaimerDialog
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.collectAsState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.isSystemInDarkTheme
 import org.koin.compose.koinInject
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
 import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
@@ -158,5 +168,55 @@ private fun SeedEngineeringDefaults(
 ) {
     LaunchedEffect(Unit) {
         preferences.seedEngineeringDefaults(regionProvider.currentRegion())
+    }
+}
+
+/**
+ * The app, themed from what the reader chose, with the disclaimer over it.
+ *
+ * Both of these used to be in `MainActivity`, which meant iOS had neither:
+ * choosing Dark in settings did nothing there, and the disclaimer — which the
+ * app is not supposed to be used without — never appeared at all.
+ *
+ * The splash hold is still Android's. `MainUiState.Loading` exists so the first
+ * composed frame already has the right colour scheme instead of flashing light
+ * and snapping to dark; iOS has no splash API to hold, so it renders the stored
+ * theme as soon as the preference arrives, which is a frame later.
+ */
+@Composable
+fun ElecToolkitApp(
+    modifier: Modifier = Modifier,
+    preferencesRepository: UserPreferencesRepository = koinInject(),
+) {
+    val preferences by preferencesRepository.preferences
+        .collectAsState(initial = null)
+
+    val resolved = preferences ?: UserPreferences.Default
+    val darkTheme = when (resolved.themeMode) {
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+        ThemeMode.SYSTEM -> isSystemInDarkTheme()
+    }
+
+    ElecToolkitTheme(darkTheme = darkTheme) {
+        Surface(
+            modifier = modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background,
+        ) {
+            ElecAppShell()
+
+            // Over the app rather than before it: the reader can see what they
+            // are agreeing to use. Held until accepted, and only ever shown
+            // once — an acknowledgement that reappears every launch is one
+            // nobody reads.
+            if (preferences != null && !resolved.disclaimerAccepted) {
+                val scope = rememberCoroutineScope()
+                DisclaimerDialog(
+                    onAccept = {
+                        scope.launch { preferencesRepository.setDisclaimerAccepted(true) }
+                    },
+                )
+            }
+        }
     }
 }

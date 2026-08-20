@@ -21,5 +21,27 @@
 	-->
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+
+	<!--
+	  The languages the app ships, so iOS knows it has more than one.
+
+	  Without this the bundle has no .lproj directories — the strings live in
+	  Compose Resources, not in the bundle's own localisation folders — so iOS
+	  treats the app as English-only and gives it no Language row in Settings.
+	  The reader could not change the language anywhere: not in the app, which
+	  deliberately does not offer a picker, and not in Settings, which did not
+	  know there was a choice.
+
+	  Declaring them is the whole fix. Per-app language then appears in Settings
+	  and writes NSLocale.preferredLanguages, which is exactly what Compose
+	  Resources reads to pick a `values-*` directory.
+
+	  Keep this in step with the `values-*` folders under composeResources.
+	-->
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>tr</string>
+	</array>
 </dict>
 </plist>

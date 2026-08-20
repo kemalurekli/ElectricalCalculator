@@ -1,18 +1,16 @@
 package com.kemalurekli.electricalcalculator.shell
 
-import com.kemalurekli.electricalcalculator.features.settings.presentation.SettingsRoute
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadsRoute
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadRoute
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumProfileRoute
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumComposeThreadRoute
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumCategoriesRoute
-import com.kemalurekli.electricalcalculator.core.navigation.TopLevelDestination
-import com.kemalurekli.electricalcalculator.core.navigation.ElecTab
-import com.kemalurekli.electricalcalculator.core.navigation.Route
-import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorDestination
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -21,24 +19,34 @@ import androidx.navigation.toRoute
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
-import com.kemalurekli.electricalcalculator.features.home.domain.SearchKind
-import com.kemalurekli.electricalcalculator.features.home.domain.SearchableItem
+import com.kemalurekli.electricalcalculator.core.navigation.ElecTab
+import com.kemalurekli.electricalcalculator.core.navigation.Route
+import com.kemalurekli.electricalcalculator.core.navigation.TopLevelDestination
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorDestination
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorDetailRoute
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorsRoute
 import com.kemalurekli.electricalcalculator.features.converter.presentation.ConverterRoute
 import com.kemalurekli.electricalcalculator.features.favorites.presentation.FavoritesRoute
+import com.kemalurekli.electricalcalculator.features.fieldnotes.presentation.FieldNotesRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumCategoriesRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumComposeThreadRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumProfileRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadsRoute
+import com.kemalurekli.electricalcalculator.features.glossary.presentation.GlossaryRoute
+import com.kemalurekli.electricalcalculator.features.history.presentation.HistoryRoute
+import com.kemalurekli.electricalcalculator.features.home.domain.SearchKind
+import com.kemalurekli.electricalcalculator.features.home.domain.SearchableItem
+import com.kemalurekli.electricalcalculator.features.home.presentation.HomeRoute
+import com.kemalurekli.electricalcalculator.features.more.presentation.MoreRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.CircuitRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.ProjectRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.ProjectsRoute
-import com.kemalurekli.electricalcalculator.features.fieldnotes.presentation.FieldNotesRoute
-import com.kemalurekli.electricalcalculator.features.theory.presentation.TheoryRoute
-import com.kemalurekli.electricalcalculator.features.theory.presentation.TheoryTopicRoute
-import com.kemalurekli.electricalcalculator.features.glossary.presentation.GlossaryRoute
-import com.kemalurekli.electricalcalculator.features.history.presentation.HistoryRoute
-import com.kemalurekli.electricalcalculator.features.home.presentation.HomeRoute
-import com.kemalurekli.electricalcalculator.features.more.presentation.MoreRoute
 import com.kemalurekli.electricalcalculator.features.references.presentation.ReferenceDetailRoute
 import com.kemalurekli.electricalcalculator.features.references.presentation.ReferencesRoute
+import com.kemalurekli.electricalcalculator.features.settings.presentation.SettingsRoute
+import com.kemalurekli.electricalcalculator.features.theory.presentation.TheoryRoute
+import com.kemalurekli.electricalcalculator.features.theory.presentation.TheoryTopicRoute
 
 /**
  * The application's navigation graph.
@@ -64,6 +72,14 @@ fun ElecNavHost(
         navController = navController,
         startDestination = Route.Home,
         modifier = modifier,
+        // Spelled out rather than left to the library. The defaults are not the
+        // same on both platforms, and "the same app on both" has to include how
+        // it moves — a reader switching between an iPhone and an Android tablet
+        // should not have to relearn what a transition means.
+        enterTransition = { forward(isTabSwitch()) },
+        exitTransition = { forwardOut(isTabSwitch()) },
+        popEnterTransition = { back(isTabSwitch()) },
+        popExitTransition = { backOut(isTabSwitch()) },
     ) {
         composable<Route.Home> {
             HomeRoute(
@@ -361,3 +377,54 @@ class NavActions(private val navController: NavHostController) {
         navController.popBackStack()
     }
 }
+
+/**
+ * Whether this transition is between two tabs rather than into a screen.
+ *
+ * A tab switch is a lateral move — nothing is on top of anything — so it fades.
+ * Opening a calculator or a thread is a push, and slides, because the back
+ * gesture has to feel like undoing a direction.
+ *
+ * The test is whether both ends are tab *roots*, not whether they belong to
+ * different tabs. Settings belongs to the More tab but is also reachable from
+ * the home top bar, and that is a push however far across the bar it lands.
+ */
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.isTabSwitch(): Boolean =
+    initialState.destination.isTabRoot() && targetState.destination.isTabRoot()
+
+private fun NavDestination.isTabRoot(): Boolean =
+    ElecTab.entries.any { tab -> hasRoute(tab.route::class) }
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.forward(tabSwitch: Boolean) =
+    if (tabSwitch) {
+        fadeIn(tween(TAB_MILLIS))
+    } else {
+        slideIntoContainer(SlideDirection.Start, tween(PUSH_MILLIS)) + fadeIn(tween(PUSH_MILLIS))
+    }
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.forwardOut(tabSwitch: Boolean) =
+    if (tabSwitch) {
+        fadeOut(tween(TAB_MILLIS))
+    } else {
+        slideOutOfContainer(SlideDirection.Start, tween(PUSH_MILLIS)) + fadeOut(tween(PUSH_MILLIS))
+    }
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.back(tabSwitch: Boolean) =
+    if (tabSwitch) {
+        fadeIn(tween(TAB_MILLIS))
+    } else {
+        slideIntoContainer(SlideDirection.End, tween(PUSH_MILLIS)) + fadeIn(tween(PUSH_MILLIS))
+    }
+
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.backOut(tabSwitch: Boolean) =
+    if (tabSwitch) {
+        fadeOut(tween(TAB_MILLIS))
+    } else {
+        slideOutOfContainer(SlideDirection.End, tween(PUSH_MILLIS)) + fadeOut(tween(PUSH_MILLIS))
+    }
+
+/** Short: a tab is a place you are already in, not one you travel to. */
+private const val TAB_MILLIS = 150
+
+/** Long enough to read as a direction, short enough not to be waited on. */
+private const val PUSH_MILLIS = 300

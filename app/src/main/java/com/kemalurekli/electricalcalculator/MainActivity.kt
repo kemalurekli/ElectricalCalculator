@@ -8,21 +8,14 @@ import androidx.activity.enableEdgeToEdge
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.rememberNavController
-import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.ThemeMode
 import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
-import com.kemalurekli.electricalcalculator.core.designsystem.component.DisclaimerDialog
-import com.kemalurekli.electricalcalculator.shell.ElecAppShell
+import com.kemalurekli.electricalcalculator.shell.ElecToolkitApp
 
 /**
  * Extends [AppCompatActivity] rather than `ComponentActivity` solely for the
@@ -62,22 +55,11 @@ class MainActivity : AppCompatActivity() {
 
             ApplySystemBarStyle(darkTheme)
 
-            ElecToolkitTheme(darkTheme = darkTheme) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
-                ) {
-                    ElecAppShell(navController = rememberNavController())
-
-                    // Shown over the app rather than before it: the reader can
-                    // see what they are agreeing to use. Held until accepted,
-                    // and only ever shown once — an acknowledgement that
-                    // reappears every launch is one nobody reads.
-                    if (uiState is MainUiState.Ready && !preferences.disclaimerAccepted) {
-                        DisclaimerDialog(onAccept = viewModel::onAcceptDisclaimer)
-                    }
-                }
-            }
+            // The theme, the disclaimer and the shell are all in `:shell` now,
+            // because iOS needs every one of them and had none. What stays here
+            // is the two things only Android has: the splash hold above, and
+            // the system bar tint below.
+            ElecToolkitApp()
         }
     }
 

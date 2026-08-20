@@ -3,7 +3,6 @@ package com.kemalurekli.electricalcalculator.ios
 import androidx.compose.ui.window.ComposeUIViewController
 import com.kemalurekli.electricalcalculator.core.common.di.coreCommonModule
 import com.kemalurekli.electricalcalculator.core.data.di.coreDataModule
-import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.features.calculators.calculatorsModule
 import com.kemalurekli.electricalcalculator.features.converter.converterModule
 import com.kemalurekli.electricalcalculator.features.favorites.favoritesModule
@@ -16,7 +15,7 @@ import com.kemalurekli.electricalcalculator.features.projects.projectsModule
 import com.kemalurekli.electricalcalculator.features.references.referencesModule
 import com.kemalurekli.electricalcalculator.features.settings.settingsModule
 import com.kemalurekli.electricalcalculator.features.theory.theoryModule
-import com.kemalurekli.electricalcalculator.shell.ElecAppShell
+import com.kemalurekli.electricalcalculator.shell.ElecToolkitApp
 import org.koin.core.context.startKoin
 import platform.UIKit.UIViewController
 
@@ -40,11 +39,9 @@ import platform.UIKit.UIViewController
 fun MainViewController(): UIViewController {
     startGraphOnce()
     return ComposeUIViewController {
-        ElecToolkitTheme {
-            // The whole app, and the same shell Android runs. There is nothing
-            // platform-specific left to pass in.
-            ElecAppShell()
-        }
+        // The whole app, and the same composable Android sets as its content:
+        // the theme the reader chose, the disclaimer over it, the shell under.
+        ElecToolkitApp()
     }
 }
 
