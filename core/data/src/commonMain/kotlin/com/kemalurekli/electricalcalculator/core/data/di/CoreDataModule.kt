@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.data.di
 
+import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.ProjectRepositoryImpl
@@ -36,6 +37,11 @@ import org.koin.dsl.module
  * write-ahead logs are how a row disappears.
  */
 val coreDataModule: Module = module {
+    // Table data rather than storage, but it belongs to no feature: the cable
+    // calculator applies the derating factors and the circuit designer applies
+    // them again, so registering it in either would make the other depend on it.
+    single { CorrectionFactors() }
+
     single { createElecToolkitDatabase() }
     single { get<ElecToolkitDatabase>().calculationHistoryDao() }
     single { get<ElecToolkitDatabase>().favoriteItemDao() }

@@ -6,21 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		0A49D110303768200012A401 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A49D10F303768200012A401 /* AuthenticationServices.framework */; };
-		0A49D11A303768200012A401 /* Electical Portal.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0A49D10D303768200012A401 /* Electical Portal.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-/* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		0A49D118303768200012A401 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A25140C3035DC9700790AD3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0A49D10C303768200012A401;
-			remoteInfo = "Electical Portal";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		0A49D11B303768200012A401 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -28,7 +13,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				0A49D11A303768200012A401 /* Electical Portal.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,19 +21,8 @@
 
 /* Begin PBXFileReference section */
 		0A2514143035DC9700790AD3 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A49D10D303768200012A401 /* Electical Portal.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Electical Portal.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A49D10F303768200012A401 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		0A49D11E303768200012A401 /* Exceptions for "Electical Portal" folder in "Electical Portal" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 0A49D10C303768200012A401 /* Electical Portal */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0A2514163035DC9700790AD3 /* iosApp */ = {
@@ -59,9 +32,6 @@
 		};
 		0A49D111303768200012A401 /* Electical Portal */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				0A49D11E303768200012A401 /* Exceptions for "Electical Portal" folder in "Electical Portal" target */,
-			);
 			path = "Electical Portal";
 			sourceTree = "<group>";
 		};
@@ -72,14 +42,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A49D10A303768200012A401 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0A49D110303768200012A401 /* AuthenticationServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +62,6 @@
 			isa = PBXGroup;
 			children = (
 				0A2514143035DC9700790AD3 /* iosApp.app */,
-				0A49D10D303768200012A401 /* Electical Portal.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -129,7 +90,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				0A49D119303768200012A401 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				0A2514163035DC9700790AD3 /* iosApp */,
@@ -140,28 +100,6 @@
 			productName = iosApp;
 			productReference = 0A2514143035DC9700790AD3 /* iosApp.app */;
 			productType = "com.apple.product-type.application";
-		};
-		0A49D10C303768200012A401 /* Electical Portal */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0A49D11F303768200012A401 /* Build configuration list for PBXNativeTarget "Electical Portal" */;
-			buildPhases = (
-				0A49D109303768200012A401 /* Sources */,
-				0A49D10A303768200012A401 /* Frameworks */,
-				0A49D10B303768200012A401 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				0A49D111303768200012A401 /* Electical Portal */,
-			);
-			name = "Electical Portal";
-			packageProductDependencies = (
-			);
-			productName = "Electical Portal";
-			productReference = 0A49D10D303768200012A401 /* Electical Portal.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -174,9 +112,6 @@
 				LastUpgradeCheck = 2660;
 				TargetAttributes = {
 					0A2514133035DC9700790AD3 = {
-						CreatedOnToolsVersion = 26.6;
-					};
-					0A49D10C303768200012A401 = {
 						CreatedOnToolsVersion = 26.6;
 					};
 				};
@@ -196,20 +131,12 @@
 			projectRoot = "";
 			targets = (
 				0A2514133035DC9700790AD3 /* iosApp */,
-				0A49D10C303768200012A401 /* Electical Portal */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0A2514123035DC9700790AD3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A49D10B303768200012A401 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -248,22 +175,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0A49D109303768200012A401 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		0A49D119303768200012A401 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0A49D10C303768200012A401 /* Electical Portal */;
-			targetProxy = 0A49D118303768200012A401 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0A25141D3035DC9800790AD3 /* Debug */ = {
@@ -390,6 +302,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
@@ -432,6 +345,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
@@ -469,64 +383,6 @@
 			};
 			name = Release;
 		};
-		0A49D11C303768200012A401 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R72XAX98CH;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Electical Portal/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Electical Portal";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kemalurekli.iosApp.Electical-Portal";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		0A49D11D303768200012A401 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R72XAX98CH;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Electical Portal/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Electical Portal";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.kemalurekli.iosApp.Electical-Portal";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -544,15 +400,6 @@
 			buildConfigurations = (
 				0A2514203035DC9800790AD3 /* Debug */,
 				0A2514213035DC9800790AD3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0A49D11F303768200012A401 /* Build configuration list for PBXNativeTarget "Electical Portal" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0A49D11C303768200012A401 /* Debug */,
-				0A49D11D303768200012A401 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

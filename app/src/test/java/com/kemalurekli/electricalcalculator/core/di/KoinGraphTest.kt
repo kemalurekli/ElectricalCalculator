@@ -45,12 +45,16 @@ import org.koin.test.verify.verify
  * binding, each found by opening the app and reading logcat. `verify()` walks
  * every definition's constructor by reflection and reports them together.
  *
- * ### Why the extra types are listed
+ * ### Why the extra types are listed, and the trap in them
  *
  * `verify()` reads one module at a time, so anything registered by another —
  * `coreCommonModule`, `coreDataModule`, or a sibling feature — has to be named.
- * What the check still answers, and the part that matters, is whether every
- * feature declares everything it owns.
+ *
+ * Each entry is a promise that *something else* registers that type, and the
+ * test cannot check the promise. `CorrectionFactors` sat here after the module
+ * that provided it was deleted, and the app crashed on the cable calculator
+ * while this stayed green. So every entry names its module below, and an entry
+ * whose module cannot be named does not belong here.
  */
 class KoinGraphTest {
 
@@ -60,20 +64,24 @@ class KoinGraphTest {
         featureModules.forEach { module ->
             module.verify(
                 extraTypes = listOf(
-                    // Registered by coreCommonModule, coreDataModule or
-                    // androidAppModule rather than by the feature under test.
+                    // coreDataModule
                     HistoryRepository::class,
                     FavoritesRepository::class,
                     ProjectRepository::class,
                     UserPreferencesRepository::class,
-                    StringResolver::class,
-                    RegionProvider::class,
-                    TimeProvider::class,
                     CorrectionFactors::class,
                     CircuitTestDao::class,
+                    // coreCommonModule
+                    StringResolver::class,
+                    TimeProvider::class,
+                    // androidAppModule on Android; nothing on iOS yet, which is
+                    // why no shared screen asks for it.
+                    RegionProvider::class,
                     // Whether there is a backend at all depends on configuration
                     // the platform supplies; the entry point declares it.
+                    // forumModule, from ForumConfig
                     ForumBackend::class,
+                    // settingsModule
                     AppLanguageRepository::class,
                     // Koin supplies this from the creation extras a ViewModel is
                     // built with; there is no definition to find.
@@ -83,6 +91,7 @@ class KoinGraphTest {
                     // module boundary has to be named — the check that remains
                     // is the one that matters: whether a feature registers
                     // everything it owns.
+                    // calculatorsModule, read by projects and home
                     CalculatorCatalog::class,
                     AmpacityTable::class,
                     CalculateVoltageDropUseCase::class,

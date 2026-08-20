@@ -414,13 +414,34 @@ a third would be added beside the font it covers anyway.
 Koin module holding the device region. `platformDestinations` is gone; the
 navigation graph is shared entire.
 
+### The schedule PDF
+
+It is on both platforms now, and the interesting part is that the *layout* is
+neither platform's. `ScheduleLayout` computes where everything goes — column
+widths from weights, the supply block in two columns, the page break, where to
+cut a cell that does not fit — and returns a list of operations. Each platform
+walks that list and draws.
+
+That split was worth making rather than porting the drawing twice. The
+arithmetic is the part with decisions in it and it used to be inside the
+drawing, where nothing could reach it: a page break firing one row early would
+have shown up only as a wasted line on a printout nobody re-reads.
+`ScheduleLayoutTest` runs on both platforms now; `SchedulePdfIosTest` checks
+that Core Graphics is driven correctly, which is all that is left of the iOS
+side.
+
+The ellipsis is written out rather than taken from the platform. Android's
+`TextUtils.ellipsize` and iOS's paragraph-style truncation disagree about where
+to cut, and one implementation means the same schedule breaks in the same place
+on both.
+
 ### What is genuinely left
 
-**The schedule PDF on iOS**, via Core Graphics. Independent of everything else.
+**TestFlight** and the App Privacy form.
 
-**TestFlight**, the App Privacy form, and the Sign in with Apple entitlement in
-Xcode — the code is there, but a real sign-in needs the capability on the target
-and the provider enabled in Supabase.
+A **real sign-in on a device.** The entitlement is on the target and the
+provider is enabled in Supabase; the simulator cannot complete an Apple sign-in,
+so the first real test is on hardware.
 
 ### The schedule PDF is not on iOS, deliberately
 
