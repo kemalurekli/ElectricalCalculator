@@ -12,8 +12,12 @@ package com.kemalurekli.electricalcalculator.core.common.util
  *
  * Positional only — `%1$s` and `%1$d`, not bare `%s`. Every string in this app
  * that takes an argument numbers it, because a translation reorders arguments
- * and an unnumbered placeholder cannot be reordered. A `%%` is a literal
- * percent, as it is everywhere else.
+ * and an unnumbered placeholder cannot be reordered.
+ *
+ * A `%` that is not a placeholder is left alone, which is what Compose
+ * Resources does too. `aapt` wanted it doubled and Compose Resources does not
+ * collapse the pair — the Turkish percentages shipped as `%%64,16` before
+ * anyone looked. Write one percent.
  *
  * An index past the end of [args] is left in place rather than throwing: a
  * mismatched translation should show its own placeholder on screen, where it

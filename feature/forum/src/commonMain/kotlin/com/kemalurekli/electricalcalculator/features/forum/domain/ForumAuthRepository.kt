@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.forum.domain
 
+import com.kemalurekli.electricalcalculator.features.forum.auth.SignInCredential
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumAuthFailure
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumProfile
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumResult
@@ -31,7 +32,14 @@ interface ForumAuthRepository {
      * The two are kept apart because obtaining a credential needs an Activity
      * and this does not, which is what lets the repository stay testable.
      */
-    suspend fun signInWithGoogle(idToken: String, nonce: String): Result<Unit>
+    /**
+     * Exchanges an identity token for a session.
+     *
+     * [provider] rather than one method per provider: Supabase takes it as
+     * a parameter, and the two platforms differ only in which one they can
+     * obtain a token from.
+     */
+    suspend fun signIn(credential: SignInCredential): Result<Unit>
 
     suspend fun signOut()
 
@@ -41,7 +49,7 @@ interface ForumAuthRepository {
     /**
      * Renames the signed-in reader.
      *
-     * The name Google supplied is only a starting point; people post under
+     * The name the provider supplied is only a starting point; people post under
      * something else and are entitled to.
      */
     suspend fun updateDisplayName(displayName: String): ForumResult<Unit>

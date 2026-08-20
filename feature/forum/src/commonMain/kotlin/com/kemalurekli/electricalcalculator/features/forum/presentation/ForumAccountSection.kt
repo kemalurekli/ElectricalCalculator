@@ -1,5 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.forum.presentation
 
+import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_sign_in_apple
+import com.kemalurekli.electricalcalculator.features.forum.auth.SignInProvider
 import com.kemalurekli.electricalcalculator.features.forum.auth.rememberForumSignIn
 import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
@@ -86,7 +88,12 @@ fun ForumAccountSection(
                     onClick = { viewModel.onSignIn(signIn) },
                     enabled = !busy && viewModel.canSignIn(signIn),
                 ) {
-                    Text(stringResource(Res.string.forum_sign_in))
+                    Text(stringResource(
+                            when (signIn.provider) {
+                                SignInProvider.GOOGLE -> Res.string.forum_sign_in
+                                SignInProvider.APPLE -> Res.string.forum_sign_in_apple
+                            },
+                        ))
                 }
             }
 

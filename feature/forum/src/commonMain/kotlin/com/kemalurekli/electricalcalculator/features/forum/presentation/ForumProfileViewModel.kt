@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.forum.presentation
 
+import com.kemalurekli.electricalcalculator.features.forum.auth.SignInCredential
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -93,9 +94,9 @@ class ForumSessionViewModel(
     val session: StateFlow<ForumSession> = authRepository.session
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000L), ForumSession.Unknown)
 
-    fun onSignedInWithGoogle(idToken: String, nonce: String, onResult: (Boolean) -> Unit) {
+    fun onSignedIn(credential: SignInCredential, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
-            onResult(authRepository.signInWithGoogle(idToken, nonce).isSuccess)
+            onResult(authRepository.signIn(credential).isSuccess)
         }
     }
 

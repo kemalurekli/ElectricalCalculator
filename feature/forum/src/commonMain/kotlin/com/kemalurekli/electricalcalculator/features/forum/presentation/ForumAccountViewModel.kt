@@ -57,7 +57,7 @@ class ForumAccountViewModel(
                 }
 
             credential
-                .mapCatching { authRepository.signInWithGoogle(it.idToken, it.rawNonce).getOrThrow() }
+                .mapCatching { authRepository.signIn(it).getOrThrow() }
                 .onFailure { _failure.value = it.toSignInFailure() }
 
             _busy.value = false

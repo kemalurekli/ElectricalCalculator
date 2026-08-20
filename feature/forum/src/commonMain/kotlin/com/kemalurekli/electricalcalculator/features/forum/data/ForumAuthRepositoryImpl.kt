@@ -1,5 +1,8 @@
 package com.kemalurekli.electricalcalculator.features.forum.data
 
+import com.kemalurekli.electricalcalculator.features.forum.auth.SignInProvider
+import com.kemalurekli.electricalcalculator.features.forum.auth.SignInCredential
+import io.github.jan.supabase.auth.providers.Apple
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumBackend
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumAuthRepository
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumFailure
@@ -61,19 +64,22 @@ class ForumAuthRepositoryImpl(
         }
     }
 
-    override suspend fun signInWithGoogle(idToken: String, nonce: String): Result<Unit> {
+    override suspend fun signIn(credential: SignInCredential): Result<Unit> {
         val client = (backend as? ForumBackend.Available)?.client
             ?: return Result.failure(IllegalStateException("Supabase is not configured"))
 
         return runCatching {
             withContext(ioDispatcher) {
                 client.auth.signInWith(IDToken) {
-                    this.idToken = idToken
-                    this.provider = Google
-                    // Google hashes the nonce it was given; Supabase compares
-                    // against the raw one. Sending the hash back would fail
-                    // every time, which is a confusing way to learn this.
-                    this.nonce = nonce
+                    this.idToken = credential.idToken
+                    this.provider = when (credential.provider) {
+                        SignInProvider.GOOGLE -> Google
+                        SignInProvider.APPLE -> Apple
+                    }
+                    // Both providers hash the nonce they were given; Supabase
+                    // compares against the raw one. Sending the hash back
+                    // fails every time, which is a confusing way to learn it.
+                    this.nonce = credential.rawNonce
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.testing
 
+import com.kemalurekli.electricalcalculator.features.forum.auth.SignInCredential
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumAuthRepository
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumRepository
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumCategory
@@ -162,7 +163,7 @@ class FakeForumAuthRepository(
         state.value = ForumSession.SignedIn(profile)
     }
 
-    override suspend fun signInWithGoogle(idToken: String, nonce: String): Result<Unit> {
+    override suspend fun signIn(credential: SignInCredential): Result<Unit> {
         signIn()
         return Result.success(Unit)
     }

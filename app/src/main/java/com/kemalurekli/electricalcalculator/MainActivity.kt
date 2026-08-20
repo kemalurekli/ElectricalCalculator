@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                         navController = rememberNavController(),
                         platformDestinations = { androidDestinations(it) },
                         // The forum and the settings screen are still here.
-                        hasPlatformScreens = true,
+                        hasSettings = true,
                     )
 
                     // Shown over the app rather than before it: the reader can

@@ -16,7 +16,7 @@
     <string name="bt_export_bank">%1$s Ah @ C/%2$s · %3$s V</string>
     <string name="bt_export_current">Discharge current: %1$s A</string>
     <string name="bt_export_energy">Energy delivered: %1$s Wh</string>
-    <string name="bt_export_load">%1$s W · η %2$s %% · DoD %3$s %% · k %4$s</string>
+    <string name="bt_export_load">%1$s W · η %2$s % · DoD %3$s % · k %4$s</string>
     <string name="bt_export_runtime">Runtime: %1$s</string>
     <string name="bt_formula">I = P / (U · η)\nt = H · (I_r / I)^k · DoD</string>
     <string name="bt_history_summary">%1$s h</string>
@@ -90,9 +90,9 @@
     <string name="cf_export_cable_line">%1$s × Ø %2$s mm</string>
     <string name="cf_export_cables">Cables: %1$s · %2$s mm²</string>
     <string name="cf_export_conduit">Conduit: %1$s mm internal · %2$s mm² </string>
-    <string name="cf_export_fill">Fill: %1$s %% of a permitted %2$s %%</string>
+    <string name="cf_export_fill">Fill: %1$s % of a permitted %2$s %</string>
     <string name="cf_formula">A = π · D² / 4\nfill = Σ(n · π · d² / 4) / A</string>
-    <string name="cf_history_summary">%1$s %%</string>
+    <string name="cf_history_summary">%1$s %</string>
     <string name="cf_history_title">Conduit fill — %1$s mm, %2$s cables</string>
     <string name="cf_note_diameter">Metric conduit is named by its outside diameter, so a 20 mm conduit has a bore nearer 17 mm. Take the internal figure from the manufacturer's data; using the nominal size overstates the space by about a third.</string>
     <string name="cf_note_grouping">Passing this check does not remove the grouping derating. Cables bunched in a conduit carry less current than the same cables in free air — size them with the cable size calculator.</string>
@@ -105,13 +105,13 @@
     <string name="cf_result_count">Cables</string>
     <string name="cf_result_fill">Fill</string>
     <string name="cf_result_largest">Largest cable that still fits</string>
-    <string name="cf_result_near">%1$s %% limit — little room left</string>
+    <string name="cf_result_near">%1$s % limit — little room left</string>
     <string name="cf_result_nothing_fits">Nothing further fits</string>
-    <string name="cf_result_over">Over the %1$s %% limit</string>
+    <string name="cf_result_over">Over the %1$s % limit</string>
     <string name="cf_result_over_by">Area to remove</string>
     <string name="cf_result_permitted">Permitted fill</string>
     <string name="cf_result_spare">Spare area</string>
-    <string name="cf_result_within">Within the %1$s %% limit</string>
+    <string name="cf_result_within">Within the %1$s % limit</string>
     <string name="cf_rule">Fill limit</string>
     <string name="cf_rule_custom">Custom</string>
     <string name="cf_rule_nec">NEC Table 1</string>
@@ -155,8 +155,8 @@
     <string name="cs_export_by_capacity">By current capacity: %1$s mm²</string>
     <string name="cs_export_by_drop">By voltage drop: %1$s mm²</string>
     <string name="cs_export_conditions">%1$s · %2$s · %3$s</string>
-    <string name="cs_export_drop">Voltage drop: %1$s V (%2$s %%)</string>
-    <string name="cs_export_environment">%1$s °C · %2$s circuit(s) · max %3$s %%</string>
+    <string name="cs_export_drop">Voltage drop: %1$s V (%2$s %)</string>
+    <string name="cs_export_environment">%1$s °C · %2$s circuit(s) · max %3$s %</string>
     <string name="cs_export_load">%1$s V · %2$s A · %3$s m</string>
     <string name="cs_export_result">Recommended cross-section: %1$s mm²</string>
     <string name="cs_formula">I_z ≥ I_b / (Ca · Cg)\nA ≥ k · I · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
@@ -407,7 +407,7 @@
     <string name="hm_example_lighting">LED lighting circuit</string>
     <string name="hm_example_office">Office floor, switch-mode supplies</string>
     <string name="hm_fundamental">Fundamental current, I₁</string>
-    <string name="hm_history_summary">%1$s %% THD</string>
+    <string name="hm_history_summary">%1$s % THD</string>
     <string name="hm_history_title">%1$s A with harmonics</string>
     <string name="hm_note_scope">Cable derating is not included. IEC 60364-5-52 Annex E bands its reduction factors on third-harmonic content; those bands are transcribed figures, and everything shown here is derived and checked on every build.</string>
     <string name="hm_order">Harmonic %1$d</string>
@@ -473,7 +473,7 @@
     <string name="ms_example_star_delta">Same site, star-delta</string>
     <string name="ms_example_stiff">30 kW on a 400 kVA supply</string>
     <string name="ms_full_load_current">Motor full load current, In</string>
-    <string name="ms_history_summary">%1$s %% dip</string>
+    <string name="ms_history_summary">%1$s % dip</string>
     <string name="ms_history_title">%1$s A motor on %2$s kVA</string>
     <string name="ms_locked_rotor">Locked rotor current, as a multiple of In</string>
     <string name="ms_locked_rotor_hint">From the motor plate. Six is typical; seven and eight are not unusual.</string>
@@ -505,7 +505,7 @@
     <string name="mt_example_hp">Nameplate in horsepower</string>
     <string name="mt_example_large">75 kW motor</string>
     <string name="mt_export_apparent">Apparent power: %1$s kVA</string>
-    <string name="mt_export_assumptions">η %1$s %% · cos φ %2$s</string>
+    <string name="mt_export_assumptions">η %1$s % · cos φ %2$s</string>
     <string name="mt_export_current">Full load current: %1$s A</string>
     <string name="mt_export_input_power">Input power: %1$s kW</string>
     <string name="mt_export_rating">%1$s · %2$s · %3$s V</string>
@@ -747,7 +747,7 @@
     <string name="ss_example_continental">Continental site, −25 °C</string>
     <string name="ss_example_residential">Residential, 600 V inverter</string>
     <string name="ss_example_temperate">Temperate site, −10 °C</string>
-    <string name="ss_export_module">Module: %1$s V Voc, %2$s %%/K</string>
+    <string name="ss_export_module">Module: %1$s V Voc, %2$s %/K</string>
     <string name="ss_export_range">String: %1$s to %2$s modules</string>
     <string name="ss_export_voc">Voc cold: %1$s V</string>
     <string name="ss_formula">Voc(T) = Voc · (1 + β · (T − 25) / 100)\nn_max = ⌊V_inv / Voc(T_min)⌋</string>
@@ -795,11 +795,11 @@
     <string name="tf_example_spaced">Six cables, spaced</string>
     <string name="tf_example_touching">Six cables, touching</string>
     <string name="tf_export_cables">Cables: %1$s</string>
-    <string name="tf_export_fill">Fill: %1$s %% of a permitted %2$s %%</string>
+    <string name="tf_export_fill">Fill: %1$s % of a permitted %2$s %</string>
     <string name="tf_export_tray">Tray: %1$s mm wide · %2$s</string>
     <string name="tf_export_width">Width required: %1$s mm of %2$s mm</string>
     <string name="tf_formula">W_req = Σ(n · d) + s · (N − 1)\nfill = Σ(n · π · d² / 4) / (W · H)</string>
-    <string name="tf_history_summary_area">%1$s %%</string>
+    <string name="tf_history_summary_area">%1$s %</string>
     <string name="tf_history_summary_width">%1$s mm</string>
     <string name="tf_history_title">Tray fill — %1$s mm, %2$s cables</string>
     <string name="tf_limit">Permitted fill</string>
@@ -816,9 +816,9 @@
     <string name="tf_result_fill">Fill</string>
     <string name="tf_result_largest">Largest cable that still fits</string>
     <string name="tf_result_layers">Layers</string>
-    <string name="tf_result_near">%1$s %% limit — little room left</string>
+    <string name="tf_result_near">%1$s % limit — little room left</string>
     <string name="tf_result_nothing_fits">Nothing further fits</string>
-    <string name="tf_result_over">Over the %1$s %% limit</string>
+    <string name="tf_result_over">Over the %1$s % limit</string>
     <string name="tf_result_over_by">Area to remove</string>
     <string name="tf_result_permitted">Permitted fill</string>
     <string name="tf_result_required_width">Width required</string>
@@ -829,7 +829,7 @@
     <string name="tf_result_width">Width used</string>
     <string name="tf_result_width_over">%1$s mm wider than the tray</string>
     <string name="tf_result_width_status">%1$s mm of %2$s mm</string>
-    <string name="tf_result_within">Within the %1$s %% limit</string>
+    <string name="tf_result_within">Within the %1$s % limit</string>
     <string name="tf_spacing">Clear spacing between cables</string>
     <string name="tf_spacing_hint">0 for touching. One cable diameter earns a better grouping factor.</string>
     <string name="tf_step_additional_cable">Largest cable that could still be laid beside them</string>
@@ -856,7 +856,7 @@
     <string name="tx_example_630">630 kVA distribution</string>
     <string name="tx_example_single">25 kVA single phase</string>
     <string name="tx_export_primary">Primary full load current: %1$s A</string>
-    <string name="tx_export_rating">%1$s kVA · %2$s · u_k %3$s %%</string>
+    <string name="tx_export_rating">%1$s kVA · %2$s · u_k %3$s %</string>
     <string name="tx_export_ratio">Voltage ratio: %1$s</string>
     <string name="tx_export_secondary">Secondary full load current: %1$s A</string>
     <string name="tx_export_short_circuit">Secondary short-circuit current: %1$s A</string>
@@ -898,7 +898,7 @@
     <string name="vd_example_riser">Aluminium riser, 200 A</string>
     <string name="vd_example_workshop">Workshop submain, 63 A</string>
     <string name="vd_export_conditions">%1$s °C · %2$s conductor(s) per phase</string>
-    <string name="vd_export_drop">Voltage drop: %1$s V (%2$s %%)</string>
+    <string name="vd_export_drop">Voltage drop: %1$s V (%2$s %)</string>
     <string name="vd_export_inputs">%1$s · %2$s</string>
     <string name="vd_export_power_factor">cos φ %1$s</string>
     <string name="vd_export_power_loss">Power loss: %1$s W</string>
@@ -906,7 +906,7 @@
     <string name="vd_export_resistance">Resistance: %1$s Ω</string>
     <string name="vd_export_voltage_at_load">Voltage at load: %1$s V</string>
     <string name="vd_formula">R = ρ(θ) · L / (A · n)\nΔU = k · I · R · cos φ</string>
-    <string name="vd_history_summary">%1$s V (%2$s %%)</string>
+    <string name="vd_history_summary">%1$s V (%2$s %)</string>
     <string name="vd_history_title">Voltage drop — %1$s mm², %2$s m</string>
     <string name="vd_note_balanced">The three-phase result assumes a balanced load, so no neutral current is included in the loss figure.</string>
     <string name="vd_note_dc_pf">Power factor is ignored on a DC supply, where there is no phase angle.</string>
@@ -918,9 +918,9 @@
     <string name="vd_result_power_loss">Power loss</string>
     <string name="vd_result_resistance">Conductor resistance</string>
     <string name="vd_result_voltage_at_load">Voltage at load</string>
-    <string name="vd_status_exceeds">%1$s %% — exceeds the 5 %% recommended limit</string>
-    <string name="vd_status_within_lighting">%1$s %% — within the 3 %% lighting limit</string>
-    <string name="vd_status_within_power">%1$s %% — within the 5 %% power limit, exceeds 3 %% for lighting</string>
+    <string name="vd_status_exceeds">%1$s % — exceeds the 5 % recommended limit</string>
+    <string name="vd_status_within_lighting">%1$s % — within the 3 % lighting limit</string>
+    <string name="vd_status_within_power">%1$s % — within the 5 % power limit, exceeds 3 % for lighting</string>
     <string name="vd_step_drop">Voltage drop</string>
     <string name="vd_step_loss">Power lost as heat</string>
     <string name="vd_step_percentage">As a percentage of the supply</string>

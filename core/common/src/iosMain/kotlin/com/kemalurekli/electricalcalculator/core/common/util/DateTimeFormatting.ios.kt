@@ -1,5 +1,7 @@
 package com.kemalurekli.electricalcalculator.core.common.util
 
+import platform.Foundation.preferredLanguages
+import platform.Foundation.NSLocale
 import platform.Foundation.NSRelativeDateTimeFormatterStyleNamed
 import platform.Foundation.NSRelativeDateTimeFormatter
 import kotlin.time.Instant
@@ -43,10 +45,16 @@ private fun Instant.toNSDate(): NSDate =
  * reason: a cached one keeps the language it was created with.
  */
 actual fun Instant.formatAsRelativeTime(): String {
-    // No locale set: the formatter takes the current one, and setting it
-    // explicitly would only pin the language it was built with.
+    // `NSLocale.currentLocale` is the *formats* locale — dates, numbers, the
+    // region — and on a device set to English with Turkish added it is English.
+    // The app is showing Turkish because Compose Resources resolves against
+    // `preferredLanguages`, so that is what this has to follow: "2 hours ago"
+    // under Turkish prose is the app disagreeing with itself.
     val formatter = NSRelativeDateTimeFormatter().apply {
         dateTimeStyle = NSRelativeDateTimeFormatterStyleNamed
+        NSLocale.preferredLanguages.firstOrNull()?.let {
+            locale = NSLocale(localeIdentifier = it as String)
+        }
     }
     val date = NSDate.dateWithTimeIntervalSince1970(toEpochMilliseconds() / 1000.0)
     return formatter.localizedStringForDate(date, relativeToDate = NSDate())

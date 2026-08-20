@@ -85,6 +85,7 @@ kotlin {
             api(project(":feature:calculators"))
             api(project(":feature:converter"))
             api(project(":feature:favorites"))
+            api(project(":feature:forum"))
             api(project(":feature:fieldnotes"))
             api(project(":feature:glossary"))
             api(project(":feature:history"))

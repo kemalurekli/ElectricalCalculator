@@ -11,6 +11,7 @@ import com.kemalurekli.electricalcalculator.features.fieldnotes.fieldNotesModule
 import com.kemalurekli.electricalcalculator.features.glossary.glossaryModule
 import com.kemalurekli.electricalcalculator.features.history.historyModule
 import com.kemalurekli.electricalcalculator.features.home.homeModule
+import com.kemalurekli.electricalcalculator.features.forum.forumModule
 import com.kemalurekli.electricalcalculator.features.projects.projectsModule
 import com.kemalurekli.electricalcalculator.features.references.referencesModule
 import com.kemalurekli.electricalcalculator.features.theory.theoryModule
@@ -50,16 +51,20 @@ fun MainViewController(): UIViewController {
             favoritesModule,
             homeModule,
             projectsModule,
+            forumModule,
         )
     }
     return ComposeUIViewController {
         ElecToolkitTheme {
-            // `hasPlatformScreens = false`: the forum and the settings screen
-            // are the two features still in `:app`. Credential Manager has no
-            // counterpart here, and App Store guideline 4.8 wants Sign in with
-            // Apple beside it before the forum can appear at all. The shell
-            // drops the Forum tab and the settings gear rather than offering
-            // either and throwing.
+            // No `hasSettings`: that screen is the last one still in `:app`,
+            // because it drives AppCompatDelegate for the per-app language and
+            // reads BuildConfig. The shell leaves the gear off rather than
+            // offering one that opens a route with no destination.
+            //
+            // The forum is here, and signs in with Apple. The two platforms use
+            // different providers — App Store guideline 4.8 requires an
+            // equivalent to any third-party sign-in, and Apple is both the
+            // smaller build and the one that cannot be refused.
             ElecAppShell()
         }
     }

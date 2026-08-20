@@ -71,13 +71,13 @@ fun ElecAppShell(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     platformDestinations: NavGraphBuilder.(NavActions) -> Unit = {},
-    hasPlatformScreens: Boolean = false,
+    hasSettings: Boolean = false,
 ) {
-    // One flag for two effects, because it is one fact: the forum and the
-    // settings screen are exactly the two features still in `:app`, and a
-    // platform that does not supply them must show neither. A tab or a gear
-    // pointing at a route with no destination throws rather than doing nothing.
-    val tabs = if (hasPlatformScreens) ElecTab.entries else ElecTab.entries - ElecTab.FORUM
+    // The settings screen is the last one still in `:app`; a platform that does
+    // not supply it must not show the gear that opens it, because a route with
+    // no destination throws rather than doing nothing. The forum used to be
+    // here too, and is not: it became multiplatform when Sign in with Apple
+    // gave iOS a way to sign in.
     val actions = remember(navController) { NavActions(navController) }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val current = backStackEntry?.destination
@@ -97,7 +97,7 @@ fun ElecAppShell(
         modifier = modifier.fillMaxSize(),
         layoutType = suiteType,
         navigationSuiteItems = {
-            tabs.forEach { tab ->
+            ElecTab.entries.forEach { tab ->
                 item(
                     selected = current.isIn(tab),
                     onClick = { actions.navigateToTab(tab) },
@@ -114,7 +114,7 @@ fun ElecAppShell(
         ElecNavHost(
             navController = navController,
             platformDestinations = platformDestinations,
-            hasPlatformScreens = hasPlatformScreens,
+            hasSettings = hasSettings,
             modifier = Modifier
                 .fillMaxSize()
                 // Nothing to consume when the suite is not there: the screens

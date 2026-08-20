@@ -16,7 +16,7 @@
     <string name="bt_export_bank">%1$s Ah @ C/%2$s · %3$s V</string>
     <string name="bt_export_current">Deşarj akımı: %1$s A</string>
     <string name="bt_export_energy">Verilen enerji: %1$s Wh</string>
-    <string name="bt_export_load">%1$s W · η %%%2$s · DoD %%%3$s · k %4$s</string>
+    <string name="bt_export_load">%1$s W · η %%2$s · DoD %%3$s · k %4$s</string>
     <string name="bt_export_runtime">Çalışma süresi: %1$s</string>
     <string name="bt_formula">I = P / (U · η)\nt = H · (I_r / I)^k · DoD</string>
     <string name="bt_history_summary">%1$s sa</string>
@@ -90,9 +90,9 @@
     <string name="cf_export_cable_line">%1$s × Ø %2$s mm</string>
     <string name="cf_export_cables">Kablolar: %1$s · %2$s mm²</string>
     <string name="cf_export_conduit">Boru: %1$s mm iç çap · %2$s mm²</string>
-    <string name="cf_export_fill">Doluluk: %%%1$s, izin verilen %%%2$s</string>
+    <string name="cf_export_fill">Doluluk: %%1$s, izin verilen %%2$s</string>
     <string name="cf_formula">A = π · D² / 4\ndoluluk = Σ(n · π · d² / 4) / A</string>
-    <string name="cf_history_summary">%%%1$s</string>
+    <string name="cf_history_summary">%%1$s</string>
     <string name="cf_history_title">Boru doluluğu — %1$s mm, %2$s kablo</string>
     <string name="cf_note_diameter">Metrik boru dış çapıyla anılır; 20 mm borunun iç çapı 17 mm civarındadır. İç çapı üretici verisinden alın — anma ölçüsünü kullanmak alanı yaklaşık üçte bir fazla gösterir.</string>
     <string name="cf_note_grouping">Bu kontrolü geçmek gruplama düşüm katsayısını ortadan kaldırmaz. Boru içinde demetlenmiş kablolar, serbest havadaki aynı kablolardan daha az akım taşır; kesitlerini kablo kesiti hesaplayıcısıyla belirleyin.</string>
@@ -105,13 +105,13 @@
     <string name="cf_result_count">Kablo</string>
     <string name="cf_result_fill">Doluluk</string>
     <string name="cf_result_largest">Sığabilecek en büyük kablo</string>
-    <string name="cf_result_near">%%%1$s sınırı — yer neredeyse doldu</string>
+    <string name="cf_result_near">%%1$s sınırı — yer neredeyse doldu</string>
     <string name="cf_result_nothing_fits">Başka kablo sığmaz</string>
-    <string name="cf_result_over">%%%1$s sınırının üzerinde</string>
+    <string name="cf_result_over">%%1$s sınırının üzerinde</string>
     <string name="cf_result_over_by">Çıkarılması gereken alan</string>
     <string name="cf_result_permitted">İzin verilen doluluk</string>
     <string name="cf_result_spare">Boş alan</string>
-    <string name="cf_result_within">%%%1$s sınırı içinde</string>
+    <string name="cf_result_within">%%1$s sınırı içinde</string>
     <string name="cf_rule">Doluluk sınırı</string>
     <string name="cf_rule_custom">Özel</string>
     <string name="cf_rule_nec">NEC Tablo 1</string>
@@ -155,8 +155,8 @@
     <string name="cs_export_by_capacity">Akım kapasitesine göre: %1$s mm²</string>
     <string name="cs_export_by_drop">Gerilim düşümüne göre: %1$s mm²</string>
     <string name="cs_export_conditions">%1$s · %2$s · %3$s</string>
-    <string name="cs_export_drop">Gerilim düşümü: %1$s V (%%%2$s)</string>
-    <string name="cs_export_environment">%1$s °C · %2$s devre · maks %%%3$s</string>
+    <string name="cs_export_drop">Gerilim düşümü: %1$s V (%%2$s)</string>
+    <string name="cs_export_environment">%1$s °C · %2$s devre · maks %%3$s</string>
     <string name="cs_export_load">%1$s V · %2$s A · %3$s m</string>
     <string name="cs_export_result">Önerilen kesit: %1$s mm²</string>
     <string name="cs_formula">I_z ≥ I_b / (Ca · Cg)\nA ≥ k · I · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
@@ -407,7 +407,7 @@
     <string name="hm_example_lighting">LED aydınlatma devresi</string>
     <string name="hm_example_office">Ofis katı, anahtarlamalı güç kaynakları</string>
     <string name="hm_fundamental">Temel bileşen akımı, I₁</string>
-    <string name="hm_history_summary">%1$s %% THD</string>
+    <string name="hm_history_summary">%1$s % THD</string>
     <string name="hm_history_title">Harmonikli %1$s A</string>
     <string name="hm_note_scope">Kablo derating’i dahil değildir. IEC 60364-5-52 Ek E, azaltma katsayılarını üçüncü harmonik içeriğine göre bantlar; o bantlar transkribe sayılardır, burada gösterilen her şey ise türetilmiş ve her derlemede sınanır.</string>
     <string name="hm_order">%1$d. harmonik</string>
@@ -473,7 +473,7 @@
     <string name="ms_example_star_delta">Aynı saha, yıldız-üçgen</string>
     <string name="ms_example_stiff">400 kVA beslemede 30 kW</string>
     <string name="ms_full_load_current">Motor tam yük akımı, In</string>
-    <string name="ms_history_summary">%1$s %% çökme</string>
+    <string name="ms_history_summary">%1$s % çökme</string>
     <string name="ms_history_title">%2$s kVA üzerinde %1$s A motor</string>
     <string name="ms_locked_rotor">Kilitli rotor akımı, In'in katı olarak</string>
     <string name="ms_locked_rotor_hint">Motor etiketinden. Altı tipiktir; yedi ve sekiz de alışılmadık değildir.</string>
@@ -505,7 +505,7 @@
     <string name="mt_example_hp">Etiket beygir gücünde</string>
     <string name="mt_example_large">75 kW motor</string>
     <string name="mt_export_apparent">Görünür güç: %1$s kVA</string>
-    <string name="mt_export_assumptions">η %%%1$s · cos φ %2$s</string>
+    <string name="mt_export_assumptions">η %%1$s · cos φ %2$s</string>
     <string name="mt_export_current">Tam yük akımı: %1$s A</string>
     <string name="mt_export_input_power">Giriş gücü: %1$s kW</string>
     <string name="mt_export_rating">%1$s · %2$s · %3$s V</string>
@@ -747,7 +747,7 @@
     <string name="ss_example_continental">Karasal saha, −25 °C</string>
     <string name="ss_example_residential">Konut, 600 V invertör</string>
     <string name="ss_example_temperate">Ilıman saha, −10 °C</string>
-    <string name="ss_export_module">Panel: %1$s V Voc, %2$s %%/K</string>
+    <string name="ss_export_module">Panel: %1$s V Voc, %2$s %/K</string>
     <string name="ss_export_range">Dizi: %1$s – %2$s panel</string>
     <string name="ss_export_voc">Soğuk Voc: %1$s V</string>
     <string name="ss_formula">Voc(T) = Voc · (1 + β · (T − 25) / 100)\nn_max = ⌊V_inv / Voc(T_min)⌋</string>
@@ -795,11 +795,11 @@
     <string name="tf_example_spaced">Altı kablo, aralıklı</string>
     <string name="tf_example_touching">Altı kablo, bitişik</string>
     <string name="tf_export_cables">Kablolar: %1$s</string>
-    <string name="tf_export_fill">Doluluk: %%%1$s, izin verilen %%%2$s</string>
+    <string name="tf_export_fill">Doluluk: %%1$s, izin verilen %%2$s</string>
     <string name="tf_export_tray">Tava: %1$s mm genişlik · %2$s</string>
     <string name="tf_export_width">Gereken genişlik: %2$s mm'nin %1$s mm'si</string>
     <string name="tf_formula">W_ger = Σ(n · d) + s · (N − 1)\ndoluluk = Σ(n · π · d² / 4) / (W · H)</string>
-    <string name="tf_history_summary_area">%%%1$s</string>
+    <string name="tf_history_summary_area">%%1$s</string>
     <string name="tf_history_summary_width">%1$s mm</string>
     <string name="tf_history_title">Tava doluluğu — %1$s mm, %2$s kablo</string>
     <string name="tf_limit">İzin verilen doluluk</string>
@@ -816,9 +816,9 @@
     <string name="tf_result_fill">Doluluk</string>
     <string name="tf_result_largest">Sığabilecek en büyük kablo</string>
     <string name="tf_result_layers">Sıra sayısı</string>
-    <string name="tf_result_near">%%%1$s sınırı — yer neredeyse doldu</string>
+    <string name="tf_result_near">%%1$s sınırı — yer neredeyse doldu</string>
     <string name="tf_result_nothing_fits">Başka kablo sığmaz</string>
-    <string name="tf_result_over">%%%1$s sınırının üzerinde</string>
+    <string name="tf_result_over">%%1$s sınırının üzerinde</string>
     <string name="tf_result_over_by">Çıkarılması gereken alan</string>
     <string name="tf_result_permitted">İzin verilen doluluk</string>
     <string name="tf_result_required_width">Gereken genişlik</string>
@@ -829,7 +829,7 @@
     <string name="tf_result_width">Kullanılan genişlik</string>
     <string name="tf_result_width_over">Tavadan %1$s mm daha geniş</string>
     <string name="tf_result_width_status">%2$s mm'nin %1$s mm'si</string>
-    <string name="tf_result_within">%%%1$s sınırı içinde</string>
+    <string name="tf_result_within">%%1$s sınırı içinde</string>
     <string name="tf_spacing">Kablolar arası net açıklık</string>
     <string name="tf_spacing_hint">Bitişik için 0. Bir kablo çapı açıklık daha iyi gruplama katsayısı sağlar.</string>
     <string name="tf_step_additional_cable">Yanlarına serilebilecek en büyük kablo</string>
@@ -856,7 +856,7 @@
     <string name="tx_example_630">630 kVA dağıtım trafosu</string>
     <string name="tx_example_single">25 kVA tek fazlı</string>
     <string name="tx_export_primary">Primer tam yük akımı: %1$s A</string>
-    <string name="tx_export_rating">%1$s kVA · %2$s · u_k %%%3$s</string>
+    <string name="tx_export_rating">%1$s kVA · %2$s · u_k %%3$s</string>
     <string name="tx_export_ratio">Gerilim oranı: %1$s</string>
     <string name="tx_export_secondary">Sekonder tam yük akımı: %1$s A</string>
     <string name="tx_export_short_circuit">Sekonder kısa devre akımı: %1$s A</string>
@@ -898,7 +898,7 @@
     <string name="vd_example_riser">Alüminyum kolon, 200 A</string>
     <string name="vd_example_workshop">Atölye kolon hattı, 63 A</string>
     <string name="vd_export_conditions">%1$s °C · faz başına %2$s iletken</string>
-    <string name="vd_export_drop">Gerilim düşümü: %1$s V (%%%2$s)</string>
+    <string name="vd_export_drop">Gerilim düşümü: %1$s V (%%2$s)</string>
     <string name="vd_export_inputs">%1$s · %2$s</string>
     <string name="vd_export_power_factor">cos φ %1$s</string>
     <string name="vd_export_power_loss">Güç kaybı: %1$s W</string>
@@ -906,7 +906,7 @@
     <string name="vd_export_resistance">Direnç: %1$s Ω</string>
     <string name="vd_export_voltage_at_load">Yükteki gerilim: %1$s V</string>
     <string name="vd_formula">R = ρ(θ) · L / (A · n)\nΔU = k · I · R · cos φ</string>
-    <string name="vd_history_summary">%1$s V (%%%2$s)</string>
+    <string name="vd_history_summary">%1$s V (%%2$s)</string>
     <string name="vd_history_title">Gerilim düşümü — %1$s mm², %2$s m</string>
     <string name="vd_note_balanced">Üç faz sonucu dengeli yük varsayar; bu nedenle kayıp değerine nötr akımı dâhil edilmemiştir.</string>
     <string name="vd_note_dc_pf">Faz açısı bulunmadığından, DC beslemede güç faktörü dikkate alınmaz.</string>
@@ -918,9 +918,9 @@
     <string name="vd_result_power_loss">Güç kaybı</string>
     <string name="vd_result_resistance">İletken direnci</string>
     <string name="vd_result_voltage_at_load">Yükteki gerilim</string>
-    <string name="vd_status_exceeds">%%%1$s — önerilen %%5 sınırını aşıyor</string>
-    <string name="vd_status_within_lighting">%%%1$s — aydınlatma için %%3 sınırı içinde</string>
-    <string name="vd_status_within_power">%%%1$s — güç için %%5 sınırı içinde, aydınlatma için %%3 sınırını aşıyor</string>
+    <string name="vd_status_exceeds">%%1$s — önerilen %5 sınırını aşıyor</string>
+    <string name="vd_status_within_lighting">%%1$s — aydınlatma için %3 sınırı içinde</string>
+    <string name="vd_status_within_power">%%1$s — güç için %5 sınırı içinde, aydınlatma için %3 sınırını aşıyor</string>
     <string name="vd_step_drop">Gerilim düşümü</string>
     <string name="vd_step_loss">Isıya dönüşen kayıp güç</string>
     <string name="vd_step_percentage">Besleme geriliminin yüzdesi olarak</string>

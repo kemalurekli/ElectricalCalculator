@@ -98,4 +98,6 @@
         <item quantity="one">%1$d thread</item>
         <item quantity="other">%1$d threads</item>
     </plurals>
+    <string name="forum_sign_in_apple">Sign in with Apple</string>
+    <string name="forum_sign_in_failed_no_account_apple">Could not get an Apple ID. Check that you are signed in to iCloud on this device.</string>
 </resources>

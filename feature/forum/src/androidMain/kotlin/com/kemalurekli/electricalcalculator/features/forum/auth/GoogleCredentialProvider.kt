@@ -34,6 +34,8 @@ private class GoogleCredentialProvider(private val activity: Activity) : ForumSi
      * A checkout without the web client id can still read the forum; it simply
      * must not offer a button that opens an empty sheet.
      */
+    override val provider: SignInProvider = SignInProvider.GOOGLE
+
     override val isConfigured: Boolean get() = ForumConfig.GOOGLE_WEB_CLIENT_ID.isNotBlank()
 
     /**
@@ -74,7 +76,7 @@ private class GoogleCredentialProvider(private val activity: Activity) : ForumSi
             val token = GoogleIdTokenCredential
                 .createFrom(response.credential.data)
                 .idToken
-            SignInCredential(idToken = token, rawNonce = rawNonce)
+            SignInCredential(SignInProvider.GOOGLE, idToken = token, rawNonce = rawNonce)
         }.onFailure {
             // Credential Manager reports several quite different problems as
             // the same exception type, and the reason is only ever in the
@@ -122,6 +124,7 @@ actual fun rememberForumSignIn(): ForumSignIn {
 
 /** No Activity to present from, which should not happen and must not crash. */
 private object UnavailableSignIn : ForumSignIn {
+    override val provider: SignInProvider = SignInProvider.GOOGLE
     override val isConfigured: Boolean = false
 
     override suspend fun requestIdToken(onlyPreviousAccounts: Boolean): Result<SignInCredential> =

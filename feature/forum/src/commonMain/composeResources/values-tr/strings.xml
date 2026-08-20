@@ -98,4 +98,6 @@
         <item quantity="one">%1$d konu</item>
         <item quantity="other">%1$d konu</item>
     </plurals>
+    <string name="forum_sign_in_apple">Apple ile giriş yap</string>
+    <string name="forum_sign_in_failed_no_account_apple">Apple kimliği alınamadı. Bu cihazda iCloud oturumunuzun açık olduğundan emin olun.</string>
 </resources>

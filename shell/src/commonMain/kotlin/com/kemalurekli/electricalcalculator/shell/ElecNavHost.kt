@@ -1,5 +1,10 @@
 package com.kemalurekli.electricalcalculator.shell
 
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadsRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumThreadRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumProfileRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumComposeThreadRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumCategoriesRoute
 import com.kemalurekli.electricalcalculator.core.navigation.TopLevelDestination
 import com.kemalurekli.electricalcalculator.core.navigation.ElecTab
 import com.kemalurekli.electricalcalculator.core.navigation.Route
@@ -51,7 +56,7 @@ fun ElecNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     platformDestinations: NavGraphBuilder.(NavActions) -> Unit = {},
-    hasPlatformScreens: Boolean = false,
+    hasSettings: Boolean = false,
 ) {
     // Remembered so the lambdas passed to screens keep a stable identity and do
     // not invalidate every destination on each recomposition of the host.
@@ -64,7 +69,7 @@ fun ElecNavHost(
     ) {
         composable<Route.Home> {
             HomeRoute(
-                hasSettings = hasPlatformScreens,
+                hasSettings = hasSettings,
                 onNavigate = actions::navigateTo,
                 onCalculatorClick = actions::navigateToCalculator,
                 // The same call the History screen makes. The dashboard's
@@ -88,7 +93,7 @@ fun ElecNavHost(
         composable<Route.More> {
             MoreRoute(
                 onNavigate = actions::navigateTo,
-                destinations = if (hasPlatformScreens) {
+                destinations = if (hasSettings) {
                     TopLevelDestination.moreDestinations
                 } else {
                     TopLevelDestination.moreDestinations - TopLevelDestination.SETTINGS
@@ -96,8 +101,54 @@ fun ElecNavHost(
             )
         }
 
-        // The forum and the settings screen have not left `:app`; the
-        // caller supplies them. See the parameter's documentation.
+        composable<Route.Forum> {
+            ForumCategoriesRoute(
+                onCategoryClick = { actions.navigateTo(Route.ForumCategory(it.id, it.title)) },
+            )
+        }
+
+        composable<Route.ForumCategory> { backStackEntry ->
+            val route = backStackEntry.toRoute<Route.ForumCategory>()
+            ForumThreadsRoute(
+                categoryId = route.categoryId,
+                categoryTitle = route.title,
+                onThreadClick = { actions.navigateTo(Route.ForumThread(it.id, it.title, it.isLocked, it.authorId, route.title)) },
+                onNewThread = { actions.navigateTo(Route.ForumComposeThread(route.categoryId, it)) },
+                onNavigateBack = actions::navigateBack,
+            )
+        }
+
+        composable<Route.ForumComposeThread> {
+            ForumComposeThreadRoute(
+                onThreadCreated = { id, title ->
+                    // Replaces the compose screen rather than stacking on it:
+                    // backing out of the new thread should land in the category
+                    // it now appears in, not in the form that created it.
+                    actions.navigateReplacing(Route.ForumThread(id, title))
+                },
+                onNavigateBack = actions::navigateBack,
+            )
+        }
+
+        composable<Route.ForumProfile> {
+            ForumProfileRoute(onNavigateBack = actions::navigateBack)
+        }
+
+        composable<Route.ForumThread> { backStackEntry ->
+            val route = backStackEntry.toRoute<Route.ForumThread>()
+            ForumThreadRoute(
+                threadId = route.threadId,
+                threadTitle = route.title,
+                isLocked = route.isLocked,
+                threadAuthorId = route.authorId,
+                categoryTitle = route.categoryTitle,
+                onOpenProfile = { actions.navigateTo(Route.ForumProfile(it)) },
+                onNavigateBack = actions::navigateBack,
+            )
+        }
+
+        // Settings has not left `:app`; the caller supplies it. See the
+        // parameter's documentation.
         platformDestinations(actions)
 
         composable<Route.Calculator> { backStackEntry ->

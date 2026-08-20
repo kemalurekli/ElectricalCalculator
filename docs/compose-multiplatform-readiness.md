@@ -361,20 +361,45 @@ they are reached by a scroll rather than a tap, and no manual sweep found them.
 number of ViewModels injecting it was the count of screens that could not leave
 `:app`, and it reached zero.
 
+### Sign in with Apple, and what it unlocked
+
+`ForumSignIn` has two implementations now: Credential Manager on Android,
+`ASAuthorizationAppleIDProvider` on iOS. Offering only Apple on iOS satisfies
+guideline 4.8 outright and needs no OAuth client of its own — the entitlement
+comes from the provisioning profile — so it is both the smaller build and the
+one that cannot be refused.
+
+The two platforms therefore sign in through different providers, which is
+visible to the reader and worth being honest about: an account created on iOS is
+an Apple account, and signing in on Android with Google produces a different
+one. Linking them is a Supabase-side job and is not done.
+
+With that, the forum became multiplatform: its destinations moved into `:shell`,
+and `platformDestinations` carries only the settings screen. **iOS runs all five
+tabs.**
+
+### Two formatting bugs the screenshots caught
+
+`%%` is an `aapt` escape and Compose Resources does not collapse it, so every
+Turkish percentage was rendering as `%%64,16`. Sixty of them across the
+calculators. This is the third member of the escape family — after `\'` and
+`\uXXXX` — and the one the decoder missed, because the others break the build
+or look obviously wrong and this one is a single extra character.
+
+`NSRelativeDateTimeFormatter` was showing "2 hours ago" under Turkish prose.
+`NSLocale.currentLocale` is the *formats* locale — dates, numbers, region — and
+on a device set to English with Turkish added it is English. Compose Resources
+resolves against `preferredLanguages`, so the formatter has to as well, or the
+app disagrees with itself in one line of every history row.
+
 ### What is genuinely left
-
-**Sign in with Apple.** App Store guideline 4.8 requires an equivalent option
-beside any third-party sign-in, so this gates the forum on iOS rather than being
-optional. Supabase supports the provider; the work is in the iOS client and the
-dashboard.
-
-**The Supabase client on iOS.** `ForumConfig` has the values now, but nothing
-builds a client from them there. It is a few lines once sign-in exists.
 
 **The schedule PDF on iOS**, via Core Graphics. Independent of everything else.
 
-**The settings screen**, which renders two of the forum's sections and so waits
-on the same work.
+**The settings screen.** It drives `AppCompatDelegate` for the per-app language
+and reads `BuildConfig.VERSION_NAME`; both need an iOS counterpart.
+
+**TestFlight**, and the App Privacy form.
 
 ### The schedule PDF is not on iOS, deliberately
 
