@@ -5,6 +5,8 @@ import com.kemalurekli.electricalcalculator.core.database.dao.CircuitTestDao
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
 import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumBackend
+import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
@@ -41,6 +43,8 @@ interface SharedGraphEntryPoint {
     fun timeProvider(): TimeProvider
     fun correctionFactors(): CorrectionFactors
     fun circuitTestDao(): CircuitTestDao
+    fun appLanguageRepository(): AppLanguageRepository
+    fun forumBackend(): ForumBackend
 }
 
 /**
@@ -60,4 +64,6 @@ val hiltBridgeModule: Module = module {
     single<TimeProvider> { entryPoint(androidApplication()).timeProvider() }
     single { entryPoint(androidApplication()).correctionFactors() }
     single { entryPoint(androidApplication()).circuitTestDao() }
+    single<AppLanguageRepository> { entryPoint(androidApplication()).appLanguageRepository() }
+    single { entryPoint(androidApplication()).forumBackend() }
 }

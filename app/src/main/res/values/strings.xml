@@ -54,28 +54,10 @@
     <string name="sel_step_no_curve">This device has no instantaneous multiple the app can read</string>
     <string name="disclaimer_title">Disclaimer</string>
     <string name="settings_legal">Legal</string>
-    <string name="destination_forum">Forum</string>
-    <string name="forum_categories_title">Forum</string>
-    <string name="forum_threads_empty_title">No threads yet</string>
-    <string name="forum_threads_empty_message">Nothing has been asked here yet. The first question is the useful one.</string>
-    <string name="forum_categories_empty_title">Nothing here yet</string>
-    <string name="forum_categories_empty_message">No sections have been published for your language.</string>
-    <string name="forum_posts_empty_title">Nothing to show</string>
-    <string name="forum_posts_empty_message">This thread has no messages.</string>
     <string name="forum_thread_replies">%1$d replies</string>
     <string name="forum_thread_replies_one">1 reply</string>
     <string name="forum_thread_replies_none">No replies</string>
-    <string name="forum_thread_locked">Locked</string>
-    <string name="forum_post_edited">edited</string>
     <string name="forum_post_thanks">%1$d thanks</string>
-    <string name="forum_opening_post">Question</string>
-    <string name="forum_error_offline_title">No connection</string>
-    <string name="forum_error_offline_message">The forum needs a connection. Everything else in this app works without one.</string>
-    <string name="forum_error_server_title">Could not load</string>
-    <string name="forum_error_server_message">The server answered with something this version cannot read. Trying again may not help.</string>
-    <string name="forum_error_unconfigured_title">Forum unavailable</string>
-    <string name="forum_error_unconfigured_message">This build has no forum backend configured.</string>
-    <string name="forum_retry">Try again</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_theme_light">Light</string>
@@ -169,79 +151,15 @@
 
     <!-- Theory -->
 
-    <string name="action_delete">Delete</string>
     <string name="action_cancel">Cancel</string>
-    <string name="action_save">Save</string>
     <string name="history_duplicated">Calculation duplicated</string>
 
     <!-- Forum: account and profile -->
-    <string name="forum_profile_title">Profile</string>
-    <string name="forum_profile_joined">Joined</string>
-    <string name="forum_profile_posts">Messages</string>
-    <string name="forum_profile_thanks">Thanks received</string>
-    <string name="forum_profile_rename">Change display name</string>
-    <string name="forum_profile_display_name">Display name</string>
-    <string name="forum_profile_rename_failed">The name could not be changed. Try again.</string>
     <string name="forum_account_section">Forum account</string>
-    <string name="forum_sign_in">Sign in with Google</string>
-    <string name="forum_sign_out">Sign out</string>
-    <string name="forum_signed_in_as">Signed in as %1$s</string>
-    <string name="forum_signed_out_summary">Sign in to open threads and reply. Reading needs no account.</string>
-    <string name="forum_view_profile">View profile</string>
-    <string name="forum_sign_in_failed_no_account">Could not get a Google account. Check that you are signed in to Google on this device.</string>
-    <string name="forum_sign_in_failed_offline">No connection. Sign-in needs one.</string>
-    <string name="forum_sign_in_failed_unconfigured">Sign-in is not available in this build.</string>
-    <string name="forum_sign_in_failed">Sign-in did not complete. Try again.</string>
-    <string name="forum_delete_account">Delete forum account</string>
-    <string name="forum_delete_account_title">Delete your forum account?</string>
-    <string name="forum_delete_account_message">Your profile, threads and messages are deleted permanently. This cannot be undone. The rest of the app, including your projects and history, stays on this device and is not affected.</string>
-    <string name="forum_delete_account_confirm">Delete permanently</string>
-    <string name="forum_delete_account_failed">The account could not be deleted. Try again.</string>
 
     <!-- Forum: writing -->
-    <string name="forum_reply_hint">Write a reply</string>
-    <string name="forum_reply_send">Send</string>
-    <string name="forum_reply_failed">The reply could not be sent. Try again.</string>
-    <string name="forum_thanks">Thank</string>
     <string name="forum_thanks_undo">Thanked</string>
-    <string name="forum_delete_post_title">Delete this message?</string>
-    <string name="forum_delete_post_message">It stops being visible in the thread. This cannot be undone.</string>
-    <string name="forum_new_thread">New thread</string>
-    <string name="forum_new_thread_title">Open a thread</string>
-    <string name="forum_new_thread_title_hint">Title</string>
-    <string name="forum_new_thread_body_hint">Describe the situation</string>
-    <string name="forum_new_thread_send">Post</string>
-    <string name="forum_new_thread_failed">The thread could not be opened. Try again.</string>
-    <string name="forum_rules_title">Before you post</string>
-    <string name="forum_rules_body">Answers here are from other readers, not from the app. Nothing posted in the forum is checked, verified or endorsed by the developers, and none of it may be treated as engineering advice — the disclaimer that covers the rest of the app covers the forum too.\n\nWrite as you would on site: describe the installation, say what you measured, and do not post anyone\'s personal details. Content that is abusive, commercial or unlawful is removed and the account is closed.\n\nYou are responsible for what you post.</string>
-    <string name="forum_rules_accept">I understand</string>
-    <string name="action_edit">Edit</string>
-    <string name="forum_reply_sent">Reply sent</string>
-    <string name="forum_post_actions">Message actions</string>
-    <string name="forum_delete_thread">Delete the thread</string>
-    <string name="forum_delete_thread_title">Delete this thread?</string>
-    <string name="forum_delete_thread_message">The thread and your opening message are removed permanently. This is only possible while nobody has replied.</string>
-    <string name="forum_delete_thread_failed">The thread could not be deleted. Somebody may have replied to it just now.</string>
-    <string name="forum_title_too_short">At least %1$d characters</string>
-    <string name="forum_thread_locked_notice">This thread is closed to new replies.</string>
-    <string name="forum_report">Report</string>
-    <string name="forum_report_title">Report this message</string>
-    <string name="forum_report_note">Anything else a moderator should know (optional)</string>
-    <string name="forum_report_send">Send report</string>
-    <string name="forum_report_sent">Reported. A moderator will look at it.</string>
-    <string name="forum_report_spam">Advertising or spam</string>
-    <string name="forum_report_abuse">Abusive or personal</string>
-    <string name="forum_report_unsafe">Unsafe advice</string>
-    <string name="forum_report_privacy">Personal details</string>
-    <string name="forum_report_other">Something else</string>
-    <string name="forum_block">Block this person</string>
-    <string name="forum_block_title">Block %1$s?</string>
-    <string name="forum_block_message">You stop seeing their messages. They are not told, and their messages stay where they are for everyone else. You can undo this in Settings.</string>
-    <string name="forum_blocked">Blocked. Their messages are hidden from you.</string>
     <string name="forum_blocked_section">Blocked people</string>
-    <string name="forum_blocked_empty">You have not blocked anyone.</string>
-    <string name="forum_unblock">Unblock</string>
-    <string name="forum_thread_actions">Thread actions</string>
     <!--
       The published address of docs/privacy-policy.md. Left empty on purpose:
       an empty value hides the link rather than offering one that 404s, and
@@ -252,22 +170,7 @@
     <string name="settings_licenses">Open-source licences</string>
     <string name="action_close">Close</string>
     <!-- Forum: standing -->
-    <string name="forum_author_stats">%1$d msg\n%2$d thanks</string>
-    <string name="forum_level_electron">Electron</string>
-    <string name="forum_level_one_volt">1 Volt</string>
-    <string name="forum_level_twelve_volt">12 Volt</string>
-    <string name="forum_level_mains">220 Volt</string>
-    <string name="forum_level_high_voltage">High Voltage</string>
-    <plurals name="forum_category_threads">
-        <item quantity="one">%1$d thread</item>
-        <item quantity="other">%1$d threads</item>
-    </plurals>
-    <string name="forum_thread_pinned">Pinned to the top</string>
     <string name="forum_thread_pin_hint">Press and hold a thread to keep it at the top</string>
-    <string name="forum_thread_unpinned">Unpinned</string>
-    <string name="forum_level_caption">Membership level</string>
-    <string name="forum_author_stats_inline">%1$d msg · %2$d thanks</string>
-    <string name="forum_level_chip">Level: %1$s</string>
     <string name="calculator_examples">Example scenarios</string>
     <string name="calculator_examples_hint">Load a realistic job and see it worked through.</string>
 </resources>

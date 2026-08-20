@@ -20,3 +20,5 @@ actual fun String.firstCharacter(): String {
 }
 
 actual fun String.uppercaseLocalized(): String = uppercase(Locale.getDefault())
+
+actual fun currentLanguageTag(): String = Locale.getDefault().language

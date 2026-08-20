@@ -323,9 +323,36 @@ nothing.
 
 **iOS runs the same shell Android does.** There is no separate iOS UI left.
 
-What is left in `:app` is the forum (22 files, the only platform-specific
-authentication) and settings (it renders two of the forum's sections). `:app` is
-45 files.
+The forum went last, as the plan always said it would. Its data layer was never
+the problem — supabase-kt and Ktor are multiplatform, and the threads, replies
+and reports are plain suspend calls. Signing in was, and `ForumSignIn` is the
+seam: Android asks Credential Manager for a Google ID token; iOS reports itself
+unconfigured, so the forum is readable there and not postable.
+
+`ForumConfig` is generated from `local.properties` into shared code, because
+`BuildConfig` is an Android build artefact and useless to the iOS half. The anon
+key is public by design and the Google *web* client id is already in the shipped
+APK; the `service_role` key is not there, has never been in this repository, and
+must not be.
+
+**`:app` is 18 files.** It was 318. Fifteen of them are Hilt modules,
+`MainActivity`, the Application class, and the settings screen. Nothing else in
+the app is Android-only any more.
+
+### What is genuinely left
+
+**Sign in with Apple.** App Store guideline 4.8 requires an equivalent option
+beside any third-party sign-in, so this gates the forum on iOS rather than being
+optional. Supabase supports the provider; the work is in the iOS client and the
+dashboard.
+
+**The Supabase client on iOS.** `ForumConfig` has the values now, but nothing
+builds a client from them there. It is a few lines once sign-in exists.
+
+**The schedule PDF on iOS**, via Core Graphics. Independent of everything else.
+
+**The settings screen**, which renders two of the forum's sections and so waits
+on the same work.
 
 ### The schedule PDF is not on iOS, deliberately
 

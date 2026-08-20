@@ -48,3 +48,13 @@ expect fun String.firstCharacter(): String
  * under *I* rather than *İ*, two headings apart.
  */
 expect fun String.uppercaseLocalized(): String
+
+/**
+ * The language the device is set to, as a bare subtag: `tr`, `en`.
+ *
+ * Distinct from [RegionProvider], which answers *where* rather than *in what
+ * language*, and used only where the app has no language of its own to fall
+ * back on — the forum picks a board from the app's setting first and reads this
+ * only when that setting is "follow the system".
+ */
+expect fun currentLanguageTag(): String

@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.common.util
 
+import platform.Foundation.languageCode
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import platform.Foundation.NSLocale
@@ -56,3 +57,5 @@ actual fun String.firstCharacter(): String {
 
 actual fun String.uppercaseLocalized(): String =
     (this as NSString).uppercaseStringWithLocale(NSLocale.currentLocale)
+
+actual fun currentLanguageTag(): String = NSLocale.currentLocale.languageCode

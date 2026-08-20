@@ -46,6 +46,7 @@ include(":feature:theory")
 include(":feature:favorites")
 include(":feature:home")
 include(":feature:projects")
+include(":feature:forum")
 include(":feature:more")
 
 // The iOS composition root — what MainActivity is on Android. Xcode links the

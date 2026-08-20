@@ -5,7 +5,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import com.kemalurekli.electricalcalculator.core.common.di.ApplicationScope
-import com.kemalurekli.electricalcalculator.core.common.di.IoDispatcher
 import com.kemalurekli.electricalcalculator.core.datastore.UserPreferencesDataSource
 import com.kemalurekli.electricalcalculator.core.datastore.di.DataStoreModule
 import dagger.Module
@@ -46,7 +45,7 @@ object TestDataStoreModule {
     fun provideTestPreferencesDataStore(
         @ApplicationContext context: Context,
         @ApplicationScope scope: CoroutineScope,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher,
+        ioDispatcher: CoroutineDispatcher,
     ): DataStore<Preferences> {
         val file = context.cacheDir
             .resolve("test-preferences-${instances.incrementAndGet()}.preferences_pb")

@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.datastore.di
 
+import com.kemalurekli.electricalcalculator.core.common.di.IoDispatcher
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -7,7 +8,6 @@ import com.kemalurekli.electricalcalculator.core.datastore.UserPreferencesDataSo
 import com.kemalurekli.electricalcalculator.core.datastore.createPreferencesDataStore
 import com.kemalurekli.electricalcalculator.core.datastore.preferencesContext
 import com.kemalurekli.electricalcalculator.core.common.di.ApplicationScope
-import com.kemalurekli.electricalcalculator.core.common.di.IoDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

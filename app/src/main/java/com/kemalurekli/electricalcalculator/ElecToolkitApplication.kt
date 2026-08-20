@@ -6,6 +6,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.calculatorsModu
 import com.kemalurekli.electricalcalculator.features.converter.converterModule
 import com.kemalurekli.electricalcalculator.features.favorites.favoritesModule
 import com.kemalurekli.electricalcalculator.features.fieldnotes.fieldNotesModule
+import com.kemalurekli.electricalcalculator.features.forum.forumModule
 import com.kemalurekli.electricalcalculator.features.glossary.glossaryModule
 import com.kemalurekli.electricalcalculator.features.home.homeModule
 import com.kemalurekli.electricalcalculator.features.projects.projectsModule
@@ -50,6 +51,7 @@ class ElecToolkitApplication : Application() {
                 favoritesModule,
                 homeModule,
                 projectsModule,
+                forumModule,
             )
         }
     }

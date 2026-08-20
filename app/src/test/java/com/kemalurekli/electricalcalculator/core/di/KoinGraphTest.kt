@@ -17,6 +17,9 @@ import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domai
 import com.kemalurekli.electricalcalculator.features.converter.converterModule
 import com.kemalurekli.electricalcalculator.features.favorites.favoritesModule
 import com.kemalurekli.electricalcalculator.features.fieldnotes.fieldNotesModule
+import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumBackend
+import com.kemalurekli.electricalcalculator.features.forum.forumModule
 import com.kemalurekli.electricalcalculator.features.glossary.glossaryModule
 import com.kemalurekli.electricalcalculator.features.history.historyModule
 import com.kemalurekli.electricalcalculator.features.home.homeModule
@@ -64,6 +67,10 @@ class KoinGraphTest {
                     TimeProvider::class,
                     CorrectionFactors::class,
                     CircuitTestDao::class,
+                    // Whether there is a backend at all depends on configuration
+                    // the platform supplies; the entry point declares it.
+                    ForumBackend::class,
+                    AppLanguageRepository::class,
                     // Koin supplies this from the creation extras a ViewModel is
                     // built with; there is no definition to find.
                     SavedStateHandle::class,
@@ -92,5 +99,6 @@ class KoinGraphTest {
         favoritesModule,
         homeModule,
         projectsModule,
+        forumModule,
     )
 }

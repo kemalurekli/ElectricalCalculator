@@ -12,16 +12,12 @@ import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
 import com.kemalurekli.electricalcalculator.core.data.repository.AppLanguageRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
-import com.kemalurekli.electricalcalculator.core.data.repository.ForumAuthRepositoryImpl
-import com.kemalurekli.electricalcalculator.core.data.repository.ForumRepositoryImpl
 import com.kemalurekli.electricalcalculator.features.inspection.data.InspectionRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.ProjectRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.UserPreferencesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
-import com.kemalurekli.electricalcalculator.core.domain.repository.ForumAuthRepository
-import com.kemalurekli.electricalcalculator.core.domain.repository.ForumRepository
 import com.kemalurekli.electricalcalculator.features.inspection.domain.InspectionRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
@@ -30,7 +26,6 @@ import com.kemalurekli.electricalcalculator.core.database.dao.CircuitDao
 import com.kemalurekli.electricalcalculator.core.database.dao.FavoriteItemDao
 import com.kemalurekli.electricalcalculator.core.database.dao.ProjectDao
 import com.kemalurekli.electricalcalculator.core.datastore.UserPreferencesDataSource
-import com.kemalurekli.electricalcalculator.core.common.di.IoDispatcher
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -52,17 +47,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
-    @Binds
-    @Singleton
-    abstract fun bindForumRepository(
-        impl: ForumRepositoryImpl,
-    ): ForumRepository
 
-    @Binds
-    @Singleton
-    abstract fun bindForumAuthRepository(
-        impl: ForumAuthRepositoryImpl,
-    ): ForumAuthRepository
 
     @Binds
     @Singleton

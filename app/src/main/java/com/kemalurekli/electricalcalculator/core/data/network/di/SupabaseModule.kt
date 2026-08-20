@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.data.network.di
 
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumBackend
 import android.util.Log
 import com.kemalurekli.electricalcalculator.BuildConfig
 import dagger.Module
@@ -26,12 +27,6 @@ import javax.inject.Singleton
  * error it throws. The forum screens read it and say so plainly; the other
  * twenty features never ask.
  */
-sealed interface ForumBackend {
-
-    data class Available(val client: SupabaseClient) : ForumBackend
-
-    data object NotConfigured : ForumBackend
-}
 
 /**
  * The Supabase client, kept apart from [NetworkModule].
