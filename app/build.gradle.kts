@@ -172,13 +172,17 @@ dependencies {
     implementation(libs.androidx.compose.adaptive)
     implementation(project(":core:common"))
     implementation(project(":core:designsystem"))
+    implementation(project(":feature:converter"))
     implementation(libs.androidx.compose.material3.navigation.suite)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
-    // Dependency injection
+    // Dependency injection. Hilt still wires :app; Koin wires the modules
+    // that have left it. The two coexist until the migration finishes.
     implementation(libs.hilt.android)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
 

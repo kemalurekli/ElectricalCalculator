@@ -39,12 +39,16 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:common"))
+            implementation(project(":core:designsystem"))
+            implementation(project(":feature:converter"))
 
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
+
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
     }
 }

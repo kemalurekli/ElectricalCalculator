@@ -9,6 +9,7 @@ ksp = "2.3.10"
 # see docs/compose-multiplatform-readiness.md.
 composeMultiplatform = "1.11.1"
 composeAdaptiveMultiplatform = "1.3.0-beta02"
+lifecycleMultiplatform = "2.11.0"
 
 # Dependency injection for the shared modules. Hilt is Android-only and has no
 # multiplatform port; Koin is what replaces it as code moves out of :app.
@@ -142,6 +143,17 @@ google-identity-googleid = { group = "com.google.android.libraries.identity.goog
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
+
+# Koin, for the shared modules. Hilt is Android-only; as code leaves :app it
+# swaps to these. The two coexist while the migration is in progress.
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin" }
+koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+
+# The multiplatform lifecycle, so a ViewModel can live in a shared module.
+# `androidx.lifecycle` above is the Android-only build of the same thing.
+lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleMultiplatform" }
 
 # Images
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }

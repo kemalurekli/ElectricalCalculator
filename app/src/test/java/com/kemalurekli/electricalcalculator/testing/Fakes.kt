@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import java.time.Instant
 import java.util.Locale
+import org.jetbrains.compose.resources.StringResource
 
 /** A clock the test controls, so timestamps and ordering are deterministic. */
 class FakeTimeProvider(private var current: Instant = Instant.ofEpochMilli(1_000L)) : TimeProvider {
@@ -43,6 +44,13 @@ class FakeStringResolver(
     private val default: String? = null,
 ) : StringResolver {
     override fun get(id: Int): String = values[id] ?: default ?: "res:$id"
+
+    /**
+     * The design system and the converter own their strings now, and a test
+     * fake has no resource table to read them from. Tests that assert on this
+     * text resolve it themselves; nothing currently does.
+     */
+    override fun get(resource: StringResource): String = resource.key
 }
 
 /**

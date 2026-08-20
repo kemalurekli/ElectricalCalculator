@@ -950,40 +950,8 @@
     <string name="tf_export_fill">Fill: %1$s %% of a permitted %2$s %%</string>
 
     <!-- Unit converter -->
-    <string name="unit_category_voltage">Voltage</string>
-    <string name="unit_category_current">Current</string>
-    <string name="unit_category_resistance">Resistance</string>
-    <string name="unit_category_power">Power</string>
-    <string name="unit_category_energy">Energy</string>
-    <string name="unit_category_frequency">Frequency</string>
-    <string name="unit_category_wire_gauge">Conductor size</string>
-    <string name="unit_category_temperature">Temperature</string>
-    <string name="unit_category_length">Length</string>
-    <string name="unit_category_area">Area</string>
-    <string name="unit_category_volume">Volume</string>
-    <string name="unit_category_mass">Mass</string>
-    <string name="unit_category_pressure">Pressure</string>
-    <string name="unit_category_capacitance">Capacitance</string>
-    <string name="unit_category_inductance">Inductance</string>
-    <string name="unit_category_signal_power">Signal power</string>
-    <string name="unit_category_torque">Torque</string>
-    <string name="unit_category_illuminance">Illuminance</string>
-    <string name="unit_category_angle">Angle</string>
 
-    <string name="cv_value">Value</string>
-    <string name="cv_from">From</string>
-    <string name="cv_to">To</string>
-    <string name="cv_swap">Swap units</string>
-    <string name="cv_all_units">In every unit</string>
-    <string name="cv_result_label">%1$s to %2$s</string>
-    <string name="cv_enter_value">Enter a value to convert</string>
 
-    <string name="cv_note_awg" formatted="false">AWG is a geometric series, not a scale: the number falls as the conductor grows, and the sizes above 0 are written 00, 000 and 0000 — enter those as −1, −2 and −3. Because the defining formula is continuous, a metric cross-section can convert to a gauge between two real sizes; round to the next larger conductor, which is the lower number.</string>
-    <string name="cv_note_kcmil" formatted="false">A circular mil is the area of a circle one thousandth of an inch across, so kcmil is an area and converts exactly. 4/0 AWG is 211.6 kcmil is 107.2 mm² — three ways of writing the same conductor.</string>
-    <string name="cv_note_va" formatted="false">Volt-amperes are deliberately absent from the power category. Apparent power converts to watts only through the power factor, and treating 1 kVA as 1 kW would be wrong on every load that is not purely resistive. Use the power calculator for that relationship.</string>
-    <string name="cv_note_horsepower" formatted="false">Horsepower comes in two sizes: mechanical hp is 550 ft·lbf/s, metric PS is 75 kgf·m/s, and they differ by about 1.4 %. Motor nameplates in Europe usually mean PS. Both are offered rather than one being chosen for you.</string>
-    <string name="cv_note_temperature" formatted="false">Temperature is the one category that is not proportional: 20 °C is not twice 10 °C, because the scales place their zero somewhere other than absolute zero. Conversions here account for the offset, so a temperature difference must not be converted as if it were a temperature.</string>
-    <string name="cv_note_calorie" formatted="false">The International Table calorie of 4.1868 J is used, to agree with the IT British thermal unit in the same category. The thermochemical calorie of 4.184 J is 0.07 % smaller.</string>
 
     <!-- Engineering references -->
     <string name="ref_source_label">Source: %1$s</string>

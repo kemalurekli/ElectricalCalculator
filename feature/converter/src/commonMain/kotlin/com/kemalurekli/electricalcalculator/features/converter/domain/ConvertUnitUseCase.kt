@@ -1,6 +1,5 @@
 package com.kemalurekli.electricalcalculator.features.converter.domain
 
-import javax.inject.Inject
 
 /**
  * Converts a value between two units of the same category.
@@ -10,7 +9,7 @@ import javax.inject.Inject
  * disagree with one another; going through a base needs `n`, and round-tripping
  * A → base → A is exact by construction.
  */
-class ConvertUnitUseCase @Inject constructor() {
+class ConvertUnitUseCase {
 
     /** Converts [value] from [from] to [to]. */
     operator fun invoke(value: Double, from: MeasurementUnit, to: MeasurementUnit): Double =

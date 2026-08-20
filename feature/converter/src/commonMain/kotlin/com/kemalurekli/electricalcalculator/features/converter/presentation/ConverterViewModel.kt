@@ -8,7 +8,6 @@ import com.kemalurekli.electricalcalculator.features.converter.domain.ConvertedV
 import com.kemalurekli.electricalcalculator.features.converter.domain.MeasurementUnit
 import com.kemalurekli.electricalcalculator.features.converter.domain.UnitCatalog
 import com.kemalurekli.electricalcalculator.features.converter.domain.UnitCategory
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
 
 @Immutable
 data class ConverterUiState(
@@ -43,8 +41,7 @@ data class ConverterUiState(
  * For the same reason nothing is written to history: it would bury the
  * calculation records the user actually returns to under a stream of keystrokes.
  */
-@HiltViewModel
-class ConverterViewModel @Inject constructor(
+class ConverterViewModel(
     private val convert: ConvertUnitUseCase,
 ) : ViewModel() {
 

@@ -80,6 +80,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import org.jetbrains.compose.resources.StringResource
 
 /**
  * Every worked example, applied and run.
@@ -104,6 +105,13 @@ class WorkedExampleTest {
     /** Every label resolves; this test is about arithmetic, not about copy. */
     private val strings = object : StringResolver {
         override fun get(id: Int): String = "text"
+
+    /**
+     * The design system and the converter own their strings now, and a test
+     * fake has no resource table to read them from. Tests that assert on this
+     * text resolve it themselves; nothing currently does.
+     */
+    override fun get(resource: StringResource): String = resource.key
     }
 
     private fun history() = HistoryRepositoryImpl(

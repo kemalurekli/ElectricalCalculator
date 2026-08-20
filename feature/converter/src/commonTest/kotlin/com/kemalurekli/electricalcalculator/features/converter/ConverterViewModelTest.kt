@@ -3,21 +3,14 @@ package com.kemalurekli.electricalcalculator.features.converter
 import com.kemalurekli.electricalcalculator.features.converter.domain.ConvertUnitUseCase
 import com.kemalurekli.electricalcalculator.features.converter.domain.UnitCatalog
 import com.kemalurekli.electricalcalculator.features.converter.presentation.ConverterViewModel
-import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Rule
-import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
+import kotlin.test.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class ConverterViewModelTest {
-
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule()
 
     private fun viewModel() = ConverterViewModel(ConvertUnitUseCase())
 
@@ -33,7 +26,7 @@ class ConverterViewModelTest {
     fun `the converter opens on voltage with two different units`() {
         val state = viewModel().uiState.value
 
-        assertEquals("voltage", state.category.key)
+        assertEquals(state.category.key, "voltage")
         assertEquals(UnitCatalog.all.size, state.categories.size)
         assertTrue(state.from.key != state.to.key)
     }
@@ -50,7 +43,7 @@ class ConverterViewModelTest {
     // -- Converting ------------------------------------------------------------------
 
     @Test
-    fun `a value converts as it is typed, with no button to press`() {
+    fun `a value converts as it is typed with no button to press`() {
         val model = viewModel()
         model.selectUnits("kV", "V")
 
@@ -81,7 +74,7 @@ class ConverterViewModelTest {
     }
 
     @Test
-    fun `a negative value converts, which temperature and gauge both need`() {
+    fun `a negative value converts which temperature and gauge both need`() {
         val model = viewModel()
         model.onCategoryChange(UnitCatalog.temperature)
         model.selectUnits("C", "F")
@@ -114,8 +107,8 @@ class ConverterViewModelTest {
         model.onSwap()
 
         val state = model.uiState.value
-        assertEquals("V", state.from.key)
-        assertEquals("kV", state.to.key)
+        assertEquals(state.from.key, "V")
+        assertEquals(state.to.key, "kV")
         assertEquals(0.011, state.result!!, 1e-12)
     }
 
@@ -128,7 +121,7 @@ class ConverterViewModelTest {
 
         model.onCategoryChange(UnitCatalog.length)
 
-        assertEquals("400", model.uiState.value.input)
+        assertEquals(model.uiState.value.input, "400")
         assertNotNull(model.uiState.value.result)
     }
 

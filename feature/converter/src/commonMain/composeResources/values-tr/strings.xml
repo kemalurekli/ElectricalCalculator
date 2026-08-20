@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings owned by the converter. See core/designsystem for why each
+     module carries its own: Compose Resources generates one Res per module. -->
+<resources>
+    <string name="calculator_notes">Mühendislik notları</string>
+    <string name="cv_all_units">Tüm birimlerde</string>
+    <string name="cv_enter_value">Dönüştürmek için bir değer girin</string>
+    <string name="cv_from">Kaynak</string>
+    <string name="cv_note_awg" formatted="false">AWG bir ölçek değil geometrik dizidir: iletken büyüdükçe sayı küçülür ve 0'ın üzerindeki ölçüler 00, 000, 0000 diye yazılır — bunları −1, −2 ve −3 olarak girin. Tanım formülü sürekli olduğu için metrik bir kesit, iki gerçek ölçü arasında bir gauge değerine dönüşebilir; bir üst iletkene, yani küçük sayıya yuvarlayın.</string>
+    <string name="cv_note_calorie" formatted="false">Aynı kategorideki IT British thermal unit ile uyumlu olsun diye 4,1868 J'lük International Table kalorisi kullanılmıştır. 4,184 J'lük termokimyasal kalori %0,07 daha küçüktür.</string>
+    <string name="cv_note_horsepower" formatted="false">Beygir gücünün iki türü vardır: mekanik hp 550 ft·lbf/s, metrik PS 75 kgf·m/s'dir ve aralarında yaklaşık %1,4 fark bulunur. Avrupa'daki motor etiketleri genelde PS'i kasteder. Sizin yerinize seçilmek yerine ikisi de sunulmuştur.</string>
+    <string name="cv_note_kcmil" formatted="false">Circular mil, çapı inç'in binde biri olan dairenin alanıdır; dolayısıyla kcmil bir alandır ve tam dönüşür. 4/0 AWG = 211,6 kcmil = 107,2 mm² — aynı iletkenin üç ayrı yazılışı.</string>
+    <string name="cv_note_temperature" formatted="false">Sıcaklık, orantılı olmayan tek kategoridir: 20 °C, 10 °C'nin iki katı değildir; çünkü ölçekler sıfır noktalarını mutlak sıfırdan başka bir yere koyar. Buradaki dönüşümler bu kaymayı hesaba katar; bu yüzden bir sıcaklık *farkı*, sıcaklıkmış gibi dönüştürülmemelidir.</string>
+    <string name="cv_note_va" formatted="false">Volt-amper güç kategorisinde bilerek yer almıyor. Görünür güç watt'a ancak güç faktörü üzerinden dönüşür; 1 kVA'yı 1 kW saymak, saf omik olmayan her yükte yanlış olurdu. Bu ilişki için güç hesaplayıcısını kullanın.</string>
+    <string name="cv_result_label">%1$s → %2$s</string>
+    <string name="cv_swap">Birimleri değiştir</string>
+    <string name="cv_to">Hedef</string>
+    <string name="cv_value">Değer</string>
+    <string name="dashboard_converter_title">Birim Dönüştürücü</string>
+    <string name="unit_category_angle">Açı</string>
+    <string name="unit_category_area">Alan</string>
+    <string name="unit_category_capacitance">Kapasitans</string>
+    <string name="unit_category_current">Akım</string>
+    <string name="unit_category_energy">Enerji</string>
+    <string name="unit_category_frequency">Frekans</string>
+    <string name="unit_category_illuminance">Aydınlık düzeyi</string>
+    <string name="unit_category_inductance">Endüktans</string>
+    <string name="unit_category_length">Uzunluk</string>
+    <string name="unit_category_mass">Kütle</string>
+    <string name="unit_category_power">Güç</string>
+    <string name="unit_category_pressure">Basınç</string>
+    <string name="unit_category_resistance">Direnç</string>
+    <string name="unit_category_signal_power">Sinyal gücü</string>
+    <string name="unit_category_temperature">Sıcaklık</string>
+    <string name="unit_category_torque">Tork</string>
+    <string name="unit_category_voltage">Gerilim</string>
+    <string name="unit_category_volume">Hacim</string>
+    <string name="unit_category_wire_gauge">İletken ölçüsü</string>
+</resources>

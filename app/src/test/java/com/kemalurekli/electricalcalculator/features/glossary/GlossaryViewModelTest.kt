@@ -18,6 +18,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import com.kemalurekli.electricalcalculator.testing.FakeTimeProvider
 import com.kemalurekli.electricalcalculator.testing.FakeFavoriteItemDao
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
+import org.jetbrains.compose.resources.StringResource
 
 /**
  * The glossary screen's state.
@@ -42,6 +43,13 @@ class GlossaryViewModelTest {
 
     private class MapResolver(private val strings: Map<Int, String>) : StringResolver {
         override fun get(id: Int): String = strings[id] ?: "res$id"
+
+    /**
+     * The design system and the converter own their strings now, and a test
+     * fake has no resource table to read them from. Tests that assert on this
+     * text resolve it themselves; nothing currently does.
+     */
+    override fun get(resource: StringResource): String = resource.key
     }
 
     private fun viewModel(overrides: Map<Int, String> = emptyMap()) = GlossaryViewModel(

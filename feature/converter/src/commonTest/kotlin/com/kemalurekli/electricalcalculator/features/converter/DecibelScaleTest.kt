@@ -2,10 +2,10 @@ package com.kemalurekli.electricalcalculator.features.converter
 
 import com.kemalurekli.electricalcalculator.features.converter.domain.UnitCatalog
 import com.kemalurekli.electricalcalculator.features.converter.domain.UnitScale
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
+import kotlin.test.Test
 
 /**
  * The one scale in the converter that is not a factor.
@@ -36,7 +36,7 @@ class DecibelScaleTest {
     @Test
     fun `a value survives the round trip`() {
         listOf(-40.0, -3.0, 0.0, 13.0, 30.0, 46.0).forEach { db ->
-            assertEquals("$db dBm", db, dbm.fromBase(dbm.toBase(db)), 1e-9)
+            assertEquals(db, dbm.fromBase(dbm.toBase(db)), 1e-9, "$db dBm")
         }
     }
 
@@ -49,7 +49,7 @@ class DecibelScaleTest {
     }
 
     @Test
-    fun `zero power has no decibel value, and says so`() {
+    fun `zero power has no decibel value and says so`() {
         // The logarithm diverges. Negative infinity is the honest answer; a
         // large negative number would read as a measurement.
         assertTrue(dbm.fromBase(0.0).isInfinite())
@@ -61,12 +61,12 @@ class DecibelScaleTest {
         listOf("capacitance", "inductance", "signal_power", "torque", "illuminance", "angle")
             .forEach { key ->
                 val category = UnitCatalog.categoryOrNull(key)
-                assertNotNull("$key is not in the catalog", category)
+                assertNotNull(category, "$key is not in the catalog")
                 val units = category!!.units
-                assertTrue("$key has no units", units.size >= 2)
+                assertTrue(units.size >= 2, "$key has no units")
                 assertTrue(
-                    "$key names a base unit it does not contain",
                     units.any { it.key == category.baseUnitKey },
+                    "$key names a base unit it does not contain",
                 )
                 assertTrue(units.any { it.key == category.defaultFromKey })
                 assertTrue(units.any { it.key == category.defaultToKey })

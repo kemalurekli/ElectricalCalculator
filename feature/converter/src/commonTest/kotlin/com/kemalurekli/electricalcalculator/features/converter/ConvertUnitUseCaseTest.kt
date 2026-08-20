@@ -3,10 +3,10 @@ package com.kemalurekli.electricalcalculator.features.converter
 import com.kemalurekli.electricalcalculator.features.converter.domain.ConvertUnitUseCase
 import com.kemalurekli.electricalcalculator.features.converter.domain.UnitCatalog
 import com.kemalurekli.electricalcalculator.features.converter.domain.UnitCategory
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
+import kotlin.test.Test
 import kotlin.math.abs
 
 class ConvertUnitUseCaseTest {
@@ -219,10 +219,10 @@ class ConvertUnitUseCaseTest {
         UnitCatalog.all.forEach { category ->
             category.units.forEach { unit ->
                 assertEquals(
-                    "${category.key}/${unit.key} is not its own identity",
                     42.0,
                     convert(42.0, unit, unit),
                     1e-9,
+                    "${category.key}/${unit.key} is not its own identity",
                 )
             }
         }
@@ -236,11 +236,11 @@ class ConvertUnitUseCaseTest {
                 val there = convert(7.5, base, unit)
                 val back = convert(there, unit, base)
                 assertEquals(
-                    "${category.key}/${unit.key} does not round-trip",
                     7.5,
                     back,
                     // Relative, because a category's units span many decades.
                     abs(7.5) * 1e-9,
+                    "${category.key}/${unit.key} does not round-trip",
                 )
             }
         }
@@ -250,8 +250,8 @@ class ConvertUnitUseCaseTest {
     fun `every category declares a base unit it actually contains`() {
         UnitCatalog.all.forEach { category ->
             assertNotNull(
-                "${category.key} has no unit named ${category.baseUnitKey}",
                 category.unitOrNull(category.baseUnitKey),
+                "${category.key} has no unit named ${category.baseUnitKey}",
             )
         }
     }
@@ -263,10 +263,10 @@ class ConvertUnitUseCaseTest {
         UnitCatalog.all.forEach { category ->
             val base = category.unit(category.baseUnitKey)
             assertEquals(
-                "${category.key} base ${base.key} is not unity",
                 1.0,
                 base.scale.toBase(1.0),
                 1e-12,
+                "${category.key} base ${base.key} is not unity",
             )
         }
     }
@@ -275,16 +275,16 @@ class ConvertUnitUseCaseTest {
     fun `every category opens on two units it contains`() {
         UnitCatalog.all.forEach { category ->
             assertNotNull(
-                "${category.key} defaults from ${category.defaultFromKey}, which it lacks",
                 category.unitOrNull(category.defaultFromKey),
+                "${category.key} defaults from ${category.defaultFromKey}, which it lacks",
             )
             assertNotNull(
-                "${category.key} defaults to ${category.defaultToKey}, which it lacks",
                 category.unitOrNull(category.defaultToKey),
+                "${category.key} defaults to ${category.defaultToKey}, which it lacks",
             )
             assertTrue(
-                "${category.key} opens converting a unit to itself",
                 category.defaultFromKey != category.defaultToKey,
+                "${category.key} opens converting a unit to itself",
             )
         }
     }
@@ -293,7 +293,7 @@ class ConvertUnitUseCaseTest {
     fun `unit keys are unique within a category`() {
         UnitCatalog.all.forEach { category ->
             val keys = category.units.map { it.key }
-            assertEquals("${category.key} has duplicate unit keys", keys.size, keys.distinct().size)
+            assertEquals(keys.size, keys.distinct().size, "${category.key} has duplicate unit keys")
         }
     }
 
@@ -307,7 +307,7 @@ class ConvertUnitUseCaseTest {
     @Test
     fun `every category offers something to convert between`() {
         UnitCatalog.all.forEach { category ->
-            assertTrue("${category.key} has fewer than two units", category.units.size >= 2)
+            assertTrue(category.units.size >= 2, "${category.key} has fewer than two units")
         }
     }
 
@@ -331,10 +331,10 @@ class ConvertUnitUseCaseTest {
 
         all.forEach { converted ->
             assertEquals(
-                converted.unit.key,
                 convert(16.0, from, converted.unit),
                 converted.value,
                 1e-12,
+                converted.unit.key,
             )
         }
     }

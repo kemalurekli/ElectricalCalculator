@@ -31,14 +31,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
@@ -56,12 +55,28 @@ import com.kemalurekli.electricalcalculator.features.converter.domain.UnitCatalo
 import com.kemalurekli.electricalcalculator.features.converter.domain.UnitCategory
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_all_units
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_enter_value
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_from
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_note_awg
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_note_calorie
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_note_horsepower
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_note_kcmil
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_note_temperature
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_note_va
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_result_label
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_swap
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_to
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.cv_value
+import com.kemalurekli.electricalcalculator.feature.converter.generated.resources.dashboard_converter_title
 
 @Composable
 fun ConverterRoute(
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: ConverterViewModel = hiltViewModel(),
+    viewModel: ConverterViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -94,7 +109,7 @@ fun ConverterScreen(
     val scrollBehavior = rememberElecScrollBehavior()
 
     ElecScreenScaffold(
-        title = stringResource(R.string.dashboard_converter_title),
+        title = stringResource(Res.string.dashboard_converter_title),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
         scrollBehavior = scrollBehavior,
@@ -137,7 +152,7 @@ fun ConverterScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = spacing.screenHorizontal),
-                    label = { Text(text = stringResource(R.string.cv_value)) },
+                    label = { Text(text = stringResource(Res.string.cv_value)) },
                     singleLine = true,
                     shape = MaterialTheme.shapes.medium,
                     colors = OutlinedTextFieldDefaults.colors(
@@ -161,7 +176,7 @@ fun ConverterScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     UnitDropdown(
-                        label = stringResource(R.string.cv_from),
+                        label = stringResource(Res.string.cv_from),
                         selected = uiState.from,
                         units = uiState.category.units,
                         onSelect = onFromChange,
@@ -170,11 +185,11 @@ fun ConverterScreen(
                     IconButton(onClick = onSwap) {
                         Icon(
                             imageVector = ElecIcons.Converter,
-                            contentDescription = stringResource(R.string.cv_swap),
+                            contentDescription = stringResource(Res.string.cv_swap),
                         )
                     }
                     UnitDropdown(
-                        label = stringResource(R.string.cv_to),
+                        label = stringResource(Res.string.cv_to),
                         selected = uiState.to,
                         units = uiState.category.units,
                         onSelect = onToChange,
@@ -192,7 +207,7 @@ fun ConverterScreen(
 
             if (!uiState.isEmpty) {
                 item(key = "all-header") {
-                    ElecSectionHeader(title = stringResource(R.string.cv_all_units))
+                    ElecSectionHeader(title = stringResource(Res.string.cv_all_units))
                 }
 
                 items(
@@ -237,14 +252,14 @@ fun ConverterScreen(
 
             item(key = "notes") {
                 ElecNotesCard(
-                    title = stringResource(R.string.calculator_notes),
+                    title = stringResource(Res.string.calculator_notes),
                     notes = persistentListOf(
-                        stringResource(R.string.cv_note_awg),
-                        stringResource(R.string.cv_note_kcmil),
-                        stringResource(R.string.cv_note_va),
-                        stringResource(R.string.cv_note_horsepower),
-                        stringResource(R.string.cv_note_temperature),
-                        stringResource(R.string.cv_note_calorie),
+                        stringResource(Res.string.cv_note_awg),
+                        stringResource(Res.string.cv_note_kcmil),
+                        stringResource(Res.string.cv_note_va),
+                        stringResource(Res.string.cv_note_horsepower),
+                        stringResource(Res.string.cv_note_temperature),
+                        stringResource(Res.string.cv_note_calorie),
                     ),
                     modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
                 )
@@ -265,7 +280,7 @@ private fun ResultBanner(uiState: ConverterUiState, modifier: Modifier = Modifie
         val result = uiState.result
         if (result == null) {
             Text(
-                text = stringResource(R.string.cv_enter_value),
+                text = stringResource(Res.string.cv_enter_value),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -273,7 +288,7 @@ private fun ResultBanner(uiState: ConverterUiState, modifier: Modifier = Modifie
         } else {
             Text(
                 text = stringResource(
-                    R.string.cv_result_label,
+                    Res.string.cv_result_label,
                     uiState.from.symbol,
                     uiState.to.symbol,
                 ),

@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.converter.domain
 
+import kotlin.math.PI
 /**
  * Every unit the converter knows, and what it is worth.
  *
@@ -350,7 +351,7 @@ object UnitCatalog {
         defaultToKey = "rad",
         units = listOf(
             metric("deg", "°", 1.0),
-            metric("rad", "rad", 180.0 / Math.PI),
+            metric("rad", "rad", 180.0 / PI),
             metric("grad", "gon", 0.9),
             metric("turn", "rev", 360.0),
         ),
