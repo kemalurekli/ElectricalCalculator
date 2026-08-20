@@ -19,16 +19,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
-import java.time.Instant
+import kotlin.time.Instant
 import java.util.Locale
 import org.jetbrains.compose.resources.StringResource
+import kotlin.time.Duration.Companion.milliseconds
 
 /** A clock the test controls, so timestamps and ordering are deterministic. */
-class FakeTimeProvider(private var current: Instant = Instant.ofEpochMilli(1_000L)) : TimeProvider {
+class FakeTimeProvider(private var current: Instant = Instant.fromEpochMilliseconds(1_000L)) : TimeProvider {
     override fun now(): Instant = current
 
     fun advanceBy(millis: Long) {
-        current = current.plusMillis(millis)
+        current += millis.milliseconds
     }
 }
 
@@ -212,8 +213,8 @@ class FakeUserPreferencesRepository(
         state.value = state.value.copy(engineering = defaults, engineeringSeeded = true)
     }
 
-    override suspend fun seedEngineeringDefaults(locale: Locale) {
+    override suspend fun seedEngineeringDefaults(regionCode: String) {
         if (state.value.engineeringSeeded) return
-        setEngineeringDefaults(EngineeringDefaults.seedFor(locale))
+        setEngineeringDefaults(EngineeringDefaults.seedFor(regionCode))
     }
 }

@@ -29,6 +29,7 @@ rootProject.name = "Electrical Calculator"
 // Multiplatform as it goes, so that Android keeps building at every step.
 include(":app")
 include(":core:common")
+include(":core:domain")
 include(":core:designsystem")
 include(":feature:converter")
 

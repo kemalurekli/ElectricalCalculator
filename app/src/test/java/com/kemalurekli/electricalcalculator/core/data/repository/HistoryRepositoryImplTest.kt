@@ -13,7 +13,7 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import java.time.Instant
+import kotlin.time.Instant
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HistoryRepositoryImplTest {
@@ -195,6 +195,6 @@ class HistoryRepositoryImplTest {
         summary = summary,
         inputs = inputs,
         results = results,
-        createdAt = Instant.ofEpochMilli(at),
+        createdAt = Instant.fromEpochMilliseconds(at),
     )
 }

@@ -41,7 +41,7 @@ class MainViewModel @Inject constructor(
         // recreates the activity and lands here again, finds the values already
         // owned by the user, and leaves them exactly as they are.
         viewModelScope.launch {
-            userPreferencesRepository.seedEngineeringDefaults(regionProvider.current())
+            userPreferencesRepository.seedEngineeringDefaults(regionProvider.current().country)
         }
     }
 

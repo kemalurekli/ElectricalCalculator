@@ -87,7 +87,7 @@ class SettingsViewModel @Inject constructor(
      * not moved to a 230 V country, and their 480 V site must survive the change.
      */
     fun onResetEngineeringDefaults() {
-        onEngineeringDefaultsChange(EngineeringDefaults.seedFor(regionProvider.current()))
+        onEngineeringDefaultsChange(EngineeringDefaults.seedFor(regionProvider.current().country))
     }
 
     /**

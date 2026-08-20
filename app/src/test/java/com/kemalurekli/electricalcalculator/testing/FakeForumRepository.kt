@@ -15,7 +15,7 @@ import com.kemalurekli.electricalcalculator.features.forum.domain.ForumThread
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.time.Instant
+import kotlin.time.Instant
 
 /**
  * A forum with no network behind it.

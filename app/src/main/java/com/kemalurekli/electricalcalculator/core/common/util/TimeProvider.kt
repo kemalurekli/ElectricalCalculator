@@ -1,8 +1,9 @@
 package com.kemalurekli.electricalcalculator.core.common.util
 
-import java.time.Instant
+import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Clock
 
 /**
  * Supplies the current time.
@@ -16,5 +17,5 @@ interface TimeProvider {
 
 @Singleton
 class SystemTimeProvider @Inject constructor() : TimeProvider {
-    override fun now(): Instant = Instant.now()
+    override fun now(): Instant = Clock.System.now()
 }

@@ -1,7 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.forum.domain
 
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
-import java.time.Instant
+import kotlin.time.Instant
 import java.util.Locale
 
 /**

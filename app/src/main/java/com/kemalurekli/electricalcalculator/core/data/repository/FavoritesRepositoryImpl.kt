@@ -47,7 +47,7 @@ class FavoritesRepositoryImpl @Inject constructor(
                 FavoriteItemEntity(
                     kind = item.kind.name,
                     key = item.key,
-                    pinnedAtEpochMillis = timeProvider.now().toEpochMilli(),
+                    pinnedAtEpochMillis = timeProvider.now().toEpochMilliseconds(),
                 ),
             )
         } else {

@@ -7,7 +7,6 @@ import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import java.util.Locale
 
 /** Reads and writes the user's persisted settings. */
 interface UserPreferencesRepository {
@@ -44,7 +43,7 @@ interface UserPreferencesRepository {
      * whole point — a language change re-runs the startup path and must not
      * move values the user now owns.
      */
-    suspend fun seedEngineeringDefaults(locale: Locale)
+    suspend fun seedEngineeringDefaults(regionCode: String)
 
     /**
      * The one-shot read a calculator uses to open its form.

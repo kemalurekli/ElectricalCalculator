@@ -24,9 +24,10 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import java.io.IOException
-import java.time.Instant
+import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Clock
 
 @Singleton
 class ForumRepositoryImpl @Inject constructor(
@@ -155,7 +156,7 @@ class ForumRepositoryImpl @Inject constructor(
         client.postgrest.from(TABLE_POSTS).update(
             buildJsonObject {
                 put("body", body)
-                put("edited_at", Instant.now().toString())
+                put("edited_at", Clock.System.now().toString())
             },
         ) { filter { eq("id", postId) } }
         Unit

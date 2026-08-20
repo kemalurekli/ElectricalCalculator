@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.time.Instant
+import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -59,7 +59,7 @@ class ProjectRepositoryImpl @Inject constructor(
             // round-trips a project through a form has no business rewriting
             // when the job was opened.
             val createdAt = projectDao.findById(project.id)
-                ?.let { Instant.ofEpochMilli(it.createdAtEpochMillis) }
+                ?.let { Instant.fromEpochMilliseconds(it.createdAtEpochMillis) }
                 ?: now
             projectDao.update(project.toEntity(createdAt = createdAt, updatedAt = now))
             project.id
@@ -90,7 +90,7 @@ class ProjectRepositoryImpl @Inject constructor(
     /** Moves a project's modified time without disturbing anything else on it. */
     private suspend fun touch(projectId: Long) {
         val row = projectDao.findById(projectId) ?: return
-        projectDao.update(row.copy(updatedAtEpochMillis = timeProvider.now().toEpochMilli()))
+        projectDao.update(row.copy(updatedAtEpochMillis = timeProvider.now().toEpochMilliseconds()))
     }
 
     private fun Project.toEntity(createdAt: Instant, updatedAt: Instant) = ProjectEntity(
@@ -105,8 +105,8 @@ class ProjectRepositoryImpl @Inject constructor(
         ambientTemperatureC = ambientTemperatureC,
         maxVoltageDropPercent = maxVoltageDropPercent,
         externalImpedanceOhms = externalImpedanceOhms,
-        createdAtEpochMillis = createdAt.toEpochMilli(),
-        updatedAtEpochMillis = updatedAt.toEpochMilli(),
+        createdAtEpochMillis = createdAt.toEpochMilliseconds(),
+        updatedAtEpochMillis = updatedAt.toEpochMilliseconds(),
     )
 
     private fun ProjectEntity.toDomain() = Project(
@@ -121,8 +121,8 @@ class ProjectRepositoryImpl @Inject constructor(
         ambientTemperatureC = ambientTemperatureC,
         maxVoltageDropPercent = maxVoltageDropPercent,
         externalImpedanceOhms = externalImpedanceOhms,
-        createdAt = Instant.ofEpochMilli(createdAtEpochMillis),
-        updatedAt = Instant.ofEpochMilli(updatedAtEpochMillis),
+        createdAt = Instant.fromEpochMilliseconds(createdAtEpochMillis),
+        updatedAt = Instant.fromEpochMilliseconds(updatedAtEpochMillis),
     )
 
     private fun Circuit.toEntity(position: Int) = CircuitEntity(

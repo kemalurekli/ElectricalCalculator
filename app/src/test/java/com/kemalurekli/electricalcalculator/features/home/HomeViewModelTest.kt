@@ -25,7 +25,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
-import java.time.Instant
+import kotlin.time.Instant
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelTest {
@@ -196,7 +196,7 @@ class HomeViewModelTest {
                 summary = summary,
                 inputs = emptyMap(),
                 results = emptyMap(),
-                createdAt = Instant.ofEpochMilli(at),
+                createdAt = Instant.fromEpochMilliseconds(at),
             ),
         )
     }

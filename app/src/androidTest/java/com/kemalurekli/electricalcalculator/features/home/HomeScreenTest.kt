@@ -28,7 +28,7 @@ import kotlinx.collections.immutable.persistentListOf
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import java.time.Instant
+import kotlin.time.Instant
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.search_hint
 import com.kemalurekli.electricalcalculator.testing.designSystemString

@@ -58,6 +58,7 @@ import com.kemalurekli.electricalcalculator.core.navigation.TopLevelDestination
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.ui.model.CalculatorUiModel
 import kotlinx.collections.immutable.persistentListOf
+import kotlin.time.Instant
 
 @Composable
 fun HomeRoute(
@@ -441,15 +442,15 @@ private fun SearchKind.icon() = when (this) {
  * without the app shipping its own plural rules for every locale.
  */
 @Composable
-private fun java.time.Instant.toRelativeTime(): String {
-    val elapsed = System.currentTimeMillis() - toEpochMilli()
+private fun Instant.toRelativeTime(): String {
+    val elapsed = System.currentTimeMillis() - toEpochMilliseconds()
     // The platform formatter renders anything under a minute as "0 minutes
     // ago", which reads as broken for a calculation just run.
     if (elapsed < android.text.format.DateUtils.MINUTE_IN_MILLIS) {
         return stringResource(R.string.home_just_now)
     }
     return android.text.format.DateUtils.getRelativeTimeSpanString(
-        toEpochMilli(),
+        toEpochMilliseconds(),
         System.currentTimeMillis(),
         android.text.format.DateUtils.MINUTE_IN_MILLIS,
     ).toString()

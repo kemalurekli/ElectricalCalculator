@@ -1,6 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.domain.model
 
-import java.time.Instant
+import kotlin.time.Instant
 
 /**
  * A calculation the user has run, as stored in history.

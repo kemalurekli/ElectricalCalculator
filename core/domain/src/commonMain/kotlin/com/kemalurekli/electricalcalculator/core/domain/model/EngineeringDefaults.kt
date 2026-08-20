@@ -1,6 +1,5 @@
 package com.kemalurekli.electricalcalculator.core.domain.model
 
-import java.util.Locale
 
 /**
  * The values every calculator opens with.
@@ -94,18 +93,19 @@ data class EngineeringDefaults(
         /**
          * The values a fresh install starts from.
          *
-         * Reads the *region*, not the language: English is spoken at 230 V in
-         * Britain and at 120 V in the United States, so the language subtag
-         * carries no information here. On Android [Locale.getDefault] already
-         * reflects the per-app locale when one is set and the device locale
-         * otherwise, which is what makes "the language the user chose" the
-         * thing being read.
+         * Takes a region, not a locale, because the region is all it ever
+         * read: English is spoken at 230 V in Britain and at 120 V in the
+         * United States, so the language subtag carries no information here.
+         * The parameter used to be a `java.util.Locale` and the function
+         * immediately reached for `.country`, which made the signature promise
+         * more than the body delivered — and made this the one domain class
+         * that could not leave the JVM.
          *
-         * A locale with no region — plain `en`, or `tr` — falls to the IEC
+         * An empty region — a locale of plain `en`, or `tr` — falls to the IEC
          * values, which is the correct answer for the majority of the world.
          */
-        fun seedFor(locale: Locale): EngineeringDefaults =
-            if (locale.country.uppercase(Locale.ROOT) in NORTH_AMERICAN) {
+        fun seedFor(regionCode: String): EngineeringDefaults =
+            if (regionCode.uppercase() in NORTH_AMERICAN) {
                 EngineeringDefaults(
                     singlePhaseVoltage = NA_SINGLE_PHASE,
                     threePhaseVoltage = NA_THREE_PHASE,

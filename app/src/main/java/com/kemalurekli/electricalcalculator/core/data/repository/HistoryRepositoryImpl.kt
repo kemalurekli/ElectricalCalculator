@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.time.Instant
+import kotlin.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -63,7 +63,7 @@ class HistoryRepositoryImpl @Inject constructor(
         dao.insert(
             existing.copy(
                 id = 0L,
-                createdAtEpochMillis = timeProvider.now().toEpochMilli(),
+                createdAtEpochMillis = timeProvider.now().toEpochMilliseconds(),
             ),
         )
     }
@@ -96,7 +96,7 @@ private fun CalculationHistoryEntity.toDomainOrNull(): CalculationRecord? {
         summary = summary,
         inputs = inputs,
         results = results,
-        createdAt = Instant.ofEpochMilli(createdAtEpochMillis),
+        createdAt = Instant.fromEpochMilliseconds(createdAtEpochMillis),
     )
 }
 
@@ -107,7 +107,7 @@ private fun CalculationRecord.toEntity() = CalculationHistoryEntity(
     summary = summary,
     inputs = inputs,
     results = results,
-    createdAtEpochMillis = createdAt.toEpochMilli(),
+    createdAtEpochMillis = createdAt.toEpochMilliseconds(),
 )
 
 /**

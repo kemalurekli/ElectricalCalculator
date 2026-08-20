@@ -7,6 +7,7 @@ import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportRea
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumReportTarget
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumResult
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumThread
+import kotlin.time.Instant
 
 /**
  * The forum, as the app reads it.
@@ -43,14 +44,14 @@ interface ForumRepository {
         categoryId: String,
         language: ForumLanguage,
         limit: Int = DEFAULT_PAGE_SIZE,
-        before: java.time.Instant? = null,
+        before: Instant? = null,
     ): ForumResult<List<ForumThread>>
 
     /** One thread's messages, oldest first, with the opening post at the top. */
     suspend fun posts(
         threadId: String,
         limit: Int = DEFAULT_PAGE_SIZE,
-        after: java.time.Instant? = null,
+        after: Instant? = null,
     ): ForumResult<List<ForumPost>>
 
     /**

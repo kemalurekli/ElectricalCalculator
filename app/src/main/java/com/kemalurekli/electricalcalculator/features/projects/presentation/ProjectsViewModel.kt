@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.time.Instant
+import kotlin.time.Instant
 import javax.inject.Inject
 
 @Immutable
@@ -76,8 +76,8 @@ class ProjectsViewModel @Inject constructor(
                     maxVoltageDropPercent = DEFAULT_MAX_DROP,
                     externalImpedanceOhms = DEFAULT_ZE,
                     // Overwritten by the repository, which owns these.
-                    createdAt = Instant.EPOCH,
-                    updatedAt = Instant.EPOCH,
+                    createdAt = Instant.fromEpochMilliseconds(0),
+                    updatedAt = Instant.fromEpochMilliseconds(0),
                 ),
             )
             _created.value = id

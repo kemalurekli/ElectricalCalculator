@@ -1,6 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.domain.model
 
-import java.time.Instant
+import kotlin.time.Instant
 
 /**
  * A job, and the parameters every circuit in it shares.

@@ -43,6 +43,6 @@ class UserPreferencesRepositoryImpl @Inject constructor(
     override suspend fun setEngineeringDefaults(defaults: EngineeringDefaults) =
         dataSource.setEngineeringDefaults(defaults)
 
-    override suspend fun seedEngineeringDefaults(locale: Locale) =
-        dataSource.seedEngineeringDefaultsIfUnset(EngineeringDefaults.seedFor(locale))
+    override suspend fun seedEngineeringDefaults(regionCode: String) =
+        dataSource.seedEngineeringDefaultsIfUnset(EngineeringDefaults.seedFor(regionCode))
 }
