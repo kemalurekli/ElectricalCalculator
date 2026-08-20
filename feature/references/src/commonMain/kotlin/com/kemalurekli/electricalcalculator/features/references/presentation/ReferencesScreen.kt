@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.references.presentation
 
+import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,9 +10,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import com.kemalurekli.electricalcalculator.R
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -22,6 +22,14 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitT
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCategory
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.dashboard_references_title
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_category_commissioning
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_category_foundations
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_category_protection
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_category_selection
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_category_symbols
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_category_tables
 
 /**
  * The reference library index.
@@ -33,7 +41,7 @@ import com.kemalurekli.electricalcalculator.features.references.domain.Reference
 @Composable
 fun ReferencesRoute(
     onTopicClick: (String) -> Unit,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
@@ -44,7 +52,7 @@ fun ReferencesRoute(
     val sections = remember { ReferenceCatalog.all.groupBy { it.category }.toList() }
 
     ElecScreenScaffold(
-        title = stringResource(R.string.dashboard_references_title),
+        title = stringResource(Res.string.dashboard_references_title),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
         scrollBehavior = scrollBehavior,
@@ -61,7 +69,7 @@ fun ReferencesRoute(
             // index, so the two read alike.
             sections.forEach { (category, categoryTopics) ->
                 item(key = "header-${category.name}") {
-                    ElecSectionHeader(title = stringResource(category.titleRes()))
+                    ElecSectionHeader(title = stringResource(category.title()))
                 }
                 items(
                     count = categoryTopics.size,
@@ -69,8 +77,8 @@ fun ReferencesRoute(
                 ) { index ->
                     val topic = categoryTopics[index]
                     ElecListItem(
-                        title = stringResource(topic.titleRes),
-                        description = stringResource(topic.descriptionRes),
+                        title = stringResource(topic.title),
+                        description = stringResource(topic.description),
                         icon = ElecIcons.References,
                         onClick = { onTopicClick(topic.key) },
                     )
@@ -81,13 +89,13 @@ fun ReferencesRoute(
 }
 
 /** The localised section heading for a reference category. */
-private fun ReferenceCategory.titleRes(): Int = when (this) {
-    ReferenceCategory.PROTECTION_AND_EARTHING -> R.string.ref_category_protection
-    ReferenceCategory.COMMISSIONING_AND_DIAGNOSIS -> R.string.ref_category_commissioning
-    ReferenceCategory.SELECTION_GUIDES -> R.string.ref_category_selection
-    ReferenceCategory.ENGINEERING_FOUNDATIONS -> R.string.ref_category_foundations
-    ReferenceCategory.DRAWING_SYMBOLS -> R.string.ref_category_symbols
-    ReferenceCategory.TABLES_AND_CODES -> R.string.ref_category_tables
+private fun ReferenceCategory.title(): StringResource = when (this) {
+    ReferenceCategory.PROTECTION_AND_EARTHING -> Res.string.ref_category_protection
+    ReferenceCategory.COMMISSIONING_AND_DIAGNOSIS -> Res.string.ref_category_commissioning
+    ReferenceCategory.SELECTION_GUIDES -> Res.string.ref_category_selection
+    ReferenceCategory.ENGINEERING_FOUNDATIONS -> Res.string.ref_category_foundations
+    ReferenceCategory.DRAWING_SYMBOLS -> Res.string.ref_category_symbols
+    ReferenceCategory.TABLES_AND_CODES -> Res.string.ref_category_tables
 }
 
 @Preview(showBackground = true, heightDp = 800)

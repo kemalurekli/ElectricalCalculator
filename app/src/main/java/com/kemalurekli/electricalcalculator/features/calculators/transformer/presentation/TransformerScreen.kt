@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource as composeStringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -303,15 +304,15 @@ fun TransformerScreen(
                     links = persistentListOf(
                         NoteLink(
                             topicKey = "primer_vectorgroup",
-                            label = stringResource(ReferenceCatalog.titleResOf("primer_vectorgroup")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("primer_vectorgroup")),
                         ),
                         NoteLink(
                             topicKey = "primer_nameplate",
-                            label = stringResource(ReferenceCatalog.titleResOf("primer_nameplate")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("primer_nameplate")),
                         ),
                         NoteLink(
                             topicKey = "primer_selectivity",
-                            label = stringResource(ReferenceCatalog.titleResOf("primer_selectivity")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("primer_selectivity")),
                         ),
                     ),
                     onLinkClick = onReferenceClick,

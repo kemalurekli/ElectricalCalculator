@@ -1,7 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.references.domain
 
-import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
+import org.jetbrains.compose.resources.StringResource
 
 /**
  * A piece of text in a reference table.
@@ -23,7 +23,7 @@ sealed interface ReferenceText {
     data class Symbol(val text: String) : ReferenceText
 
     /** Text that must be translated. */
-    data class Localized(@StringRes val res: Int) : ReferenceText
+    data class Localized(val res: StringResource) : ReferenceText
 
     /**
      * A number with an optional unit, formatted in the reader's locale.
@@ -89,7 +89,7 @@ sealed interface ReferenceBlock {
      * Each entry is one paragraph. Held separately rather than as one string
      * with newlines so a translator sees the structure and cannot lose it.
      */
-    data class Prose(@StringRes val paragraphsRes: List<Int>) : ReferenceBlock
+    data class Prose(val paragraphs: List<StringResource>) : ReferenceBlock
 
     /**
      * A numbered procedure, rendered in the order given.
@@ -98,7 +98,7 @@ sealed interface ReferenceBlock {
      * the dead tests come before the live ones, and a reader who takes them in
      * a different order is working on something they have not proved is dead.
      */
-    data class Ordered(@StringRes val stepsRes: List<Int>) : ReferenceBlock
+    data class Ordered(val steps: List<StringResource>) : ReferenceBlock
 
     /**
      * Options side by side, one column each.
@@ -112,11 +112,11 @@ sealed interface ReferenceBlock {
      * ragged one, because the renderer would silently drop the excess or leave a
      * gap under the wrong heading.
      *
-     * @param columnsRes the option names, left to right.
+     * @param columns the option names, left to right.
      * @param rows one attribute each, compared across the options.
      */
     data class Comparison(
-        @StringRes val columnsRes: List<Int>,
+        val columns: List<StringResource>,
         val rows: List<ComparisonRow>,
     ) : ReferenceBlock
 
@@ -130,12 +130,12 @@ sealed interface ReferenceBlock {
      * catalogue does not need a chart of ANSI symbols; they need the ANSI symbol
      * next to the IEC one they already know, which is a different page.
      *
-     * @param leftLabelRes the convention on the left — IEC, in practice.
-     * @param rightLabelRes the convention on the right.
+     * @param leftLabel the convention on the left — IEC, in practice.
+     * @param rightLabel the convention on the right.
      */
     data class SymbolComparison(
-        @StringRes val leftLabelRes: Int,
-        @StringRes val rightLabelRes: Int,
+        val leftLabel: StringResource,
+        val rightLabel: StringResource,
         val pairs: List<SymbolPair>,
     ) : ReferenceBlock
 
@@ -146,7 +146,7 @@ sealed interface ReferenceBlock {
      */
     data class Callout(
         val kind: CalloutKind,
-        @StringRes val textRes: Int,
+        val text: StringResource,
     ) : ReferenceBlock
 }
 
@@ -169,40 +169,40 @@ sealed interface ReferenceBlock {
  *
  * @param key stable identifier, unique across the whole catalog.
  * @param image the drawing, on the shared 48 × 48 grid.
- * @param nameRes what it is called, translated.
+ * @param name what it is called, translated.
  * @param designation the IEC 81346 letter, or null where none applies.
- * @param noteRes what distinguishes it from the symbol it is mistaken for.
+ * @param note what distinguishes it from the symbol it is mistaken for.
  */
 /**
  * One element drawn in two conventions.
  *
- * @param noteRes what the difference is, where it is not self-evident. A
+ * @param note what the difference is, where it is not self-evident. A
  *   resistor speaks for itself; an ANSI circuit breaker does not.
  */
 data class SymbolPair(
     val key: String,
-    @StringRes val nameRes: Int,
+    val name: StringResource,
     val left: ImageVector,
     val right: ImageVector,
-    @StringRes val noteRes: Int? = null,
+    val note: StringResource? = null,
 )
 
 data class DrawingSymbol(
     val key: String,
     val image: ImageVector,
-    @StringRes val nameRes: Int,
+    val name: StringResource,
     val designation: String? = null,
-    @StringRes val noteRes: Int? = null,
+    val note: StringResource? = null,
 )
 
 /**
  * One attribute, compared across every option in a [ReferenceBlock.Comparison].
  *
- * @param labelRes what is being compared — starting current, cost, where it suits.
+ * @param label what is being compared — starting current, cost, where it suits.
  * @param cells one per column, in the same order as the column headings.
  */
 data class ComparisonRow(
-    @StringRes val labelRes: Int,
+    val label: StringResource,
     val cells: List<ReferenceText>,
 )
 
@@ -221,14 +221,14 @@ enum class CalloutKind {
 /**
  * A titled group of content.
  *
- * @param footnoteRes text below the blocks. Used where a table needs a caveat to
+ * @param footnote text below the blocks. Used where a table needs a caveat to
  *   be read correctly — an indicative figure that is not a standard, or a
  *   colour code that has been superseded but is still in installed plant.
  */
 data class ReferenceSection(
-    @StringRes val titleRes: Int,
+    val title: StringResource,
     val blocks: List<ReferenceBlock>,
-    @StringRes val footnoteRes: Int? = null,
+    val footnote: StringResource? = null,
 ) {
     /** Every table row in this section, flattened. */
     val rows: List<ReferenceRow>
@@ -244,13 +244,13 @@ data class ReferenceSection(
  * information the reader of that file wants anyway.
  */
 fun tableSection(
-    @StringRes titleRes: Int,
+    title: StringResource,
     rows: List<ReferenceRow>,
-    @StringRes footnoteRes: Int? = null,
+    footnote: StringResource? = null,
 ): ReferenceSection = ReferenceSection(
-    titleRes = titleRes,
+    title = title,
     blocks = listOf(ReferenceBlock.Table(rows)),
-    footnoteRes = footnoteRes,
+    footnote = footnote,
 )
 
 /**
@@ -285,15 +285,15 @@ enum class ReferenceCategory {
  *
  * @param key stable identifier, safe to persist and to put in a route.
  * @param category the section it is listed under.
- * @param sourceRes the standard the content follows, shown on the detail
+ * @param source the standard the content follows, shown on the detail
  *   screen. Reference data is only as good as its provenance, and an
  *   unattributed table invites the reader to trust it further than they should.
  */
 data class ReferenceTopic(
     val key: String,
     val category: ReferenceCategory,
-    @StringRes val titleRes: Int,
-    @StringRes val descriptionRes: Int,
-    @StringRes val sourceRes: Int,
+    val title: StringResource,
+    val description: StringResource,
+    val source: StringResource,
     val sections: List<ReferenceSection>,
 )

@@ -1,16 +1,14 @@
-package com.kemalurekli.electricalcalculator.core.ui
+package com.kemalurekli.electricalcalculator.features.references.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Pinning for a screen that has nothing else to hold.
@@ -23,9 +21,12 @@ import javax.inject.Inject
  *
  * Calculators do *not* use this: they already hold a view model and observing
  * one more flow there costs nothing.
+ *
+ * It used to live in `core/ui` for any screen in the same position to pick up.
+ * Nothing ever did, so it moved here with its one caller rather than becoming a
+ * module of its own — it goes back down the moment a second screen needs it.
  */
-@HiltViewModel
-class FavoriteToggleViewModel @Inject constructor(
+class FavoriteToggleViewModel(
     private val favoritesRepository: FavoritesRepository,
 ) : ViewModel() {
 

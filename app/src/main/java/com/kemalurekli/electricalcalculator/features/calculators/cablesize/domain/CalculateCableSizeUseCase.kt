@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain
 
+import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors
 import com.kemalurekli.electricalcalculator.core.domain.model.LoadedConductors
 import javax.inject.Inject
 

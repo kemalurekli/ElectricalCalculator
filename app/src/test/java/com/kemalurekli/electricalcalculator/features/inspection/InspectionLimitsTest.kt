@@ -22,8 +22,14 @@ import java.io.File
  */
 class InspectionLimitsTest {
 
+    /**
+     * The reference section's strings, which left `:app` with the rest of the
+     * module. Read off disk rather than through the resource table because
+     * this test runs on the JVM and the point is the text as written, not the
+     * text as resolved.
+     */
     private val strings: String by lazy {
-        File("src/main/res/values/strings.xml").readText()
+        File("../feature/references/src/commonMain/composeResources/values/strings.xml").readText()
     }
 
     private fun stringValue(name: String): String =

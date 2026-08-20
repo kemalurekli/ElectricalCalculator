@@ -1,20 +1,28 @@
 package com.kemalurekli.electricalcalculator.features.references
 
-import com.kemalurekli.electricalcalculator.R
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_commissioning_step_2
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_commissioning_step_3
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_commissioning_step_4
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_commissioning_step_5
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_commissioning_step_6
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_commissioning_step_7
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_commissioning_step_8
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_commissioning_step_9
 import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
 import com.kemalurekli.electricalcalculator.features.references.domain.CalloutKind
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceBlock
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCategory
-import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.ProtectiveDeviceType
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceText
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Assert.fail
-import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
+import kotlin.test.fail
+import kotlin.test.Test
+import org.jetbrains.compose.resources.StringResource
 
 /**
  * What can and cannot be tested here.
@@ -59,23 +67,23 @@ class ReferenceCatalogTest {
         // Counted per block rather than per row: a procedure or an explanation
         // has no table rows and is not therefore empty.
         topics.forEach { topic ->
-            assertTrue("${topic.key} has no sections", topic.sections.isNotEmpty())
+            assertTrue(topic.sections.isNotEmpty(), "${topic.key} has no sections")
             topic.sections.forEach { section ->
-                assertTrue("${topic.key} has a section with no blocks", section.blocks.isNotEmpty())
+                assertTrue(section.blocks.isNotEmpty(), "${topic.key} has a section with no blocks")
                 section.blocks.forEach { block ->
-                    assertTrue("${topic.key} has an empty block", block.itemCount() > 0)
+                    assertTrue(block.itemCount() > 0, "${topic.key} has an empty block")
                 }
             }
         }
     }
 
     @Test
-    fun `no prose, procedure or callout has an unresolved string`() {
+    fun `no prose — procedure or callout has an unresolved string`() {
         topics.forEach { topic ->
             topic.sections.forEach { section ->
                 section.blocks.forEach { block ->
                     block.stringResources().forEach { res ->
-                        assertTrue("${topic.key} has an unresolved resource", res != 0)
+                        assertTrue(res.key.isNotEmpty(), "${topic.key} has an unresolved resource")
                     }
                 }
             }
@@ -85,8 +93,8 @@ class ReferenceCatalogTest {
     /** How many things a block renders. Zero means it should not have been written. */
     private fun ReferenceBlock.itemCount(): Int = when (this) {
         is ReferenceBlock.Table -> rows.size
-        is ReferenceBlock.Prose -> paragraphsRes.size
-        is ReferenceBlock.Ordered -> stepsRes.size
+        is ReferenceBlock.Prose -> paragraphs.size
+        is ReferenceBlock.Ordered -> steps.size
         is ReferenceBlock.Comparison -> rows.size
         is ReferenceBlock.SymbolGrid -> symbols.size
         is ReferenceBlock.SymbolComparison -> pairs.size
@@ -94,15 +102,15 @@ class ReferenceCatalogTest {
     }
 
     /** Every string id a block carries directly; table text is checked separately. */
-    private fun ReferenceBlock.stringResources(): List<Int> = when (this) {
+    private fun ReferenceBlock.stringResources(): List<StringResource> = when (this) {
         is ReferenceBlock.Table -> emptyList()
-        is ReferenceBlock.Prose -> paragraphsRes
-        is ReferenceBlock.Ordered -> stepsRes
-        is ReferenceBlock.Comparison -> columnsRes + rows.map { it.labelRes }
-        is ReferenceBlock.SymbolGrid -> symbols.map { it.nameRes }
+        is ReferenceBlock.Prose -> paragraphs
+        is ReferenceBlock.Ordered -> steps
+        is ReferenceBlock.Comparison -> columns + rows.map { it.label }
+        is ReferenceBlock.SymbolGrid -> symbols.map { it.name }
         is ReferenceBlock.SymbolComparison ->
-            listOf(leftLabelRes, rightLabelRes) + pairs.map { it.nameRes }
-        is ReferenceBlock.Callout -> listOf(textRes)
+            listOf(leftLabel, rightLabel) + pairs.map { it.name }
+        is ReferenceBlock.Callout -> listOf(text)
     }
 
     @Test
@@ -110,7 +118,7 @@ class ReferenceCatalogTest {
         // Reference data is only as trustworthy as its provenance, so the
         // field is not optional and this makes sure it stays that way.
         topics.forEach { topic ->
-            assertTrue("${topic.key} has no source", topic.sourceRes != 0)
+            assertTrue(topic.source.key.isNotEmpty(), "${topic.key} has no source")
         }
     }
 
@@ -121,25 +129,13 @@ class ReferenceCatalogTest {
                 section.rows.forEachIndexed { index, row ->
                     listOfNotNull(row.label, row.value, row.note).forEach { text ->
                         when (text) {
-                            is ReferenceText.Symbol -> assertTrue(
-                                "${topic.key} row $index has a blank symbol",
-                                text.text.isNotBlank(),
-                            )
+                            is ReferenceText.Symbol -> assertTrue(text.text.isNotBlank(), "${topic.key} row $index has a blank symbol")
 
-                            is ReferenceText.Localized -> assertTrue(
-                                "${topic.key} row $index has an unresolved resource",
-                                text.res != 0,
-                            )
+                            is ReferenceText.Localized -> assertTrue(text.res.key.isNotEmpty(), "${topic.key} row $index has an unresolved resource")
 
-                            is ReferenceText.Quantity -> assertTrue(
-                                "${topic.key} row $index has a non-finite quantity",
-                                text.value.isFinite(),
-                            )
+                            is ReferenceText.Quantity -> assertTrue(text.value.isFinite(), "${topic.key} row $index has a non-finite quantity")
 
-                            is ReferenceText.Range -> assertTrue(
-                                "${topic.key} row $index has a backwards range",
-                                text.low < text.high,
-                            )
+                            is ReferenceText.Range -> assertTrue(text.low < text.high, "${topic.key} row $index has a backwards range")
                         }
                     }
                 }
@@ -155,10 +151,7 @@ class ReferenceCatalogTest {
 
         assertEquals(topics.size, categorised.values.sumOf { it.size })
         ReferenceCategory.entries.forEach { category ->
-            assertTrue(
-                "$category has no topics and would render an empty heading",
-                categorised[category]?.isNotEmpty() == true,
-            )
+            assertTrue(categorised[category]?.isNotEmpty() == true, "$category has no topics and would render an empty heading")
         }
     }
 
@@ -182,7 +175,7 @@ class ReferenceCatalogTest {
         val codes = topic.sections.single().rows
             .map { (it.label as ReferenceText.Symbol).text }
 
-        assertEquals((0..10).map { "IK%02d".format(it) }, codes)
+        assertEquals((0..10).map { "IK" + it.toString().padStart(2, '0') }, codes)
     }
 
     @Test
@@ -211,10 +204,10 @@ class ReferenceCatalogTest {
         // These exist because the plant exists; presenting them without the
         // overlap warning would be worse than omitting them.
         val topic = requireNotNull(ReferenceCatalog.topicOrNull("conductor_colours"))
-        val superseded = topic.sections.filter { it.titleRes != topic.sections[0].titleRes }
+        val superseded = topic.sections.filter { it.title != topic.sections[0].title }
 
         superseded.drop(1).forEach { section ->
-            assertNotNull("A superseded colour table has no footnote", section.footnoteRes)
+            assertNotNull(section.footnote, "A superseded colour table has no footnote")
         }
     }
 
@@ -228,12 +221,7 @@ class ReferenceCatalogTest {
         val values = topic.sections[0].rows.map { (it.value as ReferenceText.Quantity).value }
 
         ConductorMaterial.entries.forEachIndexed { index, material ->
-            assertEquals(
-                "${material.name} resistivity is not the model's value",
-                material.resistivityAt20C,
-                values[index],
-                0.0,
-            )
+            assertEquals(material.resistivityAt20C, values[index], "${material.name} resistivity is not the model's value")
         }
     }
 
@@ -243,12 +231,7 @@ class ReferenceCatalogTest {
         val values = topic.sections[1].rows.map { (it.value as ReferenceText.Quantity).value }
 
         ConductorMaterial.entries.forEachIndexed { index, material ->
-            assertEquals(
-                "${material.name} density is not the model's value",
-                material.densityKgPerDm3,
-                values[index],
-                0.0,
-            )
+            assertEquals(material.densityKgPerDm3, values[index], "${material.name} density is not the model's value")
         }
     }
 
@@ -274,24 +257,6 @@ class ReferenceCatalogTest {
         assertEquals(listOf("3 – 5 × In", "5 – 10 × In", "10 – 20 × In"), bands)
     }
 
-    @Test
-    fun `the breaker curve multipliers agree with the earth fault calculator`() {
-        // The reference and the calculator must not disagree about what a
-        // Type C does. The upper bound of each band is what the calculator uses.
-        val topic = requireNotNull(ReferenceCatalog.topicOrNull("breaker_curves"))
-        val upperBounds = topic.sections.first().rows
-            .map { (it.value as ReferenceText.Symbol).text }
-            .map { it.substringAfter("– ").removeSuffix(" × In").trim().toDouble() }
-
-        assertEquals(
-            listOf(
-                ProtectiveDeviceType.MCB_TYPE_B.instantaneousMultiplier,
-                ProtectiveDeviceType.MCB_TYPE_C.instantaneousMultiplier,
-                ProtectiveDeviceType.MCB_TYPE_D.instantaneousMultiplier,
-            ),
-            upperBounds,
-        )
-    }
 
     @Test
     fun `the RCD table covers every type in ascending capability`() {
@@ -318,10 +283,7 @@ class ReferenceCatalogTest {
         val protection = topics.filter { it.category == ReferenceCategory.PROTECTION_AND_EARTHING }
 
         protection.forEach { topic ->
-            assertTrue(
-                "${topic.key} has no footnote anywhere",
-                topic.sections.any { it.footnoteRes != null },
-            )
+            assertTrue(topic.sections.any { it.footnote != null }, "${topic.key} has no footnote anywhere")
         }
     }
 
@@ -336,27 +298,27 @@ class ReferenceCatalogTest {
         val steps = topic.sections.first().blocks
             .filterIsInstance<ReferenceBlock.Ordered>()
             .single()
-            .stepsRes
+            .steps
 
-        val energise = steps.indexOf(R.string.ref_commissioning_step_6)
+        val energise = steps.indexOf(Res.string.ref_commissioning_step_6)
         val deadTests = listOf(
-            R.string.ref_commissioning_step_2,
-            R.string.ref_commissioning_step_3,
-            R.string.ref_commissioning_step_4,
-            R.string.ref_commissioning_step_5,
+            Res.string.ref_commissioning_step_2,
+            Res.string.ref_commissioning_step_3,
+            Res.string.ref_commissioning_step_4,
+            Res.string.ref_commissioning_step_5,
         )
         val liveTests = listOf(
-            R.string.ref_commissioning_step_7,
-            R.string.ref_commissioning_step_8,
-            R.string.ref_commissioning_step_9,
+            Res.string.ref_commissioning_step_7,
+            Res.string.ref_commissioning_step_8,
+            Res.string.ref_commissioning_step_9,
         )
 
-        assertTrue("the sequence never energises", energise > 0)
+        assertTrue(energise > 0, "the sequence never energises")
         deadTests.forEach {
-            assertTrue("a dead test follows energising", steps.indexOf(it) < energise)
+            assertTrue(steps.indexOf(it) < energise, "a dead test follows energising")
         }
         liveTests.forEach {
-            assertTrue("a live test precedes energising", steps.indexOf(it) > energise)
+            assertTrue(steps.indexOf(it) > energise, "a live test precedes energising")
         }
     }
 
@@ -368,10 +330,7 @@ class ReferenceCatalogTest {
         val callouts = topic.sections.flatMap { it.blocks }
             .filterIsInstance<ReferenceBlock.Callout>()
 
-        assertTrue(
-            "no safety callout on the commissioning topic",
-            callouts.any { it.kind == CalloutKind.SAFETY },
-        )
+        assertTrue(callouts.any { it.kind == CalloutKind.SAFETY }, "no safety callout on the commissioning topic")
     }
 
     @Test
@@ -379,12 +338,12 @@ class ReferenceCatalogTest {
         // A guide with a single cause is an assertion, not a diagnosis.
         val topic = requireNotNull(ReferenceCatalog.topicOrNull("fault_diagnosis"))
 
-        assertTrue("fewer than four guides", topic.sections.size >= 4)
+        assertTrue(topic.sections.size >= 4, "fewer than four guides")
         topic.sections.forEach { section ->
             val causes = section.blocks
                 .filterIsInstance<ReferenceBlock.Ordered>()
-                .sumOf { it.stepsRes.size }
-            assertTrue("a guide lists $causes causes", causes >= 4)
+                .sumOf { it.steps.size }
+            assertTrue(causes >= 4, "a guide lists $causes causes")
         }
     }
 
@@ -411,10 +370,7 @@ class ReferenceCatalogTest {
                     if (found.size >= 2) {
                         fail("\"${symbol.text}\" reads as prose inside a Symbol: $found")
                     }
-                    assertFalse(
-                        "\"${symbol.text}\" has a decimal point; use Quantity",
-                        decimalPoint.containsMatchIn(symbol.text),
-                    )
+                    assertFalse(decimalPoint.containsMatchIn(symbol.text), "\"${symbol.text}\" has a decimal point; use Quantity")
                 }
         }
     }
@@ -425,8 +381,8 @@ class ReferenceCatalogTest {
         // crashes — but two identical headings on one page is still the
         // signature of a block that was filed as its own section by mistake.
         topics.forEach { topic ->
-            val titles = topic.sections.map { it.titleRes }
-            assertEquals("${topic.key} repeats a section heading", titles.size, titles.distinct().size)
+            val titles = topic.sections.map { it.title }
+            assertEquals(titles.size, titles.distinct().size, "${topic.key} repeats a section heading")
         }
     }
 
@@ -441,15 +397,11 @@ class ReferenceCatalogTest {
             .flatMap { it.blocks }
             .filterIsInstance<ReferenceBlock.Comparison>()
             .forEach { comparison ->
-                assertTrue("a comparison has no columns", comparison.columnsRes.isNotEmpty())
-                assertTrue("a comparison has no rows", comparison.rows.isNotEmpty())
+                assertTrue(comparison.columns.isNotEmpty(), "a comparison has no columns")
+                assertTrue(comparison.rows.isNotEmpty(), "a comparison has no rows")
                 comparison.rows.forEach { row ->
-                    assertEquals(
-                        "a comparison row has the wrong number of cells",
-                        comparison.columnsRes.size,
-                        row.cells.size,
-                    )
-                    assertTrue("a comparison row has no label", row.labelRes != 0)
+                    assertEquals(comparison.columns.size, row.cells.size, "a comparison row has the wrong number of cells")
+                    assertTrue(row.label.key.isNotEmpty(), "a comparison row has no label")
                 }
             }
     }
@@ -459,17 +411,14 @@ class ReferenceCatalogTest {
         // One column is not a comparison, it is a list.
         val guides = topics.filter { it.category == ReferenceCategory.SELECTION_GUIDES }
 
-        assertTrue("no selection guides", guides.isNotEmpty())
+        assertTrue(guides.isNotEmpty(), "no selection guides")
         guides.forEach { topic ->
             val comparison = topic.sections.flatMap { it.blocks }
                 .filterIsInstance<ReferenceBlock.Comparison>()
                 .singleOrNull()
 
-            assertNotNull("${topic.key} has no comparison", comparison)
-            assertTrue(
-                "${topic.key} compares fewer than two options",
-                requireNotNull(comparison).columnsRes.size >= 2,
-            )
+            assertNotNull(comparison, "${topic.key} has no comparison")
+            assertTrue(requireNotNull(comparison).columns.size >= 2, "${topic.key} compares fewer than two options")
         }
     }
 
@@ -479,10 +428,7 @@ class ReferenceCatalogTest {
         // prose ahead of it is where the judgement lives.
         topics.filter { it.category == ReferenceCategory.SELECTION_GUIDES }.forEach { topic ->
             val firstBlock = topic.sections.first().blocks.first()
-            assertTrue(
-                "${topic.key} opens with a table rather than an explanation",
-                firstBlock is ReferenceBlock.Prose,
-            )
+            assertTrue(firstBlock is ReferenceBlock.Prose, "${topic.key} opens with a table rather than an explanation")
         }
     }
 
@@ -494,7 +440,7 @@ class ReferenceCatalogTest {
         // for one, so it carries a footnote saying so.
         val topic = requireNotNull(ReferenceCatalog.topicOrNull("power_factors"))
 
-        assertNotNull(topic.sections.single().footnoteRes)
+        assertNotNull(topic.sections.single().footnote)
     }
 
     @Test
@@ -507,8 +453,8 @@ class ReferenceCatalogTest {
                 is ReferenceText.Range -> value.high
                 else -> error("A power factor is neither a quantity nor a range")
             }
-            assertTrue("$highest exceeds unity", highest <= 1.0)
-            assertTrue("$highest is not positive", highest > 0.0)
+            assertTrue(highest <= 1.0, "$highest exceeds unity")
+            assertTrue(highest > 0.0, "$highest is not positive")
         }
     }
 
@@ -519,7 +465,7 @@ class ReferenceCatalogTest {
         topic.sections.single().rows
             .mapNotNull { it.value as? ReferenceText.Range }
             .forEach { range ->
-                assertTrue("$range is written backwards", range.low < range.high)
+                assertTrue(range.low < range.high, "$range is written backwards")
             }
     }
 

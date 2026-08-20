@@ -6,9 +6,9 @@ import androidx.compose.ui.graphics.vector.VectorPath
 import com.kemalurekli.electricalcalculator.features.references.domain.DrawingSymbol
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceBlock
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.test.Test
 
 /**
  * The drawing symbols.
@@ -46,15 +46,15 @@ class DrawingSymbolTest {
         .flatMap { block -> block.pairs.flatMap { listOf(it.key to it.left, it.key to it.right) } }
 
     @Test
-    fun `every compared symbol was drawn, on the same grid as its counterpart`() {
+    fun `every compared symbol was drawn — on the same grid as its counterpart`() {
         // A pair only works if the two sit level. One drawn on a different
         // viewport would be scaled against the other and the comparison would
         // be showing a size difference that is not there.
-        assertTrue("no symbol comparisons", pairedImages.isNotEmpty())
+        assertTrue(pairedImages.isNotEmpty(), "no symbol comparisons")
         pairedImages.forEach { (key, image) ->
-            assertTrue("$key has an empty drawing", image.root.paths().isNotEmpty())
-            assertEquals("$key viewport width", 48f, image.viewportWidth, 0f)
-            assertEquals("$key viewport height", 48f, image.viewportHeight, 0f)
+            assertTrue(image.root.paths().isNotEmpty(), "$key has an empty drawing")
+            assertEquals(48f, image.viewportWidth, "$key viewport width")
+            assertEquals(48f, image.viewportHeight, "$key viewport height")
         }
     }
 
@@ -68,16 +68,13 @@ class DrawingSymbolTest {
             .filterIsInstance<ReferenceBlock.SymbolComparison>()
             .flatMap { it.pairs }
             .forEach { pair ->
-                assertTrue(
-                    "${pair.key} shows the same drawing on both sides",
-                    pair.left !== pair.right,
-                )
+                assertTrue(pair.left !== pair.right, "${pair.key} shows the same drawing on both sides")
             }
     }
 
     @Test
     fun `there are symbols to look at`() {
-        assertTrue("no symbols in the catalog", symbols.size >= 50)
+        assertTrue(symbols.size >= 50, "no symbols in the catalog")
     }
 
     @Test
@@ -86,11 +83,8 @@ class DrawingSymbolTest {
         // that reads as a loading state rather than as a bug.
         symbols.forEach { symbol ->
             val paths = symbol.image.root.paths()
-            assertTrue("${symbol.key} has no paths", paths.isNotEmpty())
-            assertTrue(
-                "${symbol.key} has a path with no nodes",
-                paths.all { it.pathData.isNotEmpty() },
-            )
+            assertTrue(paths.isNotEmpty(), "${symbol.key} has no paths")
+            assertTrue(paths.all { it.pathData.isNotEmpty() }, "${symbol.key} has a path with no nodes")
         }
     }
 
@@ -99,15 +93,15 @@ class DrawingSymbolTest {
         // A symbol on a different viewport would be silently scaled against its
         // neighbours and stop looking like one family.
         symbols.forEach { symbol ->
-            assertEquals("${symbol.key} viewport width", 48f, symbol.image.viewportWidth, 0f)
-            assertEquals("${symbol.key} viewport height", 48f, symbol.image.viewportHeight, 0f)
+            assertEquals(48f, symbol.image.viewportWidth, "${symbol.key} viewport width")
+            assertEquals(48f, symbol.image.viewportHeight, "${symbol.key} viewport height")
         }
     }
 
     @Test
     fun `every symbol has a name`() {
         symbols.forEach { symbol ->
-            assertTrue("${symbol.key} has no name", symbol.nameRes != 0)
+            assertTrue(symbol.name.key.isNotEmpty(), "${symbol.key} has no name")
         }
     }
 
@@ -115,7 +109,7 @@ class DrawingSymbolTest {
     fun `keys are unique across every symbol topic`() {
         val keys = symbols.map { it.key }
 
-        assertEquals("a symbol key is used twice", keys.size, keys.distinct().size)
+        assertEquals(keys.size, keys.distinct().size, "a symbol key is used twice")
     }
 
     @Test
@@ -125,7 +119,7 @@ class DrawingSymbolTest {
         val valid = Regex("^[A-Z]$")
 
         symbols.mapNotNull { it.designation }.forEach { letter ->
-            assertTrue("\"$letter\" is not an IEC 81346 designation", valid.matches(letter))
+            assertTrue(valid.matches(letter), "\"$letter\" is not an IEC 81346 designation")
         }
     }
 
@@ -145,7 +139,7 @@ class DrawingSymbolTest {
             "contact_nc",
         ).forEach { key ->
             val symbol = symbols.single { it.key == key }
-            assertTrue("$key has no distinguishing note", symbol.noteRes != null)
+            assertTrue(symbol.note != null, "$key has no distinguishing note")
         }
     }
 }

@@ -111,13 +111,13 @@ class SearchIndexBuilder @Inject constructor(
         SearchableItem(
             kind = SearchKind.REFERENCE,
             key = topic.key,
-            title = stringResolver.get(topic.titleRes),
-            subtitle = stringResolver.get(topic.descriptionRes),
+            title = stringResolver.get(topic.title),
+            subtitle = stringResolver.get(topic.description),
             // Section headings are what a reader half-remembers about a topic —
             // "the one with the test sequence in it".
             body = (
-                listOf(stringResolver.get(topic.descriptionRes)) +
-                    topic.sections.map { stringResolver.get(it.titleRes) }
+                listOf(stringResolver.get(topic.description)) +
+                    topic.sections.map { stringResolver.get(it.title) }
                 ).joinToString(" "),
         )
     }
@@ -146,8 +146,8 @@ class SearchIndexBuilder @Inject constructor(
                 // A symbol is not its own destination; tapping opens the topic
                 // it lives on, which is where its neighbours are.
                 key = topic.key,
-                title = stringResolver.get(symbol.nameRes),
-                subtitle = stringResolver.get(topic.titleRes),
+                title = stringResolver.get(symbol.name),
+                subtitle = stringResolver.get(topic.title),
                 keywords = listOfNotNull(symbol.designation),
             )
         }

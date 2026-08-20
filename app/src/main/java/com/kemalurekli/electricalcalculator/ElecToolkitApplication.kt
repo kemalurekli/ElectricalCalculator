@@ -5,6 +5,7 @@ import com.kemalurekli.electricalcalculator.core.di.hiltBridgeModule
 import com.kemalurekli.electricalcalculator.features.converter.converterModule
 import com.kemalurekli.electricalcalculator.features.fieldnotes.fieldNotesModule
 import com.kemalurekli.electricalcalculator.features.glossary.glossaryModule
+import com.kemalurekli.electricalcalculator.features.references.referencesModule
 import com.kemalurekli.electricalcalculator.features.history.historyModule
 import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.koin.androidContext
@@ -38,6 +39,7 @@ class ElecToolkitApplication : Application() {
                 historyModule,
                 glossaryModule,
                 fieldNotesModule,
+                referencesModule,
             )
         }
     }

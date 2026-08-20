@@ -91,7 +91,7 @@ class FavoritesViewModel @Inject constructor(
         }
 
         FavoriteKind.REFERENCE -> ReferenceCatalog.topicOrNull(item.key)?.let {
-            FavoriteRow(item, stringResolver.get(it.titleRes), stringResolver.get(it.descriptionRes))
+            FavoriteRow(item, stringResolver.get(it.title), stringResolver.get(it.description))
         }
 
         FavoriteKind.GLOSSARY -> GlossaryCatalog.termOrNull(item.key)?.let {

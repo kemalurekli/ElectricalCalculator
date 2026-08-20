@@ -16,6 +16,7 @@ import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepo
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
+import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,6 +43,14 @@ object SharedRepositoryModule {
     @Provides
     @Singleton
     fun provideTimeProvider(): TimeProvider = SystemTimeProvider()
+
+    /**
+     * The derating tables. Stateless, but a singleton because the maps behind
+     * it are built once and read on every cable calculation.
+     */
+    @Provides
+    @Singleton
+    fun provideCorrectionFactors(): CorrectionFactors = CorrectionFactors()
 
     @Provides
     @Singleton

@@ -235,6 +235,8 @@ class VerificationBacklogTest {
          */
         private const val GLOSSARY =
             "feature/glossary/src/commonMain/kotlin/com/kemalurekli/electricalcalculator/features/glossary"
+        private const val REFERENCES =
+            "feature/references/src/commonMain/kotlin/com/kemalurekli/electricalcalculator/features/references"
         private const val FIELDNOTES =
             "feature/fieldnotes/src/commonMain/kotlin/com/kemalurekli/electricalcalculator/features/fieldnotes"
 
@@ -247,7 +249,7 @@ class VerificationBacklogTest {
          */
         val TRANSCRIBED_DATA = setOf(
             "$CALCULATORS/cablesize/domain/AmpacityTable.kt",
-            "$CALCULATORS/cablesize/domain/CorrectionFactors.kt",
+            "$DOMAIN/table/CorrectionFactors.kt",
             "$CALCULATORS/earthfault/domain/AdiabaticFactors.kt",
             "$CALCULATORS/earthfault/domain/EarthFaultModels.kt",
             "$CALCULATORS/shortcircuit/domain/ShortCircuitModels.kt",
@@ -258,7 +260,7 @@ class VerificationBacklogTest {
             "$DOMAIN/model/ConductorMaterial.kt",
             "$CORE/ui/model/SystemVoltageDefaults.kt",
             "$DESIGNSYSTEM/symbol",
-            "$FEATURES/references/domain/ReferenceCatalog.kt",
+            "$REFERENCES/domain/ReferenceCatalog.kt",
             "$GLOSSARY/domain/GlossaryCatalog.kt",
             "$FIELDNOTES/domain/FieldNoteCatalog.kt",
             "$FEATURES/theory/domain",

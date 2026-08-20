@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource as composeStringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -419,19 +420,19 @@ fun CableSizeScreen(
                     links = persistentListOf(
                         NoteLink(
                             topicKey = "rating_series",
-                            label = stringResource(ReferenceCatalog.titleResOf("rating_series")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("rating_series")),
                         ),
                         NoteLink(
                             topicKey = "primer_cableanatomy",
-                            label = stringResource(ReferenceCatalog.titleResOf("primer_cableanatomy")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("primer_cableanatomy")),
                         ),
                         NoteLink(
                             topicKey = "selection_insulation",
-                            label = stringResource(ReferenceCatalog.titleResOf("selection_insulation")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("selection_insulation")),
                         ),
                         NoteLink(
                             topicKey = "selection_cabletype",
-                            label = stringResource(ReferenceCatalog.titleResOf("selection_cabletype")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("selection_cabletype")),
                         ),
                     ),
                     onLinkClick = onReferenceClick,

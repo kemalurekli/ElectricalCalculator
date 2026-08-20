@@ -1,6 +1,5 @@
 package com.kemalurekli.electricalcalculator.features.references.presentation
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -27,26 +26,24 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
-import com.kemalurekli.electricalcalculator.core.ui.FavoriteToggleViewModel
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
@@ -60,6 +57,13 @@ import com.kemalurekli.electricalcalculator.features.references.domain.Reference
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceRow
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceText
 import com.kemalurekli.electricalcalculator.features.references.domain.SymbolPair
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.dashboard_references_title
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_source_label
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignSystemRes
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_add
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_remove
+import org.jetbrains.compose.resources.StringResource
 
 /**
  * One reference topic's tables.
@@ -75,9 +79,9 @@ import com.kemalurekli.electricalcalculator.features.references.domain.SymbolPai
 @Composable
 fun ReferenceDetailRoute(
     topicKey: String,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
-    favoriteViewModel: FavoriteToggleViewModel = hiltViewModel(),
+    favoriteViewModel: FavoriteToggleViewModel = koinViewModel(),
 ) {
     val topic = ReferenceCatalog.topicOrNull(topicKey)
     val isFavorite by favoriteViewModel.isFavorite.collectAsStateWithLifecycle()
@@ -91,8 +95,8 @@ fun ReferenceDetailRoute(
     val scrollBehavior = rememberElecScrollBehavior()
 
     ElecScreenScaffold(
-        title = topic?.let { stringResource(it.titleRes) }
-                        ?: stringResource(R.string.dashboard_references_title),
+        title = topic?.let { stringResource(it.title) }
+                        ?: stringResource(Res.string.dashboard_references_title),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
         actions = {
@@ -102,8 +106,8 @@ fun ReferenceDetailRoute(
                         imageVector = if (isFavorite) ElecIcons.FavoriteOn
                         else ElecIcons.FavoriteOff,
                         contentDescription = stringResource(
-                            if (isFavorite) R.string.action_favorite_remove
-                            else R.string.action_favorite_add,
+                            if (isFavorite) DesignSystemRes.string.action_favorite_remove
+                            else DesignSystemRes.string.action_favorite_add,
                         ),
                     )
                 }
@@ -126,8 +130,8 @@ fun ReferenceDetailRoute(
                 // invites more trust than it has earned.
                 Text(
                     text = stringResource(
-                        R.string.ref_source_label,
-                        stringResource(topic.sourceRes),
+                        Res.string.ref_source_label,
+                        stringResource(topic.source),
                     ),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -140,7 +144,7 @@ fun ReferenceDetailRoute(
 
             topic.sections.forEachIndexed { sectionIndex, section ->
                 item(key = "header-$sectionIndex") {
-                    ElecSectionHeader(title = stringResource(section.titleRes))
+                    ElecSectionHeader(title = stringResource(section.title))
                 }
 
                 section.blocks.forEachIndexed { blockIndex, block ->
@@ -154,17 +158,17 @@ fun ReferenceDetailRoute(
                         }
 
                         is ReferenceBlock.Prose -> items(
-                            count = block.paragraphsRes.size,
+                            count = block.paragraphs.size,
                             key = { index -> "$blockKey-para-$index" },
                         ) { index ->
-                            Paragraph(block.paragraphsRes[index])
+                            Paragraph(block.paragraphs[index])
                         }
 
                         is ReferenceBlock.Ordered -> items(
-                            count = block.stepsRes.size,
+                            count = block.steps.size,
                             key = { index -> "$blockKey-step-$index" },
                         ) { index ->
-                            ProcedureStep(number = index + 1, textRes = block.stepsRes[index])
+                            ProcedureStep(number = index + 1, text = block.steps[index])
                         }
 
                         is ReferenceBlock.Comparison -> item(key = blockKey) {
@@ -191,12 +195,12 @@ fun ReferenceDetailRoute(
                         }
 
                         is ReferenceBlock.Callout -> item(key = blockKey) {
-                            Callout(kind = block.kind, textRes = block.textRes)
+                            Callout(kind = block.kind, text = block.text)
                         }
                     }
                 }
 
-                section.footnoteRes?.let { footnote ->
+                section.footnote?.let { footnote ->
                     item(key = "footnote-$sectionIndex") {
                         Text(
                             text = stringResource(footnote),
@@ -221,10 +225,10 @@ fun ReferenceDetailRoute(
 }
 
 @Composable
-private fun Paragraph(@StringRes textRes: Int) {
+private fun Paragraph(text: StringResource) {
     val spacing = ElecTheme.spacing
     Text(
-        text = stringResource(textRes),
+        text = stringResource(text),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurface,
         modifier = Modifier.padding(
@@ -242,7 +246,7 @@ private fun Paragraph(@StringRes textRes: Int) {
  * mean editing every string after it.
  */
 @Composable
-private fun ProcedureStep(number: Int, @StringRes textRes: Int) {
+private fun ProcedureStep(number: Int, text: StringResource) {
     val spacing = ElecTheme.spacing
     Row(
         modifier = Modifier
@@ -257,7 +261,7 @@ private fun ProcedureStep(number: Int, @StringRes textRes: Int) {
             modifier = Modifier.widthIn(min = STEP_NUMBER_WIDTH),
         )
         Text(
-            text = stringResource(textRes),
+            text = stringResource(text),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
         )
@@ -273,7 +277,7 @@ private fun ProcedureStep(number: Int, @StringRes textRes: Int) {
  * glance without any of them reading as body text.
  */
 @Composable
-private fun Callout(kind: CalloutKind, @StringRes textRes: Int) {
+private fun Callout(kind: CalloutKind, text: StringResource) {
     val spacing = ElecTheme.spacing
     val scheme = MaterialTheme.colorScheme
     val container = when (kind) {
@@ -296,7 +300,7 @@ private fun Callout(kind: CalloutKind, @StringRes textRes: Int) {
         contentColor = content,
     ) {
         Text(
-            text = stringResource(textRes),
+            text = stringResource(text),
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(spacing.lg),
         )
@@ -334,7 +338,7 @@ private fun ComparisonTable(block: ReferenceBlock.Comparison) {
     ) {
         ComparisonLine(
             label = "",
-            cells = block.columnsRes.map { stringResource(it) },
+            cells = block.columns.map { stringResource(it) },
             scroll = scroll,
             isHeader = true,
             shaded = false,
@@ -342,10 +346,10 @@ private fun ComparisonTable(block: ReferenceBlock.Comparison) {
 
         block.rows.forEachIndexed { index, row ->
             ComparisonLine(
-                label = stringResource(row.labelRes),
+                label = stringResource(row.label),
                 // Guarded by ReferenceCatalogTest; padded rather than crashing
                 // if a ragged row ever ships.
-                cells = List(block.columnsRes.size) { column ->
+                cells = List(block.columns.size) { column ->
                     row.cells.getOrNull(column)?.resolve().orEmpty()
                 },
                 scroll = scroll,
@@ -457,7 +461,7 @@ private fun SymbolRow(symbol: DrawingSymbol) {
         ) {
             Row(horizontalArrangement = Arrangement.spacedBy(spacing.sm)) {
                 Text(
-                    text = stringResource(symbol.nameRes),
+                    text = stringResource(symbol.name),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f, fill = false),
@@ -470,7 +474,7 @@ private fun SymbolRow(symbol: DrawingSymbol) {
                     )
                 }
             }
-            symbol.noteRes?.let { note ->
+            symbol.note?.let { note ->
                 Text(
                     text = stringResource(note),
                     style = MaterialTheme.typography.bodySmall,
@@ -491,14 +495,14 @@ private fun SymbolComparisonHeader(block: ReferenceBlock.SymbolComparison) {
         horizontalArrangement = Arrangement.spacedBy(spacing.lg),
     ) {
         Text(
-            text = stringResource(block.leftLabelRes),
+            text = stringResource(block.leftLabel),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
             modifier = Modifier.width(SYMBOL_COLUMN),
         )
         Text(
-            text = stringResource(block.rightLabelRes),
+            text = stringResource(block.rightLabel),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
@@ -521,7 +525,7 @@ private fun SymbolPairRow(pair: SymbolPair) {
         // Name first: scrolling past a pair and having to look *below* the
         // drawings to find out what they are is the wrong way round.
         Text(
-            text = stringResource(pair.nameRes),
+            text = stringResource(pair.name),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onSurface,
         )
@@ -543,7 +547,7 @@ private fun SymbolPairRow(pair: SymbolPair) {
                 }
             }
         }
-        pair.noteRes?.let { note ->
+        pair.note?.let { note ->
             Text(
                 text = stringResource(note),
                 style = MaterialTheme.typography.bodySmall,

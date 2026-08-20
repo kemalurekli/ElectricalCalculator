@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource as composeStringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -371,15 +372,15 @@ fun VoltageDropScreen(
                     links = persistentListOf(
                         NoteLink(
                             topicKey = "materials",
-                            label = stringResource(ReferenceCatalog.titleResOf("materials")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("materials")),
                         ),
                         NoteLink(
                             topicKey = "primer_cableanatomy",
-                            label = stringResource(ReferenceCatalog.titleResOf("primer_cableanatomy")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("primer_cableanatomy")),
                         ),
                         NoteLink(
                             topicKey = "standard_voltages",
-                            label = stringResource(ReferenceCatalog.titleResOf("standard_voltages")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("standard_voltages")),
                         ),
                     ),
                     onLinkClick = onReferenceClick,

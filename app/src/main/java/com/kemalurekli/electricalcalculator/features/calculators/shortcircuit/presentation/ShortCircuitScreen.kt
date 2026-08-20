@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource as composeStringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -381,15 +382,15 @@ fun ShortCircuitScreen(
                     links = persistentListOf(
                         NoteLink(
                             topicKey = "breaker_curves",
-                            label = stringResource(ReferenceCatalog.titleResOf("breaker_curves")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("breaker_curves")),
                         ),
                         NoteLink(
                             topicKey = "primer_selectivity",
-                            label = stringResource(ReferenceCatalog.titleResOf("primer_selectivity")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("primer_selectivity")),
                         ),
                         NoteLink(
                             topicKey = "rating_series",
-                            label = stringResource(ReferenceCatalog.titleResOf("rating_series")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("rating_series")),
                         ),
                     ),
                     onLinkClick = onReferenceClick,

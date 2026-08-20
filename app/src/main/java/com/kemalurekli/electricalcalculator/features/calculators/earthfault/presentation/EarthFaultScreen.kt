@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource as composeStringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -388,19 +389,19 @@ fun EarthFaultScreen(
                     links = persistentListOf(
                         NoteLink(
                             topicKey = "earthing_systems",
-                            label = stringResource(ReferenceCatalog.titleResOf("earthing_systems")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("earthing_systems")),
                         ),
                         NoteLink(
                             topicKey = "disconnection_times",
-                            label = stringResource(ReferenceCatalog.titleResOf("disconnection_times")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("disconnection_times")),
                         ),
                         NoteLink(
                             topicKey = "rcd_types",
-                            label = stringResource(ReferenceCatalog.titleResOf("rcd_types")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("rcd_types")),
                         ),
                         NoteLink(
                             topicKey = "primer_bonding",
-                            label = stringResource(ReferenceCatalog.titleResOf("primer_bonding")),
+                            label = composeStringResource(ReferenceCatalog.titleOf("primer_bonding")),
                         ),
                     ),
                     onLinkClick = onReferenceClick,

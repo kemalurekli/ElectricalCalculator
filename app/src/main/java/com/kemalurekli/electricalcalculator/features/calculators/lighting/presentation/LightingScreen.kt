@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource as composeStringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -324,8 +325,8 @@ fun LightingScreen(
                     links = persistentListOf(
                         NoteLink(
                             topicKey = "primer_powerquality",
-                            label = stringResource(
-                                ReferenceCatalog.titleResOf("primer_powerquality"),
+                            label = composeStringResource(
+                                ReferenceCatalog.titleOf("primer_powerquality"),
                             ),
                         ),
                     ),

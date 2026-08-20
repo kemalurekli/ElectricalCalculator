@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource as composeStringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -282,14 +283,14 @@ fun NeutralCurrentScreen(
                     links = persistentListOf(
                         NoteLink(
                             topicKey = "primer_harmonics",
-                            label = stringResource(
-                                ReferenceCatalog.titleResOf("primer_harmonics"),
+                            label = composeStringResource(
+                                ReferenceCatalog.titleOf("primer_harmonics"),
                             ),
                         ),
                         NoteLink(
                             topicKey = "primer_cableanatomy",
-                            label = stringResource(
-                                ReferenceCatalog.titleResOf("primer_cableanatomy"),
+                            label = composeStringResource(
+                                ReferenceCatalog.titleOf("primer_cableanatomy"),
                             ),
                         ),
                     ),

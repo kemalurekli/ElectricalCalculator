@@ -1,8 +1,6 @@
-package com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain
+package com.kemalurekli.electricalcalculator.core.domain.table
 
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Derating factors applied to the tabulated current-carrying capacity.
@@ -13,11 +11,20 @@ import javax.inject.Singleton
  * cable calculation ends up optimistic.
  *
  * After IEC 60364-5-52 Table B.52.14 (ambient) and Table B.52.17 (grouping).
- * As with [AmpacityTable], these are transcribed values that need verification
- * against the standard before release.
+ * As with the ampacity table, these are transcribed values that need
+ * verification against the standard before release.
+ *
+ * ### Why it lives in `:core:domain` rather than with the cable calculator
+ *
+ * Two features read it: the cable calculator applies the factors, and the
+ * reference section tabulates them for a reader who wants the numbers without
+ * a calculation. Leaving it in the calculator made those two mutually
+ * dependent — references reached into `calculators.cablesize.domain`, and the
+ * calculators reached back into `references.domain` for topic titles — which is
+ * a cycle no module boundary can express. It is table data with no feature of
+ * its own, so it belongs a layer down.
  */
-@Singleton
-class CorrectionFactors @Inject constructor() {
+class CorrectionFactors {
 
     /**
      * Ambient temperature factor for air, interpolated between table points.

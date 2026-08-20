@@ -15,7 +15,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.battery.present
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.AmpacityTable
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CableSizeInput
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CalculateCableSizeUseCase
-import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CorrectionFactors
+import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.presentation.explainCableSize
 import com.kemalurekli.electricalcalculator.features.calculators.cableweight.domain.CableWeightInput
 import com.kemalurekli.electricalcalculator.features.calculators.cableweight.domain.CalculateCableWeightUseCase

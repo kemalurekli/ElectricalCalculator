@@ -24,7 +24,7 @@ import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferenc
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CableSizeInput
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CableSizeResult
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CalculateCableSizeUseCase
-import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CorrectionFactors
+import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors
 import com.kemalurekli.electricalcalculator.core.ui.model.SystemVoltageDefaults
 import com.kemalurekli.electricalcalculator.core.ui.model.WorkedExample
 import dagger.hilt.android.lifecycle.HiltViewModel

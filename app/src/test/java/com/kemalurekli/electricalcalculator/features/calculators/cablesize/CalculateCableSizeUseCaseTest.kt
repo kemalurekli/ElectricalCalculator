@@ -7,7 +7,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.AmpacityTable
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CableSizeInput
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CalculateCableSizeUseCase
-import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CorrectionFactors
+import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.GoverningConstraint
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

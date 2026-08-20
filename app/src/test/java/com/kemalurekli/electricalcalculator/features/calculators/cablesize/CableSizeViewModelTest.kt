@@ -11,7 +11,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.AmpacityTable
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CalculateCableSizeUseCase
-import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CorrectionFactors
+import com.kemalurekli.electricalcalculator.core.domain.table.CorrectionFactors
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.presentation.CableSizeField
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.presentation.CableSizeViewModel
 import com.kemalurekli.electricalcalculator.testing.FakeCalculationHistoryDao
