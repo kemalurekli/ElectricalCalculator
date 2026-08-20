@@ -5,7 +5,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.getString
 
 /**
- * Reads a string the design system owns.
+ * Reads a string from whichever module owns it.
  *
  * These used to come from `context.getString(R.string.x)`. They moved with the
  * components that use them when `:core:designsystem` became its own
@@ -19,4 +19,8 @@ import org.jetbrains.compose.resources.getString
  * `runBlocking` because the accessor is suspending and these are called from
  * ordinary JUnit setup. The lookup is a table read, not I/O.
  */
-fun designSystemString(resource: StringResource): String = runBlocking { getString(resource) }
+fun moduleString(resource: StringResource): String = runBlocking { getString(resource) }
+
+/** The same, with arguments substituted the way the screen substitutes them. */
+fun moduleString(resource: StringResource, vararg args: Any): String =
+    runBlocking { getString(resource, *args) }

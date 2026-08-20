@@ -29,9 +29,25 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import kotlin.time.Instant
-import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
+import com.kemalurekli.electricalcalculator.testing.moduleString
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignSystemRes
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.search_hint
-import com.kemalurekli.electricalcalculator.testing.designSystemString
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.Res as NavigationRes
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_calculators_title
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_converter_subtitle
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_converter_title
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_favorites_title
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_field_notes_title
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_glossary_title
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_history_title
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_references_title
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_settings_subtitle
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_settings_title
+import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_theory_title
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.Res as CalculatorsRes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.state_empty_calculators_title
+import com.kemalurekli.electricalcalculator.feature.home.generated.resources.Res as HomeRes
+import com.kemalurekli.electricalcalculator.feature.home.generated.resources.home_browse
 
 /**
  * Drives the stateless [HomeScreen] with fixed state, so these assertions cover
@@ -59,25 +75,25 @@ class HomeScreenTest {
     private lateinit var strings: Strings
 
     private class Strings(context: Context) {
-        val searchHint: String = designSystemString(Res.string.search_hint)
-        val browse: String = context.getString(R.string.home_browse)
-        val noMatches: String = context.getString(R.string.state_empty_calculators_title)
+        val searchHint: String = moduleString(DesignSystemRes.string.search_hint)
+        val browse: String = moduleString(HomeRes.string.home_browse)
+        val noMatches: String = moduleString(CalculatorsRes.string.state_empty_calculators_title)
 
-        val calculators: String = context.getString(R.string.dashboard_calculators_title)
-        val converter: String = context.getString(R.string.dashboard_converter_title)
-        val references: String = context.getString(R.string.dashboard_references_title)
-        val glossary: String = context.getString(R.string.dashboard_glossary_title)
-        val favorites: String = context.getString(R.string.dashboard_favorites_title)
-        val history: String = context.getString(R.string.dashboard_history_title)
-        val settings: String = context.getString(R.string.dashboard_settings_title)
-        val fieldNotes: String = context.getString(R.string.dashboard_field_notes_title)
-        val theory: String = context.getString(R.string.dashboard_theory_title)
+        val calculators: String = moduleString(NavigationRes.string.dashboard_calculators_title)
+        val converter: String = moduleString(NavigationRes.string.dashboard_converter_title)
+        val references: String = moduleString(NavigationRes.string.dashboard_references_title)
+        val glossary: String = moduleString(NavigationRes.string.dashboard_glossary_title)
+        val favorites: String = moduleString(NavigationRes.string.dashboard_favorites_title)
+        val history: String = moduleString(NavigationRes.string.dashboard_history_title)
+        val settings: String = moduleString(NavigationRes.string.dashboard_settings_title)
+        val fieldNotes: String = moduleString(NavigationRes.string.dashboard_field_notes_title)
+        val theory: String = moduleString(NavigationRes.string.dashboard_theory_title)
 
         /** A card announces itself as "title. subtitle" in one merged node. */
         val converterCard: String =
-            converter + ". " + context.getString(R.string.dashboard_converter_subtitle)
+            converter + ". " + moduleString(NavigationRes.string.dashboard_converter_subtitle)
         val settingsCard: String =
-            settings + ". " + context.getString(R.string.dashboard_settings_subtitle)
+            settings + ". " + moduleString(NavigationRes.string.dashboard_settings_subtitle)
     }
 
     private val voltageDrop = CalculatorUiModel(
@@ -369,6 +385,7 @@ class HomeScreenTest {
                     onCalculatorClick = onCalculatorClick,
                     onOpenRecord = onOpenRecord,
                     onOpenSearchHit = onOpenSearchHit,
+            hasSettings = true,
                 )
             }
         }

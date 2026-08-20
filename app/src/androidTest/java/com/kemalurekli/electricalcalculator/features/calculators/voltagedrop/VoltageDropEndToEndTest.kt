@@ -13,16 +13,15 @@ import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.repository.HistoryRepository
 import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.presentation.VoltageDropRoute
-import com.kemalurekli.electricalcalculator.testing.HiltTestActivity
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
+import com.kemalurekli.electricalcalculator.testing.TestActivity
+import com.kemalurekli.electricalcalculator.testing.TestGraph
+import org.koin.java.KoinJavaComponent.getKoin
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -30,13 +29,20 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
-import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
+import com.kemalurekli.electricalcalculator.testing.moduleString
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignSystemRes
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.validation_required
-import com.kemalurekli.electricalcalculator.testing.designSystemString
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.Res as CalculatorsRes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.action_calculate
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_cross_section
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_design_current
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_route_length
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_system_voltage
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_result_label
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_temperature_label
 
 /**
- * End-to-end coverage of the voltage drop calculator against the real Hilt
+ * End-to-end coverage of the voltage drop calculator against the real Koin
  * graph and a real (in-memory) database.
  *
  * The unit tests prove the arithmetic and the screen tests prove the rendering;
@@ -51,34 +57,31 @@ import com.kemalurekli.electricalcalculator.testing.designSystemString
  * preference rather than on the code — and the decimal separator moves with the
  * locale too, so the drop is "5.17" in English and "5,17" in Turkish.
  */
-@HiltAndroidTest
 class VoltageDropEndToEndTest {
 
     @get:Rule(order = 0)
-    val hiltRule = HiltAndroidRule(this)
+    val graph = TestGraph()
 
     @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
+    val composeTestRule = createAndroidComposeRule<TestActivity>()
 
-    @Inject
-    lateinit var historyRepository: HistoryRepository
+    private val historyRepository: HistoryRepository get() = getKoin().get()
 
     private lateinit var strings: Strings
 
     private class Strings(context: Context) {
-        val systemVoltage: String = context.getString(R.string.common_system_voltage)
-        val designCurrent: String = context.getString(R.string.common_design_current)
-        val routeLength: String = context.getString(R.string.common_route_length)
-        val crossSection: String = context.getString(R.string.common_cross_section)
-        val temperature: String = context.getString(R.string.vd_temperature_label)
-        val calculate: String = context.getString(R.string.action_calculate)
-        val required: String = designSystemString(Res.string.validation_required)
-        val resultLabel: String = context.getString(R.string.vd_result_label)
+        val systemVoltage: String = moduleString(CalculatorsRes.string.common_system_voltage)
+        val designCurrent: String = moduleString(CalculatorsRes.string.common_design_current)
+        val routeLength: String = moduleString(CalculatorsRes.string.common_route_length)
+        val crossSection: String = moduleString(CalculatorsRes.string.common_cross_section)
+        val temperature: String = moduleString(CalculatorsRes.string.vd_temperature_label)
+        val calculate: String = moduleString(CalculatorsRes.string.action_calculate)
+        val required: String = moduleString(DesignSystemRes.string.validation_required)
+        val resultLabel: String = moduleString(CalculatorsRes.string.vd_result_label)
     }
 
     @Before
     fun setUp() {
-        hiltRule.inject()
         strings = Strings(composeTestRule.activity)
         composeTestRule.setContent {
             ElecToolkitTheme {

@@ -11,14 +11,12 @@ import com.kemalurekli.electricalcalculator.core.domain.model.UnitSystem
 import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 data class SettingsUiState(
     val preferences: UserPreferences = UserPreferences.Default,
@@ -28,8 +26,7 @@ data class SettingsUiState(
     val versionName: String = BuildConfig.VERSION_NAME,
 )
 
-@HiltViewModel
-class SettingsViewModel @Inject constructor(
+class SettingsViewModel(
     private val repository: UserPreferencesRepository,
     private val languageRepository: AppLanguageRepository,
     private val regionProvider: RegionProvider,

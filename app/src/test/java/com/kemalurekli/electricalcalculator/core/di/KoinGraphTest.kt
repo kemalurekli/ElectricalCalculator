@@ -45,10 +45,10 @@ import org.koin.test.verify.verify
  *
  * ### Why the extra types are listed
  *
- * `hiltBridgeModule` builds its objects out of a running Hilt component, so its
- * definitions cannot be constructed here. The types it provides are declared as
- * external instead: the question this answers is whether every *feature*
- * declares what it needs, not whether Hilt is running.
+ * `verify()` reads one module at a time, so anything registered by another —
+ * `coreCommonModule`, `coreDataModule`, or a sibling feature — has to be named.
+ * What the check still answers, and the part that matters, is whether every
+ * feature declares everything it owns.
  */
 class KoinGraphTest {
 

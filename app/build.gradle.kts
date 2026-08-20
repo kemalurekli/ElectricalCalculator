@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
 }
 
 /**
@@ -41,7 +40,7 @@ android {
         versionCode = 1
         versionName = "1.0.0"
 
-        testInstrumentationRunner = "com.kemalurekli.electricalcalculator.HiltTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
         buildConfigField("String", "SUPABASE_URL", "\"${supabaseProperty("supabase.url")}\"")
@@ -194,11 +193,9 @@ dependencies {
 
     // Dependency injection. Hilt still wires :app; Koin wires the modules
     // that have left it. The two coexist until the migration finishes.
-    implementation(libs.hilt.android)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.hilt.compiler)
+    implementation(libs.koin.compose.viewmodel)
 
     // Persistence
     implementation(libs.androidx.room.runtime)
@@ -242,10 +239,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.kotlinx.coroutines.test)
-    kspAndroidTest(libs.hilt.compiler)
 
     // Debug tooling
     debugImplementation(libs.androidx.compose.ui.tooling)

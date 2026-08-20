@@ -11,7 +11,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
-import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
@@ -26,11 +25,23 @@ import com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.pre
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
+import com.kemalurekli.electricalcalculator.testing.moduleString
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignSystemRes
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_copy
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_share
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.validation_must_be_positive
-import com.kemalurekli.electricalcalculator.testing.designSystemString
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.Res as CalculatorsRes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.action_calculate
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_design_current
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_power_factor
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_system_voltage
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_formula
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_note_reactance
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_result_label
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_result_voltage_at_load
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_status_within_lighting
 
 /**
  * Drives the stateless screen with fixed state. Calculation correctness is
@@ -60,25 +71,25 @@ class VoltageDropScreenTest {
     private lateinit var strings: Strings
 
     private class Strings(private val context: Context) {
-        val systemVoltage: String = context.getString(R.string.common_system_voltage)
-        val designCurrent: String = context.getString(R.string.common_design_current)
-        val powerFactor: String = context.getString(R.string.common_power_factor)
-        val calculate: String = context.getString(R.string.action_calculate)
-        val copy: String = designSystemString(Res.string.action_copy)
-        val share: String = designSystemString(Res.string.action_share)
-        val formulaHeading: String = context.getString(R.string.calculator_formula)
-        val notesHeading: String = context.getString(R.string.calculator_notes)
-        val reactanceNote: String = context.getString(R.string.vd_note_reactance)
-        val mustBePositive: String = designSystemString(Res.string.validation_must_be_positive)
-        val resultLabel: String = context.getString(R.string.vd_result_label)
-        val voltageAtLoad: String = context.getString(R.string.vd_result_voltage_at_load)
+        val systemVoltage: String = moduleString(CalculatorsRes.string.common_system_voltage)
+        val designCurrent: String = moduleString(CalculatorsRes.string.common_design_current)
+        val powerFactor: String = moduleString(CalculatorsRes.string.common_power_factor)
+        val calculate: String = moduleString(CalculatorsRes.string.action_calculate)
+        val copy: String = moduleString(DesignSystemRes.string.action_copy)
+        val share: String = moduleString(DesignSystemRes.string.action_share)
+        val formulaHeading: String = moduleString(CalculatorsRes.string.calculator_formula)
+        val notesHeading: String = moduleString(CalculatorsRes.string.calculator_notes)
+        val reactanceNote: String = moduleString(CalculatorsRes.string.vd_note_reactance)
+        val mustBePositive: String = moduleString(DesignSystemRes.string.validation_must_be_positive)
+        val resultLabel: String = moduleString(CalculatorsRes.string.vd_result_label)
+        val voltageAtLoad: String = moduleString(CalculatorsRes.string.vd_result_voltage_at_load)
 
         /** The symbols are identical in every locale; the first line is enough. */
         val formulaFirstLine: String =
-            context.getString(R.string.vd_formula).substringBefore('\n')
+            moduleString(CalculatorsRes.string.vd_formula).substringBefore('\n')
 
         fun withinLightingLimit(percentage: String): String =
-            context.getString(R.string.vd_status_within_lighting, percentage)
+            moduleString(CalculatorsRes.string.vd_status_within_lighting, percentage)
     }
 
     private fun resultState() = VoltageDropUiState(

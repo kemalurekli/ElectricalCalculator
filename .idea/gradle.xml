@@ -23,6 +23,7 @@
             <option value="$PROJECT_DIR$/feature/converter" />
             <option value="$PROJECT_DIR$/feature/favorites" />
             <option value="$PROJECT_DIR$/feature/fieldnotes" />
+            <option value="$PROJECT_DIR$/feature/forum" />
             <option value="$PROJECT_DIR$/feature/glossary" />
             <option value="$PROJECT_DIR$/feature/history" />
             <option value="$PROJECT_DIR$/feature/home" />
@@ -31,6 +32,7 @@
             <option value="$PROJECT_DIR$/feature/references" />
             <option value="$PROJECT_DIR$/feature/theory" />
             <option value="$PROJECT_DIR$/iosEntry" />
+            <option value="$PROJECT_DIR$/shell" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -339,6 +339,28 @@ must not be.
 `MainActivity`, the Application class, and the settings screen. Nothing else in
 the app is Android-only any more.
 
+### Hilt is gone
+
+`:app` is **8 files**: the Application, `MainActivity`, `MainViewModel`, the
+settings screen and its ViewModel, the language repository, the Android
+destinations, and one Koin module for the two things that genuinely need
+Android — the device region from `LocaleManager` and the per-app language
+through `AppCompatDelegate`.
+
+Nine Hilt modules and the entry point that bridged them are deleted. Both
+platforms now start the same graph: `coreCommonModule`, `coreDataModule`, and
+one module per feature.
+
+Two checks replace what Hilt gave at compile time. `KoinGraphTest` verifies that
+everything registered can be built; `RegisteredViewModelsTest` verifies that
+nothing was left out. The second was written after three of the forum's
+ViewModels shipped unregistered — they sit on sections rather than screens, so
+they are reached by a scroll rather than a tap, and no manual sweep found them.
+
+`ResourceIdResolver` is deleted too, which was its own success condition: the
+number of ViewModels injecting it was the count of screens that could not leave
+`:app`, and it reached zero.
+
 ### What is genuinely left
 
 **Sign in with Apple.** App Store guideline 4.8 requires an equivalent option

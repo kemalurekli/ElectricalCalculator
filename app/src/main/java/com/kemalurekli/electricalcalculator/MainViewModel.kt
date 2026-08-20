@@ -5,13 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
 import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Theme state for the activity.
@@ -28,8 +26,7 @@ sealed interface MainUiState {
     data class Ready(val preferences: UserPreferences) : MainUiState
 }
 
-@HiltViewModel
-class MainViewModel @Inject constructor(
+class MainViewModel(
     private val userPreferencesRepository: UserPreferencesRepository,
     private val regionProvider: RegionProvider,
 ) : ViewModel() {

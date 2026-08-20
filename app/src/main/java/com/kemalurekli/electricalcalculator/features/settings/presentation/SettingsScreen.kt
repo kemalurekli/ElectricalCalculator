@@ -38,7 +38,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScre
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.designsystem.component.DisclaimerDialog
@@ -65,7 +65,7 @@ fun SettingsRoute(
     onNavigateBack: () -> Unit,
     onOpenForumProfile: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SettingsViewModel = hiltViewModel(),
+    viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

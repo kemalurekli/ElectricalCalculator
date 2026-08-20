@@ -7,8 +7,6 @@ import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRe
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Backs [AppLanguageRepository] with `AppCompatDelegate`.
@@ -19,8 +17,7 @@ import javax.inject.Singleton
  * declared in the manifest. Using it rather than the platform API directly is
  * what lets this work down to minSdk 28.
  */
-@Singleton
-class AppLanguageRepositoryImpl @Inject constructor() : AppLanguageRepository {
+class AppLanguageRepositoryImpl() : AppLanguageRepository {
 
     private val _language = MutableStateFlow(readCurrentLanguage())
     override val language: StateFlow<AppLanguage> = _language.asStateFlow()

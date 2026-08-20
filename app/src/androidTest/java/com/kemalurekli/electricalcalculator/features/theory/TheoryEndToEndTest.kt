@@ -13,17 +13,25 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
-import com.kemalurekli.electricalcalculator.R
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.features.theory.presentation.TheoryTopicRoute
-import com.kemalurekli.electricalcalculator.testing.HiltTestActivity
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
+import com.kemalurekli.electricalcalculator.testing.TestActivity
+import com.kemalurekli.electricalcalculator.testing.TestGraph
+import org.koin.java.KoinJavaComponent.getKoin
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.Res as CalculatorsRes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.action_calculate
+import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.Res as TheoryRes
+import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_field_resistance
+import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_field_voltage
+import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_not_found_title
+import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_ohm_law_solve_resistance
+import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_section_theory
+import com.kemalurekli.electricalcalculator.testing.moduleString
 
 /**
  * End-to-end coverage of a theory topic against the real Hilt graph.
@@ -39,20 +47,18 @@ import org.junit.Test
  * storage, so literals would make this suite report on a preference rather than
  * on the code — the lesson of commit `c3db95b`, which had to undo exactly that.
  */
-@HiltAndroidTest
 class TheoryEndToEndTest {
 
     @get:Rule(order = 0)
-    val hiltRule = HiltAndroidRule(this)
+    val graph = TestGraph()
 
     @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
+    val composeTestRule = createAndroidComposeRule<TestActivity>()
 
     private lateinit var context: Context
 
     @Before
     fun setUp() {
-        hiltRule.inject()
         context = composeTestRule.activity
     }
 
@@ -77,7 +83,7 @@ class TheoryEndToEndTest {
         // The prose and the formula start expanded: on this shelf the derivation
         // is the subject, not a caveat folded away under the answer.
         composeTestRule
-            .onNodeWithText(context.getString(R.string.th_section_theory))
+            .onNodeWithText(moduleString(TheoryRes.string.th_section_theory))
             .assertIsDisplayed()
     }
 
@@ -89,12 +95,12 @@ class TheoryEndToEndTest {
         // to be scrolled into the lazy list before it exists to be touched.
         // "Resistance" is both a field label and a target the selector offers, so
         // the field is picked by the one thing only it has: a text input action.
-        val resistance = context.getString(R.string.th_field_resistance)
+        val resistance = moduleString(TheoryRes.string.th_field_resistance)
         composeTestRule.scrollTo(hasText(resistance) and hasSetTextAction())
         composeTestRule.onNode(hasText(resistance) and hasSetTextAction())
             .performTextReplacement("529")
 
-        val calculate = context.getString(R.string.action_calculate)
+        val calculate = moduleString(CalculatorsRes.string.action_calculate)
         composeTestRule.scrollTo(hasText(calculate))
         composeTestRule.onNodeWithText(calculate).performClick()
 
@@ -118,7 +124,7 @@ class TheoryEndToEndTest {
     fun switchingTheTargetKeepsAValueTheNewTargetAlsoAsksFor() {
         setContent("ohm_law")
 
-        val voltageField = hasText(context.getString(R.string.th_field_voltage)) and
+        val voltageField = hasText(moduleString(TheoryRes.string.th_field_voltage)) and
             hasSetTextAction()
         composeTestRule.scrollTo(voltageField)
         composeTestRule.onNode(voltageField).performTextReplacement("400")
@@ -126,7 +132,7 @@ class TheoryEndToEndTest {
         // The selector option carries the same word as a field label; it is
         // told apart by being selectable rather than typeable.
         val solveForResistance =
-            hasText(context.getString(R.string.th_ohm_law_solve_resistance)) and isSelectable()
+            hasText(moduleString(TheoryRes.string.th_ohm_law_solve_resistance)) and isSelectable()
         composeTestRule.scrollTo(solveForResistance)
         composeTestRule.onNode(solveForResistance).performClick()
 
@@ -143,7 +149,7 @@ class TheoryEndToEndTest {
         // is asserted by description — which also checks the screen-reader text.
         composeTestRule
             .onNodeWithContentDescription(
-                context.getString(R.string.th_not_found_title),
+                moduleString(TheoryRes.string.th_not_found_title),
                 substring = true,
             )
             .assertIsDisplayed()

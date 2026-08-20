@@ -12,8 +12,6 @@ composeAdaptiveMultiplatform = "1.3.0-beta02"
 lifecycleMultiplatform = "2.11.0"
 navigationComposeMultiplatform = "2.9.1"
 
-# Dependency injection for the shared modules. Hilt is Android-only and has no
-# multiplatform port; Koin is what replaces it as code moves out of :app.
 koin = "4.2.2"
 
 # SDK levels
@@ -35,8 +33,6 @@ composeAdaptive = "1.3.0-rc01"
 
 # Navigation & DI
 navigationCompose = "2.9.8"
-hilt = "2.60.1"
-hiltNavigationCompose = "1.4.0"
 
 # Persistence
 room = "2.8.4"
@@ -117,12 +113,6 @@ androidx-compose-material3-navigation-suite = { group = "androidx.compose.materi
 # Navigation
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 
-# Hilt
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
-androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-
 # Room
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
@@ -157,8 +147,8 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 
-# Koin, for the shared modules. Hilt is Android-only; as code leaves :app it
-# swaps to these. The two coexist while the migration is in progress.
+# Koin. It replaced Hilt outright, because Hilt is Android-only and by the end
+# of the port there was almost nothing Android-only left to wire.
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin" }
@@ -201,5 +191,4 @@ compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMu
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 room = { id = "androidx.room", version.ref = "room" }

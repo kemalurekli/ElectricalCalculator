@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +24,6 @@ import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import com.kemalurekli.electricalcalculator.core.designsystem.component.DisclaimerDialog
 import com.kemalurekli.electricalcalculator.core.navigation.androidDestinations
 import com.kemalurekli.electricalcalculator.shell.ElecAppShell
-import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Extends [AppCompatActivity] rather than `ComponentActivity` solely for the
@@ -33,10 +32,12 @@ import dagger.hilt.android.AndroidEntryPoint
  * Compose, Hilt and edge-to-edge are unaffected — `AppCompatActivity` is a
  * `ComponentActivity` subclass.
  */
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
+    // Koin's, not the platform default: with Hilt gone there is no generated
+    // factory, and the default one cannot build a constructor that takes
+    // anything.
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
