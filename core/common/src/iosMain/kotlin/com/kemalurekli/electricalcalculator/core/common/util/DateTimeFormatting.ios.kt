@@ -30,6 +30,10 @@ actual fun Instant.formatAsDate(): String =
 private fun formatter(dateStyle: ULong, timeStyle: ULong) = NSDateFormatter().apply {
     setDateStyle(dateStyle)
     setTimeStyle(timeStyle)
+    // The app's language, not the device's formats locale. Android's
+    // per-app locale moves `Locale.getDefault()`, so a date under Turkish
+    // chrome reads Turkish there; this is what makes iOS agree.
+    setLocale(appLocale())
 }
 
 private fun Instant.toNSDate(): NSDate =
@@ -52,9 +56,7 @@ actual fun Instant.formatAsRelativeTime(): String {
     // under Turkish prose is the app disagreeing with itself.
     val formatter = NSRelativeDateTimeFormatter().apply {
         dateTimeStyle = NSRelativeDateTimeFormatterStyleNamed
-        NSLocale.preferredLanguages.firstOrNull()?.let {
-            locale = NSLocale(localeIdentifier = it as String)
-        }
+        locale = appLocale()
     }
     val date = NSDate.dateWithTimeIntervalSince1970(toEpochMilliseconds() / 1000.0)
     return formatter.localizedStringForDate(date, relativeToDate = NSDate())

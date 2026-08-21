@@ -24,5 +24,3 @@ actual fun appVersionName(): String {
             .versionName
     }.getOrNull().orEmpty()
 }
-
-actual val canChangeLanguageInApp: Boolean = true

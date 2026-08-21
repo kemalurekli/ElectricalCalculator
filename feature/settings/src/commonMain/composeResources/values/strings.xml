@@ -46,6 +46,4 @@
     <string name="settings_unit_system_metric">Metric (mm², m)</string>
     <string name="settings_units">Units</string>
     <string name="settings_version">Version</string>
-    <string name="settings_language_system_managed">Set in iOS Settings, under this app.</string>
-    <string name="settings_language_open_settings">Open Settings</string>
 </resources>

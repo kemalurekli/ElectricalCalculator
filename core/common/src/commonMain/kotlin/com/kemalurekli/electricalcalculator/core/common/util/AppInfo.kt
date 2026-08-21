@@ -10,16 +10,3 @@ package com.kemalurekli.electricalcalculator.core.common.util
  * number to be wrong in.
  */
 expect fun appVersionName(): String
-
-/**
- * Whether the app can change its own display language.
- *
- * True on Android, where `AppCompatDelegate.setApplicationLocales` sets a
- * per-app locale and recreates the activities.
- *
- * False on iOS, and not for want of an API — iOS puts per-app language in
- * Settings itself, one screen per app, and an in-app picker would be a second
- * place to set the same thing. The settings screen offers a way *there*
- * instead.
- */
-expect val canChangeLanguageInApp: Boolean

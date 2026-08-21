@@ -26,7 +26,7 @@ import platform.Foundation.uppercaseStringWithLocale
  */
 @OptIn(ExperimentalForeignApi::class)
 actual fun localizedComparator(): Comparator<String> {
-    val locale = NSLocale.currentLocale
+    val locale = appLocale()
     return Comparator { left, right ->
         val subject = left as NSString
         when (
@@ -57,7 +57,7 @@ actual fun String.firstCharacter(): String {
 }
 
 actual fun String.uppercaseLocalized(): String =
-    (this as NSString).uppercaseStringWithLocale(NSLocale.currentLocale)
+    (this as NSString).uppercaseStringWithLocale(appLocale())
 
 /**
  * `preferredLanguages`, not `currentLocale`.

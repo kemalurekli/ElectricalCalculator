@@ -1,9 +1,5 @@
 package com.kemalurekli.electricalcalculator.features.settings.presentation
 
-import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_language_system_managed
-import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_language_open_settings
-import com.kemalurekli.electricalcalculator.features.settings.openSystemLanguageSettings
-import com.kemalurekli.electricalcalculator.core.common.util.canChangeLanguageInApp
 import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -191,33 +187,17 @@ fun SettingsScreen(
             ElecSectionHeader(title = stringResource(Res.string.settings_language))
 
             SettingsGroup {
-                // Radio buttons where the app owns the setting, a way out where
-                // the platform does. iOS keeps per-app language in Settings —
-                // one screen per app — and a picker here would be a second
-                // place to set the same thing, able to disagree with the first.
-                if (canChangeLanguageInApp) {
-                    Column(Modifier.selectableGroup()) {
-                        AppLanguage.entries.forEach { language ->
-                            SettingsRadioRow(
-                                label = language.displayName(),
-                                selected = uiState.language == language,
-                                onSelect = { onLanguageChange(language) },
-                            )
-                        }
-                    }
-                } else {
-                    Column(
-                        modifier = Modifier.padding(spacing.lg),
-                        verticalArrangement = Arrangement.spacedBy(spacing.sm),
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.settings_language_system_managed),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                // The same picker on both platforms. Each stores the choice
+                // where the system stores it, so the row in the phone's own
+                // settings and this one are two doors into one setting rather
+                // than two settings that can disagree.
+                Column(Modifier.selectableGroup()) {
+                    AppLanguage.entries.forEach { language ->
+                        SettingsRadioRow(
+                            label = language.displayName(),
+                            selected = uiState.language == language,
+                            onSelect = { onLanguageChange(language) },
                         )
-                        TextButton(onClick = ::openSystemLanguageSettings) {
-                            Text(stringResource(Res.string.settings_language_open_settings))
-                        }
                     }
                 }
             }

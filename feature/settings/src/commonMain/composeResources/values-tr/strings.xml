@@ -45,6 +45,4 @@
     <string name="settings_unit_system_metric">Metrik (mm², m)</string>
     <string name="settings_units">Birimler</string>
     <string name="settings_version">Sürüm</string>
-    <string name="settings_language_system_managed">iOS Ayarlar'da, bu uygulamanın altından değiştirilir.</string>
-    <string name="settings_language_open_settings">Ayarlar'ı aç</string>
 </resources>

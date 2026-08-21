@@ -1,43 +1,45 @@
 package com.kemalurekli.electricalcalculator.shell
 
-import kotlinx.coroutines.launch
-import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
-import com.kemalurekli.electricalcalculator.core.domain.model.ThemeMode
-import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
-import com.kemalurekli.electricalcalculator.core.designsystem.component.DisclaimerDialog
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.collectAsState
-import androidx.compose.material3.Surface
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.isSystemInDarkTheme
-import org.koin.compose.koinInject
-import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
-import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
-import androidx.compose.runtime.LaunchedEffect
-import com.kemalurekli.electricalcalculator.core.navigation.ElecTab
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.stringResource
+import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.kemalurekli.electricalcalculator.core.common.util.RegionProvider
+import com.kemalurekli.electricalcalculator.core.designsystem.component.DisclaimerDialog
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
+import com.kemalurekli.electricalcalculator.core.domain.model.ThemeMode
+import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
+import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
+import com.kemalurekli.electricalcalculator.core.domain.repository.UserPreferencesRepository
+import com.kemalurekli.electricalcalculator.core.navigation.ElecTab
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 /**
  * The frame every screen is drawn inside.
@@ -187,9 +189,11 @@ private fun SeedEngineeringDefaults(
 fun ElecToolkitApp(
     modifier: Modifier = Modifier,
     preferencesRepository: UserPreferencesRepository = koinInject(),
+    languageRepository: AppLanguageRepository = koinInject(),
 ) {
     val preferences by preferencesRepository.preferences
         .collectAsState(initial = null)
+    val language by languageRepository.language.collectAsState()
 
     val resolved = preferences ?: UserPreferences.Default
     val darkTheme = when (resolved.themeMode) {
@@ -198,12 +202,29 @@ fun ElecToolkitApp(
         ThemeMode.SYSTEM -> isSystemInDarkTheme()
     }
 
+    // Outside the `key` below, so changing the language does not also throw
+    // away where the reader was. Android would have restored the back stack
+    // through saved state after the activity recreation; keeping the same
+    // controller is how iOS gets the same outcome.
+    val navController = rememberNavController()
+
     ElecToolkitTheme(darkTheme = darkTheme) {
         Surface(
             modifier = modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background,
         ) {
-            ElecAppShell()
+            // Restarts the whole tree when the language changes.
+            //
+            // Compose Resources picks a `values-*` folder from `Locale.current`,
+            // read inside each `stringResource` call and cached there. Nothing
+            // invalidates that cache on its own: the strings are not state, so
+            // a screen that does not otherwise recompose keeps the language it
+            // was composed in. Android never needed this because it recreates
+            // the activity; this is the same restart, done in one place for
+            // both.
+            key(language) {
+                ElecAppShell(navController = navController)
+            }
 
             // Over the app rather than before it: the reader can see what they
             // are agreeing to use. Held until accepted, and only ever shown
