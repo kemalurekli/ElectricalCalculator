@@ -27,6 +27,7 @@ import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.fo
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_email_verify
 import org.jetbrains.compose.resources.stringResource
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_email_resend_in
+import androidx.compose.foundation.text.KeyboardActions
 
 /**
  * Signing in with an address and a six-digit code.
@@ -71,6 +72,10 @@ fun ForumEmailSignIn(
                         keyboardType = KeyboardType.Email,
                         imeAction = ImeAction.Send,
                     ),
+                    // The key has to do what it says. Asking for `Send` and
+                    // then only closing the keyboard leaves the reader hunting
+                    // for a button that the keyboard is standing on.
+                    keyboardActions = KeyboardActions(onSend = { viewModel.onSendCode() }),
                 )
                 Button(
                     onClick = viewModel::onSendCode,
@@ -108,6 +113,7 @@ fun ForumEmailSignIn(
                         keyboardType = KeyboardType.NumberPassword,
                         imeAction = ImeAction.Done,
                     ),
+                    keyboardActions = KeyboardActions(onDone = { viewModel.onVerifyCode() }),
                 )
                 Button(
                     onClick = viewModel::onVerifyCode,
