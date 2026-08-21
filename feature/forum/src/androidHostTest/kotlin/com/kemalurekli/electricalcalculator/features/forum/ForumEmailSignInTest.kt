@@ -100,16 +100,21 @@ class ForumEmailSignInTest {
     }
 
     @Test
-    fun `too many requests reads as wait rather than as broken`() = runTest {
+    fun `an unrelated failure is not reported as a bad code`() = runTest {
+        // The word "invalid" is in this message, and the first version of the
+        // mapping searched for exactly that — so a rejected key, a
+        // misconfigured project and a 500 all reached the reader as "the code
+        // is wrong, or it has expired". Confident, wrong, and it sent them to
+        // check the one thing that was fine.
         val auth = FakeForumAuthRepository()
-        auth.emailFailure = IllegalStateException("HTTP 429 Too Many Requests")
+        auth.emailFailure = IllegalStateException("Invalid API key")
         val viewModel = viewModel(auth)
 
         viewModel.onEmailChange("kemal@example.com")
         viewModel.onSendCode()
         advanceUntilIdle()
 
-        assertEquals(ForumAuthFailure.TOO_MANY_REQUESTS, viewModel.failure.value)
+        assertEquals(ForumAuthFailure.UNKNOWN, viewModel.failure.value)
     }
 
     @Test

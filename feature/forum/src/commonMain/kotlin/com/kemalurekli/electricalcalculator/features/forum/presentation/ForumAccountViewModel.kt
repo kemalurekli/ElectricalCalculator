@@ -16,6 +16,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Job
+import io.github.jan.supabase.exceptions.RestException
+import io.github.jan.supabase.auth.exception.AuthRestException
+import io.github.jan.supabase.auth.exception.AuthErrorCode
 
 /** Signing in, signing out, and leaving for good. */
 class ForumAccountViewModel(
@@ -219,18 +222,55 @@ internal fun String.isPlausibleEmail(): Boolean {
     return domain.length >= 3 && '.' in domain.drop(1).dropLast(1) && none(Char::isWhitespace)
 }
 
-/** How a failed email sign-in should read. */
+/**
+ * How a failed email sign-in should read.
+ *
+ * Reads the error Supabase actually returned rather than the words in the
+ * exception's message. The first version of this matched on the substring
+ * "invalid", which meant every unrelated failure — a rejected key, a
+ * misconfigured project, a 500 — arrived on screen as "the code is wrong, or
+ * it has expired". That is the worst kind of error message: confident, wrong,
+ * and it sends the reader to check the one thing that was fine.
+ *
+ * Anything not recognised is [ForumAuthFailure.UNKNOWN] and is printed with
+ * its code, so the next unmapped case is a line in the log rather than another
+ * confident lie.
+ */
 private fun Throwable.toEmailFailure(): ForumAuthFailure = when {
     this is kotlinx.io.IOException -> ForumAuthFailure.NO_CONNECTION
-    STATUS_TOO_MANY in message.orEmpty() -> ForumAuthFailure.TOO_MANY_REQUESTS
-    OTP_REJECTED.any { it in message.orEmpty().lowercase() } -> ForumAuthFailure.INVALID_CODE
+
+    this is AuthRestException -> when (errorCode) {
+        AuthErrorCode.OtpExpired -> ForumAuthFailure.INVALID_CODE
+        AuthErrorCode.OverEmailSendRateLimit,
+        AuthErrorCode.OverRequestRateLimit,
+        -> ForumAuthFailure.TOO_MANY_REQUESTS
+        AuthErrorCode.ValidationFailed -> ForumAuthFailure.INVALID_EMAIL
+        // The project is not set up for this, which is nothing the reader can
+        // act on and must not be dressed as a mistyped code.
+        AuthErrorCode.OtpDisabled,
+        AuthErrorCode.EmailProviderDisabled,
+        AuthErrorCode.SignupDisabled,
+        -> ForumAuthFailure.NOT_CONFIGURED
+        else -> unmapped(error, statusCode)
+    }
+
+    this is RestException -> unmapped(error, statusCode)
+
     else -> ForumAuthFailure.UNKNOWN
 }
 
-private const val STATUS_TOO_MANY = "429"
-
-// Matched on the message because supabase-kt surfaces these as one exception
-// type with the server's wording inside. Fragile by nature, so the fallback is
-// UNKNOWN rather than a guess: a mislabelled failure that tells the reader to
-// wait when the code was simply mistyped is worse than a vague one.
-private val OTP_REJECTED = listOf("otp_expired", "invalid", "expired")
+/**
+ * A failure with no name of its own, recorded before it is generalised.
+ *
+ * The status is a last resort: a 401 or 403 on a code being verified really is
+ * a code the server would not take, whatever it chose to call it.
+ */
+private fun unmapped(code: String, status: Int): ForumAuthFailure {
+    println("VoltageBoard: unmapped auth failure — status=$status code=$code")
+    return when (status) {
+        401, 403 -> ForumAuthFailure.INVALID_CODE
+        422 -> ForumAuthFailure.INVALID_EMAIL
+        429 -> ForumAuthFailure.TOO_MANY_REQUESTS
+        else -> ForumAuthFailure.UNKNOWN
+    }
+}
