@@ -101,24 +101,30 @@ class ForumAuthRepositoryImpl(
 
     override suspend fun signInWithEmailCode(email: String, code: String): Result<Unit> =
         withClient { client ->
-            // Two token types, and the app cannot know which one it is holding.
+            // Three token types, and the app cannot know which one it holds.
             //
-            // Supabase mints a *signup* token for an address it has never seen
-            // and an *email* token for one it has, and it rejects the wrong
-            // type outright — which is why the first code a new member is sent
-            // comes back as "token has expired or is invalid" if you only ask
-            // one way. Asking the app to know first would mean a round trip
-            // whose only purpose is to reveal whether an address is already
-            // registered, which is not a question worth answering to anyone
-            // who asks.
+            // Supabase mints a different kind depending on which email it sent,
+            // and rejects the wrong kind as `otp_expired` — a code that is
+            // minutes old reported as stale, which sends everyone looking at
+            // the clock. A returning reader gets the "Magic link or OTP"
+            // template and a `magiclink` token; an address the project has
+            // never seen gets "Confirm sign up" and a `signup` token; `email`
+            // is what the documentation says covers both and in practice
+            // covers neither of them here.
             //
-            // So: try the returning reader, fall back to the new one. Costs a
-            // second verification attempt against a limit of 360 an hour.
-            runCatching {
-                client.auth.verifyEmailOtp(type = OtpType.Email.EMAIL, email = email, token = code)
-            }.recoverCatching {
-                client.auth.verifyEmailOtp(type = OtpType.Email.SIGNUP, email = email, token = code)
-            }.getOrThrow()
+            // Asking the server which one first would mean a round trip whose
+            // only product is the knowledge that an address is registered,
+            // which is not worth telling whoever asks. So they are tried in
+            // order of how often each is right, returning readers first.
+            var refusal: Throwable? = null
+            for (type in EMAIL_OTP_TYPES) {
+                val attempt = runCatching {
+                    client.auth.verifyEmailOtp(type = type, email = email, token = code)
+                }
+                if (attempt.isSuccess) return@withClient
+                refusal = attempt.exceptionOrNull()
+            }
+            throw refusal ?: IllegalStateException("no OTP type accepted the code")
         }
 
     /**
@@ -222,3 +228,16 @@ private data class ProfileDto(
         thanksReceived = thanksReceived,
     )
 }
+
+/**
+ * The kinds of emailed token, most likely first.
+ *
+ * Every miss costs a verification attempt against a limit of 360 an hour, so
+ * the order is the frequency: a member signs up once and signs in for as long
+ * as they stay.
+ */
+private val EMAIL_OTP_TYPES = listOf(
+    OtpType.Email.MAGIC_LINK,
+    OtpType.Email.SIGNUP,
+    OtpType.Email.EMAIL,
+)
