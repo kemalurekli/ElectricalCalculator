@@ -1,59 +1,63 @@
 package com.kemalurekli.electricalcalculator.features.forum.presentation
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.foundation.clickable
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
-import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
-import kotlinx.coroutines.launch
-import androidx.compose.ui.graphics.Color
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.material3.SnackbarHostState
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
-import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.ui.draw.clip
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.common.util.formatAsDateTime
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
+import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
-import com.kemalurekli.electricalcalculator.features.forum.domain.ForumThread
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.Res
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_new_thread
+import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_sign_in_to_post
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_thread_locked
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_thread_pinned
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_thread_unpinned
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_threads_empty_message
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_threads_empty_title
+import com.kemalurekli.electricalcalculator.features.forum.domain.ForumThread
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ForumThreadsRoute(
@@ -76,6 +80,7 @@ fun ForumThreadsRoute(
     // it is not in the list behind them any more, and asking for its threads
     // in the new language returns none. Leaving is the honest answer; staying
     // would show an empty category the reader could not have got back to.
+    var promptingSignIn by rememberSaveable { mutableStateOf(false) }
     val language by viewModel.language.collectAsStateWithLifecycle()
     val openedIn = remember { language }
     LaunchedEffect(language) {
@@ -86,15 +91,32 @@ fun ForumThreadsRoute(
         title = categoryTitle,
         uiState = uiState,
         onThreadClick = onThreadClick,
-        onNewThread = { onNewThread(viewModel.language.value.code) },
+        onNewThread = {
+            // Offered to everyone; what it does depends on who is asking.
+            if (session.userId != null) {
+                onNewThread(viewModel.language.value.code)
+            } else {
+                promptingSignIn = true
+            }
+        },
         onLoadMore = viewModel::onLoadMore,
         pinned = pinned,
         onTogglePin = viewModel::onTogglePin,
-        canWrite = session.userId != null,
         onRetry = viewModel::onRefresh,
         onNavigateBack = onNavigateBack,
         modifier = modifier,
     )
+
+    if (promptingSignIn) {
+        ForumSignInPrompt(
+            reason = Res.string.forum_sign_in_to_post,
+            onDismiss = { promptingSignIn = false },
+            onSignedIn = {
+                promptingSignIn = false
+                onNewThread(viewModel.language.value.code)
+            },
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -107,7 +129,6 @@ fun ForumThreadsScreen(
     onLoadMore: () -> Unit = {},
     pinned: Set<String> = emptySet(),
     onTogglePin: (String) -> Unit = {},
-    canWrite: Boolean = false,
     onRetry: () -> Unit,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
@@ -126,15 +147,17 @@ fun ForumThreadsScreen(
         scrollBehavior = scrollBehavior,
         snackbarHostState = snackbarHostState,
         floatingActionButton = {
-            // Offered only to someone who can actually post. A button that
-            // opens a form and then refuses it at the end wastes the typing.
-            if (canWrite) {
-                ExtendedFloatingActionButton(
-                    onClick = onNewThread,
-                    icon = { Icon(ElecIcons.Add, contentDescription = null) },
-                    text = { Text(stringResource(Res.string.forum_new_thread)) },
-                )
-            }
+            // Shown whether or not the reader is signed in. It used to appear
+            // only for those who could already post, which kept the screen
+            // tidy and kept the possibility a secret: the one place that says
+            // an account is possible was a section of the settings screen,
+            // which someone here to read a thread has no reason to open. The
+            // caller decides what the tap means.
+            ExtendedFloatingActionButton(
+                onClick = onNewThread,
+                icon = { Icon(ElecIcons.Add, contentDescription = null) },
+                text = { Text(stringResource(Res.string.forum_new_thread)) },
+            )
         },
     ) { innerPadding ->
         ForumStateHost(

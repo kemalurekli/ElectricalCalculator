@@ -80,6 +80,8 @@
     <string name="forum_sign_in_failed_no_account">Could not get a Google account. Check that you are signed in to Google on this device.</string>
     <string name="forum_sign_in_failed_offline">No connection. Sign-in needs one.</string>
     <string name="forum_sign_in_failed_unconfigured">Sign-in is not available in this build.</string>
+    <string name="forum_sign_in_to_post">Sign in to open a thread</string>
+    <string name="forum_sign_in_to_reply">Sign in to reply</string>
     <string name="forum_sign_out">Sign out</string>
     <string name="forum_signed_in_as">Signed in as %1$s</string>
     <string name="forum_signed_out_summary">Sign in to open threads and reply. Reading needs no account.</string>

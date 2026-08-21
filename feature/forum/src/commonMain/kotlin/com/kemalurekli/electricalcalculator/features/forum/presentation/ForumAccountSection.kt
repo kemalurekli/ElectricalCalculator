@@ -174,7 +174,7 @@ fun ForumAccountSection(
  * decision, and reporting it back as an error tells the reader they did
  * something wrong when they did not.
  */
-private fun ForumAuthFailure.message(): StringResource? = when (this) {
+internal fun ForumAuthFailure.message(): StringResource? = when (this) {
     ForumAuthFailure.CANCELLED -> null
     ForumAuthFailure.NO_ACCOUNT -> Res.string.forum_sign_in_failed_no_account
     ForumAuthFailure.NO_CONNECTION -> Res.string.forum_sign_in_failed_offline

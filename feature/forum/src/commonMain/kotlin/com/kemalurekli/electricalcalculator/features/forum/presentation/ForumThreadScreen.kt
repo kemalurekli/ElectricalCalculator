@@ -98,6 +98,9 @@ import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.fo
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_thanks
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_thread_actions
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_thread_locked_notice
+import androidx.compose.material3.OutlinedButton
+import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_sign_in_to_reply
+import androidx.compose.runtime.saveable.rememberSaveable
 
 @Composable
 fun ForumThreadRoute(
@@ -114,6 +117,7 @@ fun ForumThreadRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val session by viewModel.session.collectAsStateWithLifecycle()
+    var promptingSignIn by rememberSaveable { mutableStateOf(false) }
     val draft by viewModel.draft.collectAsStateWithLifecycle()
     val sending by viewModel.sending.collectAsStateWithLifecycle()
     val sendFailed by viewModel.sendFailed.collectAsStateWithLifecycle()
@@ -139,6 +143,7 @@ fun ForumThreadRoute(
         threadAuthorId = threadAuthorId,
         categoryTitle = categoryTitle,
         currentUserId = session.userId,
+        onSignInToReply = { promptingSignIn = true },
         draft = draft,
         sending = sending,
         sendFailed = sendFailed,
@@ -169,6 +174,17 @@ fun ForumThreadRoute(
         modifier = modifier,
     )
 
+    if (promptingSignIn) {
+        ForumSignInPrompt(
+            reason = Res.string.forum_sign_in_to_reply,
+            onDismiss = { promptingSignIn = false },
+            // Nothing to carry on to: the composer this bar was standing in
+            // for takes its place as soon as the session lands, with the
+            // cursor where the reader was already looking.
+            onSignedIn = { promptingSignIn = false },
+        )
+    }
+
     if (showingRules) {
         ForumRulesDialog(
             onAccept = {
@@ -190,6 +206,7 @@ fun ForumThreadScreen(
     threadAuthorId: String = "",
     categoryTitle: String = "",
     currentUserId: String?,
+    onSignInToReply: () -> Unit = {},
     draft: String,
     sending: Boolean,
     sendFailed: Boolean,
@@ -332,6 +349,12 @@ fun ForumThreadScreen(
                     onDraftChange = onDraftChange,
                     onSend = onSendReply,
                 )
+            } else {
+                // Where the composer would be, so a reader can see that
+                // replying is something this screen does before finding out
+                // whether they are allowed to. Tapping asks them to sign in
+                // and says why.
+                SignedOutReplyBar(onClick = onSignInToReply)
             }
         },
     ) { innerPadding ->
@@ -832,3 +855,31 @@ private const val LINE_HEIGHT_RATIO = 1.5f
 
 /** Small enough to caption the name rather than compete with it. */
 private const val AVATAR_SIZE = 32
+
+/**
+ * The composer's place, held by an invitation rather than by nothing.
+ *
+ * Built from the same `Surface` and insets as [ReplyComposer] so the bar does
+ * not move when the reader signs in: what they tapped becomes what they type
+ * in, in the same spot.
+ */
+@Composable
+private fun SignedOutReplyBar(onClick: () -> Unit) {
+    val spacing = ElecTheme.spacing
+
+    Surface(tonalElevation = 3.dp) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
+                .padding(horizontal = spacing.screenHorizontal, vertical = spacing.sm),
+        ) {
+            OutlinedButton(
+                onClick = onClick,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(stringResource(Res.string.forum_reply_hint))
+            }
+        }
+    }
+}
