@@ -52,7 +52,23 @@ class ForumThreadsViewModel(
         MutableStateFlow<ForumScreenState<ImmutableList<ForumThread>>>(ForumScreenState.Loading)
     val uiState: StateFlow<ForumScreenState<ImmutableList<ForumThread>>> = _uiState.asStateFlow()
 
-    val language = ForumLanguage.forApp(languageRepository.language.value)
+    /**
+     * Observed rather than captured, for the reason spelled out in
+     * [ForumCategoriesViewModel]: this instance outlives a language change on
+     * both platforms.
+     *
+     * A category belongs to one language's board, so when this changes the
+     * category being shown no longer exists. Reloading would only prove that —
+     * the screen watches this and leaves instead.
+     */
+    val language: StateFlow<ForumLanguage> = languageRepository.language
+        .map(ForumLanguage::forApp)
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Eagerly,
+            ForumLanguage.forApp(languageRepository.language.value),
+        )
+
     private var categoryId: String? = null
 
     /**
@@ -104,7 +120,7 @@ class ForumThreadsViewModel(
         loadingMore = true
         loadJob = viewModelScope.launch {
             val cursor = current.value.lastOrNull()?.lastReplyAt
-            when (val result = repository.threads(id, language, before = cursor)) {
+            when (val result = repository.threads(id, language.value, before = cursor)) {
                 is ForumResult.Success -> {
                     endReached = result.value.size < ForumRepository.DEFAULT_PAGE_SIZE
                     _uiState.value = ForumScreenState.Content(
@@ -133,7 +149,7 @@ class ForumThreadsViewModel(
                 _uiState.value = ForumScreenState.Loading
             }
 
-            _uiState.value = when (val result = repository.threads(id, language)) {
+            _uiState.value = when (val result = repository.threads(id, language.value)) {
                 is ForumResult.Success ->
                     ForumScreenState.Content(result.value.toImmutableList())
 

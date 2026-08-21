@@ -71,11 +71,22 @@ fun ForumThreadsRoute(
 
     LaunchedEffect(categoryId) { viewModel.onOpen(categoryId) }
 
+    // A category belongs to one language's board. If the reader changes the
+    // language while reading one, the category they are in stops existing —
+    // it is not in the list behind them any more, and asking for its threads
+    // in the new language returns none. Leaving is the honest answer; staying
+    // would show an empty category the reader could not have got back to.
+    val language by viewModel.language.collectAsStateWithLifecycle()
+    val openedIn = remember { language }
+    LaunchedEffect(language) {
+        if (language != openedIn) onNavigateBack?.invoke()
+    }
+
     ForumThreadsScreen(
         title = categoryTitle,
         uiState = uiState,
         onThreadClick = onThreadClick,
-        onNewThread = { onNewThread(viewModel.language.code) },
+        onNewThread = { onNewThread(viewModel.language.value.code) },
         onLoadMore = viewModel::onLoadMore,
         pinned = pinned,
         onTogglePin = viewModel::onTogglePin,
