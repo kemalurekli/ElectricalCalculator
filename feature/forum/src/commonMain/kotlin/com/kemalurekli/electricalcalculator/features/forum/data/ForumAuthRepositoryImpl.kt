@@ -122,7 +122,10 @@ class ForumAuthRepositoryImpl(
                     client.auth.verifyEmailOtp(type = type, email = email, token = code)
                 }
                 if (attempt.isSuccess) return@withClient
-                refusal = attempt.exceptionOrNull()
+                // The FIRST refusal, not the last. If the token was the kind
+                // the first attempt asked for, its failure is the real one and
+                // the later types are refusing a token they were never given.
+                if (refusal == null) refusal = attempt.exceptionOrNull()
             }
             throw refusal ?: IllegalStateException("no OTP type accepted the code")
         }
