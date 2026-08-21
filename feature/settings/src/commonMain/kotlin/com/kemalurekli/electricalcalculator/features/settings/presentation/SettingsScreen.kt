@@ -44,7 +44,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNume
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumAccountSection
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumAccountRow
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumBlockedSection
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
@@ -108,7 +108,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 @Composable
 fun SettingsRoute(
     onNavigateBack: (() -> Unit)?,
-    onOpenForumProfile: (String) -> Unit,
+    onOpenForumAccount: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
@@ -122,7 +122,7 @@ fun SettingsRoute(
         onEngineeringDefaultsChange = viewModel::onEngineeringDefaultsChange,
         onResetEngineeringDefaults = viewModel::onResetEngineeringDefaults,
         onNavigateBack = onNavigateBack,
-        onOpenForumProfile = onOpenForumProfile,
+        onOpenForumAccount = onOpenForumAccount,
         modifier = modifier,
     )
 }
@@ -137,7 +137,7 @@ fun SettingsScreen(
     onEngineeringDefaultsChange: (EngineeringDefaults) -> Unit,
     onResetEngineeringDefaults: () -> Unit,
     onNavigateBack: (() -> Unit)?,
-    onOpenForumProfile: (String) -> Unit = {},
+    onOpenForumAccount: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
@@ -204,8 +204,11 @@ fun SettingsScreen(
 
             ElecSectionHeader(title = stringResource(Res.string.forum_account_section))
 
+            // One row, like everything else in this list. What used to be here
+            // was a two-step form and three buttons, one of them destructive;
+            // it lives on its own screen now.
             SettingsGroup {
-                ForumAccountSection(onOpenProfile = onOpenForumProfile)
+                ForumAccountRow(onOpen = onOpenForumAccount)
             }
 
             ElecSectionHeader(title = stringResource(Res.string.forum_blocked_section))

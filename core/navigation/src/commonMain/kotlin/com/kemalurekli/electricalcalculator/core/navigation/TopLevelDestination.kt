@@ -292,6 +292,7 @@ enum class ElecTab(
                 Route.Favorites::class,
                 Route.History::class,
                 Route.Settings::class,
+                Route.ForumAccount::class,
             )
         }
 }

@@ -28,6 +28,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.presentation.Ca
 import com.kemalurekli.electricalcalculator.features.converter.presentation.ConverterRoute
 import com.kemalurekli.electricalcalculator.features.favorites.presentation.FavoritesRoute
 import com.kemalurekli.electricalcalculator.features.fieldnotes.presentation.FieldNotesRoute
+import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumAccountRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumCategoriesRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumComposeThreadRoute
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumProfileRoute
@@ -156,7 +157,14 @@ fun ElecNavHost(
         composable<Route.Settings> {
             SettingsRoute(
                 onNavigateBack = actions::navigateBack,
-                onOpenForumProfile = { actions.navigateTo(Route.ForumProfile(it)) },
+                onOpenForumAccount = { actions.navigateTo(Route.ForumAccount) },
+            )
+        }
+
+        composable<Route.ForumAccount> {
+            ForumAccountRoute(
+                onNavigateBack = actions::navigateBack,
+                onOpenProfile = { actions.navigateTo(Route.ForumProfile(it)) },
             )
         }
 

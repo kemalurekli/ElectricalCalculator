@@ -16,7 +16,13 @@ sealed interface ForumSession {
 
     data object SignedOut : ForumSession
 
-    data class SignedIn(val profile: ForumProfile) : ForumSession
+    /**
+     * @param email the address on the account, which is not the same thing as
+     *   the display name and is the only way to tell two accounts apart when
+     *   somebody has one from a provider and one from a code. Null when the
+     *   provider gave none.
+     */
+    data class SignedIn(val profile: ForumProfile, val email: String? = null) : ForumSession
 
     /** The signed-in user's id, or `null` while unknown or signed out. */
     val userId: String?

@@ -5,6 +5,10 @@
     <string name="action_edit">Düzenle</string>
     <string name="action_save">Kaydet</string>
     <string name="destination_forum">Forum</string>
+    <string name="forum_account_danger">Hesabı kapatmak</string>
+    <string name="forum_account_signed_out">Giriş yapılmadı</string>
+    <string name="forum_account_signed_out_hint">Konu açmak ve cevap yazmak için gerekli</string>
+    <string name="forum_account_title">Forum hesabı</string>
     <string name="forum_author_stats">%1$d mesaj\n%2$d teşekkür</string>
     <string name="forum_author_stats_inline">%1$d mesaj · %2$d teşekkür</string>
     <string name="forum_block">Bu kişiyi engelle</string>

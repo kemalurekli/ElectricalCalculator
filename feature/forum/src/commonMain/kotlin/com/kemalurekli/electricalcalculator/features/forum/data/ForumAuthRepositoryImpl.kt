@@ -53,7 +53,7 @@ class ForumAuthRepositoryImpl(
                             val id = status.session.user?.id
                             val profile = id?.let { fetchProfile(it) }
                             if (profile == null) ForumSession.SignedOut
-                            else ForumSession.SignedIn(profile)
+                            else ForumSession.SignedIn(profile, status.session.user?.email)
                         }
                         // Supabase reports the pre-restore moment as its own
                         // status. Passing it through as Unknown is what keeps a

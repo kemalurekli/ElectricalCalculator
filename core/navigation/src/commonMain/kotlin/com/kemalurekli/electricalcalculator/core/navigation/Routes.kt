@@ -184,6 +184,17 @@ sealed interface Route {
     @Serializable
     data object History : Route
 
+    /**
+     * The reader's own account, as opposed to [ForumProfile].
+     *
+     * Its own screen rather than a block inside settings. Signing in is a form
+     * with two steps and signing out sits beside deleting everything; both
+     * were being squeezed into a settings card between the theme and the unit
+     * system, where every other entry is a single row.
+     */
+    @Serializable
+    data object ForumAccount : Route
+
     @Serializable
     data object Settings : Route
 
