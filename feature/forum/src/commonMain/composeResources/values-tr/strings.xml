@@ -31,6 +31,7 @@
     <string name="forum_email_code_sent">%1$s adresine bir kod gönderdik. On dakika geçerli.</string>
     <string name="forum_email_hint">E-posta adresi</string>
     <string name="forum_email_resend">Yeniden gönder</string>
+    <string name="forum_email_resend_in">%1$d sn sonra yeniden gönder</string>
     <string name="forum_email_send_code">Kod gönder</string>
     <string name="forum_email_verify">Devam et</string>
     <string name="forum_error_offline_message">Forum bağlantı gerektirir. Uygulamadaki diğer her şey bağlantısız çalışır.</string>

@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.Job
 
 /** Signing in, signing out, and leaving for good. */
 class ForumAccountViewModel(
@@ -73,9 +75,35 @@ class ForumAccountViewModel(
         _failure.value = null
     }
 
+    /**
+     * Seconds until another code may be asked for, or zero.
+     *
+     * Counted down rather than left to the server to refuse. Supabase allows
+     * one code per address per minute, and — the part that matters — thirty an
+     * hour across the whole project. That second limit is shared, so somebody
+     * tapping "send again" out of impatience is not spending their own
+     * allowance, they are spending everyone's. A button that cannot be tapped
+     * costs nothing and says what the wait is.
+     */
+    private val _resendIn = MutableStateFlow(0)
+    val resendIn: StateFlow<Int> = _resendIn.asStateFlow()
+
+    private var cooldownJob: Job? = null
+
+    private fun startCooldown() {
+        cooldownJob?.cancel()
+        cooldownJob = viewModelScope.launch {
+            _resendIn.value = RESEND_COOLDOWN_SECONDS
+            while (_resendIn.value > 0) {
+                delay(1_000)
+                _resendIn.value -= 1
+            }
+        }
+    }
+
     fun onSendCode() {
         val address = _email.value
-        if (_busy.value) return
+        if (_busy.value || _resendIn.value > 0) return
 
         // Checked here as well as by the server, because asking is rate
         // limited: a missing @ should not spend one of the codes this address
@@ -92,6 +120,7 @@ class ForumAccountViewModel(
                 .onSuccess {
                     _emailStep.value = EmailStep.Code(address)
                     _code.value = ""
+                    startCooldown()
                 }
                 .onFailure { _failure.value = it.toEmailFailure() }
             _busy.value = false
@@ -167,6 +196,9 @@ class ForumAccountViewModel(
 
     private companion object {
         const val CODE_LENGTH = 6
+
+        /** Supabase's own per-address limit, so the app refuses before the server does. */
+        const val RESEND_COOLDOWN_SECONDS = 60
         const val STOP_TIMEOUT_MS = 5_000L
     }
 }

@@ -12,6 +12,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.runCurrent
 
 /**
  * Signing in with an address and a six-digit code.
@@ -108,6 +110,46 @@ class ForumEmailSignInTest {
         advanceUntilIdle()
 
         assertEquals(ForumAuthFailure.TOO_MANY_REQUESTS, viewModel.failure.value)
+    }
+
+    @Test
+    fun `tapping send again does not spend the codes everyone shares`() = runTest {
+        val auth = FakeForumAuthRepository()
+        val viewModel = viewModel(auth)
+        viewModel.onEmailChange("kemal@example.com")
+        viewModel.onSendCode()
+        // `runCurrent` rather than `advanceUntilIdle`: the latter runs the
+        // clock to the end of the cooldown, which is the very thing under test.
+        runCurrent()
+
+        // Impatience, five times over. The per-hour limit is project-wide, so
+        // these would not be this reader's requests to spend.
+        repeat(5) { viewModel.onSendCode() }
+        runCurrent()
+
+        assertEquals(1, auth.codesRequested.size, "only the first send should have left the app")
+    }
+
+    @Test
+    fun `the wait is counted down and then lifted`() = runTest {
+        val auth = FakeForumAuthRepository()
+        val viewModel = viewModel(auth)
+        viewModel.onEmailChange("kemal@example.com")
+        viewModel.onSendCode()
+        runCurrent()
+
+        assertEquals(60, viewModel.resendIn.value, "the wait matches Supabase's own per-address limit")
+
+        advanceTimeBy(59_000)
+        runCurrent()
+        assertTrue(viewModel.resendIn.value > 0, "still waiting a second before the minute is up")
+
+        advanceUntilIdle()
+        assertEquals(0, viewModel.resendIn.value)
+
+        viewModel.onSendCode()
+        runCurrent()
+        assertEquals(2, auth.codesRequested.size, "and then another code can be asked for")
     }
 
     @Test

@@ -26,6 +26,7 @@ import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.fo
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_email_send_code
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_email_verify
 import org.jetbrains.compose.resources.stringResource
+import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_email_resend_in
 
 /**
  * Signing in with an address and a six-digit code.
@@ -50,6 +51,7 @@ fun ForumEmailSignIn(
     val email by viewModel.email.collectAsStateWithLifecycle()
     val code by viewModel.code.collectAsStateWithLifecycle()
     val busy by viewModel.busy.collectAsStateWithLifecycle()
+    val resendIn by viewModel.resendIn.collectAsStateWithLifecycle()
     val spacing = ElecTheme.spacing
 
     Column(
@@ -72,10 +74,16 @@ fun ForumEmailSignIn(
                 )
                 Button(
                     onClick = viewModel::onSendCode,
-                    enabled = !busy && email.isNotBlank(),
+                    enabled = !busy && email.isNotBlank() && resendIn == 0,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text(stringResource(Res.string.forum_email_send_code))
+                    Text(
+                        if (resendIn > 0) {
+                            stringResource(Res.string.forum_email_resend_in, resendIn)
+                        } else {
+                            stringResource(Res.string.forum_email_send_code)
+                        },
+                    )
                 }
             }
 
@@ -109,8 +117,14 @@ fun ForumEmailSignIn(
                     Text(stringResource(Res.string.forum_email_verify))
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(spacing.sm)) {
-                    TextButton(onClick = viewModel::onSendCode, enabled = !busy) {
-                        Text(stringResource(Res.string.forum_email_resend))
+                    TextButton(onClick = viewModel::onSendCode, enabled = !busy && resendIn == 0) {
+                        Text(
+                            if (resendIn > 0) {
+                                stringResource(Res.string.forum_email_resend_in, resendIn)
+                            } else {
+                                stringResource(Res.string.forum_email_resend)
+                            },
+                        )
                     }
                     TextButton(onClick = viewModel::onUseAnotherAddress, enabled = !busy) {
                         Text(stringResource(Res.string.forum_email_change))

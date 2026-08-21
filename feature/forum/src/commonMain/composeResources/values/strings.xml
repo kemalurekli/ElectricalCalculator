@@ -31,6 +31,7 @@
     <string name="forum_email_code_sent">We sent a code to %1$s. It is valid for ten minutes.</string>
     <string name="forum_email_hint">Email address</string>
     <string name="forum_email_resend">Send again</string>
+    <string name="forum_email_resend_in">Send again in %1$d s</string>
     <string name="forum_email_send_code">Send code</string>
     <string name="forum_email_verify">Continue</string>
     <string name="forum_error_offline_message">The forum needs a connection. Everything else in this app works without one.</string>
