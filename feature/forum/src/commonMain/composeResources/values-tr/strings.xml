@@ -16,6 +16,7 @@
     <string name="forum_block_title">%1$s engellensin mi?</string>
     <string name="forum_blocked">Engellendi. Mesajları size gösterilmeyecek.</string>
     <string name="forum_blocked_empty">Kimseyi engellemediniz.</string>
+    <string name="forum_blocked_section">Engellenen kişiler</string>
     <string name="forum_categories_empty_message">Dilinizde yayımlanmış bölüm bulunmuyor.</string>
     <string name="forum_categories_empty_title">Henüz bir şey yok</string>
     <string name="forum_categories_title">Forum</string>

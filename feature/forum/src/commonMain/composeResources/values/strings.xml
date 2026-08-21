@@ -16,6 +16,7 @@
     <string name="forum_block_title">Block %1$s?</string>
     <string name="forum_blocked">Blocked. Their messages are hidden from you.</string>
     <string name="forum_blocked_empty">You have not blocked anyone.</string>
+    <string name="forum_blocked_section">Blocked people</string>
     <string name="forum_categories_empty_message">No sections have been published for your language.</string>
     <string name="forum_categories_empty_title">Nothing here yet</string>
     <string name="forum_categories_title">Forum</string>

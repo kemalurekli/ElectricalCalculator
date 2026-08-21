@@ -45,7 +45,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOpti
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumAccountRow
-import com.kemalurekli.electricalcalculator.features.forum.presentation.ForumBlockedSection
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
@@ -73,7 +72,6 @@ import com.kemalurekli.electricalcalculator.feature.settings.generated.resources
 import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.cs_method_e_full
 import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.destination_settings
 import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.forum_account_section
-import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.forum_blocked_section
 import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.privacy_policy_url
 import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_about
 import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_appearance
@@ -209,12 +207,6 @@ fun SettingsScreen(
             // it lives on its own screen now.
             SettingsGroup {
                 ForumAccountRow(onOpen = onOpenForumAccount)
-            }
-
-            ElecSectionHeader(title = stringResource(Res.string.forum_blocked_section))
-
-            SettingsGroup {
-                ForumBlockedSection()
             }
 
             ElecSectionHeader(title = stringResource(Res.string.settings_units))

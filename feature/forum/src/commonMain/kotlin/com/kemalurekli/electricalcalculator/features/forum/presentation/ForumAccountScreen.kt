@@ -48,6 +48,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.compose.material3.ExperimentalMaterial3Api
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_account_signed_out_hint
+import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_blocked_section
 
 /**
  * The reader's own account, on a screen of its own.
@@ -158,6 +159,16 @@ fun ForumAccountRoute(
                         ) {
                             Text(stringResource(Res.string.forum_sign_out))
                         }
+                    }
+
+                    // Whose posts this reader has chosen not to see. It was
+                    // in settings, under its own heading between the units and
+                    // the engineering defaults, where it had nothing to do
+                    // with anything around it. Blocking is per account and
+                    // means nothing without one, so it lives with the account.
+                    ElecSectionHeader(title = stringResource(Res.string.forum_blocked_section))
+                    AccountCard {
+                        ForumBlockedSection()
                     }
 
                     // Its own section at the bottom, with its own heading. It
