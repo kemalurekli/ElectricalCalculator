@@ -26,6 +26,13 @@
     <string name="forum_delete_thread_failed">The thread could not be deleted. Somebody may have replied to it just now.</string>
     <string name="forum_delete_thread_message">The thread and your opening message are removed permanently. This is only possible while nobody has replied.</string>
     <string name="forum_delete_thread_title">Delete this thread?</string>
+    <string name="forum_email_change">Use another address</string>
+    <string name="forum_email_code_hint">Six-digit code</string>
+    <string name="forum_email_code_sent">We sent a code to %1$s. It is valid for ten minutes.</string>
+    <string name="forum_email_hint">Email address</string>
+    <string name="forum_email_resend">Send again</string>
+    <string name="forum_email_send_code">Send code</string>
+    <string name="forum_email_verify">Continue</string>
     <string name="forum_error_offline_message">The forum needs a connection. Everything else in this app works without one.</string>
     <string name="forum_error_offline_title">No connection</string>
     <string name="forum_error_server_message">The server answered with something this version cannot read. Trying again may not help.</string>
@@ -76,9 +83,13 @@
     <string name="forum_rules_body">Answers here are from other readers, not from the app. Nothing posted in the forum is checked, verified or endorsed by the developers, and none of it may be treated as engineering advice — the disclaimer that covers the rest of the app covers the forum too.\n\nWrite as you would on site: describe the installation, say what you measured, and do not post anyone's personal details. Content that is abusive, commercial or unlawful is removed and the account is closed.\n\nYou are responsible for what you post.</string>
     <string name="forum_rules_title">Before you post</string>
     <string name="forum_sign_in">Sign in with Google</string>
+    <string name="forum_sign_in_email">Sign in with email</string>
     <string name="forum_sign_in_failed">Sign-in did not complete. Try again.</string>
+    <string name="forum_sign_in_failed_invalid_code">The code is wrong, or it has expired. Ask for a new one.</string>
+    <string name="forum_sign_in_failed_invalid_email">That does not look like an email address.</string>
     <string name="forum_sign_in_failed_no_account">Could not get a Google account. Check that you are signed in to Google on this device.</string>
     <string name="forum_sign_in_failed_offline">No connection. Sign-in needs one.</string>
+    <string name="forum_sign_in_failed_too_many">Too many codes asked for. Wait a few minutes and try again.</string>
     <string name="forum_sign_in_failed_unconfigured">Sign-in is not available in this build.</string>
     <string name="forum_sign_in_to_post">Sign in to open a thread</string>
     <string name="forum_sign_in_to_reply">Sign in to reply</string>

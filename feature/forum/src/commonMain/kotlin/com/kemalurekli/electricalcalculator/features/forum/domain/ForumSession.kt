@@ -47,6 +47,27 @@ enum class ForumAuthFailure {
      */
     NOT_CONFIGURED,
 
+    /** The address is not one the server will send to. */
+    INVALID_EMAIL,
+
+    /**
+     * The code was wrong, or it was right an hour ago.
+     *
+     * One case rather than two on purpose. The server does not distinguish
+     * them in a way worth passing on, and telling someone their code was
+     * *correct but late* is an answer only an attacker benefits from.
+     */
+    INVALID_CODE,
+
+    /**
+     * Too many codes asked for, too quickly.
+     *
+     * Supabase rate-limits both per address and per project, and answers 429.
+     * Worth its own case because it is the one failure here that is cured by
+     * waiting rather than by trying something different.
+     */
+    TOO_MANY_REQUESTS,
+
     /** Anything else. */
     UNKNOWN,
 }

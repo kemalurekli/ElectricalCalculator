@@ -26,6 +26,13 @@
     <string name="forum_delete_thread_failed">Konu silinemedi. Az önce biri cevap yazmış olabilir.</string>
     <string name="forum_delete_thread_message">Konu ve açılış mesajınız kalıcı olarak silinir. Bu yalnızca kimse cevap yazmamışken mümkündür.</string>
     <string name="forum_delete_thread_title">Bu konu silinsin mi?</string>
+    <string name="forum_email_change">Başka adres kullan</string>
+    <string name="forum_email_code_hint">Altı haneli kod</string>
+    <string name="forum_email_code_sent">%1$s adresine bir kod gönderdik. On dakika geçerli.</string>
+    <string name="forum_email_hint">E-posta adresi</string>
+    <string name="forum_email_resend">Yeniden gönder</string>
+    <string name="forum_email_send_code">Kod gönder</string>
+    <string name="forum_email_verify">Devam et</string>
     <string name="forum_error_offline_message">Forum bağlantı gerektirir. Uygulamadaki diğer her şey bağlantısız çalışır.</string>
     <string name="forum_error_offline_title">Bağlantı yok</string>
     <string name="forum_error_server_message">Sunucu, bu sürümün okuyamadığı bir yanıt verdi. Yeniden denemek işe yaramayabilir.</string>
@@ -76,9 +83,13 @@
     <string name="forum_rules_body">Buradaki cevaplar uygulamadan değil, diğer kullanıcılardan gelir. Forumda yazılan hiçbir şey geliştiriciler tarafından denetlenmez, doğrulanmaz veya onaylanmaz ve hiçbiri mühendislik tavsiyesi sayılamaz — uygulamanın geri kalanı için geçerli olan sorumluluk reddi forum için de geçerlidir.\n\nSahada konuşur gibi yazın: tesisatı anlatın, ne ölçtüğünüzü söyleyin ve kimsenin kişisel bilgilerini paylaşmayın. Hakaret içeren, ticari veya hukuka aykırı içerik kaldırılır, hesap kapatılır.\n\nYazdıklarınızdan siz sorumlusunuz.</string>
     <string name="forum_rules_title">Yazmadan önce</string>
     <string name="forum_sign_in">Google ile giriş yap</string>
+    <string name="forum_sign_in_email">E-posta ile giriş yap</string>
     <string name="forum_sign_in_failed">Giriş tamamlanmadı. Yeniden deneyin.</string>
+    <string name="forum_sign_in_failed_invalid_code">Kod yanlış ya da süresi dolmuş. Yeni bir tane isteyin.</string>
+    <string name="forum_sign_in_failed_invalid_email">Bu bir e-posta adresine benzemiyor.</string>
     <string name="forum_sign_in_failed_no_account">Google hesabı alınamadı. Bu cihazda Google oturumunuzun açık olduğundan emin olun.</string>
     <string name="forum_sign_in_failed_offline">Bağlantı yok. Giriş için bağlantı gerekiyor.</string>
+    <string name="forum_sign_in_failed_too_many">Çok fazla kod istendi. Birkaç dakika bekleyip yeniden deneyin.</string>
     <string name="forum_sign_in_failed_unconfigured">Bu sürümde giriş kullanılamıyor.</string>
     <string name="forum_sign_in_to_post">Konu açmak için giriş yapın</string>
     <string name="forum_sign_in_to_reply">Cevap yazmak için giriş yapın</string>

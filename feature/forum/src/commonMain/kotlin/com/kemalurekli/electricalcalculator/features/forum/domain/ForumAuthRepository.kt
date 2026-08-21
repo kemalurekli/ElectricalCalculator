@@ -41,6 +41,29 @@ interface ForumAuthRepository {
      */
     suspend fun signIn(credential: SignInCredential): Result<Unit>
 
+    /**
+     * Asks the server to email a six-digit code to [email].
+     *
+     * The app never sees the code. Supabase mints it, keeps only its hash, and
+     * hands the message to the SMTP provider configured in the dashboard —
+     * which is the whole reason this is safe to do from a client that anyone
+     * can unzip. An app that sent its own mail would have to hold the code, and
+     * then verifying it would prove nothing.
+     *
+     * Creates the account when the address is new. A forum whose sign-in
+     * refuses everyone who has not already signed in has no way to gain a
+     * first member.
+     */
+    suspend fun requestEmailCode(email: String): Result<Unit>
+
+    /**
+     * Exchanges a code for a session.
+     *
+     * The other half of [requestEmailCode], and the only place the code is
+     * ever sent anywhere.
+     */
+    suspend fun signInWithEmailCode(email: String, code: String): Result<Unit>
+
     suspend fun signOut()
 
     /** A profile by id — the reader's own, or anyone whose name was tapped. */

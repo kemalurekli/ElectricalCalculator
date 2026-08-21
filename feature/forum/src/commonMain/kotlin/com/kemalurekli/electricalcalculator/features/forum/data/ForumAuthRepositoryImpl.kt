@@ -26,6 +26,9 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlin.time.Instant
+import io.github.jan.supabase.auth.providers.builtin.OTP
+import io.github.jan.supabase.auth.OtpType
+import io.github.jan.supabase.SupabaseClient
 
 class ForumAuthRepositoryImpl(
     private val backend: ForumBackend,
@@ -83,6 +86,36 @@ class ForumAuthRepositoryImpl(
                 }
             }
         }
+    }
+
+    override suspend fun requestEmailCode(email: String): Result<Unit> =
+        withClient { client ->
+            client.auth.signInWith(OTP) {
+                this.email = email
+                // A first-time address becomes an account. Without this the
+                // forum could never gain a member who had not already joined
+                // some other way.
+                createUser = true
+            }
+        }
+
+    override suspend fun signInWithEmailCode(email: String, code: String): Result<Unit> =
+        withClient { client ->
+            client.auth.verifyEmailOtp(type = OtpType.Email.EMAIL, email = email, token = code)
+        }
+
+    /**
+     * Runs [block] against the client, or fails the way the screen can read.
+     *
+     * Shared by the two calls above because they fail in the same vocabulary,
+     * and because mapping a 429 to "something went wrong" would hide the one
+     * failure here whose remedy is to wait.
+     */
+    private suspend fun withClient(block: suspend (SupabaseClient) -> Unit): Result<Unit> {
+        val client = (backend as? ForumBackend.Available)?.client
+            ?: return Result.failure(IllegalStateException("Supabase is not configured"))
+
+        return runCatching { withContext(ioDispatcher) { block(client) } }
     }
 
     override suspend fun signOut() {

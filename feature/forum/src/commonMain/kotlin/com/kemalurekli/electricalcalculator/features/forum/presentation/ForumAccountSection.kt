@@ -42,6 +42,9 @@ import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.fo
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_signed_in_as
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_signed_out_summary
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_view_profile
+import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_sign_in_failed_too_many
+import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_sign_in_failed_invalid_email
+import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_sign_in_failed_invalid_code
 
 /**
  * The forum account, as it appears in Settings.
@@ -95,6 +98,12 @@ fun ForumAccountSection(
                             },
                         ))
                 }
+
+                // The route that needs nothing the reader does not already
+                // have. Offered beside the provider rather than behind a
+                // second tap: someone without a Google or Apple account is
+                // exactly the person who would not go looking.
+                ForumEmailSignIn(viewModel)
             }
 
             is ForumSession.SignedIn -> {
@@ -179,6 +188,9 @@ internal fun ForumAuthFailure.message(): StringResource? = when (this) {
     ForumAuthFailure.NO_ACCOUNT -> Res.string.forum_sign_in_failed_no_account
     ForumAuthFailure.NO_CONNECTION -> Res.string.forum_sign_in_failed_offline
     ForumAuthFailure.NOT_CONFIGURED -> Res.string.forum_sign_in_failed_unconfigured
+    ForumAuthFailure.INVALID_EMAIL -> Res.string.forum_sign_in_failed_invalid_email
+    ForumAuthFailure.INVALID_CODE -> Res.string.forum_sign_in_failed_invalid_code
+    ForumAuthFailure.TOO_MANY_REQUESTS -> Res.string.forum_sign_in_failed_too_many
     ForumAuthFailure.UNKNOWN -> Res.string.forum_sign_in_failed
 }
 

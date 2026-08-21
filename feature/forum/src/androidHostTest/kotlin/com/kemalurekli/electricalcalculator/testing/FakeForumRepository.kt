@@ -172,6 +172,24 @@ class FakeForumAuthRepository(
         state.value = ForumSession.SignedOut
     }
 
+    /** Addresses a code was asked for, in order. */
+    val codesRequested = mutableListOf<String>()
+
+    /** When set, the next email call fails with this instead of succeeding. */
+    var emailFailure: Throwable? = null
+
+    override suspend fun requestEmailCode(email: String): Result<Unit> {
+        codesRequested += email
+        return emailFailure?.let { Result.failure(it) } ?: Result.success(Unit)
+    }
+
+    override suspend fun signInWithEmailCode(email: String, code: String): Result<Unit> {
+        emailFailure?.let { return Result.failure(it) }
+        signIn()
+        return Result.success(Unit)
+    }
+
+
     override suspend fun profile(userId: String): ForumResult<ForumProfile> =
         failWith?.let { ForumResult.Failure(it) }
             ?: ForumResult.Success(forumProfile(id = userId))
