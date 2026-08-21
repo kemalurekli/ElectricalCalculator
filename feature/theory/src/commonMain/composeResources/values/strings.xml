@@ -4,7 +4,7 @@
     <string name="action_reset">Reset</string>
     <string name="calculator_formula">Formula</string>
     <string name="calculator_inputs">Inputs</string>
-    <string name="calculator_share_subject">%1$s — ElecToolkit</string>
+    <string name="calculator_share_subject">%1$s — VoltageBoard</string>
     <string name="destination_theory">Theory</string>
     <string name="message_copied">Result copied</string>
     <string name="th_conductor_assumption_dc">Direct current, or alternating current in a small conductor. Above about 50 mm² the skin effect pushes current toward the surface and the effective resistance rises.</string>

@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Product name: a brand, so it stays identical in every language. -->
-    <string name="app_name" translatable="false">ElecToolkit</string>
+    <string name="app_name" translatable="false">VoltageBoard</string>
 
     <!-- Top level destinations -->
     <!--

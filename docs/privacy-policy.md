@@ -1,8 +1,8 @@
-# ElecToolkit — Privacy Policy
+# VoltageBoard — Privacy Policy
 
 _Last updated: 17 August 2026_
 
-ElecToolkit is an offline toolkit for electrical work. The calculators, the
+VoltageBoard is an offline toolkit for electrical work. The calculators, the
 reference texts, your projects and your calculation history stay on your
 device. They are never uploaded, and they are not covered by anything below.
 

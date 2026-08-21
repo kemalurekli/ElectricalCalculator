@@ -1,4 +1,4 @@
-# ElecToolkit — design language
+# VoltageBoard — design language
 
 _Last updated 19 August 2026._
 

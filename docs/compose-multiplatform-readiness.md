@@ -1,4 +1,4 @@
-# Moving ElecToolkit to Compose Multiplatform
+# Moving VoltageBoard to Compose Multiplatform
 
 _Written 19 August 2026. Revised the same day with the toolchain verified by
 building it, and with a correction — see "What the first draft missed"._

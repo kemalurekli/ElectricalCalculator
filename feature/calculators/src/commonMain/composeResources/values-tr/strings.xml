@@ -74,7 +74,7 @@
     <string name="calculator_power_factor_title">Kompanzasyon</string>
     <string name="calculator_power_title">Güç Hesaplayıcı</string>
     <string name="calculator_selectivity_title">Selektivite kontrolü</string>
-    <string name="calculator_share_subject">%1$s — ElecToolkit</string>
+    <string name="calculator_share_subject">%1$s — VoltageBoard</string>
     <string name="calculator_short_circuit_title">Kısa Devre Akımı</string>
     <string name="calculator_solar_title">Solar PV Dizi Boyutlandırma</string>
     <string name="calculator_transformer_current_title">Transformatör Tam Yük Akımı</string>

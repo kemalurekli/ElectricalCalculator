@@ -7,6 +7,6 @@
       distinct label they appear as two identical icons, and it is easy to open
       the wrong one and conclude that settings or favourites have been lost.
     -->
-    <string name="app_name" translatable="false">ElecToolkit (debug)</string>
+    <string name="app_name" translatable="false">VoltageBoard (debug)</string>
 
 </resources>

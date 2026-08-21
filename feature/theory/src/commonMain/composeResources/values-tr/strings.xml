@@ -4,7 +4,7 @@
     <string name="action_reset">Sıfırla</string>
     <string name="calculator_formula">Formül</string>
     <string name="calculator_inputs">Girdiler</string>
-    <string name="calculator_share_subject">%1$s — ElecToolkit</string>
+    <string name="calculator_share_subject">%1$s — VoltageBoard</string>
     <string name="destination_theory">Teori</string>
     <string name="message_copied">Sonuç kopyalandı</string>
     <string name="th_conductor_assumption_dc">Doğru akım ya da küçük kesitli bir iletkendeki alternatif akım. Yaklaşık 50 mm²'nin üzerinde deri olayı akımı yüzeye iter ve etkin direnç yükselir.</string>
