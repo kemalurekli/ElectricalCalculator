@@ -27,4 +27,20 @@ interface AppLanguageRepository {
      * [language] changes. Callers do not need to refresh anything themselves.
      */
     fun setLanguage(language: AppLanguage)
+
+    /**
+     * Re-reads the language the platform has applied.
+     *
+     * Both platforms let the reader change this from the phone's own settings,
+     * without the app being involved — and they differ in what that costs. iOS
+     * terminates the app, so the next launch reads the new value on the way up
+     * and there is nothing to refresh. Android only recreates the activity: the
+     * process, and everything held in it including this, survives with the
+     * value it read at startup.
+     *
+     * So this is Android's alone to implement, and it does nothing elsewhere
+     * rather than being a platform seam of its own — a whole `expect` for one
+     * platform's housekeeping would cost more to read than it saves.
+     */
+    fun refresh() = Unit
 }

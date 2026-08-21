@@ -16,6 +16,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.domain.model.ThemeMode
 import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import com.kemalurekli.electricalcalculator.shell.ElecToolkitApp
+import org.koin.android.ext.android.inject
+import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
 
 /**
  * Extends [AppCompatActivity] rather than `ComponentActivity` solely for the
@@ -31,9 +33,20 @@ class MainActivity : AppCompatActivity() {
     // anything.
     private val viewModel: MainViewModel by viewModel()
 
+    // Read here rather than injected into a ViewModel: the point of the call
+    // below is that it happens on every activity creation, and a ViewModel
+    // survives those.
+    private val languageRepository: AppLanguageRepository by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        // Changing the per-app language from system Settings recreates this
+        // activity without restarting the process, so the singleton that holds
+        // the language is still carrying the old one. Asking again here is the
+        // one moment that is guaranteed to follow such a change.
+        languageRepository.refresh()
 
         // Hold the splash only until the stored theme is known, so the first
         // composed frame already uses the correct colour scheme instead of

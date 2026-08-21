@@ -34,12 +34,19 @@ internal class AppLanguageRepositoryImpl() : AppLanguageRepository {
     }
 
     /**
-     * Reads the language the platform currently has applied.
+     * Re-reads what the platform has applied, and tells anyone listening.
      *
-     * Done on construction rather than cached at build time so that a change
-     * made from system Settings — outside this app entirely — is reflected the
-     * next time the graph is created.
+     * Called when an activity is created, which is what Android does after the
+     * reader changes the language from system Settings. The graph is not
+     * rebuilt for that — this object is a singleton and outlives it — so
+     * without asking again the app would go on serving the language it started
+     * with. The forum is where that showed: it picks its board from here.
      */
+    override fun refresh() {
+        _language.value = readCurrentLanguage()
+    }
+
+    /** The language the platform currently has applied, or none. */
     private fun readCurrentLanguage(): AppLanguage =
         AppLanguage.fromTagOrSystem(
             AppCompatDelegate.getApplicationLocales()
