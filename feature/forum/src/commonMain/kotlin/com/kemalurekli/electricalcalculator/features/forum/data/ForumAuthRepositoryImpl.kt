@@ -101,7 +101,24 @@ class ForumAuthRepositoryImpl(
 
     override suspend fun signInWithEmailCode(email: String, code: String): Result<Unit> =
         withClient { client ->
-            client.auth.verifyEmailOtp(type = OtpType.Email.EMAIL, email = email, token = code)
+            // Two token types, and the app cannot know which one it is holding.
+            //
+            // Supabase mints a *signup* token for an address it has never seen
+            // and an *email* token for one it has, and it rejects the wrong
+            // type outright — which is why the first code a new member is sent
+            // comes back as "token has expired or is invalid" if you only ask
+            // one way. Asking the app to know first would mean a round trip
+            // whose only purpose is to reveal whether an address is already
+            // registered, which is not a question worth answering to anyone
+            // who asks.
+            //
+            // So: try the returning reader, fall back to the new one. Costs a
+            // second verification attempt against a limit of 360 an hour.
+            runCatching {
+                client.auth.verifyEmailOtp(type = OtpType.Email.EMAIL, email = email, token = code)
+            }.recoverCatching {
+                client.auth.verifyEmailOtp(type = OtpType.Email.SIGNUP, email = email, token = code)
+            }.getOrThrow()
         }
 
     /**
