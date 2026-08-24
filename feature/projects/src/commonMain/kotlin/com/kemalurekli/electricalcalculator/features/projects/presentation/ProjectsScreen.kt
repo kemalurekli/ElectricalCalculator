@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.projects.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,6 +24,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecLoad
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectSummary
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.Res
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.destination_projects
@@ -72,6 +74,7 @@ fun ProjectsScreen(
     modifier: Modifier = Modifier,
 ) {
     val scrollBehavior = rememberElecScrollBehavior()
+    val spacing = ElecTheme.spacing
 
     ElecScreenScaffold(
         title = stringResource(Res.string.destination_projects),
@@ -101,7 +104,10 @@ fun ProjectsScreen(
                     icon = ElecIcons.Projects,
                 )
 
-                else -> LazyColumn(modifier = Modifier.fillMaxSize()) {
+                else -> LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(bottom = spacing.fabClearance),
+                ) {
                     items(uiState.projects, key = { it.project.id }) { summary ->
                         ElecListItem(
                             title = summary.title(),

@@ -141,6 +141,77 @@ android.sourceSets.getByName("androidTest").assets.srcDir(
     rootProject.file("core/database/schemas"),
 )
 
+/**
+ * The design system's resource package, which is also the directory the Compose
+ * resource reader looks under. Repeated here rather than read from the module
+ * because a Gradle build must not reach into another project's script.
+ *
+ * A guard test pins it: `ElecFontLoadingTest` renders through the real `Res.font`
+ * accessors and fails if what comes back is not the bundled face.
+ */
+val designSystemResourcePackage =
+    "com.kemalurekli.electricalcalculator.core.designsystem.generated.resources"
+
+/**
+ * Packages the bundled typefaces as Android assets.
+ *
+ * Every other Compose resource is read through `ResourceReader`, which tries the
+ * assets and then falls back to the classloader — so the design system putting
+ * its resources on the classpath is enough for strings and drawables. `Font()`
+ * is the exception: on Android it never touches the reader, it hands the path
+ * straight to `AssetManager`. With nothing in the assets every `Font(Res.font.…)`
+ * call failed, silently, and Compose fell back to the platform default. Nothing
+ * crashed and nothing was logged; the whole app simply rendered in Roboto —
+ * every figure included, in an app whose design language sets figures in a
+ * tabular face so that columns line up and a changing result does not shift the
+ * digits beside it.
+ *
+ * It is done here rather than in the design system because AGP 9's Kotlin
+ * Multiplatform library variant has no assets to add to: `variant.sources.assets`
+ * is null. `:app` is an Android application and has them.
+ *
+ * The files are read from the design system's source directory rather than its
+ * prepared-resources output: the resource pipeline copies fonts through
+ * unchanged, and reading the source keeps this off another project's task graph.
+ */
+abstract class PackageComposeFontAssets : DefaultTask() {
+
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val fonts: DirectoryProperty
+
+    /** The path the runtime asks the asset manager for, minus the file name. */
+    @get:Input
+    abstract val resourcePackage: Property<String>
+
+    /** Set by AGP: the assets root this task contributes to. */
+    @get:OutputDirectory
+    abstract val assets: DirectoryProperty
+
+    @get:Inject
+    abstract val files: FileSystemOperations
+
+    @TaskAction
+    fun copyFonts() {
+        files.sync {
+            from(fonts)
+            into(assets.get().dir("composeResources/${resourcePackage.get()}/font"))
+        }
+    }
+}
+
+val packageComposeFontAssets = tasks.register<PackageComposeFontAssets>("packageComposeFontAssets") {
+    fonts.set(rootProject.layout.projectDirectory.dir("core/designsystem/src/commonMain/composeResources/font"))
+    resourcePackage.set(designSystemResourcePackage)
+}
+
+androidComponents.onVariants { variant ->
+    variant.sources.assets?.addGeneratedSourceDirectory(
+        packageComposeFontAssets,
+        PackageComposeFontAssets::assets,
+    )
+}
+
 dependencies {
     // Compose BOM aligns every Compose artifact to one tested version set.
     implementation(platform(libs.androidx.compose.bom))

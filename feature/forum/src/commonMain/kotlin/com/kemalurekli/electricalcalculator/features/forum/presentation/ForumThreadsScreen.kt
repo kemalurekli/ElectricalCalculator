@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -164,6 +165,7 @@ fun ForumThreadsScreen(
             state = uiState,
             onRetry = onRetry,
             modifier = Modifier.padding(innerPadding),
+            loading = { ForumThreadsSkeleton() },
         ) { threads ->
             if (threads.isEmpty()) {
                 ElecEmptyState(
@@ -183,6 +185,7 @@ fun ForumThreadsScreen(
                 LazyColumn(
                     state = listState,
                     modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(bottom = spacing.fabClearance),
                 ) {
                     items(ordered, key = { it.id }) { thread ->
                         ForumThreadRow(

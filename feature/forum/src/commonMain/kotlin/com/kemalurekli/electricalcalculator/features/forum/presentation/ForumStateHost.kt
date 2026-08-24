@@ -38,14 +38,16 @@ fun <T> ForumStateHost(
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
     onRefresh: () -> Unit = onRetry,
+    loading: @Composable () -> Unit = { ElecLoadingState() },
     content: @Composable (T) -> Unit,
 ) {
     when (state) {
-        ForumScreenState.Loading -> Box(
-            modifier = modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            ElecLoadingState()
+        // A screen that knows the shape of what it is waiting for passes it in;
+        // the rest get the spinner. Not centred for the ones that do, because a
+        // list of placeholder rows starts at the top like the list it stands in
+        // for — centring it would put the wait somewhere the answer never is.
+        ForumScreenState.Loading -> Box(modifier = modifier.fillMaxSize()) {
+            loading()
         }
 
         // The Box is not decoration. Every caller passes the Scaffold's inner

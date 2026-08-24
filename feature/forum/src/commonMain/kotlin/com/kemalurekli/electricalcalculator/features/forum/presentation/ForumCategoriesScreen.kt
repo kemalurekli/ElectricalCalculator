@@ -88,6 +88,7 @@ fun ForumCategoriesScreen(
             state = uiState,
             onRetry = onRetry,
             modifier = Modifier.padding(innerPadding),
+            loading = { ForumCategoriesSkeleton() },
         ) { categories ->
             if (categories.isEmpty()) {
                 ElecEmptyState(

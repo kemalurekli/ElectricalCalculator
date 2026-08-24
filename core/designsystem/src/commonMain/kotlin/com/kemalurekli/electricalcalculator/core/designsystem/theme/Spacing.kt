@@ -27,6 +27,20 @@ data class ElecSpacing(
     val screenHorizontal: Dp = 16.dp,
     /** Vertical gap between major sections on a screen. */
     val sectionGap: Dp = 24.dp,
+    /**
+     * Bottom padding a scrolling list needs when a floating action button sits
+     * over it.
+     *
+     * The button floats above the content rather than beside it, so the last row
+     * of a list that ends at the window's edge is permanently underneath it —
+     * readable in a screenshot, unreachable with a thumb. Three screens had this
+     * and none of them had noticed, because the bug only shows once the list is
+     * long enough to reach the bottom.
+     *
+     * A 56dp button, its own 16dp inset, and one more gap so the last row is not
+     * touching it.
+     */
+    val fabClearance: Dp = 88.dp,
 )
 
 val LocalElecSpacing = staticCompositionLocalOf { ElecSpacing() }

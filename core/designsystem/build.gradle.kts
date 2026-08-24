@@ -30,12 +30,23 @@ val resourcePackage = "com.kemalurekli.electricalcalculator.core.designsystem.ge
  * passed to `srcDir` as a task provider rather than a path so that packaging
  * depends on generation. A bare directory works until the first clean build.
  */
-val packageComposeResourcesForAndroid = tasks.register<Copy>("packageComposeResourcesForAndroid") {
+// `Sync` rather than `Copy` so the destination holds exactly what the source
+// says. A `Copy` leaves whatever it wrote on an earlier run, which meant the
+// fonts stayed on the classpath for a build after they stopped being copied
+// there — the sort of stale output that looks like the change did not work.
+val packageComposeResourcesForAndroid = tasks.register<Sync>("packageComposeResourcesForAndroid") {
     from(
         layout.buildDirectory.dir(
             "generated/compose/resourceGenerator/preparedResources/commonMain/composeResources",
         ),
     )
+    // The typefaces are not here. AGP 9's Kotlin Multiplatform library variant
+    // exposes no assets at all — `variant.sources.assets` is null — and the
+    // assets are the only place Compose Resources looks for a font on Android.
+    // They are packaged by `:app` instead; see `packageComposeFontAssets` there.
+    // Leaving a copy on the classpath as well would cost half a megabyte that
+    // nothing would ever read.
+    exclude("font/**")
     into(
         layout.buildDirectory.dir(
             "generated/compose/androidResources/composeResources/$resourcePackage",
