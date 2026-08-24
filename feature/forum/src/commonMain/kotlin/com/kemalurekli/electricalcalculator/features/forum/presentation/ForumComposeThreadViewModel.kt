@@ -20,6 +20,10 @@ class ForumComposeThreadViewModel(
 
     private val route = savedStateHandle.toRoute<Route.ForumComposeThread>()
 
+    /** The section this thread is being written into, for the screen to name. */
+    val categoryTitle: String = route.categoryTitle
+    val categoryKey: String = route.categoryKey
+
     private val _title = MutableStateFlow("")
     val title: StateFlow<String> = _title.asStateFlow()
 

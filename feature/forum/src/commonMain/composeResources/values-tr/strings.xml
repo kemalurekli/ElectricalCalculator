@@ -53,11 +53,13 @@
     <string name="forum_level_one_volt">1 Volt</string>
     <string name="forum_level_twelve_volt">12 Volt</string>
     <string name="forum_new_thread">Yeni konu</string>
-    <string name="forum_new_thread_body_hint">Durumu anlatın</string>
+    <string name="forum_new_thread_body_hint">Ne olduğunu, ölçtüğünüz değerleri ve neler denediğinizi yazın.</string>
+    <string name="forum_new_thread_destination">Şurada açılıyor</string>
     <string name="forum_new_thread_failed">Konu açılamadı. Yeniden deneyin.</string>
+    <string name="forum_new_thread_needs_body">Şimdi de durumu anlatın</string>
     <string name="forum_new_thread_send">Yayınla</string>
     <string name="forum_new_thread_title">Konu aç</string>
-    <string name="forum_new_thread_title_hint">Başlık</string>
+    <string name="forum_new_thread_title_hint">Sorunuzu tek satırda özetleyin</string>
     <string name="forum_opening_post">Soru</string>
     <string name="forum_post_actions">Mesaj işlemleri</string>
     <string name="forum_post_edited">düzenlendi</string>
@@ -110,7 +112,7 @@
     <string name="forum_thread_unpinned">Sabitleme kaldırıldı</string>
     <string name="forum_threads_empty_message">Burada henüz bir şey sorulmamış. İşe yarayanı ilk sorudur.</string>
     <string name="forum_threads_empty_title">Henüz konu yok</string>
-    <string name="forum_title_too_short">En az %1$d karakter</string>
+    <string name="forum_title_too_short">Başlık en az %1$d karakter olmalı</string>
     <string name="forum_unblock">Engeli kaldır</string>
     <string name="forum_view_profile">Profili gör</string>
     <plurals name="forum_category_threads">

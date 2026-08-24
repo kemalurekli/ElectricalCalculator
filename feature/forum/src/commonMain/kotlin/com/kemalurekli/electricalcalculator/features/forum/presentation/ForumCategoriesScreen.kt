@@ -141,7 +141,7 @@ private fun ForumCategoryCard(category: ForumCategory, onClick: () -> Unit) {
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
-                    imageVector = category.icon(),
+                    imageVector = forumCategoryIcon(category.key),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSecondaryContainer,
                     modifier = Modifier.size(24.dp),
@@ -172,21 +172,4 @@ private fun ForumCategoryCard(category: ForumCategory, onClick: () -> Unit) {
             }
         }
     }
-}
-
-/**
- * The section's own icon, chosen by its key rather than its title.
- *
- * Keys are stable and the same in both languages; titles are neither.
- */
-private fun ForumCategory.icon() = when (key) {
-    "installations" -> ElecIcons.ForumInstallations
-    "protection" -> ElecIcons.ForumProtection
-    "troubleshooting" -> ElecIcons.ForumTroubleshooting
-    "design" -> ElecIcons.ForumDesign
-    "standards" -> ElecIcons.ForumStandards
-    "learning" -> ElecIcons.ForumLearning
-    // A category added in the dashboard that this build has never heard of
-    // still gets a row, just a generic one.
-    else -> ElecIcons.Forum
 }

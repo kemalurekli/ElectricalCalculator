@@ -104,9 +104,17 @@ sealed interface Route {
      * Carries the title alongside the id so the top bar has something to show
      * before the first request comes back. A screen that opens on a blank bar
      * and fills it a second later reads as a stutter.
+     *
+     * The key rides along for the section's icon. It is the stable identifier —
+     * titles are translated, keys are not — and it is what lets the compose
+     * screen show the same glyph the reader tapped on the way in.
      */
     @Serializable
-    data class ForumCategory(val categoryId: String, val title: String) : Route
+    data class ForumCategory(
+        val categoryId: String,
+        val title: String,
+        val key: String = "",
+    ) : Route
 
     /**
      * One thread and its messages.
@@ -141,7 +149,22 @@ sealed interface Route {
      * switching the app language midway must not move it to the other one.
      */
     @Serializable
-    data class ForumComposeThread(val categoryId: String, val language: String) : Route
+    data class ForumComposeThread(
+        val categoryId: String,
+        val language: String,
+        /**
+         * The section being written into, named on the screen itself.
+         *
+         * The composer used to say only "Open a thread", which is true of every
+         * category and tells the writer nothing about where their question
+         * lands. Both are carried rather than looked up: the category is
+         * already known by the screen that opened this one, and a second
+         * request for a title that is sitting one entry down the back stack
+         * would only add a blank frame.
+         */
+        val categoryTitle: String = "",
+        val categoryKey: String = "",
+    ) : Route
 
     /**
      * A forum member, their own or anyone else's.

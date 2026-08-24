@@ -53,11 +53,13 @@
     <string name="forum_level_one_volt">1 Volt</string>
     <string name="forum_level_twelve_volt">12 Volt</string>
     <string name="forum_new_thread">New thread</string>
-    <string name="forum_new_thread_body_hint">Describe the situation</string>
+    <string name="forum_new_thread_body_hint">What happened, what you measured, and what you have already tried.</string>
+    <string name="forum_new_thread_destination">Opening in</string>
     <string name="forum_new_thread_failed">The thread could not be opened. Try again.</string>
+    <string name="forum_new_thread_needs_body">Now describe the situation</string>
     <string name="forum_new_thread_send">Post</string>
     <string name="forum_new_thread_title">Open a thread</string>
-    <string name="forum_new_thread_title_hint">Title</string>
+    <string name="forum_new_thread_title_hint">Sum the question up in one line</string>
     <string name="forum_opening_post">Question</string>
     <string name="forum_post_actions">Message actions</string>
     <string name="forum_post_edited">edited</string>
@@ -110,7 +112,7 @@
     <string name="forum_thread_unpinned">Unpinned</string>
     <string name="forum_threads_empty_message">Nothing has been asked here yet. The first question is the useful one.</string>
     <string name="forum_threads_empty_title">No threads yet</string>
-    <string name="forum_title_too_short">At least %1$d characters</string>
+    <string name="forum_title_too_short">The title needs at least %1$d characters</string>
     <string name="forum_unblock">Unblock</string>
     <string name="forum_view_profile">View profile</string>
     <plurals name="forum_category_threads">

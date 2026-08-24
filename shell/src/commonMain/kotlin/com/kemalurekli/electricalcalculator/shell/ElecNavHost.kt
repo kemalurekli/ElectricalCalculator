@@ -110,7 +110,7 @@ fun ElecNavHost(
 
         composable<Route.Forum> {
             ForumCategoriesRoute(
-                onCategoryClick = { actions.navigateTo(Route.ForumCategory(it.id, it.title)) },
+                onCategoryClick = { actions.navigateTo(Route.ForumCategory(it.id, it.title, it.key)) },
             )
         }
 
@@ -120,7 +120,11 @@ fun ElecNavHost(
                 categoryId = route.categoryId,
                 categoryTitle = route.title,
                 onThreadClick = { actions.navigateTo(Route.ForumThread(it.id, it.title, it.isLocked, it.authorId, route.title)) },
-                onNewThread = { actions.navigateTo(Route.ForumComposeThread(route.categoryId, it)) },
+                onNewThread = {
+                    actions.navigateTo(
+                        Route.ForumComposeThread(route.categoryId, it, route.title, route.key),
+                    )
+                },
                 onNavigateBack = actions::navigateBack,
             )
         }
