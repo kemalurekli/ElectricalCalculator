@@ -27,6 +27,7 @@
     <string name="state_error_title">Bir sorun oluştu</string>
     <string name="state_in_development_message">Bu bölüm geliştiriliyor ve yakın bir sürümde eklenecek.</string>
     <string name="state_in_development_title">Henüz kullanılamıyor</string>
+    <string name="state_just_now">Az önce</string>
     <string name="state_loading">Yükleniyor</string>
     <string name="validation_below_minimum">En az %1$s değerinde bir sayı girin</string>
     <string name="validation_exceeds_maximum">En fazla %1$s değerinde bir sayı girin</string>

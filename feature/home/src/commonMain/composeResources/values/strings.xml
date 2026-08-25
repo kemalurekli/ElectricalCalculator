@@ -5,7 +5,6 @@
     <string name="home_badge_pinned">%1$d pinned</string>
     <string name="home_badge_saved">%1$d saved</string>
     <string name="home_browse">Browse</string>
-    <string name="home_just_now">Just now</string>
     <string name="home_recent">Recent</string>
     <string name="search_group_calculators">Calculators</string>
     <string name="search_group_converter">Unit converter</string>

@@ -4,15 +4,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListDivider
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
@@ -63,10 +63,10 @@ fun MoreRoute(
                 bottom = spacing.xxl,
             ),
         ) {
-            items(
+            itemsIndexed(
                 items = destinations,
-                key = { it.name },
-            ) { destination ->
+                key = { _, destination -> destination.name },
+            ) { index, destination ->
                 ElecListItem(
                     title = stringResource(destination.title),
                     description = stringResource(destination.subtitle),
@@ -74,7 +74,7 @@ fun MoreRoute(
                     onClick = { onNavigate(destination.route) },
                     contentPadding = PaddingValues(horizontal = 0.dp, vertical = spacing.md),
                 )
-                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                if (index < destinations.lastIndex) ElecListDivider()
             }
         }
     }

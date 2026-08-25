@@ -12,11 +12,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListDivider
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
-import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
@@ -79,9 +79,14 @@ fun ReferencesRoute(
                     ElecListItem(
                         title = stringResource(topic.title),
                         description = stringResource(topic.description),
-                        icon = ElecIcons.References,
+                        // The standard this page transcribes, in place of the
+                        // book glyph that used to sit here twenty times over.
+                        // Two reference titles can sound equally plausible; the
+                        // designation underneath is what a reader picks between.
+                        caption = stringResource(topic.source),
                         onClick = { onTopicClick(topic.key) },
                     )
+                    if (index < categoryTopics.lastIndex) ElecListDivider()
                 }
             }
         }

@@ -2,7 +2,6 @@
 <resources>
     <string name="fn_search_hint">Genel bilgilerde ara</string>
     <string name="fn_filter_all">Tümü</string>
-    <string name="fn_related_terms">Bu nottaki terimler</string>
     <string name="fn_related_calculator">Hesapla</string>
     <string name="fn_related_reference">Tabloya bak</string>
     <string name="fn_empty_title">Eşleşme yok</string>

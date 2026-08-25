@@ -27,6 +27,14 @@ data class TheoryTopicRow(
     val level: TheoryLevel,
     val title: String,
     val summary: String,
+    /**
+     * Whether the topic ends somewhere the reader can put their own numbers.
+     *
+     * A third of the shelf does. It is the one thing a row can say that the
+     * heading above it does not — the level is already the heading — and it is
+     * the difference between a page to read and a page to use.
+     */
+    val hasCalculator: Boolean = false,
 )
 
 /** One level's worth of topics. */
@@ -141,6 +149,7 @@ class TheoryListViewModel(
         level = topic.level,
         title = stringResolver.get(topic.title),
         summary = stringResolver.get(topic.summary),
+        hasCalculator = topic.calculator != null,
     )
 
     private fun levelOrNull(name: String): TheoryLevel? =

@@ -27,6 +27,7 @@
     <string name="state_error_title">Something went wrong</string>
     <string name="state_in_development_message">This section is being built and will arrive in an upcoming release.</string>
     <string name="state_in_development_title">Not available yet</string>
+    <string name="state_just_now">Just now</string>
     <string name="state_loading">Loading</string>
     <string name="validation_below_minimum">Enter a value of %1$s or more</string>
     <string name="validation_exceeds_maximum">Enter a value of %1$s or less</string>

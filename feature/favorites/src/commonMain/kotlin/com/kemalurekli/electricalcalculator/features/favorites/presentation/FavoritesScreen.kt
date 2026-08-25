@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,6 +15,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListDivider
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecLoadingState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
@@ -103,7 +104,10 @@ fun FavoritesScreen(
                         item(key = "header-${kind.name}") {
                             ElecSectionHeader(title = stringResource(kind.title()))
                         }
-                        items(rows, key = { "${it.item.kind}-${it.item.key}" }) { row ->
+                        itemsIndexed(
+                            items = rows,
+                            key = { _, row -> "${row.item.kind}-${row.item.key}" },
+                        ) { index, row ->
                             ElecListItem(
                                 title = row.title,
                                 description = row.description,
@@ -114,6 +118,7 @@ fun FavoritesScreen(
                                 isFavorite = true,
                                 onToggleFavorite = { onToggleFavorite(row.item) },
                             )
+                            if (index < rows.lastIndex) ElecListDivider()
                         }
                     }
                 }

@@ -77,6 +77,7 @@
     <string name="projects_empty_message">A project holds one supply and the circuits fed from it. Set the voltage, ambient and cable type once, and every circuit is designed against them.</string>
     <string name="projects_empty_title">No projects yet</string>
     <string name="projects_new">New project</string>
+    <string name="projects_supply_volts">%1$s V</string>
     <string name="projects_untitled">Untitled project</string>
     <string name="report_column_binding">Decided by</string>
     <string name="report_column_capacity">Iz (A)</string>

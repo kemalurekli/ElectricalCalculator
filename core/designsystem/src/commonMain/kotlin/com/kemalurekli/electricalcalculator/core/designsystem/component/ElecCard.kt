@@ -111,7 +111,7 @@ fun ElecDashboardCard(
             ) {
                 ElecIconBadge(icon = icon, accent = accent)
                 if (badge != null) {
-                    ElecCountBadge(text = badge)
+                    ElecPillBadge(text = badge)
                 }
             }
             Column(verticalArrangement = Arrangement.spacedBy(spacing.xs)) {
@@ -173,15 +173,16 @@ private val SUBTITLE_LINE_HEIGHT = 17.sp
 enum class ElecAccent { PRIMARY, SECONDARY, TERTIARY, NEUTRAL }
 
 /**
- * Small pill carrying a count, such as "3 pinned" on the Favourites card.
+ * Small pill carrying a short label — a count such as "3 pinned" on the
+ * Favourites card, or a property such as a theory topic's level.
  *
  * Given a container of its own rather than being set as loose text. Bare text
  * floating in a card's top corner reads as something that failed to lay out;
- * the pill makes it read as a deliberate piece of status, and gives the number
- * a boundary so it does not run into the title beneath it.
+ * the pill makes it read as a deliberate piece of status, and gives it a
+ * boundary so it does not run into the title beneath it.
  */
 @Composable
-fun ElecCountBadge(
+fun ElecPillBadge(
     text: String,
     modifier: Modifier = Modifier,
 ) {

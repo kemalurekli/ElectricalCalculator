@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,6 +16,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListDivider
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchBar
@@ -106,16 +107,24 @@ fun CalculatorsScreen(
                     )
                 }
             } else if (uiState.isSearching) {
-                items(uiState.searchResults, key = { it.id.key }) { item ->
+                itemsIndexed(
+                    items = uiState.searchResults,
+                    key = { _, item -> item.id.key },
+                ) { index, item ->
                     CalculatorRow(item, onCalculatorClick, onToggleFavorite)
+                    if (index < uiState.searchResults.lastIndex) ElecListDivider()
                 }
             } else {
                 uiState.sections.forEach { section ->
                     item(key = "header-${section.category.name}") {
                         ElecSectionHeader(title = stringResource(section.title))
                     }
-                    items(section.items, key = { it.id.key }) { item ->
+                    itemsIndexed(
+                        items = section.items,
+                        key = { _, item -> item.id.key },
+                    ) { index, item ->
                         CalculatorRow(item, onCalculatorClick, onToggleFavorite)
+                        if (index < section.items.lastIndex) ElecListDivider()
                     }
                 }
             }

@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListDivider
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchBar
@@ -37,6 +38,7 @@ import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryLevel
 import kotlinx.collections.immutable.persistentListOf
 import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_has_calculator
 import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.destination_theory
 import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_empty_message
 import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_empty_title
@@ -152,16 +154,22 @@ fun TheoryScreen(
                             modifier = Modifier.padding(horizontal = 0.dp),
                         )
                     }
-                    items(
+                    itemsIndexed(
                         items = section.topics,
-                        key = { "topic-${it.key}" },
-                    ) { topic ->
+                        key = { _, topic -> "topic-${topic.key}" },
+                    ) { index, topic ->
                         ElecListItem(
                             title = topic.title,
                             description = topic.summary,
-                            icon = ElecIcons.Theory,
+                            // No leading glyph. Every topic on this shelf is a
+                            // topic, so a sigma on each of twenty rows was an
+                            // indent with an opinion. The level a reader might
+                            // have wanted from it is the heading above.
+                            badge = stringResource(Res.string.th_has_calculator)
+                                .takeIf { topic.hasCalculator },
                             onClick = { onTopicClick(topic.key) },
                         )
+                        if (index < section.topics.lastIndex) ElecListDivider()
                     }
                 }
             }

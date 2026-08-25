@@ -166,6 +166,7 @@
     <string name="th_field_turns">Sarım</string>
     <string name="th_field_voltage">Gerilim</string>
     <string name="th_filter_all">Tümü</string>
+    <string name="th_has_calculator">Hesaplayıcı</string>
     <string name="th_kirchhoff_assumption_lumped">Devre toplu parametrelidir: elemanlar birer noktadır ve aralarındaki iletken toplama girmez. Radyo frekanslarında ya da yeterince uzun bir hatta bu geçerliliğini yitirir.</string>
     <string name="th_kirchhoff_assumption_signs">İşaretleri doğru tutmak size düşer. Başlamadan önce her kol için bir yön seçin; negatif çıkan bir akım yalnızca ters yönde akıyordur.</string>
     <string name="th_kirchhoff_example_drops">230 V çevrim, iki düşüm biliniyor</string>

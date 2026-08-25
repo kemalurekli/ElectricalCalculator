@@ -4,7 +4,6 @@
     <string name="home_badge_pinned">%1$d sabit</string>
     <string name="home_badge_saved">%1$d kayıt</string>
     <string name="home_browse">Gözat</string>
-    <string name="home_just_now">Az önce</string>
     <string name="home_recent">Son hesaplamalar</string>
     <string name="search_group_calculators">Hesaplayıcılar</string>
     <string name="search_group_converter">Birim dönüştürücü</string>

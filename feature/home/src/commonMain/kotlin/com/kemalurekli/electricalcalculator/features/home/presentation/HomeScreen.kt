@@ -1,7 +1,5 @@
 package com.kemalurekli.electricalcalculator.features.home.presentation
 
-import com.kemalurekli.electricalcalculator.core.common.util.formatAsRelativeTime
-import kotlin.time.Clock
 import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.asRelativeTime
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecDashboardCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
@@ -67,7 +66,6 @@ import com.kemalurekli.electricalcalculator.feature.home.generated.resources.des
 import com.kemalurekli.electricalcalculator.feature.home.generated.resources.home_badge_pinned
 import com.kemalurekli.electricalcalculator.feature.home.generated.resources.home_badge_saved
 import com.kemalurekli.electricalcalculator.feature.home.generated.resources.home_browse
-import com.kemalurekli.electricalcalculator.feature.home.generated.resources.home_just_now
 import com.kemalurekli.electricalcalculator.feature.home.generated.resources.home_recent
 import com.kemalurekli.electricalcalculator.feature.home.generated.resources.search_group_calculators
 import com.kemalurekli.electricalcalculator.feature.home.generated.resources.search_group_converter
@@ -215,7 +213,7 @@ fun HomeScreen(
                             ElecRecentRow(
                                 title = record.title,
                                 summary = record.summary,
-                                timestamp = record.createdAt.toRelativeTime(),
+                                timestamp = record.createdAt.asRelativeTime(),
                                 icon = ElecIcons.History,
                                 // The whole record, not just which calculator
                                 // it was. `onCalculatorClick` cannot carry the
@@ -454,22 +452,6 @@ private fun SearchKind.icon() = when (this) {
     SearchKind.FIELD_NOTE -> ElecIcons.FieldNotes
 }
 
-/**
- * Formats a timestamp as "2 minutes ago".
- *
- * Uses the platform formatter so the phrasing follows the device language
- * without the app shipping its own plural rules for every locale — see
- * [formatAsRelativeTime].
- */
-@Composable
-private fun Instant.toRelativeTime(): String {
-    val elapsed = Clock.System.now().toEpochMilliseconds() - toEpochMilliseconds()
-    // The platform formatter renders anything under a minute as "0 minutes
-    // ago", which reads as broken for a calculation just run.
-    if (elapsed < MILLIS_PER_MINUTE) return stringResource(Res.string.home_just_now)
-    return formatAsRelativeTime()
-}
-
 /** A row that spans the full grid width regardless of the column count. */
 private fun LazyGridScope.fullWidthItem(
     key: String,
@@ -538,4 +520,3 @@ private fun HomeScreenTabletPreview() {
     }
 }
 
-private const val MILLIS_PER_MINUTE = 60_000L

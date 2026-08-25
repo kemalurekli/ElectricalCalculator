@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,8 +39,29 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
  * reader offers "open" and "add to favorites" as distinct actions rather than
  * one ambiguous target.
  *
+ * ### What goes in the leading slot
+ *
+ * The icon used to be required, and three lists paid for that: references drew
+ * twenty identical books, theory twenty identical sigmas, projects a column of
+ * folders. A glyph that is the same on every row is not an icon, it is an
+ * indent — it costs 56dp of every row and tells the reader nothing they did not
+ * already know from the heading above.
+ *
+ * So the [icon] is optional now, and a list that has nothing to say there says
+ * nothing: the titles move left and the rows get shorter.
+ *
+ * A property worth reading goes in [badge] at the trailing edge instead of the
+ * leading one, so that every title in the list still starts at the same place.
+ * A leading pill would be as wide as its longest word — "Intermediate" against
+ * "Basic" — and leave the column ragged.
+ *
+ * @param badge short label at the trailing edge, such as a theory topic's level.
  * @param isFavorite when null, no favourite affordance is shown — used by lists
  *   where pinning does not apply.
+ * @param caption a third line under the description, quieter than it. For a
+ *   provenance rather than a sentence: which standard a reference is transcribed
+ *   from, which is what a reader picks between when the titles all sound equally
+ *   plausible.
  * @param contentPadding inset around the row. Defaults to the standard list
  *   inset; callers whose container already applies a screen inset (such as the
  *   home grid) pass zero horizontal padding to avoid doubling it.
@@ -48,9 +70,11 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 fun ElecListItem(
     title: String,
     description: String,
-    icon: ImageVector,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    icon: ImageVector? = null,
+    badge: String? = null,
+    caption: String? = null,
     isFavorite: Boolean? = null,
     onToggleFavorite: () -> Unit = {},
     contentPadding: PaddingValues = ElecListItemDefaults.contentPadding,
@@ -64,7 +88,7 @@ fun ElecListItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(spacing.lg),
     ) {
-        ElecIconBadge(icon = icon)
+        if (icon != null) ElecIconBadge(icon = icon)
 
         Column(
             modifier = Modifier.weight(1f),
@@ -84,6 +108,23 @@ fun ElecListItem(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
+            if (caption != null) {
+                Text(
+                    text = caption,
+                    // Quieter than the description above it, not louder. It is
+                    // there to be found when a reader is choosing between two
+                    // plausible titles, not to be read on the way past.
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(top = spacing.xxs),
+                )
+            }
+        }
+
+        if (badge != null) {
+            ElecPillBadge(text = badge)
         }
 
         if (isFavorite != null) {
@@ -118,6 +159,26 @@ fun ElecListItem(
             }
         }
     }
+}
+
+/**
+ * The hairline between two rows.
+ *
+ * Drawn *between* rows and never after the last one in a group: a rule under
+ * the final item is a line under nothing, and where a section heading follows
+ * it, it fences the heading to the group above rather than the one below.
+ *
+ * It exists because the lists disagreed. Some drew a divider, some did not, and
+ * the ones that did not were the ones that had a leading glyph on every row
+ * holding the rows apart. Take the glyph away — as references and theory now do
+ * — and the rows run together.
+ */
+@Composable
+fun ElecListDivider(modifier: Modifier = Modifier) {
+    HorizontalDivider(
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.outlineVariant,
+    )
 }
 
 /** Defaults for [ElecListItem]. */
