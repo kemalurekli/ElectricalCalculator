@@ -115,6 +115,16 @@ static instances subset to the characters the app displays, built by
 falls back to a system face for that run of text, so a forum post in Cyrillic
 still reads; it is simply not set in Inter.
 
+**They must be packaged as Android assets, and only `:app` can do it.** Compose
+Resources reads every other resource type through a reader that tries the assets
+and falls back to the classpath; `Font()` on Android skips the reader and hands
+the path to `AssetManager`. A build that ships the fonts on the classpath alone
+renders the entire app in Roboto, without an exception or a log line, and looks
+fine at a glance. AGP 9's Kotlin Multiplatform library variant has no assets to
+add to, so the copy lives in `app/build.gradle.kts`. `ElecFontLoadingTest` is
+what stands between that and a release: it measures a comma against a digit
+through the real accessors, and no proportional face passes.
+
 ### The scale
 
 Material 3's sizes, with two changes:
@@ -174,6 +184,44 @@ checkmark either; that detail is unmistakably Material.
 is down" and "this build has no backend", because to the reader those are the
 same event: they came for something and it is not here. It takes an optional
 action, offered only where doing the thing could change the answer.
+
+**A card is an object; a row is a doorway.** If the entry carries state worth
+reading or comparing — a project's supply and when it was last touched, a forum
+section's thread count, a glossary entry — it is a card. If it exists only to
+open the page behind it — a calculator, a reference, a theory topic, the More
+list — it is a row. Rows are separated by `ElecListDivider`, drawn between rows
+and never after the last one in a group.
+
+**A leading glyph has to differ between rows.** `ElecListItem` takes an optional
+icon, and three lists used to be required to supply one: references drew twenty
+identical books, theory twenty identical sigmas, projects a column of folders.
+A glyph the same on every row is not an icon, it is a 56dp indent. The slot
+takes an icon where the rows genuinely differ, and nothing where they do not.
+What the row knows instead goes in `badge` at the trailing edge — kept there so
+every title still starts at the same x — or in `caption`, a third line for a
+provenance such as the standard a reference transcribes.
+
+**A floating action button needs `spacing.fabClearance` under the list.** It
+floats above the content rather than beside it, so without that the last row is
+permanently underneath it. Three screens had this and none had noticed, because
+it only appears once the list is long enough to reach the bottom.
+
+**Waiting draws the shape of what is coming.** Where the shape is known — the
+forum's two lists — `ElecSkeleton*` stands in for it, built from the same cards
+and insets as the real rows so nothing moves when the answer lands. Still, not
+shimmering: motion is undecided below and a loading state is no place to decide
+it. Everything else reads from the device and arrives at once; those keep the
+spinner.
+
+**A result goes above the form that produced it,** on every screen that has one.
+The circuit editor was the exception and it was the screen where it mattered
+most: whether the circuit passed sat under twelve fields.
+
+**A name the user chose is edited in the bar that shows it.** `ElecEditableTitle`
+in `ElecScreenScaffold`'s `titleContent`. A project and a circuit used to hold
+the name in a field halfway down a form while the bar above showed the
+placeholder for it — one fact in two places, and the readable one was not the
+one you could change.
 
 **Results** use `ElecResultCard`: the figure in tabular type, coloured by
 whether it passes its limits, with a plain-language verdict beneath. The whole
