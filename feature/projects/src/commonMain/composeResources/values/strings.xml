@@ -19,12 +19,15 @@
     <string name="circuit_load_kind_current">Current</string>
     <string name="circuit_load_kind_power">Power</string>
     <string name="circuit_load_power">Active power</string>
+    <string name="circuit_load_section">Load</string>
     <string name="circuit_name">Circuit name</string>
+    <string name="circuit_protection_section">Protection</string>
     <string name="circuit_result">Design</string>
     <string name="circuit_result_binding">Decided by</string>
     <string name="circuit_result_device">Protective device</string>
     <string name="circuit_result_protective">Protective conductor</string>
     <string name="circuit_result_size">Cross-section</string>
+    <string name="circuit_route_section">Route</string>
     <string name="circuit_stage_capacity">Current capacity, Iz ≥ In</string>
     <string name="circuit_stage_drop">Voltage drop</string>
     <string name="circuit_stage_loop">Earth fault loop, Zs</string>
@@ -59,6 +62,7 @@
     <string name="ef_device_d">Type D</string>
     <string name="ef_device_rcd">RCD</string>
     <string name="project_add_circuit">Add circuit</string>
+    <string name="project_cable_section">Cable</string>
     <string name="project_circuit_incomplete">Not designed yet — fill in the load and length</string>
     <string name="project_circuit_no_solution">No tabulated size works</string>
     <string name="project_circuit_summary">%1$s mm² · %2$s A device</string>

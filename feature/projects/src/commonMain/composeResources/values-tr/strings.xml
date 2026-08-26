@@ -19,12 +19,15 @@
     <string name="circuit_load_kind_current">Akım</string>
     <string name="circuit_load_kind_power">Güç</string>
     <string name="circuit_load_power">Aktif güç</string>
+    <string name="circuit_load_section">Yük</string>
     <string name="circuit_name">Devre adı</string>
+    <string name="circuit_protection_section">Koruma</string>
     <string name="circuit_result">Tasarım</string>
     <string name="circuit_result_binding">Belirleyen</string>
     <string name="circuit_result_device">Koruma cihazı</string>
     <string name="circuit_result_protective">Koruma iletkeni</string>
     <string name="circuit_result_size">Kesit</string>
+    <string name="circuit_route_section">Güzergâh</string>
     <string name="circuit_stage_capacity">Akım taşıma kapasitesi, Iz ≥ In</string>
     <string name="circuit_stage_drop">Gerilim düşümü</string>
     <string name="circuit_stage_loop">Toprak arıza çevrimi, Zs</string>
@@ -59,6 +62,7 @@
     <string name="ef_device_d">D tipi</string>
     <string name="ef_device_rcd">RCD</string>
     <string name="project_add_circuit">Devre ekle</string>
+    <string name="project_cable_section">Kablo</string>
     <string name="project_circuit_incomplete">Henüz tasarlanmadı — yükü ve uzunluğu girin</string>
     <string name="project_circuit_no_solution">Hiçbir tablo kesiti yetmiyor</string>
     <string name="project_circuit_summary">%1$s mm² · %2$s A cihaz</string>

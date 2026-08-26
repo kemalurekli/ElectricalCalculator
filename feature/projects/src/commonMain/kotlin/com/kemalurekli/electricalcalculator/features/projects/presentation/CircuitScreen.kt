@@ -30,7 +30,9 @@ import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.foundation.layout.ColumnScope
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEditableTitle
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
@@ -61,6 +63,9 @@ import com.kemalurekli.electricalcalculator.feature.projects.generated.resources
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.circuit_load_power
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.circuit_name
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.circuit_result
+import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.circuit_protection_section
+import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.circuit_route_section
+import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.circuit_load_section
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.circuit_result_binding
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.circuit_result_device
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.circuit_result_protective
@@ -145,10 +150,21 @@ fun CircuitScreen(
     val circuit = uiState.circuit
 
     ElecScreenScaffold(
-        title = circuit?.name?.ifBlank { null }
-                    ?: stringResource(Res.string.circuit_untitled),
+        title = stringResource(Res.string.circuit_untitled),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
+        // The name is the bar. It used to be a field two thirds of the way down
+        // the form while the bar above showed the placeholder for it.
+        titleContent = circuit?.let {
+            {
+                ElecEditableTitle(
+                    value = it.name,
+                    onValueChange = onNameChange,
+                    placeholder = stringResource(Res.string.circuit_untitled),
+                    label = stringResource(Res.string.circuit_name),
+                )
+            }
+        },
         actions = {
             IconButton(onClick = { confirmDelete = true }) {
                 Icon(
@@ -168,81 +184,81 @@ fun CircuitScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = spacing.xl),
         ) {
-            ElecCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
-            ) {
-                Column(
-                    modifier = Modifier.padding(spacing.lg),
-                    verticalArrangement = Arrangement.spacedBy(spacing.md),
-                ) {
-                    OutlinedTextField(
-                        value = circuit.name,
-                        onValueChange = onNameChange,
-                        label = { Text(stringResource(Res.string.circuit_name)) },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                    ElecOptionSelector(
-                        label = stringResource(Res.string.circuit_load_kind),
-                        options = CircuitLoadKind.entries.toImmutableList(),
-                        selected = circuit.loadKind,
-                        onSelect = onLoadKindChange,
-                        optionLabel = { stringResource(it.label()) },
-                    )
-                    ElecNumericField(
-                        value = circuit.load,
-                        onValueChange = onLoadChange,
-                        label = when (circuit.loadKind) {
-                            CircuitLoadKind.CURRENT -> stringResource(Res.string.circuit_load_current)
-                            CircuitLoadKind.POWER -> stringResource(Res.string.circuit_load_power)
-                        },
-                        unit = when (circuit.loadKind) {
-                            CircuitLoadKind.CURRENT -> "A"
-                            CircuitLoadKind.POWER -> "W"
-                        },
-                    )
-                    ElecNumericField(
-                        value = circuit.lengthMetres,
-                        onValueChange = onLengthChange,
-                        label = stringResource(Res.string.common_route_length),
-                        unit = "m",
-                    )
-                    ElecNumericField(
-                        value = circuit.powerFactor,
-                        onValueChange = onPowerFactorChange,
-                        label = stringResource(Res.string.common_power_factor),
-                    )
-                    ElecNumericField(
-                        value = circuit.groupedCircuits,
-                        onValueChange = onGroupedCircuitsChange,
-                        label = stringResource(Res.string.cs_circuits_label),
-                    )
-                    ElecNumericField(
-                        value = circuit.parallelConductors,
-                        onValueChange = onParallelConductorsChange,
-                        label = stringResource(Res.string.common_parallel_conductors),
-                    )
-                    ElecOptionSelector(
-                        label = stringResource(Res.string.ef_device),
-                        options = ProtectiveDeviceType.entries.toImmutableList(),
-                        selected = circuit.deviceType.toDeviceTypeOrDefault(),
-                        onSelect = onDeviceTypeChange,
-                        optionLabel = { stringResource(it.label()) },
-                    )
-                    ElecNumericField(
-                        value = circuit.disconnectionTimeSeconds,
-                        onValueChange = onDisconnectionTimeChange,
-                        label = stringResource(Res.string.circuit_disconnection),
-                        unit = "s",
-                        supportingText = stringResource(Res.string.circuit_disconnection_hint),
-                    )
-                }
-            }
-
+            // The verdict first. Every calculator in this app puts its result
+            // at the top; this screen alone put it under twelve fields, so
+            // whether the circuit passed was something you scrolled to find.
             ElecSectionHeader(title = stringResource(Res.string.circuit_result))
             DesignCard(uiState.design)
+
+            // The twelve fields were one undivided card. They fall into three
+            // groups a wireman already thinks in — what the circuit feeds, how
+            // far it runs, and what protects it — and reading a wall of labels
+            // is what a form feels like when nobody has said which is which.
+            ElecSectionHeader(title = stringResource(Res.string.circuit_load_section))
+            CircuitCard(spacing) {
+                ElecOptionSelector(
+                    label = stringResource(Res.string.circuit_load_kind),
+                    options = CircuitLoadKind.entries.toImmutableList(),
+                    selected = circuit.loadKind,
+                    onSelect = onLoadKindChange,
+                    optionLabel = { stringResource(it.label()) },
+                )
+                ElecNumericField(
+                    value = circuit.load,
+                    onValueChange = onLoadChange,
+                    label = when (circuit.loadKind) {
+                        CircuitLoadKind.CURRENT -> stringResource(Res.string.circuit_load_current)
+                        CircuitLoadKind.POWER -> stringResource(Res.string.circuit_load_power)
+                    },
+                    unit = when (circuit.loadKind) {
+                        CircuitLoadKind.CURRENT -> "A"
+                        CircuitLoadKind.POWER -> "W"
+                    },
+                )
+                ElecNumericField(
+                    value = circuit.powerFactor,
+                    onValueChange = onPowerFactorChange,
+                    label = stringResource(Res.string.common_power_factor),
+                )
+            }
+
+            ElecSectionHeader(title = stringResource(Res.string.circuit_route_section))
+            CircuitCard(spacing) {
+                ElecNumericField(
+                    value = circuit.lengthMetres,
+                    onValueChange = onLengthChange,
+                    label = stringResource(Res.string.common_route_length),
+                    unit = "m",
+                )
+                ElecNumericField(
+                    value = circuit.groupedCircuits,
+                    onValueChange = onGroupedCircuitsChange,
+                    label = stringResource(Res.string.cs_circuits_label),
+                )
+                ElecNumericField(
+                    value = circuit.parallelConductors,
+                    onValueChange = onParallelConductorsChange,
+                    label = stringResource(Res.string.common_parallel_conductors),
+                )
+            }
+
+            ElecSectionHeader(title = stringResource(Res.string.circuit_protection_section))
+            CircuitCard(spacing) {
+                ElecOptionSelector(
+                    label = stringResource(Res.string.ef_device),
+                    options = ProtectiveDeviceType.entries.toImmutableList(),
+                    selected = circuit.deviceType.toDeviceTypeOrDefault(),
+                    onSelect = onDeviceTypeChange,
+                    optionLabel = { stringResource(it.label()) },
+                )
+                ElecNumericField(
+                    value = circuit.disconnectionTimeSeconds,
+                    onValueChange = onDisconnectionTimeChange,
+                    label = stringResource(Res.string.circuit_disconnection),
+                    unit = "s",
+                    supportingText = stringResource(Res.string.circuit_disconnection_hint),
+                )
+            }
 
             ElecSectionHeader(title = stringResource(Res.string.tests_section))
             TestsCard(
@@ -286,6 +302,25 @@ fun CircuitScreen(
  * before anyone will sign it; a result that shows Iz against In and Zs against
  * its limit can be read.
  */
+/** One group of the circuit form, in the app's card. */
+@Composable
+private fun CircuitCard(
+    spacing: com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecSpacing,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    ElecCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
+    ) {
+        Column(
+            modifier = Modifier.padding(spacing.lg),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+            content = content,
+        )
+    }
+}
+
 @Composable
 private fun DesignCard(design: CircuitDesignResult?) {
     val spacing = ElecTheme.spacing

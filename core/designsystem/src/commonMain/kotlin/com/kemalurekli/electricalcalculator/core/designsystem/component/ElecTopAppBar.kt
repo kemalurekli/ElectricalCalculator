@@ -47,11 +47,15 @@ fun ElecTopAppBar(
     onNavigateBack: (() -> Unit)? = null,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actions: @Composable RowScope.() -> Unit = {},
+    titleContent: (@Composable () -> Unit)? = null,
 ) {
     Column(modifier = modifier) {
         TopAppBar(
             title = {
-                Text(
+                // A screen whose subject the reader names — a job, a circuit —
+                // puts the name itself here, and edits it here. Everywhere else
+                // the bar says where you are and [title] is the whole of it.
+                titleContent?.invoke() ?: Text(
                     text = title,
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 1,

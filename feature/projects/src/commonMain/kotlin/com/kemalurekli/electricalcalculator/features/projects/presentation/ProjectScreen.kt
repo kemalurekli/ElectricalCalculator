@@ -35,7 +35,10 @@ import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.foundation.layout.ColumnScope
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecSpacing
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEditableTitle
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
@@ -66,6 +69,7 @@ import com.kemalurekli.electricalcalculator.feature.projects.generated.resources
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.project_reference
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.project_schedule
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.project_site
+import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.project_cable_section
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.project_supply
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.projects_circuit_count_none
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.projects_delete_message
@@ -212,10 +216,23 @@ fun ProjectScreen(
     }
 
     ElecScreenScaffold(
-        title = project?.reference?.ifBlank { null }
-                    ?: stringResource(Res.string.projects_untitled),
+        title = stringResource(Res.string.projects_untitled),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
+        // The name is the bar, and the bar is where it is edited. It used to be
+        // a field inside a card while the bar above showed the placeholder for
+        // it — one fact in two places, and the readable one was not the one you
+        // could change.
+        titleContent = project?.let {
+            {
+                ElecEditableTitle(
+                    value = it.reference,
+                    onValueChange = onReferenceChange,
+                    placeholder = stringResource(Res.string.projects_untitled),
+                    label = stringResource(Res.string.project_reference),
+                )
+            }
+        },
         actions = {
             // A menu rather than two icons: the choice is between two
             // formats of one action, and two share buttons side by side
@@ -278,102 +295,106 @@ fun ProjectScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            contentPadding = PaddingValues(bottom = spacing.fabClearance),
+            contentPadding = PaddingValues(top = spacing.sm, bottom = spacing.fabClearance),
         ) {
+            // Eleven controls used to be one undivided card. They are three
+            // separate decisions — where the job is, what feeds it, and what
+            // the cable is — and a reader looking for the ambient temperature
+            // had to read every label to find out it was not the voltage.
+            // No heading over this one. It holds a single field that already
+            // carries its own label, and "Site" above "Site" is a stutter.
+            item(key = "site") {
+                ProjectCard(spacing) {
+                    OutlinedTextField(
+                        value = project.site,
+                        onValueChange = onSiteChange,
+                        label = { Text(stringResource(Res.string.project_site)) },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            }
+
             item(key = "supply-header") {
                 ElecSectionHeader(title = stringResource(Res.string.project_supply))
             }
 
             item(key = "supply") {
-                ElecCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
-                ) {
-                    Column(
-                        modifier = Modifier.padding(spacing.lg),
-                        verticalArrangement = Arrangement.spacedBy(spacing.md),
-                    ) {
-                        OutlinedTextField(
-                            value = project.reference,
-                            onValueChange = onReferenceChange,
-                            label = { Text(stringResource(Res.string.project_reference)) },
-                            singleLine = true,
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                        OutlinedTextField(
-                            value = project.site,
-                            onValueChange = onSiteChange,
-                            label = { Text(stringResource(Res.string.project_site)) },
-                            singleLine = true,
-                            modifier = Modifier.fillMaxWidth(),
-                        )
+                ProjectCard(spacing) {
+                    ElecOptionSelector(
+                        label = stringResource(Res.string.common_supply_system),
+                        options = SupplySystem.entries.toImmutableList(),
+                        selected = project.system,
+                        onSelect = onSystemChange,
+                        optionLabel = { stringResource(it.label()) },
+                    )
+                    ElecNumericField(
+                        value = project.systemVoltage,
+                        onValueChange = onVoltageChange,
+                        label = stringResource(Res.string.common_system_voltage),
+                        unit = "V",
+                    )
+                    ElecNumericField(
+                        value = project.externalImpedanceOhms,
+                        onValueChange = onExternalImpedanceChange,
+                        label = stringResource(Res.string.project_external_impedance),
+                        unit = "Ω",
+                        supportingText = stringResource(Res.string.project_external_impedance_hint),
+                    )
+                }
+            }
+
+            item(key = "cable-header") {
+                ElecSectionHeader(title = stringResource(Res.string.project_cable_section))
+            }
+
+            item(key = "cable") {
+                ProjectCard(spacing) {
+                    ElecOptionSelector(
+                        label = stringResource(Res.string.settings_engineering_material),
+                        options = ConductorMaterial.entries.toImmutableList(),
+                        selected = project.material,
+                        onSelect = onMaterialChange,
+                        optionLabel = { stringResource(it.label()) },
+                    )
+                    ElecOptionSelector(
+                        label = stringResource(Res.string.settings_engineering_insulation),
+                        options = CableInsulation.entries.toImmutableList(),
+                        selected = project.insulation,
+                        onSelect = onInsulationChange,
+                        optionLabel = { stringResource(it.label()) },
+                    )
+                    Column {
                         ElecOptionSelector(
-                            label = stringResource(Res.string.common_supply_system),
-                            options = SupplySystem.entries.toImmutableList(),
-                            selected = project.system,
-                            onSelect = onSystemChange,
+                            label = stringResource(Res.string.settings_engineering_method),
+                            options = InstallationMethod.entries.toImmutableList(),
+                            selected = project.method,
+                            onSelect = onMethodChange,
                             optionLabel = { stringResource(it.label()) },
                         )
-                        ElecNumericField(
-                            value = project.systemVoltage,
-                            onValueChange = onVoltageChange,
-                            label = stringResource(Res.string.common_system_voltage),
-                            unit = "V",
-                        )
-                        ElecOptionSelector(
-                            label = stringResource(Res.string.settings_engineering_material),
-                            options = ConductorMaterial.entries.toImmutableList(),
-                            selected = project.material,
-                            onSelect = onMaterialChange,
-                            optionLabel = { stringResource(it.label()) },
-                        )
-                        ElecOptionSelector(
-                            label = stringResource(Res.string.settings_engineering_insulation),
-                            options = CableInsulation.entries.toImmutableList(),
-                            selected = project.insulation,
-                            onSelect = onInsulationChange,
-                            optionLabel = { stringResource(it.label()) },
-                        )
-                        Column {
-                            ElecOptionSelector(
-                                label = stringResource(Res.string.settings_engineering_method),
-                                options = InstallationMethod.entries.toImmutableList(),
-                                selected = project.method,
-                                onSelect = onMethodChange,
-                                optionLabel = { stringResource(it.label()) },
-                            )
-                            // The buttons carry the code alone, which means
-                            // nothing to a reader who does not already know the
-                            // table, so the chosen method is spelled out.
-                            Text(
-                                text = stringResource(project.method.fullLabel()),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
-                            )
-                        }
-                        ElecNumericField(
-                            value = project.ambientTemperatureC,
-                            onValueChange = onAmbientChange,
-                            label = stringResource(Res.string.settings_engineering_ambient),
-                            unit = "°C",
-                            allowNegative = true,
-                        )
-                        ElecNumericField(
-                            value = project.maxVoltageDropPercent,
-                            onValueChange = onMaxDropChange,
-                            label = stringResource(Res.string.project_max_drop),
-                            unit = "%",
-                        )
-                        ElecNumericField(
-                            value = project.externalImpedanceOhms,
-                            onValueChange = onExternalImpedanceChange,
-                            label = stringResource(Res.string.project_external_impedance),
-                            unit = "Ω",
-                            supportingText = stringResource(Res.string.project_external_impedance_hint),
+                        // The buttons carry the code alone, which means
+                        // nothing to a reader who does not already know the
+                        // table, so the chosen method is spelled out.
+                        Text(
+                            text = stringResource(project.method.fullLabel()),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
                         )
                     }
+                    ElecNumericField(
+                        value = project.ambientTemperatureC,
+                        onValueChange = onAmbientChange,
+                        label = stringResource(Res.string.settings_engineering_ambient),
+                        unit = "°C",
+                        allowNegative = true,
+                    )
+                    ElecNumericField(
+                        value = project.maxVoltageDropPercent,
+                        onValueChange = onMaxDropChange,
+                        label = stringResource(Res.string.project_max_drop),
+                        unit = "%",
+                    )
                 }
             }
 
@@ -436,6 +457,25 @@ fun ProjectScreen(
  * tight and why — a column of "voltage drop" against long runs is a finding
  * about the installation, not about any one circuit.
  */
+/** One group of the project form, in the app's card. */
+@Composable
+private fun ProjectCard(
+    spacing: ElecSpacing,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    ElecCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
+    ) {
+        Column(
+            modifier = Modifier.padding(spacing.lg),
+            verticalArrangement = Arrangement.spacedBy(spacing.md),
+            content = content,
+        )
+    }
+}
+
 @Composable
 private fun CircuitScheduleRow(row: CircuitRow, onClick: () -> Unit) {
     val spacing = ElecTheme.spacing

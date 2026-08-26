@@ -61,6 +61,8 @@ fun ElecScreenScaffold(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     floatingActionButton: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
+    /** Replaces [title] in the bar — see [ElecTopAppBar]. */
+    titleContent: (@Composable () -> Unit)? = null,
     content: @Composable (PaddingValues) -> Unit,
 ) {
     val layout = currentWindowLayout()
@@ -85,6 +87,7 @@ fun ElecScreenScaffold(
                     onNavigateBack = onNavigateBack,
                     scrollBehavior = scrollBehavior,
                     actions = actions,
+                    titleContent = titleContent,
                 )
             },
             bottomBar = bottomBar,
