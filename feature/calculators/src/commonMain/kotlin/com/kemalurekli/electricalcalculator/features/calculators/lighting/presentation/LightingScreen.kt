@@ -238,6 +238,7 @@ fun LightingScreen(
                 ElecExamplesCard(
                     examples = lightingExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

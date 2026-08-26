@@ -270,6 +270,7 @@ fun VoltageDropScreen(
                 ElecExamplesCard(
                     examples = voltageDropExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

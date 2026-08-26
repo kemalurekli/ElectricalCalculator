@@ -242,6 +242,7 @@ fun BatteryScreen(
                 ElecExamplesCard(
                     examples = batteryExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

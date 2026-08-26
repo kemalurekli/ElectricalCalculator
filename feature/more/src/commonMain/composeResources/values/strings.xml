@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="more_group_shelves">Tools and reference</string>
+    <string name="more_group_yours">Your own</string>
     <string name="more_title">More</string>
 </resources>

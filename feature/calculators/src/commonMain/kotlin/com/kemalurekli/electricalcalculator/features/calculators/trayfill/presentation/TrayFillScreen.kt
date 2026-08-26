@@ -265,6 +265,7 @@ fun TrayFillScreen(
                 ElecExamplesCard(
                     examples = trayFillExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

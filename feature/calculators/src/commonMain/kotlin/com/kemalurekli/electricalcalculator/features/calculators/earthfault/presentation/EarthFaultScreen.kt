@@ -281,6 +281,7 @@ fun EarthFaultScreen(
                 ElecExamplesCard(
                     examples = earthFaultExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

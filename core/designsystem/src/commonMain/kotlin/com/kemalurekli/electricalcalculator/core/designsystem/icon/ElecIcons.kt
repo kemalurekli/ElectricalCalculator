@@ -1,6 +1,8 @@
 package com.kemalurekli.electricalcalculator.core.designsystem.icon
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.TrendingDown
@@ -125,6 +127,10 @@ object ElecIcons {
     val Delete = Icons.Outlined.DeleteOutline
 
     /** A design stage that was satisfied, and one that was not. */
+    /** A disclosure chevron, pointing at what tapping it will do. */
+    val Expand = Icons.Filled.ExpandMore
+    val Collapse = Icons.Filled.ExpandLess
+
     val StagePass = Icons.Outlined.CheckCircle
     val StageFail = Icons.Outlined.ErrorOutline
 

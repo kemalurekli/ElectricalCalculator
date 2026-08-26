@@ -236,6 +236,7 @@ fun TransformerScreen(
                 ElecExamplesCard(
                     examples = transformerExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

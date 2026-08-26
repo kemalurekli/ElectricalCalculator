@@ -155,6 +155,7 @@ fun EvseScreen(
             ElecExamplesCard(
                 examples = evseExamples,
                 onSelect = onApplyExample,
+                hasResult = uiState.result != null,
                 modifier = Modifier.padding(
                     horizontal = spacing.screenHorizontal,
                     vertical = spacing.xs,

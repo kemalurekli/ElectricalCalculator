@@ -154,7 +154,7 @@ fun ReferenceDetailRoute(
                             count = block.rows.size,
                             key = { index -> "$blockKey-row-$index" },
                         ) { index ->
-                            TableRow(block.rows[index])
+                            TableRow(block.rows[index], striped = index % 2 == 1)
                         }
 
                         is ReferenceBlock.Prose -> items(
@@ -565,8 +565,19 @@ private val COMPARISON_LABEL_WIDTH = 104.dp
 private val COMPARISON_CELL_WIDTH = 128.dp
 private val COMPARISON_ROW_MIN_HEIGHT = 40.dp
 
+/**
+ * One row of a reference table.
+ *
+ * Striped on alternate rows. A run of ten label-and-value rows loose on the page
+ * reads as ten separate facts; the banding is what makes it read as one table,
+ * and it does so without a rule under every row or a card around the lot — both
+ * of which are heavier than the data they would be holding.
+ *
+ * Painted before the inset rather than after, so the band runs to both edges the
+ * way a table's does.
+ */
 @Composable
-private fun TableRow(row: ReferenceRow) {
+private fun TableRow(row: ReferenceRow, striped: Boolean) {
     val spacing = ElecTheme.spacing
     val label = row.label.resolve()
     val value = row.value.resolve()
@@ -575,7 +586,14 @@ private fun TableRow(row: ReferenceRow) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs)
+            .background(
+                if (striped) {
+                    MaterialTheme.colorScheme.surfaceContainerLow
+                } else {
+                    Color.Transparent
+                },
+            )
+            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.sm)
             // Read as one phrase: three separate nodes per row would make a
             // ten-row table thirty swipes to get through.
             .clearAndSetSemantics {

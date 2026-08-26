@@ -220,6 +220,7 @@ fun NeutralCurrentScreen(
                 ElecExamplesCard(
                     examples = neutralCurrentExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

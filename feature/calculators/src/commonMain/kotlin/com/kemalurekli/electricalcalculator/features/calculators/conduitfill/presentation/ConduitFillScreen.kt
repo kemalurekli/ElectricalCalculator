@@ -245,6 +245,7 @@ fun ConduitFillScreen(
                 ElecExamplesCard(
                     examples = conduitFillExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

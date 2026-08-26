@@ -232,6 +232,7 @@ fun EnergyCostScreen(
                 ElecExamplesCard(
                     examples = energyCostExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

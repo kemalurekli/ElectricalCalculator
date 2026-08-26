@@ -264,6 +264,7 @@ fun ShortCircuitScreen(
                 ElecExamplesCard(
                     examples = shortCircuitExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

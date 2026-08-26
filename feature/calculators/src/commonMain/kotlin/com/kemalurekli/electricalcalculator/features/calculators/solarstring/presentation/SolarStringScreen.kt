@@ -234,6 +234,7 @@ fun SolarStringScreen(
                 ElecExamplesCard(
                     examples = solarStringExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

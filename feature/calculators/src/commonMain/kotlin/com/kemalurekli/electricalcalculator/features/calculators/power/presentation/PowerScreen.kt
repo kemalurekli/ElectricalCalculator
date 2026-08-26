@@ -239,6 +239,7 @@ fun PowerScreen(
                 ElecExamplesCard(
                     examples = powerExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

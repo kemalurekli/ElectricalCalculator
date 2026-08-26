@@ -243,6 +243,7 @@ fun CableWeightScreen(
                 ElecExamplesCard(
                     examples = cableWeightExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

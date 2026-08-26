@@ -250,6 +250,7 @@ fun MotorScreen(
                 ElecExamplesCard(
                     examples = motorExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

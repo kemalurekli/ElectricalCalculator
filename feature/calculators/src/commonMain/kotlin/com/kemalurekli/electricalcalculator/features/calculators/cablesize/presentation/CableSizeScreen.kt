@@ -297,6 +297,7 @@ fun CableSizeScreen(
                 ElecExamplesCard(
                     examples = cableSizeExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

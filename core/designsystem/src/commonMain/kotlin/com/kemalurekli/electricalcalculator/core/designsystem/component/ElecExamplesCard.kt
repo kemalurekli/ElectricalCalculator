@@ -1,6 +1,15 @@
 package com.kemalurekli.electricalcalculator.core.designsystem.component
 
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -26,10 +35,17 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 /**
  * The example scenarios a calculator can be loaded with.
  *
- * Always visible rather than collapsed behind a chevron: the reader who needs it
- * most is the one who has just opened an unfamiliar calculator and does not yet
- * know there is anything to expand. Two or three short chips cost one line and
- * answer that.
+ * Open by default, because the reader who needs it most is the one who has just
+ * arrived at an unfamiliar calculator and does not yet know there is anything to
+ * expand. Two or three short chips cost one line and answer that.
+ *
+ * It closes once [hasResult] — and only then. A reader looking at their own
+ * figure has plainly found the calculator, and the card sits between that figure
+ * and the fields they would go back to change. Nothing is hidden that was not
+ * already answered; the heading stays, and one tap brings it back.
+ *
+ * A tap either way is remembered for as long as the screen is, so the rule never
+ * overrides a reader who has said otherwise.
  *
  * [SuggestionChip] rather than [androidx.compose.material3.AssistChip] — these
  * offer a starting point rather than perform an action on what is already there,
@@ -40,39 +56,60 @@ fun <S> ElecExamplesCard(
     examples: ImmutableList<WorkedExample<S>>,
     onSelect: (WorkedExample<S>) -> Unit,
     modifier: Modifier = Modifier,
+    hasResult: Boolean = false,
 ) {
     if (examples.isEmpty()) return
 
     val spacing = ElecTheme.spacing
+    // Null means "follow the rule"; a value means the reader has decided.
+    var chosen by rememberSaveable { mutableStateOf<Boolean?>(null) }
+    val expanded = chosen ?: !hasResult
 
     ElecCard(modifier = modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable { chosen = !expanded }
                 .padding(spacing.lg),
             verticalArrangement = Arrangement.spacedBy(spacing.sm),
         ) {
-            Text(
-                text = stringResource(Res.string.calculator_examples),
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Text(
-                text = stringResource(Res.string.calculator_examples_hint),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-
-            FlowRow(
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(spacing.xs),
-                verticalArrangement = Arrangement.spacedBy(spacing.xs),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                examples.forEach { example ->
-                    SuggestionChip(
-                        onClick = { onSelect(example) },
-                        label = { Text(stringResource(example.title)) },
-                    )
+                Text(
+                    text = stringResource(Res.string.calculator_examples),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Icon(
+                    imageVector = if (expanded) ElecIcons.Collapse else ElecIcons.Expand,
+                    // The row it sits on is one target and already named; a
+                    // screen reader gets the state from the expanded semantics.
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+
+            if (expanded) {
+                Text(
+                    text = stringResource(Res.string.calculator_examples_hint),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.xs),
+                    verticalArrangement = Arrangement.spacedBy(spacing.xs),
+                ) {
+                    examples.forEach { example ->
+                        SuggestionChip(
+                            onClick = { onSelect(example) },
+                            label = { Text(stringResource(example.title)) },
+                        )
+                    }
                 }
             }
         }

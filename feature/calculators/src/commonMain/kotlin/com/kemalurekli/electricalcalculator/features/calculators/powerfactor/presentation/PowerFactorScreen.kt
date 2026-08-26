@@ -252,6 +252,7 @@ fun PowerFactorScreen(
                 ElecExamplesCard(
                     examples = powerFactorExamples,
                     onSelect = onApplyExample,
+                    hasResult = uiState.result != null,
                 )
             }
 

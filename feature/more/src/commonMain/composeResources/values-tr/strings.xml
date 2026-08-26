@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="more_group_shelves">Araçlar ve başvuru</string>
+    <string name="more_group_yours">Sizin kayıtlarınız</string>
     <string name="more_title">Daha fazla</string>
 </resources>

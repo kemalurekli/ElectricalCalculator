@@ -153,7 +153,12 @@ fun ElecListItem(
                     tint = if (isFavorite) {
                         MaterialTheme.colorScheme.primary
                     } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
+                        // Dimmed. Twenty-two identical outlines down the right
+                        // edge of the calculator index read as a second column
+                        // of content rather than as a control that is off. At
+                        // 0.7 it is still 3.9:1 on the light surface and 5.7:1
+                        // on the dark, so it stays a control you can see.
+                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = UNSET_STAR_ALPHA)
                     },
                 )
             }
@@ -180,6 +185,9 @@ fun ElecListDivider(modifier: Modifier = Modifier) {
         color = MaterialTheme.colorScheme.outlineVariant,
     )
 }
+
+/** How present an unset favourite star is against the row it sits on. */
+private const val UNSET_STAR_ALPHA = 0.7f
 
 /** Defaults for [ElecListItem]. */
 object ElecListItemDefaults {
