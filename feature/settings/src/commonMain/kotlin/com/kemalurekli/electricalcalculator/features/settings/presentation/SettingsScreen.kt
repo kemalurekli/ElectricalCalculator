@@ -29,6 +29,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.Modifier
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.Res as ProRes
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_settings_section
+import com.kemalurekli.electricalcalculator.features.pro.presentation.ProSettingsSection
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
@@ -207,6 +210,14 @@ fun SettingsScreen(
             // it lives on its own screen now.
             SettingsGroup {
                 ForumAccountRow(onOpen = onOpenForumAccount)
+            }
+
+            // Between the forum's account and the app's own settings, because
+            // it is neither: it is what this copy of the app has been paid for.
+            ElecSectionHeader(title = stringResource(ProRes.string.pro_settings_section))
+
+            SettingsGroup {
+                ProSettingsSection()
             }
 
             ElecSectionHeader(title = stringResource(Res.string.settings_units))

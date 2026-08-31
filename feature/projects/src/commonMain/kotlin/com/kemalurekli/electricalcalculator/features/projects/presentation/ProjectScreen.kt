@@ -33,6 +33,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.kemalurekli.electricalcalculator.core.billing.domain.EntitlementRepository
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecPillBadge
+import com.kemalurekli.electricalcalculator.core.navigation.PaywallReason
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.layout.ColumnScope
@@ -79,6 +83,7 @@ import com.kemalurekli.electricalcalculator.feature.projects.generated.resources
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_export_csv
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_export_empty
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_export_failed
+import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.pro_badge
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_export_pdf
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_share_title
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.settings_engineering_ambient
@@ -91,10 +96,13 @@ fun ProjectRoute(
     projectId: Long,
     onOpenCircuit: (Long, Long) -> Unit,
     onNavigateBack: (() -> Unit)?,
+    onShowPaywall: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ProjectViewModel = koinViewModel(),
+    entitlements: EntitlementRepository = koinInject(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isPro by entitlements.isPro.collectAsStateWithLifecycle()
     val created by viewModel.created.collectAsStateWithLifecycle()
     val fileSharing = rememberFileSharing()
     val emptyMessage = stringResource(Res.string.report_export_empty)
@@ -143,7 +151,15 @@ fun ProjectRoute(
                 else -> null
             }
         },
+        isPro = isPro,
         onExportPdf = {
+            // The gate. Checked here rather than inside the menu item so that
+            // the reader is sent somewhere they can do something about it,
+            // instead of pressing a control that quietly does nothing.
+            if (!isPro) {
+                onShowPaywall(PaywallReason.PDF_EXPORT)
+                return@ProjectScreen
+            }
             val export = viewModel.exportDocument()
             exportMessage = when {
                 export == null -> emptyMessage
@@ -190,6 +206,7 @@ fun ProjectScreen(
     onExternalImpedanceChange: (String) -> Unit,
     onAddCircuit: () -> Unit,
     onExportCsv: () -> Unit,
+    isPro: Boolean,
     onExportPdf: () -> Unit,
     exportMessage: String?,
     onExportMessageShown: () -> Unit,
@@ -259,9 +276,20 @@ fun ProjectScreen(
                     // draw one — see `isSchedulePdfSupported`. A greyed-out
                     // item invites the reader to work out what unlocks it,
                     // and nothing does.
+                    //
+                    // Where something does, the same rule runs the other way:
+                    // the item stays, carrying the badge that says what it
+                    // costs. A paywall nobody saw coming is what turns a
+                    // reader into a one-star review; a badge makes the tap a
+                    // decision, and advertises the paid tier on the way.
                     if (isSchedulePdfSupported) {
                         DropdownMenuItem(
                             text = { Text(stringResource(Res.string.report_export_pdf)) },
+                            trailingIcon = {
+                                if (!isPro) {
+                                    ElecPillBadge(text = stringResource(Res.string.pro_badge))
+                                }
+                            },
                             onClick = {
                                 exportMenuOpen = false
                                 onExportPdf()

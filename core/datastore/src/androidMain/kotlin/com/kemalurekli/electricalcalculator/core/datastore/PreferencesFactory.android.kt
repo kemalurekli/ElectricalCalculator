@@ -9,9 +9,9 @@ import android.content.Context
  */
 lateinit var preferencesContext: Context
 
-internal actual fun preferencesFilePath(): String {
+internal actual fun preferencesFilePath(fileName: String): String {
     check(::preferencesContext.isInitialized) {
         "preferencesContext must be set before preferences are read"
     }
-    return preferencesContext.filesDir.resolve("datastore/$PREFERENCES_FILE").absolutePath
+    return preferencesContext.filesDir.resolve("datastore/$fileName").absolutePath
 }

@@ -212,6 +212,33 @@ androidComponents.onVariants { variant ->
     )
 }
 
+/**
+ * A store build with no store key.
+ *
+ * `BillingBackend.NotConfigured` unlocks everything, which is the right answer
+ * for a contributor's checkout and the wrong one for the Play Store. The two
+ * are told apart by which artifact is being built: `bundleRelease` is the one
+ * that goes to the store, so it is the one that has to have the key.
+ *
+ * `assembleRelease` is deliberately left alone — it is what the release build
+ * is verified with locally, and failing it would mean nobody without the
+ * credentials could check that the release variant still links.
+ */
+val checkBillingKey = tasks.register("checkBillingKey") {
+    val key = Properties().apply {
+        val file = rootProject.file("local.properties")
+        if (file.exists()) file.inputStream().use { load(it) }
+    }.getProperty("revenuecat.androidKey").orEmpty()
+    doLast {
+        check(key.isNotBlank()) {
+            "revenuecat.androidKey is missing from local.properties. A bundle built " +
+                "without it ships with every paid feature unlocked; see BillingBackend."
+        }
+    }
+}
+
+tasks.matching { it.name == "bundleRelease" }.configureEach { dependsOn(checkBillingKey) }
+
 dependencies {
     // Compose BOM aligns every Compose artifact to one tested version set.
     implementation(platform(libs.androidx.compose.bom))
@@ -241,6 +268,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:database"))
     implementation(project(":core:datastore"))
+    implementation(project(":core:billing"))
     implementation(project(":core:data"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:navigation"))
@@ -258,6 +286,7 @@ dependencies {
     implementation(project(":feature:forum"))
     implementation(project(":feature:settings"))
     implementation(project(":feature:more"))
+    implementation(project(":feature:pro"))
     implementation(libs.androidx.compose.material3.navigation.suite)
 
     // Navigation

@@ -61,6 +61,7 @@
     <string name="ef_device_custom">Özel</string>
     <string name="ef_device_d">D tipi</string>
     <string name="ef_device_rcd">RCD</string>
+    <string name="pro_badge">Pro</string>
     <string name="project_add_circuit">Devre ekle</string>
     <string name="project_cable_section">Kablo</string>
     <string name="project_circuit_incomplete">Henüz tasarlanmadı — yükü ve uzunluğu girin</string>

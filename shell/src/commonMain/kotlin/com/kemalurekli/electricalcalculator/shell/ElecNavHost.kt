@@ -41,6 +41,7 @@ import com.kemalurekli.electricalcalculator.features.home.domain.SearchableItem
 import com.kemalurekli.electricalcalculator.features.home.presentation.HomeRoute
 import com.kemalurekli.electricalcalculator.features.more.presentation.MoreRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.CircuitRoute
+import com.kemalurekli.electricalcalculator.features.pro.presentation.PaywallRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.ProjectRoute
 import com.kemalurekli.electricalcalculator.features.projects.presentation.ProjectsRoute
 import com.kemalurekli.electricalcalculator.features.references.presentation.ReferenceDetailRoute
@@ -257,6 +258,17 @@ fun ElecNavHost(
                     actions.navigateTo(Route.Circuit(projectId, circuitId))
                 },
                 onNavigateBack = actions::navigateBack,
+                onShowPaywall = { actions.navigateTo(Route.Paywall(it)) },
+            )
+        }
+
+        composable<Route.Paywall> { backStackEntry ->
+            PaywallRoute(
+                reason = backStackEntry.toRoute<Route.Paywall>().reason,
+                // One way out for both endings. Buying and backing out leave
+                // the reader where they were, on the screen they were trying
+                // to use — which after a purchase now does what they wanted.
+                onDone = actions::navigateBack,
             )
         }
 

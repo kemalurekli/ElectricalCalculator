@@ -177,6 +177,21 @@ sealed interface Route {
     @Serializable
     data class ForumProfile(val userId: String) : Route
 
+    /**
+     * The screen that asks for money.
+     *
+     * [reason] names what the reader was reaching for when they arrived, and the
+     * screen leads with that rather than with the product: somebody who tapped
+     * "export as PDF" is told about the export, not about a tier.
+     *
+     * It has one value today. It is a parameter anyway, because the whole point
+     * of the billing work is that gating a second feature is a call site and
+     * nothing more — and a headline that says the wrong thing is how a paywall
+     * stops converting.
+     */
+    @Serializable
+    data class Paywall(val reason: String = PaywallReason.GENERAL) : Route
+
     /** The list of jobs. */
     @Serializable
     data object Projects : Route
@@ -230,4 +245,16 @@ sealed interface Route {
      */
     @Serializable
     data object More : Route
+}
+
+/**
+ * What a reader was doing when the paywall opened.
+ *
+ * Plain strings rather than an enum because they travel through a serialized
+ * route, and here so that the screens that trigger the paywall never have to
+ * depend on the one that draws it.
+ */
+object PaywallReason {
+    const val GENERAL: String = "general"
+    const val PDF_EXPORT: String = "pdf_export"
 }

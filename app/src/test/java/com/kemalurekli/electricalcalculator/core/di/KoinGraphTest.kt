@@ -21,6 +21,8 @@ import com.kemalurekli.electricalcalculator.features.fieldnotes.fieldNotesModule
 import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumBackend
 import com.kemalurekli.electricalcalculator.features.forum.forumModule
+import com.kemalurekli.electricalcalculator.features.pro.proModule
+import com.kemalurekli.electricalcalculator.core.billing.domain.EntitlementRepository
 import com.kemalurekli.electricalcalculator.features.glossary.glossaryModule
 import com.kemalurekli.electricalcalculator.features.history.historyModule
 import com.kemalurekli.electricalcalculator.features.home.homeModule
@@ -83,6 +85,10 @@ class KoinGraphTest {
                     ForumBackend::class,
                     // settingsModule
                     AppLanguageRepository::class,
+                    // billingModule, from BillingConfig. Same shape as the
+                    // forum: whether there is a store depends on configuration
+                    // the build supplies, so the entry point declares it.
+                    EntitlementRepository::class,
                     // Koin supplies this from the creation extras a ViewModel is
                     // built with; there is no definition to find.
                     SavedStateHandle::class,
@@ -113,6 +119,7 @@ class KoinGraphTest {
         homeModule,
         projectsModule,
         forumModule,
+        proModule,
         settingsModule,
     )
 }

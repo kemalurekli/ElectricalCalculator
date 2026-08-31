@@ -14,7 +14,7 @@ import platform.Foundation.NSUserDomainMask
  * by default.
  */
 @OptIn(ExperimentalForeignApi::class)
-internal actual fun preferencesFilePath(): String {
+internal actual fun preferencesFilePath(fileName: String): String {
     val directory: NSURL = NSFileManager.defaultManager.URLForDirectory(
         directory = NSDocumentDirectory,
         inDomain = NSUserDomainMask,
@@ -23,5 +23,5 @@ internal actual fun preferencesFilePath(): String {
         error = null,
     ) ?: error("no documents directory")
 
-    return requireNotNull(directory.path) + "/" + PREFERENCES_FILE
+    return requireNotNull(directory.path) + "/" + fileName
 }

@@ -70,6 +70,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:designsystem"))
             api(project(":core:data"))
+            api(project(":feature:pro"))
             api(project(":core:navigation"))
             api(project(":feature:forum"))
             // Every shelf a pin can come from.

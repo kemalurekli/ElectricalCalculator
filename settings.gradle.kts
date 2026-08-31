@@ -32,6 +32,7 @@ include(":core:common")
 include(":core:domain")
 include(":core:database")
 include(":core:datastore")
+include(":core:billing")
 include(":core:data")
 include(":core:designsystem")
 include(":core:navigation")
@@ -49,6 +50,7 @@ include(":feature:projects")
 include(":feature:forum")
 include(":feature:settings")
 include(":feature:more")
+include(":feature:pro")
 
 // The iOS composition root — what MainActivity is on Android. Xcode links the
 // framework this produces and calls one function in it.

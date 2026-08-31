@@ -91,6 +91,7 @@ kotlin {
             api(project(":feature:history"))
             api(project(":feature:home"))
             api(project(":feature:more"))
+            api(project(":feature:pro"))
             api(project(":feature:projects"))
             api(project(":feature:references"))
             api(project(":feature:settings"))

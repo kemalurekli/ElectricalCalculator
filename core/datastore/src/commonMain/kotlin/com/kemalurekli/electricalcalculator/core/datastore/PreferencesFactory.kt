@@ -9,11 +9,11 @@ import androidx.datastore.preferences.core.emptyPreferences
 import kotlinx.coroutines.CoroutineScope
 import okio.Path.Companion.toPath
 
-/** Where the preferences file lives, which is the only thing the platforms differ on. */
-internal expect fun preferencesFilePath(): String
+/** Where a preferences file lives, which is the only thing the platforms differ on. */
+internal expect fun preferencesFilePath(fileName: String): String
 
-/** The file name, shared so that neither platform can quietly pick its own. */
-internal const val PREFERENCES_FILE = "user_preferences.preferences_pb"
+/** The settings file, shared so that neither platform can quietly pick its own. */
+const val PREFERENCES_FILE: String = "user_preferences.preferences_pb"
 
 /**
  * Opens the preferences store.
@@ -27,10 +27,17 @@ internal const val PREFERENCES_FILE = "user_preferences.preferences_pb"
  * @param scope the scope writes are performed in. Supplied by the caller
  *   because its lifetime is the application's, which is something only the
  *   platform side knows how to build.
+ * @param fileName which store to open. Defaults to the user's settings. The
+ *   entitlement cache asks for its own, because a purchase is not a setting:
+ *   clearing one must not clear the other, and the two are written by different
+ *   things at different times.
  */
-fun createPreferencesDataStore(scope: CoroutineScope): DataStore<Preferences> =
+fun createPreferencesDataStore(
+    scope: CoroutineScope,
+    fileName: String = PREFERENCES_FILE,
+): DataStore<Preferences> =
     PreferenceDataStoreFactory.createWithPath(
         corruptionHandler = ReplaceFileCorruptionHandler { emptyPreferences() },
         scope = scope,
-        produceFile = { preferencesFilePath().toPath() },
+        produceFile = { preferencesFilePath(fileName).toPath() },
     )

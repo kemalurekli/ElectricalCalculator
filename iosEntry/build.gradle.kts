@@ -50,6 +50,8 @@ kotlin {
             implementation(project(":feature:calculators"))
             implementation(project(":feature:fieldnotes"))
             implementation(project(":core:data"))
+            implementation(project(":core:billing"))
+            implementation(project(":feature:pro"))
 
             implementation(compose.runtime)
             implementation(compose.foundation)

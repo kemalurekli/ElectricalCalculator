@@ -7,6 +7,8 @@ import com.kemalurekli.electricalcalculator.core.database.databaseContext
 import android.app.Application
 import com.kemalurekli.electricalcalculator.core.common.di.coreCommonModule
 import com.kemalurekli.electricalcalculator.core.data.di.coreDataModule
+import com.kemalurekli.electricalcalculator.features.pro.proModule
+import com.kemalurekli.electricalcalculator.core.billing.di.billingModule
 import com.kemalurekli.electricalcalculator.core.di.androidAppModule
 import com.kemalurekli.electricalcalculator.features.calculators.calculatorsModule
 import com.kemalurekli.electricalcalculator.features.converter.converterModule
@@ -51,6 +53,7 @@ class ElecToolkitApplication : Application() {
             modules(
                 coreCommonModule,
                 coreDataModule,
+                billingModule,
                 androidAppModule,
                 converterModule,
                 historyModule,
@@ -63,6 +66,7 @@ class ElecToolkitApplication : Application() {
                 homeModule,
                 projectsModule,
                 forumModule,
+                proModule,
                 settingsModule,
             )
         }

@@ -47,6 +47,15 @@ kotlinxSerialization = "1.11.0"
 kotlinxCoroutines = "1.11.0"
 kotlinxCollectionsImmutable = "0.5.1"
 
+# In-app purchases. RevenueCat's own Kotlin Multiplatform SDK: from 3.0 the iOS
+# side builds against the purchases-ios Swift package through a cinterop binding
+# Gradle generates, so nothing is added to the Xcode project. Going native
+# instead would mean writing Swift, because StoreKit 2 is Swift-only and
+# cinterop reads Objective-C headers.
+#
+# 3.x requires Kotlin 2.3.20+, Compose Multiplatform 1.9.3+ and minSdk 23.
+purchasesKmp = "3.6.0"
+
 # Forum backend. supabase-kt is Kotlin Multiplatform, which is why it is
 # preferred over hand-rolling PostgREST calls: the whole data layer moves to a
 # shared module unchanged if the iOS port happens.
@@ -134,6 +143,8 @@ okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-i
 
 # Kotlin libraries
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+
+purchases-kmp-core = { group = "com.revenuecat.purchases", name = "purchases-kmp-core", version.ref = "purchasesKmp" }
 
 supabase-bom = { group = "io.github.jan-tennert.supabase", name = "bom", version.ref = "supabase" }
 supabase-postgrest = { group = "io.github.jan-tennert.supabase", name = "postgrest-kt" }

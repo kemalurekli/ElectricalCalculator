@@ -69,6 +69,10 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:designsystem"))
             api(project(":core:data"))
+            // Read-only: the schedule's PDF export is behind the entitlement.
+            // The screen that sells it is reached by route, never depended on.
+            api(project(":core:billing"))
+            api(project(":core:navigation"))
             // Every shelf a pin can come from.
             api(project(":feature:calculators"))
 

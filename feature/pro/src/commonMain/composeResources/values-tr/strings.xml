@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pro_benefit_free">Hesaplayıcılar, referanslar, sözlük, teori ve forum herkese ücretsiz kalır.</string>
+    <string name="pro_benefit_future">Sonradan Pro'ya eklenen her şey, ek ücret olmadan.</string>
+    <string name="pro_benefit_pdf">Devre cetvelini PDF olarak dışa aktarın — müşteriye ya da denetime verdiğiniz belge.</string>
+    <string name="pro_buy">%1$s karşılığında aç</string>
+    <string name="pro_buy_loading">Mağazaya bağlanılıyor…</string>
+    <string name="pro_close">Kapat</string>
+    <string name="pro_error_no_connection">Mağazaya bağlanılamadı. Çevrimiçi olduğunuzda yeniden deneyin.</string>
+    <string name="pro_error_not_configured">Bu derleme bir mağazaya ulaşamıyor.</string>
+    <string name="pro_error_owned">Bu ürün zaten sizde. “Satın alımları geri yükle”yi kullanın.</string>
+    <string name="pro_error_store">Mağaza şu anda yanıt vermiyor. Sonra yeniden deneyin.</string>
+    <string name="pro_error_unknown">İşlem tamamlanamadı. Sonra yeniden deneyin.</string>
+    <string name="pro_headline_general">Profesyonel özellikleri açın</string>
+    <string name="pro_headline_pdf">Cetveli PDF olarak teslim edin</string>
+    <string name="pro_nothing_to_restore">Bu mağaza hesabında geri yüklenecek bir satın alma yok.</string>
+    <string name="pro_one_time">Tek seferlik ödeme. Abonelik yok.</string>
+    <string name="pro_owned">Pro bu cihazda açık.</string>
+    <string name="pro_privacy">Gizlilik politikası</string>
+    <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="pro_restore">Satın alımları geri yükle</string>
+    <string name="pro_restored">Satın alma geri yüklendi.</string>
+    <string name="pro_settings_section">VoltageBoard Pro</string>
+    <string name="pro_settings_hint">VoltageBoard Pro'yu daha önce ya da başka bir cihazda mı aldınız?</string>
+    <string name="pro_store_note">Satın alma, bu cihazın giriş yaptığı mağaza hesabına bağlıdır.</string>
+    <string name="pro_terms">Kullanım koşulları</string>
+    <string name="pro_title">VoltageBoard Pro</string>
+</resources>

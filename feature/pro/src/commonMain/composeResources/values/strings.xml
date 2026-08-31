@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pro_benefit_free">The calculators, references, glossary, theory and forum stay free, for everyone.</string>
+    <string name="pro_benefit_future">Everything added to Pro later, at no extra cost.</string>
+    <string name="pro_benefit_pdf">Export a circuit schedule as a PDF — the document you give a client or an inspector.</string>
+    <string name="pro_buy">Unlock for %1$s</string>
+    <string name="pro_buy_loading">Contacting the store…</string>
+    <string name="pro_close">Close</string>
+    <string name="pro_error_no_connection">No connection to the store. Try again when you are back online.</string>
+    <string name="pro_error_not_configured">This build cannot reach a store.</string>
+    <string name="pro_error_owned">You already own this. Use “Restore a purchase”.</string>
+    <string name="pro_error_store">The store is not answering right now. Try again later.</string>
+    <string name="pro_error_unknown">That did not go through. Try again later.</string>
+    <string name="pro_headline_general">Unlock the professional features</string>
+    <string name="pro_headline_pdf">Hand the schedule over as a PDF</string>
+    <string name="pro_nothing_to_restore">This store account has no purchase to restore.</string>
+    <string name="pro_one_time">One-time payment. No subscription.</string>
+    <string name="pro_owned">Pro is unlocked on this device.</string>
+    <string name="pro_privacy">Privacy policy</string>
+    <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="pro_restore">Restore a purchase</string>
+    <string name="pro_restored">Purchase restored.</string>
+    <string name="pro_settings_section">VoltageBoard Pro</string>
+    <string name="pro_settings_hint">Bought VoltageBoard Pro before, or on another device?</string>
+    <string name="pro_store_note">The purchase is tied to the store account this device signs in with.</string>
+    <string name="pro_terms">Terms of use</string>
+    <string name="pro_title">VoltageBoard Pro</string>
+</resources>

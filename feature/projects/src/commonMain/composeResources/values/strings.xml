@@ -61,6 +61,7 @@
     <string name="ef_device_custom">Custom</string>
     <string name="ef_device_d">Type D</string>
     <string name="ef_device_rcd">RCD</string>
+    <string name="pro_badge">Pro</string>
     <string name="project_add_circuit">Add circuit</string>
     <string name="project_cable_section">Cable</string>
     <string name="project_circuit_incomplete">Not designed yet — fill in the load and length</string>
