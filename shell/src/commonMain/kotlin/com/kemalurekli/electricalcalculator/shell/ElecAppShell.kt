@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
+import com.kemalurekli.electricalcalculator.core.navigation.Route
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -97,7 +98,16 @@ fun ElecAppShell(
     // being asked.
     val density = LocalDensity.current
     val keyboardVisible = WindowInsets.ime.getBottom(density) > 0
-    val suiteType = if (keyboardVisible) {
+
+    // The paywall takes the window as well, for a different reason than the
+    // keyboard does. It is a question rather than a place, and a screen asking
+    // to be paid with the app's own tabs running along the bottom reads as a
+    // settings page. The way out is the back arrow it draws itself — this hides
+    // the bar, not the exit.
+    val onPaywall = current?.hasRoute(Route.Paywall::class) == true
+
+    val fullWindow = keyboardVisible || onPaywall
+    val suiteType = if (fullWindow) {
         NavigationSuiteType.None
     } else {
         NavigationSuiteScaffoldDefaults.navigationSuiteType(currentWindowAdaptiveInfo())
@@ -128,7 +138,7 @@ fun ElecAppShell(
                 // Nothing to consume when the suite is not there: the screens
                 // own the whole window, keyboard inset included.
                 .then(
-                    if (keyboardVisible) {
+                    if (fullWindow) {
                         Modifier
                     } else {
                         Modifier.consumeWindowInsets(WindowInsets.navigationBars)

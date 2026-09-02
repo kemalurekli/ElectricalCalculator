@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_free">The calculators, references, glossary, theory and forum stay free, for everyone.</string>
-    <string name="pro_benefit_future">Everything added to Pro later, at no extra cost.</string>
-    <string name="pro_benefit_pdf">Export a circuit schedule as a PDF — the document you give a client or an inspector.</string>
-    <string name="pro_buy">Unlock for %1$s</string>
+    <string name="pro_benefit_free">Calculators, references, theory and forum stay free</string>
+    <string name="pro_benefit_future">Everything added to Pro later, at no extra cost</string>
+    <string name="pro_benefit_pdf">The document you hand to a client or an inspector</string>
     <string name="pro_buy_loading">Contacting the store…</string>
     <string name="pro_close">Close</string>
     <string name="pro_error_no_connection">No connection to the store. Try again when you are back online.</string>
@@ -16,13 +15,28 @@
     <string name="pro_nothing_to_restore">This store account has no purchase to restore.</string>
     <string name="pro_one_time">One-time payment. No subscription.</string>
     <string name="pro_owned">Pro is unlocked on this device.</string>
+    <string name="pro_preview_caption">An example of the exported schedule: circuits with their design current, cross-section and protective device.</string>
+    <string name="pro_preview_column_circuit">Circuit</string>
+    <string name="pro_preview_column_current">Ib (A)</string>
+    <string name="pro_preview_column_device">In (A)</string>
+    <string name="pro_preview_column_section">S (mm²)</string>
+    <string name="pro_preview_row_heat_pump">Heat pump</string>
+    <string name="pro_preview_row_lighting">Lighting</string>
+    <string name="pro_preview_row_oven">Oven</string>
+    <string name="pro_preview_row_sockets">Sockets</string>
+    <string name="pro_preview_section_heat_pump">6.0</string>
+    <string name="pro_preview_section_lighting">1.5</string>
+    <string name="pro_preview_section_oven">4.0</string>
+    <string name="pro_preview_section_sockets">2.5</string>
+    <string name="pro_preview_supply">400 V · 3-phase · Copper · PVC 70 °C</string>
+    <string name="pro_preview_title">Circuit schedule</string>
     <string name="pro_privacy">Privacy policy</string>
     <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
     <string name="pro_restore">Restore a purchase</string>
     <string name="pro_restored">Purchase restored.</string>
-    <string name="pro_settings_section">VoltageBoard Pro</string>
     <string name="pro_settings_hint">Bought VoltageBoard Pro before, or on another device?</string>
+    <string name="pro_settings_section">VoltageBoard Pro</string>
     <string name="pro_store_note">The purchase is tied to the store account this device signs in with.</string>
     <string name="pro_terms">Terms of use</string>
-    <string name="pro_title">VoltageBoard Pro</string>
+    <string name="pro_unlock">Unlock Pro</string>
 </resources>

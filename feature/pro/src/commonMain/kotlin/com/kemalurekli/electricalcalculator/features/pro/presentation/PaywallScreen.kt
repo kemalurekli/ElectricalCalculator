@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,7 +39,6 @@ import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.Res
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_free
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_future
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_pdf
-import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_buy
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_buy_loading
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_error_no_connection
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_error_not_configured
@@ -57,7 +55,10 @@ import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_restore
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_restored
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_store_note
-import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_title
+import androidx.compose.foundation.layout.width
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSkeletonLine
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.NumericCompactTextStyle
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_unlock
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -133,18 +134,26 @@ fun PaywallScreen(
     }
 
     ElecScreenScaffold(
-        title = stringResource(Res.string.pro_title),
+        // Empty on purpose. The bar and the content were both claiming to be
+        // the title — "VoltageBoard Pro" over "Hand the schedule over as a
+        // PDF" — and only one of them can be first. The headline below wins,
+        // because it is the one that says what the reader is being offered.
+        title = "",
         modifier = modifier,
         // The way out is the back arrow every other screen uses. A paywall that
         // is hard to dismiss is a rejection on iOS and a bad review everywhere.
+        // The tab bar is hidden here — see ElecAppShell — so this is the exit.
         onNavigateBack = onClose,
         snackbarHostState = snackbarHostState,
     ) { innerPadding ->
-        // What is on offer sits under the bar; what it costs and how to get it
-        // sits at the base, where a thumb is. The minimum height is what makes
-        // both true at once: the column still scrolls when the text is long or
-        // the reader's font is large, and does not collapse into the top third
-        // of the screen when it is neither.
+        // Read straight down: what is on offer, then what it costs, then the
+        // fine print. The price used to be pinned to the bottom edge with a
+        // weighted spacer above it, which put a quarter of the screen of
+        // nothing between the pitch and the ask. Space at the end of a page is
+        // where a page ends; space in the middle of one is a hole.
+        //
+        // The minimum height is still what lets the column scroll when the text
+        // is long or the reader's font is large.
         BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
@@ -166,24 +175,40 @@ fun PaywallScreen(
                     style = MaterialTheme.typography.headlineSmall,
                 )
 
-                ElecCard(modifier = Modifier.fillMaxWidth()) {
-                    Column(
-                        modifier = Modifier.padding(spacing.lg),
-                        verticalArrangement = Arrangement.spacedBy(spacing.md),
-                    ) {
-                        Benefit(stringResource(Res.string.pro_benefit_pdf))
-                        Benefit(stringResource(Res.string.pro_benefit_future))
-                        Benefit(stringResource(Res.string.pro_benefit_free))
-                    }
-                }
+                SchedulePreview()
 
-                Spacer(Modifier.weight(1f))
+                Column(verticalArrangement = Arrangement.spacedBy(spacing.md)) {
+                    Benefit(stringResource(Res.string.pro_benefit_pdf))
+                    Benefit(stringResource(Res.string.pro_benefit_future))
+                    Benefit(stringResource(Res.string.pro_benefit_free))
+                }
 
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(spacing.sm),
                 ) {
+                    // The price is a figure, so it is set in the face every
+                    // figure in this app is set in. Inside the button it would
+                    // have been drawn in the button's own face and stopped
+                    // looking like one of this app's numbers.
+                    if (price == null) {
+                        // The store has not answered. A skeleton says the
+                        // number is coming; a zero or a blank would each say
+                        // something untrue.
+                        ElecSkeletonLine(modifier = Modifier.width(PRICE_SKELETON))
+                    } else {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = price, style = NumericCompactTextStyle)
+                            Text(
+                                text = stringResource(Res.string.pro_one_time),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(start = spacing.sm),
+                            )
+                        }
+                    }
+
                     Button(
                         onClick = onBuy,
                         // Disabled until the store has said what it costs. A button
@@ -200,38 +225,47 @@ fun PaywallScreen(
                             )
                         } else {
                             Text(
-                                text = price
-                                    ?.let { stringResource(Res.string.pro_buy, it) }
-                                    ?: stringResource(Res.string.pro_buy_loading),
+                                text = if (price == null) {
+                                    stringResource(Res.string.pro_buy_loading)
+                                } else {
+                                    stringResource(Res.string.pro_unlock)
+                                },
                             )
                         }
                     }
-
-                    // The line that sells to somebody tired of subscriptions.
-                    Text(
-                        text = stringResource(Res.string.pro_one_time),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-
-                    TextButton(onClick = onRestore, enabled = status == PaywallStatus.IDLE) {
-                        Text(stringResource(Res.string.pro_restore))
-                    }
                 }
 
-                Text(
-                    text = stringResource(Res.string.pro_store_note),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center,
+                // The fine print, and the two ways out of it. Restore sits here
+                // rather than beside the buy button: it is for somebody who has
+                // already paid, and next to the primary action it was a second
+                // control competing for the same press.
+                Column(
                     modifier = Modifier.fillMaxWidth(),
-                )
-
-                TextButton(
-                    onClick = { uriHandler.openUri(privacyUrl) },
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text(stringResource(Res.string.pro_privacy))
+                    Text(
+                        text = stringResource(Res.string.pro_store_note),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                    )
+                    Row {
+                        TextButton(
+                            onClick = onRestore,
+                            enabled = status == PaywallStatus.IDLE,
+                        ) {
+                            Text(
+                                text = stringResource(Res.string.pro_restore),
+                                style = MaterialTheme.typography.bodySmall,
+                            )
+                        }
+                        TextButton(onClick = { uriHandler.openUri(privacyUrl) }) {
+                            Text(
+                                text = stringResource(Res.string.pro_privacy),
+                                style = MaterialTheme.typography.bodySmall,
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -274,6 +308,9 @@ private fun PaywallMessage.text(): String = when (this) {
         BillingFailure.UNKNOWN -> stringResource(Res.string.pro_error_unknown)
     }
 }
+
+/** Roughly the width of a formatted price, so nothing jumps when one arrives. */
+private val PRICE_SKELETON = 120.dp
 
 private val BENEFIT_ICON = 20.dp
 private val SPINNER = 20.dp
