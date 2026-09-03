@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pro_benefit_free">Калькуляторы, справочники, теория и форум остаются бесплатными</string>
+    <string name="pro_benefit_future">Всё, что позже добавят в Pro, без доплаты</string>
+    <string name="pro_benefit_pdf">Документ, который вы отдаёте заказчику или инспектору</string>
+    <string name="pro_buy_loading">Соединение с магазином…</string>
+    <string name="pro_close">Закрыть</string>
+    <string name="pro_error_no_connection">Нет связи с магазином. Повторите, когда появится сеть.</string>
+    <string name="pro_error_not_configured">Эта сборка не может обратиться к магазину.</string>
+    <string name="pro_error_owned">Он у вас уже есть. Воспользуйтесь «Восстановить покупку».</string>
+    <string name="pro_error_store">Магазин сейчас не отвечает. Повторите позже.</string>
+    <string name="pro_error_unknown">Не получилось. Повторите позже.</string>
+    <string name="pro_headline_general">Откройте профессиональные возможности</string>
+    <string name="pro_headline_pdf">Передайте ведомость линий в PDF</string>
+    <string name="pro_nothing_to_restore">У этой учётной записи магазина нет покупок для восстановления.</string>
+    <string name="pro_one_time">Разовая оплата. Без подписки.</string>
+    <string name="pro_owned">Pro открыт на этом устройстве.</string>
+    <string name="pro_preview_caption">Пример выгруженной ведомости: линии с расчётным током, сечением и аппаратом защиты.</string>
+    <string name="pro_preview_column_circuit">Линия</string>
+    <string name="pro_preview_column_current">Ib (А)</string>
+    <string name="pro_preview_column_device">In (А)</string>
+    <string name="pro_preview_column_section">S (мм²)</string>
+    <string name="pro_preview_row_heat_pump">Тепловой насос</string>
+    <string name="pro_preview_row_lighting">Освещение</string>
+    <string name="pro_preview_row_oven">Духовой шкаф</string>
+    <string name="pro_preview_row_sockets">Розетки</string>
+    <string name="pro_preview_section_heat_pump">6,0</string>
+    <string name="pro_preview_section_lighting">1,5</string>
+    <string name="pro_preview_section_oven">4,0</string>
+    <string name="pro_preview_section_sockets">2,5</string>
+    <string name="pro_preview_supply">400 В · 3 фазы · Медь · ПВХ 70 °C</string>
+    <string name="pro_preview_title">Ведомость линий</string>
+    <string name="pro_privacy">Политика конфиденциальности</string>
+    <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="pro_restore">Восстановить покупку</string>
+    <string name="pro_restored">Покупка восстановлена.</string>
+    <string name="pro_settings_hint">Покупали VoltageBoard Pro раньше или на другом устройстве?</string>
+    <string name="pro_settings_section">VoltageBoard Pro</string>
+    <string name="pro_store_note">Покупка привязана к учётной записи магазина, под которой работает это устройство.</string>
+    <string name="pro_terms">Условия использования</string>
+    <string name="pro_unlock">Открыть Pro</string>
+</resources>

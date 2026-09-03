@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pro_benefit_free">Calculatrices, références, théorie et forum restent gratuits</string>
+    <string name="pro_benefit_future">Tout ce qui sera ajouté à Pro plus tard, sans supplément</string>
+    <string name="pro_benefit_pdf">Le document que vous remettez au client ou au contrôleur</string>
+    <string name="pro_buy_loading">Connexion à la boutique…</string>
+    <string name="pro_close">Fermer</string>
+    <string name="pro_error_no_connection">Pas de connexion à la boutique. Réessayez une fois en ligne.</string>
+    <string name="pro_error_not_configured">Cette version ne peut atteindre aucune boutique.</string>
+    <string name="pro_error_owned">Vous le possédez déjà. Utilisez « Restaurer un achat ».</string>
+    <string name="pro_error_store">La boutique ne répond pas pour le moment. Réessayez plus tard.</string>
+    <string name="pro_error_unknown">L'opération n'a pas abouti. Réessayez plus tard.</string>
+    <string name="pro_headline_general">Débloquez les fonctions professionnelles</string>
+    <string name="pro_headline_pdf">Remettez le tableau des circuits en PDF</string>
+    <string name="pro_nothing_to_restore">Ce compte de boutique n'a aucun achat à restaurer.</string>
+    <string name="pro_one_time">Paiement unique. Sans abonnement.</string>
+    <string name="pro_owned">Pro est débloqué sur cet appareil.</string>
+    <string name="pro_preview_caption">Un exemple du tableau exporté : les circuits avec leur courant d'emploi, leur section et leur protection.</string>
+    <string name="pro_preview_column_circuit">Circuit</string>
+    <string name="pro_preview_column_current">Ib (A)</string>
+    <string name="pro_preview_column_device">In (A)</string>
+    <string name="pro_preview_column_section">S (mm²)</string>
+    <string name="pro_preview_row_heat_pump">Pompe à chaleur</string>
+    <string name="pro_preview_row_lighting">Éclairage</string>
+    <string name="pro_preview_row_oven">Four</string>
+    <string name="pro_preview_row_sockets">Prises de courant</string>
+    <string name="pro_preview_section_heat_pump">6,0</string>
+    <string name="pro_preview_section_lighting">1,5</string>
+    <string name="pro_preview_section_oven">4,0</string>
+    <string name="pro_preview_section_sockets">2,5</string>
+    <string name="pro_preview_supply">400 V · triphasé · Cuivre · PVC 70 °C</string>
+    <string name="pro_preview_title">Tableau des circuits</string>
+    <string name="pro_privacy">Politique de confidentialité</string>
+    <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="pro_restore">Restaurer un achat</string>
+    <string name="pro_restored">Achat restauré.</string>
+    <string name="pro_settings_hint">Vous avez déjà acheté VoltageBoard Pro, ou sur un autre appareil ?</string>
+    <string name="pro_settings_section">VoltageBoard Pro</string>
+    <string name="pro_store_note">L'achat est lié au compte de boutique avec lequel cet appareil est connecté.</string>
+    <string name="pro_terms">Conditions d'utilisation</string>
+    <string name="pro_unlock">Débloquer Pro</string>
+</resources>

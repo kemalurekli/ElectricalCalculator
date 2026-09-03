@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pro_benefit_free">Kalkulator, referensi, teori dan forum tetap gratis</string>
+    <string name="pro_benefit_future">Semua yang ditambahkan ke Pro nanti, tanpa biaya tambahan</string>
+    <string name="pro_benefit_pdf">Dokumen yang Anda serahkan ke pelanggan atau pemeriksa</string>
+    <string name="pro_buy_loading">Menghubungi toko…</string>
+    <string name="pro_close">Tutup</string>
+    <string name="pro_error_no_connection">Tidak ada koneksi ke toko. Coba lagi saat kembali daring.</string>
+    <string name="pro_error_not_configured">Build ini tidak dapat menjangkau toko.</string>
+    <string name="pro_error_owned">Anda sudah memilikinya. Gunakan “Pulihkan pembelian”.</string>
+    <string name="pro_error_store">Toko sedang tidak merespons. Coba lagi nanti.</string>
+    <string name="pro_error_unknown">Tidak berhasil diproses. Coba lagi nanti.</string>
+    <string name="pro_headline_general">Buka fitur profesional</string>
+    <string name="pro_headline_pdf">Serahkan daftar rangkaian sebagai PDF</string>
+    <string name="pro_nothing_to_restore">Akun toko ini tidak punya pembelian untuk dipulihkan.</string>
+    <string name="pro_one_time">Pembayaran sekali. Tanpa langganan.</string>
+    <string name="pro_owned">Pro aktif di perangkat ini.</string>
+    <string name="pro_preview_caption">Contoh daftar rangkaian yang diekspor: rangkaian dengan arus rancangan, luas penampang dan pengaman.</string>
+    <string name="pro_preview_column_circuit">Rangkaian</string>
+    <string name="pro_preview_column_current">Ib (A)</string>
+    <string name="pro_preview_column_device">In (A)</string>
+    <string name="pro_preview_column_section">S (mm²)</string>
+    <string name="pro_preview_row_heat_pump">Pompa kalor</string>
+    <string name="pro_preview_row_lighting">Penerangan</string>
+    <string name="pro_preview_row_oven">Oven</string>
+    <string name="pro_preview_row_sockets">Stopkontak</string>
+    <string name="pro_preview_section_heat_pump">6,0</string>
+    <string name="pro_preview_section_lighting">1,5</string>
+    <string name="pro_preview_section_oven">4,0</string>
+    <string name="pro_preview_section_sockets">2,5</string>
+    <string name="pro_preview_supply">400 V · 3 fasa · Tembaga · PVC 70 °C</string>
+    <string name="pro_preview_title">Daftar rangkaian</string>
+    <string name="pro_privacy">Kebijakan privasi</string>
+    <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="pro_restore">Pulihkan pembelian</string>
+    <string name="pro_restored">Pembelian dipulihkan.</string>
+    <string name="pro_settings_hint">Sudah pernah membeli VoltageBoard Pro, atau di perangkat lain?</string>
+    <string name="pro_settings_section">VoltageBoard Pro</string>
+    <string name="pro_store_note">Pembelian terikat pada akun toko tempat perangkat ini masuk.</string>
+    <string name="pro_terms">Ketentuan penggunaan</string>
+    <string name="pro_unlock">Buka Pro</string>
+</resources>
