@@ -169,6 +169,37 @@ class StringResourceIntegrityTest {
     }
 
     @Test
+    fun `a translated formula keeps the symbols its legend explains`() {
+        // A formula card draws the formula from a string and its legend from
+        // Kotlin: `FormulaVariable("P_in", stringResource(Res.string.mt_var_pin))`.
+        // The symbol is code, the formula is translatable — so a translator who
+        // renders P_in as P_zu leaves the legend describing a letter that is no
+        // longer on the screen. Nothing fails: the card still draws, and only a
+        // reader of that language can see that the two halves stopped agreeing.
+        val legends = formulaLegends()
+        assertTrue("No FormulaVariable declarations found — the search root moved", legends.size >= 10)
+
+        bundles.forEach { bundle ->
+            val base = bundle.base.associateBy { it.name }
+            bundle.translations.forEach { (locale, entries) ->
+                entries.forEach { entry ->
+                    if (!entry.name.endsWith("_formula")) return@forEach
+                    val symbols = legends[entry.name.removeSuffix("_formula")] ?: return@forEach
+                    val original = base[entry.name] ?: return@forEach
+                    symbols.forEach { symbol ->
+                        if (!original.body.contains(symbol)) return@forEach
+                        assertTrue(
+                            "${bundle.module}/$locale/${entry.name} drops the symbol " +
+                                "\"$symbol\", which its legend still explains",
+                            entry.body.contains(symbol),
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     fun `no string is defined twice in the same file`() {
         bundles.forEach { bundle ->
             (mapOf("values" to bundle.base) + bundle.translations).forEach { (locale, entries) ->
@@ -180,6 +211,16 @@ class StringResourceIntegrityTest {
                 )
             }
         }
+    }
+
+    /** Calculator prefix -> the symbols its formula legend names, read from the screens. */
+    private fun formulaLegends(): Map<String, List<String>> {
+        val sources = File("../feature").walkTopDown()
+            .onEnter { it.name != "build" }
+            .filter { it.isFile && it.extension == "kt" }
+        return sources
+            .flatMap { FORMULA_VARIABLE.findAll(it.readText()) }
+            .groupBy({ it.groupValues[2] }, { it.groupValues[1] })
     }
 
     /** The distinct positional indices a template references, e.g. {1, 2}. */
@@ -233,6 +274,8 @@ class StringResourceIntegrityTest {
         val STRING_ELEMENT = Regex("""<string\s+([^>]*)>(.*?)</string>""", RegexOption.DOT_MATCHES_ALL)
         val NAME_ATTR = Regex("""name="([^"]+)"""")
         val POSITIONAL_ARG = Regex("""%(\d+)\$""")
+        val FORMULA_VARIABLE =
+            Regex("""FormulaVariable\(\s*"([^"]+)"\s*,\s*stringResource\(Res\.string\.([a-z]+)_var_""")
 
         /** Deep enough for `feature/<name>/src/commonMain/composeResources`. */
         const val RESOURCE_DEPTH = 6

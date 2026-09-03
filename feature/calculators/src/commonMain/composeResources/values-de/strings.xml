@@ -431,7 +431,7 @@
     <string name="lt_export_room">Raum: %1$s × %2$s m, Sollwert %3$s lx</string>
     <string name="lt_flux_hint">Der Lichtstrom der kompletten Leuchte, nicht der ihrer Lampe</string>
     <string name="lt_flux_label">Lichtstrom je Leuchte</string>
-    <string name="lt_formula">K = (L · B) / (Hm · (L + B))\nN = (E · A) / (Φ · η_B · WF)</string>
+    <string name="lt_formula">K = (L · B) / (Hm · (L + B))\nN = (E · A) / (Φ · UF · MF)</string>
     <string name="lt_height_hint">Nicht die Raumhöhe. 3 m Decke über einem 0,8 m hohen Schreibtisch ergeben 2,2 m.</string>
     <string name="lt_height_label">Höhe über der Nutzebene</string>
     <string name="lt_history_summary">%1$s Leuchten</string>
@@ -510,7 +510,7 @@
     <string name="mt_export_input_power">Aufgenommene Leistung: %1$s kW</string>
     <string name="mt_export_rating">%1$s · %2$s · %3$s V</string>
     <string name="mt_export_starting">Anlaufstrom: %1$s A</string>
-    <string name="mt_formula">P_zu = P_ab / η\nI = P_zu / (k · U · cos φ)</string>
+    <string name="mt_formula">P_in = P_out / η\nI = P_in / (k · U · cos φ)</string>
     <string name="mt_history_summary">%1$s A</string>
     <string name="mt_history_title">Motor — %1$s, %2$s V</string>
     <string name="mt_note_dc">Bei Gleichstrom gibt es keinen Phasenwinkel, deshalb bleibt der Leistungsfaktor unberücksichtigt und es entsteht kein Blindanteil.</string>
@@ -750,7 +750,7 @@
     <string name="ss_export_module">Modul: %1$s V Voc, %2$s %/K</string>
     <string name="ss_export_range">Strang: %1$s bis %2$s Module</string>
     <string name="ss_export_voc">Voc kalt: %1$s V</string>
-    <string name="ss_formula">Voc(T) = Voc · (1 + β · (T − 25) / 100)\nn_max = ⌊V_WR / Voc(T_min)⌋</string>
+    <string name="ss_formula">Voc(T) = Voc · (1 + β · (T − 25) / 100)\nn_max = ⌊V_inv / Voc(T_min)⌋</string>
     <string name="ss_history_summary">%1$s – %2$s Module</string>
     <string name="ss_history_title">PV-Strang — %1$s V Modul, %2$s V Wechselrichter</string>
     <string name="ss_inverter_max_label">Maximale DC-Spannung des Wechselrichters</string>
@@ -798,7 +798,7 @@
     <string name="tf_export_fill">Füllgrad: %1$s % von zulässigen %2$s %</string>
     <string name="tf_export_tray">Wanne: %1$s mm breit · %2$s</string>
     <string name="tf_export_width">Benötigte Breite: %1$s mm von %2$s mm</string>
-    <string name="tf_formula">W_req = Σ(n · d) + s · (N − 1)\nfill = Σ(n · π · d² / 4) / (W · H)</string>
+    <string name="tf_formula">W_req = Σ(n · d) + s · (N − 1)\nFüllgrad = Σ(n · π · d² / 4) / (W · H)</string>
     <string name="tf_history_summary_area">%1$s %</string>
     <string name="tf_history_summary_width">%1$s mm</string>
     <string name="tf_history_title">Wannenbelegung — %1$s mm, %2$s Kabel</string>

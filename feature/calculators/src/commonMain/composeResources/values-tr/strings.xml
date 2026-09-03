@@ -798,7 +798,7 @@
     <string name="tf_export_fill">Doluluk: %%1$s, izin verilen %%2$s</string>
     <string name="tf_export_tray">Tava: %1$s mm genişlik · %2$s</string>
     <string name="tf_export_width">Gereken genişlik: %2$s mm'nin %1$s mm'si</string>
-    <string name="tf_formula">W_ger = Σ(n · d) + s · (N − 1)\ndoluluk = Σ(n · π · d² / 4) / (W · H)</string>
+    <string name="tf_formula">W_req = Σ(n · d) + s · (N − 1)\ndoluluk = Σ(n · π · d² / 4) / (W · H)</string>
     <string name="tf_history_summary_area">%%1$s</string>
     <string name="tf_history_summary_width">%1$s mm</string>
     <string name="tf_history_title">Tava doluluğu — %1$s mm, %2$s kablo</string>
@@ -861,7 +861,7 @@
     <string name="tx_export_secondary">Sekonder tam yük akımı: %1$s A</string>
     <string name="tx_export_short_circuit">Sekonder kısa devre akımı: %1$s A</string>
     <string name="tx_export_voltages">%1$s V / %2$s V</string>
-    <string name="tx_formula">I = S / (k · U)\nI_kd = I₂ · 100 / u_k</string>
+    <string name="tx_formula">I = S / (k · U)\nI_sc = I₂ · 100 / u_k</string>
     <string name="tx_history_summary">%1$s A</string>
     <string name="tx_history_title">Transformatör — %1$s kVA, %2$s/%3$s V</string>
     <string name="tx_impedance_hint" formatted="false">Etiketten alınır; 630 kVA'ya kadar tipik %4, üzerinde %6</string>
