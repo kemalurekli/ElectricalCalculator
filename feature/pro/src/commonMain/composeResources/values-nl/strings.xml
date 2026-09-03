@@ -11,11 +11,11 @@
     <string name="pro_error_store">De store reageert nu niet. Probeer het later opnieuw.</string>
     <string name="pro_error_unknown">Dat is niet gelukt. Probeer het later opnieuw.</string>
     <string name="pro_headline_general">Ontgrendel de professionele functies</string>
-    <string name="pro_headline_pdf">Lever het kringenschema als pdf</string>
+    <string name="pro_headline_pdf">Lever het stroomkringenschema als pdf</string>
     <string name="pro_nothing_to_restore">Dit store-account heeft geen aankoop om te herstellen.</string>
     <string name="pro_one_time">Eenmalige betaling. Geen abonnement.</string>
     <string name="pro_owned">Pro is op dit apparaat ontgrendeld.</string>
-    <string name="pro_preview_caption">Een voorbeeld van het geëxporteerde schema: kringen met hun ontwerpstroom, doorsnede en beveiliging.</string>
+    <string name="pro_preview_caption">Een voorbeeld van het geëxporteerde schema: stroomkringen met hun ontwerpstroom, doorsnede en beveiliging.</string>
     <string name="pro_preview_column_circuit">Kring</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

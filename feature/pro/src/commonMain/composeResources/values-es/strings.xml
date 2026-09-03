@@ -15,7 +15,7 @@
     <string name="pro_nothing_to_restore">Esta cuenta de la tienda no tiene ninguna compra que restaurar.</string>
     <string name="pro_one_time">Pago único. Sin suscripción.</string>
     <string name="pro_owned">Pro está desbloqueado en este dispositivo.</string>
-    <string name="pro_preview_caption">Un ejemplo del cuadro exportado: circuitos con su corriente de diseño, sección y dispositivo de protección.</string>
+    <string name="pro_preview_caption">Un ejemplo del cuadro exportado: circuitos con su corriente de empleo, sección y dispositivo de protección.</string>
     <string name="pro_preview_column_circuit">Circuito</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>
