@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">VoltageBoard</string>
+    <string name="destination_favorites">Yêu thích</string>
+    <string name="home_badge_pinned">%1$d đã ghim</string>
+    <string name="home_badge_saved">%1$d đã lưu</string>
+    <string name="home_browse">Duyệt</string>
+    <string name="home_recent">Gần đây</string>
+    <string name="search_group_calculators">Máy tính</string>
+    <string name="search_group_converter">Đổi đơn vị</string>
+    <string name="search_group_field_notes">Thông tin chung</string>
+    <string name="search_group_glossary">Thuật ngữ</string>
+    <string name="search_group_references">Tra cứu</string>
+    <string name="search_group_symbols">Ký hiệu bản vẽ</string>
+    <string name="search_group_theory">Lý thuyết</string>
+    <string name="state_empty_calculators_message">Không có máy tính nào khớp với tìm kiếm đó. Hãy thử từ khác.</string>
+    <string name="state_empty_calculators_title">Không có kết quả</string>
+</resources>

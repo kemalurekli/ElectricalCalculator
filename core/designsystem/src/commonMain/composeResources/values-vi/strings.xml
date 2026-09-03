@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_back">Quay lại</string>
+    <string name="action_copy">Sao chép</string>
+    <string name="action_favorite_add">Thêm vào yêu thích</string>
+    <string name="action_favorite_remove">Bỏ khỏi yêu thích</string>
+    <string name="action_retry">Thử lại</string>
+    <string name="action_share">Chia sẻ</string>
+    <string name="cable_row_diameter">Đường kính ngoài</string>
+    <string name="cable_row_quantity">SL</string>
+    <string name="cable_row_remove">Bỏ cáp này</string>
+    <string name="calculator_notes_read_more">Đọc thêm</string>
+    <string name="disclaimer_accept">Tôi đã đọc và chấp nhận</string>
+    <string name="disclaimer_body" formatted="false">Ứng dụng này chỉ cung cấp thông tin chung.\n\nKhông chịu bất kỳ trách nhiệm nào đối với các phép tính, kết quả, bảng biểu hay phần giải thích trong ứng dụng. Không được dùng kết quả làm căn cứ cho công việc khoa học hoặc kỹ thuật.\n\nTrách nhiệm đối với mọi việc sử dụng ứng dụng này, và việc kiểm chứng bất cứ điều gì lấy từ đây, hoàn toàn thuộc về người dùng. Trong mọi trường hợp, ứng dụng và những người phát triển không chịu trách nhiệm về bất kỳ mất mát hay thiệt hại nào phát sinh từ việc sử dụng.\n\nNội dung và bản thân ứng dụng được tạo ra với sự hỗ trợ của trí tuệ nhân tạo. Hãy sử dụng với hiểu biết đó.\n\nDiễn đàn chứa các bài viết của người dùng khác. Không nội dung nào ở đó được người phát triển kiểm tra, xác minh hay xác nhận; đó không phải là tư vấn kỹ thuật, và trách nhiệm về mọi hành động dựa trên đó thuộc về người đọc. Bạn chịu trách nhiệm về những gì mình đăng, và về việc không đăng thông tin cá nhân của bất kỳ ai.\n\nNếu bất kỳ nơi nào khác trong ứng dụng có vẻ nói khác đi, các điều khoản nêu ở đây được ưu tiên áp dụng.\n\nKhi sử dụng ứng dụng này, bạn được xem là đã chấp nhận những điều trên.</string>
+    <string name="disclaimer_title">Miễn trừ trách nhiệm</string>
+    <string name="search_clear">Xóa tìm kiếm</string>
+    <string name="search_hint">Tìm máy tính, bộ đổi đơn vị, tài liệu tra cứu</string>
+    <string name="state_empty_favorites_message">Ghim một máy tính để giữ nó trên màn hình chính.</string>
+    <string name="state_empty_favorites_title">Chưa có mục yêu thích</string>
+    <string name="state_error_title">Đã xảy ra lỗi</string>
+    <string name="state_in_development_message">Phần này đang được xây dựng và sẽ có trong bản phát hành tới.</string>
+    <string name="state_in_development_title">Chưa khả dụng</string>
+    <string name="state_just_now">Vừa xong</string>
+    <string name="state_loading">Đang tải</string>
+    <string name="validation_below_minimum">Nhập giá trị từ %1$s trở lên</string>
+    <string name="validation_exceeds_maximum">Nhập giá trị từ %1$s trở xuống</string>
+    <string name="validation_must_be_positive">Nhập giá trị lớn hơn không</string>
+    <string name="validation_must_not_be_negative">Nhập giá trị bằng không hoặc lớn hơn</string>
+    <string name="validation_not_a_number">Nhập một số hợp lệ</string>
+    <string name="validation_out_of_range">Nhập giá trị trong khoảng %1$s đến %2$s</string>
+    <string name="validation_required">Giá trị này là bắt buộc</string>
+    <string name="calculator_examples">Trường hợp ví dụ</string>
+    <string name="calculator_examples_hint">Nạp một công việc thực tế và xem cách tính.</string>
+    <string name="calculator_steps">Từng bước</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_back">Terug</string>
+    <string name="action_copy">Kopiëren</string>
+    <string name="action_favorite_add">Aan favorieten toevoegen</string>
+    <string name="action_favorite_remove">Uit favorieten verwijderen</string>
+    <string name="action_retry">Opnieuw proberen</string>
+    <string name="action_share">Delen</string>
+    <string name="cable_row_diameter">Buitendiameter</string>
+    <string name="cable_row_quantity">Aantal</string>
+    <string name="cable_row_remove">Deze kabel verwijderen</string>
+    <string name="calculator_notes_read_more">Meer lezen</string>
+    <string name="disclaimer_accept">Gelezen en akkoord</string>
+    <string name="disclaimer_body" formatted="false">Deze toepassing wordt uitsluitend ter algemene informatie aangeboden.\n\nEr wordt geen enkele aansprakelijkheid aanvaard voor de berekeningen, resultaten, tabellen of toelichtende teksten die zij bevat. De resultaten mogen niet als grondslag voor wetenschappelijk of technisch werk worden gebruikt.\n\nDe verantwoordelijkheid voor elk gebruik van deze toepassing, en voor het verifiëren van alles wat eruit wordt overgenomen, ligt volledig bij de gebruiker. De toepassing en haar ontwikkelaars kunnen in geen geval aansprakelijk worden gesteld voor verlies of schade die uit het gebruik voortvloeit.\n\nDe inhoud en de toepassing zelf zijn met behulp van kunstmatige intelligentie tot stand gekomen. Gebruik ze in dat besef.\n\nHet forum bevat berichten van andere gebruikers. Niets daarvan wordt door de ontwikkelaars gecontroleerd, geverifieerd of onderschreven, het is geen technisch advies, en de verantwoordelijkheid voor wat ermee wordt gedaan ligt bij de lezer. U bent verantwoordelijk voor wat u plaatst en voor het niet plaatsen van andermans persoonsgegevens.\n\nWaar elders in deze toepassing iets anders lijkt te staan, gelden de hier vastgelegde voorwaarden.\n\nDoor deze toepassing te gebruiken wordt u geacht het bovenstaande te hebben aanvaard.</string>
+    <string name="disclaimer_title">Disclaimer</string>
+    <string name="search_clear">Zoekopdracht wissen</string>
+    <string name="search_hint">Zoek rekenhulpen, omrekenaars, naslag</string>
+    <string name="state_empty_favorites_message">Zet een rekenhulp vast om die op het startscherm te houden.</string>
+    <string name="state_empty_favorites_title">Nog geen favorieten</string>
+    <string name="state_error_title">Er ging iets mis</string>
+    <string name="state_in_development_message">Dit onderdeel wordt gebouwd en komt in een volgende versie.</string>
+    <string name="state_in_development_title">Nog niet beschikbaar</string>
+    <string name="state_just_now">Zojuist</string>
+    <string name="state_loading">Laden</string>
+    <string name="validation_below_minimum">Voer een waarde van %1$s of hoger in</string>
+    <string name="validation_exceeds_maximum">Voer een waarde van %1$s of lager in</string>
+    <string name="validation_must_be_positive">Voer een waarde groter dan nul in</string>
+    <string name="validation_must_not_be_negative">Voer een waarde van nul of hoger in</string>
+    <string name="validation_not_a_number">Voer een geldig getal in</string>
+    <string name="validation_out_of_range">Voer een waarde tussen %1$s en %2$s in</string>
+    <string name="validation_required">Deze waarde is verplicht</string>
+    <string name="calculator_examples">Voorbeelden</string>
+    <string name="calculator_examples_hint">Laad een realistische klus en zie hem doorgerekend.</string>
+    <string name="calculator_steps">Stap voor stap</string>
+</resources>

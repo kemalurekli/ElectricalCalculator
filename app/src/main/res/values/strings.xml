@@ -1,130 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<!--
+  Almost empty, and correctly so.
+
+  Every screen's text moved into its own feature module's `composeResources`
+  when the app was split for iOS, because the shared code is what renders it.
+  What is left here is what only the Android platform reads: the launcher label
+  in the manifest.
+
+  Twenty-two strings outlived that move as orphans — no `R.string` reference
+  anywhere in `:app`, and no way for one to appear, since the module has no
+  screens. They were deleted when the app gained ten more languages rather than
+  translated ten more times. `ManifestResourcesTest` is what stops the one that
+  is still needed from going with them.
+-->
+<resources>
 
     <!-- Product name: a brand, so it stays identical in every language. -->
     <string name="app_name" translatable="false">VoltageBoard</string>
 
-    <!-- Top level destinations -->
-    <!--
-      Tab labels are separate from the screen titles they lead to. A tab is
-      about 72dp wide and a label that does not fit wraps to two lines, which
-      throws the whole bar out of alignment. Each language picks what fits
-      rather than every language being held to the shortest one's limit.
-    -->
-    <string name="more_subtitle">Reference material, saved work and settings</string>
-
-    <!-- Home -->
-
-    <!-- Dashboard entries -->
-
-    <!-- Calculator categories -->
-
-    <!-- Calculator catalog -->
-
-    <!-- Search -->
-
-    <!-- Generic actions -->
-    <string name="action_favorite_add">Add to favorites</string>
-    <string name="action_favorite_remove">Remove from favorites</string>
-
-    <!-- Calculator scaffolding -->
-
-    <!-- Voltage drop calculator -->
-
-    <!-- Plain-text export used by both Copy and Share -->
-
-    <!-- Common states -->
-    <string name="state_empty_favorites_title">No favorites yet</string>
-    <string name="state_empty_favorites_message">Pin a calculator to keep it on your home screen.</string>
-    <string name="state_error_title">Something went wrong</string>
-
-    <!--
-      Sections whose data layer is in place but whose screen is delivered in a
-      later development phase. Shown instead of a dead end.
-    -->
-    <string name="state_in_development_title">Not available yet</string>
-    <string name="state_in_development_message">This section is being built and will arrive in an upcoming release.</string>
-
-    <!-- Settings -->
-    <string name="sel_step_ratio_clears" formatted="false">\u2014 clears the conventional 1.6</string>
-    <string name="sel_step_ratio_short" formatted="false">\u2014 short of the conventional 1.6</string>
-    <string name="sel_step_no_curve">This device has no instantaneous multiple the app can read</string>
-    <string name="disclaimer_title">Disclaimer</string>
-    <string name="forum_thread_replies">%1$d replies</string>
-    <string name="forum_thread_replies_one">1 reply</string>
-    <string name="forum_thread_replies_none">No replies</string>
-    <string name="forum_post_thanks">%1$d thanks</string>
-
-    <!-- Validation — mapped from domain ValidationError values -->
-
-    <!-- Cable size calculator -->
-
-    <!-- Transformer full load current calculator -->
-
-    <!-- Motor current calculator -->
-
-    <!-- Shared power-factor direction -->
-
-    <!-- Power calculator -->
-
-    <!-- Power factor correction calculator -->
-
-    <!-- Battery runtime calculator -->
-
-    <!-- Cable weight calculator -->
-
-    <!-- Conduit fill calculator -->
-
-    <!-- Cable tray fill calculator -->
-
-    <!-- Unit converter -->
-
-    <!-- Engineering references -->
-
-    <!-- Short-circuit current calculator -->
-
-    <!-- Earth fault loop calculator -->
-
-    <!-- Protection and earthing references -->
-
-    <!-- Worked solution steps -->
-    <string name="calculator_steps">Step by step</string>
-
-    <!-- Lighting, solar, neutral current and energy cost -->
-
-    <!-- Reference depth: codes, factors, safety, formulas, standards -->
-
-    <!-- Drawing symbols -->
-
-    <!-- Engineering primers -->
-
-    <!-- Selection and comparison guides -->
-
-    <!-- Commissioning, testing and diagnosis -->
-
-    <!-- Worked example scenarios -->
-
-    <!-- Glossary screen -->
-
-    <!-- Field notes screen -->
-
-    <!-- Theory screen -->
-
-    <!-- Theory -->
-
-    <string name="history_duplicated">Calculation duplicated</string>
-
-    <!-- Forum: account and profile -->
-
-    <!-- Forum: writing -->
-    <string name="forum_thanks_undo">Thanked</string>
-    <!--
-      The published address of docs/privacy-policy.md. Left empty on purpose:
-      an empty value hides the link rather than offering one that 404s, and
-      Play will not accept the listing until it is filled in.
-    -->
-    <!-- Forum: standing -->
-    <string name="forum_thread_pin_hint">Press and hold a thread to keep it at the top</string>
-    <string name="calculator_examples">Example scenarios</string>
-    <string name="calculator_examples_hint">Load a realistic job and see it worked through.</string>
 </resources>

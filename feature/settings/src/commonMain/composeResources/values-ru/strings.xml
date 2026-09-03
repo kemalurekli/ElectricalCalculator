@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_close">Закрыть</string>
+    <string name="action_reset">Сбросить</string>
+    <string name="common_material_aluminium">Алюминий</string>
+    <string name="common_material_copper">Медь</string>
+    <string name="cs_insulation_pvc">ПВХ 70 °C</string>
+    <string name="cs_insulation_xlpe">СПЭ 90 °C</string>
+    <string name="cs_method_b1">B1</string>
+    <string name="cs_method_b1_full">B1 — жилы в трубе по стене</string>
+    <string name="cs_method_b2">B2</string>
+    <string name="cs_method_b2_full">B2 — многожильный кабель в трубе</string>
+    <string name="cs_method_c">C</string>
+    <string name="cs_method_c_full">C — закреплён непосредственно на поверхности</string>
+    <string name="cs_method_e">E</string>
+    <string name="cs_method_e_full">E — в свободном воздухе или на перфолотке</string>
+    <string name="destination_settings">Настройки</string>
+    <string name="forum_account_section">Учётная запись форума</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="settings_about">О приложении</string>
+    <string name="settings_appearance">Оформление</string>
+    <string name="settings_engineering">Технические умолчания</string>
+    <string name="settings_engineering_ambient">Температура окружающей среды</string>
+    <string name="settings_engineering_frequency">Частота сети</string>
+    <string name="settings_engineering_insulation">Изоляция</string>
+    <string name="settings_engineering_material">Материал жилы</string>
+    <string name="settings_engineering_method">Способ прокладки</string>
+    <string name="settings_engineering_reset">Сбросить умолчания</string>
+    <string name="settings_engineering_reset_message">Заменяет каждое значение выше тем, которое взяла бы новая установка для вашего региона. Сохранённые расчёты не затрагиваются.</string>
+    <string name="settings_engineering_single_phase">Однофазное напряжение</string>
+    <string name="settings_engineering_summary">Значения, с которыми открывается каждый калькулятор. Один раз определены по вашему региону при первой установке и с тех пор ваши — смена языка приложения их не меняет. Сброс повторяет это определение.</string>
+    <string name="settings_engineering_three_phase">Трёхфазное напряжение</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_language_description">Выберите язык, на котором показывается приложение</string>
+    <string name="settings_language_system">Системный</string>
+    <string name="settings_language_partial">Калькуляторы, проекты, форум и настройки переведены на все перечисленные языки. Справочные таблицы, теория, глоссарий и общие сведения написаны только на английском и турецком и на остальных языках остаются английскими.</string>
+    <string name="settings_legal">Правовая информация</string>
+    <string name="settings_licenses">Лицензии открытого кода</string>
+    <string name="settings_privacy_policy">Политика конфиденциальности</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_theme_dark">Тёмная</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_system">Системная</string>
+    <string name="settings_unit_system">Система единиц</string>
+    <string name="settings_unit_system_imperial">Имперская (AWG, ft)</string>
+    <string name="settings_unit_system_metric">Метрическая (мм², м)</string>
+    <string name="settings_units">Единицы</string>
+    <string name="settings_version">Версия</string>
+</resources>

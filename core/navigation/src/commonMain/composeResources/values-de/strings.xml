@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dashboard_calculators_subtitle">Spannungsfall, Leitungsquerschnitt, Motorstrom</string>
+    <string name="dashboard_calculators_title">Rechner</string>
+    <string name="dashboard_converter_subtitle">Elektrische, physikalische und AWG-Umrechnungen</string>
+    <string name="dashboard_converter_title">Einheitenrechner</string>
+    <string name="dashboard_favorites_subtitle">Ihre angehefteten Rechner</string>
+    <string name="dashboard_favorites_title">Favoriten</string>
+    <string name="dashboard_field_notes_subtitle">Warum es so gemacht wird und was sonst schiefgeht</string>
+    <string name="dashboard_field_notes_title">Grundwissen</string>
+    <string name="dashboard_forum_subtitle">Fragen, die kein Rechner beantwortet</string>
+    <string name="dashboard_forum_title">Forum</string>
+    <string name="dashboard_glossary_subtitle">Elektrotechnische Begriffe, Englisch und Türkisch</string>
+    <string name="dashboard_glossary_title">Glossar</string>
+    <string name="dashboard_history_subtitle">Jede Berechnung, die Sie ausgeführt haben</string>
+    <string name="dashboard_history_title">Verlauf</string>
+    <string name="dashboard_projects_subtitle">Die Stromkreise einer Anlage zusammenhalten und gemeinsam auslegen</string>
+    <string name="dashboard_projects_title">Projekte</string>
+    <string name="dashboard_references_subtitle">IP/IK-Schutzarten, Farbcodes und Normtabellen</string>
+    <string name="dashboard_references_title">Referenzen</string>
+    <string name="dashboard_settings_subtitle">Design, Einheiten und App-Informationen</string>
+    <string name="dashboard_settings_title">Einstellungen</string>
+    <string name="dashboard_theory_subtitle">Woher die Formeln kommen, mit Ihren Zahlen gerechnet</string>
+    <string name="dashboard_theory_title">Theorie</string>
+    <string name="destination_calculators">Rechner</string>
+    <string name="destination_converter">Umrechner</string>
+    <string name="destination_favorites">Favoriten</string>
+    <string name="destination_field_notes">Grundwissen</string>
+    <string name="destination_forum">Forum</string>
+    <string name="destination_glossary">Glossar</string>
+    <string name="destination_history">Verlauf</string>
+    <string name="destination_home">Start</string>
+    <string name="destination_more">Mehr</string>
+    <string name="destination_projects">Projekte</string>
+    <string name="destination_references">Referenzen</string>
+    <string name="destination_settings">Einstellungen</string>
+    <string name="destination_theory">Theorie</string>
+    <string name="tab_calculators">Rechner</string>
+</resources>

@@ -52,7 +52,15 @@ from fontTools.varLib.instancer import instantiateVariableFont
 UNICODE_RANGES = [
     (0x0020, 0x007E),  # ASCII printable
     (0x00A0, 0x00FF),  # Latin-1 Supplement — accented Latin, °, ², ³, µ, ×, ÷
-    (0x0100, 0x017F),  # Latin Extended-A — Turkish ğĞıİşŞ, and European names
+    (0x0100, 0x017F),  # Latin Extended-A — Turkish ğĞıİşŞ, Polish ąćęłńśźż,
+    #                    Vietnamese Ăă Đđ, and European names
+    (0x01A0, 0x01B0),  # Latin Extended-B — Vietnamese Ơơ Ưư and nothing else
+    (0x0400, 0x045F),  # Cyrillic — Russian, including Ёё. Not the whole block:
+    #                    the letters the other Slavic languages add are not
+    #                    needed until one of them is translated.
+    (0x1EA0, 0x1EF9),  # Latin Extended Additional — the ninety precomposed
+    #                    Vietnamese vowels. Vietnamese cannot be set without
+    #                    them; nothing else in the app reaches this block.
 ]
 
 # Everything else the app actually displays, named one at a time so that adding

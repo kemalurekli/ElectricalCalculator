@@ -22,8 +22,8 @@
     <string name="bt_history_summary">%1$s sa</string>
     <string name="bt_history_title">Akü süresi — %1$s Ah, %2$s W</string>
     <string name="bt_load_power">Yük gücü</string>
-    <string name="bt_note_conditions">Sabit yük, etiket kapasitesinde sağlıklı bir grup ve normal sıcaklık varsayılmıştır. Kapasite yaşlanmayla ve soğukla düşer — kurşun asitte 0 °C'de yaklaşık %20 — bu nedenle tasarımda bu değerin ötesinde pay bırakılmalıdır.</string>
-    <string name="bt_note_dod">Deşarj derinliği hesabı değil, akü ömrünü korur. Kurşun asit grubu %50'nin altına indirmek servis ömrünü belirgin şekilde kısaltır; lityum %80–90'a dayanır.</string>
+    <string name="bt_note_conditions" formatted="false">Sabit yük, etiket kapasitesinde sağlıklı bir grup ve normal sıcaklık varsayılmıştır. Kapasite yaşlanmayla ve soğukla düşer — kurşun asitte 0 °C'de yaklaşık %20 — bu nedenle tasarımda bu değerin ötesinde pay bırakılmalıdır.</string>
+    <string name="bt_note_dod" formatted="false">Deşarj derinliği hesabı değil, akü ömrünü korur. Kurşun asit grubu %50'nin altına indirmek servis ömrünü belirgin şekilde kısaltır; lityum %80–90'a dayanır.</string>
     <string name="bt_note_efficiency">Sistem verimi evirici ve kabloları kapsar. Grup, yükün aldığından daha fazla güç verir; deşarj akımının yük gücü bölü grup geriliminden büyük olmasının sebebi budur.</string>
     <string name="bt_note_peukert">Bir akünün kapasitesi yalnızca ölçüldüğü deşarj hızında geçerlidir. Daha hızlı boşaltırsanız etiket değerinden az amper-saat alırsınız. Basit t = C / I bunu yok sayar ve süreyi fazla gösterir — yüksek hızlarda üçte bire varan oranda.</string>
     <string name="bt_note_rate_matters">Hızı belirtilmemiş bir kapasite değeri anlamsızdır. C/1'de 100 Ah, C/20'de 100 Ah'den çok daha güçlü bir hücreyi tanımlar; bu yüzden hız zorunlu bir girdidir.</string>
@@ -96,7 +96,7 @@
     <string name="cf_history_title">Boru doluluğu — %1$s mm, %2$s kablo</string>
     <string name="cf_note_diameter">Metrik boru dış çapıyla anılır; 20 mm borunun iç çapı 17 mm civarındadır. İç çapı üretici verisinden alın — anma ölçüsünü kullanmak alanı yaklaşık üçte bir fazla gösterir.</string>
     <string name="cf_note_grouping">Bu kontrolü geçmek gruplama düşüm katsayısını ortadan kaldırmaz. Boru içinde demetlenmiş kablolar, serbest havadaki aynı kablolardan daha az akım taşır; kesitlerini kablo kesiti hesaplayıcısıyla belirleyin.</string>
-    <string name="cf_note_nec">NEC Bölüm 9, Tablo 1: tek kabloda %53, ikide %31, üç ve üzerinde %40. İkideki düşüş hata değildir — iki daire üçüncü bir dairenin içine kötü yerleşir, kullanılabilir oran düşer.</string>
+    <string name="cf_note_nec" formatted="false">NEC Bölüm 9, Tablo 1: tek kabloda %53, ikide %31, üç ve üzerinde %40. İkideki düşüş hata değildir — iki daire üçüncü bir dairenin içine kötü yerleşir, kullanılabilir oran düşer.</string>
     <string name="cf_note_pull">Uzunluk ve dirsekler en az alan kadar önemlidir. Birkaç dirsekli uzun bir hat, izin verilen dolulukta bile pratikte çekilemeyebilir; zorlamak yerine çekme kutusu ekleyin.</string>
     <string name="cf_note_standards">IEC 61386 boru sistemleri için bir ürün standardıdır ve doluluk yüzdesi belirlemez. BS 7671 ve IET On-Site Guide bunun yerine hattın uzunluğunu ve dirseklerini zaten hesaba katan kablo ve boru katsayılarını kullanır. Her ikisi için de özel sınırı kullanın.</string>
     <string name="cf_note_why">Sınır, kablonun sığması değil çekilebilmesi içindir. Demetin dirseklerden kılıfı yırtılmadan geçmesi ve ısısını atabilmesi için çevresinde hava kalması gerekir. Fazla doldurulmuş bir boru ya çekilemez ya da içindekini pişirir.</string>
@@ -115,7 +115,7 @@
     <string name="cf_rule">Doluluk sınırı</string>
     <string name="cf_rule_custom">Özel</string>
     <string name="cf_rule_nec">NEC Tablo 1</string>
-    <string name="cf_rule_nec_hint">Tek kabloda %53, ikide %31, üç ve üzerinde %40</string>
+    <string name="cf_rule_nec_hint" formatted="false">Tek kabloda %53, ikide %31, üç ve üzerinde %40</string>
     <string name="cf_step_additional">Çekilebilecek en büyük ilave kablo</string>
     <string name="cf_step_cable_area">Kabloların toplam kesiti</string>
     <string name="cf_step_conduit_area">Borunun iç kesit alanı</string>
@@ -166,7 +166,7 @@
     <string name="cs_insulation">Yalıtım</string>
     <string name="cs_insulation_pvc">PVC 70 °C</string>
     <string name="cs_insulation_xlpe">XLPE 90 °C</string>
-    <string name="cs_max_drop_hint">Aydınlatma için %3, diğer devreler için %5</string>
+    <string name="cs_max_drop_hint" formatted="false">Aydınlatma için %3, diğer devreler için %5</string>
     <string name="cs_max_drop_label">İzin verilen gerilim düşümü</string>
     <string name="cs_method_b1">B1</string>
     <string name="cs_method_b1_full">B1 — duvarda boru içinde iletkenler</string>
@@ -178,7 +178,7 @@
     <string name="cs_method_e_full">E — serbest havada veya delikli tavada</string>
     <string name="cs_no_solution_message">Bu girdileri karşılayan tablolanmış kesit yok. Paralel iletken, daha kısa hat veya daha yüksek gerilim düşümü sınırı düşünün.</string>
     <string name="cs_no_solution_title">Uygun standart kesit yok</string>
-    <string name="cs_note_derating">Tablolanmış kapasiteler 30 °C'de tek devre varsayar. Ortam sıcaklığı ve gruplama faktörleri bunun üzerine uygulanır; bir arada demetlenmiş altı devre anma değerinin yaklaşık %43'ünü kaybeder.</string>
+    <string name="cs_note_derating" formatted="false">Tablolanmış kapasiteler 30 °C'de tek devre varsayar. Ortam sıcaklığı ve gruplama faktörleri bunun üzerine uygulanır; bir arada demetlenmiş altı devre anma değerinin yaklaşık %43'ünü kaybeder.</string>
     <string name="cs_note_protection">Bu hesaplayıcı yalnızca iletkeni boyutlandırır. Koruma cihazıyla koordinasyon (Ib ≤ In ≤ Iz) ve hata koruması için açma süresi ayrıca kontrol edilmelidir.</string>
     <string name="cs_note_tables">Kapasiteler IEC 60364-5-52 Ek B referans döşeme yöntemlerine göredir. Projenize uygulanan baskı veya ulusal uyarlama ile ve kablo üreticisinin verileriyle doğrulayın.</string>
     <string name="cs_note_two_constraints">Bir kablo iki bağımsız koşulu sağlamalıdır: akımı aşırı ısınmadan taşımak ve yükte kullanılabilir gerilim bırakmak. Doğru cevap bu iki kesitin büyüğüdür. Yalnızca gerilim düşümüne göre boyutlandırmak aşırı ısınan bir iletken verebilir.</string>
@@ -444,7 +444,7 @@
     <string name="lt_note_average">Lümen yöntemi çalışma düzlemi üzerinde bir ortalama verir. Düzgünlük, kamaşma veya odanın kenarlarında ne olduğu hakkında hiçbir şey söylemez; gerçek bir aydınlatma tasarımının yanıtlaması gereken şeyler bunlardır.</string>
     <string name="lt_note_height">Montaj yüksekliği zeminden değil, çalışma düzleminden ölçülür. Tavan yüksekliğini kullanmak, oda indeksinin en sık yanlış çıkma sebebidir.</string>
     <string name="lt_note_layout">Önerilen yerleşim, kareye en yakın çarpan çiftidir. Düzgünlüğü sayı değil, aralık belirler.</string>
-    <string name="lt_note_rounding">Sayı yukarı yuvarlanır. 4,2'yi 4'e indirmek, kendi hedefini %5 ıskalayan bir tasarımdır.</string>
+    <string name="lt_note_rounding" formatted="false">Sayı yukarı yuvarlanır. 4,2'yi 4'e indirmek, kendi hedefini %5 ıskalayan bir tasarımdır.</string>
     <string name="lt_note_uf">Kullanım faktörü armatüre, oda oranlarına ve yüzey yansımalarına özgüdür. Bu hesaplayıcının verdiği oda indeksine karşılık üreticinin tablosundan alın.</string>
     <string name="lt_result_achieved">Ulaşılan aydınlık düzeyi</string>
     <string name="lt_result_area">Taban alanı</string>
@@ -478,9 +478,9 @@
     <string name="ms_locked_rotor">Kilitli rotor akımı, In'in katı olarak</string>
     <string name="ms_locked_rotor_hint">Motor etiketinden. Altı tipiktir; yedi ve sekiz de alışılmadık değildir.</string>
     <string name="ms_method">Yol verme yöntemi</string>
-    <string name="ms_method_auto">Oto trafo, %65</string>
+    <string name="ms_method_auto" formatted="false">Oto trafo, %65</string>
     <string name="ms_method_dol">Doğrudan yol verme</string>
-    <string name="ms_method_soft">Yumuşak yönverici, %50</string>
+    <string name="ms_method_soft" formatted="false">Yumuşak yönverici, %50</string>
     <string name="ms_method_star_delta">Yıldız-üçgen</string>
     <string name="ms_note_scope">Trafo ile motor arasındaki kablo hesaba katılmamıştır; motorun kendi uçlarındaki çökme bundan daha derindir. Yıldız-üçgen geçiş tepesi de katılmamıştır; birkaç periyot boyunca doğrudan yol verme akımına yaklaşabilir.</string>
     <string name="ms_note_torque">Tork, klemenslerdeki gerilimin karesiyle değişir — üstelik yol verme yönteminin zaten verdiği tavizin üzerine. Yumuşak yol alma bedavaya gelmez: akımı üçte bire indiren bir yöntem çekişi de üçte bire indirir ve yüklü bir makine hiç dönmeyebilir.</string>
@@ -500,7 +500,7 @@
     <string name="ms_warn_contactor">Bu derinlikte kontaktör bobinleri bırakabilir. Panonun geri kalanını da götüren bir yol alma, yol alma değildir.</string>
     <string name="ms_warn_flicker">Aydınlatmada görülecek kadar derin.</string>
     <string name="mt_efficiency">Verim (η)</string>
-    <string name="mt_efficiency_hint">Etiketten alınır; IE3 motorda tipik %85–95</string>
+    <string name="mt_efficiency_hint" formatted="false">Etiketten alınır; IE3 motorda tipik %85–95</string>
     <string name="mt_example_dol">5,5 kW direkt yol verme</string>
     <string name="mt_example_hp">Etiket beygir gücünde</string>
     <string name="mt_example_large">75 kW motor</string>
@@ -516,7 +516,7 @@
     <string name="mt_note_dc">DC beslemede faz açısı bulunmadığından güç faktörü dikkate alınmaz ve reaktif bileşen oluşmaz.</string>
     <string name="mt_note_full_load">Verim ve güç faktörü tam yük değerleridir. İkisi de kısmi yükte belirgin şekilde düşer; bu nedenle sonuç az yüklü bir motoru tanımlamaz.</string>
     <string name="mt_note_nameplate">Etiket üzerinde anma akımı yazıyorsa onu tercih edin: varsayılan verim ve güç faktörü yerine gerçek makineyi yansıtır.</string>
-    <string name="mt_note_shaft_output">Motorun etiket değeri mildeki mekanik çıkış gücüdür; çektiği elektriksel güç değildir. Giriş gücü verim oranında daha büyüktür; bu bölmeyi atlamak akımı %8–15 eksik gösterir — kabloyu veya koruma cihazını altı boyutlandırmaya yetecek kadar.</string>
+    <string name="mt_note_shaft_output" formatted="false">Motorun etiket değeri mildeki mekanik çıkış gücüdür; çektiği elektriksel güç değildir. Giriş gücü verim oranında daha büyüktür; bu bölmeyi atlamak akımı %8–15 eksik gösterir — kabloyu veya koruma cihazını altı boyutlandırmaya yetecek kadar.</string>
     <string name="mt_note_starting">Yol alma akımı kalıcı hâldeki kilitli rotor değeridir. İlk tepe, DC geçici bileşeni içerdiği için daha yüksektir; motor koruma ve gerilim çökmesi analizleri bu tepe değeri ister.</string>
     <string name="mt_power_unit">Güç birimi</string>
     <string name="mt_rated_power">Anma gücü</string>
@@ -553,7 +553,7 @@
     <string name="nc_export_neutral">Nötr: %1$s A</string>
     <string name="nc_export_split">Dengesizlik %1$s A, üçüncü harmonik %2$s A</string>
     <string name="nc_formula">I_u = √(I₁² + I₂² + I₃² − I₁I₂ − I₂I₃ − I₃I₁)\nI_N = √(I_u² + (3 · I₃)²)</string>
-    <string name="nc_harmonic_hint">Hat akımının yüzdesi olarak. Doğrusal yükte sıfır; elektronik dolu bir panoda %30 – 70.</string>
+    <string name="nc_harmonic_hint" formatted="false">Hat akımının yüzdesi olarak. Doğrusal yükte sıfır; elektronik dolu bir panoda %30 – 70.</string>
     <string name="nc_harmonic_label">Üçüncü harmonik içeriği</string>
     <string name="nc_history_summary">%1$s A</string>
     <string name="nc_history_title">Nötr — %1$s / %2$s / %3$s A</string>
@@ -561,7 +561,7 @@
     <string name="nc_line_2_label">L2 akımı</string>
     <string name="nc_line_3_label">L3 akımı</string>
     <string name="nc_note_cancellation">Dengeli doğrusal bir devrede faz akımları nötrde birbirini götürür; nötrün geleneksel olarak kablodaki en küçük iletken olmasının sebebi budur.</string>
-    <string name="nc_note_derating">IEC 60364-5-52, üçüncü harmonik içeriği %15'i geçtiğinde nötrün yüklü iletken sayılmasını ve kablonun buna göre derate edilmesini ister.</string>
+    <string name="nc_note_derating" formatted="false">IEC 60364-5-52, üçüncü harmonik içeriği %15'i geçtiğinde nötrün yüklü iletken sayılmasını ve kablonun buna göre derate edilmesini ister.</string>
     <string name="nc_note_measurement">Harmonik içeriği gerçek RMS ölçen bir cihazla ölçün. Ortalama okuyan bir pens, bozuk akımı düşük okur — ki bulmaya çalıştığınız durum tam olarak budur.</string>
     <string name="nc_note_quadrature">İki katkı farklı frekanslardadır, bu yüzden dik toplanırlar. Aritmetik toplamak nötrü geniş bir farkla olduğundan fazla gösterirdi.</string>
     <string name="nc_note_triplen">Üçüncü harmonik ve katları ise aynı fazda gelip toplanır. Mükemmel dengeli bir pano, nötre bir fazın üç katı üçüncü harmonik akımı koyabilir.</string>
@@ -687,7 +687,7 @@
     <string name="sc_note_next">Arıza akımı tek başına hiçbir şey ispatlamaz. En küçük değeri, cihazı gereken sürede açtıran akımla karşılaştırın ve koruma iletkeninin geçen enerjiye dayandığını kontrol edin. İkisi de Hata Döngüsü hesaplayıcısındadır.</string>
     <string name="sc_note_origin">Besleme bir transformatörse ve şebeke değeri elinizde yoksa, Transformatör hesaplayıcısı terminallerdeki akımı verir — ama o değer sonsuz bara varsayar ve yalnızca başlangıç noktasıdır.</string>
     <string name="sc_note_scalar">Besleme ve kablo empedansları büyüklük olarak toplanır; döngü ölçerlerin ve IEC 60364 uygulamasının yaptığı budur. Açıları farklıdır — trafo beslemeli kaynak çoğunlukla reaktif, AG kablo çoğunlukla omiktir — bu yüzden toplam döngüyü bir miktar fazla, akımı bir miktar düşük gösterir. Açmayı doğrulamak için güvenli yön budur. Kesme kapasitesinin seçildiği başlangıca yakın noktalarda tam bir IEC 60909 çalışması kullanın.</string>
-    <string name="sc_note_temperature">Bakır, 20 °C ile 70 °C PVC anma sıcaklığı arasında yaklaşık %20, 90 °C XLPE anma sıcaklığında yaklaşık %27 direnç kazanır. Uzun bir hatta bu tek başına iki akımı gerilim faktörlerinden daha fazla ayırır.</string>
+    <string name="sc_note_temperature" formatted="false">Bakır, 20 °C ile 70 °C PVC anma sıcaklığı arasında yaklaşık %20, 90 °C XLPE anma sıcaklığında yaklaşık %27 direnç kazanır. Uzun bir hatta bu tek başına iki akımı gerilim faktörlerinden daha fazla ayırır.</string>
     <string name="sc_note_two_currents">İki akım çıkıyor çünkü iki ayrı karar bunlara dayanıyor ve birini diğerinin yerine kullanmak, bu hesaplayıcının önlemek için var olduğu hatadır. En büyük değer (c = 1,05, iletken soğuk) bir cihazın kesmek zorunda kalabileceği en yüksek akımdır. En küçük değer (c = 0,95, iletken anma sıcaklığında) tam yüklü bir kablonun ucundaki arızadır — cihazın göreceği en düşük akım ve açtığını ispatlayan rakam.</string>
     <string name="sc_reactance">Kablo reaktansı</string>
     <string name="sc_reactance_hint">AG çok damarlıda tipik 0,08. Önemli olduğu yerde üretici verisinden alın.</string>
@@ -804,7 +804,7 @@
     <string name="tf_history_title">Tava doluluğu — %1$s mm, %2$s kablo</string>
     <string name="tf_limit">İzin verilen doluluk</string>
     <string name="tf_limit_hint">Standart değeri değil tasarım teamülüdür — notlara bakın</string>
-    <string name="tf_note_arrangement">Hangi sınırın belirleyici olduğu kabloların nasıl yerleştiğine bağlıdır. 100 mm tavaya yan yana dizilen dört adet 20 mm kablo genişliğin %80'ini kullanır ama kesitin yalnızca %21'ini kaplar — tek başına alan yüzdesi, içine başka kablo konamayacak bu tavayı beşte dördü boş gösterirdi.</string>
+    <string name="tf_note_arrangement" formatted="false">Hangi sınırın belirleyici olduğu kabloların nasıl yerleştiğine bağlıdır. 100 mm tavaya yan yana dizilen dört adet 20 mm kablo genişliğin %80'ini kullanır ama kesitin yalnızca %21'ini kaplar — tek başına alan yüzdesi, içine başka kablo konamayacak bu tavayı beşte dördü boş gösterirdi.</string>
     <string name="tf_note_depth">Derinlik değeri kusursuz yerleşim varsayar; alt sınır olarak değerlendirin — gerçek bir tavada yuvarlak kablolar bundan daha gevşek oturur.</string>
     <string name="tf_note_load">Asıl sorun genelde geometri değildir. Tava, açıklığın metresi başına kg olarak derecelendirilir ve bakır dolu bir tava bu sınıra dolu görünmeden çok önce ulaşır. Kablo ağırlıklarını toplayıp tavanın yük sınıfı ve mesnet aralığıyla karşılaştırın.</string>
     <string name="tf_note_single_layer">Güç kabloları normalde tek sıra hâlinde döşenir; böylece her biri ısısını havaya verebilir. Üst üste dizmek gruplama düşüm katsayısını yükselten şeydir ve alan bakımından geçen bir tava yine de ısıl bir sorun olabilir.</string>
@@ -864,7 +864,7 @@
     <string name="tx_formula">I = S / (k · U)\nI_kd = I₂ · 100 / u_k</string>
     <string name="tx_history_summary">%1$s A</string>
     <string name="tx_history_title">Transformatör — %1$s kVA, %2$s/%3$s V</string>
-    <string name="tx_impedance_hint">Etiketten alınır; 630 kVA'ya kadar tipik %4, üzerinde %6</string>
+    <string name="tx_impedance_hint" formatted="false">Etiketten alınır; 630 kVA'ya kadar tipik %4, üzerinde %6</string>
     <string name="tx_impedance_label">Kısa devre gerilimi (u_k)</string>
     <string name="tx_note_ampere_turns">Primer ve sekonder akımlar gerilim oranıyla ters orantılıdır; bu ideal transformatörün amper-sarım dengesidir. Mıknatıslanma akımı ve kayıplar ihmal edilmiştir.</string>
     <string name="tx_note_apparent_power">Transformatörler aktif güçle (kW) değil, görünür güçle (kVA) anılır. Sınırı akım ve gerilim belirler; bu nedenle yükün güç faktörü tam yük akımını değiştirmez.</string>
@@ -911,9 +911,9 @@
     <string name="vd_note_balanced">Üç faz sonucu dengeli yük varsayar; bu nedenle kayıp değerine nötr akımı dâhil edilmemiştir.</string>
     <string name="vd_note_dc_pf">Faz açısı bulunmadığından, DC beslemede güç faktörü dikkate alınmaz.</string>
     <string name="vd_note_length">Tek yön hat uzunluğunu girin. 2 (DC ve tek faz) veya √3 (üç faz) çarpanı, dönüş yolunu ve fazlar arası referansı zaten kapsar.</string>
-    <string name="vd_note_limits">Sınırlar IEC 60364-5-52 Ek G'ye göredir: aydınlatma için %3, diğer kullanımlar için %5. Tesisatın başlangıç noktasından ölçülür.</string>
+    <string name="vd_note_limits" formatted="false">Sınırlar IEC 60364-5-52 Ek G'ye göredir: aydınlatma için %3, diğer kullanımlar için %5. Tesisatın başlangıç noktasından ölçülür.</string>
     <string name="vd_note_reactance">İletken reaktansı ihmal edilmiştir. Bu, standart basitleştirilmiş yöntemdir ve direncin baskın olduğu kesitlerde (yaklaşık 16 mm²'ye kadar) doğrudur. Daha büyük kesitlerde reaktans düşüme eklenir; bu durumda üreticinin mV/A/m verilerini kullanın.</string>
-    <string name="vd_note_temperature">Özdirenç, iletkenin çalışma sıcaklığına göre düzeltilir. 70 °C'deki bir bakır iletken 20 °C'ye göre yaklaşık %20 daha dirençlidir; ortam sıcaklığıyla hesaplamak gerilim düşümünü aynı oranda eksik gösterir.</string>
+    <string name="vd_note_temperature" formatted="false">Özdirenç, iletkenin çalışma sıcaklığına göre düzeltilir. 70 °C'deki bir bakır iletken 20 °C'ye göre yaklaşık %20 daha dirençlidir; ortam sıcaklığıyla hesaplamak gerilim düşümünü aynı oranda eksik gösterir.</string>
     <string name="vd_result_label">Gerilim düşümü</string>
     <string name="vd_result_power_loss">Güç kaybı</string>
     <string name="vd_result_resistance">İletken direnci</string>

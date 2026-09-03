@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_close">Fermer</string>
+    <string name="action_reset">Réinitialiser</string>
+    <string name="common_material_aluminium">Aluminium</string>
+    <string name="common_material_copper">Cuivre</string>
+    <string name="cs_insulation_pvc">PVC 70 °C</string>
+    <string name="cs_insulation_xlpe">PR 90 °C</string>
+    <string name="cs_method_b1">B1</string>
+    <string name="cs_method_b1_full">B1 — conducteurs en conduit sur paroi</string>
+    <string name="cs_method_b2">B2</string>
+    <string name="cs_method_b2_full">B2 — câble multiconducteur en conduit</string>
+    <string name="cs_method_c">C</string>
+    <string name="cs_method_c_full">C — fixé directement à une surface</string>
+    <string name="cs_method_e">E</string>
+    <string name="cs_method_e_full">E — à l'air libre ou sur chemin perforé</string>
+    <string name="destination_settings">Paramètres</string>
+    <string name="forum_account_section">Compte du forum</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="settings_about">À propos</string>
+    <string name="settings_appearance">Apparence</string>
+    <string name="settings_engineering">Valeurs par défaut</string>
+    <string name="settings_engineering_ambient">Température ambiante</string>
+    <string name="settings_engineering_frequency">Fréquence du réseau</string>
+    <string name="settings_engineering_insulation">Isolation</string>
+    <string name="settings_engineering_material">Matériau du conducteur</string>
+    <string name="settings_engineering_method">Mode de pose</string>
+    <string name="settings_engineering_reset">Réinitialiser les valeurs</string>
+    <string name="settings_engineering_reset_message">Remplace chaque valeur ci-dessus par celle qu'une nouvelle installation utiliserait pour votre région. Les calculs enregistrés ne sont pas modifiés.</string>
+    <string name="settings_engineering_single_phase">Tension monophasée</string>
+    <string name="settings_engineering_summary">Les valeurs avec lesquelles chaque calculatrice s'ouvre. Déduites une fois de votre région à la première installation, puis vôtres — changer la langue de l'application ne les change pas. Réinitialiser relance cette déduction.</string>
+    <string name="settings_engineering_three_phase">Tension triphasée</string>
+    <string name="settings_language">Langue</string>
+    <string name="settings_language_description">Choisissez la langue d'affichage de l'application</string>
+    <string name="settings_language_system">Par défaut du système</string>
+    <string name="settings_language_partial">Les calculatrices, les projets, le forum et les paramètres sont traduits dans toutes les langues de la liste. Les tableaux de référence, la théorie, le glossaire et les informations générales ne sont rédigés qu'en anglais et en turc, et restent en anglais dans les autres langues.</string>
+    <string name="settings_legal">Mentions légales</string>
+    <string name="settings_licenses">Licences open source</string>
+    <string name="settings_privacy_policy">Politique de confidentialité</string>
+    <string name="settings_theme">Thème</string>
+    <string name="settings_theme_dark">Sombre</string>
+    <string name="settings_theme_light">Clair</string>
+    <string name="settings_theme_system">Par défaut du système</string>
+    <string name="settings_unit_system">Système d'unités</string>
+    <string name="settings_unit_system_imperial">Impérial (AWG, ft)</string>
+    <string name="settings_unit_system_metric">Métrique (mm², m)</string>
+    <string name="settings_units">Unités</string>
+    <string name="settings_version">Version</string>
+</resources>

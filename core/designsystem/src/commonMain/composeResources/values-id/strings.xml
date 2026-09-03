@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_back">Kembali</string>
+    <string name="action_copy">Salin</string>
+    <string name="action_favorite_add">Tambah ke favorit</string>
+    <string name="action_favorite_remove">Hapus dari favorit</string>
+    <string name="action_retry">Coba lagi</string>
+    <string name="action_share">Bagikan</string>
+    <string name="cable_row_diameter">Diameter luar</string>
+    <string name="cable_row_quantity">Jml</string>
+    <string name="cable_row_remove">Hapus kabel ini</string>
+    <string name="calculator_notes_read_more">Baca selengkapnya</string>
+    <string name="disclaimer_accept">Saya telah membaca dan menerima</string>
+    <string name="disclaimer_body" formatted="false">Aplikasi ini disediakan hanya untuk informasi umum.\n\nTidak ada tanggung jawab apa pun yang diterima atas perhitungan, hasil, tabel, atau teks penjelasan yang dimuatnya. Hasilnya tidak boleh dijadikan dasar pekerjaan ilmiah atau keteknikan.\n\nTanggung jawab atas segala penggunaan aplikasi ini, dan atas verifikasi apa pun yang diambil darinya, sepenuhnya berada pada pengguna. Dalam keadaan apa pun aplikasi atau pengembangnya tidak dapat dimintai pertanggungjawaban atas kerugian atau kerusakan yang timbul dari penggunaannya.\n\nIsi dan aplikasi itu sendiri disusun dengan bantuan kecerdasan buatan. Gunakan dengan menyadari hal itu.\n\nForum memuat pesan yang ditulis pengguna lain. Tidak ada yang diperiksa, diverifikasi, atau didukung oleh pengembang, itu bukan nasihat keteknikan, dan tanggung jawab atas tindakan yang diambil ada pada pembaca. Anda bertanggung jawab atas apa yang Anda kirim, dan untuk tidak mengirimkan data pribadi siapa pun.\n\nJika ada bagian lain dalam aplikasi ini yang tampak menyatakan sebaliknya, ketentuan di sini yang berlaku.\n\nDengan menggunakan aplikasi ini Anda dianggap telah menerima ketentuan di atas.</string>
+    <string name="disclaimer_title">Penafian</string>
+    <string name="search_clear">Hapus pencarian</string>
+    <string name="search_hint">Cari kalkulator, konverter, referensi</string>
+    <string name="state_empty_favorites_message">Sematkan kalkulator agar tetap ada di layar utama.</string>
+    <string name="state_empty_favorites_title">Belum ada favorit</string>
+    <string name="state_error_title">Terjadi kesalahan</string>
+    <string name="state_in_development_message">Bagian ini sedang dibangun dan akan hadir pada rilis mendatang.</string>
+    <string name="state_in_development_title">Belum tersedia</string>
+    <string name="state_just_now">Baru saja</string>
+    <string name="state_loading">Memuat</string>
+    <string name="validation_below_minimum">Masukkan nilai %1$s atau lebih</string>
+    <string name="validation_exceeds_maximum">Masukkan nilai %1$s atau kurang</string>
+    <string name="validation_must_be_positive">Masukkan nilai lebih besar dari nol</string>
+    <string name="validation_must_not_be_negative">Masukkan nilai nol atau lebih</string>
+    <string name="validation_not_a_number">Masukkan angka yang valid</string>
+    <string name="validation_out_of_range">Masukkan nilai antara %1$s dan %2$s</string>
+    <string name="validation_required">Nilai ini wajib diisi</string>
+    <string name="calculator_examples">Contoh kasus</string>
+    <string name="calculator_examples_hint">Muat kasus nyata dan lihat perhitungannya.</string>
+    <string name="calculator_steps">Langkah demi langkah</string>
+</resources>

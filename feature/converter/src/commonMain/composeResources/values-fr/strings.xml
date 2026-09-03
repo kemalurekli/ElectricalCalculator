@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calculator_notes">Notes techniques</string>
+    <string name="cv_all_units">Dans toutes les unités</string>
+    <string name="cv_enter_value">Saisissez une valeur à convertir</string>
+    <string name="cv_from">De</string>
+    <string name="cv_note_awg" formatted="false">L'AWG est une série géométrique, pas une échelle : le numéro diminue quand le conducteur grossit, et les tailles au-dessus de 0 s'écrivent 00, 000 et 0000 — saisissez-les comme −1, −2 et −3. Comme la formule qui le définit est continue, une section métrique peut donner un calibre situé entre deux tailles réelles ; arrondissez au conducteur immédiatement supérieur, c'est-à-dire au numéro inférieur.</string>
+    <string name="cv_note_calorie" formatted="false">La calorie de la Table internationale de 4,1868 J est utilisée, pour s'accorder avec le BTU IT de la même catégorie. La calorie thermochimique de 4,184 J est inférieure de 0,07 %.</string>
+    <string name="cv_note_horsepower" formatted="false">Le cheval existe en deux tailles : le hp mécanique vaut 550 ft·lbf/s, le ch métrique vaut 75 kgf·m/s, et ils diffèrent d'environ 1,4 %. Les plaques signalétiques de moteurs en Europe désignent en général le ch. Les deux sont proposés plutôt que d'en choisir un à votre place.</string>
+    <string name="cv_note_kcmil" formatted="false">Un mil circulaire est l'aire d'un cercle d'un millième de pouce de diamètre ; kcmil est donc une aire et se convertit exactement. 4/0 AWG font 211,6 kcmil font 107,2 mm² — trois façons d'écrire le même conducteur.</string>
+    <string name="cv_note_temperature" formatted="false">La température est la seule catégorie non proportionnelle : 20 °C ne valent pas le double de 10 °C, car les échelles placent leur zéro ailleurs qu'au zéro absolu. Les conversions tiennent compte de ce décalage ; un écart de température ne doit donc pas être converti comme une température.</string>
+    <string name="cv_note_va" formatted="false">Les voltampères sont volontairement absents de la catégorie puissance. La puissance apparente ne se convertit en watts que par le facteur de puissance, et traiter 1 kVA comme 1 kW serait faux sur toute charge qui n'est pas purement résistive. Utilisez la calculatrice de puissance pour cette relation.</string>
+    <string name="cv_result_label">%1$s en %2$s</string>
+    <string name="cv_swap">Permuter les unités</string>
+    <string name="cv_to">Vers</string>
+    <string name="cv_value">Valeur</string>
+    <string name="dashboard_converter_title">Convertisseur d'unités</string>
+    <string name="tab_converter">Convertir</string>
+    <string name="unit_category_angle">Angle</string>
+    <string name="unit_category_area">Surface</string>
+    <string name="unit_category_capacitance">Capacité</string>
+    <string name="unit_category_current">Courant</string>
+    <string name="unit_category_energy">Énergie</string>
+    <string name="unit_category_frequency">Fréquence</string>
+    <string name="unit_category_illuminance">Éclairement</string>
+    <string name="unit_category_inductance">Inductance</string>
+    <string name="unit_category_length">Longueur</string>
+    <string name="unit_category_mass">Masse</string>
+    <string name="unit_category_power">Puissance</string>
+    <string name="unit_category_pressure">Pression</string>
+    <string name="unit_category_resistance">Résistance</string>
+    <string name="unit_category_signal_power">Puissance du signal</string>
+    <string name="unit_category_temperature">Température</string>
+    <string name="unit_category_torque">Couple</string>
+    <string name="unit_category_voltage">Tension</string>
+    <string name="unit_category_volume">Volume</string>
+    <string name="unit_category_wire_gauge">Section du conducteur</string>
+</resources>

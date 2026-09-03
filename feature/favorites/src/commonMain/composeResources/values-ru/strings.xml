@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="destination_calculators">Калькуляторы</string>
+    <string name="destination_favorites">Избранное</string>
+    <string name="destination_field_notes">Общие сведения</string>
+    <string name="destination_glossary">Глоссарий</string>
+    <string name="destination_references">Справочники</string>
+    <string name="destination_theory">Теория</string>
+</resources>

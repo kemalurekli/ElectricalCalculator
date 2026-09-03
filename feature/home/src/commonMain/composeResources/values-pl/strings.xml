@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">VoltageBoard</string>
+    <string name="destination_favorites">Ulubione</string>
+    <string name="home_badge_pinned">%1$d przypiętych</string>
+    <string name="home_badge_saved">%1$d zapisanych</string>
+    <string name="home_browse">Przeglądaj</string>
+    <string name="home_recent">Ostatnie</string>
+    <string name="search_group_calculators">Kalkulatory</string>
+    <string name="search_group_converter">Przelicznik jednostek</string>
+    <string name="search_group_field_notes">Informacje ogólne</string>
+    <string name="search_group_glossary">Słownik</string>
+    <string name="search_group_references">Materiały</string>
+    <string name="search_group_symbols">Symbole rysunkowe</string>
+    <string name="search_group_theory">Teoria</string>
+    <string name="state_empty_calculators_message">Żaden kalkulator nie pasuje do wyszukiwania. Spróbuj innego hasła.</string>
+    <string name="state_empty_calculators_title">Brak wyników</string>
+</resources>

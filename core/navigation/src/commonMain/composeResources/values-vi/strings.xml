@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dashboard_calculators_subtitle">Sụt áp, chọn tiết diện dây, dòng động cơ</string>
+    <string name="dashboard_calculators_title">Máy tính</string>
+    <string name="dashboard_converter_subtitle">Quy đổi điện, vật lý và AWG</string>
+    <string name="dashboard_converter_title">Đổi đơn vị</string>
+    <string name="dashboard_favorites_subtitle">Các máy tính bạn đã ghim</string>
+    <string name="dashboard_favorites_title">Yêu thích</string>
+    <string name="dashboard_field_notes_subtitle">Vì sao làm như vậy, và điều gì hỏng nếu không</string>
+    <string name="dashboard_field_notes_title">Thông tin chung</string>
+    <string name="dashboard_forum_subtitle">Hỏi điều mà máy tính không trả lời được</string>
+    <string name="dashboard_forum_title">Diễn đàn</string>
+    <string name="dashboard_glossary_subtitle">Thuật ngữ điện, tiếng Anh và tiếng Thổ Nhĩ Kỳ</string>
+    <string name="dashboard_glossary_title">Thuật ngữ</string>
+    <string name="dashboard_history_subtitle">Mọi phép tính bạn đã thực hiện</string>
+    <string name="dashboard_history_title">Lịch sử</string>
+    <string name="dashboard_projects_subtitle">Giữ các mạch của một công trình cùng nhau và thiết kế như một khối</string>
+    <string name="dashboard_projects_title">Dự án</string>
+    <string name="dashboard_references_subtitle">Cấp IP/IK, mã màu và bảng tiêu chuẩn</string>
+    <string name="dashboard_references_title">Tra cứu</string>
+    <string name="dashboard_settings_subtitle">Giao diện, đơn vị và thông tin ứng dụng</string>
+    <string name="dashboard_settings_title">Cài đặt</string>
+    <string name="dashboard_theory_subtitle">Công thức từ đâu ra, tính trên số liệu của bạn</string>
+    <string name="dashboard_theory_title">Lý thuyết</string>
+    <string name="destination_calculators">Máy tính</string>
+    <string name="destination_converter">Đổi đơn vị</string>
+    <string name="destination_favorites">Yêu thích</string>
+    <string name="destination_field_notes">Thông tin chung</string>
+    <string name="destination_forum">Diễn đàn</string>
+    <string name="destination_glossary">Thuật ngữ</string>
+    <string name="destination_history">Lịch sử</string>
+    <string name="destination_home">Trang chủ</string>
+    <string name="destination_more">Thêm</string>
+    <string name="destination_projects">Dự án</string>
+    <string name="destination_references">Tra cứu</string>
+    <string name="destination_settings">Cài đặt</string>
+    <string name="destination_theory">Lý thuyết</string>
+    <string name="tab_calculators">Máy tính</string>
+</resources>

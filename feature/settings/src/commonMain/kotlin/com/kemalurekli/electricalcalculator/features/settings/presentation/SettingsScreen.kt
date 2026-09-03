@@ -32,6 +32,9 @@ import androidx.compose.ui.Modifier
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.Res as ProRes
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_settings_section
 import com.kemalurekli.electricalcalculator.features.pro.presentation.ProSettingsSection
+import androidx.compose.foundation.layout.PaddingValues
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
+import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_language_description
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
@@ -110,6 +113,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 fun SettingsRoute(
     onNavigateBack: (() -> Unit)?,
     onOpenForumAccount: () -> Unit,
+    onOpenLanguage: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
@@ -124,6 +128,7 @@ fun SettingsRoute(
         onResetEngineeringDefaults = viewModel::onResetEngineeringDefaults,
         onNavigateBack = onNavigateBack,
         onOpenForumAccount = onOpenForumAccount,
+        onOpenLanguage = onOpenLanguage,
         modifier = modifier,
     )
 }
@@ -139,6 +144,7 @@ fun SettingsScreen(
     onResetEngineeringDefaults: () -> Unit,
     onNavigateBack: (() -> Unit)?,
     onOpenForumAccount: () -> Unit = {},
+    onOpenLanguage: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
@@ -188,19 +194,15 @@ fun SettingsScreen(
             ElecSectionHeader(title = stringResource(Res.string.settings_language))
 
             SettingsGroup {
-                // The same picker on both platforms. Each stores the choice
-                // where the system stores it, so the row in the phone's own
-                // settings and this one are two doors into one setting rather
-                // than two settings that can disagree.
-                Column(Modifier.selectableGroup()) {
-                    AppLanguage.entries.forEach { language ->
-                        SettingsRadioRow(
-                            label = language.displayName(),
-                            selected = uiState.language == language,
-                            onSelect = { onLanguageChange(language) },
-                        )
-                    }
-                }
+                // One row into a screen of its own. Twelve radio buttons here
+                // would bury the units and the engineering defaults under a
+                // language list nobody is reading unless they came for it.
+                ElecListItem(
+                    title = uiState.language.displayName(),
+                    description = stringResource(Res.string.settings_language_description),
+                    onClick = onOpenLanguage,
+                    contentPadding = PaddingValues(horizontal = 0.dp, vertical = spacing.md),
+                )
             }
 
             ElecSectionHeader(title = stringResource(Res.string.forum_account_section))
@@ -533,7 +535,7 @@ private fun SettingsGroup(content: @Composable ColumnScope.() -> Unit) {
 }
 
 @Composable
-private fun SettingsRadioRow(
+internal fun SettingsRadioRow(
     label: String,
     selected: Boolean,
     onSelect: () -> Unit,
@@ -564,24 +566,29 @@ private fun ThemeMode.label(): StringResource = when (this) {
 /**
  * The name of a language, written in that language.
  *
- * Deliberately not a translated string resource: a user who has the app in a
- * language they cannot read needs to recognise their own language in the list
- * to escape. "Türkçe" is legible to a Turkish speaker whatever the current UI
- * language is; a translated "Turkish" is not.
- */
-/**
- * The name of a language, in that language.
- *
- * Written out rather than asked of the platform. `Locale.getDisplayLanguage` is
- * a JVM API and its iOS counterpart capitalises differently; there are two
- * languages, and a list of two is easier to be right about than two platforms
- * agreeing.
+ * Deliberately not a translated string resource, and deliberately not asked of
+ * the platform. A reader who opened the app in a language they cannot read has
+ * to recognise their own in the list to escape it: "Русский" is legible to a
+ * Russian speaker whatever the interface currently says, and a translated
+ * "Russian" is not. `Locale.getDisplayLanguage` would also answer in the
+ * *current* locale by default, which is the wrong answer, and its iOS
+ * counterpart capitalises differently.
  */
 @Composable
-private fun AppLanguage.displayName(): String = when (this) {
+internal fun AppLanguage.displayName(): String = when (this) {
     AppLanguage.SYSTEM -> stringResource(Res.string.settings_language_system)
     AppLanguage.ENGLISH -> "English"
     AppLanguage.TURKISH -> "Türkçe"
+    AppLanguage.GERMAN -> "Deutsch"
+    AppLanguage.SPANISH -> "Español"
+    AppLanguage.FRENCH -> "Français"
+    AppLanguage.INDONESIAN -> "Bahasa Indonesia"
+    AppLanguage.ITALIAN -> "Italiano"
+    AppLanguage.DUTCH -> "Nederlands"
+    AppLanguage.POLISH -> "Polski"
+    AppLanguage.PORTUGUESE -> "Português"
+    AppLanguage.VIETNAMESE -> "Tiếng Việt"
+    AppLanguage.RUSSIAN -> "Русский"
 }
 
 private fun UnitSystem.label(): StringResource = when (this) {

@@ -266,7 +266,11 @@ class VerificationBacklogTest {
             "$GLOSSARY/domain/GlossaryCatalog.kt",
             "$FIELDNOTES/domain/FieldNoteCatalog.kt",
             "$THEORY/domain",
-            "app/src/main/res/values-tr/strings.xml",
+            // The translations moved out of `:app` with the screens. One
+            // representative file per review job: the calculators carry the
+            // terms an error in which would be acted on.
+            "feature/calculators/src/commonMain/composeResources/values-tr/strings.xml",
+            "feature/converter/src/commonMain/composeResources/values-de/strings.xml",
         )
     }
 }

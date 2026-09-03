@@ -53,7 +53,7 @@
     <string name="gl_demand_factor_term">Talep faktörü</string>
     <string name="gl_demand_factor_def">Azami talebin toplam bağlı yüke oranı. Kurulu her şeyin aynı anda çalışmadığını kabul eder; evrensel değil, bölgeye ve yönetmeliğe özgüdür.</string>
     <string name="gl_depth_of_discharge_term">Deşarj derinliği</string>
-    <string name="gl_depth_of_discharge_def">Şarj edilmeden önce akünün kapasitesinin gerçekte kullanılan payı. Kurşun-asitte ömür yaklaşık %50'yi geçince belirgin düşer; lityum %80–90'a dayanır.</string>
+    <string name="gl_depth_of_discharge_def" formatted="false">Şarj edilmeden önce akünün kapasitesinin gerçekte kullanılan payı. Kurşun-asitte ömür yaklaşık %50'yi geçince belirgin düşer; lityum %80–90'a dayanır.</string>
     <string name="gl_derating_term">Kapasite düşürme (derating)</string>
     <string name="gl_derating_def">Koşullar anma değerinin ölçüldüğü koşullardan kötü olduğu için bir elemanın kullanılabilir değerinin düşürülmesi. Kablolarda ortam ve gruplama faktörleri; cihazlarda pano içi sıcaklık olabilir.</string>
     <string name="gl_disconnection_time_term">Açma süresi</string>
@@ -187,7 +187,7 @@
     <string name="gl_residual_current_term">Kaçak akım (artık akım)</string>
     <string name="gl_residual_current_def">Bir devredeki tüm gerilim altındaki iletkenlerin akımlarının vektörel toplamı. Sağlam bir devrede sıfırdır; sıfırdan farkı, toprağa kaçan akımdır.</string>
     <string name="gl_resistivity_term">Özdirenç</string>
-    <string name="gl_resistivity_def">Bir malzemenin akıma ne kadar direndiği; şeklinden bağımsızdır. Sıcaklıkla artar; sıcak bir iletken, aynı kablo soğukken olduğundan daha fazla gerilim düşürür — bakırda 20 °C ile 70 °C arasında yaklaşık %20 fazla.</string>
+    <string name="gl_resistivity_def" formatted="false">Bir malzemenin akıma ne kadar direndiği; şeklinden bağımsızdır. Sıcaklıkla artar; sıcak bir iletken, aynı kablo soğukken olduğundan daha fazla gerilim düşürür — bakırda 20 °C ile 70 °C arasında yaklaşık %20 fazla.</string>
     <string name="gl_rms_term">Etkin değer (RMS)</string>
     <string name="gl_rms_def">Karekök ortalama: aynı ısınmayı üretecek DC değeri. Nitelenmeden verilen her AC gerilim ve akım etkin değerdir; 230 V etkin değerin tepe değeri yaklaşık 325 V'tur.</string>
     <string name="gl_selectivity_term">Selektivite (seçicilik)</string>
@@ -227,7 +227,7 @@
     <string name="gl_vfd_term">Sürücü (VFD)</string>
     <string name="gl_vfd_def">Besleme frekansını değiştirerek motor devrini ayarlayan elektronik sürücü. Bozulmuş, yüksek frekans içeriği yüksek bir akım çeker; B tipi RCD ve dikkatli kablo ekranlaması gerektirmesinin sebebi budur.</string>
     <string name="gl_voltage_drop_term">Gerilim düşümü</string>
-    <string name="gl_voltage_drop_def">İletkenin direnci yüzünden kablo boyunca kaybedilen gerilim. IEC 60364-5-52 Ek G, başlangıç noktasından ölçülmek üzere aydınlatmada %3, diğer devrelerde %5 içinde kalmasını önerir.</string>
+    <string name="gl_voltage_drop_def" formatted="false">İletkenin direnci yüzünden kablo boyunca kaybedilen gerilim. IEC 60364-5-52 Ek G, başlangıç noktasından ölçülmek üzere aydınlatmada %3, diğer devrelerde %5 içinde kalmasını önerir.</string>
     <string name="gl_voltage_factor_term">Gerilim faktörü</string>
     <string name="gl_voltage_factor_def">Her arıza hesabının güvenli yönde hata yapması için IEC 60909'un anma gerilimine uyguladığı tolerans: azami akım için 1,05, asgari akım için 0,95.</string>
     <string name="gl_withstand_current_term">Dayanım akımı</string>

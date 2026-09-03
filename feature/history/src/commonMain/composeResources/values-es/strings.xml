@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_clear_all">Borrar todo</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="action_duplicate">Duplicar</string>
+    <string name="action_rename">Renombrar</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_undo">Deshacer</string>
+    <string name="destination_history">Historial</string>
+    <string name="history_actions">Más acciones</string>
+    <string name="history_clear_message">Se eliminarán todos los cálculos guardados. Esto no se puede deshacer.</string>
+    <string name="history_clear_title">¿Borrar el historial?</string>
+    <string name="history_deleted">Cálculo eliminado</string>
+    <string name="history_rename_label">Nombre</string>
+    <string name="history_rename_title">Renombrar cálculo</string>
+    <string name="search_history_hint">Buscar cálculos guardados</string>
+    <string name="state_empty_history_message">Los resultados se guardan aquí automáticamente mientras calcula.</string>
+    <string name="state_empty_history_title">Aún no hay cálculos</string>
+</resources>

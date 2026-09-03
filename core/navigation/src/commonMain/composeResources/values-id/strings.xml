@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dashboard_calculators_subtitle">Drop tegangan, ukuran kabel, arus motor</string>
+    <string name="dashboard_calculators_title">Kalkulator</string>
+    <string name="dashboard_converter_subtitle">Konversi kelistrikan, fisika dan AWG</string>
+    <string name="dashboard_converter_title">Konverter Satuan</string>
+    <string name="dashboard_favorites_subtitle">Kalkulator yang Anda sematkan</string>
+    <string name="dashboard_favorites_title">Favorit</string>
+    <string name="dashboard_field_notes_subtitle">Mengapa dikerjakan begitu, dan apa yang salah bila tidak</string>
+    <string name="dashboard_field_notes_title">Info umum</string>
+    <string name="dashboard_forum_subtitle">Tanyakan hal yang tak bisa dijawab kalkulator</string>
+    <string name="dashboard_forum_title">Forum</string>
+    <string name="dashboard_glossary_subtitle">Istilah kelistrikan, Inggris dan Turki</string>
+    <string name="dashboard_glossary_title">Glosarium</string>
+    <string name="dashboard_history_subtitle">Semua perhitungan yang pernah Anda jalankan</string>
+    <string name="dashboard_history_title">Riwayat</string>
+    <string name="dashboard_projects_subtitle">Satukan rangkaian satu pekerjaan dan rancang sebagai satu kesatuan</string>
+    <string name="dashboard_projects_title">Proyek</string>
+    <string name="dashboard_references_subtitle">Tingkat IP/IK, kode warna dan tabel standar</string>
+    <string name="dashboard_references_title">Referensi</string>
+    <string name="dashboard_settings_subtitle">Tema, satuan dan informasi aplikasi</string>
+    <string name="dashboard_settings_title">Pengaturan</string>
+    <string name="dashboard_theory_subtitle">Asal rumusnya, dihitung dengan angka Anda</string>
+    <string name="dashboard_theory_title">Teori</string>
+    <string name="destination_calculators">Kalkulator</string>
+    <string name="destination_converter">Konverter</string>
+    <string name="destination_favorites">Favorit</string>
+    <string name="destination_field_notes">Info umum</string>
+    <string name="destination_forum">Forum</string>
+    <string name="destination_glossary">Glosarium</string>
+    <string name="destination_history">Riwayat</string>
+    <string name="destination_home">Beranda</string>
+    <string name="destination_more">Lainnya</string>
+    <string name="destination_projects">Proyek</string>
+    <string name="destination_references">Referensi</string>
+    <string name="destination_settings">Pengaturan</string>
+    <string name="destination_theory">Teori</string>
+    <string name="tab_calculators">Hitung</string>
+</resources>

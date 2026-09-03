@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calculator_notes">Catatan teknik</string>
+    <string name="cv_all_units">Dalam semua satuan</string>
+    <string name="cv_enter_value">Masukkan nilai untuk dikonversi</string>
+    <string name="cv_from">Dari</string>
+    <string name="cv_note_awg" formatted="false">AWG adalah deret geometri, bukan skala: nomornya mengecil saat penghantar membesar, dan ukuran di atas 0 ditulis 00, 000 dan 0000 — masukkan sebagai −1, −2 dan −3. Karena rumus dasarnya kontinu, luas penampang metrik dapat menghasilkan nomor di antara dua ukuran nyata; bulatkan ke penghantar yang lebih besar, yaitu nomor yang lebih kecil.</string>
+    <string name="cv_note_calorie" formatted="false">Digunakan kalori Tabel Internasional 4,1868 J agar sesuai dengan BTU IT pada kategori yang sama. Kalori termokimia 4,184 J lebih kecil 0,07 %.</string>
+    <string name="cv_note_horsepower" formatted="false">Daya kuda ada dua ukuran: hp mekanis 550 ft·lbf/s, PS metrik 75 kgf·m/s, keduanya berbeda sekitar 1,4 %. Papan nama motor di Eropa umumnya berarti PS. Keduanya disediakan alih-alih dipilihkan untuk Anda.</string>
+    <string name="cv_note_kcmil" formatted="false">Satu circular mil adalah luas lingkaran berdiameter seperseribu inci, sehingga kcmil adalah luas dan dikonversi secara persis. 4/0 AWG sama dengan 211,6 kcmil sama dengan 107,2 mm² — tiga cara menulis penghantar yang sama.</string>
+    <string name="cv_note_temperature" formatted="false">Suhu satu-satunya kategori yang tidak proporsional: 20 °C bukan dua kali 10 °C, karena skalanya menempatkan titik nol bukan pada nol mutlak. Konversi di sini memperhitungkan pergeseran itu, jadi selisih suhu tidak boleh dikonversi seolah-olah sebuah suhu.</string>
+    <string name="cv_note_va" formatted="false">Volt-ampere sengaja tidak ada di kategori daya. Daya semu berubah menjadi watt hanya melalui faktor daya, dan memperlakukan 1 kVA sebagai 1 kW akan salah pada setiap beban yang tidak murni resistif. Gunakan kalkulator daya untuk hubungan itu.</string>
+    <string name="cv_result_label">%1$s ke %2$s</string>
+    <string name="cv_swap">Tukar satuan</string>
+    <string name="cv_to">Ke</string>
+    <string name="cv_value">Nilai</string>
+    <string name="dashboard_converter_title">Konverter Satuan</string>
+    <string name="tab_converter">Konversi</string>
+    <string name="unit_category_angle">Sudut</string>
+    <string name="unit_category_area">Luas</string>
+    <string name="unit_category_capacitance">Kapasitansi</string>
+    <string name="unit_category_current">Arus</string>
+    <string name="unit_category_energy">Energi</string>
+    <string name="unit_category_frequency">Frekuensi</string>
+    <string name="unit_category_illuminance">Iluminansi</string>
+    <string name="unit_category_inductance">Induktansi</string>
+    <string name="unit_category_length">Panjang</string>
+    <string name="unit_category_mass">Massa</string>
+    <string name="unit_category_power">Daya</string>
+    <string name="unit_category_pressure">Tekanan</string>
+    <string name="unit_category_resistance">Resistansi</string>
+    <string name="unit_category_signal_power">Daya sinyal</string>
+    <string name="unit_category_temperature">Suhu</string>
+    <string name="unit_category_torque">Torsi</string>
+    <string name="unit_category_voltage">Tegangan</string>
+    <string name="unit_category_volume">Volume</string>
+    <string name="unit_category_wire_gauge">Ukuran penghantar</string>
+</resources>

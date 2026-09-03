@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Abbrechen</string>
+    <string name="action_clear_all">Alle löschen</string>
+    <string name="action_delete">Löschen</string>
+    <string name="action_duplicate">Duplizieren</string>
+    <string name="action_rename">Umbenennen</string>
+    <string name="action_save">Speichern</string>
+    <string name="action_undo">Rückgängig</string>
+    <string name="destination_history">Verlauf</string>
+    <string name="history_actions">Weitere Aktionen</string>
+    <string name="history_clear_message">Jede gespeicherte Berechnung wird entfernt. Das lässt sich nicht rückgängig machen.</string>
+    <string name="history_clear_title">Verlauf löschen?</string>
+    <string name="history_deleted">Berechnung gelöscht</string>
+    <string name="history_rename_label">Name</string>
+    <string name="history_rename_title">Berechnung umbenennen</string>
+    <string name="search_history_hint">Gespeicherte Berechnungen suchen</string>
+    <string name="state_empty_history_message">Ergebnisse werden hier beim Rechnen automatisch gespeichert.</string>
+    <string name="state_empty_history_title">Noch keine Berechnungen</string>
+</resources>

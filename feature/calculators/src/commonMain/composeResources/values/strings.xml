@@ -22,8 +22,8 @@
     <string name="bt_history_summary">%1$s h</string>
     <string name="bt_history_title">Battery runtime — %1$s Ah, %2$s W</string>
     <string name="bt_load_power">Load power</string>
-    <string name="bt_note_conditions">A constant load, a healthy bank at nameplate capacity and a nominal temperature are assumed. Capacity falls with age and with cold — roughly 20 % at 0 °C for lead-acid — so a design should carry margin beyond this figure.</string>
-    <string name="bt_note_dod">Depth of discharge protects battery life, not the calculation. Taking a lead-acid bank below about 50 % shortens its service life sharply; lithium tolerates 80–90 %.</string>
+    <string name="bt_note_conditions" formatted="false">A constant load, a healthy bank at nameplate capacity and a nominal temperature are assumed. Capacity falls with age and with cold — roughly 20 % at 0 °C for lead-acid — so a design should carry margin beyond this figure.</string>
+    <string name="bt_note_dod" formatted="false">Depth of discharge protects battery life, not the calculation. Taking a lead-acid bank below about 50 % shortens its service life sharply; lithium tolerates 80–90 %.</string>
     <string name="bt_note_efficiency">System efficiency covers the inverter and wiring. The bank supplies more power than the load receives, which is why the discharge current is higher than load power over bank voltage.</string>
     <string name="bt_note_peukert">A battery's capacity is only valid at the rate it was measured at. Discharge it harder and you get less than the nameplate amp-hours. The naive t = C / I ignores this and overestimates runtime — sometimes by a third at high rates.</string>
     <string name="bt_note_rate_matters">A capacity figure without its rate is meaningless. 100 Ah at C/1 describes a far stronger cell than 100 Ah at C/20, which is why the rate is a required input.</string>
@@ -96,7 +96,7 @@
     <string name="cf_history_title">Conduit fill — %1$s mm, %2$s cables</string>
     <string name="cf_note_diameter">Metric conduit is named by its outside diameter, so a 20 mm conduit has a bore nearer 17 mm. Take the internal figure from the manufacturer's data; using the nominal size overstates the space by about a third.</string>
     <string name="cf_note_grouping">Passing this check does not remove the grouping derating. Cables bunched in a conduit carry less current than the same cables in free air — size them with the cable size calculator.</string>
-    <string name="cf_note_nec">NEC Chapter 9, Table 1: 53 % for a single cable, 31 % for two, 40 % for three or more. The step down at two is not an error — two circles pack badly inside a third, so the usable fraction drops.</string>
+    <string name="cf_note_nec" formatted="false">NEC Chapter 9, Table 1: 53 % for a single cable, 31 % for two, 40 % for three or more. The step down at two is not an error — two circles pack badly inside a third, so the usable fraction drops.</string>
     <string name="cf_note_pull">Length and bends matter as much as area. A long run with several bends may be impractical at the permitted fill; add a draw box rather than forcing the pull.</string>
     <string name="cf_note_standards">IEC 61386 is a product standard for conduit systems and sets no fill percentage. BS 7671 and the IET On-Site Guide use cable and conduit factors instead, which already account for the run's length and bends. Use the custom limit to work to either.</string>
     <string name="cf_note_why">The limit is about installing the cable, not fitting it. A bundle has to slide past bends without the sheath being torn, and needs air around it to shed heat. An over-filled conduit is one that either cannot be pulled or cooks what is inside it.</string>
@@ -115,7 +115,7 @@
     <string name="cf_rule">Fill limit</string>
     <string name="cf_rule_custom">Custom</string>
     <string name="cf_rule_nec">NEC Table 1</string>
-    <string name="cf_rule_nec_hint">53 % for one cable, 31 % for two, 40 % for three or more</string>
+    <string name="cf_rule_nec_hint" formatted="false">53 % for one cable, 31 % for two, 40 % for three or more</string>
     <string name="cf_step_additional">Largest cable that could still be pulled in</string>
     <string name="cf_step_cable_area">Summed cable section</string>
     <string name="cf_step_conduit_area">Internal area of the conduit</string>
@@ -166,7 +166,7 @@
     <string name="cs_insulation">Insulation</string>
     <string name="cs_insulation_pvc">PVC 70 °C</string>
     <string name="cs_insulation_xlpe">XLPE 90 °C</string>
-    <string name="cs_max_drop_hint">3 % for lighting, 5 % for other circuits</string>
+    <string name="cs_max_drop_hint" formatted="false">3 % for lighting, 5 % for other circuits</string>
     <string name="cs_max_drop_label">Permitted voltage drop</string>
     <string name="cs_method_b1">B1</string>
     <string name="cs_method_b1_full">B1 — conductors in conduit on a wall</string>
@@ -178,7 +178,7 @@
     <string name="cs_method_e_full">E — free air or perforated tray</string>
     <string name="cs_no_solution_message">No tabulated cross-section satisfies these inputs. Consider conductors in parallel, a shorter run, or a higher permitted voltage drop.</string>
     <string name="cs_no_solution_title">No standard size fits</string>
-    <string name="cs_note_derating">Tabulated capacities assume a single circuit at 30 °C. Ambient temperature and grouping factors are applied on top; six circuits bunched together lose about 43 % of their rating.</string>
+    <string name="cs_note_derating" formatted="false">Tabulated capacities assume a single circuit at 30 °C. Ambient temperature and grouping factors are applied on top; six circuits bunched together lose about 43 % of their rating.</string>
     <string name="cs_note_protection">This calculator sizes the conductor only. Coordination with the protective device (Ib ≤ In ≤ Iz) and the disconnection time for fault protection must be checked separately.</string>
     <string name="cs_note_tables">Capacities follow the reference installation methods of IEC 60364-5-52 Annex B. Verify against the edition or national adoption that applies to your project, and against the cable manufacturer's data.</string>
     <string name="cs_note_two_constraints">A cable must satisfy two independent requirements: carry the current without overheating, and deliver usable voltage at the load. The answer is the larger of the two sizes. Sizing on voltage drop alone can return a conductor that overheats.</string>
@@ -444,7 +444,7 @@
     <string name="lt_note_average">The lumen method gives an average over the working plane. It says nothing about uniformity, glare or what happens at the edges of the room — all of which a real lighting design has to answer.</string>
     <string name="lt_note_height">Mounting height is measured above the working plane, not above the floor. Using the ceiling height is the most common way the room index comes out wrong.</string>
     <string name="lt_note_layout">The suggested layout is the pair of factors closest to square. Spacing, not count, is what decides uniformity.</string>
-    <string name="lt_note_rounding">The count is rounded up. Rounding 4,2 down to 4 is a design that misses its own target by 5 %.</string>
+    <string name="lt_note_rounding" formatted="false">The count is rounded up. Rounding 4,2 down to 4 is a design that misses its own target by 5 %.</string>
     <string name="lt_note_uf">The utilisation factor is specific to the luminaire, the room proportions and the surface reflectances. Take it from the manufacturer's table against the room index this calculator reports.</string>
     <string name="lt_result_achieved">Achieved illuminance</string>
     <string name="lt_result_area">Floor area</string>
@@ -478,9 +478,9 @@
     <string name="ms_locked_rotor">Locked rotor current, as a multiple of In</string>
     <string name="ms_locked_rotor_hint">From the motor plate. Six is typical; seven and eight are not unusual.</string>
     <string name="ms_method">Starting method</string>
-    <string name="ms_method_auto">Autotransformer, 65 %</string>
+    <string name="ms_method_auto" formatted="false">Autotransformer, 65 %</string>
     <string name="ms_method_dol">Direct on line</string>
-    <string name="ms_method_soft">Soft start, 50 %</string>
+    <string name="ms_method_soft" formatted="false">Soft start, 50 %</string>
     <string name="ms_method_star_delta">Star-delta</string>
     <string name="ms_note_scope">The cable between transformer and motor is not counted, so the dip at the motor itself is deeper than this. Neither is the star-delta transition peak, which can approach the direct-on-line current for a few cycles.</string>
     <string name="ms_note_torque">Torque follows the square of the voltage at the terminals, on top of whatever the starting method already gives up. A gentler start is not free: a method that thirds the current also thirds the pull, and a loaded machine may fail to turn.</string>
@@ -500,7 +500,7 @@
     <string name="ms_warn_contactor">Contactor coils may release at this depth. A start that takes the rest of the board with it is not a start.</string>
     <string name="ms_warn_flicker">Deep enough to be seen in the lighting.</string>
     <string name="mt_efficiency">Efficiency (η)</string>
-    <string name="mt_efficiency_hint">From the nameplate; typically 85–95 % for an IE3 motor</string>
+    <string name="mt_efficiency_hint" formatted="false">From the nameplate; typically 85–95 % for an IE3 motor</string>
     <string name="mt_example_dol">5.5 kW direct-on-line</string>
     <string name="mt_example_hp">Nameplate in horsepower</string>
     <string name="mt_example_large">75 kW motor</string>
@@ -516,7 +516,7 @@
     <string name="mt_note_dc">On a DC supply there is no phase angle, so power factor is ignored and there is no reactive component.</string>
     <string name="mt_note_full_load">Efficiency and power factor are both full load values. Both fall substantially at part load, so this result does not describe a lightly loaded motor.</string>
     <string name="mt_note_nameplate">Where the nameplate states a rated current, prefer it over a calculated value: it reflects the actual machine rather than assumed efficiency and power factor.</string>
-    <string name="mt_note_shaft_output">A motor's nameplate rating is its mechanical output at the shaft, not the electrical power it draws. The input is larger by the efficiency, so omitting that division under-reports the current by 8–15 % — enough to undersize a cable or a protective device.</string>
+    <string name="mt_note_shaft_output" formatted="false">A motor's nameplate rating is its mechanical output at the shaft, not the electrical power it draws. The input is larger by the efficiency, so omitting that division under-reports the current by 8–15 % — enough to undersize a cable or a protective device.</string>
     <string name="mt_note_starting">Starting current is the steady-state locked rotor value. The initial peak includes a DC transient and is higher; motor protection and voltage dip studies need that peak, not this figure.</string>
     <string name="mt_power_unit">Power unit</string>
     <string name="mt_rated_power">Rated power</string>
@@ -553,7 +553,7 @@
     <string name="nc_export_neutral">Neutral: %1$s A</string>
     <string name="nc_export_split">Unbalance %1$s A, third harmonic %2$s A</string>
     <string name="nc_formula">I_u = √(I₁² + I₂² + I₃² − I₁I₂ − I₂I₃ − I₃I₁)\nI_N = √(I_u² + (3 · I₃)²)</string>
-    <string name="nc_harmonic_hint">Of the line current. Zero for a linear load; 30 – 70 % on a board full of electronics.</string>
+    <string name="nc_harmonic_hint" formatted="false">Of the line current. Zero for a linear load; 30 – 70 % on a board full of electronics.</string>
     <string name="nc_harmonic_label">Third harmonic content</string>
     <string name="nc_history_summary">%1$s A</string>
     <string name="nc_history_title">Neutral — %1$s / %2$s / %3$s A</string>
@@ -561,7 +561,7 @@
     <string name="nc_line_2_label">Line 2 current</string>
     <string name="nc_line_3_label">Line 3 current</string>
     <string name="nc_note_cancellation">On a balanced linear circuit the line currents cancel in the neutral, which is why the neutral is traditionally the smallest conductor in the cable.</string>
-    <string name="nc_note_derating">IEC 60364-5-52 requires the neutral to be counted as a loaded conductor once third-harmonic content passes 15 %, and the cable derated accordingly.</string>
+    <string name="nc_note_derating" formatted="false">IEC 60364-5-52 requires the neutral to be counted as a loaded conductor once third-harmonic content passes 15 %, and the cable derated accordingly.</string>
     <string name="nc_note_measurement">Measure the harmonic content with a true-RMS instrument. A mean-reading clamp under-reads distorted current, which is exactly the case you are trying to find.</string>
     <string name="nc_note_quadrature">The two contributions are at different frequencies, so they combine in quadrature. Adding them arithmetically would overstate the neutral by a wide margin.</string>
     <string name="nc_note_triplen">The third harmonic and its multiples arrive in phase and add up instead. A perfectly balanced board can put three times one line's third-harmonic current into the neutral.</string>
@@ -687,7 +687,7 @@
     <string name="sc_note_next">A fault current on its own proves nothing. Compare the minimum against the current that operates the device in the required time, and check that the protective conductor survives the let-through energy. Both are in the Earth Fault Loop calculator.</string>
     <string name="sc_note_origin">If the supply is a transformer with no upstream network figure, the Transformer calculator gives the current at its terminals — but that value assumes an infinite bus and is only a starting point.</string>
     <string name="sc_note_scalar">Supply and cable impedances are added as magnitudes, which is what loop impedance testers and IEC 60364 practice do. Their angles differ — a transformer-fed supply is mostly reactive, an LV cable mostly resistive — so the sum slightly overstates the loop and the current comes out a little low. That is the safe direction for verifying disconnection. Close to the origin, where breaking capacity is being selected, use a full IEC 60909 study.</string>
-    <string name="sc_note_temperature">Copper gains about 20 % resistance between 20 °C and its 70 °C PVC rating, and about 27 % at the 90 °C XLPE rating. On a long run that alone separates the two currents by more than the voltage factors do.</string>
+    <string name="sc_note_temperature" formatted="false">Copper gains about 20 % resistance between 20 °C and its 70 °C PVC rating, and about 27 % at the 90 °C XLPE rating. On a long run that alone separates the two currents by more than the voltage factors do.</string>
     <string name="sc_note_two_currents">Two currents come out because two decisions need them, and using one where the other belongs is the mistake this calculator exists to prevent. The maximum (c = 1.05, conductor cold) is the most a device may have to interrupt. The minimum (c = 0.95, conductor at its rated temperature) is a fault at the end of a fully loaded cable — the least current the device will ever see, and the figure that proves it trips.</string>
     <string name="sc_reactance">Cable reactance</string>
     <string name="sc_reactance_hint">Typically 0.08 for LV multicore. From the manufacturer where it matters.</string>
@@ -804,7 +804,7 @@
     <string name="tf_history_title">Tray fill — %1$s mm, %2$s cables</string>
     <string name="tf_limit">Permitted fill</string>
     <string name="tf_limit_hint">A design convention, not a code figure — see the notes</string>
-    <string name="tf_note_arrangement">Which limit binds depends on how the cables lie. Four 20 mm cables across a 100 mm tray take 80 % of its width but only 21 % of its cross-section — an area percentage alone would call that tray four fifths empty when nothing more can be laid in it.</string>
+    <string name="tf_note_arrangement" formatted="false">Which limit binds depends on how the cables lie. Four 20 mm cables across a 100 mm tray take 80 % of its width but only 21 % of its cross-section — an area percentage alone would call that tray four fifths empty when nothing more can be laid in it.</string>
     <string name="tf_note_depth">The depth figure assumes ideal packing, so treat it as a lower bound — round cables in a real tray sit looser than that.</string>
     <string name="tf_note_load">Geometry is not the usual failure. A tray is rated in kg per metre of span, and a full tray of copper reaches that long before it looks full. Total the cable weights and check them against the tray's rated load and support spacing.</string>
     <string name="tf_note_single_layer">Power cables are normally laid in a single layer so each can shed heat to the air. Stacking them is what forces the grouping derating up, and a tray that passes on area can still be a thermal problem.</string>
@@ -864,7 +864,7 @@
     <string name="tx_formula">I = S / (k · U)\nI_sc = I₂ · 100 / u_k</string>
     <string name="tx_history_summary">%1$s A</string>
     <string name="tx_history_title">Transformer — %1$s kVA, %2$s/%3$s V</string>
-    <string name="tx_impedance_hint">From the nameplate; typically 4 % up to 630 kVA and 6 % above</string>
+    <string name="tx_impedance_hint" formatted="false">From the nameplate; typically 4 % up to 630 kVA and 6 % above</string>
     <string name="tx_impedance_label">Impedance voltage (u_k)</string>
     <string name="tx_note_ampere_turns">Primary and secondary currents are in inverse proportion to the voltage ratio, which is the ampere-turns balance of an ideal transformer. Magnetising current and losses are neglected.</string>
     <string name="tx_note_apparent_power">Transformers are rated in apparent power (kVA), not active power (kW). Their limit is set by current and voltage, so the load's power factor does not change the full load current.</string>
@@ -911,9 +911,9 @@
     <string name="vd_note_balanced">The three-phase result assumes a balanced load, so no neutral current is included in the loss figure.</string>
     <string name="vd_note_dc_pf">Power factor is ignored on a DC supply, where there is no phase angle.</string>
     <string name="vd_note_length">Enter the one-way route length. The factor of 2 (DC and single phase) or √3 (three phase) already accounts for the return path and the line-to-line reference.</string>
-    <string name="vd_note_limits">Limits follow IEC 60364-5-52 Annex G: 3 % for lighting and 5 % for other uses, measured from the origin of the installation.</string>
+    <string name="vd_note_limits" formatted="false">Limits follow IEC 60364-5-52 Annex G: 3 % for lighting and 5 % for other uses, measured from the origin of the installation.</string>
     <string name="vd_note_reactance">Conductor reactance is neglected. This is the standard simplified method and is accurate where resistance dominates (roughly up to 16 mm²). For larger conductors, reactance adds to the drop — use the manufacturer's mV/A/m data instead.</string>
-    <string name="vd_note_temperature">Resistivity is corrected to the conductor operating temperature. A copper conductor at 70 °C is about 20 % more resistive than at 20 °C, so calculating at ambient under-reports the drop by the same margin.</string>
+    <string name="vd_note_temperature" formatted="false">Resistivity is corrected to the conductor operating temperature. A copper conductor at 70 °C is about 20 % more resistive than at 20 °C, so calculating at ambient under-reports the drop by the same margin.</string>
     <string name="vd_result_label">Voltage drop</string>
     <string name="vd_result_power_loss">Power loss</string>
     <string name="vd_result_resistance">Conductor resistance</string>

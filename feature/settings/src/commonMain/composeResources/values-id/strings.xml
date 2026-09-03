@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Batal</string>
+    <string name="action_close">Tutup</string>
+    <string name="action_reset">Setel ulang</string>
+    <string name="common_material_aluminium">Aluminium</string>
+    <string name="common_material_copper">Tembaga</string>
+    <string name="cs_insulation_pvc">PVC 70 °C</string>
+    <string name="cs_insulation_xlpe">XLPE 90 °C</string>
+    <string name="cs_method_b1">B1</string>
+    <string name="cs_method_b1_full">B1 — penghantar dalam pipa di dinding</string>
+    <string name="cs_method_b2">B2</string>
+    <string name="cs_method_b2_full">B2 — kabel berinti banyak dalam pipa</string>
+    <string name="cs_method_c">C</string>
+    <string name="cs_method_c_full">C — diklem langsung pada permukaan</string>
+    <string name="cs_method_e">E</string>
+    <string name="cs_method_e_full">E — di udara bebas atau pada tray berlubang</string>
+    <string name="destination_settings">Pengaturan</string>
+    <string name="forum_account_section">Akun forum</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="settings_about">Tentang</string>
+    <string name="settings_appearance">Tampilan</string>
+    <string name="settings_engineering">Nilai bawaan teknik</string>
+    <string name="settings_engineering_ambient">Suhu sekitar</string>
+    <string name="settings_engineering_frequency">Frekuensi jaringan</string>
+    <string name="settings_engineering_insulation">Isolasi</string>
+    <string name="settings_engineering_material">Bahan penghantar</string>
+    <string name="settings_engineering_method">Metode pemasangan</string>
+    <string name="settings_engineering_reset">Setel ulang nilai bawaan</string>
+    <string name="settings_engineering_reset_message">Mengganti setiap nilai di atas dengan nilai yang dipakai pemasangan baru untuk wilayah Anda. Perhitungan tersimpan tidak terpengaruh.</string>
+    <string name="settings_engineering_single_phase">Tegangan satu fasa</string>
+    <string name="settings_engineering_summary">Nilai yang dipakai setiap kalkulator saat dibuka. Ditebak sekali dari wilayah Anda saat aplikasi pertama dipasang, dan sejak itu milik Anda — mengganti bahasa aplikasi tidak mengubahnya. Setel ulang menjalankan tebakan itu lagi.</string>
+    <string name="settings_engineering_three_phase">Tegangan tiga fasa</string>
+    <string name="settings_language">Bahasa</string>
+    <string name="settings_language_description">Pilih bahasa tampilan aplikasi</string>
+    <string name="settings_language_system">Bawaan sistem</string>
+    <string name="settings_language_partial">Kalkulator, proyek, forum dan pengaturan diterjemahkan ke semua bahasa yang terdaftar. Tabel referensi, teori, glosarium dan info umum hanya ditulis dalam bahasa Inggris dan Turki, dan tetap berbahasa Inggris pada bahasa lain.</string>
+    <string name="settings_legal">Hukum</string>
+    <string name="settings_licenses">Lisensi sumber terbuka</string>
+    <string name="settings_privacy_policy">Kebijakan privasi</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_dark">Gelap</string>
+    <string name="settings_theme_light">Terang</string>
+    <string name="settings_theme_system">Bawaan sistem</string>
+    <string name="settings_unit_system">Sistem satuan</string>
+    <string name="settings_unit_system_imperial">Imperial (AWG, ft)</string>
+    <string name="settings_unit_system_metric">Metrik (mm², m)</string>
+    <string name="settings_units">Satuan</string>
+    <string name="settings_version">Versi</string>
+</resources>

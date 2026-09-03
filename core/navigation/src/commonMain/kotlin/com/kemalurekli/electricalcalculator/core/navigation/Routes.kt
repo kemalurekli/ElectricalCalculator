@@ -192,6 +192,17 @@ sealed interface Route {
     @Serializable
     data class Paywall(val reason: String = PaywallReason.GENERAL) : Route
 
+    /**
+     * The display-language picker.
+     *
+     * Its own screen rather than a group in settings. At two languages it was
+     * two rows; at twelve it would be a screen's worth of radio buttons sitting
+     * between the theme and the units, pushing everything else out of reach of
+     * anybody who was not looking for a language.
+     */
+    @Serializable
+    data object Language : Route
+
     /** The list of jobs. */
     @Serializable
     data object Projects : Route

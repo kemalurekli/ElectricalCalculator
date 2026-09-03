@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Hủy</string>
+    <string name="action_clear_all">Xóa tất cả</string>
+    <string name="action_delete">Xóa</string>
+    <string name="action_duplicate">Nhân bản</string>
+    <string name="action_rename">Đổi tên</string>
+    <string name="action_save">Lưu</string>
+    <string name="action_undo">Hoàn tác</string>
+    <string name="destination_history">Lịch sử</string>
+    <string name="history_actions">Thao tác khác</string>
+    <string name="history_clear_message">Mọi phép tính đã lưu sẽ bị xóa. Không thể hoàn tác.</string>
+    <string name="history_clear_title">Xóa lịch sử?</string>
+    <string name="history_deleted">Đã xóa phép tính</string>
+    <string name="history_rename_label">Tên</string>
+    <string name="history_rename_title">Đổi tên phép tính</string>
+    <string name="search_history_hint">Tìm trong phép tính đã lưu</string>
+    <string name="state_empty_history_message">Kết quả được lưu tại đây tự động khi bạn tính toán.</string>
+    <string name="state_empty_history_title">Chưa có phép tính</string>
+</resources>

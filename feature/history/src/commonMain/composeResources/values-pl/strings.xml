@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Anuluj</string>
+    <string name="action_clear_all">Wyczyść wszystko</string>
+    <string name="action_delete">Usuń</string>
+    <string name="action_duplicate">Duplikuj</string>
+    <string name="action_rename">Zmień nazwę</string>
+    <string name="action_save">Zapisz</string>
+    <string name="action_undo">Cofnij</string>
+    <string name="destination_history">Historia</string>
+    <string name="history_actions">Więcej działań</string>
+    <string name="history_clear_message">Wszystkie zapisane obliczenia zostaną usunięte. Tej operacji nie można cofnąć.</string>
+    <string name="history_clear_title">Wyczyścić historię?</string>
+    <string name="history_deleted">Obliczenie usunięte</string>
+    <string name="history_rename_label">Nazwa</string>
+    <string name="history_rename_title">Zmień nazwę obliczenia</string>
+    <string name="search_history_hint">Szukaj w zapisanych obliczeniach</string>
+    <string name="state_empty_history_message">Wyniki zapisują się tutaj automatycznie podczas obliczeń.</string>
+    <string name="state_empty_history_title">Brak obliczeń</string>
+</resources>

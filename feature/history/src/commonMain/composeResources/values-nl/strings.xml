@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Annuleren</string>
+    <string name="action_clear_all">Alles wissen</string>
+    <string name="action_delete">Verwijderen</string>
+    <string name="action_duplicate">Dupliceren</string>
+    <string name="action_rename">Naam wijzigen</string>
+    <string name="action_save">Opslaan</string>
+    <string name="action_undo">Ongedaan maken</string>
+    <string name="destination_history">Geschiedenis</string>
+    <string name="history_actions">Meer acties</string>
+    <string name="history_clear_message">Alle bewaarde berekeningen worden verwijderd. Dit kan niet ongedaan worden gemaakt.</string>
+    <string name="history_clear_title">Geschiedenis wissen?</string>
+    <string name="history_deleted">Berekening verwijderd</string>
+    <string name="history_rename_label">Naam</string>
+    <string name="history_rename_title">Berekening hernoemen</string>
+    <string name="search_history_hint">Bewaarde berekeningen zoeken</string>
+    <string name="state_empty_history_message">Resultaten worden hier automatisch bewaard terwijl u rekent.</string>
+    <string name="state_empty_history_title">Nog geen berekeningen</string>
+</resources>

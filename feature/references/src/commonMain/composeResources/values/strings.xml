@@ -259,8 +259,8 @@
     <string name="ref_materials_conductivity">Conductivity</string>
     <string name="ref_materials_density">Density</string>
     <string name="ref_materials_description">Resistivity, density and conductivity</string>
-    <string name="ref_materials_iacs_aluminium">About 61 % IACS</string>
-    <string name="ref_materials_iacs_copper">100 % IACS, the reference</string>
+    <string name="ref_materials_iacs_aluminium" formatted="false">About 61 % IACS</string>
+    <string name="ref_materials_iacs_copper" formatted="false">100 % IACS, the reference</string>
     <string name="ref_materials_resistivity">Resistivity at 20 °C</string>
     <string name="ref_materials_resistivity_note">These are the values the app calculates with, not a separate table — a figure quoted here cannot drift away from the one the cable calculators use. Correct for temperature: ρ(θ) = ρ₂₀ · [1 + α₂₀ · (θ − 20)].</string>
     <string name="ref_materials_source">IEC 60228 · IEC 60287</string>
@@ -345,7 +345,7 @@
     <string name="ref_pr_harmonics_callout">A K-factor or K-rated transformer is built to survive harmonic heating, not to remove it. The harmonics are still in the cable and still in the neutral.</string>
     <string name="ref_pr_harmonics_description">Why a neutral can carry more than any line, and what THD is actually telling you.</string>
     <string name="ref_pr_harmonics_s0_p0">On a balanced three-phase system the fundamental currents cancel in the neutral, which is why the neutral is often the smallest conductor in the cable. The third harmonic and its multiples do not: they arrive in phase with each other and add up. A supply feeding banks of switched-mode power supplies can put more current in the neutral than in any line.</string>
-    <string name="ref_pr_harmonics_s0_p1">That is a sizing problem before it is a power-quality problem. IEC 60364-5-52 requires the neutral to be counted as a loaded conductor once third-harmonic content passes 15 %, and the cable derated accordingly — which is a smaller cable carrying a larger current if nobody checked.</string>
+    <string name="ref_pr_harmonics_s0_p1" formatted="false">That is a sizing problem before it is a power-quality problem. IEC 60364-5-52 requires the neutral to be counted as a loaded conductor once third-harmonic content passes 15 %, and the cable derated accordingly — which is a smaller cable carrying a larger current if nobody checked.</string>
     <string name="ref_pr_harmonics_s0_title">The third harmonic does not cancel</string>
     <string name="ref_pr_harmonics_s1_r0_l">Switched-mode supplies, LED drivers</string>
     <string name="ref_pr_harmonics_s1_r0_n">Worst case for the neutral</string>
@@ -356,7 +356,7 @@
     <string name="ref_pr_harmonics_s1_r3_l">Motors, heaters</string>
     <string name="ref_pr_harmonics_s1_r3_n">Linear; no harmonic contribution</string>
     <string name="ref_pr_harmonics_s1_title">What produces what</string>
-    <string name="ref_pr_harmonics_s2_p0">A THD of 40 % on a circuit drawing 2 A is nothing; the same figure on a 200 A feeder is a transformer problem. Current THD is a ratio, so it says how distorted the current is and not how much distorted current there is. Ask for the amps.</string>
+    <string name="ref_pr_harmonics_s2_p0" formatted="false">A THD of 40 % on a circuit drawing 2 A is nothing; the same figure on a 200 A feeder is a transformer problem. Current THD is a ratio, so it says how distorted the current is and not how much distorted current there is. Ask for the amps.</string>
     <string name="ref_pr_harmonics_s2_title">What THD does not tell you</string>
     <string name="ref_pr_harmonics_source">IEC 61000 series</string>
     <string name="ref_pr_harmonics_title">Harmonics</string>
@@ -407,7 +407,7 @@
     <string name="ref_pr_nameplate_source">IEC 60034-1 and IEC 60076-1</string>
     <string name="ref_pr_nameplate_title">Reading a nameplate</string>
     <string name="ref_pr_powerquality_description">Dips, swells, flicker and unbalance: what causes them and what they break.</string>
-    <string name="ref_pr_powerquality_s0_p0">A voltage dip is almost always a large load starting or a fault clearing somewhere on the network — yours or a neighbour's. It lasts cycles, not seconds, and the equipment that notices is the equipment with a contactor: the coil drops out at around 70 % and the process stops even though nothing was damaged.</string>
+    <string name="ref_pr_powerquality_s0_p0" formatted="false">A voltage dip is almost always a large load starting or a fault clearing somewhere on the network — yours or a neighbour's. It lasts cycles, not seconds, and the equipment that notices is the equipment with a contactor: the coil drops out at around 70 % and the process stops even though nothing was damaged.</string>
     <string name="ref_pr_powerquality_s0_title">Most of it is somebody else's motor</string>
     <string name="ref_pr_powerquality_s1_r0_l">Dip (sag)</string>
     <string name="ref_pr_powerquality_s1_r0_n">Motor starting, fault clearing</string>
@@ -671,7 +671,7 @@
     <string name="ref_sel_rcdtype_source">IEC 61008 / IEC 62423</string>
     <string name="ref_sel_rcdtype_table_title">What each type detects</string>
     <string name="ref_sel_rcdtype_title">Choosing an RCD type</string>
-    <string name="ref_sel_starting_callout">A drive is not only a starting method. If the load ever runs at part speed it pays for itself in energy, and a fan at 80 % speed draws about half the power.</string>
+    <string name="ref_sel_starting_callout" formatted="false">A drive is not only a starting method. If the load ever runs at part speed it pays for itself in energy, and a fan at 80 % speed draws about half the power.</string>
     <string name="ref_sel_starting_col_0">Direct on line</string>
     <string name="ref_sel_starting_col_1">Star-delta</string>
     <string name="ref_sel_starting_col_2">Soft starter</string>

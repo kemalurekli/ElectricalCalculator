@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="more_group_shelves">Инструменты и справочники</string>
+    <string name="more_group_yours">Ваше</string>
+    <string name="more_title">Ещё</string>
+</resources>

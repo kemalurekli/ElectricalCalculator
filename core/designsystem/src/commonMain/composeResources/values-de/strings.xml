@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_back">Zurück</string>
+    <string name="action_copy">Kopieren</string>
+    <string name="action_favorite_add">Zu Favoriten</string>
+    <string name="action_favorite_remove">Aus Favoriten entfernen</string>
+    <string name="action_retry">Erneut versuchen</string>
+    <string name="action_share">Teilen</string>
+    <string name="cable_row_diameter">Außendurchmesser</string>
+    <string name="cable_row_quantity">Anz.</string>
+    <string name="cable_row_remove">Diese Leitung entfernen</string>
+    <string name="calculator_notes_read_more">Mehr lesen</string>
+    <string name="disclaimer_accept">Gelesen und akzeptiert</string>
+    <string name="disclaimer_body" formatted="false">Diese Anwendung dient ausschließlich der allgemeinen Information.\n\nFür die enthaltenen Berechnungen, Ergebnisse, Tabellen und Erläuterungen wird keinerlei Haftung übernommen. Die Ergebnisse dürfen nicht als Grundlage für wissenschaftliche oder ingenieurtechnische Arbeiten verwendet werden.\n\nDie Verantwortung für jede Nutzung dieser Anwendung und für die Überprüfung aller daraus entnommenen Angaben liegt vollständig beim Anwender. Die Anwendung und ihre Entwickler haften unter keinen Umständen für Verluste oder Schäden, die aus ihrer Nutzung entstehen.\n\nDie Inhalte und die Anwendung selbst wurden mit Unterstützung künstlicher Intelligenz erstellt. Nutzen Sie sie in diesem Bewusstsein.\n\nDas Forum enthält Beiträge anderer Nutzer. Nichts davon wird von den Entwicklern geprüft, verifiziert oder bestätigt, es ist keine ingenieurtechnische Beratung, und die Verantwortung für alles, was danach getan wird, liegt beim Leser. Sie sind für Ihre eigenen Beiträge verantwortlich und dafür, keine personenbezogenen Daten Dritter zu veröffentlichen.\n\nWo an anderer Stelle in dieser Anwendung etwas anderes zu stehen scheint, gelten die hier festgelegten Bedingungen.\n\nMit der Nutzung dieser Anwendung gelten die vorstehenden Bedingungen als angenommen.</string>
+    <string name="disclaimer_title">Haftungsausschluss</string>
+    <string name="search_clear">Suche löschen</string>
+    <string name="search_hint">Rechner, Umrechner, Referenzen suchen</string>
+    <string name="state_empty_favorites_message">Heften Sie einen Rechner an, damit er auf der Startseite bleibt.</string>
+    <string name="state_empty_favorites_title">Noch keine Favoriten</string>
+    <string name="state_error_title">Etwas ist schiefgelaufen</string>
+    <string name="state_in_development_message">Dieser Bereich entsteht gerade und kommt in einer späteren Version.</string>
+    <string name="state_in_development_title">Noch nicht verfügbar</string>
+    <string name="state_just_now">Gerade eben</string>
+    <string name="state_loading">Wird geladen</string>
+    <string name="validation_below_minimum">Geben Sie einen Wert von %1$s oder mehr ein</string>
+    <string name="validation_exceeds_maximum">Geben Sie einen Wert von %1$s oder weniger ein</string>
+    <string name="validation_must_be_positive">Geben Sie einen Wert größer als null ein</string>
+    <string name="validation_must_not_be_negative">Geben Sie einen Wert von null oder mehr ein</string>
+    <string name="validation_not_a_number">Geben Sie eine gültige Zahl ein</string>
+    <string name="validation_out_of_range">Geben Sie einen Wert zwischen %1$s und %2$s ein</string>
+    <string name="validation_required">Dieser Wert wird benötigt</string>
+    <string name="calculator_examples">Beispielszenarien</string>
+    <string name="calculator_examples_hint">Laden Sie einen realistischen Fall und sehen Sie ihn durchgerechnet.</string>
+    <string name="calculator_steps">Schritt für Schritt</string>
+</resources>

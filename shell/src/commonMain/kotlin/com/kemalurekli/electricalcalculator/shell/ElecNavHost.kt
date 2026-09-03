@@ -46,6 +46,7 @@ import com.kemalurekli.electricalcalculator.features.projects.presentation.Proje
 import com.kemalurekli.electricalcalculator.features.projects.presentation.ProjectsRoute
 import com.kemalurekli.electricalcalculator.features.references.presentation.ReferenceDetailRoute
 import com.kemalurekli.electricalcalculator.features.references.presentation.ReferencesRoute
+import com.kemalurekli.electricalcalculator.features.settings.presentation.LanguageRoute
 import com.kemalurekli.electricalcalculator.features.settings.presentation.SettingsRoute
 import com.kemalurekli.electricalcalculator.features.theory.presentation.TheoryRoute
 import com.kemalurekli.electricalcalculator.features.theory.presentation.TheoryTopicRoute
@@ -163,7 +164,12 @@ fun ElecNavHost(
             SettingsRoute(
                 onNavigateBack = actions::navigateBack,
                 onOpenForumAccount = { actions.navigateTo(Route.ForumAccount) },
+                onOpenLanguage = { actions.navigateTo(Route.Language) },
             )
+        }
+
+        composable<Route.Language> {
+            LanguageRoute(onNavigateBack = actions::navigateBack)
         }
 
         composable<Route.ForumAccount> {

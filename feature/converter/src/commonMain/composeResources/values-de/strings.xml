@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calculator_notes">Technische Hinweise</string>
+    <string name="cv_all_units">In allen Einheiten</string>
+    <string name="cv_enter_value">Geben Sie einen Wert zum Umrechnen ein</string>
+    <string name="cv_from">Von</string>
+    <string name="cv_note_awg" formatted="false">AWG ist eine geometrische Reihe, keine Skala: Die Zahl fällt, während der Leiter wächst, und die Größen über 0 schreibt man 00, 000 und 0000 — geben Sie diese als −1, −2 und −3 ein. Da die zugrunde liegende Formel stetig ist, kann ein metrischer Querschnitt auf eine Nummer zwischen zwei realen Größen führen; runden Sie auf den nächstgrößeren Leiter, also die kleinere Nummer.</string>
+    <string name="cv_note_calorie" formatted="false">Verwendet wird die IT-Kalorie zu 4,1868 J, passend zur IT-British-thermal-unit derselben Kategorie. Die thermochemische Kalorie zu 4,184 J ist 0,07 % kleiner.</string>
+    <string name="cv_note_horsepower" formatted="false">Pferdestärke gibt es in zwei Größen: mechanisches hp sind 550 ft·lbf/s, metrisches PS sind 75 kgf·m/s, und sie unterscheiden sich um etwa 1,4 %. Motortypenschilder in Europa meinen in der Regel PS. Beide werden angeboten, statt eines für Sie auszuwählen.</string>
+    <string name="cv_note_kcmil" formatted="false">Ein circular mil ist die Fläche eines Kreises von einem Tausendstel Zoll Durchmesser, kcmil ist also eine Fläche und rechnet exakt um. 4/0 AWG sind 211,6 kcmil sind 107,2 mm² — drei Schreibweisen desselben Leiters.</string>
+    <string name="cv_note_temperature" formatted="false">Temperatur ist die einzige Kategorie, die nicht proportional ist: 20 °C sind nicht doppelt 10 °C, weil die Skalen ihren Nullpunkt woanders als beim absoluten Nullpunkt setzen. Die Umrechnungen berücksichtigen den Versatz, deshalb darf eine Temperaturdifferenz nicht wie eine Temperatur umgerechnet werden.</string>
+    <string name="cv_note_va" formatted="false">Voltampere fehlen in der Kategorie Leistung mit Absicht. Scheinleistung wird nur über den Leistungsfaktor zu Watt, und 1 kVA als 1 kW zu behandeln wäre bei jeder nicht rein ohmschen Last falsch. Nutzen Sie dafür den Leistungsrechner.</string>
+    <string name="cv_result_label">%1$s in %2$s</string>
+    <string name="cv_swap">Einheiten tauschen</string>
+    <string name="cv_to">Nach</string>
+    <string name="cv_value">Wert</string>
+    <string name="dashboard_converter_title">Einheitenrechner</string>
+    <string name="tab_converter">Umrechner</string>
+    <string name="unit_category_angle">Winkel</string>
+    <string name="unit_category_area">Fläche</string>
+    <string name="unit_category_capacitance">Kapazität</string>
+    <string name="unit_category_current">Strom</string>
+    <string name="unit_category_energy">Energie</string>
+    <string name="unit_category_frequency">Frequenz</string>
+    <string name="unit_category_illuminance">Beleuchtungsstärke</string>
+    <string name="unit_category_inductance">Induktivität</string>
+    <string name="unit_category_length">Länge</string>
+    <string name="unit_category_mass">Masse</string>
+    <string name="unit_category_power">Leistung</string>
+    <string name="unit_category_pressure">Druck</string>
+    <string name="unit_category_resistance">Widerstand</string>
+    <string name="unit_category_signal_power">Signalpegel</string>
+    <string name="unit_category_temperature">Temperatur</string>
+    <string name="unit_category_torque">Drehmoment</string>
+    <string name="unit_category_voltage">Spannung</string>
+    <string name="unit_category_volume">Volumen</string>
+    <string name="unit_category_wire_gauge">Leiterquerschnitt</string>
+</resources>

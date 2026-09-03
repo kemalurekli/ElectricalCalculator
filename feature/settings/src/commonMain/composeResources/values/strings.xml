@@ -32,7 +32,9 @@
     <string name="settings_engineering_summary">The values every calculator opens with. Guessed once from your region when the app was first installed, and yours from then on — changing the app language does not change them. Reset re-runs that guess.</string>
     <string name="settings_engineering_three_phase">Three-phase voltage</string>
     <string name="settings_language">Language</string>
+    <string name="settings_language_description">Choose the language the app is shown in</string>
     <string name="settings_language_system">System default</string>
+    <string name="settings_language_partial">The calculators, projects, forum and settings are translated into every language listed. The reference tables, theory, glossary and general notes are written in English and Turkish only, and stay in English under the other languages.</string>
     <string name="settings_legal">Legal</string>
     <string name="settings_licenses">Open-source licences</string>
     <string name="settings_privacy_policy">Privacy policy</string>

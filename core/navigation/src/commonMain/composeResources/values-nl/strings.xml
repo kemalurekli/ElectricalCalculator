@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dashboard_calculators_subtitle">Spanningsval, kabeldoorsnede, motorstroom</string>
+    <string name="dashboard_calculators_title">Rekenhulpen</string>
+    <string name="dashboard_converter_subtitle">Elektrische, fysische en AWG-omrekeningen</string>
+    <string name="dashboard_converter_title">Eenhedenomrekener</string>
+    <string name="dashboard_favorites_subtitle">Uw vastgezette rekenhulpen</string>
+    <string name="dashboard_favorites_title">Favorieten</string>
+    <string name="dashboard_field_notes_subtitle">Waarom het zo hoort, en wat er anders misgaat</string>
+    <string name="dashboard_field_notes_title">Algemene info</string>
+    <string name="dashboard_forum_subtitle">Stel de vraag die geen rekenhulp beantwoordt</string>
+    <string name="dashboard_forum_title">Forum</string>
+    <string name="dashboard_glossary_subtitle">Elektrotechnische termen, Engels en Turks</string>
+    <string name="dashboard_glossary_title">Woordenlijst</string>
+    <string name="dashboard_history_subtitle">Elke berekening die u hebt uitgevoerd</string>
+    <string name="dashboard_history_title">Geschiedenis</string>
+    <string name="dashboard_projects_subtitle">Houd de kringen van één klus bij elkaar en ontwerp ze als geheel</string>
+    <string name="dashboard_projects_title">Projecten</string>
+    <string name="dashboard_references_subtitle">IP/IK-klassen, kleurcodes en normtabellen</string>
+    <string name="dashboard_references_title">Naslagwerk</string>
+    <string name="dashboard_settings_subtitle">Thema, eenheden en app-informatie</string>
+    <string name="dashboard_settings_title">Instellingen</string>
+    <string name="dashboard_theory_subtitle">Waar de formules vandaan komen, met uw getallen</string>
+    <string name="dashboard_theory_title">Theorie</string>
+    <string name="destination_calculators">Rekenhulpen</string>
+    <string name="destination_converter">Omrekenen</string>
+    <string name="destination_favorites">Favorieten</string>
+    <string name="destination_field_notes">Algemene info</string>
+    <string name="destination_forum">Forum</string>
+    <string name="destination_glossary">Woordenlijst</string>
+    <string name="destination_history">Geschiedenis</string>
+    <string name="destination_home">Start</string>
+    <string name="destination_more">Meer</string>
+    <string name="destination_projects">Projecten</string>
+    <string name="destination_references">Naslagwerk</string>
+    <string name="destination_settings">Instellingen</string>
+    <string name="destination_theory">Theorie</string>
+    <string name="tab_calculators">Rekenen</string>
+</resources>

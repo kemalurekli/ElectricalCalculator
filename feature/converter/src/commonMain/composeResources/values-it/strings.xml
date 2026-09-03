@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calculator_notes">Note tecniche</string>
+    <string name="cv_all_units">In tutte le unità</string>
+    <string name="cv_enter_value">Inserisci un valore da convertire</string>
+    <string name="cv_from">Da</string>
+    <string name="cv_note_awg" formatted="false">L'AWG è una serie geometrica, non una scala: il numero cala mentre il conduttore cresce, e le misure sopra lo 0 si scrivono 00, 000 e 0000 — inseriscile come −1, −2 e −3. Poiché la formula che lo definisce è continua, una sezione metrica può convertirsi in un calibro compreso fra due misure reali; arrotonda al conduttore immediatamente maggiore, cioè al numero minore.</string>
+    <string name="cv_note_calorie" formatted="false">Si usa la caloria della Tavola Internazionale da 4,1868 J, per accordarsi con il BTU IT della stessa categoria. La caloria termochimica da 4,184 J è più piccola dello 0,07 %.</string>
+    <string name="cv_note_horsepower" formatted="false">Il cavallo esiste in due misure: l'hp meccanico vale 550 ft·lbf/s, il CV metrico vale 75 kgf·m/s, e differiscono di circa l'1,4 %. Le targhe dei motori in Europa indicano di solito il CV. Sono offerti entrambi anziché sceglierne uno al posto tuo.</string>
+    <string name="cv_note_kcmil" formatted="false">Un mil circolare è l'area di un cerchio di un millesimo di pollice di diametro, quindi kcmil è un'area e si converte esattamente. 4/0 AWG sono 211,6 kcmil sono 107,2 mm² — tre modi di scrivere lo stesso conduttore.</string>
+    <string name="cv_note_temperature" formatted="false">La temperatura è l'unica categoria non proporzionale: 20 °C non sono il doppio di 10 °C, perché le scale pongono lo zero altrove rispetto allo zero assoluto. Le conversioni tengono conto dello scostamento, quindi una differenza di temperatura non va convertita come se fosse una temperatura.</string>
+    <string name="cv_note_va" formatted="false">I voltampere mancano dalla categoria potenza di proposito. La potenza apparente si converte in watt solo attraverso il fattore di potenza, e trattare 1 kVA come 1 kW sarebbe sbagliato su ogni carico non puramente resistivo. Per quella relazione usa il calcolatore di potenza.</string>
+    <string name="cv_result_label">%1$s in %2$s</string>
+    <string name="cv_swap">Scambia unità</string>
+    <string name="cv_to">A</string>
+    <string name="cv_value">Valore</string>
+    <string name="dashboard_converter_title">Convertitore di unità</string>
+    <string name="tab_converter">Converti</string>
+    <string name="unit_category_angle">Angolo</string>
+    <string name="unit_category_area">Area</string>
+    <string name="unit_category_capacitance">Capacità</string>
+    <string name="unit_category_current">Corrente</string>
+    <string name="unit_category_energy">Energia</string>
+    <string name="unit_category_frequency">Frequenza</string>
+    <string name="unit_category_illuminance">Illuminamento</string>
+    <string name="unit_category_inductance">Induttanza</string>
+    <string name="unit_category_length">Lunghezza</string>
+    <string name="unit_category_mass">Massa</string>
+    <string name="unit_category_power">Potenza</string>
+    <string name="unit_category_pressure">Pressione</string>
+    <string name="unit_category_resistance">Resistenza</string>
+    <string name="unit_category_signal_power">Potenza di segnale</string>
+    <string name="unit_category_temperature">Temperatura</string>
+    <string name="unit_category_torque">Coppia</string>
+    <string name="unit_category_voltage">Tensione</string>
+    <string name="unit_category_volume">Volume</string>
+    <string name="unit_category_wire_gauge">Sezione del conduttore</string>
+</resources>

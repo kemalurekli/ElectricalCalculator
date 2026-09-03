@@ -31,7 +31,9 @@
     <string name="settings_engineering_summary">Her hesaplayıcının açılışta kullandığı değerler. Uygulama ilk kurulduğunda bölgenizden bir kez tahmin edildi, o andan itibaren sizindir — uygulama dilini değiştirmek bunları değiştirmez. Sıfırlama, o tahmini yeniden yapar.</string>
     <string name="settings_engineering_three_phase">Üç fazlı gerilim</string>
     <string name="settings_language">Dil</string>
+    <string name="settings_language_description">Uygulamanın gösterileceği dili seçin</string>
     <string name="settings_language_system">Sistem varsayılanı</string>
+    <string name="settings_language_partial">Hesaplayıcılar, projeler, forum ve ayarlar listedeki her dile çevrilmiştir. Referans tabloları, teori, sözlük ve genel bilgiler yalnızca İngilizce ve Türkçe yazılmıştır; diğer dillerde İngilizce kalır.</string>
     <string name="settings_legal">Yasal</string>
     <string name="settings_licenses">Açık kaynak lisansları</string>
     <string name="settings_privacy_policy">Gizlilik politikası</string>

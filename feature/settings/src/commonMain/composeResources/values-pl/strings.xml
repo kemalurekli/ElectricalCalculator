@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Anuluj</string>
+    <string name="action_close">Zamknij</string>
+    <string name="action_reset">Przywróć</string>
+    <string name="common_material_aluminium">Aluminium</string>
+    <string name="common_material_copper">Miedź</string>
+    <string name="cs_insulation_pvc">PVC 70 °C</string>
+    <string name="cs_insulation_xlpe">XLPE 90 °C</string>
+    <string name="cs_method_b1">B1</string>
+    <string name="cs_method_b1_full">B1 — żyły w rurce na ścianie</string>
+    <string name="cs_method_b2">B2</string>
+    <string name="cs_method_b2_full">B2 — kabel wielożyłowy w rurce</string>
+    <string name="cs_method_c">C</string>
+    <string name="cs_method_c_full">C — mocowany bezpośrednio do powierzchni</string>
+    <string name="cs_method_e">E</string>
+    <string name="cs_method_e_full">E — w powietrzu lub na korytku perforowanym</string>
+    <string name="destination_settings">Ustawienia</string>
+    <string name="forum_account_section">Konto na forum</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="settings_about">O aplikacji</string>
+    <string name="settings_appearance">Wygląd</string>
+    <string name="settings_engineering">Domyślne wartości</string>
+    <string name="settings_engineering_ambient">Temperatura otoczenia</string>
+    <string name="settings_engineering_frequency">Częstotliwość sieci</string>
+    <string name="settings_engineering_insulation">Izolacja</string>
+    <string name="settings_engineering_material">Materiał żyły</string>
+    <string name="settings_engineering_method">Sposób ułożenia</string>
+    <string name="settings_engineering_reset">Przywróć domyślne</string>
+    <string name="settings_engineering_reset_message">Zastępuje każdą wartość powyżej tą, której użyłaby nowa instalacja dla Twojego regionu. Zapisane obliczenia pozostają bez zmian.</string>
+    <string name="settings_engineering_single_phase">Napięcie jednofazowe</string>
+    <string name="settings_engineering_summary">Wartości, z którymi otwiera się każdy kalkulator. Odgadnięte raz na podstawie regionu przy pierwszej instalacji i od tej pory Twoje — zmiana języka aplikacji ich nie zmienia. Przywrócenie powtarza to odgadnięcie.</string>
+    <string name="settings_engineering_three_phase">Napięcie trójfazowe</string>
+    <string name="settings_language">Język</string>
+    <string name="settings_language_description">Wybierz język, w którym wyświetla się aplikacja</string>
+    <string name="settings_language_system">Domyślny systemowy</string>
+    <string name="settings_language_partial">Kalkulatory, projekty, forum i ustawienia są przetłumaczone na każdy wymieniony język. Tablice normowe, teoria, słownik i informacje ogólne napisano wyłącznie po angielsku i turecku i pozostają po angielsku w pozostałych językach.</string>
+    <string name="settings_legal">Informacje prawne</string>
+    <string name="settings_licenses">Licencje open source</string>
+    <string name="settings_privacy_policy">Polityka prywatności</string>
+    <string name="settings_theme">Motyw</string>
+    <string name="settings_theme_dark">Ciemny</string>
+    <string name="settings_theme_light">Jasny</string>
+    <string name="settings_theme_system">Domyślny systemowy</string>
+    <string name="settings_unit_system">Układ jednostek</string>
+    <string name="settings_unit_system_imperial">Imperialny (AWG, ft)</string>
+    <string name="settings_unit_system_metric">Metryczny (mm², m)</string>
+    <string name="settings_units">Jednostki</string>
+    <string name="settings_version">Wersja</string>
+</resources>

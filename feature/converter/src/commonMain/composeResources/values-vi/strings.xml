@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calculator_notes">Ghi chú kỹ thuật</string>
+    <string name="cv_all_units">Theo mọi đơn vị</string>
+    <string name="cv_enter_value">Nhập giá trị cần quy đổi</string>
+    <string name="cv_from">Từ</string>
+    <string name="cv_note_awg" formatted="false">AWG là một cấp số nhân, không phải thang đo: số càng nhỏ khi ruột dẫn càng lớn, và các cỡ trên 0 được viết 00, 000 và 0000 — hãy nhập chúng là −1, −2 và −3. Vì công thức định nghĩa là liên tục, một tiết diện mét có thể quy về cỡ nằm giữa hai cỡ thực; hãy làm tròn lên ruột dẫn lớn hơn, tức là số nhỏ hơn.</string>
+    <string name="cv_note_calorie" formatted="false">Dùng calo Bảng Quốc tế 4,1868 J để thống nhất với BTU IT trong cùng nhóm. Calo nhiệt hóa 4,184 J nhỏ hơn 0,07 %.</string>
+    <string name="cv_note_horsepower" formatted="false">Mã lực có hai loại: hp cơ khí là 550 ft·lbf/s, PS hệ mét là 75 kgf·m/s, chênh nhau khoảng 1,4 %. Nhãn động cơ ở châu Âu thường hiểu là PS. Cả hai đều được cung cấp thay vì chọn sẵn cho bạn.</string>
+    <string name="cv_note_kcmil" formatted="false">Circular mil là diện tích hình tròn đường kính một phần nghìn inch, nên kcmil là một diện tích và quy đổi chính xác. 4/0 AWG bằng 211,6 kcmil bằng 107,2 mm² — ba cách viết cùng một ruột dẫn.</string>
+    <string name="cv_note_temperature" formatted="false">Nhiệt độ là nhóm duy nhất không tỷ lệ: 20 °C không gấp đôi 10 °C, vì các thang đặt điểm không ở nơi khác với độ không tuyệt đối. Việc quy đổi ở đây có tính đến độ lệch đó, nên không được quy đổi một hiệu nhiệt độ như thể nó là nhiệt độ.</string>
+    <string name="cv_note_va" formatted="false">Vôn-ampe cố ý không có trong nhóm công suất. Công suất biểu kiến chỉ chuyển thành oát thông qua hệ số công suất, và coi 1 kVA là 1 kW sẽ sai với mọi phụ tải không thuần trở. Hãy dùng máy tính công suất cho quan hệ đó.</string>
+    <string name="cv_result_label">%1$s sang %2$s</string>
+    <string name="cv_swap">Đổi chỗ đơn vị</string>
+    <string name="cv_to">Sang</string>
+    <string name="cv_value">Giá trị</string>
+    <string name="dashboard_converter_title">Đổi đơn vị</string>
+    <string name="tab_converter">Quy đổi</string>
+    <string name="unit_category_angle">Góc</string>
+    <string name="unit_category_area">Diện tích</string>
+    <string name="unit_category_capacitance">Điện dung</string>
+    <string name="unit_category_current">Dòng điện</string>
+    <string name="unit_category_energy">Năng lượng</string>
+    <string name="unit_category_frequency">Tần số</string>
+    <string name="unit_category_illuminance">Độ rọi</string>
+    <string name="unit_category_inductance">Điện cảm</string>
+    <string name="unit_category_length">Chiều dài</string>
+    <string name="unit_category_mass">Khối lượng</string>
+    <string name="unit_category_power">Công suất</string>
+    <string name="unit_category_pressure">Áp suất</string>
+    <string name="unit_category_resistance">Điện trở</string>
+    <string name="unit_category_signal_power">Công suất tín hiệu</string>
+    <string name="unit_category_temperature">Nhiệt độ</string>
+    <string name="unit_category_torque">Mô-men xoắn</string>
+    <string name="unit_category_voltage">Điện áp</string>
+    <string name="unit_category_volume">Thể tích</string>
+    <string name="unit_category_wire_gauge">Tiết diện dây dẫn</string>
+</resources>

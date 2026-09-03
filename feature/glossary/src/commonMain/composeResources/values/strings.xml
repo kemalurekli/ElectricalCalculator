@@ -54,7 +54,7 @@
     <string name="gl_demand_factor_term">Demand factor</string>
     <string name="gl_demand_factor_def">Maximum demand divided by total connected load. It recognises that not everything installed runs at once, and it is regional and regulation-specific rather than universal.</string>
     <string name="gl_depth_of_discharge_term">Depth of discharge</string>
-    <string name="gl_depth_of_discharge_def">The share of a battery's capacity actually used before recharging. Lead-acid life falls sharply past about 50 %; lithium tolerates 80–90 %.</string>
+    <string name="gl_depth_of_discharge_def" formatted="false">The share of a battery's capacity actually used before recharging. Lead-acid life falls sharply past about 50 %; lithium tolerates 80–90 %.</string>
     <string name="gl_derating_term">Derating</string>
     <string name="gl_derating_def">Reducing a component's usable rating because the conditions are worse than the ones it was rated in. For cables it is the ambient and grouping factors; for a device it may be temperature inside an enclosure.</string>
     <string name="gl_disconnection_time_term">Disconnection time</string>
@@ -188,7 +188,7 @@
     <string name="gl_residual_current_term">Residual current</string>
     <string name="gl_residual_current_def">The vector sum of the currents in all live conductors of a circuit. In a healthy circuit it is zero; anything else is current escaping to earth.</string>
     <string name="gl_resistivity_term">Resistivity</string>
-    <string name="gl_resistivity_def">How strongly a material resists current, independent of its shape. It rises with temperature, so a hot conductor drops more voltage than the same cable cold — about 20 % more for copper between 20 °C and 70 °C.</string>
+    <string name="gl_resistivity_def" formatted="false">How strongly a material resists current, independent of its shape. It rises with temperature, so a hot conductor drops more voltage than the same cable cold — about 20 % more for copper between 20 °C and 70 °C.</string>
     <string name="gl_rms_term">RMS</string>
     <string name="gl_rms_def">Root mean square: the DC value that would produce the same heating. Every AC voltage and current quoted without qualification is an RMS figure — 230 V RMS peaks at about 325 V.</string>
     <string name="gl_selectivity_term">Selectivity (discrimination)</string>
@@ -228,7 +228,7 @@
     <string name="gl_vfd_term">Variable frequency drive (VFD)</string>
     <string name="gl_vfd_def">An electronic drive that varies a motor's speed by varying supply frequency. It draws a distorted, high-frequency-rich current, which is why it needs a Type B RCD and careful cable screening.</string>
     <string name="gl_voltage_drop_term">Voltage drop</string>
-    <string name="gl_voltage_drop_def">The voltage lost along a cable because the conductor has resistance. IEC 60364-5-52 Annex G suggests keeping it within 3 % for lighting and 5 % for other circuits, measured from the origin.</string>
+    <string name="gl_voltage_drop_def" formatted="false">The voltage lost along a cable because the conductor has resistance. IEC 60364-5-52 Annex G suggests keeping it within 3 % for lighting and 5 % for other circuits, measured from the origin.</string>
     <string name="gl_voltage_factor_term">Voltage factor</string>
     <string name="gl_voltage_factor_def">A tolerance IEC 60909 applies to nominal voltage so each fault calculation errs the safe way: 1,05 for a maximum current, 0,95 for a minimum.</string>
     <string name="gl_withstand_current_term">Withstand current</string>

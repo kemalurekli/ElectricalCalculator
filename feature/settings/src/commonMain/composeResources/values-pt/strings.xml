@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_close">Fechar</string>
+    <string name="action_reset">Repor</string>
+    <string name="common_material_aluminium">Alumínio</string>
+    <string name="common_material_copper">Cobre</string>
+    <string name="cs_insulation_pvc">PVC 70 °C</string>
+    <string name="cs_insulation_xlpe">XLPE 90 °C</string>
+    <string name="cs_method_b1">B1</string>
+    <string name="cs_method_b1_full">B1 — condutores em tubo na parede</string>
+    <string name="cs_method_b2">B2</string>
+    <string name="cs_method_b2_full">B2 — cabo multicondutor em tubo</string>
+    <string name="cs_method_c">C</string>
+    <string name="cs_method_c_full">C — fixado diretamente a uma superfície</string>
+    <string name="cs_method_e">E</string>
+    <string name="cs_method_e_full">E — ao ar livre ou em esteira perfurada</string>
+    <string name="destination_settings">Definições</string>
+    <string name="forum_account_section">Conta do fórum</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="settings_about">Sobre</string>
+    <string name="settings_appearance">Aspeto</string>
+    <string name="settings_engineering">Valores de engenharia</string>
+    <string name="settings_engineering_ambient">Temperatura ambiente</string>
+    <string name="settings_engineering_frequency">Frequência da rede</string>
+    <string name="settings_engineering_insulation">Isolamento</string>
+    <string name="settings_engineering_material">Material do condutor</string>
+    <string name="settings_engineering_method">Método de instalação</string>
+    <string name="settings_engineering_reset">Repor valores</string>
+    <string name="settings_engineering_reset_message">Substitui cada valor acima pelo que uma instalação nova usaria na sua região. Os cálculos guardados não são afetados.</string>
+    <string name="settings_engineering_single_phase">Tensão monofásica</string>
+    <string name="settings_engineering_summary">Os valores com que cada calculadora abre. Deduzidos uma vez da sua região na primeira instalação e seus desde então — mudar o idioma da aplicação não os altera. Repor volta a fazer essa dedução.</string>
+    <string name="settings_engineering_three_phase">Tensão trifásica</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_language_description">Escolha o idioma em que a aplicação é apresentada</string>
+    <string name="settings_language_system">Predefinição do sistema</string>
+    <string name="settings_language_partial">As calculadoras, os projetos, o fórum e as definições estão traduzidos em todos os idiomas listados. As tabelas de referência, a teoria, o glossário e as informações gerais estão escritos apenas em inglês e turco e permanecem em inglês nos restantes idiomas.</string>
+    <string name="settings_legal">Legal</string>
+    <string name="settings_licenses">Licenças de código aberto</string>
+    <string name="settings_privacy_policy">Política de privacidade</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_dark">Escuro</string>
+    <string name="settings_theme_light">Claro</string>
+    <string name="settings_theme_system">Predefinição do sistema</string>
+    <string name="settings_unit_system">Sistema de unidades</string>
+    <string name="settings_unit_system_imperial">Imperial (AWG, ft)</string>
+    <string name="settings_unit_system_metric">Métrico (mm², m)</string>
+    <string name="settings_units">Unidades</string>
+    <string name="settings_version">Versão</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="destination_calculators">Máy tính</string>
+    <string name="destination_favorites">Yêu thích</string>
+    <string name="destination_field_notes">Thông tin chung</string>
+    <string name="destination_glossary">Thuật ngữ</string>
+    <string name="destination_references">Tra cứu</string>
+    <string name="destination_theory">Lý thuyết</string>
+</resources>

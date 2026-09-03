@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_back">Назад</string>
+    <string name="action_copy">Копировать</string>
+    <string name="action_favorite_add">В избранное</string>
+    <string name="action_favorite_remove">Убрать из избранного</string>
+    <string name="action_retry">Повторить</string>
+    <string name="action_share">Поделиться</string>
+    <string name="cable_row_diameter">Наружный диаметр</string>
+    <string name="cable_row_quantity">Кол-во</string>
+    <string name="cable_row_remove">Убрать этот кабель</string>
+    <string name="calculator_notes_read_more">Подробнее</string>
+    <string name="disclaimer_accept">Прочитал и принимаю</string>
+    <string name="disclaimer_body" formatted="false">Это приложение предоставляется исключительно для общего сведения.\n\nНикакая ответственность за содержащиеся в нём расчёты, результаты, таблицы и пояснительные тексты не принимается. Результаты не должны использоваться как основание для научных или инженерных работ.\n\nОтветственность за любое использование этого приложения и за проверку всего, что из него взято, полностью лежит на пользователе. Ни при каких обстоятельствах приложение или его разработчики не несут ответственности за убытки или ущерб, возникшие вследствие его использования.\n\nСодержимое и само приложение подготовлены с помощью искусственного интеллекта. Пользуйтесь, понимая это.\n\nНа форуме размещаются сообщения других пользователей. Ничто из опубликованного там не проверяется, не подтверждается и не одобряется разработчиками, это не инженерная консультация, и ответственность за любые основанные на этом действия несёт читатель. Вы отвечаете за то, что публикуете, и за то, чтобы не публиковать чужие персональные данные.\n\nЕсли где-либо ещё в приложении сказано иначе, действуют изложенные здесь условия.\n\nИспользуя это приложение, вы считаетесь принявшим изложенное выше.</string>
+    <string name="disclaimer_title">Отказ от ответственности</string>
+    <string name="search_clear">Очистить поиск</string>
+    <string name="search_hint">Поиск калькуляторов, конвертеров, справочников</string>
+    <string name="state_empty_favorites_message">Закрепите калькулятор, чтобы он оставался на главном экране.</string>
+    <string name="state_empty_favorites_title">Избранного пока нет</string>
+    <string name="state_error_title">Что-то пошло не так</string>
+    <string name="state_in_development_message">Этот раздел ещё создаётся и появится в одном из следующих выпусков.</string>
+    <string name="state_in_development_title">Пока недоступно</string>
+    <string name="state_just_now">Только что</string>
+    <string name="state_loading">Загрузка</string>
+    <string name="validation_below_minimum">Введите значение %1$s или больше</string>
+    <string name="validation_exceeds_maximum">Введите значение %1$s или меньше</string>
+    <string name="validation_must_be_positive">Введите значение больше нуля</string>
+    <string name="validation_must_not_be_negative">Введите значение ноль или больше</string>
+    <string name="validation_not_a_number">Введите корректное число</string>
+    <string name="validation_out_of_range">Введите значение от %1$s до %2$s</string>
+    <string name="validation_required">Это значение обязательно</string>
+    <string name="calculator_examples">Примеры расчётов</string>
+    <string name="calculator_examples_hint">Загрузите реальный случай и посмотрите разбор.</string>
+    <string name="calculator_steps">По шагам</string>
+</resources>

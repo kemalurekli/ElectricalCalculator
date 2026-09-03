@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_back">Indietro</string>
+    <string name="action_copy">Copia</string>
+    <string name="action_favorite_add">Aggiungi ai preferiti</string>
+    <string name="action_favorite_remove">Rimuovi dai preferiti</string>
+    <string name="action_retry">Riprova</string>
+    <string name="action_share">Condividi</string>
+    <string name="cable_row_diameter">Diametro esterno</string>
+    <string name="cable_row_quantity">Qtà</string>
+    <string name="cable_row_remove">Rimuovi questo cavo</string>
+    <string name="calculator_notes_read_more">Leggi di più</string>
+    <string name="disclaimer_accept">Ho letto e accetto</string>
+    <string name="disclaimer_body" formatted="false">Questa applicazione è fornita a solo scopo di informazione generale.\n\nNon si assume alcuna responsabilità per i calcoli, i risultati, le tabelle o i testi esplicativi in essa contenuti. I risultati non devono essere usati come base per lavori scientifici o ingegneristici.\n\nLa responsabilità di qualsiasi uso di questa applicazione, e della verifica di quanto ne viene tratto, ricade interamente sull'utente. In nessun caso l'applicazione o i suoi sviluppatori potranno essere ritenuti responsabili di perdite o danni derivanti dal suo uso.\n\nI contenuti e l'applicazione stessa sono stati prodotti con l'assistenza dell'intelligenza artificiale. Usala sapendolo.\n\nIl forum contiene messaggi scritti da altri utenti. Nulla di quanto vi è pubblicato è controllato, verificato o approvato dagli sviluppatori, non costituisce consulenza ingegneristica, e la responsabilità di ciò che ne consegue è del lettore. Sei responsabile di ciò che pubblichi e di non pubblicare i dati personali di nessuno.\n\nOve altrove in questa applicazione sembri affermato il contrario, prevalgono le condizioni qui esposte.\n\nUsando questa applicazione si considera accettato quanto sopra.</string>
+    <string name="disclaimer_title">Avvertenza</string>
+    <string name="search_clear">Cancella ricerca</string>
+    <string name="search_hint">Cerca calcolatori, convertitori, riferimenti</string>
+    <string name="state_empty_favorites_message">Fissa un calcolatore per tenerlo nella schermata iniziale.</string>
+    <string name="state_empty_favorites_title">Nessun preferito</string>
+    <string name="state_error_title">Qualcosa è andato storto</string>
+    <string name="state_in_development_message">Questa sezione è in costruzione e arriverà in una versione futura.</string>
+    <string name="state_in_development_title">Non ancora disponibile</string>
+    <string name="state_just_now">Adesso</string>
+    <string name="state_loading">Caricamento</string>
+    <string name="validation_below_minimum">Inserisci un valore di %1$s o superiore</string>
+    <string name="validation_exceeds_maximum">Inserisci un valore di %1$s o inferiore</string>
+    <string name="validation_must_be_positive">Inserisci un valore maggiore di zero</string>
+    <string name="validation_must_not_be_negative">Inserisci un valore pari a zero o superiore</string>
+    <string name="validation_not_a_number">Inserisci un numero valido</string>
+    <string name="validation_out_of_range">Inserisci un valore compreso tra %1$s e %2$s</string>
+    <string name="validation_required">Questo valore è obbligatorio</string>
+    <string name="calculator_examples">Casi di esempio</string>
+    <string name="calculator_examples_hint">Carica un caso reale e guardalo risolto.</string>
+    <string name="calculator_steps">Passo per passo</string>
+</resources>

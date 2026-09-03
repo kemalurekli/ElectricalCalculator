@@ -42,6 +42,16 @@
 	<array>
 		<string>en</string>
 		<string>tr</string>
+		<string>de</string>
+		<string>es</string>
+		<string>fr</string>
+		<string>id</string>
+		<string>it</string>
+		<string>nl</string>
+		<string>pl</string>
+		<string>pt</string>
+		<string>vi</string>
+		<string>ru</string>
 	</array>
 </dict>
 </plist>

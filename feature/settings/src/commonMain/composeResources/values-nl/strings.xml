@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Annuleren</string>
+    <string name="action_close">Sluiten</string>
+    <string name="action_reset">Herstellen</string>
+    <string name="common_material_aluminium">Aluminium</string>
+    <string name="common_material_copper">Koper</string>
+    <string name="cs_insulation_pvc">PVC 70 °C</string>
+    <string name="cs_insulation_xlpe">XLPE 90 °C</string>
+    <string name="cs_method_b1">B1</string>
+    <string name="cs_method_b1_full">B1 — aders in buis op de wand</string>
+    <string name="cs_method_b2">B2</string>
+    <string name="cs_method_b2_full">B2 — meeraderige kabel in buis</string>
+    <string name="cs_method_c">C</string>
+    <string name="cs_method_c_full">C — rechtstreeks op een oppervlak bevestigd</string>
+    <string name="cs_method_e">E</string>
+    <string name="cs_method_e_full">E — in vrije lucht of op geperforeerde goot</string>
+    <string name="destination_settings">Instellingen</string>
+    <string name="forum_account_section">Forumaccount</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="settings_about">Over</string>
+    <string name="settings_appearance">Weergave</string>
+    <string name="settings_engineering">Technische standaarden</string>
+    <string name="settings_engineering_ambient">Omgevingstemperatuur</string>
+    <string name="settings_engineering_frequency">Netfrequentie</string>
+    <string name="settings_engineering_insulation">Isolatie</string>
+    <string name="settings_engineering_material">Geleidermateriaal</string>
+    <string name="settings_engineering_method">Installatiemethode</string>
+    <string name="settings_engineering_reset">Standaarden herstellen</string>
+    <string name="settings_engineering_reset_message">Vervangt elke waarde hierboven door die van een nieuwe installatie in uw regio. Bewaarde berekeningen blijven ongewijzigd.</string>
+    <string name="settings_engineering_single_phase">Eenfasespanning</string>
+    <string name="settings_engineering_summary">De waarden waarmee elke rekenhulp opent. Bij de eerste installatie eenmaal uit uw regio afgeleid en sindsdien van u — de app-taal wijzigen verandert ze niet. Herstellen voert die afleiding opnieuw uit.</string>
+    <string name="settings_engineering_three_phase">Driefasespanning</string>
+    <string name="settings_language">Taal</string>
+    <string name="settings_language_description">Kies de taal waarin de app wordt getoond</string>
+    <string name="settings_language_system">Systeemstandaard</string>
+    <string name="settings_language_partial">De rekenhulpen, projecten, het forum en de instellingen zijn vertaald in elke vermelde taal. De naslagtabellen, theorie, woordenlijst en algemene info zijn alleen in het Engels en Turks geschreven en blijven Engels onder de andere talen.</string>
+    <string name="settings_legal">Juridisch</string>
+    <string name="settings_licenses">Opensourcelicenties</string>
+    <string name="settings_privacy_policy">Privacybeleid</string>
+    <string name="settings_theme">Thema</string>
+    <string name="settings_theme_dark">Donker</string>
+    <string name="settings_theme_light">Licht</string>
+    <string name="settings_theme_system">Systeemstandaard</string>
+    <string name="settings_unit_system">Eenhedenstelsel</string>
+    <string name="settings_unit_system_imperial">Imperiaal (AWG, ft)</string>
+    <string name="settings_unit_system_metric">Metrisch (mm², m)</string>
+    <string name="settings_units">Eenheden</string>
+    <string name="settings_version">Versie</string>
+</resources>

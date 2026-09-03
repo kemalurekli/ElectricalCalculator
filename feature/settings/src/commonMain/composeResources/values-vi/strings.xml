@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Hủy</string>
+    <string name="action_close">Đóng</string>
+    <string name="action_reset">Đặt lại</string>
+    <string name="common_material_aluminium">Nhôm</string>
+    <string name="common_material_copper">Đồng</string>
+    <string name="cs_insulation_pvc">PVC 70 °C</string>
+    <string name="cs_insulation_xlpe">XLPE 90 °C</string>
+    <string name="cs_method_b1">B1</string>
+    <string name="cs_method_b1_full">B1 — ruột dẫn trong ống trên tường</string>
+    <string name="cs_method_b2">B2</string>
+    <string name="cs_method_b2_full">B2 — cáp nhiều ruột trong ống</string>
+    <string name="cs_method_c">C</string>
+    <string name="cs_method_c_full">C — kẹp trực tiếp lên bề mặt</string>
+    <string name="cs_method_e">E</string>
+    <string name="cs_method_e_full">E — trong không khí hoặc trên máng đục lỗ</string>
+    <string name="destination_settings">Cài đặt</string>
+    <string name="forum_account_section">Tài khoản diễn đàn</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="settings_about">Giới thiệu</string>
+    <string name="settings_appearance">Giao diện</string>
+    <string name="settings_engineering">Giá trị mặc định kỹ thuật</string>
+    <string name="settings_engineering_ambient">Nhiệt độ môi trường</string>
+    <string name="settings_engineering_frequency">Tần số lưới</string>
+    <string name="settings_engineering_insulation">Cách điện</string>
+    <string name="settings_engineering_material">Vật liệu ruột dẫn</string>
+    <string name="settings_engineering_method">Phương pháp lắp đặt</string>
+    <string name="settings_engineering_reset">Đặt lại mặc định</string>
+    <string name="settings_engineering_reset_message">Thay mọi giá trị ở trên bằng giá trị mà một bản cài mới sẽ dùng cho khu vực của bạn. Các phép tính đã lưu không bị ảnh hưởng.</string>
+    <string name="settings_engineering_single_phase">Điện áp một pha</string>
+    <string name="settings_engineering_summary">Các giá trị mà mọi máy tính mở lên. Được suy đoán một lần từ khu vực của bạn khi cài đặt lần đầu, và từ đó là của bạn — đổi ngôn ngữ ứng dụng không làm thay đổi chúng. Đặt lại sẽ chạy lại suy đoán đó.</string>
+    <string name="settings_engineering_three_phase">Điện áp ba pha</string>
+    <string name="settings_language">Ngôn ngữ</string>
+    <string name="settings_language_description">Chọn ngôn ngữ hiển thị của ứng dụng</string>
+    <string name="settings_language_system">Mặc định hệ thống</string>
+    <string name="settings_language_partial">Máy tính, dự án, diễn đàn và cài đặt được dịch sang mọi ngôn ngữ trong danh sách. Bảng tra cứu, lý thuyết, thuật ngữ và thông tin chung chỉ được viết bằng tiếng Anh và tiếng Thổ Nhĩ Kỳ, và giữ nguyên tiếng Anh ở các ngôn ngữ khác.</string>
+    <string name="settings_legal">Pháp lý</string>
+    <string name="settings_licenses">Giấy phép nguồn mở</string>
+    <string name="settings_privacy_policy">Chính sách quyền riêng tư</string>
+    <string name="settings_theme">Giao diện</string>
+    <string name="settings_theme_dark">Tối</string>
+    <string name="settings_theme_light">Sáng</string>
+    <string name="settings_theme_system">Mặc định hệ thống</string>
+    <string name="settings_unit_system">Hệ đơn vị</string>
+    <string name="settings_unit_system_imperial">Imperial (AWG, ft)</string>
+    <string name="settings_unit_system_metric">Mét (mm², m)</string>
+    <string name="settings_units">Đơn vị</string>
+    <string name="settings_version">Phiên bản</string>
+</resources>

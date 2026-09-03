@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">VoltageBoard</string>
+    <string name="destination_favorites">Favoriten</string>
+    <string name="home_badge_pinned">%1$d angeheftet</string>
+    <string name="home_badge_saved">%1$d gespeichert</string>
+    <string name="home_browse">Durchsuchen</string>
+    <string name="home_recent">Zuletzt</string>
+    <string name="search_group_calculators">Rechner</string>
+    <string name="search_group_converter">Einheitenrechner</string>
+    <string name="search_group_field_notes">Grundwissen</string>
+    <string name="search_group_glossary">Glossar</string>
+    <string name="search_group_references">Referenzen</string>
+    <string name="search_group_symbols">Schaltzeichen</string>
+    <string name="search_group_theory">Theorie</string>
+    <string name="state_empty_calculators_message">Kein Rechner passt zu dieser Suche. Versuchen Sie einen anderen Begriff.</string>
+    <string name="state_empty_calculators_title">Keine Treffer</string>
+</resources>

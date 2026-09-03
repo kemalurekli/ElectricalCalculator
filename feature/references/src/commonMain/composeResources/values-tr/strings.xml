@@ -259,8 +259,8 @@
     <string name="ref_materials_conductivity">İletkenlik</string>
     <string name="ref_materials_density">Yoğunluk</string>
     <string name="ref_materials_description">Özdirenç, yoğunluk ve iletkenlik</string>
-    <string name="ref_materials_iacs_aluminium">Yaklaşık %61 IACS</string>
-    <string name="ref_materials_iacs_copper">%100 IACS, referans değer</string>
+    <string name="ref_materials_iacs_aluminium" formatted="false">Yaklaşık %61 IACS</string>
+    <string name="ref_materials_iacs_copper" formatted="false">%100 IACS, referans değer</string>
     <string name="ref_materials_resistivity">20 °C'de özdirenç</string>
     <string name="ref_materials_resistivity_note">Bunlar ayrı bir tablo değil, uygulamanın hesapta kullandığı değerlerdir — burada yazan bir sayı, kablo hesaplayıcılarının kullandığından ayrışamaz. Sıcaklığa göre düzeltin: ρ(θ) = ρ₂₀ · [1 + α₂₀ · (θ − 20)].</string>
     <string name="ref_materials_source">IEC 60228 · IEC 60287</string>
@@ -345,7 +345,7 @@
     <string name="ref_pr_harmonics_callout">K faktörlü transformatör, harmonik ısınmasına dayanmak için yapılmıştır, onu gidermek için değil. Harmonikler hâlâ kabloda ve hâlâ nötrdedir.</string>
     <string name="ref_pr_harmonics_description">Nötrün fazlardan fazla akım taşıyabilmesinin sebebi ve THD'nin gerçekte ne söylediği.</string>
     <string name="ref_pr_harmonics_s0_p0">Dengeli üç fazlı bir sistemde temel bileşen akımları nötrde birbirini götürür; nötrün kablodaki en küçük iletken olmasının sebebi budur. Üçüncü harmonik ve katları götürmez: birbirleriyle aynı fazda gelir ve toplanır. Anahtarlamalı güç kaynağı grupları besleyen bir hat, nötre fazlardan daha fazla akım koyabilir.</string>
-    <string name="ref_pr_harmonics_s0_p1">Bu, bir güç kalitesi sorunu olmadan önce bir boyutlandırma sorunudur. IEC 60364-5-52, üçüncü harmonik içeriği %15'i geçtiğinde nötrün yüklü iletken sayılmasını ve kablonun buna göre derate edilmesini ister — kimse bakmadıysa bu, büyük akım taşıyan küçük bir kablo demektir.</string>
+    <string name="ref_pr_harmonics_s0_p1" formatted="false">Bu, bir güç kalitesi sorunu olmadan önce bir boyutlandırma sorunudur. IEC 60364-5-52, üçüncü harmonik içeriği %15'i geçtiğinde nötrün yüklü iletken sayılmasını ve kablonun buna göre derate edilmesini ister — kimse bakmadıysa bu, büyük akım taşıyan küçük bir kablo demektir.</string>
     <string name="ref_pr_harmonics_s0_title">Üçüncü harmonik birbirini götürmez</string>
     <string name="ref_pr_harmonics_s1_r0_l">Anahtarlamalı kaynaklar, LED sürücüleri</string>
     <string name="ref_pr_harmonics_s1_r0_n">Nötr için en kötü durum</string>
@@ -356,7 +356,7 @@
     <string name="ref_pr_harmonics_s1_r3_l">Motorlar, ısıtıcılar</string>
     <string name="ref_pr_harmonics_s1_r3_n">Doğrusal; harmonik katkısı yok</string>
     <string name="ref_pr_harmonics_s1_title">Neyin ne ürettiği</string>
-    <string name="ref_pr_harmonics_s2_p0">2 A çeken bir devrede %40 THD hiçbir şey ifade etmez; aynı değer 200 A'lik bir kolonda transformatör sorunudur. Akım THD'si bir orandır: akımın ne kadar bozuk olduğunu söyler, ne kadar bozuk akım olduğunu değil. Amper cinsinden sorun.</string>
+    <string name="ref_pr_harmonics_s2_p0" formatted="false">2 A çeken bir devrede %40 THD hiçbir şey ifade etmez; aynı değer 200 A'lik bir kolonda transformatör sorunudur. Akım THD'si bir orandır: akımın ne kadar bozuk olduğunu söyler, ne kadar bozuk akım olduğunu değil. Amper cinsinden sorun.</string>
     <string name="ref_pr_harmonics_s2_title">THD'nin söylemediği</string>
     <string name="ref_pr_harmonics_source">IEC 61000 serisi</string>
     <string name="ref_pr_harmonics_title">Harmonikler</string>
@@ -407,7 +407,7 @@
     <string name="ref_pr_nameplate_source">IEC 60034-1 ve IEC 60076-1</string>
     <string name="ref_pr_nameplate_title">Etiket okuma</string>
     <string name="ref_pr_powerquality_description">Çökme, yükselme, kırpışma ve dengesizlik: neden olurlar ve neyi bozarlar.</string>
-    <string name="ref_pr_powerquality_s0_p0">Gerilim çökmesi neredeyse her zaman büyük bir yükün kalkması ya da şebekede bir yerde — sizde veya komşuda — bir arızanın kesilmesidir. Saniyeler değil çevrimler sürer ve fark eden ekipman kontaktörlü olandır: bobin yaklaşık %70'te bırakır ve hiçbir şey zarar görmemiş olsa da proses durur.</string>
+    <string name="ref_pr_powerquality_s0_p0" formatted="false">Gerilim çökmesi neredeyse her zaman büyük bir yükün kalkması ya da şebekede bir yerde — sizde veya komşuda — bir arızanın kesilmesidir. Saniyeler değil çevrimler sürer ve fark eden ekipman kontaktörlü olandır: bobin yaklaşık %70'te bırakır ve hiçbir şey zarar görmemiş olsa da proses durur.</string>
     <string name="ref_pr_powerquality_s0_title">Çoğu başkasının motorudur</string>
     <string name="ref_pr_powerquality_s1_r0_l">Çökme</string>
     <string name="ref_pr_powerquality_s1_r0_n">Motor yol alma, arıza kesilmesi</string>
@@ -671,7 +671,7 @@
     <string name="ref_sel_rcdtype_source">IEC 61008 / IEC 62423</string>
     <string name="ref_sel_rcdtype_table_title">Her tipin algıladığı</string>
     <string name="ref_sel_rcdtype_title">RCD tipi seçimi</string>
-    <string name="ref_sel_starting_callout">Sürücü yalnızca bir yol verme yöntemi değildir. Yük hiç kısmi devirde çalışıyorsa enerjide kendini amorti eder; %80 devirde bir fan gücün yaklaşık yarısını çeker.</string>
+    <string name="ref_sel_starting_callout" formatted="false">Sürücü yalnızca bir yol verme yöntemi değildir. Yük hiç kısmi devirde çalışıyorsa enerjide kendini amorti eder; %80 devirde bir fan gücün yaklaşık yarısını çeker.</string>
     <string name="ref_sel_starting_col_0">Direkt (DOL)</string>
     <string name="ref_sel_starting_col_1">Yıldız-üçgen</string>
     <string name="ref_sel_starting_col_2">Yumuşak yol verici</string>

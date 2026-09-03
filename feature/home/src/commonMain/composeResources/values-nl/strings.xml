@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">VoltageBoard</string>
+    <string name="destination_favorites">Favorieten</string>
+    <string name="home_badge_pinned">%1$d vastgezet</string>
+    <string name="home_badge_saved">%1$d bewaard</string>
+    <string name="home_browse">Bladeren</string>
+    <string name="home_recent">Recent</string>
+    <string name="search_group_calculators">Rekenhulpen</string>
+    <string name="search_group_converter">Eenheden omrekenen</string>
+    <string name="search_group_field_notes">Algemene info</string>
+    <string name="search_group_glossary">Woordenlijst</string>
+    <string name="search_group_references">Naslagwerk</string>
+    <string name="search_group_symbols">Schemasymbolen</string>
+    <string name="search_group_theory">Theorie</string>
+    <string name="state_empty_calculators_message">Geen rekenhulp komt overeen met die zoekopdracht. Probeer een andere term.</string>
+    <string name="state_empty_calculators_title">Geen resultaten</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">VoltageBoard</string>
+    <string name="destination_favorites">Favorit</string>
+    <string name="home_badge_pinned">%1$d disematkan</string>
+    <string name="home_badge_saved">%1$d tersimpan</string>
+    <string name="home_browse">Jelajahi</string>
+    <string name="home_recent">Terbaru</string>
+    <string name="search_group_calculators">Kalkulator</string>
+    <string name="search_group_converter">Konverter satuan</string>
+    <string name="search_group_field_notes">Info umum</string>
+    <string name="search_group_glossary">Glosarium</string>
+    <string name="search_group_references">Referensi</string>
+    <string name="search_group_symbols">Simbol gambar</string>
+    <string name="search_group_theory">Teori</string>
+    <string name="state_empty_calculators_message">Tidak ada kalkulator yang cocok dengan pencarian itu. Coba kata lain.</string>
+    <string name="state_empty_calculators_title">Tidak ada hasil</string>
+</resources>

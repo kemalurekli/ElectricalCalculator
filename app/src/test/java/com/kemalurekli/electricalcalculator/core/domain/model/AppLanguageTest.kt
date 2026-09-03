@@ -39,7 +39,11 @@ class AppLanguageTest {
         // Reachable if a shipped language is withdrawn while a device still
         // holds the old preference.
         assertEquals(AppLanguage.SYSTEM, AppLanguage.fromTagOrSystem("xx"))
-        assertEquals(AppLanguage.SYSTEM, AppLanguage.fromTagOrSystem("de-DE"))
+        // Japanese: a real tag the app does not ship. "de-DE" used to stand
+        // here and stopped being unsupported the day German was added, which
+        // is the failure mode this line now exists to avoid — a placeholder
+        // that quietly becomes a real case.
+        assertEquals(AppLanguage.SYSTEM, AppLanguage.fromTagOrSystem("ja-JP"))
     }
 
     @Test

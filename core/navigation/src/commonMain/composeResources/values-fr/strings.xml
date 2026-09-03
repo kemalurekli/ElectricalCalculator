@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dashboard_calculators_subtitle">Chute de tension, section de câble, courant moteur</string>
+    <string name="dashboard_calculators_title">Calculatrices</string>
+    <string name="dashboard_converter_subtitle">Conversions électriques, physiques et AWG</string>
+    <string name="dashboard_converter_title">Convertisseur d'unités</string>
+    <string name="dashboard_favorites_subtitle">Vos calculatrices épinglées</string>
+    <string name="dashboard_favorites_title">Favoris</string>
+    <string name="dashboard_field_notes_subtitle">Pourquoi on procède ainsi, et ce qui arrive sinon</string>
+    <string name="dashboard_field_notes_title">Informations générales</string>
+    <string name="dashboard_forum_subtitle">Posez la question qu'aucune calculatrice ne résout</string>
+    <string name="dashboard_forum_title">Forum</string>
+    <string name="dashboard_glossary_subtitle">Termes électriques, anglais et turc</string>
+    <string name="dashboard_glossary_title">Glossaire</string>
+    <string name="dashboard_history_subtitle">Tous les calculs que vous avez effectués</string>
+    <string name="dashboard_history_title">Historique</string>
+    <string name="dashboard_projects_subtitle">Regroupez les circuits d'un chantier et dimensionnez-les ensemble</string>
+    <string name="dashboard_projects_title">Projets</string>
+    <string name="dashboard_references_subtitle">Indices IP/IK, codes couleur et tableaux normatifs</string>
+    <string name="dashboard_references_title">Références</string>
+    <string name="dashboard_settings_subtitle">Thème, unités et informations sur l'application</string>
+    <string name="dashboard_settings_title">Paramètres</string>
+    <string name="dashboard_theory_subtitle">D'où viennent les formules, appliquées à vos valeurs</string>
+    <string name="dashboard_theory_title">Théorie</string>
+    <string name="destination_calculators">Calculatrices</string>
+    <string name="destination_converter">Convertisseur</string>
+    <string name="destination_favorites">Favoris</string>
+    <string name="destination_field_notes">Informations générales</string>
+    <string name="destination_forum">Forum</string>
+    <string name="destination_glossary">Glossaire</string>
+    <string name="destination_history">Historique</string>
+    <string name="destination_home">Accueil</string>
+    <string name="destination_more">Plus</string>
+    <string name="destination_projects">Projets</string>
+    <string name="destination_references">Références</string>
+    <string name="destination_settings">Paramètres</string>
+    <string name="destination_theory">Théorie</string>
+    <string name="tab_calculators">Calculs</string>
+</resources>

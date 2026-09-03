@@ -6,14 +6,24 @@ import org.junit.Test
 import java.io.File
 
 /**
- * Structural checks over `strings.xml` itself.
+ * Structural checks over every `strings.xml` the app ships.
  *
  * These catch a class of bug that compiles, passes every other test, and only
  * shows up as broken text on a user's screen — a literal `%` surviving into the
- * UI, or a translation drifting out of sync with the base language.
+ * UI, a positional argument dropped in translation, or a locale drifting out of
+ * sync with the base language.
  *
- * The files are parsed from disk rather than through `R`, because the defect
- * lives in the resource markup and is invisible once aapt has compiled it.
+ * The files are parsed from disk rather than through generated accessors,
+ * because the defect lives in the resource markup and is invisible once it has
+ * been compiled.
+ *
+ * ### Why it walks the tree
+ *
+ * It used to name two files: `:app`'s `values` and `values-tr`. That was right
+ * when the app was one module and shipped two languages. The screens moved into
+ * feature modules for iOS, and then ten more languages arrived — so the same
+ * defect now has about a hundred and ninety files to hide in, and naming them
+ * would mean remembering to name the next one.
  */
 class StringResourceIntegrityTest {
 
@@ -24,8 +34,25 @@ class StringResourceIntegrityTest {
         val isTranslatable: Boolean,
     )
 
-    private val baseStrings = parse("src/main/res/values/strings.xml")
-    private val turkishStrings = parse("src/main/res/values-tr/strings.xml")
+    /** One module's base file and every translation beside it. */
+    private data class Bundle(
+        val module: String,
+        val base: List<StringEntry>,
+        val translations: Map<String, List<StringEntry>>,
+    )
+
+    private val bundles: List<Bundle> = discover()
+
+    @Test
+    fun `the tree is actually being walked`() {
+        // Without this, a path change turns every check below into a silent
+        // pass over an empty list.
+        assertTrue("No composeResources found — the search root moved", bundles.size >= 10)
+        assertTrue(
+            "No translations found beside the base files",
+            bundles.any { it.translations.size >= 10 },
+        )
+    }
 
     @Test
     fun `a literal percent is only used in strings marked not formatted`() {
@@ -34,12 +61,12 @@ class StringResourceIntegrityTest {
         // `%` and no positional argument must therefore declare
         // formatted="false", which is also what stops lint reading it as a
         // conversion specifier.
-        (baseStrings + turkishStrings).forEach { entry ->
+        eachEntry { module, locale, entry ->
             val hasPositionalArgs = POSITIONAL_ARG.containsMatchIn(entry.body)
-            val hasPercent = entry.body.contains('%')
-            if (hasPercent && !hasPositionalArgs) {
+            if (entry.body.contains('%') && !hasPositionalArgs) {
                 assertTrue(
-                    "${entry.name} contains a literal % but is not marked formatted=\"false\"",
+                    "$module/$locale/${entry.name} contains a literal % but is not " +
+                        "marked formatted=\"false\"",
                     !entry.isFormatted,
                 )
             }
@@ -48,10 +75,11 @@ class StringResourceIntegrityTest {
 
     @Test
     fun `no string escapes a percent as double percent without taking arguments`() {
-        (baseStrings + turkishStrings).forEach { entry ->
+        eachEntry { module, locale, entry ->
             if (entry.body.contains("%%")) {
                 assertTrue(
-                    "${entry.name} uses %% but takes no arguments, so it renders literally",
+                    "$module/$locale/${entry.name} uses %% but takes no arguments, " +
+                        "so it renders literally",
                     POSITIONAL_ARG.containsMatchIn(entry.body),
                 )
             }
@@ -59,37 +87,50 @@ class StringResourceIntegrityTest {
     }
 
     @Test
-    fun `every translatable base string has a Turkish translation`() {
-        val expected = baseStrings.filter { it.isTranslatable }.map { it.name }.toSet()
-        val actual = turkishStrings.map { it.name }.toSet()
-
-        assertEquals(
-            "Missing Turkish translations",
-            emptySet<String>(),
-            expected - actual,
-        )
+    fun `every translatable base string is translated in every locale`() {
+        bundles.forEach { bundle ->
+            val expected = bundle.base.filter { it.isTranslatable }.map { it.name }.toSet()
+            bundle.translations.forEach { (locale, entries) ->
+                assertEquals(
+                    "${bundle.module}/$locale is missing translations",
+                    emptySet<String>(),
+                    expected - entries.map { it.name }.toSet() - BRAND,
+                )
+            }
+        }
     }
 
     @Test
-    fun `the Turkish file has no strings the base file lacks`() {
-        val base = baseStrings.map { it.name }.toSet()
-        val turkish = turkishStrings.map { it.name }.toSet()
-
-        // A leftover key after a rename is dead weight that silently never renders.
-        assertEquals("Orphaned Turkish strings", emptySet<String>(), turkish - base)
+    fun `a translation has no strings the base file lacks`() {
+        bundles.forEach { bundle ->
+            val base = bundle.base.map { it.name }.toSet()
+            bundle.translations.forEach { (locale, entries) ->
+                // A leftover key after a rename is dead weight that silently
+                // never renders.
+                assertEquals(
+                    "${bundle.module}/$locale has orphaned strings",
+                    emptySet<String>(),
+                    entries.map { it.name }.toSet() - base,
+                )
+            }
+        }
     }
 
     @Test
     fun `translations take the same positional arguments as the base string`() {
-        val base = baseStrings.associateBy { it.name }
-
-        turkishStrings.forEach { translated ->
-            val original = base[translated.name] ?: return@forEach
-            assertEquals(
-                "${translated.name} argument count differs between languages",
-                positionalArgs(original.body),
-                positionalArgs(translated.body),
-            )
+        bundles.forEach { bundle ->
+            val base = bundle.base.associateBy { it.name }
+            bundle.translations.forEach { (locale, entries) ->
+                entries.forEach { translated ->
+                    val original = base[translated.name] ?: return@forEach
+                    assertEquals(
+                        "${bundle.module}/$locale/${translated.name} takes different " +
+                            "arguments from the base string",
+                        positionalArgs(original.body),
+                        positionalArgs(translated.body),
+                    )
+                }
+            }
         }
     }
 
@@ -102,25 +143,26 @@ class StringResourceIntegrityTest {
         //
         // Whether a given abbreviation is universal is a per-language question,
         // so the forbidden forms are declared per locale rather than assumed.
-        // For Romance languages the native "CC" / "CA" are the standard forms
-        // and belong here as the *expected* spelling, not the forbidden one —
-        // which is exactly why this is a table and not a blanket rule.
+        // For the Romance languages the native "CC" / "CA" are the standard
+        // forms and would belong here as the *expected* spelling, not the
+        // forbidden one — which is why this is a table with one row in it
+        // rather than a blanket rule with exceptions.
         val forbiddenByLocale = mapOf(
             "values-tr" to mapOf("DA" to "DC", "AA" to "AC"),
         )
 
-        val filesByLocale = mapOf("values-tr" to turkishStrings)
-
-        forbiddenByLocale.forEach { (locale, replacements) ->
-            val entries = filesByLocale.getValue(locale)
-            replacements.forEach { (wrong, right) ->
-                val pattern = Regex("""\b$wrong\b""")
-                entries.forEach { entry ->
-                    assertTrue(
-                        "$locale/${entry.name} uses \"$wrong\"; write \"$right\" — " +
-                            "it is not localised",
-                        !pattern.containsMatchIn(entry.body),
-                    )
+        bundles.forEach { bundle ->
+            forbiddenByLocale.forEach { (locale, replacements) ->
+                val entries = bundle.translations[locale] ?: return@forEach
+                replacements.forEach { (wrong, right) ->
+                    val pattern = Regex("""\b$wrong\b""")
+                    entries.forEach { entry ->
+                        assertTrue(
+                            "${bundle.module}/$locale/${entry.name} uses \"$wrong\"; " +
+                                "write \"$right\" — it is not localised",
+                            !pattern.containsMatchIn(entry.body),
+                        )
+                    }
                 }
             }
         }
@@ -128,9 +170,15 @@ class StringResourceIntegrityTest {
 
     @Test
     fun `no string is defined twice in the same file`() {
-        listOf("values" to baseStrings, "values-tr" to turkishStrings).forEach { (label, entries) ->
-            val names = entries.map { it.name }
-            assertEquals("$label has duplicate string names", names.size, names.distinct().size)
+        bundles.forEach { bundle ->
+            (mapOf("values" to bundle.base) + bundle.translations).forEach { (locale, entries) ->
+                val names = entries.map { it.name }
+                assertEquals(
+                    "${bundle.module}/$locale has duplicate string names",
+                    names.size,
+                    names.distinct().size,
+                )
+            }
         }
     }
 
@@ -138,12 +186,40 @@ class StringResourceIntegrityTest {
     private fun positionalArgs(body: String): Set<Int> =
         POSITIONAL_ARG.findAll(body).map { it.groupValues[1].toInt() }.toSet()
 
-    private fun parse(relativePath: String): List<StringEntry> {
-        // Unit tests run with the module directory as the working directory.
-        val file = File(relativePath)
-        assertTrue("Missing resource file: $relativePath", file.exists())
+    private fun eachEntry(block: (module: String, locale: String, entry: StringEntry) -> Unit) {
+        bundles.forEach { bundle ->
+            (mapOf("values" to bundle.base) + bundle.translations).forEach { (locale, entries) ->
+                entries.forEach { block(bundle.module, locale, it) }
+            }
+        }
+    }
 
-        return STRING_ELEMENT.findAll(file.readText()).map { match ->
+    /** Every `composeResources` directory in the repository, plus `:app`'s own `res`. */
+    private fun discover(): List<Bundle> {
+        // Unit tests run with the module directory as the working directory.
+        val root = File("..")
+        val resourceRoots = root.walkTopDown()
+            .maxDepth(RESOURCE_DEPTH)
+            .filter { it.isDirectory && it.name == "composeResources" }
+            .filter { !it.path.contains("/build/") }
+            .toList() + File(root, "app/src/main/res")
+
+        return resourceRoots.mapNotNull { dir ->
+            val base = File(dir, "values/strings.xml").takeIf { it.exists() } ?: return@mapNotNull null
+            val translations = dir.listFiles()
+                .orEmpty()
+                .filter { it.isDirectory && it.name.startsWith("values-") }
+                .mapNotNull { localeDir ->
+                    File(localeDir, "strings.xml").takeIf { it.exists() }
+                        ?.let { localeDir.name to parse(it) }
+                }
+                .toMap()
+            Bundle(module = dir.path.substringAfter("../").substringBefore("/src/"), base = parse(base), translations = translations)
+        }
+    }
+
+    private fun parse(file: File): List<StringEntry> =
+        STRING_ELEMENT.findAll(file.readText()).map { match ->
             val attributes = match.groupValues[1]
             StringEntry(
                 name = NAME_ATTR.find(attributes)!!.groupValues[1],
@@ -152,11 +228,20 @@ class StringResourceIntegrityTest {
                 isTranslatable = !attributes.contains("translatable=\"false\""),
             )
         }.toList()
-    }
 
     private companion object {
         val STRING_ELEMENT = Regex("""<string\s+([^>]*)>(.*?)</string>""", RegexOption.DOT_MATCHES_ALL)
         val NAME_ATTR = Regex("""name="([^"]+)"""")
         val POSITIONAL_ARG = Regex("""%(\d+)\$""")
+
+        /** Deep enough for `feature/<name>/src/commonMain/composeResources`. */
+        const val RESOURCE_DEPTH = 6
+
+        /**
+         * The product name is the same word in every language, so a locale that
+         * omits it is falling back to the base file on purpose rather than
+         * missing a translation.
+         */
+        val BRAND = setOf("app_name")
     }
 }

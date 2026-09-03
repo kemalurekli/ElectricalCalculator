@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_clear_all">Очистить всё</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_duplicate">Дублировать</string>
+    <string name="action_rename">Переименовать</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_undo">Вернуть</string>
+    <string name="destination_history">История</string>
+    <string name="history_actions">Другие действия</string>
+    <string name="history_clear_message">Все сохранённые расчёты будут удалены. Это действие необратимо.</string>
+    <string name="history_clear_title">Очистить историю?</string>
+    <string name="history_deleted">Расчёт удалён</string>
+    <string name="history_rename_label">Название</string>
+    <string name="history_rename_title">Переименовать расчёт</string>
+    <string name="search_history_hint">Поиск по сохранённым расчётам</string>
+    <string name="state_empty_history_message">Результаты сохраняются здесь автоматически по мере расчётов.</string>
+    <string name="state_empty_history_title">Расчётов пока нет</string>
+</resources>

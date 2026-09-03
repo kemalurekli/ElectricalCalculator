@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dashboard_calculators_subtitle">Потеря напряжения, сечение кабеля, ток двигателя</string>
+    <string name="dashboard_calculators_title">Калькуляторы</string>
+    <string name="dashboard_converter_subtitle">Электрические, физические и AWG-пересчёты</string>
+    <string name="dashboard_converter_title">Конвертер единиц</string>
+    <string name="dashboard_favorites_subtitle">Закреплённые вами калькуляторы</string>
+    <string name="dashboard_favorites_title">Избранное</string>
+    <string name="dashboard_field_notes_subtitle">Почему делают именно так и что бывает иначе</string>
+    <string name="dashboard_field_notes_title">Общие сведения</string>
+    <string name="dashboard_forum_subtitle">Спросите то, на что калькулятор не ответит</string>
+    <string name="dashboard_forum_title">Форум</string>
+    <string name="dashboard_glossary_subtitle">Электротехнические термины, английский и турецкий</string>
+    <string name="dashboard_glossary_title">Глоссарий</string>
+    <string name="dashboard_history_subtitle">Все выполненные вами расчёты</string>
+    <string name="dashboard_history_title">История</string>
+    <string name="dashboard_projects_subtitle">Держите линии одного объекта вместе и рассчитывайте их как целое</string>
+    <string name="dashboard_projects_title">Проекты</string>
+    <string name="dashboard_references_subtitle">Степени IP/IK, цветовая маркировка и нормативные таблицы</string>
+    <string name="dashboard_references_title">Справочники</string>
+    <string name="dashboard_settings_subtitle">Тема, единицы и сведения о приложении</string>
+    <string name="dashboard_settings_title">Настройки</string>
+    <string name="dashboard_theory_subtitle">Откуда берутся формулы, посчитанные на ваших числах</string>
+    <string name="dashboard_theory_title">Теория</string>
+    <string name="destination_calculators">Калькуляторы</string>
+    <string name="destination_converter">Конвертер</string>
+    <string name="destination_favorites">Избранное</string>
+    <string name="destination_field_notes">Общие сведения</string>
+    <string name="destination_forum">Форум</string>
+    <string name="destination_glossary">Глоссарий</string>
+    <string name="destination_history">История</string>
+    <string name="destination_home">Главная</string>
+    <string name="destination_more">Ещё</string>
+    <string name="destination_projects">Проекты</string>
+    <string name="destination_references">Справочники</string>
+    <string name="destination_settings">Настройки</string>
+    <string name="destination_theory">Теория</string>
+    <string name="tab_calculators">Расчёты</string>
+</resources>

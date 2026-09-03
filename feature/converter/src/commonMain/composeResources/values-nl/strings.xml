@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calculator_notes">Technische opmerkingen</string>
+    <string name="cv_all_units">In alle eenheden</string>
+    <string name="cv_enter_value">Voer een waarde in om om te rekenen</string>
+    <string name="cv_from">Van</string>
+    <string name="cv_note_awg" formatted="false">AWG is een meetkundige reeks, geen schaal: het nummer daalt naarmate de geleider groeit, en de maten boven 0 schrijft men 00, 000 en 0000 — voer die in als −1, −2 en −3. Omdat de onderliggende formule continu is, kan een metrische doorsnede uitkomen op een maat tussen twee werkelijke maten; rond af naar de eerstvolgende grotere geleider, dat is het lagere nummer.</string>
+    <string name="cv_note_calorie" formatted="false">De calorie van de Internationale Tabel van 4,1868 J wordt gebruikt, om aan te sluiten bij de IT-British thermal unit in dezelfde categorie. De thermochemische calorie van 4,184 J is 0,07 % kleiner.</string>
+    <string name="cv_note_horsepower" formatted="false">Paardenkracht bestaat in twee maten: mechanische hp is 550 ft·lbf/s, metrische pk is 75 kgf·m/s, en ze verschillen ongeveer 1,4 %. Motorplaatjes in Europa bedoelen doorgaans pk. Beide worden aangeboden in plaats van er één voor u te kiezen.</string>
+    <string name="cv_note_kcmil" formatted="false">Een circular mil is de oppervlakte van een cirkel van een duizendste inch doorsnede, dus kcmil is een oppervlakte en rekent exact om. 4/0 AWG is 211,6 kcmil is 107,2 mm² — drie manieren om dezelfde geleider te schrijven.</string>
+    <string name="cv_note_temperature" formatted="false">Temperatuur is de enige categorie die niet evenredig is: 20 °C is niet het dubbele van 10 °C, omdat de schalen hun nulpunt ergens anders leggen dan bij het absolute nulpunt. De omrekeningen houden rekening met die verschuiving, dus een temperatuurverschil mag niet als een temperatuur worden omgerekend.</string>
+    <string name="cv_note_va" formatted="false">Voltampère ontbreekt bewust in de categorie vermogen. Schijnbaar vermogen wordt alleen via de arbeidsfactor watt, en 1 kVA als 1 kW behandelen zou fout zijn bij elke belasting die niet zuiver ohms is. Gebruik daarvoor de vermogensrekenhulp.</string>
+    <string name="cv_result_label">%1$s naar %2$s</string>
+    <string name="cv_swap">Eenheden wisselen</string>
+    <string name="cv_to">Naar</string>
+    <string name="cv_value">Waarde</string>
+    <string name="dashboard_converter_title">Eenhedenomrekener</string>
+    <string name="tab_converter">Omrekenen</string>
+    <string name="unit_category_angle">Hoek</string>
+    <string name="unit_category_area">Oppervlakte</string>
+    <string name="unit_category_capacitance">Capaciteit</string>
+    <string name="unit_category_current">Stroom</string>
+    <string name="unit_category_energy">Energie</string>
+    <string name="unit_category_frequency">Frequentie</string>
+    <string name="unit_category_illuminance">Verlichtingssterkte</string>
+    <string name="unit_category_inductance">Inductie</string>
+    <string name="unit_category_length">Lengte</string>
+    <string name="unit_category_mass">Massa</string>
+    <string name="unit_category_power">Vermogen</string>
+    <string name="unit_category_pressure">Druk</string>
+    <string name="unit_category_resistance">Weerstand</string>
+    <string name="unit_category_signal_power">Signaalvermogen</string>
+    <string name="unit_category_temperature">Temperatuur</string>
+    <string name="unit_category_torque">Koppel</string>
+    <string name="unit_category_voltage">Spanning</string>
+    <string name="unit_category_volume">Volume</string>
+    <string name="unit_category_wire_gauge">Geleiderdoorsnede</string>
+</resources>

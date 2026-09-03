@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Abbrechen</string>
+    <string name="action_close">Schließen</string>
+    <string name="action_reset">Zurücksetzen</string>
+    <string name="common_material_aluminium">Aluminium</string>
+    <string name="common_material_copper">Kupfer</string>
+    <string name="cs_insulation_pvc">PVC 70 °C</string>
+    <string name="cs_insulation_xlpe">VPE 90 °C</string>
+    <string name="cs_method_b1">B1</string>
+    <string name="cs_method_b1_full">B1 — Adern im Rohr auf der Wand</string>
+    <string name="cs_method_b2">B2</string>
+    <string name="cs_method_b2_full">B2 — Mantelleitung im Rohr</string>
+    <string name="cs_method_c">C</string>
+    <string name="cs_method_c_full">C — direkt auf der Oberfläche befestigt</string>
+    <string name="cs_method_e">E</string>
+    <string name="cs_method_e_full">E — frei in Luft oder auf Lochblechwanne</string>
+    <string name="destination_settings">Einstellungen</string>
+    <string name="forum_account_section">Forumkonto</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="settings_about">Über</string>
+    <string name="settings_appearance">Darstellung</string>
+    <string name="settings_engineering">Technische Vorgaben</string>
+    <string name="settings_engineering_ambient">Umgebungstemperatur</string>
+    <string name="settings_engineering_frequency">Netzfrequenz</string>
+    <string name="settings_engineering_insulation">Isolierung</string>
+    <string name="settings_engineering_material">Leitermaterial</string>
+    <string name="settings_engineering_method">Verlegeart</string>
+    <string name="settings_engineering_reset">Vorgaben zurücksetzen</string>
+    <string name="settings_engineering_reset_message">Ersetzt jeden Wert oben durch den, den eine Neuinstallation für Ihre Region verwenden würde. Gespeicherte Berechnungen bleiben unberührt.</string>
+    <string name="settings_engineering_single_phase">Wechselspannung</string>
+    <string name="settings_engineering_summary">Die Werte, mit denen jeder Rechner öffnet. Bei der ersten Installation einmal aus Ihrer Region geraten und von da an Ihre — ein Wechsel der App-Sprache ändert sie nicht. Zurücksetzen führt diese Schätzung erneut aus.</string>
+    <string name="settings_engineering_three_phase">Drehspannung</string>
+    <string name="settings_language">Sprache</string>
+    <string name="settings_language_description">Wählen Sie die Sprache, in der die App angezeigt wird</string>
+    <string name="settings_language_system">Systemvorgabe</string>
+    <string name="settings_language_partial">Rechner, Projekte, Forum und Einstellungen sind in jede aufgeführte Sprache übersetzt. Referenztabellen, Theorie, Glossar und Grundwissen sind nur auf Englisch und Türkisch verfasst und bleiben unter den übrigen Sprachen englisch.</string>
+    <string name="settings_legal">Rechtliches</string>
+    <string name="settings_licenses">Open-Source-Lizenzen</string>
+    <string name="settings_privacy_policy">Datenschutzerklärung</string>
+    <string name="settings_theme">Design</string>
+    <string name="settings_theme_dark">Dunkel</string>
+    <string name="settings_theme_light">Hell</string>
+    <string name="settings_theme_system">Systemvorgabe</string>
+    <string name="settings_unit_system">Einheitensystem</string>
+    <string name="settings_unit_system_imperial">Imperial (AWG, ft)</string>
+    <string name="settings_unit_system_metric">Metrisch (mm², m)</string>
+    <string name="settings_units">Einheiten</string>
+    <string name="settings_version">Version</string>
+</resources>

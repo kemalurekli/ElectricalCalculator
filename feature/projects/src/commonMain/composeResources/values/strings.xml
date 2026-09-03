@@ -88,7 +88,7 @@
     <string name="report_column_capacity">Iz (A)</string>
     <string name="report_column_circuit">Circuit</string>
     <string name="report_column_device">Device (A)</string>
-    <string name="report_column_drop">Drop (%)</string>
+    <string name="report_column_drop" formatted="false">Drop (%)</string>
     <string name="report_column_length">Length (m)</string>
     <string name="report_column_load">Load</string>
     <string name="report_column_loop">Zs (Ω)</string>

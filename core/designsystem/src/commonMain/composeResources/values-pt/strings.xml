@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_back">Voltar</string>
+    <string name="action_copy">Copiar</string>
+    <string name="action_favorite_add">Adicionar aos favoritos</string>
+    <string name="action_favorite_remove">Remover dos favoritos</string>
+    <string name="action_retry">Tentar novamente</string>
+    <string name="action_share">Partilhar</string>
+    <string name="cable_row_diameter">Diâmetro exterior</string>
+    <string name="cable_row_quantity">Qtd.</string>
+    <string name="cable_row_remove">Remover este cabo</string>
+    <string name="calculator_notes_read_more">Ler mais</string>
+    <string name="disclaimer_accept">Li e aceito</string>
+    <string name="disclaimer_body" formatted="false">Esta aplicação é fornecida apenas para informação geral.\n\nNão é aceite qualquer responsabilidade pelos cálculos, resultados, tabelas ou textos explicativos que contém. Os resultados não devem ser usados como base de trabalhos científicos ou de engenharia.\n\nA responsabilidade por qualquer utilização desta aplicação, e pela verificação de tudo o que dela for retirado, é inteiramente do utilizador. Em nenhuma circunstância a aplicação ou os seus programadores podem ser responsabilizados por perdas ou danos decorrentes da sua utilização.\n\nO conteúdo e a própria aplicação foram produzidos com o apoio de inteligência artificial. Utilize-a com essa consciência.\n\nO fórum contém mensagens escritas por outros utilizadores. Nada do que aí é publicado é verificado, validado ou subscrito pelos programadores, não constitui aconselhamento de engenharia, e a responsabilidade por qualquer ação daí decorrente é do leitor. É responsável pelo que publica e por não publicar dados pessoais de terceiros.\n\nSempre que algo noutro ponto desta aplicação pareça dizer o contrário, prevalecem as condições aqui estabelecidas.\n\nAo utilizar esta aplicação considera-se que aceitou o acima exposto.</string>
+    <string name="disclaimer_title">Aviso legal</string>
+    <string name="search_clear">Limpar pesquisa</string>
+    <string name="search_hint">Pesquisar calculadoras, conversores, referências</string>
+    <string name="state_empty_favorites_message">Fixe uma calculadora para a manter no ecrã inicial.</string>
+    <string name="state_empty_favorites_title">Ainda sem favoritos</string>
+    <string name="state_error_title">Algo correu mal</string>
+    <string name="state_in_development_message">Esta secção está a ser construída e chegará numa versão futura.</string>
+    <string name="state_in_development_title">Ainda não disponível</string>
+    <string name="state_just_now">Agora mesmo</string>
+    <string name="state_loading">A carregar</string>
+    <string name="validation_below_minimum">Introduza um valor de %1$s ou superior</string>
+    <string name="validation_exceeds_maximum">Introduza um valor de %1$s ou inferior</string>
+    <string name="validation_must_be_positive">Introduza um valor maior que zero</string>
+    <string name="validation_must_not_be_negative">Introduza um valor de zero ou superior</string>
+    <string name="validation_not_a_number">Introduza um número válido</string>
+    <string name="validation_out_of_range">Introduza um valor entre %1$s e %2$s</string>
+    <string name="validation_required">Este valor é obrigatório</string>
+    <string name="calculator_examples">Casos de exemplo</string>
+    <string name="calculator_examples_hint">Carregue um caso realista e veja-o resolvido.</string>
+    <string name="calculator_steps">Passo a passo</string>
+</resources>

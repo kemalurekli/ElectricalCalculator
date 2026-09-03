@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">VoltageBoard</string>
+    <string name="destination_favorites">Избранное</string>
+    <string name="home_badge_pinned">Закреплено: %1$d</string>
+    <string name="home_badge_saved">Сохранено: %1$d</string>
+    <string name="home_browse">Обзор</string>
+    <string name="home_recent">Недавние</string>
+    <string name="search_group_calculators">Калькуляторы</string>
+    <string name="search_group_converter">Конвертер единиц</string>
+    <string name="search_group_field_notes">Общие сведения</string>
+    <string name="search_group_glossary">Глоссарий</string>
+    <string name="search_group_references">Справочники</string>
+    <string name="search_group_symbols">Условные обозначения</string>
+    <string name="search_group_theory">Теория</string>
+    <string name="state_empty_calculators_message">По этому запросу калькуляторов не найдено. Попробуйте другой термин.</string>
+    <string name="state_empty_calculators_title">Ничего не найдено</string>
+</resources>

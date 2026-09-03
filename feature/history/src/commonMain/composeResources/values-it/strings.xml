@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Annulla</string>
+    <string name="action_clear_all">Cancella tutto</string>
+    <string name="action_delete">Elimina</string>
+    <string name="action_duplicate">Duplica</string>
+    <string name="action_rename">Rinomina</string>
+    <string name="action_save">Salva</string>
+    <string name="action_undo">Annulla</string>
+    <string name="destination_history">Cronologia</string>
+    <string name="history_actions">Altre azioni</string>
+    <string name="history_clear_message">Tutti i calcoli salvati verranno rimossi. L'operazione non è reversibile.</string>
+    <string name="history_clear_title">Cancellare la cronologia?</string>
+    <string name="history_deleted">Calcolo eliminato</string>
+    <string name="history_rename_label">Nome</string>
+    <string name="history_rename_title">Rinomina calcolo</string>
+    <string name="search_history_hint">Cerca nei calcoli salvati</string>
+    <string name="state_empty_history_message">I risultati vengono salvati qui automaticamente mentre calcoli.</string>
+    <string name="state_empty_history_title">Nessun calcolo</string>
+</resources>

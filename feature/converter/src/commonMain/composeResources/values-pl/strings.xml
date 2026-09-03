@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calculator_notes">Uwagi techniczne</string>
+    <string name="cv_all_units">We wszystkich jednostkach</string>
+    <string name="cv_enter_value">Podaj wartość do przeliczenia</string>
+    <string name="cv_from">Z</string>
+    <string name="cv_note_awg" formatted="false">AWG to szereg geometryczny, nie skala: numer maleje, gdy żyła rośnie, a rozmiary powyżej 0 zapisuje się 00, 000 i 0000 — wprowadź je jako −1, −2 i −3. Ponieważ definiująca formuła jest ciągła, przekrój metryczny może wypaść między dwoma rzeczywistymi rozmiarami; zaokrąglij do żyły większej, czyli do numeru mniejszego.</string>
+    <string name="cv_note_calorie" formatted="false">Stosowana jest kaloria Tablicy Międzynarodowej 4,1868 J, zgodnie z BTU IT w tej samej kategorii. Kaloria termochemiczna 4,184 J jest mniejsza o 0,07 %.</string>
+    <string name="cv_note_horsepower" formatted="false">Koń mechaniczny występuje w dwóch odmianach: hp mechaniczny to 550 ft·lbf/s, KM metryczny to 75 kgf·m/s, różnią się o około 1,4 %. Tabliczki silników w Europie oznaczają zwykle KM. Podano obie zamiast wybierać za Ciebie.</string>
+    <string name="cv_note_kcmil" formatted="false">Mil kołowy to pole koła o średnicy jednej tysięcznej cala, więc kcmil jest polem i przelicza się dokładnie. 4/0 AWG to 211,6 kcmil to 107,2 mm² — trzy zapisy tej samej żyły.</string>
+    <string name="cv_note_temperature" formatted="false">Temperatura jest jedyną kategorią nieproporcjonalną: 20 °C to nie dwa razy 10 °C, bo skale umieszczają zero gdzie indziej niż zero bezwzględne. Przeliczenia uwzględniają to przesunięcie, więc różnicy temperatur nie wolno przeliczać jak temperatury.</string>
+    <string name="cv_note_va" formatted="false">Woltoampery celowo pominięto w kategorii mocy. Moc pozorna przechodzi w waty wyłącznie przez współczynnik mocy, a traktowanie 1 kVA jako 1 kW byłoby błędne przy każdym odbiorniku innym niż czysto rezystancyjny. Do tej zależności użyj kalkulatora mocy.</string>
+    <string name="cv_result_label">%1$s na %2$s</string>
+    <string name="cv_swap">Zamień jednostki</string>
+    <string name="cv_to">Na</string>
+    <string name="cv_value">Wartość</string>
+    <string name="dashboard_converter_title">Przelicznik jednostek</string>
+    <string name="tab_converter">Przelicz</string>
+    <string name="unit_category_angle">Kąt</string>
+    <string name="unit_category_area">Powierzchnia</string>
+    <string name="unit_category_capacitance">Pojemność</string>
+    <string name="unit_category_current">Prąd</string>
+    <string name="unit_category_energy">Energia</string>
+    <string name="unit_category_frequency">Częstotliwość</string>
+    <string name="unit_category_illuminance">Natężenie oświetlenia</string>
+    <string name="unit_category_inductance">Indukcyjność</string>
+    <string name="unit_category_length">Długość</string>
+    <string name="unit_category_mass">Masa</string>
+    <string name="unit_category_power">Moc</string>
+    <string name="unit_category_pressure">Ciśnienie</string>
+    <string name="unit_category_resistance">Rezystancja</string>
+    <string name="unit_category_signal_power">Moc sygnału</string>
+    <string name="unit_category_temperature">Temperatura</string>
+    <string name="unit_category_torque">Moment obrotowy</string>
+    <string name="unit_category_voltage">Napięcie</string>
+    <string name="unit_category_volume">Objętość</string>
+    <string name="unit_category_wire_gauge">Przekrój żyły</string>
+</resources>
