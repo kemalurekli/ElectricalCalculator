@@ -11,28 +11,46 @@ import com.kemalurekli.electricalcalculator.core.domain.model.StandardCrossSecti
  *
  * ## Source
  *
- * Values are the tabulated capacities for reference installation methods at a
- * 30 °C ambient, single circuit:
+ * The tabulated capacities for reference installation methods at 30 °C ambient,
+ * single circuit, PVC 70 °C and XLPE/EPR 90 °C, copper and aluminium. IEC
+ * numbers its annex tables by insulation and by how many conductors are loaded,
+ * with both materials in one table, rather than one table per material. Read
+ * from the reproductions used below, that makes B.52.2 and B.52.3 the PVC
+ * tables for two and three loaded conductors and B.52.4 and B.52.5 the XLPE
+ * pair — each holding a copper block and an aluminium block. The block comments
+ * further down follow that reading; the numbering is the one part of this file
+ * nobody has confirmed against the standard itself.
  *
- * - Copper, PVC 70 °C — Table B.52.2
- * - Copper, XLPE/EPR 90 °C — Table B.52.4
- * - Aluminium, PVC 70 °C — Table B.52.3
- * - Aluminium, XLPE/EPR 90 °C — Table B.52.5
+ * ## What has been checked, and what has not
  *
- * ## ⚠ Verification required before release
+ * These figures are transcribed data, not derived results: nothing in the code
+ * can prove them right, and an undersized conductor is a fire risk.
  *
- * These figures are transcribed data, not derived results: unlike the voltage
- * drop formula, nothing in the code can prove them right. An undersized
- * conductor is a fire risk, so the table must be checked against the edition of
- * IEC 60364-5-52 (or the national adoption, e.g. TS HD 60364-5-52) that the app
- * claims to follow, and re-checked whenever that edition changes.
+ * On 2026-09-04 the copper half was read against BS 7671 Appendix 4 — Tables
+ * 4D1A, 4D2A, 4E1A and 4E2A, which carry the harmonised numbers, as published
+ * by two cable suppliers independently — and against the IEC table as
+ * reproduced in Schneider's Electrical Installation Guide. Around 330 cells
+ * agreed. Two findings came out of it:
+ *
+ * - **Eight cells were wrong and are corrected.** PVC, three loaded conductors,
+ *   methods B1 and B2, 150 mm² and above read five to eight per cent high. They
+ *   broke no invariant — a column that is uniformly too high still rises with
+ *   area and still sits between XLPE and aluminium — so only a source could
+ *   catch them. They under-sized cable, which is the direction that burns.
+ * - **Two cells differ between standards and keep the IEC figure.** XLPE, three
+ *   loaded conductors, free air, 150 and 185 mm²: BS 7671 prints 399 and 456
+ *   where IEC prints 395 and 450.
+ *
+ * The **aluminium half is still unverified**, and worse than unverified: three
+ * of its columns are literal copies of columns from other tables in this file,
+ * which is the fingerprint of a paste rather than a transcription. It is easy
+ * to miss because aluminium on XLPE genuinely lands within a couple of per cent
+ * of copper on PVC. `AmpacityTableTest` lists the copies so they cannot spread,
+ * and `docs/verification-backlog.md` carries the row. Nothing freely published
+ * reproduces the non-armoured aluminium tables; this one needs the standard.
  *
  * The structure below is deliberately one row per cross-section so a reviewer
- * can read it side by side with the printed table. `AmpacityTableTest` locks
- * every value and additionally asserts the physical relationships the table must
- * satisfy — capacity rising with area, XLPE above PVC, copper above aluminium,
- * two loaded conductors above three — which catches a mistyped digit even
- * without the standard to hand.
+ * can read it side by side with the printed table.
  */
 class AmpacityTable() {
 
@@ -99,7 +117,7 @@ class AmpacityTable() {
         /** Columns: B1, B2, C, E. A zero marks a combination the table omits. */
         private fun rows(vararg entries: Pair<Double, DoubleArray>) = linkedMapOf(*entries)
 
-        // --- Copper, PVC 70 °C — IEC 60364-5-52 Table B.52.2 -----------------
+        // --- PVC 70 °C, copper — B.52.2 two loaded, B.52.3 three ------------
         val COPPER_PVC_TWO = rows(
             //                  B1      B2      C       E
             1.5 to doubleArrayOf(17.5, 16.5, 19.5, 22.0),
@@ -133,13 +151,13 @@ class AmpacityTable() {
             70.0 to doubleArrayOf(171.0, 149.0, 184.0, 196.0),
             95.0 to doubleArrayOf(207.0, 179.0, 223.0, 238.0),
             120.0 to doubleArrayOf(239.0, 206.0, 259.0, 276.0),
-            150.0 to doubleArrayOf(275.0, 236.0, 299.0, 319.0),
-            185.0 to doubleArrayOf(314.0, 268.0, 341.0, 364.0),
-            240.0 to doubleArrayOf(370.0, 315.0, 403.0, 430.0),
-            300.0 to doubleArrayOf(426.0, 360.0, 464.0, 497.0),
+            150.0 to doubleArrayOf(262.0, 225.0, 299.0, 319.0),
+            185.0 to doubleArrayOf(296.0, 255.0, 341.0, 364.0),
+            240.0 to doubleArrayOf(346.0, 297.0, 403.0, 430.0),
+            300.0 to doubleArrayOf(394.0, 339.0, 464.0, 497.0),
         )
 
-        // --- Copper, XLPE 90 °C — IEC 60364-5-52 Table B.52.4 ----------------
+        // --- XLPE 90 °C, copper — B.52.4 two loaded, B.52.5 three -----------
         val COPPER_XLPE_TWO = rows(
             1.5 to doubleArrayOf(23.0, 22.0, 24.0, 26.0),
             2.5 to doubleArrayOf(31.0, 30.0, 33.0, 36.0),
@@ -178,7 +196,7 @@ class AmpacityTable() {
             300.0 to doubleArrayOf(514.0, 455.0, 576.0, 621.0),
         )
 
-        // --- Aluminium, PVC 70 °C — IEC 60364-5-52 Table B.52.3 --------------
+        // --- PVC 70 °C, aluminium — same two tables, aluminium columns ------
         // Aluminium conductors are not made below 2.5 mm², so 1.5 is absent.
         val ALUMINIUM_PVC_TWO = rows(
             2.5 to doubleArrayOf(18.5, 17.5, 21.0, 23.0),
@@ -216,7 +234,7 @@ class AmpacityTable() {
             300.0 to doubleArrayOf(306.0, 265.0, 351.0, 381.0),
         )
 
-        // --- Aluminium, XLPE 90 °C — IEC 60364-5-52 Table B.52.5 -------------
+        // --- XLPE 90 °C, aluminium — same two tables, aluminium columns -----
         val ALUMINIUM_XLPE_TWO = rows(
             2.5 to doubleArrayOf(24.0, 22.0, 26.0, 28.0),
             4.0 to doubleArrayOf(32.0, 30.0, 35.0, 38.0),
@@ -247,10 +265,10 @@ class AmpacityTable() {
             70.0 to doubleArrayOf(160.0, 149.0, 174.0, 186.0),
             95.0 to doubleArrayOf(195.0, 179.0, 211.0, 227.0),
             120.0 to doubleArrayOf(226.0, 206.0, 245.0, 263.0),
-            150.0 to doubleArrayOf(261.0, 236.0, 283.0, 304.0),
-            185.0 to doubleArrayOf(298.0, 268.0, 323.0, 347.0),
-            240.0 to doubleArrayOf(352.0, 315.0, 382.0, 409.0),
-            300.0 to doubleArrayOf(406.0, 360.0, 440.0, 471.0),
+            150.0 to doubleArrayOf(261.0, 225.0, 283.0, 304.0),
+            185.0 to doubleArrayOf(298.0, 255.0, 323.0, 347.0),
+            240.0 to doubleArrayOf(352.0, 297.0, 382.0, 409.0),
+            300.0 to doubleArrayOf(406.0, 339.0, 440.0, 471.0),
         )
     }
 }

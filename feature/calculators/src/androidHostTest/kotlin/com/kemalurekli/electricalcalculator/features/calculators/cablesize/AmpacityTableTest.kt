@@ -63,6 +63,96 @@ class AmpacityTableTest {
         )
     }
 
+    @Test
+    fun `the large PVC conduit sizes are the ones checked against the standard`() {
+        // Checked 2026-09-04 and corrected. These eight cells — methods B1 and
+        // B2, three loaded conductors, PVC, 150 mm² and above — used to read
+        // 275/236, 314/268, 370/315 and 426/360, five to eight per cent above
+        // what the harmonised tables give. Every invariant below passed while
+        // they were wrong, because being uniformly too high breaks none of
+        // them: the column still rose with area, still sat under XLPE, still
+        // sat above aluminium. It only under-sized cable.
+        //
+        // What gave them away was the ratio to the two-conductor column, which
+        // falls steadily from 0,888 at 120 mm² to 0,860 at 300 mm² in the
+        // standard and jumped back up to 0,917 here.
+        val b1 = InstallationMethod.B1_CONDUIT_ON_WALL
+        val b2 = InstallationMethod.B2_MULTICORE_IN_CONDUIT
+        assertEquals(262.0, capacity(150.0, method = b1)!!, 1e-9)
+        assertEquals(296.0, capacity(185.0, method = b1)!!, 1e-9)
+        assertEquals(346.0, capacity(240.0, method = b1)!!, 1e-9)
+        assertEquals(394.0, capacity(300.0, method = b1)!!, 1e-9)
+        assertEquals(225.0, capacity(150.0, method = b2)!!, 1e-9)
+        assertEquals(255.0, capacity(185.0, method = b2)!!, 1e-9)
+        assertEquals(297.0, capacity(240.0, method = b2)!!, 1e-9)
+        assertEquals(339.0, capacity(300.0, method = b2)!!, 1e-9)
+    }
+
+    @Test
+    fun `the two cells where IEC and BS 7671 disagree keep the IEC figure`() {
+        // XLPE, three loaded conductors, free air. BS 7671 Table 4E2A prints
+        // 399 and 456 here; the IEC table this app follows prints 395 and 450.
+        // Every other cell the two standards share is identical, so this is a
+        // real difference between them and not a typo in either. The app says
+        // IEC on the tin, so it keeps the IEC figure — and a user checking
+        // against the brown book will find these two and should find this note.
+        val e = InstallationMethod.E_FREE_AIR
+        assertEquals(395.0, capacity(150.0, insulation = CableInsulation.XLPE, method = e)!!, 1e-9)
+        assertEquals(450.0, capacity(185.0, insulation = CableInsulation.XLPE, method = e)!!, 1e-9)
+    }
+
+    @Test
+    fun `no column is a copy of a column from another table`() {
+        // Four tables, four methods: sixteen columns that were transcribed
+        // independently and should read independently. Two of them agreeing on
+        // every size from 2,5 to 300 mm² is not a coincidence — real tables
+        // round independently — it is the fingerprint of a column pasted from
+        // one table into another.
+        //
+        // Aluminium on XLPE is where this is easy to do and hard to notice:
+        // aluminium carries about 78 % of copper and XLPE adds about 25 %, so
+        // aluminium/XLPE lands within a couple of per cent of copper/PVC, and a
+        // pasted column looks plausible on every graph.
+        //
+        // The four below are the ones already in the table when this test was
+        // written. They are listed rather than fixed because no source this
+        // project can reach carries the non-armoured aluminium tables — see the
+        // `ampacity-aluminium` row of docs/verification-backlog.md. Anyone who
+        // opens the standard should delete the entry they have checked.
+        val known = setOf(
+            "ALUMINIUM/XLPE/TWO/B1 == COPPER/PVC/TWO/B1",
+            "ALUMINIUM/XLPE/THREE/B2 == COPPER/PVC/THREE/B2",
+            "ALUMINIUM/PVC/TWO/C == ALUMINIUM/XLPE/THREE/B1",
+            "ALUMINIUM/PVC/TWO/E == ALUMINIUM/XLPE/THREE/C",
+        )
+
+        val columns = mutableMapOf<String, Map<Double, Double>>()
+        forEveryCombination { material, insulation, method, conductors ->
+            val name = "$material/$insulation/$conductors/${short(method)}"
+            columns[name] = table.tabulatedSizes(material).mapNotNull { area ->
+                table.capacityAmps(area, material, insulation, method, conductors)
+                    ?.let { area to it }
+            }.toMap()
+        }
+
+        val duplicates = mutableListOf<String>()
+        columns.keys.sorted().forEachIndexed { index, first ->
+            columns.keys.sorted().drop(index + 1).forEach { second ->
+                if (first.substringBeforeLast('/') == second.substringBeforeLast('/')) return@forEach
+                val shared = columns.getValue(first).keys intersect columns.getValue(second).keys
+                if (shared.size < 10) return@forEach
+                val same = shared.all { columns.getValue(first)[it] == columns.getValue(second)[it] }
+                if (same) duplicates += "$first == $second"
+            }
+        }
+
+        assertEquals(
+            "Columns that read identically across two different tables",
+            known,
+            duplicates.toSet(),
+        )
+    }
+
     // -- Physical consistency ------------------------------------------------
 
     @Test
@@ -224,5 +314,12 @@ class AmpacityTableTest {
                 block(material, insulation)
             }
         }
+    }
+
+    private fun short(method: InstallationMethod) = when (method) {
+        InstallationMethod.B1_CONDUIT_ON_WALL -> "B1"
+        InstallationMethod.B2_MULTICORE_IN_CONDUIT -> "B2"
+        InstallationMethod.C_CLIPPED_DIRECT -> "C"
+        InstallationMethod.E_FREE_AIR -> "E"
     }
 }
