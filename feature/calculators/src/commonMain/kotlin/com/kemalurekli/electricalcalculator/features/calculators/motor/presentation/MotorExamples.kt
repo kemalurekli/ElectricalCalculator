@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.motor.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.core.domain.model.PowerUnit
 import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
@@ -26,11 +27,11 @@ internal val motorExamples: ImmutableList<WorkedExample<MotorUiState>> = persist
             state.copy(
             system = SupplySystem.THREE_PHASE_AC,
             powerUnit = PowerUnit.KILOWATT,
-            ratedPower = "5.5",
+            ratedPower = "5.5".seededDecimal(),
             voltage = "400",
             voltageEdited = true,
             efficiency = "90",
-            powerFactor = "0.85",
+            powerFactor = "0.85".seededDecimal(),
             startingRatio = "6",
             )
         },
@@ -47,7 +48,7 @@ internal val motorExamples: ImmutableList<WorkedExample<MotorUiState>> = persist
             voltage = "400",
             voltageEdited = true,
             efficiency = "95",
-            powerFactor = "0.87",
+            powerFactor = "0.87".seededDecimal(),
             startingRatio = "7",
             )
         },
@@ -64,7 +65,7 @@ internal val motorExamples: ImmutableList<WorkedExample<MotorUiState>> = persist
             voltage = "400",
             voltageEdited = true,
             efficiency = "89",
-            powerFactor = "0.86",
+            powerFactor = "0.86".seededDecimal(),
             startingRatio = "6",
             )
         },

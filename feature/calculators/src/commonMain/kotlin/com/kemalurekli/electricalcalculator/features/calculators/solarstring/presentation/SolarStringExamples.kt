@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.solarstring.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -24,8 +25,8 @@ internal val solarStringExamples: ImmutableList<WorkedExample<SolarStringUiState
             // A mild coastal site: −10 °C on the coldest clear morning.
             fill = { state ->
                 state.copy(
-                    voc = "49.5",
-                    vmp = "41.5",
+                    voc = "49.5".seededDecimal(),
+                    vmp = "41.5".seededDecimal(),
                     coefficient = "-0.27",
                     minTemperature = "-10",
                     maxTemperature = "70",
@@ -40,8 +41,8 @@ internal val solarStringExamples: ImmutableList<WorkedExample<SolarStringUiState
             // Inland at −25 °C: the same array, and a shorter string.
             fill = { state ->
                 state.copy(
-                    voc = "49.5",
-                    vmp = "41.5",
+                    voc = "49.5".seededDecimal(),
+                    vmp = "41.5".seededDecimal(),
                     coefficient = "-0.27",
                     minTemperature = "-25",
                     maxTemperature = "70",
@@ -56,8 +57,8 @@ internal val solarStringExamples: ImmutableList<WorkedExample<SolarStringUiState
             // A 600 V rooftop inverter, which is where strings get short.
             fill = { state ->
                 state.copy(
-                    voc = "41.0",
-                    vmp = "34.2",
+                    voc = "41.0".seededDecimal(),
+                    vmp = "34.2".seededDecimal(),
                     coefficient = "-0.29",
                     minTemperature = "-15",
                     maxTemperature = "75",

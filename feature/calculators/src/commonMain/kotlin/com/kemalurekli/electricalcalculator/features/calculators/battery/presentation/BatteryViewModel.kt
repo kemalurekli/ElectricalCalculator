@@ -11,6 +11,7 @@ import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
@@ -67,7 +68,7 @@ data class BatteryUiState(
         const val DEFAULT_DEPTH_OF_DISCHARGE = "50"
 
         /** Mid-range for a lead-acid bank. */
-        const val DEFAULT_PEUKERT = "1.15"
+        val DEFAULT_PEUKERT get() = "1.15".seededDecimal()
     }
 }
 

@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.calculators.powerfactor.presentation
 
 import androidx.compose.runtime.Immutable
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.CalculationStep
 import com.kemalurekli.electricalcalculator.core.domain.model.SystemVoltageDefaults
 import androidx.lifecycle.ViewModel
@@ -66,7 +67,7 @@ data class PowerFactorUiState(
 
     companion object {
         /** A common tariff threshold, and a sensible engineering target. */
-        const val DEFAULT_TARGET = "0.95"
+        val DEFAULT_TARGET get() = "0.95".seededDecimal()
 
         const val DEFAULT_FREQUENCY = "50"
     }

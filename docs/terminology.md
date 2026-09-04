@@ -96,6 +96,32 @@ The Romance languages are the exception worth naming: `CC` and `CA` are the
 native standard forms for DC and AC and are correct there, which is why the
 rule is a per-locale table rather than a blanket ban.
 
+## The decimal separator
+
+Three kinds of number appear on one screen, and they have to agree.
+
+A **computed** figure goes through `NumberFormatter`, which uses the reader's
+own symbols: `0,25` for a Turkish or Polish reader, `0.25` for an English one.
+
+A **seeded** figure — a default, or a value a worked example fills in — is
+written in Kotlin as `"0.35"` and passes through `NumberFormatter.localizeSeeded`
+on its way into the field, so it arrives in the same convention as everything
+around it. Before that, an English reader could see `0.05 Ω` on a result card
+and a Turkish one `0.05` in a field above a computed `0,25`.
+
+A figure **somebody typed** is left exactly as typed. `parseOrNull` takes either
+separator, so nothing needs rewriting, and rewriting it as they type would be
+the app arguing with the keyboard.
+
+**Prose** follows its own language, and the test that holds this knows the
+difference between a measurement and a citation: NEC 392.22 and IEC table 54.3
+keep their point in every language.
+
+The one place the rule inverts is the CSV export, where a comma is the field
+separator. Its numbers are written plain — dot decimals, no grouping — because
+a quoted `"0,35"` is valid CSV that lands in a spreadsheet as text. The PDF,
+which a person reads, keeps the reader's own symbols.
+
 ## Units, and the symbols in a formula
 
 Neither is a translator's choice, because neither is drawn from a string.

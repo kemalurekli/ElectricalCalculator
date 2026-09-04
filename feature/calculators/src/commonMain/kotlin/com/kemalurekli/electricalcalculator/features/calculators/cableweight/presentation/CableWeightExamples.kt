@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.cableweight.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
 import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
@@ -54,7 +55,7 @@ internal val cableWeightExamples: ImmutableList<WorkedExample<CableWeightUiState
         // No overall diameter: only the figure that can be derived is reported.
         fill = { state ->
             state.copy(
-            crossSection = "1.5",
+            crossSection = "1.5".seededDecimal(),
             conductorCount = "3",
             length = "100",
             material = ConductorMaterial.COPPER,

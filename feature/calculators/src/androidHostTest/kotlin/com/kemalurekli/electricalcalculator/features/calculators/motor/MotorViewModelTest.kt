@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.calculators.motor
 
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -80,7 +81,7 @@ class MotorViewModelTest {
         assertEquals(SupplySystem.THREE_PHASE_AC, state.system)
         assertEquals(PowerUnit.KILOWATT, state.powerUnit)
         assertEquals("90", state.efficiency)
-        assertEquals("0.85", state.powerFactor)
+        assertEquals(0.85, NumberFormatter.parseOrNull(state.powerFactor)!!, 1e-12)
         assertEquals("6", state.startingRatio)
     }
 

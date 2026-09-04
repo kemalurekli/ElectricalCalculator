@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.calculators.shortcircuit
 
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
@@ -81,7 +82,7 @@ class ShortCircuitViewModelTest {
         assertEquals(FaultType.THREE_PHASE, state.faultType)
         assertEquals("400", state.voltage)
         assertEquals("1", state.parallelConductors)
-        assertEquals("0.08", state.reactance)
+        assertEquals(0.08, NumberFormatter.parseOrNull(state.reactance)!!, 1e-12)
         assertFalse(state.showNeutralSection)
     }
 

@@ -3,6 +3,7 @@ package com.kemalurekli.electricalcalculator.features.projects.presentation
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.domain.model.Project
 import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import com.kemalurekli.electricalcalculator.core.domain.repository.ProjectRepository
@@ -103,6 +104,6 @@ class ProjectsViewModel(
          * not silently optimistic. The field asks to be replaced with the
          * measured value.
          */
-        const val DEFAULT_ZE = "0.35"
+        val DEFAULT_ZE get() = "0.35".seededDecimal()
     }
 }

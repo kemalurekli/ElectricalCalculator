@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.earthfault.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
 import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
@@ -26,15 +27,15 @@ internal val earthFaultExamples: ImmutableList<WorkedExample<EarthFaultUiState>>
         fill = { state ->
             state.copy(
             deviceType = ProtectiveDeviceType.MCB_TYPE_B,
-            externalImpedance = "0.35",
+            externalImpedance = "0.35".seededDecimal(),
             voltage = "230",
             length = "30",
             lineSection = "4",
-            protectiveSection = "2.5",
+            protectiveSection = "2.5".seededDecimal(),
             material = ConductorMaterial.COPPER,
             insulation = CableInsulation.PVC,
             deviceRating = "32",
-            clearingTime = "0.1",
+            clearingTime = "0.1".seededDecimal(),
             parallelConductors = "1",
             )
         },
@@ -47,15 +48,15 @@ internal val earthFaultExamples: ImmutableList<WorkedExample<EarthFaultUiState>>
         fill = { state ->
             state.copy(
             deviceType = ProtectiveDeviceType.MCB_TYPE_C,
-            externalImpedance = "0.35",
+            externalImpedance = "0.35".seededDecimal(),
             voltage = "230",
             length = "60",
             lineSection = "4",
-            protectiveSection = "2.5",
+            protectiveSection = "2.5".seededDecimal(),
             material = ConductorMaterial.COPPER,
             insulation = CableInsulation.PVC,
             deviceRating = "32",
-            clearingTime = "0.1",
+            clearingTime = "0.1".seededDecimal(),
             parallelConductors = "1",
             )
         },
@@ -71,12 +72,12 @@ internal val earthFaultExamples: ImmutableList<WorkedExample<EarthFaultUiState>>
             externalImpedance = "21",
             voltage = "230",
             length = "25",
-            lineSection = "2.5",
-            protectiveSection = "2.5",
+            lineSection = "2.5".seededDecimal(),
+            protectiveSection = "2.5".seededDecimal(),
             material = ConductorMaterial.COPPER,
             insulation = CableInsulation.PVC,
-            deviceRating = "0.03",
-            clearingTime = "0.04",
+            deviceRating = "0.03".seededDecimal(),
+            clearingTime = "0.04".seededDecimal(),
             parallelConductors = "1",
             )
         },

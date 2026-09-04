@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.lighting.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -26,10 +27,10 @@ internal val lightingExamples: ImmutableList<WorkedExample<LightingUiState>> = p
                 illuminance = "500",
                 length = "12",
                 width = "8",
-                mountingHeight = "2.2",
+                mountingHeight = "2.2".seededDecimal(),
                 flux = "4000",
-                utilisation = "0.6",
-                maintenance = "0.8",
+                utilisation = "0.6".seededDecimal(),
+                maintenance = "0.8".seededDecimal(),
             )
         },
     ),
@@ -44,8 +45,8 @@ internal val lightingExamples: ImmutableList<WorkedExample<LightingUiState>> = p
                 width = "20",
                 mountingHeight = "8",
                 flux = "22000",
-                utilisation = "0.5",
-                maintenance = "0.7",
+                utilisation = "0.5".seededDecimal(),
+                maintenance = "0.7".seededDecimal(),
             )
         },
     ),
@@ -58,10 +59,10 @@ internal val lightingExamples: ImmutableList<WorkedExample<LightingUiState>> = p
                 illuminance = "750",
                 length = "9",
                 width = "6",
-                mountingHeight = "2.2",
+                mountingHeight = "2.2".seededDecimal(),
                 flux = "4000",
-                utilisation = "0.65",
-                maintenance = "0.8",
+                utilisation = "0.65".seededDecimal(),
+                maintenance = "0.8".seededDecimal(),
             )
         },
     ),

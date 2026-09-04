@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
 import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
@@ -34,7 +35,7 @@ internal val shortCircuitExamples: ImmutableList<WorkedExample<ShortCircuitUiSta
             material = ConductorMaterial.COPPER,
             insulation = CableInsulation.PVC,
             parallelConductors = "1",
-            reactance = "0.08",
+            reactance = "0.08".seededDecimal(),
             )
         },
     ),
@@ -53,7 +54,7 @@ internal val shortCircuitExamples: ImmutableList<WorkedExample<ShortCircuitUiSta
             material = ConductorMaterial.COPPER,
             insulation = CableInsulation.PVC,
             parallelConductors = "1",
-            reactance = "0.08",
+            reactance = "0.08".seededDecimal(),
             )
         },
     ),
@@ -73,7 +74,7 @@ internal val shortCircuitExamples: ImmutableList<WorkedExample<ShortCircuitUiSta
             material = ConductorMaterial.COPPER,
             insulation = CableInsulation.PVC,
             parallelConductors = "1",
-            reactance = "0.08",
+            reactance = "0.08".seededDecimal(),
             )
         },
     ),

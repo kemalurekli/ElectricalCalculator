@@ -140,6 +140,30 @@ object NumberFormatter {
     }
 
     /**
+     * Rewrites a decimal **the app itself wrote** into the separator of the
+     * reader's locale: the `"0.35"` a default or a worked example is written as
+     * in Kotlin becomes `0,35` for a Turkish or Polish reader.
+     *
+     * This is for seeded values only, never for what someone is typing. A field
+     * the user is editing holds their own characters, and [parseOrNull] accepts
+     * either separator so it never needs rewriting — rewriting it as they type
+     * would be the app arguing with the keyboard. What the app puts there
+     * unasked is a different thing, and it should look like the numbers on the
+     * same screen: results are drawn through [format], so a seeded `0.1` above
+     * a computed `0,25` is the app writing a number two ways at once.
+     *
+     * Anything that is not a plain number is returned unchanged, so a range, a
+     * clause of a standard or an already-localised string passes through.
+     */
+    fun localizeSeeded(
+        text: String,
+        symbols: NumberSymbols = currentNumberSymbols(),
+    ): String {
+        if (symbols.decimalSeparator == '.' || !SEEDED_DECIMAL.matches(text)) return text
+        return text.replace('.', symbols.decimalSeparator)
+    }
+
+    /**
      * Formats [value] with an SI prefix, keeping the mantissa between 1 and
      * 1000 — `1500.0` with unit `W` becomes `1.5 kW`.
      *
@@ -238,4 +262,18 @@ object NumberFormatter {
 
     /** Optional sign, digits, optional fraction, optional decimal exponent. */
     private val NUMERIC_PATTERN = Regex("""^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$""")
+
+    /**
+     * A plain decimal and nothing else. Deliberately narrower than
+     * [NUMERIC_PATTERN]: no exponent, because a seeded value is a figure
+     * somebody chose, and no sign, because none of the app's own defaults is
+     * negative. Anything more elaborate is left alone.
+     */
+    private val SEEDED_DECIMAL = Regex("""^\d+\.\d+$""")
 }
+
+/**
+ * Shorthand for [NumberFormatter.localizeSeeded], for the many one-line sites
+ * that seed a field with a figure the app chose: a default, or a worked example.
+ */
+fun String.seededDecimal(): String = NumberFormatter.localizeSeeded(this)

@@ -11,6 +11,7 @@ import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -73,7 +74,7 @@ data class ShortCircuitUiState(
 
         const val DEFAULT_PARALLEL = "1"
 
-        const val DEFAULT_REACTANCE = "0.08"
+        val DEFAULT_REACTANCE get() = "0.08".seededDecimal()
 
         /** The line-to-neutral counterpart of a 400 V system. */
         const val DEFAULT_PHASE_VOLTAGE = "230"

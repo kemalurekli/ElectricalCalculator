@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.conduitfill.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.features.calculators.conduitfill.domain.FillRule
 import kotlinx.collections.immutable.ImmutableList
@@ -31,7 +32,7 @@ internal val conduitFillExamples: ImmutableList<WorkedExample<ConduitFillUiState
                     conduitDiameter = "25",
                     rule = FillRule.NEC_TABLE_1,
                     cables = persistentListOf(
-                        CableRowState(id = 0, diameter = "8.5", quantity = "3"),
+                        CableRowState(id = 0, diameter = "8.5".seededDecimal(), quantity = "3"),
                     ),
                 )
             },
@@ -45,7 +46,7 @@ internal val conduitFillExamples: ImmutableList<WorkedExample<ConduitFillUiState
                     conduitDiameter = "20",
                     rule = FillRule.NEC_TABLE_1,
                     cables = persistentListOf(
-                        CableRowState(id = 0, diameter = "10.5", quantity = "2"),
+                        CableRowState(id = 0, diameter = "10.5".seededDecimal(), quantity = "2"),
                     ),
                 )
             },
@@ -61,7 +62,7 @@ internal val conduitFillExamples: ImmutableList<WorkedExample<ConduitFillUiState
                     customLimit = "40",
                     cables = persistentListOf(
                         CableRowState(id = 0, diameter = "12", quantity = "3"),
-                        CableRowState(id = 1, diameter = "7.5", quantity = "4"),
+                        CableRowState(id = 1, diameter = "7.5".seededDecimal(), quantity = "4"),
                     ),
                 )
             },

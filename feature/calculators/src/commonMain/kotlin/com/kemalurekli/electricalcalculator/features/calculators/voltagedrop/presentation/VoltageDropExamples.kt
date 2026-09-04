@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.voltagedrop.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
 import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
@@ -32,7 +33,7 @@ internal val voltageDropExamples: ImmutableList<WorkedExample<VoltageDropUiState
             length = "45",
             crossSection = "25",
             material = ConductorMaterial.COPPER,
-            powerFactor = "0.9",
+            powerFactor = "0.9".seededDecimal(),
             temperature = "70",
             parallelConductors = "1",
             )
@@ -50,7 +51,7 @@ internal val voltageDropExamples: ImmutableList<WorkedExample<VoltageDropUiState
             voltageEdited = true,
             current = "10",
             length = "90",
-            crossSection = "2.5",
+            crossSection = "2.5".seededDecimal(),
             material = ConductorMaterial.COPPER,
             powerFactor = "1",
             temperature = "70",
@@ -71,7 +72,7 @@ internal val voltageDropExamples: ImmutableList<WorkedExample<VoltageDropUiState
             length = "60",
             crossSection = "95",
             material = ConductorMaterial.ALUMINIUM,
-            powerFactor = "0.9",
+            powerFactor = "0.9".seededDecimal(),
             temperature = "70",
             parallelConductors = "1",
             )

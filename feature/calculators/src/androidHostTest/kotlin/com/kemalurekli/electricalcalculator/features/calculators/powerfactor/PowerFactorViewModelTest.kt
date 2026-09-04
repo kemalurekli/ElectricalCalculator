@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.calculators.powerfactor
 
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -77,7 +78,7 @@ class PowerFactorViewModelTest {
     fun `defaults target a common tariff threshold at 50 hertz`() {
         val state = viewModel().uiState.value
 
-        assertEquals("0.95", state.targetFactor)
+        assertEquals(0.95, NumberFormatter.parseOrNull(state.targetFactor)!!, 1e-12)
         assertEquals("50", state.frequency)
         assertEquals(CapacitorConnection.DELTA, state.connection)
         assertEquals(SupplySystem.THREE_PHASE_AC, state.system)
@@ -270,7 +271,7 @@ class PowerFactorViewModelTest {
         val inputs = historyRepository.observeAll().first().single().inputs
         assertEquals("100", inputs["active_power_kw"])
         assertEquals("0.75", inputs["existing_power_factor"])
-        assertEquals("0.95", inputs["target_power_factor"])
+        assertEquals(0.95, NumberFormatter.parseOrNull(inputs["target_power_factor"]!!)!!, 1e-12)
         assertEquals("STAR", inputs["connection"])
     }
 

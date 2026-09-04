@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.calculators.earthfault
 
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -91,7 +92,7 @@ class EarthFaultViewModelTest {
 
         assertEquals(ProtectiveDeviceType.MCB_TYPE_B, state.deviceType)
         assertEquals("230", state.voltage)
-        assertEquals("0.1", state.clearingTime)
+        assertEquals(0.1, NumberFormatter.parseOrNull(state.clearingTime)!!, 1e-12)
         assertEquals("1", state.parallelConductors)
     }
 
@@ -107,7 +108,7 @@ class EarthFaultViewModelTest {
 
         model.onDeviceTypeChange(ProtectiveDeviceType.RCD)
 
-        assertEquals("0.03", model.uiState.value.deviceRating)
+        assertEquals(0.03, NumberFormatter.parseOrNull(model.uiState.value.deviceRating)!!, 1e-12)
     }
 
     @Test

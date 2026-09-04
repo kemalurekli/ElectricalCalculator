@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.battery.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -28,7 +29,7 @@ internal val batteryExamples: ImmutableList<WorkedExample<BatteryUiState>> = per
             loadWatts = "500",
             efficiency = "90",
             depthOfDischarge = "50",
-            peukert = "1.15",
+            peukert = "1.15".seededDecimal(),
             )
         },
     ),
@@ -44,7 +45,7 @@ internal val batteryExamples: ImmutableList<WorkedExample<BatteryUiState>> = per
             loadWatts = "200",
             efficiency = "85",
             depthOfDischarge = "50",
-            peukert = "1.25",
+            peukert = "1.25".seededDecimal(),
             )
         },
     ),
@@ -60,7 +61,7 @@ internal val batteryExamples: ImmutableList<WorkedExample<BatteryUiState>> = per
             loadWatts = "500",
             efficiency = "95",
             depthOfDischarge = "80",
-            peukert = "1.05",
+            peukert = "1.05".seededDecimal(),
             )
         },
     ),

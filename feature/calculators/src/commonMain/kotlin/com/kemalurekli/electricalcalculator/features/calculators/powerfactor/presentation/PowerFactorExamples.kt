@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.powerfactor.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.core.domain.model.CapacitorConnection
 import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
@@ -26,8 +27,8 @@ internal val powerFactorExamples: ImmutableList<WorkedExample<PowerFactorUiState
             system = SupplySystem.THREE_PHASE_AC,
             connection = CapacitorConnection.DELTA,
             activePowerKw = "100",
-            existingFactor = "0.75",
-            targetFactor = "0.95",
+            existingFactor = "0.75".seededDecimal(),
+            targetFactor = "0.95".seededDecimal(),
             voltage = "400",
             voltageEdited = true,
             frequency = "50",
@@ -43,8 +44,8 @@ internal val powerFactorExamples: ImmutableList<WorkedExample<PowerFactorUiState
             system = SupplySystem.THREE_PHASE_AC,
             connection = CapacitorConnection.DELTA,
             activePowerKw = "30",
-            existingFactor = "0.85",
-            targetFactor = "0.95",
+            existingFactor = "0.85".seededDecimal(),
+            targetFactor = "0.95".seededDecimal(),
             voltage = "400",
             voltageEdited = true,
             frequency = "50",

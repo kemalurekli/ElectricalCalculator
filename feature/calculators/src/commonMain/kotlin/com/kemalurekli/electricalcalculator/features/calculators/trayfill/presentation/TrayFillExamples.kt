@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.trayfill.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.features.calculators.trayfill.domain.TrayArrangement
 import kotlinx.collections.immutable.ImmutableList
@@ -30,7 +31,7 @@ internal val trayFillExamples: ImmutableList<WorkedExample<TrayFillUiState>> = p
                 arrangement = TrayArrangement.SINGLE_LAYER,
                 spacing = "0",
                 cables = persistentListOf(
-                    TrayCableRowState(id = 0, diameter = "20.5", quantity = "6"),
+                    TrayCableRowState(id = 0, diameter = "20.5".seededDecimal(), quantity = "6"),
                 ),
             )
         },
@@ -44,9 +45,9 @@ internal val trayFillExamples: ImmutableList<WorkedExample<TrayFillUiState>> = p
                 trayWidth = "300",
                 trayDepth = "100",
                 arrangement = TrayArrangement.SINGLE_LAYER,
-                spacing = "20.5",
+                spacing = "20.5".seededDecimal(),
                 cables = persistentListOf(
-                    TrayCableRowState(id = 0, diameter = "20.5", quantity = "6"),
+                    TrayCableRowState(id = 0, diameter = "20.5".seededDecimal(), quantity = "6"),
                 ),
             )
         },
@@ -62,7 +63,7 @@ internal val trayFillExamples: ImmutableList<WorkedExample<TrayFillUiState>> = p
                 arrangement = TrayArrangement.MULTI_LAYER,
                 limit = "40",
                 cables = persistentListOf(
-                    TrayCableRowState(id = 0, diameter = "9.5", quantity = "24"),
+                    TrayCableRowState(id = 0, diameter = "9.5".seededDecimal(), quantity = "24"),
                 ),
             )
         },

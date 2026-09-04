@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.calculators.power
 
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -78,7 +79,7 @@ class PowerViewModelTest {
 
         assertEquals(SupplySystem.THREE_PHASE_AC, state.system)
         assertEquals(PowerFactorType.LAGGING, state.powerFactorType)
-        assertEquals("0.85", state.powerFactor)
+        assertEquals(0.85, NumberFormatter.parseOrNull(state.powerFactor)!!, 1e-12)
     }
 
     // -- Validation ------------------------------------------------------------------

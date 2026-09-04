@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.projects.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import org.jetbrains.compose.resources.StringResource
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.domain.model.CircuitLoadKind
@@ -76,7 +77,7 @@ class ScheduleReportBuilder(
         plainNumbers: Boolean,
     ): ScheduleReport = ScheduleReport(
         title = project.reference.ifBlank { string(Res.string.projects_untitled) },
-        supply = supplyFields(project),
+        supply = supplyFields(project, plainNumbers),
         columns = listOf(
             string(Res.string.report_column_circuit),
             string(Res.string.report_column_load),
@@ -96,10 +97,18 @@ class ScheduleReportBuilder(
         rows = rows.map { row(it, plainNumbers) },
     )
 
-    private fun supplyFields(project: Project) = listOf(
+    /**
+     * The parameters the schedule was derived under, straight from the fields
+     * the user filled in — so they are text, and they carry whatever separator
+     * that reader types with. For the CSV they go through [asTypedNumber],
+     * which swaps the separator without touching the digits: rounding a
+     * parameter on its way into a file would be a quiet change to the record
+     * of what was designed.
+     */
+    private fun supplyFields(project: Project, plainNumbers: Boolean) = listOf(
         ReportField(string(Res.string.project_site), project.site),
         ReportField(string(Res.string.common_supply_system), string(project.system.label())),
-        ReportField(string(Res.string.common_system_voltage), project.systemVoltage),
+        ReportField(string(Res.string.common_system_voltage), project.systemVoltage.asTypedNumber(plainNumbers)),
         ReportField(
             string(Res.string.settings_engineering_material),
             string(project.material.label()),
@@ -109,9 +118,9 @@ class ScheduleReportBuilder(
             string(project.insulation.label()),
         ),
         ReportField(string(Res.string.settings_engineering_method), string(project.method.label())),
-        ReportField(string(Res.string.settings_engineering_ambient), project.ambientTemperatureC),
-        ReportField(string(Res.string.project_max_drop), project.maxVoltageDropPercent),
-        ReportField(string(Res.string.project_external_impedance), project.externalImpedanceOhms),
+        ReportField(string(Res.string.settings_engineering_ambient), project.ambientTemperatureC.asTypedNumber(plainNumbers)),
+        ReportField(string(Res.string.project_max_drop), project.maxVoltageDropPercent.asTypedNumber(plainNumbers)),
+        ReportField(string(Res.string.project_external_impedance), project.externalImpedanceOhms.asTypedNumber(plainNumbers)),
     )
 
     /**
@@ -183,3 +192,14 @@ private fun String.forFile(plain: Boolean): String =
 private fun String.withUnit(unit: String): String = if (isBlank()) "" else "$this $unit"
 
 private const val PLAIN_SCALE = 10_000.0
+
+/**
+ * A figure somebody typed, put into the convention the file needs.
+ *
+ * Only the separator changes, and only when the text is a number at all — a
+ * site called "Blok 2, kat 3" is left exactly as written. Reformatting through
+ * [NumberFormatter] would round it, and this is the record of what the design
+ * assumed, not a display value.
+ */
+private fun String.asTypedNumber(plain: Boolean): String =
+    if (plain && NumberFormatter.parseOrNull(this) != null) replace(',', '.') else this

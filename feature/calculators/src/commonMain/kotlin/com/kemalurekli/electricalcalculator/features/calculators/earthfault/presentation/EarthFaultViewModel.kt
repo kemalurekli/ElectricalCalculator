@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.earthfault.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import org.jetbrains.compose.resources.StringResource
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
@@ -83,15 +84,15 @@ data class EarthFaultUiState(
          * before they have a measurement — but it is an assumption, and the
          * field's hint says which system each typical value belongs to.
          */
-        const val DEFAULT_EXTERNAL_IMPEDANCE = "0.35"
+        val DEFAULT_EXTERNAL_IMPEDANCE get() = "0.35".seededDecimal()
 
         const val DEFAULT_PARALLEL = "1"
 
         /** An MCB in its magnetic range; the middle of the usual 0.01–0.1 s. */
-        const val DEFAULT_CLEARING_TIME = "0.1"
+        val DEFAULT_CLEARING_TIME get() = "0.1".seededDecimal()
 
         /** The customary residual rating for additional protection. */
-        const val DEFAULT_RESIDUAL_RATING = "0.03"
+        val DEFAULT_RESIDUAL_RATING get() = "0.03".seededDecimal()
     }
 }
 

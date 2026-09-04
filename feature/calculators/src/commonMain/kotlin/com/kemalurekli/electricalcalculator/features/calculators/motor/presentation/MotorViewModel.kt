@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.calculators.motor.presentation
 
 import androidx.compose.runtime.Immutable
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.domain.model.SystemVoltageDefaults
 import com.kemalurekli.electricalcalculator.core.designsystem.model.CalculationStep
 import kotlinx.collections.immutable.ImmutableList
@@ -68,7 +69,7 @@ data class MotorUiState(
         const val DEFAULT_EFFICIENCY = "90"
 
         /** Typical full-load cos φ for a squirrel cage motor. */
-        const val DEFAULT_POWER_FACTOR = "0.85"
+        val DEFAULT_POWER_FACTOR get() = "0.85".seededDecimal()
 
         /** Direct-on-line starting. */
         const val DEFAULT_STARTING_RATIO = "6"

@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.calculators.battery
 
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
+import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.data.repository.FavoritesRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.data.repository.HistoryRepositoryImpl
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
@@ -75,7 +76,7 @@ class BatteryViewModelTest {
         assertEquals("20", state.ratedHours)
         assertEquals("90", state.efficiency)
         assertEquals("50", state.depthOfDischarge)
-        assertEquals("1.15", state.peukert)
+        assertEquals(1.15, NumberFormatter.parseOrNull(state.peukert)!!, 1e-12)
     }
 
     // -- Validation -----------------------------------------------------------------
@@ -204,7 +205,7 @@ class BatteryViewModelTest {
 
         val state = model.uiState.value
         assertEquals("", state.capacityAh)
-        assertEquals("1.15", state.peukert)
+        assertEquals(1.15, NumberFormatter.parseOrNull(state.peukert)!!, 1e-12)
         assertEquals("20", state.ratedHours)
         assertNull(state.result)
     }

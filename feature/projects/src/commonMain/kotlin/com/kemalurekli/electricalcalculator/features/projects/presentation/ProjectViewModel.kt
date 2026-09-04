@@ -3,6 +3,7 @@ package com.kemalurekli.electricalcalculator.features.projects.presentation
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
 import com.kemalurekli.electricalcalculator.core.domain.model.Circuit
 import com.kemalurekli.electricalcalculator.core.domain.model.CircuitLoadKind
@@ -308,9 +309,9 @@ class ProjectViewModel(
     }
 
     private companion object {
-        const val DEFAULT_POWER_FACTOR = "0.9"
+        val DEFAULT_POWER_FACTOR get() = "0.9".seededDecimal()
 
         /** IEC 60364-4-41: 0.4 s for a final circuit on a TN system up to 63 A. */
-        const val DEFAULT_DISCONNECTION = "0.4"
+        val DEFAULT_DISCONNECTION get() = "0.4".seededDecimal()
     }
 }

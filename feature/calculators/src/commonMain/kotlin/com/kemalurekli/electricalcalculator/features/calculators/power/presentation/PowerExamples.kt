@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.power.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import kotlinx.collections.immutable.ImmutableList
@@ -27,7 +28,7 @@ internal val powerExamples: ImmutableList<WorkedExample<PowerUiState>> = persist
             voltage = "400",
             voltageEdited = true,
             current = "25",
-            powerFactor = "0.85",
+            powerFactor = "0.85".seededDecimal(),
             )
         },
     ),

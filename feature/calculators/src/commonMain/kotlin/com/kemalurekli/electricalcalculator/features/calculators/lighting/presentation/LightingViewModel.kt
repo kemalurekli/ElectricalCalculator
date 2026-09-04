@@ -11,6 +11,7 @@ import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
 import com.kemalurekli.electricalcalculator.core.common.util.TimeProvider
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.repository.FavoritesRepository
@@ -61,7 +62,7 @@ data class LightingUiState(
         const val DEFAULT_ILLUMINANCE = "500"
 
         /** A 3 m ceiling over a 0,8 m desk, which is the ordinary office. */
-        const val DEFAULT_MOUNTING_HEIGHT = "2.2"
+        val DEFAULT_MOUNTING_HEIGHT get() = "2.2".seededDecimal()
 
         /**
          * A mid-range figure for a light room of ordinary proportions.
@@ -70,10 +71,10 @@ data class LightingUiState(
          * guess is worse than a stated middle the reader can correct from their
          * own luminaire's table. The notes say where to get the real one.
          */
-        const val DEFAULT_UTILISATION = "0.6"
+        val DEFAULT_UTILISATION get() = "0.6".seededDecimal()
 
         /** A clean interior on a normal cleaning cycle. */
-        const val DEFAULT_MAINTENANCE = "0.8"
+        val DEFAULT_MAINTENANCE get() = "0.8".seededDecimal()
     }
 }
 

@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.calculators.cablesize.presentation
 
+import com.kemalurekli.electricalcalculator.core.common.util.seededDecimal
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.core.domain.model.CableInsulation
 import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
@@ -57,7 +58,7 @@ internal val cableSizeExamples: ImmutableList<WorkedExample<CableSizeUiState>> =
             material = ConductorMaterial.COPPER,
             insulation = CableInsulation.XLPE,
             method = InstallationMethod.C_CLIPPED_DIRECT,
-            powerFactor = "0.85",
+            powerFactor = "0.85".seededDecimal(),
             maxDropPercent = "5",
             ambientTemperature = "45",
             groupedCircuits = "4",
