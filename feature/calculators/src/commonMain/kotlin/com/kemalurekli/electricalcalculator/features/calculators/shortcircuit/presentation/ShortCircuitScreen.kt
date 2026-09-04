@@ -121,6 +121,10 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sc_var_zs
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sc_voltage_line_neutral_hint
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sc_voltage_three_phase_hint
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_var_area
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_var_length
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_var_parallel
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_var_resistivity
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignSystemRes
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_add
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_remove
@@ -427,6 +431,13 @@ fun ShortCircuitScreen(
                         FormulaVariable("k", stringResource(Res.string.sc_var_k), "—"),
                         FormulaVariable("R", stringResource(Res.string.sc_var_r), "Ω"),
                         FormulaVariable("X", stringResource(Res.string.sc_var_x), "Ω"),
+                        // The cable resistance is the voltage-drop relation again, so it is
+                        // explained in the same words.
+                        FormulaVariable("U", stringResource(Res.string.common_system_voltage), "V"),
+                        FormulaVariable("ρ(θ)", stringResource(Res.string.vd_var_resistivity), "Ω·mm²/m"),
+                        FormulaVariable("L", stringResource(Res.string.vd_var_length), "m"),
+                        FormulaVariable("A", stringResource(Res.string.vd_var_area), "mm²"),
+                        FormulaVariable("n", stringResource(Res.string.vd_var_parallel), "—"),
                     ),
                 )
             }

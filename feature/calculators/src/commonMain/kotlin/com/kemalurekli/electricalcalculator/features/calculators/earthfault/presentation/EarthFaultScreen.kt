@@ -447,6 +447,8 @@ fun EarthFaultScreen(
                         FormulaVariable("S", stringResource(Res.string.ef_var_s), "mm²"),
                         FormulaVariable("t", stringResource(Res.string.ef_var_t), "s"),
                         FormulaVariable("k", stringResource(Res.string.ef_var_k), "—"),
+                        // Line to earth, which is what the field above asks for.
+                        FormulaVariable("U₀", stringResource(Res.string.ef_voltage), "V"),
                     ),
                 )
             }

@@ -360,6 +360,9 @@ fun BatteryScreen(
                         FormulaVariable("k", stringResource(Res.string.bt_var_k), "—"),
                         FormulaVariable("DoD", stringResource(Res.string.bt_var_dod), "—"),
                         FormulaVariable("η", stringResource(Res.string.bt_var_eff), "—"),
+                        // Named with the labels of the fields they are read from.
+                        FormulaVariable("P", stringResource(Res.string.bt_load_power), "W"),
+                        FormulaVariable("U", stringResource(Res.string.bt_bank_voltage), "V"),
                     ),
                 )
             }

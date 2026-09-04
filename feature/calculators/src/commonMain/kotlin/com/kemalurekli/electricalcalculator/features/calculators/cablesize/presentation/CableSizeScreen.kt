@@ -137,6 +137,11 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.cs_var_ib
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.cs_var_iz
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.message_copied
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_var_k
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_var_length
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_var_parallel
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_var_power_factor
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_var_resistivity
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignSystemRes
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_add
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_remove
@@ -478,7 +483,15 @@ fun CableSizeScreen(
                         FormulaVariable("Ca", stringResource(Res.string.cs_var_ca), "—"),
                         FormulaVariable("Cg", stringResource(Res.string.cs_var_cg), "—"),
                         FormulaVariable("A", stringResource(Res.string.cs_var_area), "mm²"),
-                        FormulaVariable("ΔU", stringResource(Res.string.cs_var_dumax), "V"),
+                        FormulaVariable("ΔU_max", stringResource(Res.string.cs_var_dumax), "V"),
+                        // The second line is the voltage-drop relation, and its symbols are
+                        // explained in the words the voltage-drop card already uses. One
+                        // meaning, one wording, in all twelve languages.
+                        FormulaVariable("k", stringResource(Res.string.vd_var_k), "—"),
+                        FormulaVariable("ρ(θ)", stringResource(Res.string.vd_var_resistivity), "Ω·mm²/m"),
+                        FormulaVariable("L", stringResource(Res.string.vd_var_length), "m"),
+                        FormulaVariable("n", stringResource(Res.string.vd_var_parallel), "—"),
+                        FormulaVariable("cos φ", stringResource(Res.string.vd_var_power_factor), "—"),
                     ),
                 )
             }

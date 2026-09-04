@@ -26,6 +26,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
@@ -119,6 +120,17 @@ fun ElecFormulaCard(
                         )
                     }
 
+                    // The symbols are set in a monospaced face, so the widest
+                    // one in this list can decide the column outright: character
+                    // count times the advance width, in text units so that it
+                    // grows with the reader's font size. A fixed width fitted
+                    // five characters and broke ΔU_max across two lines.
+                    val symbolWidth = with(LocalDensity.current) {
+                        val widest = variables.maxOfOrNull { it.symbol.length } ?: 0
+                        (FormulaTextStyle.fontSize.toDp() * MONO_ADVANCE * widest)
+                            .coerceAtLeast(MIN_SYMBOL_WIDTH)
+                    }
+
                     variables.forEach { variable ->
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -128,9 +140,9 @@ fun ElecFormulaCard(
                                 text = variable.symbol,
                                 style = FormulaTextStyle,
                                 color = MaterialTheme.colorScheme.primary,
-                                // Fixed width so every definition's meaning
-                                // starts on the same vertical line.
-                                modifier = Modifier.width(44.dp),
+                                // One width for the whole list, so every
+                                // meaning starts on the same vertical line.
+                                modifier = Modifier.width(symbolWidth),
                             )
                             Text(
                                 text = variable.meaning,
@@ -251,6 +263,16 @@ fun ElecNotesCard(
         }
     }
 }
+
+/**
+ * JetBrains Mono advances 0,6 em per glyph. A shade over that leaves room
+ * for the few characters — subscripts, Δ, ρ — that come from a fallback
+ * face and can be wider.
+ */
+private const val MONO_ADVANCE = 0.62f
+
+/** Short symbols still line up with the long ones on other cards. */
+private val MIN_SYMBOL_WIDTH = 44.dp
 
 @Preview(showBackground = true)
 @Composable

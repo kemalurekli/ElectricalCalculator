@@ -381,6 +381,8 @@ fun PowerFactorScreen(
                         FormulaVariable("φ₁", stringResource(Res.string.pf_var_phi1), "—"),
                         FormulaVariable("φ₂", stringResource(Res.string.pf_var_phi2), "—"),
                         FormulaVariable("C", stringResource(Res.string.pf_var_c), "F"),
+                        // The voltage each capacitor sees — star or delta, as chosen above.
+                        FormulaVariable("U", stringResource(Res.string.common_system_voltage), "V"),
                         FormulaVariable("n", stringResource(Res.string.pf_var_n), "—"),
                         FormulaVariable("f", stringResource(Res.string.pf_var_f), "Hz"),
                     ),

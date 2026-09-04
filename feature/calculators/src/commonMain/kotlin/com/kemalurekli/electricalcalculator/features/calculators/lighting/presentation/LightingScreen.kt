@@ -355,6 +355,11 @@ fun LightingScreen(
                         FormulaVariable("UF", stringResource(Res.string.lt_var_uf), "—"),
                         FormulaVariable("MF", stringResource(Res.string.lt_var_mf), "—"),
                         FormulaVariable("K", stringResource(Res.string.lt_var_k), "—"),
+                        // The room index is built from the three fields above, so it is
+                        // explained with their own labels.
+                        FormulaVariable("L", stringResource(Res.string.lt_length_label), "m"),
+                        FormulaVariable("W", stringResource(Res.string.lt_width_label), "m"),
+                        FormulaVariable("Hm", stringResource(Res.string.lt_height_label), "m"),
                     ),
                 )
             }

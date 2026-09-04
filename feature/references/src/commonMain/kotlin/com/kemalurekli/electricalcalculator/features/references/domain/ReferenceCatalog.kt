@@ -3086,13 +3086,22 @@ object ReferenceCatalog {
                     ReferenceRow(Symbol("Z_s,max = c · U₀ / I_a"), Localized(Res.string.ref_formula_9)),
                     ReferenceRow(Symbol("S ≥ √(I² · t) / k"), Localized(Res.string.ref_formula_10)),
                     ReferenceRow(Symbol("m = n · A · L · δ / 1000"), Localized(Res.string.ref_formula_11)),
-                    ReferenceRow(Symbol("fill = Σ(n · π · d² / 4) / (π · D² / 4)"), Localized(Res.string.ref_formula_12)),
+                    // The ratio, with no name on the left: the calculators
+                    // translate this one (doluluk, Füllgrad, заполнение), so a
+                    // name here could only be in one language. The row's label
+                    // says which quantity it is. `W_req` below is the opposite
+                    // case — a subscripted variable, the same in all twelve.
+                    ReferenceRow(Symbol("Σ(n · π · d² / 4) / (π · D² / 4)"), Localized(Res.string.ref_formula_12)),
                     ReferenceRow(Symbol("W_req = Σ(n · d) + s · (N − 1)"), Localized(Res.string.ref_formula_13)),
                     ReferenceRow(Symbol("N = (E · A) / (Φ · UF · MF)"), Localized(Res.string.ref_formula_14)),
                     ReferenceRow(Symbol("K = (L · W) / (Hm · (L + W))"), Localized(Res.string.ref_formula_15)),
                     ReferenceRow(Symbol("Voc(T) = Voc · (1 + β · (T − 25) / 100)"), Localized(Res.string.ref_formula_16)),
                     ReferenceRow(Symbol("I_N = √(I_u² + (3 · I₃)²)"), Localized(Res.string.ref_formula_17)),
-                    ReferenceRow(Symbol("C = P · h · d / 1000 · tarife"), Localized(Res.string.ref_formula_18)),
+                    // T is the unit price. Every other row on this page is
+                    // symbols only, and it has to be: the value is a Symbol, so
+                    // it is drawn from code and reads the same in all twelve
+                    // languages. A word here would be a word in one of them.
+                    ReferenceRow(Symbol("C = P · h · d · T / 1000"), Localized(Res.string.ref_formula_18)),
                 ),
                 footnote = Res.string.ref_formula_note,
             ),
