@@ -95,3 +95,26 @@ and localising them makes a string harder to read, not easier. Turkish
 The Romance languages are the exception worth naming: `CC` and `CA` are the
 native standard forms for DC and AC and are correct there, which is why the
 rule is a per-locale table rather than a blanket ban.
+
+## Units, and the symbols in a formula
+
+Neither is a translator's choice, because neither is drawn from a string.
+
+A unit beside a field or a result comes from Kotlin — `unit = "kW"` — and reads
+the same in every language. A string that spells a unit out next to a number
+has to spell it that way too, or one quantity ends up with two names a few
+millimetres apart: a result card reading `5,30 kW` above the line it exports as
+`5,30 кВт`. Russian is where this bites, since its own standard forms are
+Cyrillic; the app uses the international symbols throughout, which
+ГОСТ 8.417 also permits.
+
+Time is the exception. Seconds, hours and minutes are words in most languages,
+and Turkish `günde 8 saat` or a countdown reading `30 sn sonra` is right as it
+stands — so the test that enforces the rest leaves time alone.
+
+Formula symbols are the same story from the other side. A formula card takes
+the formula from a string and the legend beside it from Kotlin —
+`FormulaVariable("P_in", stringResource(mt_var_pin))`. Rendering `P_in` as
+`P_zu` in German leaves the legend explaining a letter that is no longer on the
+screen. Both rules are tests in `StringResourceIntegrityTest`, and both read
+the vocabulary out of the screens rather than keeping a list of their own.
