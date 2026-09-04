@@ -41,13 +41,30 @@ import com.kemalurekli.electricalcalculator.core.domain.model.StandardCrossSecti
  *   loaded conductors, free air, 150 and 185 mm²: BS 7671 prints 399 and 456
  *   where IEC prints 395 and 450.
  *
- * The **aluminium half is still unverified**, and worse than unverified: three
- * of its columns are literal copies of columns from other tables in this file,
- * which is the fingerprint of a paste rather than a transcription. It is easy
- * to miss because aluminium on XLPE genuinely lands within a couple of per cent
- * of copper on PVC. `AmpacityTableTest` lists the copies so they cannot spread,
- * and `docs/verification-backlog.md` carries the row. Nothing freely published
- * reproduces the non-armoured aluminium tables; this one needs the standard.
+ * The **aluminium half is partly verified**. One block of it was read on the
+ * same day: PVC, three loaded conductors, methods B1, B2 and C, against the IEC
+ * table as reproduced in Schneider's installation guide, which prints the
+ * aluminium rows beside the copper ones. All 33 cells agreed. That block is
+ * also what makes the rest measurable, because it fixes the ratio between the
+ * metals at 0,78 — which is √(ρ_cu / ρ_al), the number the physics gives for
+ * the same geometry and the same permitted temperature rise.
+ *
+ * Measured against that ratio, no cell in the three remaining aluminium tables
+ * claims more than 3 % above what copper's verified column predicts, and the
+ * cells that stray further stray *below* it. That matters for what the errors
+ * cost: three columns here are literal copies of columns from other tables —
+ * the fingerprint of a paste, easy to miss because aluminium on XLPE genuinely
+ * lands within a couple of per cent of copper on PVC — and the worst of them,
+ * XLPE three-loaded B1 between 25 and 120 mm², sits 7 to 9 % low. A low cell
+ * sells the user a cable size they did not need. It does not under-size a
+ * conductor, which is the failure that burns.
+ *
+ * `no aluminium cell claims more capacity than the metal allows` holds that
+ * band, asymmetrically, so a future edit cannot introduce a high cell quietly.
+ * `no column is a copy of a column from another table` lists the pastes so they
+ * cannot spread. The tables that are still unread — PVC two loaded, both XLPE
+ * pairs, and every free-air column — need the standard itself; nothing freely
+ * published reproduces them, and `docs/verification-backlog.md` carries the row.
  *
  * The structure below is deliberately one row per cross-section so a reviewer
  * can read it side by side with the printed table.

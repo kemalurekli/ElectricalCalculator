@@ -210,6 +210,43 @@ class AmpacityTableTest {
     }
 
     @Test
+    fun `no aluminium cell claims more capacity than the metal allows`() {
+        // The aluminium half of the table is the part no published source
+        // reproduces, so this stands in for the source. For the same geometry
+        // and the same permitted temperature rise, I²R is the same in either
+        // metal, which puts aluminium at √(ρ_cu / ρ_al) = 0,78 of copper. The
+        // one aluminium block that has been read against the standard — PVC,
+        // three loaded conductors, methods B1, B2 and C, as Schneider's
+        // installation guide reproduces IEC table B.52.4 — sits at 0,78, 0,78
+        // and 0,77 of its copper column, which is that number.
+        //
+        // The band is deliberately lopsided. A cell that is *low* costs the
+        // user a cable size; a cell that is *high* under-sizes a conductor,
+        // which is the direction that burns. So 5 % of headroom above the
+        // prediction and 12 % below: enough that the standard's own rounding
+        // and the differences in cable diameter between the two metals pass,
+        // not enough for a pasted or mistyped column to hide.
+        forEveryMethodAndConductorCount(ConductorMaterial.ALUMINIUM) { _, method, conductors ->
+            CableInsulation.entries.forEach { insulation ->
+                table.tabulatedSizes(ConductorMaterial.ALUMINIUM).forEach { area ->
+                    val cu = table.capacityAmps(area, ConductorMaterial.COPPER, insulation, method, conductors)
+                    val al = table.capacityAmps(area, ConductorMaterial.ALUMINIUM, insulation, method, conductors)
+                    if (cu != null && al != null) {
+                        val predicted = cu * METAL_RATIO
+                        val error = (al - predicted) / predicted
+                        assertTrue(
+                            "$area mm² $insulation/$method/$conductors: Al $al is " +
+                                "${(error * 100).toInt()} % off the ${predicted.toInt()} A that " +
+                                "copper's $cu A predicts",
+                            error in -0.12..0.05,
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     fun `two loaded conductors carry more than three`() {
         // A third current-carrying conductor adds heat to the same bundle.
         forEveryMaterialAndInsulation { material, insulation ->
@@ -314,6 +351,11 @@ class AmpacityTableTest {
                 block(material, insulation)
             }
         }
+    }
+
+    private companion object {
+        /** √(0,017241 / 0,028264): what the two resistivities allow. */
+        const val METAL_RATIO = 0.781
     }
 
     private fun short(method: InstallationMethod) = when (method) {
