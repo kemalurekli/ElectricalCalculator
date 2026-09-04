@@ -436,7 +436,7 @@
     <string name="lt_height_label">Wysokość nad płaszczyzną pracy</string>
     <string name="lt_history_summary">%1$s opraw</string>
     <string name="lt_history_title">Oświetlenie — %1$s × %2$s m przy %3$s lx</string>
-    <string name="lt_illuminance_hint">EN 12464-1: 300 lx biuro ogólne, 500 lx czytanie, 750 lx rysunek techniczny</string>
+    <string name="lt_illuminance_hint">EN 12464-1: 300 lx archiwizacja i kopiowanie, 500 lx pisanie i czytanie, 750 lx rysunek techniczny</string>
     <string name="lt_illuminance_label">Wymagane natężenie oświetlenia</string>
     <string name="lt_length_label">Długość pomieszczenia</string>
     <string name="lt_maintenance_hint">Światło pozostałe po zabrudzeniu i starzeniu źródeł. 0,8 dla czystego wnętrza.</string>

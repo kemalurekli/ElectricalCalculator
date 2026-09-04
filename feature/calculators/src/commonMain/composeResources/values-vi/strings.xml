@@ -436,7 +436,7 @@
     <string name="lt_height_label">Chiều cao trên mặt phẳng làm việc</string>
     <string name="lt_history_summary">%1$s bộ đèn</string>
     <string name="lt_history_title">Chiếu sáng — %1$s × %2$s m ở %3$s lx</string>
-    <string name="lt_illuminance_hint">EN 12464-1: 300 lx văn phòng thường, 500 lx đọc viết, 750 lx vẽ kỹ thuật</string>
+    <string name="lt_illuminance_hint">EN 12464-1: 300 lx lưu hồ sơ và sao chụp, 500 lx viết và đọc, 750 lx vẽ kỹ thuật</string>
     <string name="lt_illuminance_label">Độ rọi yêu cầu</string>
     <string name="lt_length_label">Chiều dài phòng</string>
     <string name="lt_maintenance_hint">Phần ánh sáng còn lại sau bụi bẩn và lão hóa bóng đèn. 0,8 cho nội thất sạch.</string>

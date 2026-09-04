@@ -436,7 +436,7 @@
     <string name="lt_height_label">Height above the working plane</string>
     <string name="lt_history_summary">%1$s luminaires</string>
     <string name="lt_history_title">Lighting — %1$s × %2$s m at %3$s lx</string>
-    <string name="lt_illuminance_hint">EN 12464-1: 300 lx general office, 500 lx reading, 750 lx technical drawing</string>
+    <string name="lt_illuminance_hint">EN 12464-1: 300 lx filing and copying, 500 lx writing and reading, 750 lx technical drawing</string>
     <string name="lt_illuminance_label">Target illuminance</string>
     <string name="lt_length_label">Room length</string>
     <string name="lt_maintenance_hint">Light left after dirt and lamp ageing. 0,8 for a clean interior.</string>

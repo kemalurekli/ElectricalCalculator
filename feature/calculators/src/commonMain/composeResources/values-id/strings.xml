@@ -436,7 +436,7 @@
     <string name="lt_height_label">Tinggi di atas bidang kerja</string>
     <string name="lt_history_summary">%1$s luminer</string>
     <string name="lt_history_title">Pencahayaan — %1$s × %2$s m pada %3$s lx</string>
-    <string name="lt_illuminance_hint">EN 12464-1: 300 lx kantor umum, 500 lx membaca, 750 lx gambar teknik</string>
+    <string name="lt_illuminance_hint">EN 12464-1: 300 lx pengarsipan dan fotokopi, 500 lx menulis dan membaca, 750 lx gambar teknik</string>
     <string name="lt_illuminance_label">Iluminans sasaran</string>
     <string name="lt_length_label">Panjang ruang</string>
     <string name="lt_maintenance_hint">Cahaya yang tersisa setelah kotoran dan penuaan lampu. 0,8 untuk ruang dalam yang bersih.</string>

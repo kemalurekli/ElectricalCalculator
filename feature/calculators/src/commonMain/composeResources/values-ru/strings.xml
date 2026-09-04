@@ -436,7 +436,7 @@
     <string name="lt_height_label">Высота над рабочей поверхностью</string>
     <string name="lt_history_summary">%1$s светильников</string>
     <string name="lt_history_title">Освещение — %1$s × %2$s m при %3$s lx</string>
-    <string name="lt_illuminance_hint">EN 12464-1: 300 lx обычный офис, 500 lx чтение, 750 lx техническое черчение</string>
+    <string name="lt_illuminance_hint">EN 12464-1: 300 lx делопроизводство и копирование, 500 lx письмо и чтение, 750 lx техническое черчение</string>
     <string name="lt_illuminance_label">Требуемая освещённость</string>
     <string name="lt_length_label">Длина помещения</string>
     <string name="lt_maintenance_hint">Свет, оставшийся после загрязнения и старения ламп. 0,8 для чистого помещения.</string>

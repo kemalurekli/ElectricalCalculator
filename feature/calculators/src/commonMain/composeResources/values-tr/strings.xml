@@ -436,7 +436,7 @@
     <string name="lt_height_label">Çalışma düzlemi üstündeki yükseklik</string>
     <string name="lt_history_summary">%1$s armatür</string>
     <string name="lt_history_title">Aydınlatma — %1$s × %2$s m, %3$s lx</string>
-    <string name="lt_illuminance_hint">EN 12464-1: genel ofis 300 lx, okuma 500 lx, teknik çizim 750 lx</string>
+    <string name="lt_illuminance_hint">EN 12464-1: dosyalama ve fotokopi 300 lx, yazma ve okuma 500 lx, teknik çizim 750 lx</string>
     <string name="lt_illuminance_label">Hedef aydınlık düzeyi</string>
     <string name="lt_length_label">Oda uzunluğu</string>
     <string name="lt_maintenance_hint">Kir ve lamba yaşlanmasından sonra kalan ışık. Temiz iç mekânda 0,8.</string>

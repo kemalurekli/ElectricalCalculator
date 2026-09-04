@@ -436,7 +436,7 @@
     <string name="lt_height_label">Höhe über der Nutzebene</string>
     <string name="lt_history_summary">%1$s Leuchten</string>
     <string name="lt_history_title">Beleuchtung — %1$s × %2$s m bei %3$s lx</string>
-    <string name="lt_illuminance_hint">EN 12464-1: 300 lx allgemeines Büro, 500 lx Lesen, 750 lx technisches Zeichnen</string>
+    <string name="lt_illuminance_hint">EN 12464-1: 300 lx Ablage und Kopieren, 500 lx Schreiben und Lesen, 750 lx technisches Zeichnen</string>
     <string name="lt_illuminance_label">Geforderte Beleuchtungsstärke</string>
     <string name="lt_length_label">Raumlänge</string>
     <string name="lt_maintenance_hint">Licht, das nach Verschmutzung und Lampenalterung bleibt. 0,8 für einen sauberen Innenraum.</string>

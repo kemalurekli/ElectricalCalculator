@@ -436,7 +436,7 @@
     <string name="lt_height_label">Altura sobre el plano de trabajo</string>
     <string name="lt_history_summary">%1$s luminarias</string>
     <string name="lt_history_title">Alumbrado — %1$s × %2$s m a %3$s lx</string>
-    <string name="lt_illuminance_hint">EN 12464-1: 300 lx oficina general, 500 lx lectura, 750 lx dibujo técnico</string>
+    <string name="lt_illuminance_hint">EN 12464-1: 300 lx archivo y copiado, 500 lx escritura y lectura, 750 lx dibujo técnico</string>
     <string name="lt_illuminance_label">Iluminancia objetivo</string>
     <string name="lt_length_label">Longitud del local</string>
     <string name="lt_maintenance_hint">Luz que queda tras la suciedad y el envejecimiento de las lámparas. 0,8 en un interior limpio.</string>

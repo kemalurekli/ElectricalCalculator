@@ -436,7 +436,7 @@
     <string name="lt_height_label">Hoogte boven het werkvlak</string>
     <string name="lt_history_summary">%1$s armaturen</string>
     <string name="lt_history_title">Verlichting — %1$s × %2$s m bij %3$s lx</string>
-    <string name="lt_illuminance_hint">EN 12464-1: 300 lx algemeen kantoor, 500 lx lezen, 750 lx technisch tekenen</string>
+    <string name="lt_illuminance_hint">EN 12464-1: 300 lx archiveren en kopiëren, 500 lx schrijven en lezen, 750 lx technisch tekenen</string>
     <string name="lt_illuminance_label">Gevraagde verlichtingssterkte</string>
     <string name="lt_length_label">Lengte van de ruimte</string>
     <string name="lt_maintenance_hint">Licht dat overblijft na vervuiling en veroudering van de lampen. 0,8 voor een schoon interieur.</string>

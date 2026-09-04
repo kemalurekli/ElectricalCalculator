@@ -436,7 +436,7 @@
     <string name="lt_height_label">Hauteur au-dessus du plan utile</string>
     <string name="lt_history_summary">%1$s luminaires</string>
     <string name="lt_history_title">Éclairage — %1$s × %2$s m à %3$s lx</string>
-    <string name="lt_illuminance_hint">EN 12464-1 : 300 lx bureau courant, 500 lx lecture, 750 lx dessin technique</string>
+    <string name="lt_illuminance_hint">EN 12464-1 : 300 lx classement et photocopie, 500 lx écriture et lecture, 750 lx dessin technique</string>
     <string name="lt_illuminance_label">Éclairement visé</string>
     <string name="lt_length_label">Longueur du local</string>
     <string name="lt_maintenance_hint">Lumière restante après l'empoussièrement et le vieillissement des lampes. 0,8 pour un intérieur propre.</string>
