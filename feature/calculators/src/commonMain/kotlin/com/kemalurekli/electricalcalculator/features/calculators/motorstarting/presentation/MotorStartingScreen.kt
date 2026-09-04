@@ -1,5 +1,9 @@
 package com.kemalurekli.electricalcalculator.features.calculators.motorstarting.presentation
 
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -254,88 +258,57 @@ fun MotorStartingScreen(
 
 @Composable
 private fun ResultCard(result: MotorStartingResult) {
-    val spacing = ElecTheme.spacing
-
-    ElecCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
-    ) {
-        Column(
-            modifier = Modifier.padding(spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.sm),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(
-                    text = stringResource(Res.string.ms_result_dip),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Text(
-                    text = "${result.dipPercent.f()} %",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = if (result.risksContactorDropout) {
-                        MaterialTheme.colorScheme.error
-                    } else {
-                        MaterialTheme.colorScheme.onSurface
-                    },
-                )
-            }
-            Line(stringResource(Res.string.ms_result_residual), "${result.residualVoltage.f()} V")
-            Line(
+    // Two things can be wrong with a start, and they are not equally wrong. A
+    // board that drops its contactors has stopped the process; lighting that
+    // dips is noticed and forgiven. The tones say which is which, and only the
+    // worse of the two is stated when both are true.
+    val tone = when {
+        result.risksContactorDropout -> ResultTone.ERROR
+        result.visibleFlicker -> ResultTone.WARNING
+        else -> ResultTone.NEUTRAL
+    }
+    ElecResultCard(
+        label = stringResource(Res.string.ms_result_dip),
+        value = result.dipPercent.f(),
+        unit = "%",
+        modifier = Modifier.padding(
+            horizontal = ElecTheme.spacing.screenHorizontal,
+            vertical = ElecTheme.spacing.xs,
+        ),
+        tone = tone,
+        statusMessage = when (tone) {
+            ResultTone.ERROR -> stringResource(Res.string.ms_warn_contactor)
+            ResultTone.WARNING -> stringResource(Res.string.ms_warn_flicker)
+            else -> null
+        },
+        secondaryRows = persistentListOf(
+            ResultRow(stringResource(Res.string.ms_result_residual), result.residualVoltage.f(), "V"),
+            ResultRow(
                 stringResource(Res.string.ms_result_starting_current),
-                "${result.startingCurrentAmps.f()} A",
-            )
-            Line(stringResource(Res.string.ms_result_starting_kva), "${result.startingKva.f()} kVA")
-            if (result.shortCircuitKva.isFinite()) {
-                Line(
-                    stringResource(Res.string.ms_result_short_circuit),
-                    "${result.shortCircuitKva.f()} kVA",
+                result.startingCurrentAmps.f(),
+                "A",
+            ),
+            ResultRow(stringResource(Res.string.ms_result_starting_kva), result.startingKva.f(), "kVA"),
+            *if (result.shortCircuitKva.isFinite()) {
+                arrayOf(
+                    ResultRow(
+                        stringResource(Res.string.ms_result_short_circuit),
+                        result.shortCircuitKva.f(),
+                        "kVA",
+                    ),
                 )
-            }
-            Line(
+            } else {
+                emptyArray()
+            },
+            ResultRow(
                 stringResource(Res.string.ms_result_torque),
-                "${result.startingTorquePercent.f()} %",
-            )
-
-            // Ordered worst first: a board that shuts itself down outranks a
-            // lamp that blinks, and only the more serious one is worth colour.
-            if (result.risksContactorDropout) {
-                Text(
-                    text = stringResource(Res.string.ms_warn_contactor),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            } else if (result.visibleFlicker) {
-                Text(
-                    text = stringResource(Res.string.ms_warn_flicker),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-        }
-    }
+                result.startingTorquePercent.f(),
+                "%",
+            ),
+        ),
+    )
 }
 
-@Composable
-private fun Line(label: String, value: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Text(text = value, style = MaterialTheme.typography.bodyMedium)
-    }
-}
-
-/** What the number leaves out, and what it costs to make it smaller. */
 @Composable
 private fun NotesCard() {
     val spacing = ElecTheme.spacing

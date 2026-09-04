@@ -1,5 +1,9 @@
 package com.kemalurekli.electricalcalculator.features.calculators.selectivity.presentation
 
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -247,62 +251,49 @@ fun SelectivityScreen(
 
 @Composable
 private fun ResultCard(result: SelectivityResult) {
-    val spacing = ElecTheme.spacing
-
-    ElecCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
-    ) {
-        Column(
-            modifier = Modifier.padding(spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.sm),
-        ) {
-            Text(
-                text = stringResource(result.grade.summary()),
-                style = MaterialTheme.typography.titleMedium,
-                color = when (result.grade) {
-                    SelectivityGrade.SELECTIVE -> MaterialTheme.colorScheme.primary
-                    SelectivityGrade.PARTIAL -> MaterialTheme.colorScheme.onSurface
-                    SelectivityGrade.NONE -> MaterialTheme.colorScheme.error
-                },
-            )
-            result.limitAmps?.let {
-                ResultLine(stringResource(Res.string.sel_result_limit), "${it.format()} A")
-            }
-            ResultLine(stringResource(Res.string.sel_result_ratio), result.ratio.format())
-            result.upstreamInstantaneousAmps?.let {
-                ResultLine(
-                    stringResource(Res.string.sel_result_upstream_threshold),
-                    "${it.format()} A",
+    // The headline is the fault level selectivity survives to, because that is
+    // the number a designer writes down. The verdict itself is the status line
+    // under it — "selective", "partial", "not" — where every other calculator
+    // puts its verdict. Where the pair is selective at any fault the standard
+    // models, there is no limit to print and the figure is a dash.
+    ElecResultCard(
+        label = stringResource(Res.string.sel_result_limit),
+        value = result.limitAmps?.format() ?: "—",
+        unit = if (result.limitAmps != null) "A" else "",
+        modifier = Modifier.padding(
+            horizontal = ElecTheme.spacing.screenHorizontal,
+            vertical = ElecTheme.spacing.xs,
+        ),
+        tone = when (result.grade) {
+            SelectivityGrade.SELECTIVE -> ResultTone.SUCCESS
+            SelectivityGrade.PARTIAL -> ResultTone.WARNING
+            SelectivityGrade.NONE -> ResultTone.ERROR
+        },
+        statusMessage = stringResource(result.grade.summary()),
+        secondaryRows = persistentListOf(
+            ResultRow(stringResource(Res.string.sel_result_ratio), result.ratio.format(), ""),
+            *result.upstreamInstantaneousAmps?.let {
+                arrayOf(
+                    ResultRow(
+                        stringResource(Res.string.sel_result_upstream_threshold),
+                        it.format(),
+                        "A",
+                    ),
                 )
-            }
-            result.downstreamInstantaneousAmps?.let {
-                ResultLine(
-                    stringResource(Res.string.sel_result_downstream_threshold),
-                    "${it.format()} A",
+            }.orEmpty(),
+            *result.downstreamInstantaneousAmps?.let {
+                arrayOf(
+                    ResultRow(
+                        stringResource(Res.string.sel_result_downstream_threshold),
+                        it.format(),
+                        "A",
+                    ),
                 )
-            }
-        }
-    }
+            }.orEmpty(),
+        ),
+    )
 }
 
-@Composable
-private fun ResultLine(label: String, value: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Text(text = value, style = MaterialTheme.typography.bodyMedium)
-    }
-}
-
-/** The two things a reader must not take away from a green verdict. */
 @Composable
 private fun NotesCard() {
     val spacing = ElecTheme.spacing

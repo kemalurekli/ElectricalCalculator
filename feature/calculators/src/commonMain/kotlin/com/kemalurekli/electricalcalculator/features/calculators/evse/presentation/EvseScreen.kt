@@ -1,5 +1,9 @@
 package com.kemalurekli.electricalcalculator.features.calculators.evse.presentation
 
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -254,84 +258,45 @@ fun EvseScreen(
 
 @Composable
 private fun ResultCard(result: EvseResult) {
-    val spacing = ElecTheme.spacing
-
-    ElecCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
-    ) {
-        Column(
-            modifier = Modifier.padding(spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.sm),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(
-                    text = stringResource(Res.string.ev_result_design),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Text(
-                    text = "${result.designCurrentAmps.f()} A",
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-            Line(stringResource(Res.string.ev_result_per_point), "${result.powerPerPointKw.f()} kW")
-            Line(stringResource(Res.string.ev_result_total_kw), "${result.totalConnectedKw.f()} kW")
-            Line(
+    // The design current is the headline because it is what the rest of the
+    // design hangs off. The RCD type stays the last row rather than being
+    // buried among the currents — it is the answer most often got wrong — and
+    // when a Type B is what the installation needs, that becomes the card's
+    // status line, since it is a requirement a designer has to act on rather
+    // than a figure to read.
+    val needsTypeB = result.rcdRequirement == RcdRequirement.TYPE_B
+    ElecResultCard(
+        label = stringResource(Res.string.ev_result_design),
+        value = result.designCurrentAmps.f(),
+        unit = "A",
+        modifier = Modifier.padding(
+            horizontal = ElecTheme.spacing.screenHorizontal,
+            vertical = ElecTheme.spacing.xs,
+        ),
+        tone = if (needsTypeB) ResultTone.WARNING else ResultTone.NEUTRAL,
+        statusMessage = if (needsTypeB) stringResource(Res.string.ev_note_dc) else null,
+        secondaryRows = persistentListOf(
+            ResultRow(stringResource(Res.string.ev_result_per_point), result.powerPerPointKw.f(), "kW"),
+            ResultRow(stringResource(Res.string.ev_result_total_kw), result.totalConnectedKw.f(), "kW"),
+            ResultRow(
                 stringResource(Res.string.ev_result_connected),
-                "${result.totalConnectedAmps.f()} A",
-            )
-            Line(
-                stringResource(Res.string.ev_result_device),
-                result.deviceRatingAmps?.let { "${it.f()} A" }
-                    ?: stringResource(Res.string.ev_result_device_none),
-            )
-
-            // The RCD is the answer most likely to be got wrong, so it is not
-            // buried in the list above with the currents.
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(
-                    text = stringResource(Res.string.ev_result_rcd),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Text(
-                    text = stringResource(result.rcdRequirement.label()),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = if (result.rcdRequirement == RcdRequirement.TYPE_B) {
-                        MaterialTheme.colorScheme.error
-                    } else {
-                        MaterialTheme.colorScheme.onSurface
-                    },
-                )
-            }
-        }
-    }
+                result.totalConnectedAmps.f(),
+                "A",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.ev_result_device),
+                value = result.deviceRatingAmps?.f() ?: "—",
+                unit = if (result.deviceRatingAmps != null) "A" else "",
+            ),
+            ResultRow(
+                stringResource(Res.string.ev_result_rcd),
+                stringResource(result.rcdRequirement.label()),
+                "",
+            ),
+        ),
+    )
 }
 
-@Composable
-private fun Line(label: String, value: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Text(text = value, style = MaterialTheme.typography.bodyMedium)
-    }
-}
-
-/** The three things about this circuit that are not obvious from the numbers. */
 @Composable
 private fun NotesCard() {
     val spacing = ElecTheme.spacing

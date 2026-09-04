@@ -22,6 +22,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
@@ -240,7 +244,7 @@ fun HarmonicsScreen(
                         vertical = spacing.xs,
                     ),
                 )
-                NoteCard()
+                NoteCard(showNeutralCaveat = !uiState.balanced)
             }
         }
     }
@@ -248,8 +252,51 @@ fun HarmonicsScreen(
 
 @Composable
 private fun ResultCard(result: HarmonicsResult, balanced: Boolean) {
-    val spacing = ElecTheme.spacing
+    // The distortion is the headline; the four quantities that follow are what
+    // it costs. There is no pass or fail on THD itself — the limit depends on
+    // where the measurement is taken and which document you answer to — so the
+    // card stays neutral until the one thing this calculator can judge goes
+    // wrong: a neutral carrying more than the lines feeding it.
+    val exceeds = result.neutralExceedsLines
+    ElecResultCard(
+        label = stringResource(Res.string.hm_result_thd),
+        value = result.thdPercent.f(),
+        unit = "%",
+        modifier = Modifier.padding(
+            horizontal = ElecTheme.spacing.screenHorizontal,
+            vertical = ElecTheme.spacing.xs,
+        ),
+        tone = if (exceeds) ResultTone.WARNING else ResultTone.NEUTRAL,
+        statusMessage = if (exceeds) stringResource(Res.string.hm_warn_neutral) else null,
+        secondaryRows = persistentListOf(
+            ResultRow(stringResource(Res.string.hm_result_rms), result.rmsAmps.f(), "A"),
+            // On an unbalanced board the neutral cannot be derived from one
+            // spectrum, and the row says so with a dash rather than a sentence:
+            // the value column is set in tabular figures and sized for a
+            // number, so prose there squeezes the label to one word per line.
+            // The reason is written under the card instead.
+            ResultRow(
+                label = stringResource(Res.string.hm_result_neutral),
+                value = if (balanced) result.neutralAmps.f() else "—",
+                unit = if (balanced) "A" else "",
+            ),
+            ResultRow(stringResource(Res.string.hm_result_k), result.kFactor.f(), ""),
+            *result.dominantOrder?.let {
+                arrayOf(
+                    ResultRow(
+                        stringResource(Res.string.hm_result_dominant),
+                        stringResource(Res.string.hm_order, it),
+                        "",
+                    ),
+                )
+            }.orEmpty(),
+        ),
+    )
+}
 
+@Composable
+private fun NoteCard(showNeutralCaveat: Boolean) {
+    val spacing = ElecTheme.spacing
     ElecCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -259,75 +306,19 @@ private fun ResultCard(result: HarmonicsResult, balanced: Boolean) {
             modifier = Modifier.padding(spacing.lg),
             verticalArrangement = Arrangement.spacedBy(spacing.sm),
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
+            if (showNeutralCaveat) {
                 Text(
-                    text = stringResource(Res.string.hm_result_thd),
-                    style = MaterialTheme.typography.bodyMedium,
+                    text = stringResource(Res.string.hm_result_neutral_unknown),
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                Text(
-                    text = "${result.thdPercent.f()} %",
-                    style = MaterialTheme.typography.titleLarge,
-                )
             }
-            Line(stringResource(Res.string.hm_result_rms), "${result.rmsAmps.f()} A")
-            Line(
-                stringResource(Res.string.hm_result_neutral),
-                if (balanced) {
-                    "${result.neutralAmps.f()} A"
-                } else {
-                    stringResource(Res.string.hm_result_neutral_unknown)
-                },
+            Text(
+                text = stringResource(Res.string.hm_note_scope),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            Line(stringResource(Res.string.hm_result_k), result.kFactor.f())
-            result.dominantOrder?.let {
-                Line(stringResource(Res.string.hm_result_dominant), stringResource(Res.string.hm_order, it))
-            }
-
-            if (result.neutralExceedsLines) {
-                Text(
-                    text = stringResource(Res.string.hm_warn_neutral),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
         }
-    }
-}
-
-@Composable
-private fun Line(label: String, value: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Text(text = value, style = MaterialTheme.typography.bodyMedium)
-    }
-}
-
-/** What the four figures do not cover, said where they are read. */
-@Composable
-private fun NoteCard() {
-    val spacing = ElecTheme.spacing
-    ElecCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
-    ) {
-        Text(
-            text = stringResource(Res.string.hm_note_scope),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(spacing.lg),
-        )
     }
 }
 

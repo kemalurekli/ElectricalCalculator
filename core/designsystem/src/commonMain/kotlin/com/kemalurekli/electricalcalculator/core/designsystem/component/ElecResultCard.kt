@@ -170,6 +170,12 @@ private fun SecondaryResultRow(row: ResultRow) {
             text = "${row.value} ${row.unit}",
             style = NumericCompactTextStyle,
             textAlign = TextAlign.End,
+            // A weight that does not fill: a figure takes the width it needs
+            // and no more, but a row whose value is a phrase rather than a
+            // number — "Type A, alongside the charger's own 6 mA detection" —
+            // is capped at half the row instead of starving the label down to
+            // one letter per line.
+            modifier = Modifier.weight(1f, fill = false),
         )
     }
 }
