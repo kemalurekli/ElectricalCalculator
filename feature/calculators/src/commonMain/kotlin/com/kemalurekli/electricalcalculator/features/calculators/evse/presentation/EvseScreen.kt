@@ -152,6 +152,12 @@ fun EvseScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = spacing.xl),
         ) {
+            // The result sits above the form once it exists: after pressing
+            // Calculate the user is looking for the number, not the fields
+            // they just finished filling in. The workings and the notes stay
+            // below, where they are read second.
+            uiState.result?.let { result -> ResultCard(result) }
+
             ElecExamplesCard(
                 examples = evseExamples,
                 onSelect = onApplyExample,
@@ -232,8 +238,7 @@ fun EvseScreen(
                 }
             }
 
-            uiState.result?.let { result ->
-                ResultCard(result)
+            if (uiState.result != null) {
                 ElecStepsCard(
                     steps = uiState.steps,
                     modifier = Modifier.padding(

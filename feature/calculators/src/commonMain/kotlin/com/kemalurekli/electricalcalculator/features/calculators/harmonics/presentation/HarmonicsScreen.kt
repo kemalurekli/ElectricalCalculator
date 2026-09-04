@@ -134,6 +134,12 @@ fun HarmonicsScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = spacing.xl),
         ) {
+            // The result sits above the form once it exists: after pressing
+            // Calculate the user is looking for the number, not the fields
+            // they just finished filling in. The workings and the notes stay
+            // below, where they are read second.
+            uiState.result?.let { result -> ResultCard(result, uiState.balanced) }
+
             ElecExamplesCard(
                 examples = harmonicsExamples,
                 onSelect = onApplyExample,
@@ -226,8 +232,7 @@ fun HarmonicsScreen(
                 }
             }
 
-            uiState.result?.let { result ->
-                ResultCard(result, uiState.balanced)
+            if (uiState.result != null) {
                 ElecStepsCard(
                     steps = uiState.steps,
                     modifier = Modifier.padding(
