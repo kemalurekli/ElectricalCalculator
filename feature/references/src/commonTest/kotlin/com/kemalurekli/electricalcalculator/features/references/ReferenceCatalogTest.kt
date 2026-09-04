@@ -170,12 +170,12 @@ class ReferenceCatalogTest {
     }
 
     @Test
-    fun `the IK table covers IK00 to IK10 in order`() {
+    fun `the IK table covers IK00 to IK11 in order`() {
         val topic = requireNotNull(ReferenceCatalog.topicOrNull("ik_rating"))
         val codes = topic.sections.single().rows
             .map { (it.label as ReferenceText.Symbol).text }
 
-        assertEquals((0..10).map { "IK" + it.toString().padStart(2, '0') }, codes)
+        assertEquals((0..11).map { "IK" + it.toString().padStart(2, '0') }, codes)
     }
 
     @Test
@@ -188,7 +188,7 @@ class ReferenceCatalogTest {
 
         assertEquals(energies.sorted(), energies)
         assertEquals(0.14, energies.first(), 1e-9)
-        assertEquals(20.0, energies.last(), 1e-9)
+        assertEquals(50.0, energies.last(), 1e-9)
     }
 
     @Test
@@ -226,10 +226,13 @@ class ReferenceCatalogTest {
         val rows = topic.sections[0].rows
             .filter { it.value is ReferenceText.Quantity }
 
-        assertEquals(10, rows.size, "IK01 to IK10 should each have an energy")
+        assertEquals(11, rows.size, "IK01 to IK11 should each have an energy")
         rows.forEach { row ->
             val joules = (row.value as ReferenceText.Quantity).value
-            val note = requireNotNull(row.note as? ReferenceText.Quantity)
+            // IK11 carries an energy and no hammer: the 2021 amendment's test
+            // parameters are not published anywhere this project can reach, and
+            // a plausible-looking pair would be worse than an empty column.
+            val note = row.note as? ReferenceText.Quantity ?: return@forEach
             val kilograms = note.value
             val millimetres = note.unit.substringAfter("· ").removeSuffix(" mm").toInt()
             val delivered = kilograms * 9.81 * millimetres / 1000.0

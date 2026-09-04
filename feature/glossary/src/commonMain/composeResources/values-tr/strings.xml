@@ -37,7 +37,7 @@
     <string name="gl_conductor_term">İletken</string>
     <string name="gl_conductor_def">Kablonun akımı taşıyan metal kısmı; pratikte bakır veya alüminyum. Kablodaki diğer her şey onu yalıtmak, korumak veya bir arada tutmak içindir.</string>
     <string name="gl_contactor_term">Kontaktör</string>
-    <string name="gl_contactor_def">Yük akımını defalarca kapatıp açmak ve bobini beslemesini kaybettiğinde bırakmak üzere yapılmış, elektrikle çalışan anahtar. Son özellik, rölenin tasarım amacında yoktur.</string>
+    <string name="gl_contactor_def">Yük akımını defalarca kapatıp açmak ve bobini beslemesini kaybettiğinde yükü de yanında götürerek bırakmak üzere yapılmış, elektrikle çalışan anahtar. Röle de bırakır, ama o sinyal anahtarlar; motor akımını kesmek onun yapımında yoktur.</string>
     <string name="gl_continuity_test_term">Süreklilik testi</string>
     <string name="gl_continuity_test_def">Koruma ve faz iletkenlerinin uçtan uca direncini ölçen gerilimsiz test; iletkenlerin kopuk olmadığını ve doğru bağlandığını kanıtlar. Okunan değer, hesaplanan R1+R2 ile karşılaştırılır.</string>
     <string name="gl_correction_factor_term">Düzeltme faktörü</string>
@@ -57,7 +57,7 @@
     <string name="gl_derating_term">Kapasite düşürme (derating)</string>
     <string name="gl_derating_def">Koşullar anma değerinin ölçüldüğü koşullardan kötü olduğu için bir elemanın kullanılabilir değerinin düşürülmesi. Kablolarda ortam ve gruplama faktörleri; cihazlarda pano içi sıcaklık olabilir.</string>
     <string name="gl_disconnection_time_term">Açma süresi</string>
-    <string name="gl_disconnection_time_def">Bir koruma cihazının toprak arızasını kesmesi için tanınan süre. IEC 60364-4-41, TN sisteminde 32 A'e kadar son devrelerde 0,4 s, dağıtım devrelerinde 5 s ister.</string>
+    <string name="gl_disconnection_time_def">Bir koruma cihazının toprak arızasını kesmesi için tanınan süre. IEC 60364-4-41, TN sisteminde 230 V'ta son devreler için 0,4 s ister — prizli devrelerde 63 A'e, sabit bağlı cihazlarda 32 A'e kadar — dağıtım devrelerinde ve bu değerlerin üzerindeki devrelerde 5 s.</string>
     <string name="gl_distribution_board_term">Dağıtım panosu</string>
     <string name="gl_distribution_board_def">Gelen beslemenin, her biri kendi koruma cihazına sahip çıkış devrelerine ayrıldığı pano.</string>
     <string name="gl_diversity_factor_term">Eşzamanlılık faktörü</string>
@@ -97,7 +97,7 @@
     <string name="gl_harmonic_term">Harmonik</string>
     <string name="gl_harmonic_def">Elektronik yüklerin çektiği, besleme frekansının tam katındaki akım veya gerilim bileşeni. Üçüncü harmonik ve katları nötrde birbirini götürmek yerine toplanır; nötr, herhangi bir fazdan fazla akım taşıyabilir.</string>
     <string name="gl_ik_code_term">IK kodu</string>
-    <string name="gl_ik_code_def">Bir mahfazanın ne kadar mekanik darbeye dayandığını gösteren, IEC 62262'ye göre iki haneli sınıf; IK00 (korumasız) ile IK10 (20 joule) arasında.</string>
+    <string name="gl_ik_code_def">Bir mahfazanın ne kadar mekanik darbeye dayandığını gösteren, IEC 62262'ye göre iki haneli sınıf; IK00 (korumasız) ile IK10 (20 joule) arasında. 2021 tadili, alışılmadık ölçüde sert ortamlardaki mahfaza ve ızgaralar için 50 joule'lük IK11'i ekledi.</string>
     <string name="gl_illuminance_term">Aydınlık düzeyi</string>
     <string name="gl_illuminance_def">Bir yüzeyin metrekaresine düşen ışık akısı. Işıkölçerin okuduğu ve aydınlatma tasarımının şartnamesinde verilen büyüklüktür; bir ofiste tipik olarak 500 lx.</string>
     <string name="gl_impedance_term">Empedans</string>

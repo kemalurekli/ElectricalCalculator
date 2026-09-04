@@ -38,7 +38,7 @@
     <string name="gl_conductor_term">Conductor</string>
     <string name="gl_conductor_def">The metal part of a cable that carries current — copper or aluminium in practice. Everything else in the cable exists to insulate it, protect it or hold it together.</string>
     <string name="gl_contactor_term">Contactor</string>
-    <string name="gl_contactor_def">An electrically operated switch built to make and break load current repeatedly, and to drop out when its coil loses supply. That last property is what a relay is not designed for.</string>
+    <string name="gl_contactor_def">An electrically operated switch built to make and break load current repeatedly, and to drop out when its coil loses supply — taking the load with it. A relay drops out too, but it switches signals; breaking motor current is the part it is not built for.</string>
     <string name="gl_continuity_test_term">Continuity test</string>
     <string name="gl_continuity_test_def">A dead test measuring the resistance of protective and line conductors end to end, to prove they are unbroken and correctly connected. The reading is compared against the calculated R1+R2.</string>
     <string name="gl_correction_factor_term">Correction factor</string>
@@ -58,7 +58,7 @@
     <string name="gl_derating_term">Derating</string>
     <string name="gl_derating_def">Reducing a component's usable rating because the conditions are worse than the ones it was rated in. For cables it is the ambient and grouping factors; for a device it may be temperature inside an enclosure.</string>
     <string name="gl_disconnection_time_term">Disconnection time</string>
-    <string name="gl_disconnection_time_def">How long a protective device may take to clear an earth fault. IEC 60364-4-41 requires 0,4 s for final circuits up to 32 A on a TN system and 5 s for distribution circuits.</string>
+    <string name="gl_disconnection_time_def">How long a protective device may take to clear an earth fault. IEC 60364-4-41 gives 0,4 s at 230 V on a TN system for final circuits — up to 63 A where there are socket-outlets, up to 32 A for fixed equipment — and 5 s for distribution circuits and everything above those ratings.</string>
     <string name="gl_distribution_board_term">Distribution board</string>
     <string name="gl_distribution_board_def">The enclosure where an incoming supply is split into outgoing circuits, each with its own protective device.</string>
     <string name="gl_diversity_factor_term">Diversity factor</string>
@@ -98,7 +98,7 @@
     <string name="gl_harmonic_term">Harmonic</string>
     <string name="gl_harmonic_def">A current or voltage component at a whole multiple of the supply frequency, drawn by electronic loads. The third and its multiples add up in the neutral instead of cancelling, so a neutral can carry more than any line.</string>
     <string name="gl_ik_code_term">IK code</string>
-    <string name="gl_ik_code_def">A two-digit rating from IEC 62262 for how much mechanical impact an enclosure withstands, from IK00 (unprotected) to IK10 (20 joules).</string>
+    <string name="gl_ik_code_def">A two-digit rating from IEC 62262 for how much mechanical impact an enclosure withstands, from IK00 (unprotected) to IK10 (20 joules). A 2021 amendment added IK11 at 50 joules for enclosures and grids in unusually rough places.</string>
     <string name="gl_illuminance_term">Illuminance</string>
     <string name="gl_illuminance_def">Luminous flux arriving per square metre of a surface. It is what a light meter reads and what a lighting design is specified in — an office typically 500 lx.</string>
     <string name="gl_impedance_term">Impedance</string>

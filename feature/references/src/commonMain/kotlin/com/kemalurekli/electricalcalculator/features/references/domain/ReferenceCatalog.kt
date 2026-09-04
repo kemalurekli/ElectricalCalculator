@@ -1030,6 +1030,11 @@ object ReferenceCatalog {
                     impact("IK08", 5.0, 1.7, 300),
                     impact("IK09", 10.0, 5.0, 200),
                     impact("IK10", 20.0, 5.0, 400),
+                    // Added by the 2021 amendment. The energy is published;
+                    // the hammer that delivers it is not, in anything this
+                    // project can reach, so the column is left empty rather
+                    // than filled with a plausible pair.
+                    ReferenceRow(Symbol("IK11"), Quantity(50.0, "J", ENERGY_DIGITS)),
                 ),
                 footnote = Res.string.ref_ik_note,
             ),
