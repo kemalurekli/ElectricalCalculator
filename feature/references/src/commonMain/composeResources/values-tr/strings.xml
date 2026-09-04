@@ -149,7 +149,7 @@
     <string name="ref_diagnosis_rcd_1">Birikmiş sürekli kaçak. Her elektronik besleme toprağa biraz kaçırır; tek bir 30 mA cihazda yeterince toplanınca, ortada gerçek bir arıza olmadan açma olur.</string>
     <string name="ref_diagnosis_rcd_2">Bir sürücü veya EMC filtresi. Bunlar tasarımı gereği kaçırır ve kaçak yüksek frekanslıdır — AC tipi bir cihaz bunu doğru ölçemeyebilir bile.</string>
     <string name="ref_diagnosis_rcd_3">Dış mekân devresinde veya gömülü ekte nem. Klasik olarak yağmurdan sonra atar ve öğleden sonra düzelir.</string>
-    <string name="ref_diagnosis_rcd_4">Yüke uygun olmayan RCD tipi. Sürücü Tip B ister; tek fazlı elektronik en az Tip A ister.</string>
+    <string name="ref_diagnosis_rcd_4">Yüke uygun olmayan RCD tipi. Sürücü B tipi ister; tek fazlı elektronik en az A tipi ister.</string>
     <string name="ref_diagnosis_rcd_5">İki devre arasında ödünç nötr. Akım yanlış RCD üzerinden döner ve dengesizlik gerçektir.</string>
     <string name="ref_diagnosis_rcd_6">Gerçek yalıtım arızası. Varsaymak yerine ölçün; bunların en seyreği budur ve kablo değiştirmeye değen tek nedendir.</string>
     <string name="ref_diagnosis_rcd_intro">Herhangi bir şeyi değiştirmeden önce yükü bölün. Devrelerin yarısını kapatın, deneyin, sonra tekrar yarılayın — suçluyu bulmak dört işlem sürer ve hiç parça gerektirmez.</string>
@@ -657,7 +657,7 @@
     <string name="ref_sel_rcdtype_col_2">F tipi</string>
     <string name="ref_sel_rcdtype_col_3">B tipi</string>
     <string name="ref_sel_rcdtype_description">Tipi kaçağın büyüklüğü değil, biçimi belirler.</string>
-    <string name="ref_sel_rcdtype_intro">Bir RCD yalnızca ölçebildiği akımda açabilir. Bir sürücünün önüne Tip AC koyarsanız, sürücünün ürettiği DC bileşenli kaçağı hiç görmeyebilir — cihaz yerinde, test edilmiş ve kör.</string>
+    <string name="ref_sel_rcdtype_intro">Bir RCD yalnızca ölçebildiği akımda açabilir. Bir sürücünün önüne AC tipi koyarsanız, sürücünün ürettiği DC bileşenli kaçağı hiç görmeyebilir — cihaz yerinde, test edilmiş ve kör.</string>
     <string name="ref_sel_rcdtype_intro_title">Tipi yüke göre seçin</string>
     <string name="ref_sel_rcdtype_r4_c0">Tamamen omik devreler</string>
     <string name="ref_sel_rcdtype_r4_c1">Priz, aydınlatma, tek fazlı elektronik</string>
@@ -687,7 +687,7 @@
     <string name="ref_sel_starting_r5_c0">Tüm panoda gerilim çökmesi</string>
     <string name="ref_sel_starting_r5_c1">Geçiş anındaki akım darbesi</string>
     <string name="ref_sel_starting_r5_c2">Sürekli çalışmada bypass kontaktörü gerekir</string>
-    <string name="ref_sel_starting_r5_c3">Harmonik, EMC, Tip B RCD</string>
+    <string name="ref_sel_starting_r5_c3">Harmonik, EMC, B tipi RCD</string>
     <string name="ref_sel_starting_row_0">Yol alma akımı</string>
     <string name="ref_sel_starting_row_1">Yol alma momenti</string>
     <string name="ref_sel_starting_row_2">Devir kontrolü</string>

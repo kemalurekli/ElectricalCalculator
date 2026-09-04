@@ -383,12 +383,12 @@
     <string name="ev_history_summary">%1$s A tasarım akımı</string>
     <string name="ev_history_title">%2$s A’de %1$s nokta</string>
     <string name="ev_note_continuous">Bir elektrikli araç tam akımını saatlerce çeker. Priz devrelerini yürüten eşzamanlılık alışkanlıklarının hiçbiri buraya geçmez; eşzamanlılık katsayısının birden başlamasının ve varsayılmak yerine sorulmasının sebebi budur.</string>
-    <string name="ev_note_dc">Bir araç, koruma iletkenine düzgün DC verebilir; bu, Tip A bir RCD’nin nüvesini doyurur ve onu kurulma amacı olan AC arızaya kör eder. Ya Tip B, ya da 6 mA DC’de açan bir cihazla birlikte Tip A — ki bunu çoğu modern şarj cihazı içinde taşır, ama yalnızca etiketi öyle diyorsa.</string>
+    <string name="ev_note_dc">Bir araç, koruma iletkenine düzgün DC verebilir; bu, A tipi bir RCD’nin nüvesini doyurur ve onu kurulma amacı olan AC arızaya kör eder. Ya B tipi, ya da 6 mA DC’de açan bir cihazla birlikte A tipi — ki bunu çoğu modern şarj cihazı içinde taşır, ama yalnızca etiketi öyle diyorsa.</string>
     <string name="ev_note_scope">Yük yönetimi modellenmemiştir. Sabit bir beslemeyi noktalar arasında paylaştıran bir denetleyici, tasarım akımını bir toplam olmaktan çıkarıp bir ayara dönüştürür.</string>
     <string name="ev_point_count">Şarj noktası sayısı</string>
     <string name="ev_rated_current">Nokta başına anma akımı</string>
-    <string name="ev_rcd_a">Tip A, şarj cihazının kendi 6 mA algılamasıyla birlikte</string>
-    <string name="ev_rcd_b">Tip B</string>
+    <string name="ev_rcd_a">A tipi, şarj cihazının kendi 6 mA algılamasıyla birlikte</string>
+    <string name="ev_rcd_b">B tipi</string>
     <string name="ev_result_connected">Toplam bağlı akım</string>
     <string name="ev_result_design">Tasarım akımı, Ib</string>
     <string name="ev_result_device">Koruma cihazı</string>
@@ -613,7 +613,7 @@
     <string name="pf_result_reactive_after">Sonraki reaktif güç</string>
     <string name="pf_result_reactive_before">Önceki reaktif güç</string>
     <string name="pf_result_released">Kazanılan kapasite</string>
-    <string name="pf_result_status">Bataryanın sağlaması gereken reaktif güç</string>
+    <string name="pf_result_status">Kondansatör grubunun sağlaması gereken reaktif güç</string>
     <string name="pf_step_apparent_after">Kompanzasyon sonrası görünür güç</string>
     <string name="pf_step_apparent_before">Kompanzasyon öncesi görünür güç</string>
     <string name="pf_step_capacitance">Bir ünitenin kapasitesi</string>
