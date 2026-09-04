@@ -7,7 +7,7 @@
     <string name="calculator_share_subject">%1$s — VoltageBoard</string>
     <string name="destination_theory">Teori</string>
     <string name="message_copied">Sonuç kopyalandı</string>
-    <string name="th_conductor_assumption_dc">Doğru akım ya da küçük kesitli bir iletkendeki alternatif akım. Yaklaşık 50 mm²'nin üzerinde deri olayı akımı yüzeye iter ve etkin direnç yükselir.</string>
+    <string name="th_conductor_assumption_dc">Doğru akım ya da çok büyük olmayan bir iletkendeki alternatif akım. 50 Hz'de deri olayı yaklaşık 185 mm²'ye kadar yüzde birin altında kalır; 300 mm²'de yüzde birkaçtır, birkaç yüz mm²'de ise artık göz ardı edilmeyip hesaplanması gerekir.</string>
     <string name="th_conductor_assumption_one_way">Bu tek bir iletkenin direncidir. Devrede akımın geri dönmesi gerekir; bu yüzden gerilim düşümü çevrimi kullanır — her iki iletken, yani buradaki ikinci değer.</string>
     <string name="th_conductor_assumption_uniform">Hattın tamamı tek bir sıcaklıktadır. Sıcak bir panodan çıkıp soğuk bir çatı arasından geçen kablo öyle değildir.</string>
     <string name="th_conductor_example_radial">70 °C'de 25 m linye</string>
