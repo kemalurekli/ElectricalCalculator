@@ -200,6 +200,40 @@ class StringResourceIntegrityTest {
     }
 
     @Test
+    fun `a translation keeps the units the base string writes`() {
+        // Units are drawn by the screens, not by the strings: `unit = "kW"` is
+        // Kotlin, the same in every language. So a string that spells a unit out
+        // beside a number has to spell it the way the screen will, or the same
+        // quantity ends up with two names a few millimetres apart — a result card
+        // reading "5,30 kW" above an exported line reading "5,30 кВт".
+        //
+        // Only value-and-unit pairs are checked: a bare "A" is the English
+        // article as often as it is an ampere. Time is left out entirely —
+        // every language writes "8 hours" as a word of its own, and a countdown
+        // that says "30 sn sonra" in Turkish is right to.
+        val units = unitsUsedInScreens() - TIME_UNITS
+        assertTrue("No unit literals found — the search root moved", units.size >= 10)
+
+        bundles.forEach { bundle ->
+            val base = bundle.base.associateBy { it.name }
+            bundle.translations.forEach { (locale, entries) ->
+                entries.forEach { translated ->
+                    val original = base[translated.name] ?: return@forEach
+                    units.forEach { unit ->
+                        if (!MEASURED_VALUE(unit).containsMatchIn(original.body)) return@forEach
+                        assertTrue(
+                            "${bundle.module}/$locale/${translated.name} drops the unit " +
+                                "\"$unit\" that the base string measures in; the screen " +
+                                "will still draw it that way",
+                            STANDALONE(unit).containsMatchIn(translated.body),
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     fun `no string is defined twice in the same file`() {
         bundles.forEach { bundle ->
             (mapOf("values" to bundle.base) + bundle.translations).forEach { (locale, entries) ->
@@ -211,6 +245,18 @@ class StringResourceIntegrityTest {
                 )
             }
         }
+    }
+
+    /** Every unit literal the screens hand to a field or a result row. */
+    private fun unitsUsedInScreens(): Set<String> {
+        val sources = File("../feature").walkTopDown()
+            .onEnter { it.name != "build" }
+            .filter { it.isFile && it.extension == "kt" }
+        return sources
+            .flatMap { UNIT_LITERAL.findAll(it.readText()) }
+            .map { it.groupValues[1] }
+            .filter { it.isNotEmpty() && it != "%" && it.first().isLetter() }
+            .toSet()
     }
 
     /** Calculator prefix -> the symbols its formula legend names, read from the screens. */
@@ -274,6 +320,19 @@ class StringResourceIntegrityTest {
         val STRING_ELEMENT = Regex("""<string\s+([^>]*)>(.*?)</string>""", RegexOption.DOT_MATCHES_ALL)
         val NAME_ATTR = Regex("""name="([^"]+)"""")
         val POSITIONAL_ARG = Regex("""%(\d+)\$""")
+        val UNIT_LITERAL = Regex("""unit = "([^"]*)"""")
+
+        /** Seconds, hours and minutes are words in most languages, not symbols. */
+        val TIME_UNITS = setOf("s", "h", "min")
+
+        /** A number, or a placeholder that will become one, followed by the unit. */
+        fun MEASURED_VALUE(unit: String) =
+            Regex("""(?:\d|\$[sd])\s${Regex.escape(unit)}(?![\p{L}\d])""")
+
+        /** The same unit standing on its own anywhere in the translation. */
+        fun STANDALONE(unit: String) =
+            Regex("""(?<![\p{L}\d])${Regex.escape(unit)}(?![\p{L}\d])""")
+
         val FORMULA_VARIABLE =
             Regex("""FormulaVariable\(\s*"([^"]+)"\s*,\s*stringResource\(Res\.string\.([a-z]+)_var_""")
 

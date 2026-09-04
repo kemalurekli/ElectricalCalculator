@@ -7,7 +7,7 @@
     <string name="bt_capacity_hint">Amper-jam pada pelat nama untuk seluruh rangkaian baterai</string>
     <string name="bt_depth_of_discharge">Kedalaman pengosongan</string>
     <string name="bt_depth_of_discharge_hint">50 untuk timbal-asam, 80–90 untuk litium</string>
-    <string name="bt_duration">%1$d j %2$d mnt</string>
+    <string name="bt_duration">%1$d h %2$d min</string>
     <string name="bt_efficiency">Efisiensi sistem</string>
     <string name="bt_efficiency_hint">Rugi inverter dan kabel; isi 100 untuk beban yang disuplai langsung dari DC</string>
     <string name="bt_example_caravan">Baterai layanan 12 V</string>
@@ -19,7 +19,7 @@
     <string name="bt_export_load">%1$s W · η %2$s % · DoD %3$s % · k %4$s</string>
     <string name="bt_export_runtime">Ketahanan: %1$s</string>
     <string name="bt_formula">I = P / (U · η)\nt = H · (I_r / I)^k · DoD</string>
-    <string name="bt_history_summary">%1$s j</string>
+    <string name="bt_history_summary">%1$s h</string>
     <string name="bt_history_title">Ketahanan baterai — %1$s Ah, %2$s W</string>
     <string name="bt_load_power">Daya beban</string>
     <string name="bt_note_conditions" formatted="false">Diandaikan beban tetap, baterai sehat pada kapasitas pelat namanya, dan suhu normal. Kapasitas menurun karena usia dan karena dingin — kira-kira 20 % pada 0 °C untuk timbal-asam — sehingga perancangan harus menyediakan cadangan di atas angka ini.</string>
@@ -264,11 +264,11 @@
     <string name="ec_example_motor">Motor 15 kW, dua shift</string>
     <string name="ec_example_standby">Beban siaga 10 W</string>
     <string name="ec_export_annual">Setahun: %1$s kWh, %2$s</string>
-    <string name="ec_export_load">Beban: %1$s W, %2$s j/hari, %3$s hari/tahun</string>
+    <string name="ec_export_load">Beban: %1$s W, %2$s h/hari, %3$s hari/tahun</string>
     <string name="ec_export_saving">Penghematan: %1$s per tahun</string>
     <string name="ec_formula">E = P · h · d / 1000\nC = E · tarif</string>
     <string name="ec_history_summary">%1$s per tahun</string>
-    <string name="ec_history_title">Biaya energi — %1$s W, %2$s j/hari</string>
+    <string name="ec_history_title">Biaya energi — %1$s W, %2$s h/hari</string>
     <string name="ec_hours_label">Jam per hari</string>
     <string name="ec_note_currency">Tidak ada mata uang yang diandaikan. Dalam satuan apa pun tarifnya, dalam satuan itu pula biayanya kembali.</string>
     <string name="ec_note_energy_only">Ini hanya biaya energinya. Biaya beban tetap, biaya kapasitas, energi reaktif, dan pajak ditagih terpisah dan tidak termasuk dalam angka ini.</string>

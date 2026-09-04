@@ -7,7 +7,7 @@
     <string name="bt_capacity_hint">Số ampe-giờ ghi trên nhãn của cả bộ ắc quy</string>
     <string name="bt_depth_of_discharge">Độ sâu phóng điện</string>
     <string name="bt_depth_of_discharge_hint">50 với ắc quy chì-axit, 80–90 với lithium</string>
-    <string name="bt_duration">%1$d g %2$d ph</string>
+    <string name="bt_duration">%1$d h %2$d min</string>
     <string name="bt_efficiency">Hiệu suất hệ thống</string>
     <string name="bt_efficiency_hint">Tổn hao của bộ nghịch lưu và dây dẫn; nhập 100 cho phụ tải lấy điện thẳng từ DC</string>
     <string name="bt_example_caravan">Ắc quy phụ 12 V</string>
@@ -19,7 +19,7 @@
     <string name="bt_export_load">%1$s W · η %2$s % · DoD %3$s % · k %4$s</string>
     <string name="bt_export_runtime">Thời gian dùng: %1$s</string>
     <string name="bt_formula">I = P / (U · η)\nt = H · (I_r / I)^k · DoD</string>
-    <string name="bt_history_summary">%1$s g</string>
+    <string name="bt_history_summary">%1$s h</string>
     <string name="bt_history_title">Thời gian dùng ắc quy — %1$s Ah, %2$s W</string>
     <string name="bt_load_power">Công suất phụ tải</string>
     <string name="bt_note_conditions" formatted="false">Giả thiết phụ tải không đổi, bộ ắc quy còn tốt đúng dung lượng nhãn và nhiệt độ bình thường. Dung lượng giảm theo tuổi và theo cái lạnh — với ắc quy chì-axit là chừng 20 % ở 0 °C — nên thiết kế cần có dự phòng vượt trên con số này.</string>
@@ -264,11 +264,11 @@
     <string name="ec_example_motor">Động cơ 15 kW, hai ca</string>
     <string name="ec_example_standby">Phụ tải chờ 10 W</string>
     <string name="ec_export_annual">Mỗi năm: %1$s kWh, %2$s</string>
-    <string name="ec_export_load">Phụ tải: %1$s W, %2$s g/ngày, %3$s ngày/năm</string>
+    <string name="ec_export_load">Phụ tải: %1$s W, %2$s h/ngày, %3$s ngày/năm</string>
     <string name="ec_export_saving">Tiết kiệm: %1$s mỗi năm</string>
     <string name="ec_formula">E = P · h · d / 1000\nC = E · đơn giá</string>
     <string name="ec_history_summary">%1$s mỗi năm</string>
-    <string name="ec_history_title">Chi phí điện năng — %1$s W, %2$s g/ngày</string>
+    <string name="ec_history_title">Chi phí điện năng — %1$s W, %2$s h/ngày</string>
     <string name="ec_hours_label">Số giờ mỗi ngày</string>
     <string name="ec_note_currency">Không giả định đơn vị tiền nào. Đơn giá ở đơn vị nào thì chi phí trả về ở đúng đơn vị ấy.</string>
     <string name="ec_note_energy_only">Đây chỉ là tiền điện năng. Tiền thuê bao, tiền công suất, điện năng phản kháng và thuế được tính riêng và không nằm trong con số này.</string>

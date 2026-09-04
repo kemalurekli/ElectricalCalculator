@@ -28,7 +28,7 @@
     <string name="pro_preview_section_lighting">1,5</string>
     <string name="pro_preview_section_oven">4,0</string>
     <string name="pro_preview_section_sockets">2,5</string>
-    <string name="pro_preview_supply">400 В · 3 фазы · Медь · ПВХ 70 °C</string>
+    <string name="pro_preview_supply">400 V · 3 фазы · Медь · ПВХ 70 °C</string>
     <string name="pro_preview_title">Ведомость линий</string>
     <string name="pro_privacy">Политика конфиденциальности</string>
     <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>

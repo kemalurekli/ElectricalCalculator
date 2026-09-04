@@ -36,7 +36,7 @@
     <string name="forum_email_code_sent">Мы отправили код на %1$s. Он действует десять минут.</string>
     <string name="forum_email_hint">Адрес электронной почты</string>
     <string name="forum_email_resend">Отправить снова</string>
-    <string name="forum_email_resend_in">Отправить снова через %1$d с</string>
+    <string name="forum_email_resend_in">Отправить снова через %1$d s</string>
     <string name="forum_email_send_code">Отправить код</string>
     <string name="forum_email_verify">Продолжить</string>
     <string name="forum_error_offline_message">Форуму нужна связь. Всё остальное в этом приложении работает без неё.</string>

@@ -10,7 +10,7 @@
     <string name="circuit_chain">Цепочка условий</string>
     <string name="circuit_delete_title">Удалить линию?</string>
     <string name="circuit_disconnection">Время отключения</string>
-    <string name="circuit_disconnection_hint">0,4 с для конечной линии, 5 с для распределительной</string>
+    <string name="circuit_disconnection_hint">0,4 s для конечной линии, 5 s для распределительной</string>
     <string name="circuit_failure_device_range">Нагрузка превышает самый крупный аппарат защиты, который знает приложение.</string>
     <string name="circuit_failure_no_size">Ни одно стандартное сечение не проходит все проверки. Посмотрите на проверку, которая не проходит: петля, которая не отключается, требует другого аппарата, а не большего сечения меди.</string>
     <string name="circuit_incomplete">Введите нагрузку и длину, чтобы рассчитать эту линию.</string>
@@ -66,7 +66,7 @@
     <string name="project_cable_section">Кабель</string>
     <string name="project_circuit_incomplete">Ещё не рассчитана — введите нагрузку и длину</string>
     <string name="project_circuit_no_solution">Ни одно стандартное сечение не подходит</string>
-    <string name="project_circuit_summary">%1$s мм² · аппарат %2$s А</string>
+    <string name="project_circuit_summary">%1$s mm² · аппарат %2$s A</string>
     <string name="project_external_impedance">Сопротивление петли питания, Ze</string>
     <string name="project_external_impedance_hint">Измерено на вводе или указано сетевой организацией</string>
     <string name="project_max_drop">Допустимая потеря напряжения</string>
@@ -82,7 +82,7 @@
     <string name="projects_empty_message">Проект держит вместе одно питание и линии, отходящие от него. Задайте один раз напряжение, температуру окружающей среды и тип кабеля — каждая линия рассчитывается по ним.</string>
     <string name="projects_empty_title">Проектов пока нет</string>
     <string name="projects_new">Новый проект</string>
-    <string name="projects_supply_volts">%1$s В</string>
+    <string name="projects_supply_volts">%1$s V</string>
     <string name="projects_untitled">Проект без названия</string>
     <string name="report_column_binding">Определено</string>
     <string name="report_column_capacity">Iz (А)</string>

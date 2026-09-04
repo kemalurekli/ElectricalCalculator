@@ -44,7 +44,7 @@
     <string name="settings_theme_system">Системная</string>
     <string name="settings_unit_system">Система единиц</string>
     <string name="settings_unit_system_imperial">Имперская (AWG, ft)</string>
-    <string name="settings_unit_system_metric">Метрическая (мм², м)</string>
+    <string name="settings_unit_system_metric">Метрическая (mm², m)</string>
     <string name="settings_units">Единицы</string>
     <string name="settings_version">Версия</string>
 </resources>
