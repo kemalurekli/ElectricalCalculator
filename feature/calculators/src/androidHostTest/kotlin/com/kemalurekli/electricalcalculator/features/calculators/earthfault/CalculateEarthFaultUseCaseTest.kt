@@ -313,6 +313,17 @@ class CalculateEarthFaultUseCaseTest {
     // -- Ordering of the k factors ---------------------------------------------------------------
 
     @Test
+    fun `the touch voltage limit is the conventional AC one`() {
+        // Checked 2026-09-04 against IEC 60364-4-41, whose TT condition reads
+        // R_A × I_d ≤ 50 V; this app writes the same thing as Zs × IΔn ≤ 50 V.
+        //
+        // The standard also carries 120 V for DC, which cannot arise here
+        // because an RCD is only offered on AC, and 25 V for certain special
+        // locations, which can — and which nothing on screen mentions.
+        assertEquals(50.0, EarthFaultInput.TOUCH_VOLTAGE_LIMIT, 1e-12)
+    }
+
+    @Test
     fun `the breaker multipliers are the top of each band in the standard`() {
         // Checked 2026-09-04 against IEC 60898-1 (BS EN 60898-1), whose
         // instantaneous bands are B 3–5, C 5–10 and D 10–20 times In, all

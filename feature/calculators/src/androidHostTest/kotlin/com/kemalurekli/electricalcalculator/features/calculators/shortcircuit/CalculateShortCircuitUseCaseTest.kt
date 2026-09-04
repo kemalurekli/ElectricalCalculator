@@ -40,6 +40,22 @@ class CalculateShortCircuitUseCaseTest {
     // -- The identity that anchors the method -----------------------------------------
 
     @Test
+    fun `the voltage factors are the low-voltage pair from the standard`() {
+        // Checked 2026-09-04 against IEC 60909-0 Table 1, the 100 V to 1000 V
+        // row. The pairing matters as much as the values: 1,05 goes with the
+        // conductor cold to give the most a device may have to break, 0,95 with
+        // it at rated temperature to give the least it will ever see.
+        //
+        // The row also allows c_max = 1,10 where the system tolerance is ±10 %
+        // rather than ±6 %, which a 230/400 V public supply in Europe is. This
+        // app always uses 1,05, so on such a supply its maximum is about 5 %
+        // low. Recorded in docs/verification-backlog.md as a decision rather
+        // than fixed here, because it is a question about the target market.
+        assertEquals(1.05, ShortCircuitInput.VOLTAGE_FACTOR_MAX, 1e-12)
+        assertEquals(0.95, ShortCircuitInput.VOLTAGE_FACTOR_MIN, 1e-12)
+    }
+
+    @Test
     fun `with no cable the maximum current is the declared supply current`() {
         // The supply impedance is recovered from the declared figure, so a
         // zero-length run must give it straight back. If this drifts, the
