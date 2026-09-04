@@ -127,9 +127,13 @@ object SingleLineSymbols {
     val Generator: ImageVector = symbol("generator") {
         terminalsVertical(inset = 10f)
         circle(radius = 14f)
+        // A G, not a C: the last two segments are the crossbar, and without
+        // them this reads as a different machine altogether.
         line(MID + 5f, MID - 4f, MID - 1f, MID - 4f)
         arc(MID - 1f, MID - 4f, MID - 1f, MID + 4f, radius = 4f, positive = false)
         line(MID - 1f, MID + 4f, MID + 5f, MID + 4f)
+        line(MID + 5f, MID + 4f, MID + 5f, MID + 1f)
+        line(MID + 5f, MID + 1f, MID + 1f, MID + 1f)
     }
 
     val Battery: ImageVector = symbol("battery") {

@@ -146,10 +146,15 @@ object ControlSymbols {
     val EnergyMeter: ImageVector = symbol("energy_meter") {
         terminalsHorizontal(inset = 14f)
         box(halfWidth = 13f, halfHeight = 11f)
-        line(MID - 7f, MID + 5f, MID - 7f, MID - 5f)
-        line(MID - 7f, MID - 5f, MID, MID + 3f)
-        line(MID, MID + 3f, MID + 7f, MID - 5f)
-        line(MID + 7f, MID - 5f, MID + 7f, MID + 5f)
+        // Wh, not M. What goes in the box is the unit the meter registers, and
+        // an M in a box on a drawing is a motor.
+        line(MID - 10f, MID - 5f, MID - 8f, MID + 5f)
+        line(MID - 8f, MID + 5f, MID - 5f, MID - 1f)
+        line(MID - 5f, MID - 1f, MID - 2f, MID + 5f)
+        line(MID - 2f, MID + 5f, MID, MID - 5f)
+        line(MID + 4f, MID - 6f, MID + 4f, MID + 5f)
+        arc(MID + 4f, MID - 1f, MID + 9f, MID + 1f, radius = 3f, positive = true)
+        line(MID + 9f, MID + 1f, MID + 9f, MID + 5f)
     }
 
     val Sensor: ImageVector = symbol("sensor") {
