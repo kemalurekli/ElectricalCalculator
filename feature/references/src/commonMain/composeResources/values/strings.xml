@@ -255,7 +255,7 @@
     <string name="ref_ip_water_6">Powerful jets, 12.5 mm nozzle</string>
     <string name="ref_ip_water_7">Immersion to 1 m, 30 min</string>
     <string name="ref_ip_water_8">Continuous immersion</string>
-    <string name="ref_ip_water_9">High-pressure hot water jets</string>
+    <string name="ref_ip_water_9">High-pressure hot water jets. IEC 60529 calls this the ninth level; equipment is marked IP69K, which is ISO 20653's name for the same test.</string>
     <string name="ref_materials_conductivity">Conductivity</string>
     <string name="ref_materials_density">Density</string>
     <string name="ref_materials_description">Resistivity, density and conductivity</string>
@@ -677,7 +677,7 @@
     <string name="ref_sel_starting_col_2">Soft starter</string>
     <string name="ref_sel_starting_col_3">Drive (VFD)</string>
     <string name="ref_sel_starting_description">What each method costs you in current, in torque and in money.</string>
-    <string name="ref_sel_starting_intro">Every method that reduces starting current reduces starting torque by the square of the same factor. Halve the current and you have a quarter of the torque — which is why a loaded conveyor that starts fine direct-on-line may not start at all in star.</string>
+    <string name="ref_sel_starting_intro" formatted="false">Every method here works by reducing the voltage, and torque falls with the square of it. Where the reduction is a change of connection or a transformer — star-delta, autotransformer — the line current falls in the same proportion as the torque: star applies 58 % of the voltage, so a third of the current buys a third of the torque. A soft starter drops the voltage in series instead, so its current falls with the voltage and its torque with the square — two-thirds of the current leaves under half the torque. Either way, a loaded conveyor that starts fine direct-on-line may not start at all in star.</string>
     <string name="ref_sel_starting_intro_title">Torque is what you give up</string>
     <string name="ref_sel_starting_r2_c3">Full range</string>
     <string name="ref_sel_starting_r4_c0">Small motors, stiff supply</string>

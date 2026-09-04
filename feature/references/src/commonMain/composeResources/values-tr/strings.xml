@@ -255,7 +255,7 @@
     <string name="ref_ip_water_6">Kuvvetli tazyik, 12,5 mm ağız</string>
     <string name="ref_ip_water_7">1 m'de 30 dk daldırma</string>
     <string name="ref_ip_water_8">Sürekli daldırma</string>
-    <string name="ref_ip_water_9">Yüksek basınçlı sıcak su</string>
+    <string name="ref_ip_water_9">Yüksek basınçlı sıcak su püskürtmesi. IEC 60529 bunu dokuzuncu seviye sayar; cihazların üstünde ISO 20653'ün aynı deney için kullandığı IP69K işareti bulunur.</string>
     <string name="ref_materials_conductivity">İletkenlik</string>
     <string name="ref_materials_density">Yoğunluk</string>
     <string name="ref_materials_description">Özdirenç, yoğunluk ve iletkenlik</string>
@@ -677,7 +677,7 @@
     <string name="ref_sel_starting_col_2">Yumuşak yol verici</string>
     <string name="ref_sel_starting_col_3">Sürücü (VFD)</string>
     <string name="ref_sel_starting_description">Her yöntemin akım, moment ve para olarak size neye mal olduğu.</string>
-    <string name="ref_sel_starting_intro">Yol alma akımını azaltan her yöntem, yol alma momentini aynı çarpanın karesi kadar azaltır. Akımı yarıya indirin, momentin dörtte biri kalır — bu yüzden direkt yol vermede sorunsuz kalkan yüklü bir konveyör yıldızda hiç kalkmayabilir.</string>
+    <string name="ref_sel_starting_intro" formatted="false">Buradaki her yöntem gerilimi düşürerek çalışır ve tork gerilimin karesiyle azalır. Düşüşü bir bağlantı değişikliği ya da bir transformatör sağlıyorsa — yıldız-üçgen, oto-trafo — hat akımı torkla aynı oranda iner: yıldız gerilimin %58'ini uygular, akımın üçte biri torkun da üçte birini alır. Yumuşak yol verici ise gerilimi seri olarak düşürür; akımı gerilimle, torku gerilimin karesiyle azalır — akımın üçte ikisi torkun yarısından azını bırakır. Her durumda, direkt yol vermede sorunsuz kalkan yüklü bir konveyör yıldızda hiç kalkmayabilir.</string>
     <string name="ref_sel_starting_intro_title">Vazgeçtiğiniz şey momenttir</string>
     <string name="ref_sel_starting_r2_c3">Tam aralık</string>
     <string name="ref_sel_starting_r4_c0">Küçük motorlar, güçlü besleme</string>
