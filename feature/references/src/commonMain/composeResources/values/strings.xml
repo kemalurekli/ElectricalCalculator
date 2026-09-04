@@ -68,7 +68,7 @@
     <string name="ref_colours_us_low_note">Neutral white, ground green</string>
     <string name="ref_colours_us_note">The NEC mandates only the grounded (white or grey) and grounding (green) conductors; phase colours are convention, not code, and vary between installations.</string>
     <string name="ref_commissioning_bonding">Main bonding</string>
-    <string name="ref_commissioning_bonding_value">Low enough that no meaningful voltage can appear across it, typically well under 0,05 Ω</string>
+    <string name="ref_commissioning_bonding_value">Low enough that no meaningful voltage can appear across it, typically well under 0.05 Ω</string>
     <string name="ref_commissioning_continuity">Continuity and loop</string>
     <string name="ref_commissioning_description">What to measure before energising, in what order, and what reading to accept.</string>
     <string name="ref_commissioning_ins_1000">Above 500 V</string>
@@ -119,7 +119,7 @@
     <string name="ref_curves_tripping">Must trip within one hour</string>
     <string name="ref_derate_callout">Soil thermal resistivity, depth of burial and direct sunlight each carry their own factor and none of them is here. A buried run needs its own corrections from the standard.</string>
     <string name="ref_derate_description">The ambient and grouping figures the cable calculator applies.</string>
-    <string name="ref_derate_intro">The two factors are applied together, not the worse of the two. A cable in 40 °C air with six circuits bunched around it keeps 0,87 × 0,57 — half its tabulated rating — and neither factor on its own looks alarming.</string>
+    <string name="ref_derate_intro">The two factors are applied together, not the worse of the two. A cable in 40 °C air with six circuits bunched around it keeps 0.87 × 0.57 — half its tabulated rating — and neither factor on its own looks alarming.</string>
     <string name="ref_derate_intro_title">They multiply</string>
     <string name="ref_derate_note1">Read from the same table the calculator uses, so the two cannot disagree. Values between the steps are interpolated linearly, which is accepted practice.</string>
     <string name="ref_derate_note2">Arrangement 1: cables bunched in air, on a surface, embedded or enclosed. Spacing the cables by one diameter recovers most of this, which is what a wider tray buys you.</string>
@@ -431,7 +431,7 @@
     <string name="ref_pr_selectivity_s0_title">Three ways to get it</string>
     <string name="ref_pr_selectivity_s1_r0_l">Current</string>
     <string name="ref_pr_selectivity_s1_r0_n">Fails once the fault reaches the upstream instantaneous band</string>
-    <string name="ref_pr_selectivity_s1_r0_v">Ratio of ratings, typically 1:1,6 or better</string>
+    <string name="ref_pr_selectivity_s1_r0_v">Ratio of ratings, typically 1:1.6 or better</string>
     <string name="ref_pr_selectivity_s1_r1_l">Time</string>
     <string name="ref_pr_selectivity_s1_r1_n">Costs let-through energy on every fault</string>
     <string name="ref_pr_selectivity_s1_r1_v">Upstream delayed by 100 ms or more</string>
@@ -566,7 +566,7 @@
     <string name="ref_sel_cabletype_r2_c2">Water tracks along a sheath that was only rated for damp</string>
     <string name="ref_sel_cabletype_r3_c1">Fire-resistant, LSZH</string>
     <string name="ref_sel_cabletype_r3_c2">Must keep the circuit alive while people leave, and must not add smoke</string>
-    <string name="ref_sel_cabletype_r4_c1">Double-insulated, UV and ozone rated, 1,5 kV</string>
+    <string name="ref_sel_cabletype_r4_c1">Double-insulated, UV and ozone rated, 1.5 kV</string>
     <string name="ref_sel_cabletype_r4_c2">Outdoors for 25 years at a voltage ordinary cable is not rated for</string>
     <string name="ref_sel_cabletype_r5_c1">Fine-stranded flexible, chain-rated</string>
     <string name="ref_sel_cabletype_r5_c2">Fatigue, not current, is what ends it; a solid conductor work-hardens and breaks</string>
@@ -636,7 +636,7 @@
     <string name="ref_sel_material_col_0">Copper</string>
     <string name="ref_sel_material_col_1">Aluminium</string>
     <string name="ref_sel_material_description">Where aluminium saves money, and where it costs more than it saves.</string>
-    <string name="ref_sel_material_intro">Aluminium needs roughly one and a half times the section for the same current, and still weighs about half as much. On a long heavy feeder that is a saving in both money and installation effort. On a 2,5 mm² final circuit there is nothing to save and a termination to get wrong.</string>
+    <string name="ref_sel_material_intro">Aluminium needs roughly one and a half times the section for the same current, and still weighs about half as much. On a long heavy feeder that is a saving in both money and installation effort. On a 2.5 mm² final circuit there is nothing to save and a termination to get wrong.</string>
     <string name="ref_sel_material_intro_title">Two sizes larger, one third the weight</string>
     <string name="ref_sel_material_r4_c0">Straightforward</string>
     <string name="ref_sel_material_r4_c1">Bimetallic lug, correct torque, re-check after settling</string>

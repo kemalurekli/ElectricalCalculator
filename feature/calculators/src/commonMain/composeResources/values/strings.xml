@@ -432,19 +432,19 @@
     <string name="lt_flux_hint">The output of one complete fitting, not of its lamp</string>
     <string name="lt_flux_label">Luminous flux per luminaire</string>
     <string name="lt_formula">K = (L · W) / (Hm · (L + W))\nN = (E · A) / (Φ · UF · MF)</string>
-    <string name="lt_height_hint">Not the ceiling height. A 3 m ceiling over a 0,8 m desk gives 2,2 m.</string>
+    <string name="lt_height_hint">Not the ceiling height. A 3 m ceiling over a 0.8 m desk gives 2.2 m.</string>
     <string name="lt_height_label">Height above the working plane</string>
     <string name="lt_history_summary">%1$s luminaires</string>
     <string name="lt_history_title">Lighting — %1$s × %2$s m at %3$s lx</string>
     <string name="lt_illuminance_hint">EN 12464-1: 300 lx filing and copying, 500 lx writing and reading, 750 lx technical drawing</string>
     <string name="lt_illuminance_label">Target illuminance</string>
     <string name="lt_length_label">Room length</string>
-    <string name="lt_maintenance_hint">Light left after dirt and lamp ageing. 0,8 for a clean interior.</string>
+    <string name="lt_maintenance_hint">Light left after dirt and lamp ageing. 0.8 for a clean interior.</string>
     <string name="lt_maintenance_label">Maintenance factor</string>
     <string name="lt_note_average">The lumen method gives an average over the working plane. It says nothing about uniformity, glare or what happens at the edges of the room — all of which a real lighting design has to answer.</string>
     <string name="lt_note_height">Mounting height is measured above the working plane, not above the floor. Using the ceiling height is the most common way the room index comes out wrong.</string>
     <string name="lt_note_layout">The suggested layout is the pair of factors closest to square. Spacing, not count, is what decides uniformity.</string>
-    <string name="lt_note_rounding" formatted="false">The count is rounded up. Rounding 4,2 down to 4 is a design that misses its own target by 5 %.</string>
+    <string name="lt_note_rounding" formatted="false">The count is rounded up. Rounding 4.2 down to 4 is a design that misses its own target by 5 %.</string>
     <string name="lt_note_uf">The utilisation factor is specific to the luminaire, the room proportions and the surface reflectances. Take it from the manufacturer's table against the room index this calculator reports.</string>
     <string name="lt_result_achieved">Achieved illuminance</string>
     <string name="lt_result_area">Floor area</string>
@@ -458,7 +458,7 @@
     <string name="lt_step_exact_count">Luminaires needed, before rounding</string>
     <string name="lt_step_room_index">Room index, for looking up the utilisation factor</string>
     <string name="lt_step_rounded">Rounded up to whole fittings</string>
-    <string name="lt_utilisation_hint">From the luminaire's own table, against the room index below. Typically 0,4 – 0,7.</string>
+    <string name="lt_utilisation_hint">From the luminaire's own table, against the room index below. Typically 0.4 – 0,7.</string>
     <string name="lt_utilisation_label">Utilisation factor</string>
     <string name="lt_var_a">Floor area</string>
     <string name="lt_var_e">Target illuminance</string>
@@ -742,7 +742,7 @@
     <string name="sel_step_threshold">Short-circuit end: upstream instantaneous pickup</string>
     <string name="sel_upstream">Upstream device</string>
     <string name="sel_upstream_rating">Upstream rating, In</string>
-    <string name="ss_coefficient_hint">β from the datasheet. Negative on every silicon module — typically −0,25 to −0,35.</string>
+    <string name="ss_coefficient_hint">β from the datasheet. Negative on every silicon module — typically −0.25 to −0,35.</string>
     <string name="ss_coefficient_label">Voltage temperature coefficient</string>
     <string name="ss_example_continental">Continental site, −25 °C</string>
     <string name="ss_example_residential">Residential, 600 V inverter</string>

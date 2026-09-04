@@ -43,8 +43,8 @@
     <string name="settings_theme_light">Sáng</string>
     <string name="settings_theme_system">Mặc định hệ thống</string>
     <string name="settings_unit_system">Hệ đơn vị</string>
-    <string name="settings_unit_system_imperial">Imperial (AWG, ft)</string>
-    <string name="settings_unit_system_metric">Mét (mm², m)</string>
+    <string name="settings_unit_system_imperial">Hệ Anh (AWG, ft)</string>
+    <string name="settings_unit_system_metric">Hệ mét (mm², m)</string>
     <string name="settings_units">Đơn vị</string>
     <string name="settings_version">Phiên bản</string>
 </resources>

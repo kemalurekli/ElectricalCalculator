@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.resources
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Test
 import java.io.File
 
@@ -234,6 +235,35 @@ class StringResourceIntegrityTest {
     }
 
     @Test
+    fun `a locale writes its decimals the way that locale writes them`() {
+        // NumberFormatter draws every figure the app computes with the
+        // separator of the reader's locale — 0.5 in English, 0,5 in Turkish.
+        // Prose that hard-codes the other one puts both on the same screen: a
+        // result card reading "0.05 Ω" above a note reading "0,05 Ω".
+        //
+        // English was the file that had it wrong, in twenty-one places, which
+        // is the direction to expect — most of these strings are written by
+        // someone whose own keyboard puts a comma there.
+        bundles.forEach { bundle ->
+            (mapOf("values" to bundle.base) + bundle.translations).forEach { (locale, entries) ->
+                val language = locale.removePrefix("values-")
+                val wanted = if (locale == "values" || language in POINT_LOCALES) '.' else ','
+                val wrong = if (wanted == '.') DECIMAL_COMMA else DECIMAL_POINT
+                entries.forEach { entry ->
+                    val prose = entry.body
+                        .replace(STANDARD_REF, " ")
+                        .replace(CLAUSE_REF, " ")
+                    val found = wrong.find(prose) ?: return@forEach
+                    fail(
+                        "${bundle.module}/$locale/${entry.name} writes \"${found.value}\"; " +
+                            "this locale's numbers are drawn with '$wanted'",
+                    )
+                }
+            }
+        }
+    }
+
+    @Test
     fun `no string is defined twice in the same file`() {
         bundles.forEach { bundle ->
             (mapOf("values" to bundle.base) + bundle.translations).forEach { (locale, entries) ->
@@ -335,6 +365,36 @@ class StringResourceIntegrityTest {
 
         val FORMULA_VARIABLE =
             Regex("""FormulaVariable\(\s*"([^"]+)"\s*,\s*stringResource\(Res\.string\.([a-z]+)_var_""")
+
+        /**
+         * Languages that write the decimal point as a point. Everything else
+         * this app ships — Turkish, German, French, Spanish, Italian, Dutch,
+         * Polish, Portuguese, Russian, Vietnamese, Indonesian — uses a comma.
+         */
+        val POINT_LOCALES = emptySet<String>()
+
+        val DECIMAL_COMMA = Regex("""(?<![\d,.])\d+,\d+(?![\d,.])""")
+        val DECIMAL_POINT = Regex("""(?<![\d,.])\d+\.\d+(?![\d,.])""")
+
+        /**
+         * A clause of a standard is not a measurement: NEC 392.22 keeps its
+         * point in Turkish, and IEC 60364-4-41 keeps its hyphens everywhere.
+         * Both are cut out of the string before the separator is judged, so
+         * that a sentence citing a standard is still checked for the decimals
+         * it also carries.
+         */
+        val STANDARD_REF = Regex("""(?:NEC|IEC|EN|BS|ISO|DIN|HD|CEI)\s?[\d-]+(?:\.\d+)*""")
+
+        /**
+         * "Table 41.1", in each of the twelve languages that name one — and in
+         * whatever case the sentence puts it in, which is why this matches a
+         * stem rather than a word: Russian declines it to "таблице", Polish to
+         * "tablicy".
+         */
+        val CLAUSE_REF = Regex(
+            """(?:Tab|\u0422\u0430\u0431\u043B|B\u1EA3ng)\p{L}*\s*[\d-]+(?:\.\d+)*""",
+            RegexOption.IGNORE_CASE,
+        )
 
         /** Deep enough for `feature/<name>/src/commonMain/composeResources`. */
         const val RESOURCE_DEPTH = 6
