@@ -903,9 +903,9 @@
     <string name="ref_symbols_source">IEC 60027 · IEC 80000-6</string>
     <string name="ref_symbols_title">Semboller ve Birimler</string>
     <string name="ref_times_description">Bir arızanın ne kadar hızlı kesilmesi gerektiği</string>
-    <string name="ref_times_distribution">Dağıtım devreleri ve 63 A üzeri son devreler</string>
+    <string name="ref_times_distribution">Dağıtım devreleri ve bu değerlerin üzerindeki son devreler</string>
     <string name="ref_times_distribution_note">Burada daha uzun sürelere izin verilir, çünkü kimsenin bir dağıtım kablosunu elinde tutuyor olması beklenmez. Bu esneklik, o hattan beslenen son devrelere geçmez.</string>
-    <string name="ref_times_final">63 A'e kadar son devreler</string>
+    <string name="ref_times_final">Son devreler — priz devrelerinde 63 A'e, sabit bağlı cihazlarda 32 A'e kadar</string>
     <string name="ref_times_final_note">Gerilim yükseldikçe süreler kısalır, çünkü vücuttan geçecek akım da onunla birlikte yükselir. Aynı gerilimde TT'ye TN'den daha az süre tanınır; çünkü arıza sırasındaki dokunma gerilimi daha yüksektir.</string>
     <string name="ref_times_source">IEC 60364-4-41 Tablo 41.1</string>
     <string name="ref_times_title">Açma Süreleri</string>

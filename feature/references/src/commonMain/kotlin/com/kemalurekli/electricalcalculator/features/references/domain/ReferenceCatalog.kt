@@ -1420,7 +1420,7 @@ object ReferenceCatalog {
                 rows = listOf(
                     ReferenceRow(
                         Localized(Res.string.ref_ratings_mcb_series),
-                        Symbol("6 · 10 · 13 · 16 · 20 · 25 · 32 · 40 · 50 · 63 A"),
+                        Symbol("6 · 8 · 10 · 13 · 16 · 20 · 25 · 32 · 40 · 50 · 63 A"),
                     ),
                     ReferenceRow(
                         Localized(Res.string.ref_ratings_mcb_large),

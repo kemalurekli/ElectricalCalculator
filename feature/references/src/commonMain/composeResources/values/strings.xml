@@ -903,9 +903,9 @@
     <string name="ref_symbols_source">IEC 60027 · IEC 80000-6</string>
     <string name="ref_symbols_title">Symbols and Units</string>
     <string name="ref_times_description">How fast a fault must be cleared</string>
-    <string name="ref_times_distribution">Distribution circuits and final circuits above 63 A</string>
+    <string name="ref_times_distribution">Distribution circuits, and final circuits above those ratings</string>
     <string name="ref_times_distribution_note">Longer times are accepted here because nobody is expected to be holding a distribution cable. The relaxation does not extend to the final circuits fed from it.</string>
-    <string name="ref_times_final">Final circuits up to 63 A</string>
+    <string name="ref_times_final">Final circuits — sockets to 63 A, fixed equipment to 32 A</string>
     <string name="ref_times_final_note">The times shorten as the voltage rises, because the current through a body rises with it. A TT system is given less time than TN at the same voltage since the touch voltage during a fault is higher.</string>
     <string name="ref_times_source">IEC 60364-4-41 Table 41.1</string>
     <string name="ref_times_title">Disconnection Times</string>

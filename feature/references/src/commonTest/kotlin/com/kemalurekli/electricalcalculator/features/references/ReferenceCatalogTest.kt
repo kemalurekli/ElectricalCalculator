@@ -211,6 +211,37 @@ class ReferenceCatalogTest {
         }
     }
 
+    @Test
+    fun `each IK row's hammer delivers the energy the row claims`() {
+        // Checked 2026-09-04 against IEC 62262: the ten energies are right, and
+        // so is each mass-and-height pair beside them. Published tables differ
+        // on which pair to quote — 0,2 kg from 250 mm and 0,25 kg from 200 mm
+        // both make an IK04 — so the check that means anything is not which
+        // numbers appear but whether they multiply out.
+        //
+        // m · g · h against the stated joules catches a transposed digit in the
+        // drop height, which is the easiest error to make here and the hardest
+        // to see: every number stays plausible and the column stays ordered.
+        val topic = requireNotNull(ReferenceCatalog.topicOrNull("ik_rating"))
+        val rows = topic.sections[0].rows
+            .filter { it.value is ReferenceText.Quantity }
+
+        assertEquals(10, rows.size, "IK01 to IK10 should each have an energy")
+        rows.forEach { row ->
+            val joules = (row.value as ReferenceText.Quantity).value
+            val note = requireNotNull(row.note as? ReferenceText.Quantity)
+            val kilograms = note.value
+            val millimetres = note.unit.substringAfter("· ").removeSuffix(" mm").toInt()
+            val delivered = kilograms * 9.81 * millimetres / 1000.0
+
+            assertTrue(
+                delivered > joules * 0.95 && delivered < joules * 1.05,
+                "${(row.label as ReferenceText.Symbol).text}: ${kilograms} kg from $millimetres mm " +
+                    "delivers ${delivered} J, not the $joules J the row states",
+            )
+        }
+    }
+
     // -- Agreement with the rest of the app ----------------------------------------------
 
     @Test
