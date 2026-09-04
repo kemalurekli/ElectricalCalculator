@@ -19,14 +19,29 @@ import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
  *
  * ### Which table these come from
  *
- * IEC 60364-5-54 Table 54.3: a **protective conductor incorporated in a cable
- * or bunched with other cables**, initial temperature 30 °C. That is the common
- * case — the earth core inside a multicore cable.
+ * IEC 60364-5-54 Table A.54.4, reproduced as Table 54.3 in BS 7671: a
+ * **protective conductor as a core in a cable, or bunched with other cables**.
+ * That is the common case — the earth core inside a multicore cable.
  *
- * A protective conductor run **separately** and not bunched is allowed a higher
- * final temperature and therefore a larger `k` (Table 54.2). Using these values
- * for that case is conservative, but it is not the right table, and the
- * calculator says so in its notes rather than quietly applying the wrong one.
+ * Its temperatures are what make it that case. The conductor is assumed to
+ * start at its own operating temperature, because it is bundled with cores that
+ * are already running warm: 70 °C for thermoplastic, rising to 160 °C, and
+ * 90 °C for thermoset, rising to 250 °C. A conductor run **separately** starts
+ * at 30 °C, has more temperature rise to spend and so earns a larger `k` —
+ * 143 and 176 for copper, in Table A.54.2. Using the values here for that case
+ * is conservative, but it is not the right table, and the calculator says so in
+ * its notes rather than quietly applying the wrong one.
+ *
+ * ### Where this stops
+ *
+ * Above 300 mm² the standard drops `k` — copper on thermoplastic goes from 115
+ * to 103 — because a conductor that large is not heated uniformly in the time
+ * the equation assumes. This object does not model that step, and does not need
+ * to for the sizes the app selects: the IEC 60228 ladder stops at 300 mm².
+ * The protective-conductor field, though, is free text. A user who types 400
+ * there gets an answer computed with the smaller-conductor `k`, which errs
+ * toward too small a conductor — the direction that matters. Anyone sizing
+ * above 300 mm² is past what this calculator was written for.
  */
 object AdiabaticFactors {
 
@@ -69,16 +84,16 @@ object AdiabaticFactors {
         else -> lineCrossSectionMm2 / 2.0
     }
 
-    /** Copper conductor, thermoplastic (PVC) insulation, 70 °C rated. */
+    /** Copper, thermoplastic insulation: 70 °C initial, 160 °C final. */
     const val COPPER_PVC = 115.0
 
-    /** Copper conductor, thermoset (XLPE/EPR) insulation, 90 °C rated. */
+    /** Copper, thermoset insulation: 90 °C initial, 250 °C final. */
     const val COPPER_XLPE = 143.0
 
-    /** Aluminium conductor, thermoplastic insulation. */
+    /** Aluminium, thermoplastic insulation: 70 °C initial, 160 °C final. */
     const val ALUMINIUM_PVC = 76.0
 
-    /** Aluminium conductor, thermoset insulation. */
+    /** Aluminium, thermoset insulation: 90 °C initial, 250 °C final. */
     const val ALUMINIUM_XLPE = 94.0
 
     private const val FIRST_STEP = 16.0

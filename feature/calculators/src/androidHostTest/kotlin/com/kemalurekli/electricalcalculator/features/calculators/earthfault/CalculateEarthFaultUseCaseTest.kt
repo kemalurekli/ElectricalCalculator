@@ -313,6 +313,37 @@ class CalculateEarthFaultUseCaseTest {
     // -- Ordering of the k factors ---------------------------------------------------------------
 
     @Test
+    fun `the breaker multipliers are the top of each band in the standard`() {
+        // Checked 2026-09-04 against IEC 60898-1 (BS EN 60898-1), whose
+        // instantaneous bands are B 3–5, C 5–10 and D 10–20 times In, all
+        // tripping in under 0.1 s.
+        //
+        // The calculator takes the *upper* end of each band, and has to: a
+        // breaker is only guaranteed to have tripped magnetically once the
+        // current passes the top of its band, so proving disconnection against
+        // the bottom would prove it for a breaker nobody owns.
+        assertEquals(5.0, ProtectiveDeviceType.MCB_TYPE_B.instantaneousMultiplier)
+        assertEquals(10.0, ProtectiveDeviceType.MCB_TYPE_C.instantaneousMultiplier)
+        assertEquals(20.0, ProtectiveDeviceType.MCB_TYPE_D.instantaneousMultiplier)
+    }
+
+    @Test
+    fun `the k factors are the four values checked against the standard`() {
+        // Checked 2026-09-04 against IEC 60364-5-54 Table A.54.4 — protective
+        // conductor as a core in a cable or bunched with other cables —
+        // reproduced as BS 7671 Table 54.3. Thermoplastic runs 70 °C to 160 °C,
+        // thermoset 90 °C to 250 °C.
+        //
+        // The shape assertions below cannot catch a mistyped digit that still
+        // respects the ordering, so the numbers are pinned. Changing one of them
+        // means going back to the table, not to this test.
+        assertEquals(115.0, AdiabaticFactors.COPPER_PVC, 1e-12)
+        assertEquals(143.0, AdiabaticFactors.COPPER_XLPE, 1e-12)
+        assertEquals(76.0, AdiabaticFactors.ALUMINIUM_PVC, 1e-12)
+        assertEquals(94.0, AdiabaticFactors.ALUMINIUM_XLPE, 1e-12)
+    }
+
+    @Test
     fun `copper outperforms aluminium and thermoset outperforms thermoplastic`() {
         // The content is transcribed and cannot be proven, but its shape can.
         assertTrue(AdiabaticFactors.COPPER_PVC > AdiabaticFactors.ALUMINIUM_PVC)
