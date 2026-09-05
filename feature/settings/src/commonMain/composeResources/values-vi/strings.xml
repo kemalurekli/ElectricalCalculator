@@ -34,7 +34,7 @@
     <string name="settings_language">Ngôn ngữ</string>
     <string name="settings_language_description">Chọn ngôn ngữ hiển thị của ứng dụng</string>
     <string name="settings_language_system">Mặc định hệ thống</string>
-    <string name="settings_language_partial">Máy tính, dự án, diễn đàn, cài đặt và thông tin chung được dịch sang mọi ngôn ngữ trong danh sách. Bảng tra cứu, lý thuyết và thuật ngữ chỉ được viết bằng tiếng Anh và tiếng Thổ Nhĩ Kỳ, và giữ nguyên tiếng Anh ở các ngôn ngữ khác.</string>
+    <string name="settings_language_partial">Máy tính, dự án, diễn đàn, cài đặt, thông tin chung và thuật ngữ được dịch sang mọi ngôn ngữ trong danh sách. Bảng tra cứu và các trang lý thuyết chỉ được viết bằng tiếng Anh và tiếng Thổ Nhĩ Kỳ, và giữ nguyên tiếng Anh ở các ngôn ngữ khác.</string>
     <string name="settings_legal">Pháp lý</string>
     <string name="settings_licenses">Giấy phép nguồn mở</string>
     <string name="settings_privacy_policy">Chính sách quyền riêng tư</string>

@@ -33,7 +33,7 @@
     <string name="settings_language">Dil</string>
     <string name="settings_language_description">Uygulamanın gösterileceği dili seçin</string>
     <string name="settings_language_system">Sistem varsayılanı</string>
-    <string name="settings_language_partial">Hesaplayıcılar, projeler, forum, ayarlar ve genel bilgiler listedeki her dile çevrilmiştir. Referans tabloları, teori ve sözlük yalnızca İngilizce ve Türkçe yazılmıştır; diğer dillerde İngilizce kalır.</string>
+    <string name="settings_language_partial">Hesaplayıcılar, projeler, forum, ayarlar, genel bilgiler ve sözlük listedeki her dile çevrilmiştir. Referans tabloları ve teori sayfaları yalnızca İngilizce ve Türkçe yazılmıştır; diğer dillerde İngilizce kalır.</string>
     <string name="settings_legal">Yasal</string>
     <string name="settings_licenses">Açık kaynak lisansları</string>
     <string name="settings_privacy_policy">Gizlilik politikası</string>

@@ -34,7 +34,7 @@
     <string name="settings_language">Taal</string>
     <string name="settings_language_description">Kies de taal waarin de app wordt getoond</string>
     <string name="settings_language_system">Systeemstandaard</string>
-    <string name="settings_language_partial">De rekenhulpen, projecten, het forum, de instellingen en de algemene info zijn vertaald in elke vermelde taal. De naslagtabellen, theorie en woordenlijst zijn alleen in het Engels en Turks geschreven en blijven Engels onder de andere talen.</string>
+    <string name="settings_language_partial">De rekenhulpen, projecten, het forum, de instellingen, de algemene info en de woordenlijst zijn vertaald in elke vermelde taal. De naslagtabellen en de theoriepagina's zijn alleen in het Engels en Turks geschreven en blijven Engels onder de andere talen.</string>
     <string name="settings_legal">Juridisch</string>
     <string name="settings_licenses">Opensourcelicenties</string>
     <string name="settings_privacy_policy">Privacybeleid</string>
