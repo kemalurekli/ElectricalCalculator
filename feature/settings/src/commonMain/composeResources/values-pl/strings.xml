@@ -34,7 +34,7 @@
     <string name="settings_language">Język</string>
     <string name="settings_language_description">Wybierz język, w którym wyświetla się aplikacja</string>
     <string name="settings_language_system">Domyślny systemowy</string>
-    <string name="settings_language_partial">Kalkulatory, projekty, forum, ustawienia, informacje ogólne i słownik są przetłumaczone na każdy wymieniony język. Tablice normowe i strony teorii napisano wyłącznie po angielsku i turecku i pozostają po angielsku w pozostałych językach.</string>
+    <string name="settings_language_partial">Kalkulatory, projekty, forum, ustawienia, informacje ogólne, słownik i teoria są przetłumaczone na każdy wymieniony język. Tablice normowe napisano wyłącznie po angielsku i turecku i pozostają po angielsku w pozostałych językach.</string>
     <string name="settings_legal">Informacje prawne</string>
     <string name="settings_licenses">Licencje open source</string>
     <string name="settings_privacy_policy">Polityka prywatności</string>

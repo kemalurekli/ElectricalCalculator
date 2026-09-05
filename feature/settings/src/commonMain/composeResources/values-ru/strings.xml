@@ -34,7 +34,7 @@
     <string name="settings_language">Язык</string>
     <string name="settings_language_description">Выберите язык, на котором показывается приложение</string>
     <string name="settings_language_system">Системный</string>
-    <string name="settings_language_partial">Калькуляторы, проекты, форум, настройки, общие сведения и глоссарий переведены на все перечисленные языки. Справочные таблицы и страницы теории написаны только на английском и турецком и на остальных языках остаются английскими.</string>
+    <string name="settings_language_partial">Калькуляторы, проекты, форум, настройки, общие сведения, глоссарий и теория переведены на все перечисленные языки. Справочные таблицы написаны только на английском и турецком и на остальных языках остаются английскими.</string>
     <string name="settings_legal">Правовая информация</string>
     <string name="settings_licenses">Лицензии открытого кода</string>
     <string name="settings_privacy_policy">Политика конфиденциальности</string>

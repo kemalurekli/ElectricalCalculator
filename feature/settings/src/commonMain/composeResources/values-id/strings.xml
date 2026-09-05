@@ -34,7 +34,7 @@
     <string name="settings_language">Bahasa</string>
     <string name="settings_language_description">Pilih bahasa tampilan aplikasi</string>
     <string name="settings_language_system">Bawaan sistem</string>
-    <string name="settings_language_partial">Kalkulator, proyek, forum, pengaturan, info umum dan glosarium diterjemahkan ke semua bahasa yang terdaftar. Tabel referensi dan halaman teori hanya ditulis dalam bahasa Inggris dan Turki, dan tetap berbahasa Inggris pada bahasa lain.</string>
+    <string name="settings_language_partial">Kalkulator, proyek, forum, pengaturan, info umum, glosarium dan teori diterjemahkan ke semua bahasa yang terdaftar. Tabel referensi hanya ditulis dalam bahasa Inggris dan Turki, dan tetap berbahasa Inggris pada bahasa lain.</string>
     <string name="settings_legal">Hukum</string>
     <string name="settings_licenses">Lisensi sumber terbuka</string>
     <string name="settings_privacy_policy">Kebijakan privasi</string>

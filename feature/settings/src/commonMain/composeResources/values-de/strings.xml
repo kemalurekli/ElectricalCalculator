@@ -34,7 +34,7 @@
     <string name="settings_language">Sprache</string>
     <string name="settings_language_description">Wählen Sie die Sprache, in der die App angezeigt wird</string>
     <string name="settings_language_system">Systemvorgabe</string>
-    <string name="settings_language_partial">Rechner, Projekte, Forum, Einstellungen, Grundwissen und Glossar sind in jede aufgeführte Sprache übersetzt. Referenztabellen und Theorieseiten sind nur auf Englisch und Türkisch verfasst und bleiben unter den übrigen Sprachen englisch.</string>
+    <string name="settings_language_partial">Rechner, Projekte, Forum, Einstellungen, Grundwissen, Glossar und Theorie sind in jede aufgeführte Sprache übersetzt. Die Referenztabellen sind nur auf Englisch und Türkisch verfasst und bleiben unter den übrigen Sprachen englisch.</string>
     <string name="settings_legal">Rechtliches</string>
     <string name="settings_licenses">Open-Source-Lizenzen</string>
     <string name="settings_privacy_policy">Datenschutzerklärung</string>
