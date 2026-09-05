@@ -62,6 +62,16 @@ class StringResourceIntegrityTest {
         // `%` and no positional argument must therefore declare
         // formatted="false", which is also what stops lint reading it as a
         // conversion specifier.
+        //
+        // A note for whoever reads the Turkish file and reaches for a fix.
+        // Turkish writes a percentage with the sign in front — %5, not 5 % —
+        // and its strings do it as `%%1$s`, which looks like a doubled escape
+        // that has swallowed the argument. It has not. Compose Resources does
+        // not use String.format at all: `replaceWithArgs` is a plain regex,
+        // `%(\d+)\$[ds]`, in common code, so the second `%` opens the match and
+        // the first is left standing as the literal sign. Verified on a device
+        // in 2026-09: the screen reads "%0,91 — aydınlatma için %3 sınırı
+        // içinde". Twenty-three strings depend on this, on both platforms.
         eachEntry { module, locale, entry ->
             val hasPositionalArgs = POSITIONAL_ARG.containsMatchIn(entry.body)
             if (entry.body.contains('%') && !hasPositionalArgs) {
