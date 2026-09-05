@@ -63,6 +63,7 @@
     <string name="calculator_earth_fault_title">Anello di guasto a terra</string>
     <string name="calculator_energy_cost_title">Costo dell'energia</string>
     <string name="calculator_evse_title">Circuito di ricarica per veicoli elettrici</string>
+    <string name="calculator_export_line">%1$s: %2$s</string>
     <string name="calculator_formula">Formula</string>
     <string name="calculator_harmonics_title">Armoniche e THD</string>
     <string name="calculator_inputs">Dati di ingresso</string>

@@ -63,6 +63,7 @@
     <string name="calculator_earth_fault_title">Boucle de défaut</string>
     <string name="calculator_energy_cost_title">Coût de l'énergie</string>
     <string name="calculator_evse_title">Circuit de recharge VE</string>
+    <string name="calculator_export_line">%1$s : %2$s</string>
     <string name="calculator_formula">Formule</string>
     <string name="calculator_harmonics_title">Harmoniques et THD</string>
     <string name="calculator_inputs">Données</string>

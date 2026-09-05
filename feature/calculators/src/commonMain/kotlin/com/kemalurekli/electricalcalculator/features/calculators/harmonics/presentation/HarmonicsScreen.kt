@@ -15,17 +15,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_export_line
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.message_copied
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
@@ -76,8 +85,26 @@ fun HarmonicsRoute(
 
     LaunchedEffect(recordId) { recordId?.let(viewModel::onRestore) }
 
+    val sharing = rememberResultSharing()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    val title = stringResource(Res.string.calculator_harmonics_title)
+    val copiedMessage = stringResource(Res.string.message_copied)
+    val shareSubject = stringResource(Res.string.calculator_share_subject, title)
+    val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+
     HarmonicsScreen(
         uiState = uiState,
+        onCopy = {
+            summary?.let {
+                if (sharing.copy(title, it)) {
+                    scope.launch { snackbarHostState.showSnackbar(copiedMessage) }
+                }
+            }
+        },
+        onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        snackbarHostState = snackbarHostState,
         onFundamentalChange = viewModel::onFundamentalChange,
         onMagnitudeChange = viewModel::onMagnitudeChange,
         onBalancedChange = viewModel::onBalancedChange,
@@ -94,6 +121,9 @@ fun HarmonicsRoute(
 @Composable
 fun HarmonicsScreen(
     uiState: HarmonicsUiState,
+    onCopy: () -> Unit,
+    onShare: () -> Unit,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onFundamentalChange: (String) -> Unit,
     onMagnitudeChange: (Int, String) -> Unit,
     onBalancedChange: (Boolean) -> Unit,
@@ -111,6 +141,7 @@ fun HarmonicsScreen(
         title = stringResource(Res.string.calculator_harmonics_title),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
+        snackbarHostState = snackbarHostState,
         actions = {
             IconButton(onClick = onToggleFavorite) {
                 Icon(
@@ -142,7 +173,14 @@ fun HarmonicsScreen(
             // Calculate the user is looking for the number, not the fields
             // they just finished filling in. The workings and the notes stay
             // below, where they are read second.
-            uiState.result?.let { result -> ResultCard(result, uiState.balanced) }
+            uiState.result?.let { result ->
+                ResultCard(result, uiState.balanced)
+                ElecResultActions(
+                    onCopy = onCopy,
+                    onShare = onShare,
+                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+                )
+            }
 
             ElecExamplesCard(
                 examples = harmonicsExamples,
@@ -323,3 +361,51 @@ private fun NoteCard(showNeutralCaveat: Boolean) {
 }
 
 private fun Double.f() = NumberFormatter.format(this, decimals = 2)
+
+@Composable
+private fun rememberShareText(
+    title: String,
+    uiState: HarmonicsUiState,
+    result: HarmonicsResult,
+): String {
+    // Every line is an existing label and its value, joined by the one format
+    // string the app keeps for this — French wants a space before the colon and
+    // the others do not, and that is the whole of the difference.
+    val spectrum = uiState.magnitudes.entries
+        .filter { it.value.isNotBlank() }
+        .joinToString(" · ") { "H${it.key} ${it.value} %" }
+
+    val fundamental = line(stringResource(Res.string.hm_fundamental), "${uiState.fundamental} A")
+    val spectrumLine = line(stringResource(Res.string.hm_spectrum), spectrum)
+    val thd = line(stringResource(Res.string.hm_result_thd), "${result.thdPercent.f()} %")
+    val rms = line(stringResource(Res.string.hm_result_rms), "${result.rmsAmps.f()} A")
+    // Whether the board is balanced is not a line of its own: the neutral is
+    // the only figure it changes, and that line already says so in words.
+    val neutral = line(
+        stringResource(Res.string.hm_result_neutral),
+        if (uiState.balanced) {
+            "${result.neutralAmps.f()} A"
+        } else {
+            stringResource(Res.string.hm_result_neutral_unknown)
+        },
+    )
+    val kFactor = line(stringResource(Res.string.hm_result_k), result.kFactor.f())
+
+    return buildString {
+        appendLine(title)
+        appendLine(EXPORT_SEPARATOR)
+        appendLine(fundamental)
+        appendLine(spectrumLine)
+        appendLine(EXPORT_SEPARATOR)
+        appendLine(thd)
+        appendLine(rms)
+        appendLine(neutral)
+        append(kFactor)
+    }
+}
+
+@Composable
+private fun line(label: String, value: String): String =
+    stringResource(Res.string.calculator_export_line, label, value)
+
+private const val EXPORT_SEPARATOR = "— — —"

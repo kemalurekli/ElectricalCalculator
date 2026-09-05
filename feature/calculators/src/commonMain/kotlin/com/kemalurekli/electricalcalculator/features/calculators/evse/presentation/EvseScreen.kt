@@ -1,9 +1,18 @@
 package com.kemalurekli.electricalcalculator.features.calculators.evse.presentation
 
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_export_line
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.message_copied
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -88,8 +97,26 @@ fun EvseRoute(
 
     LaunchedEffect(recordId) { recordId?.let(viewModel::onRestore) }
 
+    val sharing = rememberResultSharing()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    val title = stringResource(Res.string.calculator_evse_title)
+    val copiedMessage = stringResource(Res.string.message_copied)
+    val shareSubject = stringResource(Res.string.calculator_share_subject, title)
+    val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+
     EvseScreen(
         uiState = uiState,
+        onCopy = {
+            summary?.let {
+                if (sharing.copy(title, it)) {
+                    scope.launch { snackbarHostState.showSnackbar(copiedMessage) }
+                }
+            }
+        },
+        onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        snackbarHostState = snackbarHostState,
         onPointCountChange = viewModel::onPointCountChange,
         onRatedCurrentChange = viewModel::onRatedCurrentChange,
         onConnectionChange = viewModel::onConnectionChange,
@@ -109,6 +136,9 @@ fun EvseRoute(
 @Composable
 fun EvseScreen(
     uiState: EvseUiState,
+    onCopy: () -> Unit,
+    onShare: () -> Unit,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onPointCountChange: (String) -> Unit,
     onRatedCurrentChange: (String) -> Unit,
     onConnectionChange: (EvseConnection) -> Unit,
@@ -129,6 +159,7 @@ fun EvseScreen(
         title = stringResource(Res.string.calculator_evse_title),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
+        snackbarHostState = snackbarHostState,
         actions = {
             IconButton(onClick = onToggleFavorite) {
                 Icon(
@@ -160,7 +191,14 @@ fun EvseScreen(
             // Calculate the user is looking for the number, not the fields
             // they just finished filling in. The workings and the notes stay
             // below, where they are read second.
-            uiState.result?.let { result -> ResultCard(result) }
+            uiState.result?.let { result ->
+                ResultCard(result)
+                ElecResultActions(
+                    onCopy = onCopy,
+                    onShare = onShare,
+                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+                )
+            }
 
             ElecExamplesCard(
                 examples = evseExamples,
@@ -250,7 +288,9 @@ fun EvseScreen(
                         vertical = spacing.xs,
                     ),
                 )
-                NotesCard()
+                NotesCard(
+                    showDcNote = uiState.result?.rcdRequirement != RcdRequirement.TYPE_B,
+                )
             }
         }
     }
@@ -298,7 +338,7 @@ private fun ResultCard(result: EvseResult) {
 }
 
 @Composable
-private fun NotesCard() {
+private fun NotesCard(showDcNote: Boolean) {
     val spacing = ElecTheme.spacing
     ElecCard(
         modifier = Modifier
@@ -309,7 +349,14 @@ private fun NotesCard() {
             modifier = Modifier.padding(spacing.lg),
             verticalArrangement = Arrangement.spacedBy(spacing.sm),
         ) {
-            listOf(Res.string.ev_note_dc, Res.string.ev_note_continuous, Res.string.ev_note_scope)
+            // The DC note is the result card's status line when a Type B is
+            // what the installation needs, and printing the same paragraph
+            // twice on one screen teaches the reader to skip both.
+            listOfNotNull(
+                Res.string.ev_note_dc.takeIf { showDcNote },
+                Res.string.ev_note_continuous,
+                Res.string.ev_note_scope,
+            )
                 .forEach { note ->
                     Text(
                         text = stringResource(note),
@@ -337,3 +384,53 @@ private fun RcdRequirement.label(): StringResource = when (this) {
 }
 
 private fun Double.f() = NumberFormatter.format(this, decimals = 2)
+
+@Composable
+private fun rememberShareText(
+    title: String,
+    uiState: EvseUiState,
+    result: EvseResult,
+): String {
+    val points = line(
+        stringResource(Res.string.ev_point_count),
+        "${uiState.pointCount} × ${uiState.ratedCurrent} A",
+    )
+    val supply = line(
+        stringResource(Res.string.ev_connection),
+        "${stringResource(uiState.connection.label())} · ${uiState.supplyVoltage} V",
+    )
+    val simultaneity = line(stringResource(Res.string.ev_simultaneity), uiState.simultaneity)
+    val design = line(stringResource(Res.string.ev_result_design), "${result.designCurrentAmps.f()} A")
+    val connected = line(
+        stringResource(Res.string.ev_result_connected),
+        "${result.totalConnectedAmps.f()} A · ${result.totalConnectedKw.f()} kW",
+    )
+    val device = line(
+        stringResource(Res.string.ev_result_device),
+        result.deviceRatingAmps?.let { "${it.f()} A" }
+            ?: stringResource(Res.string.ev_result_device_none),
+    )
+    val rcd = line(
+        stringResource(Res.string.ev_result_rcd),
+        stringResource(result.rcdRequirement.label()),
+    )
+
+    return buildString {
+        appendLine(title)
+        appendLine(EXPORT_SEPARATOR)
+        appendLine(points)
+        appendLine(supply)
+        appendLine(simultaneity)
+        appendLine(EXPORT_SEPARATOR)
+        appendLine(design)
+        appendLine(connected)
+        appendLine(device)
+        append(rcd)
+    }
+}
+
+@Composable
+private fun line(label: String, value: String): String =
+    stringResource(Res.string.calculator_export_line, label, value)
+
+private const val EXPORT_SEPARATOR = "— — —"

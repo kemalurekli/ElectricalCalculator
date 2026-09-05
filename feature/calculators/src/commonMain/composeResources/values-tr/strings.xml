@@ -63,6 +63,7 @@
     <string name="calculator_earth_fault_title">Hata Döngüsü</string>
     <string name="calculator_energy_cost_title">Enerji Maliyeti</string>
     <string name="calculator_evse_title">EV Şarj Devresi</string>
+    <string name="calculator_export_line">%1$s: %2$s</string>
     <string name="calculator_formula">Formül</string>
     <string name="calculator_harmonics_title">Harmonikler ve THD</string>
     <string name="calculator_inputs">Girdiler</string>

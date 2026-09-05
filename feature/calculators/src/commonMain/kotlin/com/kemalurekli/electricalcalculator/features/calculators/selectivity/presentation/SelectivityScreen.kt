@@ -1,9 +1,18 @@
 package com.kemalurekli.electricalcalculator.features.calculators.selectivity.presentation
 
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_export_line
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.message_copied
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -80,8 +89,26 @@ fun SelectivityRoute(
 
     LaunchedEffect(recordId) { recordId?.let(viewModel::onRestore) }
 
+    val sharing = rememberResultSharing()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    val title = stringResource(Res.string.calculator_selectivity_title)
+    val copiedMessage = stringResource(Res.string.message_copied)
+    val shareSubject = stringResource(Res.string.calculator_share_subject, title)
+    val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+
     SelectivityScreen(
         uiState = uiState,
+        onCopy = {
+            summary?.let {
+                if (sharing.copy(title, it)) {
+                    scope.launch { snackbarHostState.showSnackbar(copiedMessage) }
+                }
+            }
+        },
+        onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        snackbarHostState = snackbarHostState,
         onUpstreamTypeChange = viewModel::onUpstreamTypeChange,
         onUpstreamRatingChange = viewModel::onUpstreamRatingChange,
         onDownstreamTypeChange = viewModel::onDownstreamTypeChange,
@@ -108,6 +135,9 @@ fun SelectivityRoute(
 @Composable
 fun SelectivityScreen(
     uiState: SelectivityUiState,
+    onCopy: () -> Unit,
+    onShare: () -> Unit,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onUpstreamTypeChange: (ProtectiveDeviceType) -> Unit,
     onUpstreamRatingChange: (String) -> Unit,
     onDownstreamTypeChange: (ProtectiveDeviceType) -> Unit,
@@ -127,6 +157,7 @@ fun SelectivityScreen(
         title = stringResource(Res.string.calculator_selectivity_title),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
+        snackbarHostState = snackbarHostState,
         actions = {
             IconButton(onClick = onToggleFavorite) {
                 Icon(
@@ -158,7 +189,14 @@ fun SelectivityScreen(
             // Calculate the user is looking for the number, not the fields
             // they just finished filling in. The workings and the notes stay
             // below, where they are read second.
-            uiState.result?.let { result -> ResultCard(result) }
+            uiState.result?.let { result ->
+                ResultCard(result)
+                ElecResultActions(
+                    onCopy = onCopy,
+                    onShare = onShare,
+                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+                )
+            }
 
             ElecExamplesCard(
                 examples = selectivityExamples,
@@ -330,3 +368,44 @@ private fun ProtectiveDeviceType.label(): StringResource = when (this) {
 
 private fun Double.format() =
     com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter.format(this, decimals = 2)
+
+@Composable
+private fun rememberShareText(
+    title: String,
+    uiState: SelectivityUiState,
+    result: SelectivityResult,
+): String {
+    val upstream = line(
+        stringResource(Res.string.sel_upstream),
+        "${stringResource(uiState.upstreamType.label())} · ${uiState.upstreamRating} A",
+    )
+    val downstream = line(
+        stringResource(Res.string.sel_downstream),
+        "${stringResource(uiState.downstreamType.label())} · ${uiState.downstreamRating} A",
+    )
+    val fault = line(stringResource(Res.string.sel_fault_current), "${uiState.faultCurrent} A")
+    val verdict = stringResource(result.grade.summary())
+    val limit = line(
+        stringResource(Res.string.sel_result_limit),
+        result.limitAmps?.let { "${it.format()} A" } ?: "—",
+    )
+    val ratio = line(stringResource(Res.string.sel_result_ratio), result.ratio.format())
+
+    return buildString {
+        appendLine(title)
+        appendLine(EXPORT_SEPARATOR)
+        appendLine(upstream)
+        appendLine(downstream)
+        appendLine(fault)
+        appendLine(EXPORT_SEPARATOR)
+        appendLine(verdict)
+        appendLine(limit)
+        append(ratio)
+    }
+}
+
+@Composable
+private fun line(label: String, value: String): String =
+    stringResource(Res.string.calculator_export_line, label, value)
+
+private const val EXPORT_SEPARATOR = "— — —"

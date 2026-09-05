@@ -63,6 +63,7 @@
     <string name="calculator_earth_fault_title">Anel de defeito à terra</string>
     <string name="calculator_energy_cost_title">Custo da energia</string>
     <string name="calculator_evse_title">Circuito de carregamento de VE</string>
+    <string name="calculator_export_line">%1$s: %2$s</string>
     <string name="calculator_formula">Fórmula</string>
     <string name="calculator_harmonics_title">Harmónicas e THD</string>
     <string name="calculator_inputs">Dados</string>

@@ -63,6 +63,7 @@
     <string name="calculator_earth_fault_title">Vòng sự cố chạm đất</string>
     <string name="calculator_energy_cost_title">Chi phí điện năng</string>
     <string name="calculator_evse_title">Mạch sạc xe điện</string>
+    <string name="calculator_export_line">%1$s: %2$s</string>
     <string name="calculator_formula">Công thức</string>
     <string name="calculator_harmonics_title">Sóng hài và THD</string>
     <string name="calculator_inputs">Dữ liệu vào</string>

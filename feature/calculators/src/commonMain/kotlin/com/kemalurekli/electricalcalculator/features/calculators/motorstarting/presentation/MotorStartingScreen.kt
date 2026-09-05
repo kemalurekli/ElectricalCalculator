@@ -1,9 +1,18 @@
 package com.kemalurekli.electricalcalculator.features.calculators.motorstarting.presentation
 
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
+import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_export_line
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.message_copied
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -85,8 +94,26 @@ fun MotorStartingRoute(
 
     LaunchedEffect(recordId) { recordId?.let(viewModel::onRestore) }
 
+    val sharing = rememberResultSharing()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    val title = stringResource(Res.string.calculator_motor_starting_title)
+    val copiedMessage = stringResource(Res.string.message_copied)
+    val shareSubject = stringResource(Res.string.calculator_share_subject, title)
+    val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+
     MotorStartingScreen(
         uiState = uiState,
+        onCopy = {
+            summary?.let {
+                if (sharing.copy(title, it)) {
+                    scope.launch { snackbarHostState.showSnackbar(copiedMessage) }
+                }
+            }
+        },
+        onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        snackbarHostState = snackbarHostState,
         onFullLoadCurrentChange = viewModel::onFullLoadCurrentChange,
         onLockedRotorChange = viewModel::onLockedRotorChange,
         onMethodChange = viewModel::onMethodChange,
@@ -106,6 +133,9 @@ fun MotorStartingRoute(
 @Composable
 fun MotorStartingScreen(
     uiState: MotorStartingUiState,
+    onCopy: () -> Unit,
+    onShare: () -> Unit,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onFullLoadCurrentChange: (String) -> Unit,
     onLockedRotorChange: (String) -> Unit,
     onMethodChange: (StartingMethod) -> Unit,
@@ -126,6 +156,7 @@ fun MotorStartingScreen(
         title = stringResource(Res.string.calculator_motor_starting_title),
         modifier = modifier,
         onNavigateBack = onNavigateBack,
+        snackbarHostState = snackbarHostState,
         actions = {
             IconButton(onClick = onToggleFavorite) {
                 Icon(
@@ -157,7 +188,14 @@ fun MotorStartingScreen(
             // Calculate the user is looking for the number, not the fields
             // they just finished filling in. The workings and the notes stay
             // below, where they are read second.
-            uiState.result?.let { result -> ResultCard(result) }
+            uiState.result?.let { result ->
+                ResultCard(result)
+                ElecResultActions(
+                    onCopy = onCopy,
+                    onShare = onShare,
+                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+                )
+            }
 
             ElecExamplesCard(
                 examples = motorStartingExamples,
@@ -343,3 +381,50 @@ private fun StartingMethod.label(): StringResource = when (this) {
 }
 
 private fun Double.f() = NumberFormatter.format(this, decimals = 2)
+
+@Composable
+private fun rememberShareText(
+    title: String,
+    uiState: MotorStartingUiState,
+    result: MotorStartingResult,
+): String {
+    val motor = line(
+        stringResource(Res.string.ms_full_load_current),
+        "${uiState.fullLoadCurrent} A · ${uiState.lockedRotorMultiple} × In",
+    )
+    val method = line(stringResource(Res.string.ms_method), stringResource(uiState.method.label()))
+    val supply = line(
+        stringResource(Res.string.ms_transformer_kva),
+        "${uiState.transformerKva} kVA · u_k ${uiState.transformerImpedance} % · " +
+            "${uiState.supplyVoltage} V",
+    )
+    val dip = line(stringResource(Res.string.ms_result_dip), "${result.dipPercent.f()} %")
+    val residual = line(stringResource(Res.string.ms_result_residual), "${result.residualVoltage.f()} V")
+    val starting = line(
+        stringResource(Res.string.ms_result_starting_current),
+        "${result.startingCurrentAmps.f()} A · ${result.startingKva.f()} kVA",
+    )
+    val torque = line(
+        stringResource(Res.string.ms_result_torque),
+        "${result.startingTorquePercent.f()} %",
+    )
+
+    return buildString {
+        appendLine(title)
+        appendLine(EXPORT_SEPARATOR)
+        appendLine(motor)
+        appendLine(method)
+        appendLine(supply)
+        appendLine(EXPORT_SEPARATOR)
+        appendLine(dip)
+        appendLine(residual)
+        appendLine(starting)
+        append(torque)
+    }
+}
+
+@Composable
+private fun line(label: String, value: String): String =
+    stringResource(Res.string.calculator_export_line, label, value)
+
+private const val EXPORT_SEPARATOR = "— — —"
