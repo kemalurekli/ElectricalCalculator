@@ -441,7 +441,14 @@ class StringResourceIntegrityTest {
             "values-de" to listOf(Regex("Schutzorgan", IGNORE) to "Schutzeinrichtung"),
             "values-es" to listOf(Regex("corriente de dise\u00f1o", IGNORE) to "corriente de empleo"),
             "values-pt" to listOf(Regex("capacidade de corrente", IGNORE) to "corrente admiss\u00edvel"),
-            "values-vi" to listOf(Regex("kh\u1ea3 n\u0103ng t\u1ea3i d\u00f2ng", IGNORE) to "d\u00f2ng \u0111i\u1ec7n cho ph\u00e9p"),
+            "values-vi" to listOf(
+                Regex("kh\u1ea3 n\u0103ng t\u1ea3i d\u00f2ng", IGNORE) to "d\u00f2ng \u0111i\u1ec7n cho ph\u00e9p",
+                // The agreed terms in full. Vietnamese shortens both of these in
+                // prose, which reads perfectly well and leaves one screen saying
+                // a different thing from the next.
+                Regex("(?<!\u0111i\u1ec7n )d\u00f2ng cho ph\u00e9p", IGNORE) to "d\u00f2ng \u0111i\u1ec7n cho ph\u00e9p",
+                Regex("(?<!\u0111i\u1ec7n )d\u00f2ng t\u00ednh to\u00e1n", IGNORE) to "d\u00f2ng \u0111i\u1ec7n t\u00ednh to\u00e1n",
+            ),
             "values-id" to listOf(Regex("drop tegangan", IGNORE) to "susut tegangan"),
             "values-nl" to listOf(Regex("""\bkring""", IGNORE) to "stroomkring"),
         )
