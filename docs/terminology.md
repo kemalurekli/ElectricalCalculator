@@ -42,6 +42,26 @@ German `Schutzorgan` → `Schutzeinrichtung`, Spanish `corriente de diseño` →
 admissível`, Vietnamese `khả năng tải dòng` → `dòng điện cho phép`, Indonesian
 `drop tegangan` → `susut tegangan`, Dutch `kring` → `stroomkring`.
 
+**A correction reaches the module it was made in.** Two of those six were still
+alive a module away when the strings were audited on 2026-09-05: Indonesian
+`Drop tegangan` in the navigation subtitle, Dutch `Kring` and `Kringenschema` in
+the schedule preview. Nobody here reads either language well enough to catch
+that by eye, so `a term the project has already replaced does not come back`
+now holds all six in every module.
+
+**One agreed term, one form.** A language that shortens a term in prose and
+writes it in full on a label has drifted, and the drift is invisible from
+outside that language: Vietnamese carried `dòng tính toán` beside `dòng điện
+tính toán`, and `dòng cho phép` beside `dòng điện cho phép`, ten strings in
+all. Both are now the full term.
+
+**Where the app is more specific than this table, the app wins.** German never
+writes `Umrechnungsfaktor`, because it names the factor it means —
+`Umgebungstemperaturfaktor` and `Häufungsfaktor` — and the second is
+DIN VDE 0298-4's own word. Indonesian keeps `suhu ambien` although PUIL's own
+tables use `suhu ambien` and `suhu keliling` interchangeably; the majority form
+in the app was kept rather than churned on a coin toss.
+
 ## The table
 
 | English | de | es | fr | it |

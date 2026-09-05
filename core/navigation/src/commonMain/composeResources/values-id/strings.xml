@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="dashboard_calculators_subtitle">Drop tegangan, ukuran kabel, arus motor</string>
+    <string name="dashboard_calculators_subtitle">Susut tegangan, ukuran kabel, arus motor</string>
     <string name="dashboard_calculators_title">Kalkulator</string>
     <string name="dashboard_converter_subtitle">Konversi kelistrikan, fisika dan AWG</string>
     <string name="dashboard_converter_title">Konverter Satuan</string>

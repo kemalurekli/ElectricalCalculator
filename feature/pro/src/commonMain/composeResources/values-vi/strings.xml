@@ -15,7 +15,7 @@
     <string name="pro_nothing_to_restore">Tài khoản cửa hàng này không có giao dịch nào để khôi phục.</string>
     <string name="pro_one_time">Thanh toán một lần. Không thuê bao.</string>
     <string name="pro_owned">Pro đã mở khóa trên thiết bị này.</string>
-    <string name="pro_preview_caption">Ví dụ về bảng mạch xuất ra: các mạch cùng dòng tính toán, tiết diện và thiết bị bảo vệ.</string>
+    <string name="pro_preview_caption">Ví dụ về bảng mạch xuất ra: các mạch cùng dòng điện tính toán, tiết diện và thiết bị bảo vệ.</string>
     <string name="pro_preview_column_circuit">Mạch</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

@@ -187,10 +187,10 @@
     <string name="cs_result_ambient_factor">Hệ số nhiệt độ (Ca)</string>
     <string name="cs_result_by_capacity">Bị giới hạn bởi dòng điện cho phép</string>
     <string name="cs_result_by_drop">Bị giới hạn bởi sụt áp</string>
-    <string name="cs_result_derated_capacity">Dòng cho phép sau hiệu chỉnh</string>
+    <string name="cs_result_derated_capacity">Dòng điện cho phép sau hiệu chỉnh</string>
     <string name="cs_result_grouping_factor">Hệ số đi chung bó (Cg)</string>
     <string name="cs_result_label">Tiết diện khuyến nghị</string>
-    <string name="cs_result_required_capacity">Dòng cho phép cần có</string>
+    <string name="cs_result_required_capacity">Dòng điện cho phép cần có</string>
     <string name="cs_result_voltage_drop">Sụt áp với tiết diện này</string>
     <string name="cs_status_both">Dòng điện cho phép và sụt áp cùng dẫn tới một tiết diện</string>
     <string name="cs_status_capacity">Chọn theo dòng điện cho phép — tuyến đủ ngắn nên phát nóng là yếu tố quyết định</string>
@@ -200,7 +200,7 @@
     <string name="cs_step_drop_percentage">Tính theo phần trăm điện áp nguồn</string>
     <string name="cs_step_minimum_area">Tiết diện nhỏ nhất mà giới hạn sụt áp cho phép</string>
     <string name="cs_step_permitted_drop">Sụt áp cho phép tính bằng vôn</string>
-    <string name="cs_step_required_capacity">Dòng cho phép tra bảng mà cáp phải đạt</string>
+    <string name="cs_step_required_capacity">Dòng điện cho phép tra bảng mà cáp phải đạt</string>
     <string name="cs_step_resistivity">Hiệu chỉnh điện trở suất về nhiệt độ làm việc</string>
     <string name="cs_step_selection">Yêu cầu lớn hơn trong hai</string>
     <string name="cs_var_area">Tiết diện ruột dẫn</string>
@@ -381,11 +381,11 @@
     <string name="ev_example_car_park">Bãi đỗ xe, tám điểm sạc</string>
     <string name="ev_example_home">Một điểm sạc, một pha</string>
     <string name="ev_example_three_phase">Cùng dòng điện, đấu ba pha</string>
-    <string name="ev_history_summary">Dòng tính toán %1$s A</string>
+    <string name="ev_history_summary">Dòng điện tính toán %1$s A</string>
     <string name="ev_history_title">%1$s điểm sạc ở %2$s A</string>
     <string name="ev_note_continuous">Xe điện lấy trọn dòng của nó trong nhiều giờ liền. Không thói quen tính đồng thời nào vốn dùng được cho mạch ổ cắm còn đúng ở đây — vì thế hệ số đồng thời bắt đầu từ một và được hỏi chứ không được mặc định.</string>
     <string name="ev_note_dc">Xe có thể đưa dòng một chiều phẳng vào dây bảo vệ; dòng đó làm bão hòa lõi của RCD loại A và khiến nó mù trước chính dòng sự cố xoay chiều mà nó được lắp để phát hiện. Cần loại B, hoặc loại A đi kèm một thiết bị tác động ở 6 mA dòng một chiều — thứ mà phần lớn bộ sạc hiện nay đã có sẵn, nhưng chỉ khi nhãn máy ghi rõ.</string>
-    <string name="ev_note_scope">Chưa mô hình hóa việc điều phối công suất sạc. Một bộ điều khiển chia nguồn cấp cố định cho các điểm sạc sẽ biến dòng tính toán thành một trị số cài đặt chứ không còn là phép cộng.</string>
+    <string name="ev_note_scope">Chưa mô hình hóa việc điều phối công suất sạc. Một bộ điều khiển chia nguồn cấp cố định cho các điểm sạc sẽ biến dòng điện tính toán thành một trị số cài đặt chứ không còn là phép cộng.</string>
     <string name="ev_point_count">Số điểm sạc</string>
     <string name="ev_rated_current">Dòng định mức mỗi điểm sạc</string>
     <string name="ev_rcd_a">Loại A, đi kèm bộ phát hiện 6 mA của chính bộ sạc</string>
@@ -410,7 +410,7 @@
     <string name="hm_fundamental">Dòng sóng cơ bản, I₁</string>
     <string name="hm_history_summary">THD %1$s %</string>
     <string name="hm_history_title">%1$s A có sóng hài</string>
-    <string name="hm_note_scope">Chưa gồm việc giảm dòng cho phép của cáp. Phụ lục E của IEC 60364-5-52 chia hệ số giảm theo hàm lượng sóng hài bậc ba; các trị số ấy là bảng chép lại, còn mọi thứ trình bày ở đây đều được tính ra và kiểm tra ở mỗi lần dựng ứng dụng.</string>
+    <string name="hm_note_scope">Chưa gồm việc giảm dòng điện cho phép của cáp. Phụ lục E của IEC 60364-5-52 chia hệ số giảm theo hàm lượng sóng hài bậc ba; các trị số ấy là bảng chép lại, còn mọi thứ trình bày ở đây đều được tính ra và kiểm tra ở mỗi lần dựng ứng dụng.</string>
     <string name="hm_order">Sóng hài bậc %1$d</string>
     <string name="hm_result_dominant">Bậc trội nhất</string>
     <string name="hm_result_k">Hệ số K của máy biến áp</string>
@@ -562,13 +562,13 @@
     <string name="nc_line_2_label">Dòng pha 2</string>
     <string name="nc_line_3_label">Dòng pha 3</string>
     <string name="nc_note_cancellation">Trong một mạch cân bằng và tuyến tính, dòng của ba pha triệt tiêu nhau ở dây trung tính, và vì thế dây trung tính theo lệ thường là ruột nhỏ nhất trong sợi cáp.</string>
-    <string name="nc_note_derating" formatted="false">IEC 60364-5-52 yêu cầu tính dây trung tính như một dây mang tải ngay khi hàm lượng sóng hài bậc ba vượt 15 %, và giảm dòng cho phép của cáp tương ứng.</string>
+    <string name="nc_note_derating" formatted="false">IEC 60364-5-52 yêu cầu tính dây trung tính như một dây mang tải ngay khi hàm lượng sóng hài bậc ba vượt 15 %, và giảm dòng điện cho phép của cáp tương ứng.</string>
     <string name="nc_note_measurement">Hãy đo hàm lượng sóng hài bằng thiết bị giá trị hiệu dụng thực. Ampe kìm đo trị trung bình cho số nhỏ hơn thực khi dòng bị méo — đúng vào trường hợp mà bạn đang muốn tìm.</string>
     <string name="nc_note_quadrature">Hai thành phần này ở tần số khác nhau nên cộng theo bình phương. Cộng thẳng số học sẽ làm dòng trung tính lớn hơn thực rất nhiều.</string>
     <string name="nc_note_triplen">Sóng hài bậc ba và các bội của nó tới cùng pha nên thay vì triệt tiêu thì lại cộng dồn. Một tủ điện cân bằng hoàn hảo vẫn có thể đẩy vào dây trung tính gấp ba lần dòng sóng hài bậc ba của một pha.</string>
     <string name="nc_result_neutral">Dòng dây trung tính</string>
     <string name="nc_result_ratio">So với pha nặng tải nhất</string>
-    <string name="nc_result_status_exceeds">Dây trung tính mang dòng lớn hơn mọi pha — hãy coi nó là dây mang tải và giảm dòng cho phép của cáp</string>
+    <string name="nc_result_status_exceeds">Dây trung tính mang dòng lớn hơn mọi pha — hãy coi nó là dây mang tải và giảm dòng điện cho phép của cáp</string>
     <string name="nc_result_status_ok">Dây trung tính mang dòng nhỏ hơn pha nặng tải nhất</string>
     <string name="nc_result_triplen">Do sóng hài bậc ba</string>
     <string name="nc_result_unbalance">Do lệch pha</string>
@@ -945,7 +945,7 @@
     <string name="calculator_conduit_fill_description">Phần trăm lấp đầy so với giới hạn cho phép</string>
     <string name="calculator_earth_fault_description">Zs, thời gian cắt và khả năng chịu của dây bảo vệ</string>
     <string name="calculator_energy_cost_description">Chi phí vận hành một phụ tải, và thời gian hoàn vốn</string>
-    <string name="calculator_evse_description">Dòng tính toán cho các điểm sạc và RCD mà mỗi điểm cần</string>
+    <string name="calculator_evse_description">Dòng điện tính toán cho các điểm sạc và RCD mà mỗi điểm cần</string>
     <string name="calculator_harmonics_description">Méo dạng, trị hiệu dụng thực, dòng trung tính và hệ số K của máy biến áp</string>
     <string name="calculator_lighting_description">Một phòng cần bao nhiêu bộ đèn</string>
     <string name="calculator_motor_current_description">Dòng đầy tải từ công suất định mức động cơ</string>

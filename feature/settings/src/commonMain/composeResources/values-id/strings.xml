@@ -21,7 +21,7 @@
     <string name="settings_about">Tentang</string>
     <string name="settings_appearance">Tampilan</string>
     <string name="settings_engineering">Nilai bawaan teknik</string>
-    <string name="settings_engineering_ambient">Suhu sekitar</string>
+    <string name="settings_engineering_ambient">Suhu ambien</string>
     <string name="settings_engineering_frequency">Frekuensi jaringan</string>
     <string name="settings_engineering_insulation">Isolasi</string>
     <string name="settings_engineering_material">Bahan penghantar</string>

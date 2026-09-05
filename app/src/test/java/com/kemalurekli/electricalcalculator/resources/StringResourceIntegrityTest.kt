@@ -274,6 +274,30 @@ class StringResourceIntegrityTest {
     }
 
     @Test
+    fun `a term the project has already replaced does not come back`() {
+        // `docs/terminology.md` records six terms that read fluently and are not
+        // what the trade writes, each corrected once against that country's own
+        // wiring standard. A correction made in one module does not reach the
+        // others, and nobody here can read ten of these languages well enough to
+        // notice the survivor: Indonesian still said "drop tegangan" in the
+        // navigation subtitle, and Dutch still said "kring" in the schedule
+        // preview, months after both were replaced everywhere else.
+        REPLACED_TERMS.forEach { (locale, rejected) ->
+            bundles.forEach { bundle ->
+                bundle.translations[locale]?.forEach { entry ->
+                    rejected.forEach { (wrong, right) ->
+                        assertTrue(
+                            "${bundle.module}/$locale/${entry.name} says \"$wrong\"; " +
+                                "docs/terminology.md settled on \"$right\"",
+                            !wrong.containsMatchIn(entry.body),
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     fun `no string is defined twice in the same file`() {
         bundles.forEach { bundle ->
             (mapOf("values" to bundle.base) + bundle.translations).forEach { (locale, entries) ->
@@ -404,6 +428,22 @@ class StringResourceIntegrityTest {
         val CLAUSE_REF = Regex(
             """(?:Tab|\u0422\u0430\u0431\u043B|B\u1EA3ng)\p{L}*\s*[\d-]+(?:\.\d+)*""",
             RegexOption.IGNORE_CASE,
+        )
+
+        val IGNORE = RegexOption.IGNORE_CASE
+
+        /**
+         * The terms of `docs/terminology.md` that were checked, found wrong and
+         * replaced — with what they were replaced by. Case-insensitive, because
+         * a term at the start of a label is capitalised.
+         */
+        val REPLACED_TERMS: Map<String, List<Pair<Regex, String>>> = mapOf(
+            "values-de" to listOf(Regex("Schutzorgan", IGNORE) to "Schutzeinrichtung"),
+            "values-es" to listOf(Regex("corriente de dise\u00f1o", IGNORE) to "corriente de empleo"),
+            "values-pt" to listOf(Regex("capacidade de corrente", IGNORE) to "corrente admiss\u00edvel"),
+            "values-vi" to listOf(Regex("kh\u1ea3 n\u0103ng t\u1ea3i d\u00f2ng", IGNORE) to "d\u00f2ng \u0111i\u1ec7n cho ph\u00e9p"),
+            "values-id" to listOf(Regex("drop tegangan", IGNORE) to "susut tegangan"),
+            "values-nl" to listOf(Regex("""\bkring""", IGNORE) to "stroomkring"),
         )
 
         /** Deep enough for `feature/<name>/src/commonMain/composeResources`. */
