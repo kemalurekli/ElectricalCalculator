@@ -10,7 +10,7 @@
     <string name="dashboard_field_notes_title">Informations générales</string>
     <string name="dashboard_forum_subtitle">Posez la question qu'aucune calculatrice ne résout</string>
     <string name="dashboard_forum_title">Forum</string>
-    <string name="dashboard_glossary_subtitle">Termes électriques, anglais et turc</string>
+    <string name="dashboard_glossary_subtitle">Termes électriques, cherchables aussi en anglais</string>
     <string name="dashboard_glossary_title">Glossaire</string>
     <string name="dashboard_history_subtitle">Tous les calculs que vous avez effectués</string>
     <string name="dashboard_history_title">Historique</string>

@@ -10,7 +10,7 @@
     <string name="dashboard_field_notes_title">Grundwissen</string>
     <string name="dashboard_forum_subtitle">Fragen, die kein Rechner beantwortet</string>
     <string name="dashboard_forum_title">Forum</string>
-    <string name="dashboard_glossary_subtitle">Elektrotechnische Begriffe, Englisch und Türkisch</string>
+    <string name="dashboard_glossary_subtitle">Elektrotechnische Begriffe, auch auf Englisch suchbar</string>
     <string name="dashboard_glossary_title">Glossar</string>
     <string name="dashboard_history_subtitle">Jede Berechnung, die Sie ausgeführt haben</string>
     <string name="dashboard_history_title">Verlauf</string>

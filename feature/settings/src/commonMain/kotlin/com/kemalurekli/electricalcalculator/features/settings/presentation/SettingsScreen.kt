@@ -197,11 +197,20 @@ fun SettingsScreen(
                 // One row into a screen of its own. Twelve radio buttons here
                 // would bury the units and the engineering defaults under a
                 // language list nobody is reading unless they came for it.
+                // `spacing.lg` horizontally, like the theme title and every
+                // radio row above it. The row is clickable before it is padded,
+                // so the touch target is the full width of the card either way
+                // — the inset only decides where the text starts, and text hard
+                // against the card's edge is the one row in this list that
+                // looks unfinished.
                 ElecListItem(
                     title = uiState.language.displayName(),
                     description = stringResource(Res.string.settings_language_description),
                     onClick = onOpenLanguage,
-                    contentPadding = PaddingValues(horizontal = 0.dp, vertical = spacing.md),
+                    contentPadding = PaddingValues(
+                        horizontal = spacing.lg,
+                        vertical = spacing.md,
+                    ),
                 )
             }
 

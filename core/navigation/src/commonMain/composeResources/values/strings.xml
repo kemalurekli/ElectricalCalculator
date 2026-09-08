@@ -10,7 +10,7 @@
     <string name="dashboard_field_notes_title">General Info</string>
     <string name="dashboard_forum_subtitle">Ask the question a calculator cannot answer</string>
     <string name="dashboard_forum_title">Forum</string>
-    <string name="dashboard_glossary_subtitle">Electrical terms, English and Turkish</string>
+    <string name="dashboard_glossary_subtitle">Electrical terms, also searchable in English</string>
     <string name="dashboard_glossary_title">Glossary</string>
     <string name="dashboard_history_subtitle">Every calculation you have run</string>
     <string name="dashboard_history_title">History</string>

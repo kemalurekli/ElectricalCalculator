@@ -10,7 +10,7 @@
     <string name="dashboard_field_notes_title">Genel Bilgiler</string>
     <string name="dashboard_forum_subtitle">Hesaplayıcının cevaplayamadığı soruyu sorun</string>
     <string name="dashboard_forum_title">Forum</string>
-    <string name="dashboard_glossary_subtitle">Elektrik terimleri, Türkçe ve İngilizce</string>
+    <string name="dashboard_glossary_subtitle">Elektrik terimleri, İngilizce adıyla da aranır</string>
     <string name="dashboard_glossary_title">Sözlük</string>
     <string name="dashboard_history_subtitle">Yaptığınız tüm hesaplamalar</string>
     <string name="dashboard_history_title">Geçmiş</string>

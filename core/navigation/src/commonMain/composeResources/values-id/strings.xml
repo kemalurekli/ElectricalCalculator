@@ -10,7 +10,7 @@
     <string name="dashboard_field_notes_title">Info umum</string>
     <string name="dashboard_forum_subtitle">Tanyakan hal yang tak bisa dijawab kalkulator</string>
     <string name="dashboard_forum_title">Forum</string>
-    <string name="dashboard_glossary_subtitle">Istilah kelistrikan, Inggris dan Turki</string>
+    <string name="dashboard_glossary_subtitle">Istilah kelistrikan, dapat dicari dalam bahasa Inggris juga</string>
     <string name="dashboard_glossary_title">Glosarium</string>
     <string name="dashboard_history_subtitle">Semua perhitungan yang pernah Anda jalankan</string>
     <string name="dashboard_history_title">Riwayat</string>

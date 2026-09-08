@@ -10,7 +10,7 @@
     <string name="dashboard_field_notes_title">Общие сведения</string>
     <string name="dashboard_forum_subtitle">Спросите то, на что калькулятор не ответит</string>
     <string name="dashboard_forum_title">Форум</string>
-    <string name="dashboard_glossary_subtitle">Электротехнические термины, английский и турецкий</string>
+    <string name="dashboard_glossary_subtitle">Электротехнические термины, поиск и по-английски</string>
     <string name="dashboard_glossary_title">Глоссарий</string>
     <string name="dashboard_history_subtitle">Все выполненные вами расчёты</string>
     <string name="dashboard_history_title">История</string>

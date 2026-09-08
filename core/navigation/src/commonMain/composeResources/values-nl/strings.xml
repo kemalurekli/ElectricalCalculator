@@ -10,7 +10,7 @@
     <string name="dashboard_field_notes_title">Algemene info</string>
     <string name="dashboard_forum_subtitle">Stel de vraag die geen rekenhulp beantwoordt</string>
     <string name="dashboard_forum_title">Forum</string>
-    <string name="dashboard_glossary_subtitle">Elektrotechnische termen, Engels en Turks</string>
+    <string name="dashboard_glossary_subtitle">Elektrotechnische termen, ook in het Engels te zoeken</string>
     <string name="dashboard_glossary_title">Woordenlijst</string>
     <string name="dashboard_history_subtitle">Elke berekening die u hebt uitgevoerd</string>
     <string name="dashboard_history_title">Geschiedenis</string>

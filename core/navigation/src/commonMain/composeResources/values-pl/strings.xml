@@ -10,7 +10,7 @@
     <string name="dashboard_field_notes_title">Informacje ogólne</string>
     <string name="dashboard_forum_subtitle">Zapytaj o to, czego kalkulator nie policzy</string>
     <string name="dashboard_forum_title">Forum</string>
-    <string name="dashboard_glossary_subtitle">Terminy elektryczne, angielski i turecki</string>
+    <string name="dashboard_glossary_subtitle">Terminy elektryczne, wyszukiwane także po angielsku</string>
     <string name="dashboard_glossary_title">Słownik</string>
     <string name="dashboard_history_subtitle">Wszystkie wykonane obliczenia</string>
     <string name="dashboard_history_title">Historia</string>
