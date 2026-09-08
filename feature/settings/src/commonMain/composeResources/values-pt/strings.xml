@@ -34,7 +34,6 @@
     <string name="settings_language">Idioma</string>
     <string name="settings_language_description">Escolha o idioma em que a aplicação é apresentada</string>
     <string name="settings_language_system">Predefinição do sistema</string>
-    <string name="settings_language_partial">As calculadoras, os projetos, o fórum, as definições, as informações gerais, o glossário e a teoria estão traduzidos em todos os idiomas listados. As tabelas de referência estão escritas apenas em inglês e turco e permanecem em inglês nos restantes idiomas.</string>
     <string name="settings_legal">Legal</string>
     <string name="settings_licenses">Licenças de código aberto</string>
     <string name="settings_privacy_policy">Política de privacidade</string>

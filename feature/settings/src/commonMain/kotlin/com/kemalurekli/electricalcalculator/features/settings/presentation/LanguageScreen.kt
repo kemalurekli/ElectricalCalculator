@@ -22,7 +22,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.domain.model.AppLanguage
 import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.Res
 import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_language
-import com.kemalurekli.electricalcalculator.feature.settings.generated.resources.settings_language_partial
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -83,20 +82,6 @@ fun LanguageRoute(
                         }
                     }
                 }
-            }
-
-            // Said here rather than discovered on the reference shelf. The
-            // calculators, the forum and everything with a control in it are
-            // translated; the written shelves are not, and a reader who picks
-            // Polish and then finds an English standards table should have been
-            // told, not left to wonder whether it failed to load.
-            item(key = "partial") {
-                Text(
-                    text = stringResource(Res.string.settings_language_partial),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(horizontal = spacing.xs),
-                )
             }
         }
     }
