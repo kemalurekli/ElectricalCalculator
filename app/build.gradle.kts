@@ -341,7 +341,12 @@ val checkUploadKey = tasks.register("checkUploadKey") {
  * arrives in a second rather than after a full optimised build.
  */
 tasks.matching { it.name == "bundleRelease" || it.name == "packageReleaseBundle" }
-    .configureEach { dependsOn(checkBillingKey, checkUploadKey) }
+    .configureEach {
+        // The third is the one that reads what actually gets compiled in. The
+        // first two read the files a developer edits, which is what makes their
+        // messages useful and what makes them insufficient on their own.
+        dependsOn(checkBillingKey, checkUploadKey, ":core:billing:checkGeneratedBillingKey")
+    }
 
 dependencies {
     // Compose BOM aligns every Compose artifact to one tested version set.

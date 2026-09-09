@@ -68,6 +68,12 @@ val generateForumConfig = tasks.register("generateForumConfig") {
     val url = forumProperty("supabase.url")
     val anonKey = forumProperty("supabase.anonKey")
     val googleWebClientId = forumProperty("supabase.googleWebClientId")
+    // See the same declaration in core/billing: without these the task is up
+    // to date whenever its output file exists, and a value changed in
+    // `local.properties` is silently ignored from the second build onwards.
+    inputs.property("url", url)
+    inputs.property("anonKey", anonKey)
+    inputs.property("googleWebClientId", googleWebClientId)
     outputs.dir(output)
     doLast {
         val directory = output.get().asFile

@@ -38,6 +38,14 @@ val generateBillingConfig = tasks.register("generateBillingConfig") {
     val output = layout.buildDirectory.dir("generated/billingConfig/kotlin")
     val androidKey = billingProperty("revenuecat.androidKey")
     val iosKey = billingProperty("revenuecat.iosKey")
+    // Declared as inputs, not just captured. With outputs alone Gradle calls
+    // the task up to date as long as the generated file is still there, so a
+    // key added to `local.properties` after the first build never reaches the
+    // binary — and `checkBillingKey`, which reads the properties file itself,
+    // still passes. That split shipped an .aab with an empty key and every
+    // paid feature unlocked, past a guard written to prevent exactly that.
+    inputs.property("androidKey", androidKey)
+    inputs.property("iosKey", iosKey)
     outputs.dir(output)
     doLast {
         val directory = output.get().asFile
@@ -54,6 +62,36 @@ val generateBillingConfig = tasks.register("generateBillingConfig") {
             }
             """.trimIndent() + "\n",
         )
+    }
+}
+
+/**
+ * The key as it will actually be compiled in, rather than as it appears in
+ * `local.properties`.
+ *
+ * `:app`'s `checkBillingKey` reads the properties file, which is the right
+ * thing to say to a developer — "add this line" — and the wrong thing to trust,
+ * because it is not what ships. The two disagreed once already: a stale
+ * generated file meant the guard passed and the bundle carried an empty key.
+ *
+ * Reading the generated file inside the project that owns it keeps this off
+ * the configuration cache's cross-project rules; `:app` wires it to the bundle
+ * tasks by path.
+ */
+val checkGeneratedBillingKey = tasks.register("checkGeneratedBillingKey") {
+    dependsOn(generateBillingConfig)
+    val generated = generateBillingConfig.map { task ->
+        task.outputs.files.singleFile
+            .resolve("com/kemalurekli/electricalcalculator/core/billing/domain/BillingConfig.kt")
+    }
+    doLast {
+        val text = generated.get().readText()
+        val key = Regex("""ANDROID_KEY: String = "([^"]*)"""").find(text)?.groupValues?.get(1)
+        check(!key.isNullOrBlank()) {
+            "BillingConfig was generated with an empty ANDROID_KEY, so this build " +
+                "unlocks every paid feature. Check revenuecat.androidKey in " +
+                "local.properties, then re-run."
+        }
     }
 }
 
