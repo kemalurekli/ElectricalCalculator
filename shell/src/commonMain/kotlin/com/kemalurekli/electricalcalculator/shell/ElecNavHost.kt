@@ -165,6 +165,9 @@ fun ElecNavHost(
                 onNavigateBack = actions::navigateBack,
                 onOpenForumAccount = { actions.navigateTo(Route.ForumAccount) },
                 onOpenLanguage = { actions.navigateTo(Route.Language) },
+                // The one entrance to the paywall that is not a refusal. Every
+                // other one is reached by walking into something locked.
+                onOpenPaywall = { actions.navigateTo(Route.Paywall()) },
             )
         }
 

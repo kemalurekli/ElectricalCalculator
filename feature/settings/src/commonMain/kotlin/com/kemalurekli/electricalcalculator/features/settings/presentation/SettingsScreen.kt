@@ -114,6 +114,7 @@ fun SettingsRoute(
     onNavigateBack: (() -> Unit)?,
     onOpenForumAccount: () -> Unit,
     onOpenLanguage: () -> Unit,
+    onOpenPaywall: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
@@ -129,6 +130,7 @@ fun SettingsRoute(
         onNavigateBack = onNavigateBack,
         onOpenForumAccount = onOpenForumAccount,
         onOpenLanguage = onOpenLanguage,
+        onOpenPaywall = onOpenPaywall,
         modifier = modifier,
     )
 }
@@ -145,6 +147,7 @@ fun SettingsScreen(
     onNavigateBack: (() -> Unit)?,
     onOpenForumAccount: () -> Unit = {},
     onOpenLanguage: () -> Unit = {},
+    onOpenPaywall: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val spacing = ElecTheme.spacing
@@ -228,7 +231,7 @@ fun SettingsScreen(
             ElecSectionHeader(title = stringResource(ProRes.string.pro_settings_section))
 
             SettingsGroup {
-                ProSettingsSection()
+                ProSettingsSection(onOpenPaywall = onOpenPaywall)
             }
 
             ElecSectionHeader(title = stringResource(Res.string.settings_units))
