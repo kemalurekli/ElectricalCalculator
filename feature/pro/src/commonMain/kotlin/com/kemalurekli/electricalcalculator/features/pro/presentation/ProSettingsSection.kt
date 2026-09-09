@@ -94,12 +94,19 @@ fun ProSettingsSection(
             modifier = Modifier.padding(top = spacing.md),
             verticalArrangement = Arrangement.spacedBy(spacing.xs),
         ) {
-            Text(
-                text = stringResource(Res.string.pro_settings_hint),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = spacing.lg),
-            )
+            // Only asked of somebody who has not got it. Under a row that
+            // has just said Pro is on, "did you buy this before?" reads as the
+            // card doubting its own first line, and the reader is left working
+            // out which half to believe. Owned, the link below stands alone as
+            // a maintenance action rather than as an answer to a question.
+            if (!isPro) {
+                Text(
+                    text = stringResource(Res.string.pro_settings_hint),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(horizontal = spacing.lg),
+                )
+            }
 
             // Offered even when Pro is already on. A reader signed into a second
             // store account, or one whose entitlement has gone stale, has nothing
