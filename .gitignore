@@ -44,3 +44,6 @@ DerivedData/
 # Rewritten by Studio on nearly every run, and meaningless on any other machine.
 /.idea/deploymentTargetSelector.xml
 /.idea/deviceManager.xml
+
+# Android Studio's signed-bundle wizard writes here.
+/app/release/

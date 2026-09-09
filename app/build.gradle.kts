@@ -327,9 +327,21 @@ val checkUploadKey = tasks.register("checkUploadKey") {
     }
 }
 
-tasks.matching { it.name == "bundleRelease" }.configureEach {
-    dependsOn(checkBillingKey, checkUploadKey)
-}
+/**
+ * Both guards, on the task that actually writes the `.aab`.
+ *
+ * `bundleRelease` alone was not enough. Android Studio's "Generate Signed
+ * Bundle" wizard produced a signed bundle with no store key in it while that
+ * was the only hook — the command line refused the same build a minute later,
+ * which is the worst possible split: the check appears to work, and the
+ * artifact that reaches Play is the one that skipped it.
+ *
+ * `packageReleaseBundle` is what every one of those paths has to run, so it is
+ * where the refusal belongs. `bundleRelease` keeps its copy only so the failure
+ * arrives in a second rather than after a full optimised build.
+ */
+tasks.matching { it.name == "bundleRelease" || it.name == "packageReleaseBundle" }
+    .configureEach { dependsOn(checkBillingKey, checkUploadKey) }
 
 dependencies {
     // Compose BOM aligns every Compose artifact to one tested version set.
