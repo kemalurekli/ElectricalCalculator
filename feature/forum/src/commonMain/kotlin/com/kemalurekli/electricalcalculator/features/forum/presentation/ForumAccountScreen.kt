@@ -2,12 +2,14 @@ package com.kemalurekli.electricalcalculator.features.forum.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -17,12 +19,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecIconBadge
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItemDefaults
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSkeletonLine
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
@@ -30,7 +37,9 @@ import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.Re
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.action_cancel
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_account_danger
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_account_signed_out
+import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_account_signed_out_hint
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_account_title
+import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_blocked_section
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_delete_account
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_delete_account_confirm
 import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_delete_account_failed
@@ -46,9 +55,6 @@ import com.kemalurekli.electricalcalculator.features.forum.auth.rememberForumSig
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumSession
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import androidx.compose.material3.ExperimentalMaterial3Api
-import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_account_signed_out_hint
-import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.forum_blocked_section
 
 /**
  * The reader's own account, on a screen of its own.
@@ -246,29 +252,79 @@ fun ForumAccountRow(
 ) {
     val session by viewModel.session.collectAsStateWithLifecycle()
 
-    val current = session
-    ElecListItem(
-        // The heading above already says "Forum account"; repeating it here
-        // would spend the row on a word the reader has just read. It says who
-        // instead, which is the thing the list could not otherwise tell them.
-        title = when (current) {
-            is ForumSession.SignedIn -> current.profile.displayName
-            // Blank rather than "not signed in" while the stored session is
-            // still being read, so the row does not correct itself.
-            is ForumSession.Unknown -> ""
-            is ForumSession.SignedOut -> stringResource(Res.string.forum_account_signed_out)
-        },
-        description = when (current) {
-            is ForumSession.SignedIn -> current.email.orEmpty()
-            is ForumSession.Unknown -> ""
-            is ForumSession.SignedOut ->
-                stringResource(Res.string.forum_account_signed_out_hint)
-        },
-        icon = ElecIcons.Forum,
-        onClick = onOpen,
-        modifier = modifier,
-    )
+    when (val current = session) {
+        // Saying "not signed in" here and then replacing it with a name a
+        // moment later would be the row correcting itself, so it does not
+        // guess. It draws the shape of what is coming instead: an empty row
+        // with an icon floating in it reads as a card that failed, and this
+        // one reads as a card that is still arriving.
+        is ForumSession.Unknown -> ForumAccountRowLoading(modifier = modifier)
+
+        else -> ElecListItem(
+            // The heading above already says "Forum account"; repeating it here
+            // would spend the row on a word the reader has just read. It says
+            // who instead, which is the thing the list could not otherwise tell
+            // them.
+            title = when (current) {
+                is ForumSession.SignedIn -> current.profile.displayName
+                else -> stringResource(Res.string.forum_account_signed_out)
+            },
+            description = when (current) {
+                is ForumSession.SignedIn -> current.email.orEmpty()
+                else -> stringResource(Res.string.forum_account_signed_out_hint)
+            },
+            icon = ElecIcons.Forum,
+            onClick = onOpen,
+            modifier = modifier,
+        )
+    }
 }
+
+/**
+ * [ForumAccountRow] before the stored session has been read.
+ *
+ * Laid out from the same parts as the row it stands in for — the list item's
+ * own inset, the same gap after the icon badge, the same gap between the two
+ * lines — so the card is the height it will keep and nothing below it moves
+ * when the name lands. The line heights come from the type scale rather than
+ * from a number typed here, which is what keeps that true if the scale changes.
+ *
+ * Not clickable. The destination is the same either way, but a row with nothing
+ * legible on it is not something to invite a tap on.
+ */
+@Composable
+private fun ForumAccountRowLoading(modifier: Modifier = Modifier) {
+    val spacing = ElecTheme.spacing
+    val density = LocalDensity.current
+    val typography = MaterialTheme.typography
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(ElecListItemDefaults.contentPadding),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(spacing.lg),
+    ) {
+        ElecIconBadge(icon = ElecIcons.Forum)
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(spacing.xxs),
+        ) {
+            ElecSkeletonLine(
+                modifier = Modifier.fillMaxWidth(LOADING_TITLE_WIDTH),
+                height = with(density) { typography.titleSmall.lineHeight.toDp() },
+            )
+            ElecSkeletonLine(
+                modifier = Modifier.fillMaxWidth(LOADING_DESCRIPTION_WIDTH),
+                height = with(density) { typography.bodySmall.lineHeight.toDp() },
+            )
+        }
+    }
+}
+
+// A display name is short and an email is long, and the placeholder says so.
+// Two blocks of equal width would stand in for a shape the row never takes.
+private const val LOADING_TITLE_WIDTH = 0.35f
+private const val LOADING_DESCRIPTION_WIDTH = 0.7f
 
 /** The card the settings screen uses, so the two screens look like one app. */
 @Composable
