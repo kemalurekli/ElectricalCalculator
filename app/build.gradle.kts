@@ -40,10 +40,15 @@ fun supabaseProperty(key: String): String = supabaseProperties.getProperty(key).
  * bargain `checkBillingKey` makes — and `bundleRelease`, the artifact that
  * actually goes to the store, refuses to be built that way.
  *
- *     storeFile=upload-keystore.jks
+ *     storeFile=/absolute/path/to/voltageboard.jks
  *     storePassword=...
  *     keyAlias=upload
  *     keyPassword=...
+ *
+ * `storeFile` may be absolute or relative to the repository root. Absolute and
+ * outside the working tree is the better of the two: a key that is not in the
+ * directory cannot be committed by a careless `git add -A`, and losing it means
+ * never being able to update the app on Play again.
  */
 val keystoreProperties = Properties().apply {
     val file = rootProject.file("keystore.properties")
