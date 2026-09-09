@@ -22,7 +22,8 @@ class FakeEntitlementRepository(
 
     override val isPro = MutableStateFlow(false)
 
-    override val product: StateFlow<ProProduct?> =
+    /** Mutable so a test can be a store that has no price to give. */
+    override val product: MutableStateFlow<ProProduct?> =
         MutableStateFlow(ProProduct(id = "voltageboard_pro", formattedPrice = "₺149,99"))
 
     var refreshes = 0
@@ -40,8 +41,12 @@ class FakeEntitlementRepository(
     private val purchaseOutcome = purchase
     private val restoreOutcome = restore
 
+    /** Left uncompleted to be a store that is asked and never answers. */
+    var refreshGate: CompletableDeferred<Unit>? = null
+
     override suspend fun refresh() {
         refreshes++
+        refreshGate?.await()
     }
 
     override suspend fun purchase(): PurchaseOutcome {

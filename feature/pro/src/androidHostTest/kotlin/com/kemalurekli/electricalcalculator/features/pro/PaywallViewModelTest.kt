@@ -1,13 +1,16 @@
 package com.kemalurekli.electricalcalculator.features.pro
 
 import com.kemalurekli.electricalcalculator.core.billing.domain.BillingFailure
+import com.kemalurekli.electricalcalculator.core.billing.domain.ProProduct
 import com.kemalurekli.electricalcalculator.core.billing.domain.PurchaseOutcome
 import com.kemalurekli.electricalcalculator.core.billing.domain.RestoreOutcome
 import com.kemalurekli.electricalcalculator.features.pro.presentation.PaywallMessage
 import com.kemalurekli.electricalcalculator.features.pro.presentation.PaywallStatus
 import com.kemalurekli.electricalcalculator.features.pro.presentation.PaywallViewModel
+import com.kemalurekli.electricalcalculator.features.pro.presentation.PriceState
 import com.kemalurekli.electricalcalculator.testing.MainDispatcherRule
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
@@ -39,6 +42,54 @@ class PaywallViewModelTest {
         advanceUntilIdle()
 
         assertEquals(1, store.refreshes, "the paywall cannot name a price it never asked for")
+    }
+
+    @Test
+    fun `a store with no price to give stops claiming to be on its way`() = runTest {
+        val store = FakeEntitlementRepository()
+        store.product.value = null
+        val viewModel = viewModel(store)
+        backgroundScope.launch { viewModel.price.collect { } }
+        advanceUntilIdle()
+
+        // The whole point of the state. Null used to mean both "not yet" and
+        // "never", so the screen said "Contacting the store…" for as long as
+        // the reader was willing to look at it.
+        assertEquals(PriceState.Unavailable, viewModel.price.value)
+    }
+
+    @Test
+    fun `a store that never answers at all still stops`() = runTest {
+        val store = FakeEntitlementRepository()
+        store.product.value = null
+        store.refreshGate = CompletableDeferred()
+        val viewModel = viewModel(store)
+        backgroundScope.launch { viewModel.price.collect { } }
+        runCurrent()
+
+        assertEquals(PriceState.Loading, viewModel.price.value, "it is fair to wait at first")
+
+        // A request that is neither answered nor refused — a captive portal.
+        // Without the timeout this is where the screen stayed forever.
+        advanceUntilIdle()
+
+        assertEquals(PriceState.Unavailable, viewModel.price.value)
+    }
+
+    @Test
+    fun `asking again is allowed, and a price that arrives is shown`() = runTest {
+        val store = FakeEntitlementRepository()
+        store.product.value = null
+        val viewModel = viewModel(store)
+        backgroundScope.launch { viewModel.price.collect { } }
+        advanceUntilIdle()
+
+        store.product.value = ProProduct(id = "voltageboard_pro", formattedPrice = "₺149,99")
+        viewModel.onRetryPrice()
+        advanceUntilIdle()
+
+        assertEquals(2, store.refreshes, "a retry that does not ask again is a lie")
+        assertEquals(PriceState.Ready("₺149,99"), viewModel.price.value)
     }
 
     @Test

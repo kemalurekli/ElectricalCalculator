@@ -35,6 +35,8 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScre
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.navigation.PaywallReason
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignRes
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_retry
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.Res
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_free
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_future
@@ -70,7 +72,7 @@ fun PaywallRoute(
     viewModel: PaywallViewModel = koinViewModel(),
 ) {
     val isPro by viewModel.isPro.collectAsStateWithLifecycle()
-    val product by viewModel.product.collectAsStateWithLifecycle()
+    val price by viewModel.price.collectAsStateWithLifecycle()
     val status by viewModel.status.collectAsStateWithLifecycle()
     val message by viewModel.message.collectAsStateWithLifecycle()
 
@@ -82,10 +84,11 @@ fun PaywallRoute(
 
     PaywallScreen(
         reason = reason,
-        price = product?.formattedPrice,
+        price = price,
         status = status,
         message = message,
         onBuy = viewModel::onBuy,
+        onRetryPrice = viewModel::onRetryPrice,
         onRestore = viewModel::onRestore,
         onMessageShown = viewModel::onMessageShown,
         onClose = onDone,
@@ -111,10 +114,11 @@ fun PaywallRoute(
 @Composable
 fun PaywallScreen(
     reason: String,
-    price: String?,
+    price: PriceState,
     status: PaywallStatus,
     message: PaywallMessage?,
     onBuy: () -> Unit,
+    onRetryPrice: () -> Unit,
     onRestore: () -> Unit,
     onMessageShown: () -> Unit,
     onClose: () -> Unit,
@@ -192,14 +196,27 @@ fun PaywallScreen(
                     // figure in this app is set in. Inside the button it would
                     // have been drawn in the button's own face and stopped
                     // looking like one of this app's numbers.
-                    if (price == null) {
-                        // The store has not answered. A skeleton says the
+                    when (price) {
+                        // The store has not answered yet. A skeleton says the
                         // number is coming; a zero or a blank would each say
                         // something untrue.
-                        ElecSkeletonLine(modifier = Modifier.width(PRICE_SKELETON))
-                    } else {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(text = price, style = NumericCompactTextStyle)
+                        PriceState.Loading ->
+                            ElecSkeletonLine(modifier = Modifier.width(PRICE_SKELETON))
+
+                        // Answered with nothing, or not at all. Said in words
+                        // where the number would have been, because that is
+                        // where the reader is already looking, and a failure
+                        // announced somewhere else is a failure they have to
+                        // go and find.
+                        PriceState.Unavailable -> Text(
+                            text = stringResource(Res.string.pro_error_store),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = TextAlign.Center,
+                        )
+
+                        is PriceState.Ready -> Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = price.formattedPrice, style = NumericCompactTextStyle)
                             Text(
                                 text = stringResource(Res.string.pro_one_time),
                                 style = MaterialTheme.typography.bodyMedium,
@@ -210,11 +227,15 @@ fun PaywallScreen(
                     }
 
                     Button(
-                        onClick = onBuy,
-                        // Disabled until the store has said what it costs. A button
+                        // The same button asks again when there was nothing to
+                        // ask with. A reader who arrived offline should not
+                        // have to leave the screen and come back to find out
+                        // whether the signal is any better.
+                        onClick = if (price is PriceState.Unavailable) onRetryPrice else onBuy,
+                        // Disabled while the store is still being asked. A button
                         // that starts a payment without naming the amount is not one
                         // anybody should be asked to press.
-                        enabled = price != null && status == PaywallStatus.IDLE,
+                        enabled = price != PriceState.Loading && status == PaywallStatus.IDLE,
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         if (status == PaywallStatus.PURCHASING) {
@@ -225,10 +246,11 @@ fun PaywallScreen(
                             )
                         } else {
                             Text(
-                                text = if (price == null) {
-                                    stringResource(Res.string.pro_buy_loading)
-                                } else {
-                                    stringResource(Res.string.pro_unlock)
+                                text = when (price) {
+                                    PriceState.Loading -> stringResource(Res.string.pro_buy_loading)
+                                    PriceState.Unavailable ->
+                                        stringResource(DesignRes.string.action_retry)
+                                    is PriceState.Ready -> stringResource(Res.string.pro_unlock)
                                 },
                             )
                         }
