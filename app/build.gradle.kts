@@ -34,7 +34,15 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.kemalurekli.electricalcalculator"
+        // The identity the stores and the device know the app by. Not the
+        // Kotlin package: the `namespace` above and every source folder stay
+        // `com.kemalurekli.*`, which nothing outside the build ever sees.
+        // Renaming those would touch every file in the project and change
+        // nothing a user, a store or RevenueCat can observe.
+        //
+        // Permanent once either store has accepted a build under it, so it was
+        // settled before the first upload rather than after.
+        applicationId = "com.mobronic.voltageboard"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1

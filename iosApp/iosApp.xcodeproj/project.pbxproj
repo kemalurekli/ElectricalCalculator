@@ -324,7 +324,7 @@
 					"-framework",
 					ElecToolkitKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kemalurekli.iosApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mobronic.voltageboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -368,7 +368,7 @@
 					"-framework",
 					ElecToolkitKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kemalurekli.iosApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mobronic.voltageboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
