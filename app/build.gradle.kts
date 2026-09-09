@@ -26,6 +26,41 @@ val supabaseProperties = Properties().apply {
 
 fun supabaseProperty(key: String): String = supabaseProperties.getProperty(key).orEmpty()
 
+/**
+ * The upload key, read from `keystore.properties` at the repository root.
+ *
+ * A separate file from `local.properties` on purpose. That one holds values
+ * that are meant to reach the binary; this one holds a passphrase that is meant
+ * to reach nothing, and mixing them makes it a matter of luck which of the two
+ * somebody pastes into a chat window. Both are gitignored, and so is the
+ * keystore itself.
+ *
+ * Absent, the release variant falls back to the debug key. That keeps
+ * `assembleRelease` verifiable on a checkout with no credentials — the same
+ * bargain `checkBillingKey` makes — and `bundleRelease`, the artifact that
+ * actually goes to the store, refuses to be built that way.
+ *
+ *     storeFile=upload-keystore.jks
+ *     storePassword=...
+ *     keyAlias=upload
+ *     keyPassword=...
+ */
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
+fun keystoreProperty(key: String): String = keystoreProperties.getProperty(key).orEmpty()
+
+/** The signing config built from `keystore.properties`. */
+val uploadSigningConfig = "upload"
+
+/** Every value that config needs; all four or none is useful. */
+val uploadKeyProperties = listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+
+val hasUploadKey: Boolean = keystoreProperty("storeFile").isNotBlank() &&
+    rootProject.file(keystoreProperty("storeFile")).exists()
+
 android {
     namespace = "com.kemalurekli.electricalcalculator"
 
@@ -63,6 +98,17 @@ android {
         )
     }
 
+    signingConfigs {
+        if (hasUploadKey) {
+            create(uploadSigningConfig) {
+                storeFile = rootProject.file(keystoreProperty("storeFile"))
+                storePassword = keystoreProperty("storePassword")
+                keyAlias = keystoreProperty("keyAlias")
+                keyPassword = keystoreProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
@@ -81,9 +127,15 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            // Placeholder so `assembleRelease` is verifiable locally; replace with a
-            // real upload key before publishing.
-            signingConfig = signingConfigs.getByName("debug")
+            // The upload key when the machine has one, the debug key when it
+            // does not. Never a build that quietly ships unsigned: Play rejects
+            // a debug-signed artifact, and `checkUploadKey` refuses to make one
+            // before Play gets the chance to.
+            signingConfig = if (hasUploadKey) {
+                signingConfigs.getByName(uploadSigningConfig)
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 
@@ -245,7 +297,34 @@ val checkBillingKey = tasks.register("checkBillingKey") {
     }
 }
 
-tasks.matching { it.name == "bundleRelease" }.configureEach { dependsOn(checkBillingKey) }
+/**
+ * A store build signed with the debug key.
+ *
+ * Play rejects it, but only after an upload, a scan and a wait. Failing here
+ * costs a second instead, and says which of the four values is missing rather
+ * than leaving the developer to read a rejection notice about a certificate.
+ *
+ * Paired with [checkBillingKey] and drawn on the same line: `assembleRelease`
+ * stays buildable by anyone, `bundleRelease` needs the credentials.
+ */
+val checkUploadKey = tasks.register("checkUploadKey") {
+    val configured = hasUploadKey
+    val missing = uploadKeyProperties.filter { keystoreProperty(it).isBlank() }
+    doLast {
+        check(configured) {
+            "keystore.properties is missing or names a keystore that is not there. " +
+                "A bundle signed with the debug key is rejected by Play; see the " +
+                "keystoreProperties doc in this file for the four values it needs."
+        }
+        check(missing.isEmpty()) {
+            "keystore.properties is missing ${missing.joinToString()}."
+        }
+    }
+}
+
+tasks.matching { it.name == "bundleRelease" }.configureEach {
+    dependsOn(checkBillingKey, checkUploadKey)
+}
 
 dependencies {
     // Compose BOM aligns every Compose artifact to one tested version set.
