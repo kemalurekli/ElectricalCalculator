@@ -1,5 +1,9 @@
 package com.kemalurekli.electricalcalculator.features.projects.presentation
 
+import com.kemalurekli.electricalcalculator.core.document.PdfOp
+import com.kemalurekli.electricalcalculator.core.document.PdfPageSize
+import com.kemalurekli.electricalcalculator.core.document.PdfStyle
+import com.kemalurekli.electricalcalculator.core.document.TextMeasurer
 import com.kemalurekli.electricalcalculator.features.design.domain.ScheduleReport
 
 /**
@@ -18,27 +22,13 @@ import com.kemalurekli.electricalcalculator.features.design.domain.ScheduleRepor
  * string is depends on the font the platform will draw it with, and ellipsising
  * a cell needs that answer before the page exists.
  */
-enum class PdfStyle { TITLE, HEADER, BODY, LABEL }
-
-sealed interface PdfOp {
-    data class Text(val text: String, val x: Float, val y: Float, val style: PdfStyle) : PdfOp
-    data class Rule(val fromX: Float, val toX: Float, val y: Float) : PdfOp
-}
-
-fun interface TextMeasurer {
-    /** The width of [text] at [style]'s size, in points. */
-    fun widthOf(text: String, style: PdfStyle): Float
-}
-
 object ScheduleLayout {
 
-    // A4 landscape, in points. A schedule is a wide table and a portrait page
-    // fits four columns before the numbers stop being legible.
-    const val PAGE_WIDTH = 842f
-    const val PAGE_HEIGHT = 595f
-
-    const val TITLE_SIZE = 16f
-    const val BODY_SIZE = 8.5f
+    /**
+     * Landscape, because a schedule is a wide table: a portrait page fits four
+     * of its fourteen columns before the numbers stop being legible.
+     */
+    val PAGE = PdfPageSize.A4_LANDSCAPE
 
     private const val MARGIN = 36f
     private const val ROW_HEIGHT = 15f
@@ -65,8 +55,8 @@ object ScheduleLayout {
         // Measured before anything is placed, because it decides where the
         // table has to stop. A notice added after the fact would have been
         // drawn over the last row of a full page.
-        val noticeLines = wrap(report.notice, PAGE_WIDTH - 2 * MARGIN, measurer)
-        val floor = PAGE_HEIGHT - MARGIN - noticeLines.size * NOTICE_LINE_HEIGHT - ROW_HEIGHT
+        val noticeLines = wrap(report.notice, PAGE.width - 2 * MARGIN, measurer)
+        val floor = PAGE.height - MARGIN - noticeLines.size * NOTICE_LINE_HEIGHT - ROW_HEIGHT
         val pages = mutableListOf<MutableList<PdfOp>>()
         var page = mutableListOf<PdfOp>()
         var y = header(report, widths, page, measurer)
@@ -100,8 +90,8 @@ object ScheduleLayout {
     }
 
     private fun drawNotice(page: MutableList<PdfOp>, lines: List<String>) {
-        val top = PAGE_HEIGHT - MARGIN - lines.size * NOTICE_LINE_HEIGHT
-        page += PdfOp.Rule(MARGIN, PAGE_WIDTH - MARGIN, top - RULE_OFFSET)
+        val top = PAGE.height - MARGIN - lines.size * NOTICE_LINE_HEIGHT
+        page += PdfOp.Rule(MARGIN, PAGE.width - MARGIN, top - RULE_OFFSET)
         lines.forEachIndexed { index, line ->
             page += PdfOp.Text(line, MARGIN, top + index * NOTICE_LINE_HEIGHT, PdfStyle.LABEL)
         }
@@ -136,14 +126,14 @@ object ScheduleLayout {
         page: MutableList<PdfOp>,
         measurer: TextMeasurer,
     ): Float {
-        var y = MARGIN + TITLE_SIZE
+        var y = MARGIN + PdfStyle.TITLE.size
         page += PdfOp.Text(report.title, MARGIN, y, PdfStyle.TITLE)
-        y += TITLE_SIZE
+        y += PdfStyle.TITLE.size
 
         // Two columns of parameters, so nine fields do not push the table onto
         // a second page before a single circuit has been drawn.
         val half = (report.supply.size + 1) / 2
-        val columnWidth = (PAGE_WIDTH - 2 * MARGIN) / 2f
+        val columnWidth = (PAGE.width - 2 * MARGIN) / 2f
         report.supply.forEachIndexed { index, field ->
             val column = if (index < half) 0 else 1
             val row = if (index < half) index else index - half
@@ -170,13 +160,13 @@ object ScheduleLayout {
             x += widths[index] + COLUMN_GAP
         }
         val ruleY = top + RULE_OFFSET
-        page += PdfOp.Rule(MARGIN, PAGE_WIDTH - MARGIN, ruleY)
+        page += PdfOp.Rule(MARGIN, PAGE.width - MARGIN, ruleY)
         return ruleY + ROW_HEIGHT
     }
 
     private fun columnWidths(count: Int): FloatArray {
         val weights = if (count == COLUMN_WEIGHTS.size) COLUMN_WEIGHTS else FloatArray(count) { 1f }
-        val available = PAGE_WIDTH - 2 * MARGIN - COLUMN_GAP * (count - 1)
+        val available = PAGE.width - 2 * MARGIN - COLUMN_GAP * (count - 1)
         val total = weights.sum()
         return FloatArray(count) { available * weights[it] / total }
     }

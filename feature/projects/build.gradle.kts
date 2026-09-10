@@ -72,6 +72,7 @@ kotlin {
             // Read-only: the schedule's PDF export is behind the entitlement.
             // The screen that sells it is reached by route, never depended on.
             api(project(":core:billing"))
+            implementation(project(":core:document"))
             api(project(":core:navigation"))
             // Every shelf a pin can come from.
             api(project(":feature:calculators"))

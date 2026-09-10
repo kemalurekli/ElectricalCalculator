@@ -272,30 +272,24 @@ fun ProjectScreen(
                             onExportCsv()
                         },
                     )
-                    // Absent rather than disabled where the platform cannot
-                    // draw one — see `isSchedulePdfSupported`. A greyed-out
-                    // item invites the reader to work out what unlocks it,
-                    // and nothing does.
-                    //
-                    // Where something does, the same rule runs the other way:
-                    // the item stays, carrying the badge that says what it
-                    // costs. A paywall nobody saw coming is what turns a
-                    // reader into a one-star review; a badge makes the tap a
-                    // decision, and advertises the paid tier on the way.
-                    if (isSchedulePdfSupported) {
-                        DropdownMenuItem(
-                            text = { Text(stringResource(Res.string.report_export_pdf)) },
-                            trailingIcon = {
-                                if (!isPro) {
-                                    ElecPillBadge(text = stringResource(Res.string.pro_badge))
-                                }
-                            },
-                            onClick = {
-                                exportMenuOpen = false
-                                onExportPdf()
-                            },
-                        )
-                    }
+                    // Present and paid for rather than absent. It used to be
+                    // hidden where the platform could not draw a PDF at all,
+                    // which is no longer anywhere. Locked, the item stays and
+                    // carries the badge that says what it costs: a paywall
+                    // nobody saw coming is what turns a reader into a one-star
+                    // review, and a badge makes the tap a decision.
+                    DropdownMenuItem(
+                        text = { Text(stringResource(Res.string.report_export_pdf)) },
+                        trailingIcon = {
+                            if (!isPro) {
+                                ElecPillBadge(text = stringResource(Res.string.pro_badge))
+                            }
+                        },
+                        onClick = {
+                            exportMenuOpen = false
+                            onExportPdf()
+                        },
+                    )
                 }
             }
             IconButton(onClick = { confirmDelete = true }) {

@@ -2,10 +2,10 @@ package com.kemalurekli.electricalcalculator.features.projects
 
 import com.kemalurekli.electricalcalculator.features.design.domain.ReportField
 import com.kemalurekli.electricalcalculator.features.design.domain.ScheduleReport
-import com.kemalurekli.electricalcalculator.features.projects.presentation.PdfOp
-import com.kemalurekli.electricalcalculator.features.projects.presentation.PdfStyle
+import com.kemalurekli.electricalcalculator.core.document.PdfOp
+import com.kemalurekli.electricalcalculator.core.document.PdfStyle
 import com.kemalurekli.electricalcalculator.features.projects.presentation.ScheduleLayout
-import com.kemalurekli.electricalcalculator.features.projects.presentation.TextMeasurer
+import com.kemalurekli.electricalcalculator.core.document.TextMeasurer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -52,7 +52,7 @@ class ScheduleLayoutTest {
     }
 
     @Test
-    fun `every page carries the notice, not only the last`() {
+    fun `every page carries the notice and not only the last`() {
         // Schedules get separated. A continuation sheet handed over on its own
         // would otherwise be fourteen columns of figures and nothing saying
         // what they are.
@@ -128,8 +128,8 @@ class ScheduleLayoutTest {
     fun `nothing is drawn outside the page`() {
         ScheduleLayout.pages(report(200), measurer).forEach { page ->
             page.filterIsInstance<PdfOp.Text>().forEach { text ->
-                assertTrue(text.x >= 0f && text.x < ScheduleLayout.PAGE_WIDTH, text.text)
-                assertTrue(text.y >= 0f && text.y <= ScheduleLayout.PAGE_HEIGHT, text.text)
+                assertTrue(text.x >= 0f && text.x < ScheduleLayout.PAGE.width, text.text)
+                assertTrue(text.y >= 0f && text.y <= ScheduleLayout.PAGE.height, text.text)
             }
         }
     }

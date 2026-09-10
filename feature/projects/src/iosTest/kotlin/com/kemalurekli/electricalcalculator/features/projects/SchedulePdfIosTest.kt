@@ -24,6 +24,7 @@ class SchedulePdfIosTest {
         supply = listOf(ReportField("Şebeke", "400 V"), ReportField("Malzeme", "Bakır")),
         columns = listOf("Devre", "Yük", "Kesit"),
         rows = List(rows) { index -> listOf("C$index", "16 A", "2,5 mm²") },
+        notice = "Doğrulanmadan kullanılamaz.",
     )
 
     @Test
