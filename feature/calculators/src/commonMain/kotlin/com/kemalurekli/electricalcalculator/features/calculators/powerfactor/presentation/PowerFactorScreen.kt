@@ -37,7 +37,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -448,64 +447,59 @@ private fun ResultSection(
     exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.pf_result_capacitor),
-            value = NumberFormatter.format(result.requiredCapacitorVar / PER_KILO, DISPLAY_DECIMALS),
-            unit = "kvar",
-            tone = ResultTone.SUCCESS,
-            statusMessage = stringResource(Res.string.pf_result_status),
-            secondaryRows = persistentListOf(
-                ResultRow(
-                    label = stringResource(Res.string.pf_result_capacitance),
-                    value = NumberFormatter.format(result.capacitancePerPhaseFarads * MICRO, DISPLAY_DECIMALS),
-                    unit = "µF",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.pf_result_released),
-                    value = NumberFormatter.format(result.releasedCapacityVa / PER_KILO, DISPLAY_DECIMALS),
-                    unit = "kVA",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.pf_result_apparent_before),
-                    value = NumberFormatter.format(result.apparentBeforeVa / PER_KILO, DISPLAY_DECIMALS),
-                    unit = "kVA",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.pf_result_apparent_after),
-                    value = NumberFormatter.format(result.apparentAfterVa / PER_KILO, DISPLAY_DECIMALS),
-                    unit = "kVA",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.pf_result_current_before),
-                    value = NumberFormatter.format(result.currentBeforeAmps, DISPLAY_DECIMALS),
-                    unit = "A",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.pf_result_current_after),
-                    value = NumberFormatter.format(result.currentAfterAmps, DISPLAY_DECIMALS),
-                    unit = "A",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.pf_result_reactive_before),
-                    value = NumberFormatter.format(result.reactiveBeforeVar / PER_KILO, DISPLAY_DECIMALS),
-                    unit = "kvar",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.pf_result_reactive_after),
-                    value = NumberFormatter.format(result.reactiveAfterVar / PER_KILO, DISPLAY_DECIMALS),
-                    unit = "kvar",
-                ),
+    ElecResultCard(
+        label = stringResource(Res.string.pf_result_capacitor),
+        value = NumberFormatter.format(result.requiredCapacitorVar / PER_KILO, DISPLAY_DECIMALS),
+        unit = "kvar",
+        tone = ResultTone.SUCCESS,
+        statusMessage = stringResource(Res.string.pf_result_status),
+        secondaryRows = persistentListOf(
+            ResultRow(
+                label = stringResource(Res.string.pf_result_capacitance),
+                value = NumberFormatter.format(result.capacitancePerPhaseFarads * MICRO, DISPLAY_DECIMALS),
+                unit = "µF",
             ),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            ResultRow(
+                label = stringResource(Res.string.pf_result_released),
+                value = NumberFormatter.format(result.releasedCapacityVa / PER_KILO, DISPLAY_DECIMALS),
+                unit = "kVA",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.pf_result_apparent_before),
+                value = NumberFormatter.format(result.apparentBeforeVa / PER_KILO, DISPLAY_DECIMALS),
+                unit = "kVA",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.pf_result_apparent_after),
+                value = NumberFormatter.format(result.apparentAfterVa / PER_KILO, DISPLAY_DECIMALS),
+                unit = "kVA",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.pf_result_current_before),
+                value = NumberFormatter.format(result.currentBeforeAmps, DISPLAY_DECIMALS),
+                unit = "A",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.pf_result_current_after),
+                value = NumberFormatter.format(result.currentAfterAmps, DISPLAY_DECIMALS),
+                unit = "A",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.pf_result_reactive_before),
+                value = NumberFormatter.format(result.reactiveBeforeVar / PER_KILO, DISPLAY_DECIMALS),
+                unit = "kvar",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.pf_result_reactive_after),
+                value = NumberFormatter.format(result.reactiveAfterVar / PER_KILO, DISPLAY_DECIMALS),
+                unit = "kvar",
+            ),
+        ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 @Composable

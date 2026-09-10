@@ -42,7 +42,6 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.model.CalculationStep
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
@@ -200,14 +199,7 @@ fun HarmonicsScreen(
             // they just finished filling in. The workings and the notes stay
             // below, where they are read second.
             uiState.result?.let { result ->
-                ResultCard(result, uiState.balanced)
-                ElecResultActions(
-                    onCopy = onCopy,
-                    onShare = onShare,
-                    onExportPdf = onExportPdf,
-                    exportLocked = exportLocked,
-                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
-                )
+                ResultCard(result, uiState.balanced, onCopy, onShare, onExportPdf, exportLocked)
             }
 
             ElecExamplesCard(
@@ -313,7 +305,13 @@ fun HarmonicsScreen(
 }
 
 @Composable
-private fun ResultCard(result: HarmonicsResult, balanced: Boolean) {
+private fun ResultCard(
+    result: HarmonicsResult, balanced: Boolean,
+    onCopy: () -> Unit,
+    onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
+) {
     // The distortion is the headline; the four quantities that follow are what
     // it costs. There is no pass or fail on THD itself — the limit depends on
     // where the measurement is taken and which document you answer to — so the
@@ -353,6 +351,10 @@ private fun ResultCard(result: HarmonicsResult, balanced: Boolean) {
                 )
             }.orEmpty(),
         ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
     )
 }
 

@@ -19,7 +19,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExpl
 import com.kemalurekli.electricalcalculator.core.designsystem.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.NameplateScanAction
 import com.kemalurekli.electricalcalculator.core.vision.NameplateReading
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
@@ -233,14 +232,7 @@ fun EvseScreen(
             // they just finished filling in. The workings and the notes stay
             // below, where they are read second.
             uiState.result?.let { result ->
-                ResultCard(result)
-                ElecResultActions(
-                    onCopy = onCopy,
-                    onShare = onShare,
-                    onExportPdf = onExportPdf,
-                    exportLocked = exportLocked,
-                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
-                )
+                ResultCard(result, onCopy, onShare, onExportPdf, exportLocked)
             }
 
             ElecExamplesCard(
@@ -342,7 +334,13 @@ fun EvseScreen(
 }
 
 @Composable
-private fun ResultCard(result: EvseResult) {
+private fun ResultCard(
+    result: EvseResult,
+    onCopy: () -> Unit,
+    onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
+) {
     // The design current is the headline because it is what the rest of the
     // design hangs off. The RCD type stays the last row rather than being
     // buried among the currents — it is the answer most often got wrong — and
@@ -379,6 +377,10 @@ private fun ResultCard(result: EvseResult) {
                 "",
             ),
         ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
     )
 }
 

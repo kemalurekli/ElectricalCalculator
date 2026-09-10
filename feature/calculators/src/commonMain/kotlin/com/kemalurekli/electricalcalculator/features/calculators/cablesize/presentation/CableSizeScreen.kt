@@ -38,7 +38,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmpt
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -567,61 +566,56 @@ private fun ResultSection(
     exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.cs_result_label),
-            value = NumberFormatter.formatSignificant(result.recommendedAreaMm2 ?: 0.0),
-            unit = "mm²",
-            // Neutral rather than pass/fail: the size *is* the answer, and the
-            // governing constraint is information, not a warning.
-            tone = ResultTone.SUCCESS,
-            statusMessage = stringResource(result.governingConstraint.message()),
-            secondaryRows = persistentListOf(
-                ResultRow(
-                    label = stringResource(Res.string.cs_result_by_capacity),
-                    value = NumberFormatter.formatSignificant(result.currentCapacityAreaMm2 ?: 0.0),
-                    unit = "mm²",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.cs_result_by_drop),
-                    value = NumberFormatter.formatSignificant(result.voltageDropAreaMm2 ?: 0.0),
-                    unit = "mm²",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.cs_result_required_capacity),
-                    value = NumberFormatter.format(result.requiredCapacityAmps, DISPLAY_DECIMALS),
-                    unit = "A",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.cs_result_derated_capacity),
-                    value = NumberFormatter.format(result.deratedCapacityAmps, DISPLAY_DECIMALS),
-                    unit = "A",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.cs_result_voltage_drop),
-                    value = NumberFormatter.format(result.voltageDropVolts, DISPLAY_DECIMALS),
-                    unit = "V",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.cs_result_ambient_factor),
-                    value = NumberFormatter.formatSignificant(result.ambientFactor),
-                    unit = "",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.cs_result_grouping_factor),
-                    value = NumberFormatter.formatSignificant(result.groupingFactor),
-                    unit = "",
-                ),
+    ElecResultCard(
+        label = stringResource(Res.string.cs_result_label),
+        value = NumberFormatter.formatSignificant(result.recommendedAreaMm2 ?: 0.0),
+        unit = "mm²",
+        // Neutral rather than pass/fail: the size *is* the answer, and the
+        // governing constraint is information, not a warning.
+        tone = ResultTone.SUCCESS,
+        statusMessage = stringResource(result.governingConstraint.message()),
+        secondaryRows = persistentListOf(
+            ResultRow(
+                label = stringResource(Res.string.cs_result_by_capacity),
+                value = NumberFormatter.formatSignificant(result.currentCapacityAreaMm2 ?: 0.0),
+                unit = "mm²",
             ),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            ResultRow(
+                label = stringResource(Res.string.cs_result_by_drop),
+                value = NumberFormatter.formatSignificant(result.voltageDropAreaMm2 ?: 0.0),
+                unit = "mm²",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.cs_result_required_capacity),
+                value = NumberFormatter.format(result.requiredCapacityAmps, DISPLAY_DECIMALS),
+                unit = "A",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.cs_result_derated_capacity),
+                value = NumberFormatter.format(result.deratedCapacityAmps, DISPLAY_DECIMALS),
+                unit = "A",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.cs_result_voltage_drop),
+                value = NumberFormatter.format(result.voltageDropVolts, DISPLAY_DECIMALS),
+                unit = "V",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.cs_result_ambient_factor),
+                value = NumberFormatter.formatSignificant(result.ambientFactor),
+                unit = "",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.cs_result_grouping_factor),
+                value = NumberFormatter.formatSignificant(result.groupingFactor),
+                unit = "",
+            ),
+        ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 @Composable

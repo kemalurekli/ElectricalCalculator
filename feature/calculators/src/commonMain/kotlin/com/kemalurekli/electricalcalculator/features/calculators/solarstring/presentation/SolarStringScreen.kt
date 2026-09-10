@@ -35,7 +35,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -384,44 +383,39 @@ private fun ResultSection(
     exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.ss_result_max),
-            value = result.maximumModules.toString(),
-            unit = "",
-            tone = if (result.isFeasible) ResultTone.SUCCESS else ResultTone.WARNING,
-            statusMessage = stringResource(if (result.isFeasible) Res.string.ss_result_status_ok else Res.string.ss_result_status_infeasible),
-            secondaryRows = persistentListOf(
-                ResultRow(
-                    label = stringResource(Res.string.ss_result_min),
-                    value = result.minimumModules.toString(),
-                    unit = "",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.ss_result_voc_cold),
-                    value = NumberFormatter.format(result.vocAtMinimumTemperature, DISPLAY_DECIMALS),
-                    unit = "V",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.ss_result_vmp_hot),
-                    value = NumberFormatter.format(result.vmpAtMaximumTemperature, DISPLAY_DECIMALS),
-                    unit = "V",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.ss_result_string_voc),
-                    value = NumberFormatter.format(result.stringVocAtMaximum, DISPLAY_DECIMALS),
-                    unit = "V",
-                ),
+    ElecResultCard(
+        label = stringResource(Res.string.ss_result_max),
+        value = result.maximumModules.toString(),
+        unit = "",
+        tone = if (result.isFeasible) ResultTone.SUCCESS else ResultTone.WARNING,
+        statusMessage = stringResource(if (result.isFeasible) Res.string.ss_result_status_ok else Res.string.ss_result_status_infeasible),
+        secondaryRows = persistentListOf(
+            ResultRow(
+                label = stringResource(Res.string.ss_result_min),
+                value = result.minimumModules.toString(),
+                unit = "",
             ),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            ResultRow(
+                label = stringResource(Res.string.ss_result_voc_cold),
+                value = NumberFormatter.format(result.vocAtMinimumTemperature, DISPLAY_DECIMALS),
+                unit = "V",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.ss_result_vmp_hot),
+                value = NumberFormatter.format(result.vmpAtMaximumTemperature, DISPLAY_DECIMALS),
+                unit = "V",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.ss_result_string_voc),
+                value = NumberFormatter.format(result.stringVocAtMaximum, DISPLAY_DECIMALS),
+                unit = "V",
+            ),
+        ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 @Composable

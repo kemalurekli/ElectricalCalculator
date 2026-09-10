@@ -35,7 +35,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -451,49 +450,44 @@ private fun ResultSection(
     exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.mt_result_current),
-            value = NumberFormatter.format(result.fullLoadCurrent, DISPLAY_DECIMALS),
-            unit = "A",
-            tone = ResultTone.NEUTRAL,
-            statusMessage = stringResource(Res.string.mt_result_status),
-            secondaryRows = persistentListOf(
-                ResultRow(
-                    label = stringResource(Res.string.mt_result_starting),
-                    value = NumberFormatter.format(result.startingCurrent, DISPLAY_DECIMALS),
-                    unit = "A",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.mt_result_input_power),
-                    value = NumberFormatter.format(result.inputPowerWatts / WATTS_PER_KW, DISPLAY_DECIMALS),
-                    unit = "kW",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.mt_result_apparent),
-                    value = NumberFormatter.format(result.apparentPowerVa / WATTS_PER_KW, DISPLAY_DECIMALS),
-                    unit = "kVA",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.mt_result_reactive),
-                    value = NumberFormatter.format(result.reactivePowerVar / WATTS_PER_KW, DISPLAY_DECIMALS),
-                    unit = "kvar",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.mt_result_losses),
-                    value = NumberFormatter.format(result.lossesWatts / WATTS_PER_KW, DISPLAY_DECIMALS),
-                    unit = "kW",
-                ),
+    ElecResultCard(
+        label = stringResource(Res.string.mt_result_current),
+        value = NumberFormatter.format(result.fullLoadCurrent, DISPLAY_DECIMALS),
+        unit = "A",
+        tone = ResultTone.NEUTRAL,
+        statusMessage = stringResource(Res.string.mt_result_status),
+        secondaryRows = persistentListOf(
+            ResultRow(
+                label = stringResource(Res.string.mt_result_starting),
+                value = NumberFormatter.format(result.startingCurrent, DISPLAY_DECIMALS),
+                unit = "A",
             ),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            ResultRow(
+                label = stringResource(Res.string.mt_result_input_power),
+                value = NumberFormatter.format(result.inputPowerWatts / WATTS_PER_KW, DISPLAY_DECIMALS),
+                unit = "kW",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.mt_result_apparent),
+                value = NumberFormatter.format(result.apparentPowerVa / WATTS_PER_KW, DISPLAY_DECIMALS),
+                unit = "kVA",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.mt_result_reactive),
+                value = NumberFormatter.format(result.reactivePowerVar / WATTS_PER_KW, DISPLAY_DECIMALS),
+                unit = "kvar",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.mt_result_losses),
+                value = NumberFormatter.format(result.lossesWatts / WATTS_PER_KW, DISPLAY_DECIMALS),
+                unit = "kW",
+            ),
+        ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 @Composable

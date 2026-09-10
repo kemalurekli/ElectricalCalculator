@@ -37,7 +37,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
@@ -484,39 +483,34 @@ private fun ResultSection(
 ) {
     val spacing = ElecTheme.spacing
     val percentage = NumberFormatter.format(result.dropPercentage, decimals = 2)
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.vd_result_label),
-            value = NumberFormatter.format(result.voltageDrop, decimals = 2),
-            unit = "V",
-            tone = result.status.tone(),
-            statusMessage = stringResource(result.status.message(), percentage),
-            secondaryRows = persistentListOf(
-                ResultRow(
-                    label = stringResource(Res.string.vd_result_voltage_at_load),
-                    value = NumberFormatter.format(result.voltageAtLoad, decimals = 2),
-                    unit = "V",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.vd_result_resistance),
-                    value = NumberFormatter.formatSignificant(result.conductorResistance),
-                    unit = "Ω",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.vd_result_power_loss),
-                    value = NumberFormatter.format(result.powerLossWatts, decimals = 2),
-                    unit = "W",
-                ),
+    ElecResultCard(
+        label = stringResource(Res.string.vd_result_label),
+        value = NumberFormatter.format(result.voltageDrop, decimals = 2),
+        unit = "V",
+        tone = result.status.tone(),
+        statusMessage = stringResource(result.status.message(), percentage),
+        secondaryRows = persistentListOf(
+            ResultRow(
+                label = stringResource(Res.string.vd_result_voltage_at_load),
+                value = NumberFormatter.format(result.voltageAtLoad, decimals = 2),
+                unit = "V",
             ),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            ResultRow(
+                label = stringResource(Res.string.vd_result_resistance),
+                value = NumberFormatter.formatSignificant(result.conductorResistance),
+                unit = "Ω",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.vd_result_power_loss),
+                value = NumberFormatter.format(result.powerLossWatts, decimals = 2),
+                unit = "W",
+            ),
+        ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 /**

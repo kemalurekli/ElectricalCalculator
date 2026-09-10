@@ -259,6 +259,13 @@ whether it passes its limits, with a plain-language verdict beneath. The whole
 card is a polite live region, so a recalculation is announced rather than left
 to be discovered.
 
+**What you can do with a result lives inside the card that shows it.** Copy,
+share, export and the Pro badge sit on a plinth below a full-width hairline —
+full width, where the divider between secondary rows is inset, because that one
+groups rows and this one gives the card a base. They used to float under the
+card as three unlabelled glyphs on the page background with the badge among
+them, belonging to nothing the eye could name.
+
 ---
 
 ## Navigation

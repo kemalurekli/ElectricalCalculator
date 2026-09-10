@@ -37,7 +37,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -403,44 +402,39 @@ private fun ResultSection(
     exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.pw_result_active),
-            value = NumberFormatter.format(result.activePowerWatts / WATTS_PER_KW, DISPLAY_DECIMALS),
-            unit = "kW",
-            tone = ResultTone.NEUTRAL,
-            statusMessage = stringResource(Res.string.pw_result_status),
-            secondaryRows = persistentListOf(
-                ResultRow(
-                    label = stringResource(Res.string.pw_result_reactive),
-                    value = NumberFormatter.format(result.reactivePowerVar / WATTS_PER_KW, DISPLAY_DECIMALS),
-                    unit = "kvar",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.pw_result_apparent),
-                    value = NumberFormatter.format(result.apparentPowerVa / WATTS_PER_KW, DISPLAY_DECIMALS),
-                    unit = "kVA",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.pw_result_angle),
-                    value = NumberFormatter.format(result.phaseAngleDegrees, DISPLAY_DECIMALS),
-                    unit = "°",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.pw_result_tan),
-                    value = NumberFormatter.formatSignificant(result.tangentPhi),
-                    unit = "",
-                ),
+    ElecResultCard(
+        label = stringResource(Res.string.pw_result_active),
+        value = NumberFormatter.format(result.activePowerWatts / WATTS_PER_KW, DISPLAY_DECIMALS),
+        unit = "kW",
+        tone = ResultTone.NEUTRAL,
+        statusMessage = stringResource(Res.string.pw_result_status),
+        secondaryRows = persistentListOf(
+            ResultRow(
+                label = stringResource(Res.string.pw_result_reactive),
+                value = NumberFormatter.format(result.reactivePowerVar / WATTS_PER_KW, DISPLAY_DECIMALS),
+                unit = "kvar",
             ),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            ResultRow(
+                label = stringResource(Res.string.pw_result_apparent),
+                value = NumberFormatter.format(result.apparentPowerVa / WATTS_PER_KW, DISPLAY_DECIMALS),
+                unit = "kVA",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.pw_result_angle),
+                value = NumberFormatter.format(result.phaseAngleDegrees, DISPLAY_DECIMALS),
+                unit = "°",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.pw_result_tan),
+                value = NumberFormatter.formatSignificant(result.tangentPhi),
+                unit = "",
+            ),
+        ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 @Composable

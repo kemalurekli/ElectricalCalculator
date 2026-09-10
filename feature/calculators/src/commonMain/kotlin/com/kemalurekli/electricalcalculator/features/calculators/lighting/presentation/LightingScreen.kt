@@ -35,7 +35,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -394,68 +393,63 @@ private fun ResultSection(
     exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.lt_result_count),
-            value = result.luminaireCount.toString(),
-            unit = "",
-            tone = ResultTone.SUCCESS,
-            statusMessage = stringResource(Res.string.lt_result_status),
-            secondaryRows = buildList {
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.lt_result_achieved),
-                        value = NumberFormatter.format(
-                            result.achievedIlluminanceLux,
-                            DISPLAY_DECIMALS,
-                        ),
-                        unit = "lx",
+    ElecResultCard(
+        label = stringResource(Res.string.lt_result_count),
+        value = result.luminaireCount.toString(),
+        unit = "",
+        tone = ResultTone.SUCCESS,
+        statusMessage = stringResource(Res.string.lt_result_status),
+        secondaryRows = buildList {
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.lt_result_achieved),
+                    value = NumberFormatter.format(
+                        result.achievedIlluminanceLux,
+                        DISPLAY_DECIMALS,
                     ),
-                )
+                    unit = "lx",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.lt_result_exact),
+                    value = NumberFormatter.format(
+                        result.exactLuminaireCount,
+                        DISPLAY_DECIMALS,
+                    ),
+                    unit = "",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.lt_result_room_index),
+                    value = NumberFormatter.format(result.roomIndex, DISPLAY_DECIMALS),
+                    unit = "",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.lt_result_area),
+                    value = NumberFormatter.format(result.areaSquareMetres, DISPLAY_DECIMALS),
+                    unit = "m²",
+                ),
+            )
+            // Absent for a prime count, where the only "grid" is a line.
+            result.luminairesPerRowSuggestion?.let { (along, across) ->
                 add(
                     ResultRow(
-                        label = stringResource(Res.string.lt_result_exact),
-                        value = NumberFormatter.format(
-                            result.exactLuminaireCount,
-                            DISPLAY_DECIMALS,
-                        ),
+                        label = stringResource(Res.string.lt_result_layout),
+                        value = "$along × $across",
                         unit = "",
                     ),
                 )
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.lt_result_room_index),
-                        value = NumberFormatter.format(result.roomIndex, DISPLAY_DECIMALS),
-                        unit = "",
-                    ),
-                )
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.lt_result_area),
-                        value = NumberFormatter.format(result.areaSquareMetres, DISPLAY_DECIMALS),
-                        unit = "m²",
-                    ),
-                )
-                // Absent for a prime count, where the only "grid" is a line.
-                result.luminairesPerRowSuggestion?.let { (along, across) ->
-                    add(
-                        ResultRow(
-                            label = stringResource(Res.string.lt_result_layout),
-                            value = "$along × $across",
-                            unit = "",
-                        ),
-                    )
-                }
-            }.toImmutableList(),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            }
+        }.toImmutableList(),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 @Composable

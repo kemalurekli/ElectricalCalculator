@@ -38,7 +38,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCabl
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -450,20 +449,22 @@ private fun ResultSection(
 
     Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
         when (result) {
-            is TrayFillResult.SingleLayer -> SingleLayerCard(result)
-            is TrayFillResult.MultiLayer -> MultiLayerCard(result)
+            is TrayFillResult.SingleLayer ->
+                SingleLayerCard(result, onCopy, onShare, onExportPdf, exportLocked)
+            is TrayFillResult.MultiLayer ->
+                MultiLayerCard(result, onCopy, onShare, onExportPdf, exportLocked)
         }
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
     }
 }
 
 @Composable
-private fun SingleLayerCard(result: TrayFillResult.SingleLayer) {
+private fun SingleLayerCard(
+    result: TrayFillResult.SingleLayer,
+    onCopy: () -> Unit,
+    onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
+) {
     ElecResultCard(
         label = stringResource(Res.string.tf_result_width),
         value = NumberFormatter.format(result.widthUsedFraction * PERCENT, DISPLAY_DECIMALS),
@@ -537,11 +538,21 @@ private fun SingleLayerCard(result: TrayFillResult.SingleLayer) {
                 ),
             )
         }.toImmutableList(),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
     )
 }
 
 @Composable
-private fun MultiLayerCard(result: TrayFillResult.MultiLayer) {
+private fun MultiLayerCard(
+    result: TrayFillResult.MultiLayer,
+    onCopy: () -> Unit,
+    onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
+) {
     val permitted = NumberFormatter.format(result.permittedFraction * PERCENT, LIMIT_DECIMALS)
 
     val tone = when {
@@ -606,6 +617,10 @@ private fun MultiLayerCard(result: TrayFillResult.MultiLayer) {
                 unit = "",
             ),
         ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
     )
 }
 

@@ -38,7 +38,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCabl
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -415,87 +414,82 @@ private fun ResultSection(
         result.isNearLimit -> stringResource(Res.string.cf_result_near, permitted)
         else -> stringResource(Res.string.cf_result_within, permitted)
     }
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.cf_result_fill),
-            value = NumberFormatter.format(result.fillFraction * PERCENT, DISPLAY_DECIMALS),
-            unit = "%",
-            tone = tone,
-            statusMessage = status,
-            secondaryRows = buildList {
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.cf_result_permitted),
-                        value = permitted,
-                        unit = "%",
-                    ),
-                )
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.cf_result_conduit_area),
-                        value = NumberFormatter.format(result.conduitAreaMm2, DISPLAY_DECIMALS),
-                        unit = "mm²",
-                    ),
-                )
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.cf_result_cable_area),
-                        value = NumberFormatter.format(result.cableAreaMm2, DISPLAY_DECIMALS),
-                        unit = "mm²",
-                    ),
-                )
-                // Over the limit the useful number is how much has to come out,
-                // so the same figure is relabelled rather than shown negative.
-                add(
-                    if (result.isWithinLimit) {
-                        ResultRow(
-                            label = stringResource(Res.string.cf_result_spare),
-                            value = NumberFormatter.format(result.spareAreaMm2, DISPLAY_DECIMALS),
-                            unit = "mm²",
-                        )
-                    } else {
-                        ResultRow(
-                            label = stringResource(Res.string.cf_result_over_by),
-                            value = NumberFormatter.format(-result.spareAreaMm2, DISPLAY_DECIMALS),
-                            unit = "mm²",
-                        )
-                    },
-                )
-                // Only meaningful while compliant: offering more room in an
-                // over-filled conduit would read as contradictory advice.
+    ElecResultCard(
+        label = stringResource(Res.string.cf_result_fill),
+        value = NumberFormatter.format(result.fillFraction * PERCENT, DISPLAY_DECIMALS),
+        unit = "%",
+        tone = tone,
+        statusMessage = status,
+        secondaryRows = buildList {
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.cf_result_permitted),
+                    value = permitted,
+                    unit = "%",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.cf_result_conduit_area),
+                    value = NumberFormatter.format(result.conduitAreaMm2, DISPLAY_DECIMALS),
+                    unit = "mm²",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.cf_result_cable_area),
+                    value = NumberFormatter.format(result.cableAreaMm2, DISPLAY_DECIMALS),
+                    unit = "mm²",
+                ),
+            )
+            // Over the limit the useful number is how much has to come out,
+            // so the same figure is relabelled rather than shown negative.
+            add(
                 if (result.isWithinLimit) {
-                    add(
-                        ResultRow(
-                            label = stringResource(Res.string.cf_result_largest),
-                            value = if (result.largestAdditionalCableMm > 0.0) {
-                                NumberFormatter.format(
-                                    result.largestAdditionalCableMm,
-                                    DISPLAY_DECIMALS,
-                                )
-                            } else {
-                                stringResource(Res.string.cf_result_nothing_fits)
-                            },
-                            unit = if (result.largestAdditionalCableMm > 0.0) "mm" else "",
-                        ),
+                    ResultRow(
+                        label = stringResource(Res.string.cf_result_spare),
+                        value = NumberFormatter.format(result.spareAreaMm2, DISPLAY_DECIMALS),
+                        unit = "mm²",
                     )
-                }
+                } else {
+                    ResultRow(
+                        label = stringResource(Res.string.cf_result_over_by),
+                        value = NumberFormatter.format(-result.spareAreaMm2, DISPLAY_DECIMALS),
+                        unit = "mm²",
+                    )
+                },
+            )
+            // Only meaningful while compliant: offering more room in an
+            // over-filled conduit would read as contradictory advice.
+            if (result.isWithinLimit) {
                 add(
                     ResultRow(
-                        label = stringResource(Res.string.cf_result_count),
-                        value = result.cableCount.toString(),
-                        unit = "",
+                        label = stringResource(Res.string.cf_result_largest),
+                        value = if (result.largestAdditionalCableMm > 0.0) {
+                            NumberFormatter.format(
+                                result.largestAdditionalCableMm,
+                                DISPLAY_DECIMALS,
+                            )
+                        } else {
+                            stringResource(Res.string.cf_result_nothing_fits)
+                        },
+                        unit = if (result.largestAdditionalCableMm > 0.0) "mm" else "",
                     ),
                 )
-            }.toImmutableList(),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            }
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.cf_result_count),
+                    value = result.cableCount.toString(),
+                    unit = "",
+                ),
+            )
+        }.toImmutableList(),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 @Composable

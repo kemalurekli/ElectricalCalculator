@@ -34,7 +34,6 @@ import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -395,52 +394,47 @@ private fun ResultSection(
     exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.bt_result_runtime),
-            value = NumberFormatter.format(result.runtimeHours, DISPLAY_DECIMALS),
-            unit = "h",
-            tone = ResultTone.SUCCESS,
-            statusMessage = stringResource(
-                Res.string.bt_result_status,
-                durationText(result.runtimeHours),
+    ElecResultCard(
+        label = stringResource(Res.string.bt_result_runtime),
+        value = NumberFormatter.format(result.runtimeHours, DISPLAY_DECIMALS),
+        unit = "h",
+        tone = ResultTone.SUCCESS,
+        statusMessage = stringResource(
+            Res.string.bt_result_status,
+            durationText(result.runtimeHours),
+        ),
+        secondaryRows = persistentListOf(
+            ResultRow(
+                label = stringResource(Res.string.bt_result_ideal),
+                value = NumberFormatter.format(result.idealRuntimeHours, DISPLAY_DECIMALS),
+                unit = "h",
             ),
-            secondaryRows = persistentListOf(
-                ResultRow(
-                    label = stringResource(Res.string.bt_result_ideal),
-                    value = NumberFormatter.format(result.idealRuntimeHours, DISPLAY_DECIMALS),
-                    unit = "h",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.bt_result_current),
-                    value = NumberFormatter.format(result.dischargeCurrentAmps, DISPLAY_DECIMALS),
-                    unit = "A",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.bt_result_c_rate),
-                    value = NumberFormatter.format(result.cRate, C_RATE_DECIMALS),
-                    unit = "C",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.bt_result_usable),
-                    value = NumberFormatter.format(result.usableCapacityAh, DISPLAY_DECIMALS),
-                    unit = "Ah",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.bt_result_energy),
-                    value = NumberFormatter.format(result.energyDeliveredWh, DISPLAY_DECIMALS),
-                    unit = "Wh",
-                ),
+            ResultRow(
+                label = stringResource(Res.string.bt_result_current),
+                value = NumberFormatter.format(result.dischargeCurrentAmps, DISPLAY_DECIMALS),
+                unit = "A",
             ),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            ResultRow(
+                label = stringResource(Res.string.bt_result_c_rate),
+                value = NumberFormatter.format(result.cRate, C_RATE_DECIMALS),
+                unit = "C",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.bt_result_usable),
+                value = NumberFormatter.format(result.usableCapacityAh, DISPLAY_DECIMALS),
+                unit = "Ah",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.bt_result_energy),
+                value = NumberFormatter.format(result.energyDeliveredWh, DISPLAY_DECIMALS),
+                unit = "Wh",
+            ),
+        ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 /**

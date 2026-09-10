@@ -20,7 +20,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExpl
 import com.kemalurekli.electricalcalculator.core.designsystem.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.NameplateScanAction
 import com.kemalurekli.electricalcalculator.core.vision.NameplateReading
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
@@ -227,14 +226,7 @@ fun MotorStartingScreen(
             // they just finished filling in. The workings and the notes stay
             // below, where they are read second.
             uiState.result?.let { result ->
-                ResultCard(result)
-                ElecResultActions(
-                    onCopy = onCopy,
-                    onShare = onShare,
-                    onExportPdf = onExportPdf,
-                    exportLocked = exportLocked,
-                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
-                )
+                ResultCard(result, onCopy, onShare, onExportPdf, exportLocked)
             }
 
             ElecExamplesCard(
@@ -338,7 +330,13 @@ fun MotorStartingScreen(
 }
 
 @Composable
-private fun ResultCard(result: MotorStartingResult) {
+private fun ResultCard(
+    result: MotorStartingResult,
+    onCopy: () -> Unit,
+    onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
+) {
     // Two things can be wrong with a start, and they are not equally wrong. A
     // board that drops its contactors has stopped the process; lighting that
     // dips is noticed and forgiven. The tones say which is which, and only the
@@ -387,6 +385,10 @@ private fun ResultCard(result: MotorStartingResult) {
                 "%",
             ),
         ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
     )
 }
 

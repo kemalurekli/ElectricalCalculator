@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.unit.dp
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
@@ -28,8 +29,12 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
  * Two icons at the trailing edge rather than two full-width outlined buttons.
  * The buttons were the same width and weight as the result card above them —
  * two large blocks arguing with the figure they belong to — for a pair of
- * secondary actions nobody opens a calculator to perform. The glyphs are the
- * platform's own for copy and share and carry their names for a screen reader.
+ * secondary actions nobody opens a calculator to perform. The glyphs carry
+ * their names for a screen reader.
+ *
+ * Drawn inside [ElecResultCard] rather than under it, which is why the tint is
+ * a parameter: on the card the row sits on a toned container and has to take
+ * that container's own foreground.
  */
 @Composable
 fun ElecResultActions(
@@ -38,6 +43,7 @@ fun ElecResultActions(
     modifier: Modifier = Modifier,
     onExportPdf: (() -> Unit)? = null,
     exportLocked: Boolean = false,
+    tint: Color = MaterialTheme.colorScheme.onSurfaceVariant,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -57,7 +63,7 @@ fun ElecResultActions(
                     imageVector = ElecIcons.ProDocument,
                     contentDescription = stringResource(Res.string.action_export_pdf),
                     modifier = Modifier.size(ACTION_ICON),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    tint = tint,
                 )
             }
         }
@@ -66,7 +72,7 @@ fun ElecResultActions(
                 imageVector = ElecIcons.Copy,
                 contentDescription = stringResource(Res.string.action_copy),
                 modifier = Modifier.size(ACTION_ICON),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                tint = tint,
             )
         }
         IconButton(onClick = onShare) {
@@ -74,7 +80,7 @@ fun ElecResultActions(
                 imageVector = ElecIcons.Share,
                 contentDescription = stringResource(Res.string.action_share),
                 modifier = Modifier.size(ACTION_ICON),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                tint = tint,
             )
         }
     }

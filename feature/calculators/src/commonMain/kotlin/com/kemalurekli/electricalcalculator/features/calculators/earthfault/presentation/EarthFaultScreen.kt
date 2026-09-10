@@ -35,7 +35,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -505,106 +504,101 @@ private fun ResultSection(
 
         else -> stringResource(Res.string.ef_result_fail_withstand)
     }
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.ef_result_zs),
-            value = NumberFormatter.format(result.loopImpedanceOhms, IMPEDANCE_DECIMALS),
-            unit = "Ω",
-            tone = tone,
-            statusMessage = status,
-            secondaryRows = buildList {
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.ef_result_permitted),
-                        value = permitted,
-                        unit = "Ω",
+    ElecResultCard(
+        label = stringResource(Res.string.ef_result_zs),
+        value = NumberFormatter.format(result.loopImpedanceOhms, IMPEDANCE_DECIMALS),
+        unit = "Ω",
+        tone = tone,
+        statusMessage = status,
+        secondaryRows = buildList {
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.ef_result_permitted),
+                    value = permitted,
+                    unit = "Ω",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.ef_result_utilisation),
+                    value = NumberFormatter.format(
+                        result.impedanceUtilisation * PERCENT,
+                        DISPLAY_DECIMALS,
                     ),
-                )
+                    unit = "%",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.ef_result_fault_current),
+                    value = NumberFormatter.format(result.faultCurrentAmps, DISPLAY_DECIMALS),
+                    unit = "A",
+                ),
+            )
+            // Absent for an RCD, which responds to imbalance rather than to
+            // the size of the fault current.
+            result.operatingCurrentAmps?.let { operating ->
                 add(
                     ResultRow(
-                        label = stringResource(Res.string.ef_result_utilisation),
-                        value = NumberFormatter.format(
-                            result.impedanceUtilisation * PERCENT,
-                            DISPLAY_DECIMALS,
-                        ),
-                        unit = "%",
-                    ),
-                )
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.ef_result_fault_current),
-                        value = NumberFormatter.format(result.faultCurrentAmps, DISPLAY_DECIMALS),
+                        label = stringResource(Res.string.ef_result_operating_current),
+                        value = NumberFormatter.format(operating, DISPLAY_DECIMALS),
                         unit = "A",
                     ),
                 )
-                // Absent for an RCD, which responds to imbalance rather than to
-                // the size of the fault current.
-                result.operatingCurrentAmps?.let { operating ->
-                    add(
-                        ResultRow(
-                            label = stringResource(Res.string.ef_result_operating_current),
-                            value = NumberFormatter.format(operating, DISPLAY_DECIMALS),
-                            unit = "A",
-                        ),
-                    )
-                }
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.ef_result_r1),
-                        value = NumberFormatter.format(
-                            result.lineResistanceOhms,
-                            IMPEDANCE_DECIMALS,
-                        ),
-                        unit = "Ω",
+            }
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.ef_result_r1),
+                    value = NumberFormatter.format(
+                        result.lineResistanceOhms,
+                        IMPEDANCE_DECIMALS,
                     ),
-                )
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.ef_result_r2),
-                        value = NumberFormatter.format(
-                            result.protectiveResistanceOhms,
-                            IMPEDANCE_DECIMALS,
-                        ),
-                        unit = "Ω",
+                    unit = "Ω",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.ef_result_r2),
+                    value = NumberFormatter.format(
+                        result.protectiveResistanceOhms,
+                        IMPEDANCE_DECIMALS,
                     ),
-                )
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.ef_result_adiabatic),
-                        value = NumberFormatter.format(
-                            result.adiabaticMinimumMm2,
-                            DISPLAY_DECIMALS,
-                        ),
-                        unit = "mm²",
+                    unit = "Ω",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.ef_result_adiabatic),
+                    value = NumberFormatter.format(
+                        result.adiabaticMinimumMm2,
+                        DISPLAY_DECIMALS,
                     ),
-                )
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.ef_result_tabulated),
-                        value = NumberFormatter.format(
-                            result.tabulatedMinimumMm2,
-                            DISPLAY_DECIMALS,
-                        ),
-                        unit = "mm²",
+                    unit = "mm²",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.ef_result_tabulated),
+                    value = NumberFormatter.format(
+                        result.tabulatedMinimumMm2,
+                        DISPLAY_DECIMALS,
                     ),
-                )
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.ef_result_adiabatic_factor),
-                        value = NumberFormatter.format(result.adiabaticFactor, FACTOR_DECIMALS),
-                        unit = "",
-                    ),
-                )
-            }.toImmutableList(),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+                    unit = "mm²",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.ef_result_adiabatic_factor),
+                    value = NumberFormatter.format(result.adiabaticFactor, FACTOR_DECIMALS),
+                    unit = "",
+                ),
+            )
+        }.toImmutableList(),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 @Composable

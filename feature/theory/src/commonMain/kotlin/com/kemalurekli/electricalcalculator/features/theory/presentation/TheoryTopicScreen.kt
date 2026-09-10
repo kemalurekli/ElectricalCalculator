@@ -43,7 +43,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecForm
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -258,18 +257,17 @@ fun TheoryTopicScreen(
         ) {
             uiState.result?.let { result ->
                 item(key = "result") {
-                    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-                        ElecResultCard(
-                            label = result.primary.label,
-                            value = result.primary.value,
-                            unit = result.primary.unit,
-                            tone = ResultTone.NEUTRAL,
-                            secondaryRows = result.secondary
-                                .map { ResultRow(it.label, it.value, it.unit) }
-                                .toImmutableList(),
-                        )
-                        ElecResultActions(onCopy = onCopy, onShare = onShare)
-                    }
+                    ElecResultCard(
+                        label = result.primary.label,
+                        value = result.primary.value,
+                        unit = result.primary.unit,
+                        tone = ResultTone.NEUTRAL,
+                        secondaryRows = result.secondary
+                            .map { ResultRow(it.label, it.value, it.unit) }
+                            .toImmutableList(),
+                        onCopy = onCopy,
+                        onShare = onShare,
+                    )
                 }
             }
 

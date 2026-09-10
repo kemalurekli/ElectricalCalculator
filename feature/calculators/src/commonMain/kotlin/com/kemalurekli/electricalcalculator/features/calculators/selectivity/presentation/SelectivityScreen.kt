@@ -16,7 +16,6 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.model.CalculationStep
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultTone
@@ -212,14 +211,7 @@ fun SelectivityScreen(
             // they just finished filling in. The workings and the notes stay
             // below, where they are read second.
             uiState.result?.let { result ->
-                ResultCard(result)
-                ElecResultActions(
-                    onCopy = onCopy,
-                    onShare = onShare,
-                    onExportPdf = onExportPdf,
-                    exportLocked = exportLocked,
-                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
-                )
+                ResultCard(result, onCopy, onShare, onExportPdf, exportLocked)
             }
 
             ElecExamplesCard(
@@ -307,7 +299,13 @@ fun SelectivityScreen(
 }
 
 @Composable
-private fun ResultCard(result: SelectivityResult) {
+private fun ResultCard(
+    result: SelectivityResult,
+    onCopy: () -> Unit,
+    onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
+) {
     // The headline is the fault level selectivity survives to, because that is
     // the number a designer writes down. The verdict itself is the status line
     // under it — "selective", "partial", "not" — where every other calculator
@@ -348,6 +346,10 @@ private fun ResultCard(result: SelectivityResult) {
                 )
             }.orEmpty(),
         ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
     )
 }
 

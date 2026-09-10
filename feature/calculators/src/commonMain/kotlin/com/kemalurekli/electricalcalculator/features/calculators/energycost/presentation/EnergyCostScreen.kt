@@ -35,7 +35,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -373,75 +372,70 @@ private fun ResultSection(
     exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.ec_result_annual),
-            value = NumberFormatter.format(result.annualCost, DISPLAY_DECIMALS),
-            unit = "",
-            tone = ResultTone.NEUTRAL,
-            statusMessage = stringResource(Res.string.ec_result_status),
-            // The comparison rows appear only when an alternative was
-            // described. A row reading "saving: 0" where nothing was compared
-            // would look like a finding rather than an absence.
-            secondaryRows = buildList {
+    ElecResultCard(
+        label = stringResource(Res.string.ec_result_annual),
+        value = NumberFormatter.format(result.annualCost, DISPLAY_DECIMALS),
+        unit = "",
+        tone = ResultTone.NEUTRAL,
+        statusMessage = stringResource(Res.string.ec_result_status),
+        // The comparison rows appear only when an alternative was
+        // described. A row reading "saving: 0" where nothing was compared
+        // would look like a finding rather than an absence.
+        secondaryRows = buildList {
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.ec_result_energy),
+                    value = NumberFormatter.format(result.annualEnergyKwh, DISPLAY_DECIMALS),
+                    unit = "kWh",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.ec_result_daily),
+                    value = NumberFormatter.format(result.dailyCost, DISPLAY_DECIMALS),
+                    unit = "",
+                ),
+            )
+            add(
+                ResultRow(
+                    label = stringResource(Res.string.ec_result_monthly),
+                    value = NumberFormatter.format(result.monthlyCost, DISPLAY_DECIMALS),
+                    unit = "",
+                ),
+            )
+            result.replacementAnnualCost?.let { replacement ->
                 add(
                     ResultRow(
-                        label = stringResource(Res.string.ec_result_energy),
-                        value = NumberFormatter.format(result.annualEnergyKwh, DISPLAY_DECIMALS),
-                        unit = "kWh",
-                    ),
-                )
-                add(
-                    ResultRow(
-                        label = stringResource(Res.string.ec_result_daily),
-                        value = NumberFormatter.format(result.dailyCost, DISPLAY_DECIMALS),
+                        label = stringResource(Res.string.ec_result_replacement),
+                        value = NumberFormatter.format(replacement, DISPLAY_DECIMALS),
                         unit = "",
                     ),
                 )
+            }
+            result.annualSaving?.let { saving ->
                 add(
                     ResultRow(
-                        label = stringResource(Res.string.ec_result_monthly),
-                        value = NumberFormatter.format(result.monthlyCost, DISPLAY_DECIMALS),
+                        label = stringResource(Res.string.ec_result_saving),
+                        value = NumberFormatter.format(saving, DISPLAY_DECIMALS),
                         unit = "",
                     ),
                 )
-                result.replacementAnnualCost?.let { replacement ->
-                    add(
-                        ResultRow(
-                            label = stringResource(Res.string.ec_result_replacement),
-                            value = NumberFormatter.format(replacement, DISPLAY_DECIMALS),
-                            unit = "",
-                        ),
-                    )
-                }
-                result.annualSaving?.let { saving ->
-                    add(
-                        ResultRow(
-                            label = stringResource(Res.string.ec_result_saving),
-                            value = NumberFormatter.format(saving, DISPLAY_DECIMALS),
-                            unit = "",
-                        ),
-                    )
-                }
-                result.paybackYears?.let { payback ->
-                    add(
-                        ResultRow(
-                            label = stringResource(Res.string.ec_result_payback),
-                            value = NumberFormatter.format(payback, DISPLAY_DECIMALS),
-                            unit = stringResource(Res.string.ec_result_years),
-                        ),
-                    )
-                }
-            }.toImmutableList(),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            }
+            result.paybackYears?.let { payback ->
+                add(
+                    ResultRow(
+                        label = stringResource(Res.string.ec_result_payback),
+                        value = NumberFormatter.format(payback, DISPLAY_DECIMALS),
+                        unit = stringResource(Res.string.ec_result_years),
+                    ),
+                )
+            }
+        }.toImmutableList(),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 @Composable

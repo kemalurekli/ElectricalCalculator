@@ -35,7 +35,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -374,44 +373,39 @@ private fun ResultSection(
     exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.tx_result_secondary_current),
-            value = NumberFormatter.format(result.secondaryCurrent, DISPLAY_DECIMALS),
-            unit = "A",
-            tone = ResultTone.NEUTRAL,
-            statusMessage = stringResource(Res.string.tx_result_status),
-            secondaryRows = persistentListOf(
-                ResultRow(
-                    label = stringResource(Res.string.tx_result_primary_current),
-                    value = NumberFormatter.format(result.primaryCurrent, DISPLAY_DECIMALS),
-                    unit = "A",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.tx_result_ratio),
-                    value = NumberFormatter.formatSignificant(result.voltageRatio),
-                    unit = "",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.tx_result_short_circuit),
-                    value = NumberFormatter.format(result.secondaryShortCircuitCurrent, DISPLAY_DECIMALS),
-                    unit = "A",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.tx_result_short_circuit_power),
-                    value = NumberFormatter.format(result.shortCircuitPowerKva, DISPLAY_DECIMALS),
-                    unit = "kVA",
-                ),
+    ElecResultCard(
+        label = stringResource(Res.string.tx_result_secondary_current),
+        value = NumberFormatter.format(result.secondaryCurrent, DISPLAY_DECIMALS),
+        unit = "A",
+        tone = ResultTone.NEUTRAL,
+        statusMessage = stringResource(Res.string.tx_result_status),
+        secondaryRows = persistentListOf(
+            ResultRow(
+                label = stringResource(Res.string.tx_result_primary_current),
+                value = NumberFormatter.format(result.primaryCurrent, DISPLAY_DECIMALS),
+                unit = "A",
             ),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            ResultRow(
+                label = stringResource(Res.string.tx_result_ratio),
+                value = NumberFormatter.formatSignificant(result.voltageRatio),
+                unit = "",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.tx_result_short_circuit),
+                value = NumberFormatter.format(result.secondaryShortCircuitCurrent, DISPLAY_DECIMALS),
+                unit = "A",
+            ),
+            ResultRow(
+                label = stringResource(Res.string.tx_result_short_circuit_power),
+                value = NumberFormatter.format(result.shortCircuitPowerKva, DISPLAY_DECIMALS),
+                unit = "kVA",
+            ),
+        ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 @Composable

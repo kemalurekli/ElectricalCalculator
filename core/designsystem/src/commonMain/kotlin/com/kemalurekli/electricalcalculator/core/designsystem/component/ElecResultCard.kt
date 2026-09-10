@@ -52,6 +52,11 @@ data class ResultRow(
  *   design system's semantic palette rather than raw colours at the call site.
  * @param statusMessage plain-language verdict, e.g. "Within the 3 % lighting
  *   limit". Shown only when [tone] is not [ResultTone.NEUTRAL].
+ * @param onCopy and [onShare] put the export row inside the card, on a plinth
+ *   below a full-width hairline. They used to float underneath it as three
+ *   unlabelled glyphs on the page background, with the Pro badge among them,
+ *   belonging to nothing the eye could name. A result and what you can do with
+ *   it are one object. Supply both or neither.
  */
 @Composable
 fun ElecResultCard(
@@ -62,6 +67,10 @@ fun ElecResultCard(
     tone: ResultTone = ResultTone.NEUTRAL,
     statusMessage: String? = null,
     secondaryRows: ImmutableList<ResultRow> = persistentListOf(),
+    onCopy: (() -> Unit)? = null,
+    onShare: (() -> Unit)? = null,
+    onExportPdf: (() -> Unit)? = null,
+    exportLocked: Boolean = false,
 ) {
     val spacing = ElecTheme.spacing
     val semantic = ElecTheme.semanticColors
@@ -108,45 +117,65 @@ fun ElecResultCard(
         color = container,
         contentColor = onContainer,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.sm),
-        ) {
-            Text(
-                text = label,
-                style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier.clearAndSetSemantics {},
-            )
-
-            Row(
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.spacedBy(spacing.sm),
-                modifier = Modifier.clearAndSetSemantics {},
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(spacing.lg),
+                verticalArrangement = Arrangement.spacedBy(spacing.sm),
             ) {
-                Text(text = value, style = NumericTextStyle, color = accent)
                 Text(
-                    text = unit,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = accent,
-                    modifier = Modifier.padding(bottom = 4.dp),
-                )
-            }
-
-            if (statusMessage != null) {
-                Text(
-                    text = statusMessage,
-                    style = MaterialTheme.typography.bodySmall,
+                    text = label,
+                    style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier.clearAndSetSemantics {},
                 )
+
+                Row(
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.spacedBy(spacing.sm),
+                    modifier = Modifier.clearAndSetSemantics {},
+                ) {
+                    Text(text = value, style = NumericTextStyle, color = accent)
+                    Text(
+                        text = unit,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = accent,
+                        modifier = Modifier.padding(bottom = 4.dp),
+                    )
+                }
+
+                if (statusMessage != null) {
+                    Text(
+                        text = statusMessage,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.clearAndSetSemantics {},
+                    )
+                }
+
+                if (secondaryRows.isNotEmpty()) {
+                    HorizontalDivider(color = onContainer.copy(alpha = DIVIDER_ALPHA))
+                    secondaryRows.forEach { row ->
+                        SecondaryResultRow(row)
+                    }
+                }
             }
 
-            if (secondaryRows.isNotEmpty()) {
+            // Full width rather than inset like the divider above it: that one
+            // groups rows within the card, this one gives the card a base.
+            if (onCopy != null && onShare != null) {
                 HorizontalDivider(color = onContainer.copy(alpha = DIVIDER_ALPHA))
-                secondaryRows.forEach { row ->
-                    SecondaryResultRow(row)
-                }
+                ElecResultActions(
+                    onCopy = onCopy,
+                    onShare = onShare,
+                    onExportPdf = onExportPdf,
+                    exportLocked = exportLocked,
+                    tint = onContainer,
+                    modifier = Modifier.padding(
+                        start = spacing.sm,
+                        end = spacing.sm,
+                        bottom = spacing.xs,
+                    ),
+                )
             }
         }
     }

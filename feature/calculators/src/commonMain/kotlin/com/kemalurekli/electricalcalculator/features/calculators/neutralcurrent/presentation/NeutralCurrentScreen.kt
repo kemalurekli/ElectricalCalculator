@@ -35,7 +35,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -342,50 +341,45 @@ private fun ResultSection(
     exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
-
-    Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-        ElecResultCard(
-            label = stringResource(Res.string.nc_result_neutral),
-            value = NumberFormatter.format(result.neutralCurrentAmps, DISPLAY_DECIMALS),
-            unit = "A",
-            // The neutral outrunning every line is the condition that derates
-            // the cable, so it is the one the card shouts about.
-            tone = if (result.neutralExceedsLines) ResultTone.WARNING else ResultTone.SUCCESS,
-            statusMessage = stringResource(
-                if (result.neutralExceedsLines) {
-                    Res.string.nc_result_status_exceeds
-                } else {
-                    Res.string.nc_result_status_ok
-                },
+    ElecResultCard(
+        label = stringResource(Res.string.nc_result_neutral),
+        value = NumberFormatter.format(result.neutralCurrentAmps, DISPLAY_DECIMALS),
+        unit = "A",
+        // The neutral outrunning every line is the condition that derates
+        // the cable, so it is the one the card shouts about.
+        tone = if (result.neutralExceedsLines) ResultTone.WARNING else ResultTone.SUCCESS,
+        statusMessage = stringResource(
+            if (result.neutralExceedsLines) {
+                Res.string.nc_result_status_exceeds
+            } else {
+                Res.string.nc_result_status_ok
+            },
+        ),
+        secondaryRows = persistentListOf(
+            ResultRow(
+                label = stringResource(Res.string.nc_result_unbalance),
+                value = NumberFormatter.format(result.fundamentalNeutralAmps, DISPLAY_DECIMALS),
+                unit = "A",
             ),
-            secondaryRows = persistentListOf(
-                ResultRow(
-                    label = stringResource(Res.string.nc_result_unbalance),
-                    value = NumberFormatter.format(result.fundamentalNeutralAmps, DISPLAY_DECIMALS),
-                    unit = "A",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.nc_result_triplen),
-                    value = NumberFormatter.format(result.triplenNeutralAmps, DISPLAY_DECIMALS),
-                    unit = "A",
-                ),
-                ResultRow(
-                    label = stringResource(Res.string.nc_result_ratio),
-                    value = NumberFormatter.format(
-                        result.neutralToHighestLineRatio * PERCENT,
-                        DISPLAY_DECIMALS,
-                    ),
-                    unit = "%",
-                ),
+            ResultRow(
+                label = stringResource(Res.string.nc_result_triplen),
+                value = NumberFormatter.format(result.triplenNeutralAmps, DISPLAY_DECIMALS),
+                unit = "A",
             ),
-        )
-        ElecResultActions(
-            onCopy = onCopy,
-            onShare = onShare,
-            onExportPdf = onExportPdf,
-            exportLocked = exportLocked,
-        )
-    }
+            ResultRow(
+                label = stringResource(Res.string.nc_result_ratio),
+                value = NumberFormatter.format(
+                    result.neutralToHighestLineRatio * PERCENT,
+                    DISPLAY_DECIMALS,
+                ),
+                unit = "%",
+            ),
+        ),
+        onCopy = onCopy,
+        onShare = onShare,
+        onExportPdf = onExportPdf,
+        exportLocked = exportLocked,
+    )
 }
 
 @Composable
