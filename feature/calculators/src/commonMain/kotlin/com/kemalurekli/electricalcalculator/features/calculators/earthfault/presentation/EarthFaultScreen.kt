@@ -55,6 +55,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
 import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
 import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.EarthFaultResult
 import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.ProtectiveDeviceType
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
@@ -162,6 +163,7 @@ fun EarthFaultRoute(
     val copiedMessage = stringResource(Res.string.message_copied)
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+    val export = LocalCalculationExport.current
 
     EarthFaultScreen(
         uiState = uiState,
@@ -188,6 +190,8 @@ fun EarthFaultRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
         onNavigateBack = onNavigateBack,
         snackbarHostState = snackbarHostState,
@@ -217,6 +221,8 @@ fun EarthFaultScreen(
     onToggleFavorite: () -> Unit,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -274,7 +280,7 @@ fun EarthFaultScreen(
             verticalArrangement = Arrangement.spacedBy(spacing.md),
         ) {
             uiState.result?.let { result ->
-                item(key = "result") { ResultSection(result, onCopy, onShare) }
+                item(key = "result") { ResultSection(result, onCopy, onShare, onExportPdf, exportLocked) }
             }
 
             item(key = "examples") {
@@ -496,6 +502,8 @@ private fun ResultSection(
     result: EarthFaultResult,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
     val permitted = NumberFormatter.format(result.maximumPermittedOhms, IMPEDANCE_DECIMALS)
@@ -607,7 +615,12 @@ private fun ResultSection(
                 )
             }.toImmutableList(),
         )
-        ElecResultActions(onCopy = onCopy, onShare = onShare)
+        ElecResultActions(
+            onCopy = onCopy,
+            onShare = onShare,
+            onExportPdf = onExportPdf,
+            exportLocked = exportLocked,
+        )
     }
 }
 
@@ -718,7 +731,7 @@ private fun EarthFaultScreenPreview() {
             onExternalImpedanceChange = {}, onVoltageChange = {}, onLengthChange = {},
             onLineSectionChange = {}, onProtectiveSectionChange = {}, onParallelChange = {},
             onDeviceRatingChange = {}, onClearingTimeChange = {}, onCalculate = {},
-            onReset = {}, onApplyExample = {}, onReferenceClick = {}, onToggleFavorite = {}, onCopy = {}, onShare = {}, onNavigateBack = {},
+            onReset = {}, onApplyExample = {}, onReferenceClick = {}, onToggleFavorite = {}, onCopy = {}, onShare = {}, onExportPdf = null, exportLocked = false, onNavigateBack = {},
         )
     }
 }

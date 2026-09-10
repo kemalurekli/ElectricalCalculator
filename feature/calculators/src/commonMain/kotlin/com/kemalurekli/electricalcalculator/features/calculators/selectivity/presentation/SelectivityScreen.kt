@@ -48,6 +48,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.remember
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
 import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.ProtectiveDeviceType
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.SelectivityGrade
 import com.kemalurekli.electricalcalculator.features.calculators.selectivity.domain.SelectivityResult
@@ -97,6 +98,7 @@ fun SelectivityRoute(
     val copiedMessage = stringResource(Res.string.message_copied)
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+    val export = LocalCalculationExport.current
 
     SelectivityScreen(
         uiState = uiState,
@@ -108,6 +110,8 @@ fun SelectivityRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        exportLocked = !export.isPro,
         snackbarHostState = snackbarHostState,
         onUpstreamTypeChange = viewModel::onUpstreamTypeChange,
         onUpstreamRatingChange = viewModel::onUpstreamRatingChange,
@@ -137,6 +141,8 @@ fun SelectivityScreen(
     uiState: SelectivityUiState,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onUpstreamTypeChange: (ProtectiveDeviceType) -> Unit,
     onUpstreamRatingChange: (String) -> Unit,
@@ -194,6 +200,8 @@ fun SelectivityScreen(
                 ElecResultActions(
                     onCopy = onCopy,
                     onShare = onShare,
+                    onExportPdf = onExportPdf,
+                    exportLocked = exportLocked,
                     modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
                 )
             }

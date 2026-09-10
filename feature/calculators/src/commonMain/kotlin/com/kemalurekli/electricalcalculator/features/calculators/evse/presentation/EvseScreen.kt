@@ -49,6 +49,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.remember
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
 import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.DcFaultDetection
 import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.EvseConnection
 import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.EvseResult
@@ -105,6 +106,7 @@ fun EvseRoute(
     val copiedMessage = stringResource(Res.string.message_copied)
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+    val export = LocalCalculationExport.current
 
     EvseScreen(
         uiState = uiState,
@@ -116,6 +118,8 @@ fun EvseRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        exportLocked = !export.isPro,
         snackbarHostState = snackbarHostState,
         onPointCountChange = viewModel::onPointCountChange,
         onRatedCurrentChange = viewModel::onRatedCurrentChange,
@@ -138,6 +142,8 @@ fun EvseScreen(
     uiState: EvseUiState,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onPointCountChange: (String) -> Unit,
     onRatedCurrentChange: (String) -> Unit,
@@ -196,6 +202,8 @@ fun EvseScreen(
                 ElecResultActions(
                     onCopy = onCopy,
                     onShare = onShare,
+                    onExportPdf = onExportPdf,
+                    exportLocked = exportLocked,
                     modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
                 )
             }

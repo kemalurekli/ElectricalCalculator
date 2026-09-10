@@ -55,6 +55,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
 import com.kemalurekli.electricalcalculator.features.calculators.powerfactor.domain.PowerFactorResult
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import kotlinx.collections.immutable.persistentListOf
@@ -141,6 +142,7 @@ fun PowerFactorRoute(
     val copiedMessage = stringResource(Res.string.message_copied)
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+    val export = LocalCalculationExport.current
 
     PowerFactorScreen(
         uiState = uiState,
@@ -163,6 +165,8 @@ fun PowerFactorRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
         onNavigateBack = onNavigateBack,
         snackbarHostState = snackbarHostState,
@@ -188,6 +192,8 @@ fun PowerFactorScreen(
     onToggleFavorite: () -> Unit,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -245,7 +251,7 @@ fun PowerFactorScreen(
             verticalArrangement = Arrangement.spacedBy(spacing.md),
         ) {
             uiState.result?.let { result ->
-                item(key = "result") { ResultSection(result, onCopy, onShare) }
+                item(key = "result") { ResultSection(result, onCopy, onShare, onExportPdf, exportLocked) }
             }
 
             item(key = "examples") {
@@ -421,6 +427,8 @@ private fun ResultSection(
     result: PowerFactorResult,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
 
@@ -474,7 +482,12 @@ private fun ResultSection(
                 ),
             ),
         )
-        ElecResultActions(onCopy = onCopy, onShare = onShare)
+        ElecResultActions(
+            onCopy = onCopy,
+            onShare = onShare,
+            onExportPdf = onExportPdf,
+            exportLocked = exportLocked,
+        )
     }
 }
 
@@ -557,7 +570,7 @@ private fun PowerFactorScreenPreview() {
             onSystemChange = {}, onConnectionChange = {}, onActivePowerChange = {},
             onExistingFactorChange = {}, onTargetFactorChange = {}, onVoltageChange = {},
             onFrequencyChange = {}, onCalculate = {}, onApplyExample = {}, onReferenceClick = {}, onReset = {}, onToggleFavorite = {},
-            onCopy = {}, onShare = {}, onNavigateBack = {},
+            onCopy = {}, onShare = {}, onExportPdf = null, exportLocked = false, onNavigateBack = {},
         )
     }
 }

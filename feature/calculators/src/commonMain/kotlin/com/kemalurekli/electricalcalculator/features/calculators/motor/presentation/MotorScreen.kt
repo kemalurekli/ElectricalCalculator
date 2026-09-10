@@ -55,6 +55,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
 import com.kemalurekli.electricalcalculator.features.calculators.motor.domain.MotorResult
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import kotlinx.collections.immutable.persistentListOf
@@ -139,6 +140,7 @@ fun MotorRoute(
     val copiedMessage = stringResource(Res.string.message_copied)
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+    val export = LocalCalculationExport.current
 
     MotorScreen(
         uiState = uiState,
@@ -161,6 +163,8 @@ fun MotorRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
         onNavigateBack = onNavigateBack,
         snackbarHostState = snackbarHostState,
@@ -186,6 +190,8 @@ fun MotorScreen(
     onToggleFavorite: () -> Unit,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -243,7 +249,7 @@ fun MotorScreen(
             verticalArrangement = Arrangement.spacedBy(spacing.md),
         ) {
             uiState.result?.let { result ->
-                item(key = "result") { ResultSection(result, onCopy, onShare) }
+                item(key = "result") { ResultSection(result, onCopy, onShare, onExportPdf, exportLocked) }
             }
 
             item(key = "examples") {
@@ -420,6 +426,8 @@ private fun ResultSection(
     result: MotorResult,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
 
@@ -458,7 +466,12 @@ private fun ResultSection(
                 ),
             ),
         )
-        ElecResultActions(onCopy = onCopy, onShare = onShare)
+        ElecResultActions(
+            onCopy = onCopy,
+            onShare = onShare,
+            onExportPdf = onExportPdf,
+            exportLocked = exportLocked,
+        )
     }
 }
 
@@ -534,7 +547,7 @@ private fun MotorScreenPreview() {
             onSystemChange = {}, onPowerUnitChange = {}, onPowerChange = {},
             onVoltageChange = {}, onEfficiencyChange = {}, onPowerFactorChange = {},
             onStartingRatioChange = {}, onCalculate = {}, onApplyExample = {}, onReferenceClick = {}, onReset = {},
-            onToggleFavorite = {}, onCopy = {}, onShare = {}, onNavigateBack = {},
+            onToggleFavorite = {}, onCopy = {}, onShare = {}, onExportPdf = null, exportLocked = false, onNavigateBack = {},
         )
     }
 }

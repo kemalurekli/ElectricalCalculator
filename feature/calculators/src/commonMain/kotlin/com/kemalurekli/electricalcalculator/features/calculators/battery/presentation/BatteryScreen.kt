@@ -52,6 +52,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitT
 import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
 import com.kemalurekli.electricalcalculator.features.calculators.battery.domain.BatteryResult
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import kotlinx.collections.immutable.persistentListOf
@@ -131,6 +132,7 @@ fun BatteryRoute(
     val copiedMessage = stringResource(Res.string.message_copied)
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+    val export = LocalCalculationExport.current
 
     BatteryScreen(
         uiState = uiState,
@@ -153,6 +155,8 @@ fun BatteryRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
         onNavigateBack = onNavigateBack,
         snackbarHostState = snackbarHostState,
@@ -178,6 +182,8 @@ fun BatteryScreen(
     onToggleFavorite: () -> Unit,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -235,7 +241,7 @@ fun BatteryScreen(
             verticalArrangement = Arrangement.spacedBy(spacing.md),
         ) {
             uiState.result?.let { result ->
-                item(key = "result") { ResultSection(result, onCopy, onShare) }
+                item(key = "result") { ResultSection(result, onCopy, onShare, onExportPdf, exportLocked) }
             }
 
             item(key = "examples") {
@@ -395,6 +401,8 @@ private fun ResultSection(
     result: BatteryResult,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
 
@@ -436,7 +444,12 @@ private fun ResultSection(
                 ),
             ),
         )
-        ElecResultActions(onCopy = onCopy, onShare = onShare)
+        ElecResultActions(
+            onCopy = onCopy,
+            onShare = onShare,
+            onExportPdf = onExportPdf,
+            exportLocked = exportLocked,
+        )
     }
 }
 
@@ -520,7 +533,7 @@ private fun BatteryScreenPreview() {
             onCapacityChange = {}, onRatedHoursChange = {}, onVoltageChange = {},
             onLoadPowerChange = {}, onEfficiencyChange = {}, onDepthOfDischargeChange = {},
             onPeukertChange = {}, onCalculate = {}, onApplyExample = {}, onReferenceClick = {}, onReset = {}, onToggleFavorite = {},
-            onCopy = {}, onShare = {}, onNavigateBack = {},
+            onCopy = {}, onShare = {}, onExportPdf = null, exportLocked = false, onNavigateBack = {},
         )
     }
 }

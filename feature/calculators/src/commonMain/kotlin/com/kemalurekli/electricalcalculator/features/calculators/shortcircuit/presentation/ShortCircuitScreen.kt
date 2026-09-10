@@ -55,6 +55,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.ConductorMaterial
 import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
 import com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.domain.FaultType
 import com.kemalurekli.electricalcalculator.features.calculators.shortcircuit.domain.ShortCircuitResult
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
@@ -151,6 +152,7 @@ fun ShortCircuitRoute(
     val copiedMessage = stringResource(Res.string.message_copied)
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+    val export = LocalCalculationExport.current
 
     ShortCircuitScreen(
         uiState = uiState,
@@ -176,6 +178,8 @@ fun ShortCircuitRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
         onNavigateBack = onNavigateBack,
         snackbarHostState = snackbarHostState,
@@ -204,6 +208,8 @@ fun ShortCircuitScreen(
     onToggleFavorite: () -> Unit,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -261,7 +267,7 @@ fun ShortCircuitScreen(
             verticalArrangement = Arrangement.spacedBy(spacing.md),
         ) {
             uiState.result?.let { result ->
-                item(key = "result") { ResultSection(uiState, result, onCopy, onShare) }
+                item(key = "result") { ResultSection(uiState, result, onCopy, onShare, onExportPdf, exportLocked) }
             }
 
             item(key = "examples") {
@@ -480,6 +486,8 @@ private fun ResultSection(
     result: ShortCircuitResult,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
     val hotTemperature = NumberFormatter.format(
@@ -550,7 +558,12 @@ private fun ResultSection(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(start = spacing.xs),
         )
-        ElecResultActions(onCopy = onCopy, onShare = onShare)
+        ElecResultActions(
+            onCopy = onCopy,
+            onShare = onShare,
+            onExportPdf = onExportPdf,
+            exportLocked = exportLocked,
+        )
     }
 }
 
@@ -628,7 +641,7 @@ private fun ShortCircuitScreenPreview() {
             onVoltageChange = {}, onSupplyCurrentChange = {}, onLengthChange = {},
             onCrossSectionChange = {}, onNeutralSectionChange = {}, onParallelChange = {},
             onReactanceChange = {}, onCalculate = {}, onApplyExample = {}, onReferenceClick = {}, onReset = {}, onToggleFavorite = {},
-            onCopy = {}, onShare = {}, onNavigateBack = {},
+            onCopy = {}, onShare = {}, onExportPdf = null, exportLocked = false, onNavigateBack = {},
         )
     }
 }

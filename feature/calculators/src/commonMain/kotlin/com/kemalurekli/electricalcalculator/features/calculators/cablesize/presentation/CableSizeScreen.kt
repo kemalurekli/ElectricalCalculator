@@ -58,6 +58,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CableSizeResult
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.GoverningConstraint
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
@@ -170,6 +171,7 @@ fun CableSizeRoute(
     val summary = uiState.result
         ?.takeIf { it.hasSolution }
         ?.let { rememberShareText(title, uiState, it) }
+    val export = LocalCalculationExport.current
 
     CableSizeScreen(
         uiState = uiState,
@@ -197,6 +199,8 @@ fun CableSizeRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
         onNavigateBack = onNavigateBack,
         snackbarHostState = snackbarHostState,
@@ -227,6 +231,8 @@ fun CableSizeScreen(
     onToggleFavorite: () -> Unit,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -286,7 +292,7 @@ fun CableSizeScreen(
             uiState.result?.let { result ->
                 item(key = "result") {
                     if (result.hasSolution) {
-                        ResultSection(result, uiState, onCopy, onShare)
+                        ResultSection(result, uiState, onCopy, onShare, onExportPdf, exportLocked)
                     } else {
                         ElecEmptyState(
                             title = stringResource(Res.string.cs_no_solution_title),
@@ -537,6 +543,8 @@ private fun ResultSection(
     uiState: CableSizeUiState,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
 
@@ -587,7 +595,12 @@ private fun ResultSection(
                 ),
             ),
         )
-        ElecResultActions(onCopy = onCopy, onShare = onShare)
+        ElecResultActions(
+            onCopy = onCopy,
+            onShare = onShare,
+            onExportPdf = onExportPdf,
+            exportLocked = exportLocked,
+        )
     }
 }
 
@@ -699,7 +712,7 @@ private fun CableSizeScreenPreview() {
             onLengthChange = {}, onPowerFactorChange = {}, onMaxDropChange = {},
             onAmbientChange = {}, onCircuitsChange = {}, onParallelConductorsChange = {},
             onCalculate = {}, onApplyExample = {}, onReferenceClick = {}, onReset = {}, onToggleFavorite = {}, onCopy = {},
-            onShare = {}, onNavigateBack = {},
+            onShare = {}, onExportPdf = null, exportLocked = false, onNavigateBack = {},
         )
     }
 }

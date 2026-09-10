@@ -51,6 +51,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.remember
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
 import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.HarmonicsResult
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.Res
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.action_calculate
@@ -93,6 +94,7 @@ fun HarmonicsRoute(
     val copiedMessage = stringResource(Res.string.message_copied)
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+    val export = LocalCalculationExport.current
 
     HarmonicsScreen(
         uiState = uiState,
@@ -104,6 +106,8 @@ fun HarmonicsRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        exportLocked = !export.isPro,
         snackbarHostState = snackbarHostState,
         onFundamentalChange = viewModel::onFundamentalChange,
         onMagnitudeChange = viewModel::onMagnitudeChange,
@@ -123,6 +127,8 @@ fun HarmonicsScreen(
     uiState: HarmonicsUiState,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     onFundamentalChange: (String) -> Unit,
     onMagnitudeChange: (Int, String) -> Unit,
@@ -178,6 +184,8 @@ fun HarmonicsScreen(
                 ElecResultActions(
                     onCopy = onCopy,
                     onShare = onShare,
+                    onExportPdf = onExportPdf,
+                    exportLocked = exportLocked,
                     modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
                 )
             }
