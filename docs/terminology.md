@@ -35,6 +35,7 @@ them in places where the national word is the right one.
 | Russian | ПУЭ, ГОСТ Р 50571.5.52 |
 | Vietnamese | TCVN 9206 |
 | Indonesian | PUIL 2011 |
+| Turkish | Elektrik İç Tesisleri Yönetmeliği, TS EN 60364 |
 
 Six of the first translations were wrong against these and were corrected:
 German `Schutzorgan` → `Schutzeinrichtung`, Spanish `corriente de diseño` →
@@ -103,6 +104,65 @@ in the app was kept rather than churned on a coin toss.
 | power factor | arbeidsfactor | współczynnik mocy | fator de potência | hệ số công suất | коэффициент мощности | faktor daya |
 | XLPE | XLPE | XLPE | XLPE | XLPE | СПЭ | XLPE |
 | RCD | aardlekschakelaar | wyłącznik różnicowoprądowy | diferencial | RCD | УЗО | GPAS |
+
+| English | tr |
+|---|---|
+| voltage drop | gerilim düşümü |
+| cross-section | kesit |
+| current-carrying capacity (Iz) | akım taşıma kapasitesi |
+| design current (Ib) | tasarım akımı |
+| rated current of device (In) | anma akımı |
+| protective device | koruma cihazı |
+| protective conductor | koruma iletkeni |
+| circuit | devre |
+| conductor | iletken |
+| ambient temperature | ortam sıcaklığı |
+| correction factor | düzeltme faktörü |
+| short-circuit current | kısa devre akımı |
+| power factor | güç faktörü |
+| RCD | RCD (kaçak akım koruma cihazı) |
+
+Turkish was the only language with no row here, which is the definition of
+unchecked — and it is the one the app was written in. Measuring what the strings
+actually say found it already consistent: `gerilim düşümü` 39 times and
+`gerilim düşüşü` none, `koruma iletkeni` 38 and `topraklama iletkeni` none,
+`anma akımı` 18 and `nominal akım` none.
+
+`güç faktörü` is kept although Turkish regulation also writes `güç katsayısı`.
+Both are current, the app is consistent on one, and the Indonesian precedent
+below applies: a majority form is not churned on a coin toss.
+
+`tasarım akımı` and `yük akımı` both appear and are **not** the same term. The
+first is IEC's Ib — "tasarım akımı ≤ cihaz anma akımı ≤ akım taşıma kapasitesi"
+— and the second is a load current in the ordinary sense, as in a contactor
+switching one or a Thévenin source feeding one.
+
+## What a usage audit found, and what it cleared
+
+Checked on 2026-09-10 by measuring the strings rather than reading them: for
+each concept, whether one language carries two words for it. Three splits that
+looked like drift are deliberate and correct, and are written down here so
+nobody spends an afternoon on them again.
+
+**Russian** uses `линия` for an installation circuit — ПУЭ's word, and what an
+electrician reads — and `цепь` for a circuit in the theory sense. **French**
+uses `calibre` for a protective device's rating and `courant nominal` for a
+machine's. **Portuguese** uses `estipulada` for a device and `nominal` for a
+machine, which is RTIEBT's own split. Each is the distinction the trade makes.
+
+What was wrong was one word doing a second job. Vietnamese wrote a device's
+rating as `dòng định mức` in twenty-one places where TCVN 7447 writes
+`dòng điện định mức` — the third instance of the family already caught twice
+above. Spanish stated the coordination rule with `corriente admisible` where the
+other thirty strings say `intensidad admisible`. And three languages had a
+formula card contradicting the label above it, because the card was written
+later and reached for the other form.
+
+Two idioms were wrong rather than two terms. The theory page says the 4.44 in
+E = 4.44·f·N·Φ is "not a fudge factor"; Turkish rendered that as
+`düzeltme katsayısı`, which is this app's term for a derating factor, and German
+left `Fudge-Faktor` in English. Nine languages had it right, which is how the
+two were found.
 
 ## What is deliberately not translated
 
