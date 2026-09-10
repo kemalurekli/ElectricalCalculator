@@ -71,3 +71,11 @@ kotlin {
         }
     }
 }
+
+/**
+ * The framework task Xcode's build phase runs is where a store key can still be
+ * missing, so it is where the archive is refused. `:app` wires the same check
+ * to the task that writes the Play bundle.
+ */
+tasks.matching { it.name == "embedAndSignAppleFrameworkForXcode" }
+    .configureEach { dependsOn(":core:billing:checkGeneratedIosBillingKey") }

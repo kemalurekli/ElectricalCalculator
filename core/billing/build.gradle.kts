@@ -95,6 +95,46 @@ val checkGeneratedBillingKey = tasks.register("checkGeneratedBillingKey") {
     }
 }
 
+/**
+ * The iOS half of the bargain `:app` makes for the Play bundle.
+ *
+ * Android had two guards and iOS had none, which left the platform where the
+ * mistake has not been made yet as the only one where nothing would catch it:
+ * an archive built without `revenuecat.iosKey` configures
+ * `BillingBackend.NotConfigured` and hands Pro to everybody who installs from
+ * TestFlight or the App Store, silently and for as long as nobody checks.
+ *
+ * Gated on Xcode's own `CONFIGURATION`, which it exports to the build phase
+ * that runs Gradle. Debug still builds on a checkout with no credentials — the
+ * simulator has no store to talk to anyway — and Release, the configuration an
+ * archive uses, does not.
+ *
+ * It reads the generated file rather than `local.properties`, for the reason
+ * that cost an afternoon on the Android side: the properties file is what a
+ * developer edits, and the generated one is what actually ships.
+ */
+val checkGeneratedIosBillingKey = tasks.register("checkGeneratedIosBillingKey") {
+    dependsOn(generateBillingConfig)
+    val xcodeConfiguration = providers.environmentVariable("CONFIGURATION")
+    val generated = generateBillingConfig.map { task ->
+        task.outputs.files.singleFile
+            .resolve("com/kemalurekli/electricalcalculator/core/billing/domain/BillingConfig.kt")
+    }
+    doLast {
+        // Anything that is not an archive is somebody working, and work does
+        // not need a store key.
+        if (!xcodeConfiguration.orNull.equals("Release", ignoreCase = true)) return@doLast
+
+        val text = generated.get().readText()
+        val key = Regex("""IOS_KEY: String = "([^"]*)"""").find(text)?.groupValues?.get(1)
+        check(!key.isNullOrBlank()) {
+            "BillingConfig was generated with an empty IOS_KEY, so this archive " +
+                "unlocks every paid feature. Add revenuecat.iosKey to " +
+                "local.properties, then build again."
+        }
+    }
+}
+
 kotlin {
     androidLibrary {
         namespace = "com.kemalurekli.electricalcalculator.core.billing"
