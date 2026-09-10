@@ -95,7 +95,7 @@
     <string name="forum_sign_in_failed">Giriş tamamlanmadı. Yeniden deneyin.</string>
     <string name="forum_sign_in_failed_invalid_code">Kod yanlış ya da süresi dolmuş. Yeni bir tane isteyin.</string>
     <string name="forum_sign_in_failed_invalid_email">Bu bir e-posta adresine benzemiyor.</string>
-    <string name="forum_sign_in_failed_no_account">Google hesabı alınamadı. Bu cihazda Google oturumunuzun açık olduğundan emin olun.</string>
+    <string name="forum_sign_in_failed_no_account">Google bir hesap döndürmedi. Bu cihazda Google oturumunuz açıksa sorun bizde.</string>
     <string name="forum_sign_in_failed_offline">Bağlantı yok. Giriş için bağlantı gerekiyor.</string>
     <string name="forum_sign_in_failed_too_many">Çok fazla kod istendi. Birkaç dakika bekleyip yeniden deneyin.</string>
     <string name="forum_sign_in_failed_unconfigured">Bu sürümde giriş kullanılamıyor.</string>
@@ -120,5 +120,5 @@
         <item quantity="other">%1$d konu</item>
     </plurals>
     <string name="forum_sign_in_apple">Apple ile giriş yap</string>
-    <string name="forum_sign_in_failed_no_account_apple">Apple kimliği alınamadı. Bu cihazda iCloud oturumunuzun açık olduğundan emin olun.</string>
+    <string name="forum_sign_in_failed_no_account_apple">Apple bir kimlik döndürmedi. Bu cihazda iCloud oturumunuz açıksa sorun bizde.</string>
 </resources>

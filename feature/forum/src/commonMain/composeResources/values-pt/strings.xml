@@ -95,7 +95,7 @@
     <string name="forum_sign_in_failed">O início de sessão não foi concluído. Tente novamente.</string>
     <string name="forum_sign_in_failed_invalid_code">O código está errado ou expirou. Peça um novo.</string>
     <string name="forum_sign_in_failed_invalid_email">Isso não parece um endereço de e-mail.</string>
-    <string name="forum_sign_in_failed_no_account">Não foi possível obter uma conta Google. Verifique se tem sessão iniciada no Google neste dispositivo.</string>
+    <string name="forum_sign_in_failed_no_account">O Google não devolveu nenhuma conta. Se tem sessão iniciada no Google neste dispositivo, o problema é nosso.</string>
     <string name="forum_sign_in_failed_offline">Sem ligação. O início de sessão precisa de uma.</string>
     <string name="forum_sign_in_failed_too_many">Foram pedidos códigos a mais. Aguarde alguns minutos e tente novamente.</string>
     <string name="forum_sign_in_failed_unconfigured">O início de sessão não está disponível nesta compilação.</string>
@@ -120,5 +120,5 @@
         <item quantity="other">%1$d tópicos</item>
     </plurals>
     <string name="forum_sign_in_apple">Iniciar sessão com Apple</string>
-    <string name="forum_sign_in_failed_no_account_apple">Não foi possível obter um ID Apple. Verifique se tem sessão iniciada no iCloud neste dispositivo.</string>
+    <string name="forum_sign_in_failed_no_account_apple">A Apple não devolveu nenhum ID. Se tem sessão iniciada no iCloud neste dispositivo, o problema é nosso.</string>
 </resources>

@@ -95,7 +95,7 @@
     <string name="forum_sign_in_failed">Die Anmeldung wurde nicht abgeschlossen. Versuchen Sie es erneut.</string>
     <string name="forum_sign_in_failed_invalid_code">Der Code ist falsch oder abgelaufen. Fordern Sie einen neuen an.</string>
     <string name="forum_sign_in_failed_invalid_email">Das sieht nicht nach einer E-Mail-Adresse aus.</string>
-    <string name="forum_sign_in_failed_no_account">Es konnte kein Google-Konto ermittelt werden. Prüfen Sie, ob Sie auf diesem Gerät bei Google angemeldet sind.</string>
+    <string name="forum_sign_in_failed_no_account">Google hat kein Konto zurückgegeben. Wenn Sie auf diesem Gerät bei Google angemeldet sind, liegt es an uns.</string>
     <string name="forum_sign_in_failed_offline">Keine Verbindung. Die Anmeldung braucht eine.</string>
     <string name="forum_sign_in_failed_too_many">Zu viele Codes angefordert. Warten Sie einige Minuten und versuchen Sie es erneut.</string>
     <string name="forum_sign_in_failed_unconfigured">Die Anmeldung ist in diesem Build nicht verfügbar.</string>
@@ -120,5 +120,5 @@
         <item quantity="other">%1$d Themen</item>
     </plurals>
     <string name="forum_sign_in_apple">Mit Apple anmelden</string>
-    <string name="forum_sign_in_failed_no_account_apple">Es konnte keine Apple-ID ermittelt werden. Prüfen Sie, ob Sie auf diesem Gerät bei iCloud angemeldet sind.</string>
+    <string name="forum_sign_in_failed_no_account_apple">Apple hat keine ID zurückgegeben. Wenn Sie auf diesem Gerät bei iCloud angemeldet sind, liegt es an uns.</string>
 </resources>

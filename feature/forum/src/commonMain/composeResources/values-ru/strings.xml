@@ -95,7 +95,7 @@
     <string name="forum_sign_in_failed">Вход не завершён. Повторите попытку.</string>
     <string name="forum_sign_in_failed_invalid_code">Код неверен или просрочен. Запросите новый.</string>
     <string name="forum_sign_in_failed_invalid_email">Это не похоже на адрес электронной почты.</string>
-    <string name="forum_sign_in_failed_no_account">Не удалось получить учётную запись Google. Проверьте, что вы вошли в Google на этом устройстве.</string>
+    <string name="forum_sign_in_failed_no_account">Google не вернул аккаунт. Если вы вошли в Google на этом устройстве, дело в нас.</string>
     <string name="forum_sign_in_failed_offline">Нет связи. Для входа она нужна.</string>
     <string name="forum_sign_in_failed_too_many">Запрошено слишком много кодов. Подождите несколько минут и повторите.</string>
     <string name="forum_sign_in_failed_unconfigured">Вход недоступен в этой сборке.</string>
@@ -122,5 +122,5 @@
         <item quantity="other">%1$d темы</item>
     </plurals>
     <string name="forum_sign_in_apple">Войти через Apple</string>
-    <string name="forum_sign_in_failed_no_account_apple">Не удалось получить Apple ID. Проверьте, что вы вошли в iCloud на этом устройстве.</string>
+    <string name="forum_sign_in_failed_no_account_apple">Apple не вернул идентификатор. Если вы вошли в iCloud на этом устройстве, дело в нас.</string>
 </resources>

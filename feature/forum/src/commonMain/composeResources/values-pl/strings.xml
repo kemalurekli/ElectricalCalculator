@@ -95,7 +95,7 @@
     <string name="forum_sign_in_failed">Logowanie nie zostało ukończone. Spróbuj ponownie.</string>
     <string name="forum_sign_in_failed_invalid_code">Kod jest błędny albo wygasł. Poproś o nowy.</string>
     <string name="forum_sign_in_failed_invalid_email">To nie wygląda na adres e-mail.</string>
-    <string name="forum_sign_in_failed_no_account">Nie udało się pobrać konta Google. Sprawdź, czy jesteś zalogowany do Google na tym urządzeniu.</string>
+    <string name="forum_sign_in_failed_no_account">Google nie zwrócił konta. Jeśli jesteś zalogowany do Google na tym urządzeniu, problem jest po naszej stronie.</string>
     <string name="forum_sign_in_failed_offline">Brak połączenia. Logowanie go wymaga.</string>
     <string name="forum_sign_in_failed_too_many">Zamówiono zbyt wiele kodów. Odczekaj kilka minut i spróbuj ponownie.</string>
     <string name="forum_sign_in_failed_unconfigured">Logowanie nie jest dostępne w tej kompilacji.</string>
@@ -122,5 +122,5 @@
         <item quantity="other">%1$d wątku</item>
     </plurals>
     <string name="forum_sign_in_apple">Zaloguj się przez Apple</string>
-    <string name="forum_sign_in_failed_no_account_apple">Nie udało się pobrać Apple ID. Sprawdź, czy jesteś zalogowany do iCloud na tym urządzeniu.</string>
+    <string name="forum_sign_in_failed_no_account_apple">Apple nie zwrócił identyfikatora. Jeśli jesteś zalogowany do iCloud na tym urządzeniu, problem jest po naszej stronie.</string>
 </resources>

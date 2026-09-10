@@ -95,7 +95,7 @@
     <string name="forum_sign_in_failed">Het aanmelden is niet voltooid. Probeer het opnieuw.</string>
     <string name="forum_sign_in_failed_invalid_code">De code is onjuist of verlopen. Vraag een nieuwe aan.</string>
     <string name="forum_sign_in_failed_invalid_email">Dat ziet er niet uit als een e-mailadres.</string>
-    <string name="forum_sign_in_failed_no_account">Kon geen Google-account ophalen. Controleer of u op dit apparaat bij Google bent aangemeld.</string>
+    <string name="forum_sign_in_failed_no_account">Google gaf geen account terug. Als u op dit apparaat bij Google bent aangemeld, ligt het aan ons.</string>
     <string name="forum_sign_in_failed_offline">Geen verbinding. Aanmelden heeft er een nodig.</string>
     <string name="forum_sign_in_failed_too_many">Te veel codes aangevraagd. Wacht een paar minuten en probeer het opnieuw.</string>
     <string name="forum_sign_in_failed_unconfigured">Aanmelden is niet beschikbaar in deze build.</string>
@@ -120,5 +120,5 @@
         <item quantity="other">%1$d onderwerpen</item>
     </plurals>
     <string name="forum_sign_in_apple">Aanmelden met Apple</string>
-    <string name="forum_sign_in_failed_no_account_apple">Kon geen Apple ID ophalen. Controleer of u op dit apparaat bij iCloud bent aangemeld.</string>
+    <string name="forum_sign_in_failed_no_account_apple">Apple gaf geen ID terug. Als u op dit apparaat bij iCloud bent aangemeld, ligt het aan ons.</string>
 </resources>

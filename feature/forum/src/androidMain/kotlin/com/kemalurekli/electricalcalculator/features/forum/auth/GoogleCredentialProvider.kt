@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import android.content.ContextWrapper
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialCancellationException
@@ -77,11 +78,18 @@ private class GoogleCredentialProvider(private val activity: Activity) : ForumSi
                 .createFrom(response.credential.data)
                 .idToken
             SignInCredential(SignInProvider.GOOGLE, idToken = token, rawNonce = rawNonce)
-        }.onFailure {
+        }.onFailure { failure ->
             // Credential Manager reports several quite different problems as
             // the same exception type, and the reason is only ever in the
-            // message. Without this line a failed sign-in leaves no trace at
-            // all, which makes it undiagnosable on a user's device.
+            // message: "no credentials available" and "Developer console is not
+            // set up correctly" arrive as one `NoCredentialException`.
+            //
+            // This block used to be empty under a comment claiming it logged,
+            // so a sign-in that failed on a real device left no trace anywhere.
+            // Diagnosing one then meant a USB cable and Google Play services'
+            // own log, which is not a thing to ask of somebody who has already
+            // hit a broken button.
+            Log.w(TAG, "Google sign-in failed: ${failure::class.simpleName}", failure)
         }
     }
 

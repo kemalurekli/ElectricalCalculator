@@ -95,7 +95,7 @@
     <string name="forum_sign_in_failed">Proses masuk tidak selesai. Coba lagi.</string>
     <string name="forum_sign_in_failed_invalid_code">Kode salah atau sudah kedaluwarsa. Mintalah yang baru.</string>
     <string name="forum_sign_in_failed_invalid_email">Itu tidak tampak seperti alamat email.</string>
-    <string name="forum_sign_in_failed_no_account">Tidak bisa mendapatkan akun Google. Pastikan Anda masuk ke Google di perangkat ini.</string>
+    <string name="forum_sign_in_failed_no_account">Google tidak mengembalikan akun. Jika Anda sudah masuk ke Google di perangkat ini, masalahnya ada di pihak kami.</string>
     <string name="forum_sign_in_failed_offline">Tidak ada koneksi. Proses masuk memerlukannya.</string>
     <string name="forum_sign_in_failed_too_many">Terlalu banyak kode diminta. Tunggu beberapa menit lalu coba lagi.</string>
     <string name="forum_sign_in_failed_unconfigured">Proses masuk tidak tersedia di build ini.</string>
@@ -119,5 +119,5 @@
         <item quantity="other">%1$d topik</item>
     </plurals>
     <string name="forum_sign_in_apple">Masuk dengan Apple</string>
-    <string name="forum_sign_in_failed_no_account_apple">Tidak bisa mendapatkan Apple ID. Pastikan Anda masuk ke iCloud di perangkat ini.</string>
+    <string name="forum_sign_in_failed_no_account_apple">Apple tidak mengembalikan ID. Jika Anda sudah masuk ke iCloud di perangkat ini, masalahnya ada di pihak kami.</string>
 </resources>

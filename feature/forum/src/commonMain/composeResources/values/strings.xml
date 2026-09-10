@@ -95,7 +95,7 @@
     <string name="forum_sign_in_failed">Sign-in did not complete. Try again.</string>
     <string name="forum_sign_in_failed_invalid_code">The code is wrong, or it has expired. Ask for a new one.</string>
     <string name="forum_sign_in_failed_invalid_email">That does not look like an email address.</string>
-    <string name="forum_sign_in_failed_no_account">Could not get a Google account. Check that you are signed in to Google on this device.</string>
+    <string name="forum_sign_in_failed_no_account">Google did not return an account. If you are signed in to Google on this device, the problem is at our end.</string>
     <string name="forum_sign_in_failed_offline">No connection. Sign-in needs one.</string>
     <string name="forum_sign_in_failed_too_many">Too many codes asked for. Wait a few minutes and try again.</string>
     <string name="forum_sign_in_failed_unconfigured">Sign-in is not available in this build.</string>
@@ -120,5 +120,5 @@
         <item quantity="other">%1$d threads</item>
     </plurals>
     <string name="forum_sign_in_apple">Sign in with Apple</string>
-    <string name="forum_sign_in_failed_no_account_apple">Could not get an Apple ID. Check that you are signed in to iCloud on this device.</string>
+    <string name="forum_sign_in_failed_no_account_apple">Apple did not return an ID. If you are signed in to iCloud on this device, the problem is at our end.</string>
 </resources>

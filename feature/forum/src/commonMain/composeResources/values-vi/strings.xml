@@ -95,7 +95,7 @@
     <string name="forum_sign_in_failed">Đăng nhập chưa hoàn tất. Hãy thử lại.</string>
     <string name="forum_sign_in_failed_invalid_code">Mã sai hoặc đã hết hạn. Hãy xin mã mới.</string>
     <string name="forum_sign_in_failed_invalid_email">Đó không giống một địa chỉ email.</string>
-    <string name="forum_sign_in_failed_no_account">Không lấy được tài khoản Google. Hãy kiểm tra bạn đã đăng nhập Google trên thiết bị này.</string>
+    <string name="forum_sign_in_failed_no_account">Google không trả về tài khoản nào. Nếu bạn đã đăng nhập Google trên thiết bị này thì lỗi thuộc về chúng tôi.</string>
     <string name="forum_sign_in_failed_offline">Không có kết nối. Đăng nhập cần mạng.</string>
     <string name="forum_sign_in_failed_too_many">Đã yêu cầu quá nhiều mã. Hãy đợi vài phút rồi thử lại.</string>
     <string name="forum_sign_in_failed_unconfigured">Bản dựng này không hỗ trợ đăng nhập.</string>
@@ -119,5 +119,5 @@
         <item quantity="other">%1$d chủ đề</item>
     </plurals>
     <string name="forum_sign_in_apple">Đăng nhập bằng Apple</string>
-    <string name="forum_sign_in_failed_no_account_apple">Không lấy được Apple ID. Hãy kiểm tra bạn đã đăng nhập iCloud trên thiết bị này.</string>
+    <string name="forum_sign_in_failed_no_account_apple">Apple không trả về ID nào. Nếu bạn đã đăng nhập iCloud trên thiết bị này thì lỗi thuộc về chúng tôi.</string>
 </resources>

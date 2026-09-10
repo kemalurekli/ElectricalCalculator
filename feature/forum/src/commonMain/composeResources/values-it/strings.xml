@@ -95,7 +95,7 @@
     <string name="forum_sign_in_failed">L'accesso non è andato a buon fine. Riprova.</string>
     <string name="forum_sign_in_failed_invalid_code">Il codice è errato o scaduto. Chiedine uno nuovo.</string>
     <string name="forum_sign_in_failed_invalid_email">Non sembra un indirizzo e-mail.</string>
-    <string name="forum_sign_in_failed_no_account">Non è stato possibile ottenere un account Google. Verifica di aver effettuato l'accesso a Google su questo dispositivo.</string>
+    <string name="forum_sign_in_failed_no_account">Google non ha restituito alcun account. Se hai effettuato l'accesso a Google su questo dispositivo, il problema è nostro.</string>
     <string name="forum_sign_in_failed_offline">Nessuna connessione. L'accesso ne richiede una.</string>
     <string name="forum_sign_in_failed_too_many">Troppi codici richiesti. Attendi qualche minuto e riprova.</string>
     <string name="forum_sign_in_failed_unconfigured">L'accesso non è disponibile in questa build.</string>
@@ -120,5 +120,5 @@
         <item quantity="other">%1$d discussioni</item>
     </plurals>
     <string name="forum_sign_in_apple">Accedi con Apple</string>
-    <string name="forum_sign_in_failed_no_account_apple">Non è stato possibile ottenere un ID Apple. Verifica di aver effettuato l'accesso a iCloud su questo dispositivo.</string>
+    <string name="forum_sign_in_failed_no_account_apple">Apple non ha restituito alcun ID. Se hai effettuato l'accesso a iCloud su questo dispositivo, il problema è nostro.</string>
 </resources>
