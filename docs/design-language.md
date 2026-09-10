@@ -192,6 +192,17 @@ open the page behind it — a calculator, a reference, a theory topic, the More
 list — it is a row. Rows are separated by `ElecListDivider`, drawn between rows
 and never after the last one in a group.
 
+**Three glyphs are drawn rather than taken from Material.** The set is Material
+Outlined, and three of its marks meant nothing on iOS: the back arrow, where
+every iOS app has ever used a bare chevron; the vertical-ellipsis overflow,
+which iOS has never had; and the three-node share graph, against iOS's tray
+with an ascending arrow. The one rule forbids a Cupertino variant, so each is
+replaced by a **single glyph that is right on iOS and not wrong on Android** —
+`ElecChromeIcons`, drawn on Material's own 24 grid at a 2px stroke so they sit
+beside the rest of the set. The overflow keeps its ring: `MoreTab` is a bare
+horizontal ellipsis, which is also iOS's own More tab, and the two have to stay
+apart.
+
 **A leading glyph has to differ between rows.** `ElecListItem` takes an optional
 icon, and three lists used to be required to supply one: references drew twenty
 identical books, theory twenty identical sigmas, projects a column of folders.
@@ -284,7 +295,4 @@ sense with it:
 - **Motion.** Beyond the option pill's colour transition and the top-bar
   separator fade, the app has no motion language yet. It should not get one
   until the palette and the structure have been lived with.
-- **Icons.** Material Outlined is the set. Two glyphs will read as foreign on
-  iOS — the back arrow, where iOS uses a chevron, and the vertical-ellipsis
-  overflow — and should be revisited during the port rather than guessed at now.
 - **Illustration.** There is none, and empty states use a single tinted glyph.

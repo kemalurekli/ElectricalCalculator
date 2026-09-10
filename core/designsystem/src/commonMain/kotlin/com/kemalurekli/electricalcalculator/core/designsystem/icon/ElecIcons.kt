@@ -3,7 +3,6 @@ package com.kemalurekli.electricalcalculator.core.designsystem.icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.TrendingDown
 import androidx.compose.material.icons.filled.Star
@@ -34,7 +33,6 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.DriveFileRenameOutline
-import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.ElectricalServices
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.EvStation
@@ -57,7 +55,6 @@ import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material.icons.outlined.Shield
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material.icons.outlined.SwapHoriz
 import androidx.compose.material.icons.outlined.ViewStream
@@ -75,16 +72,20 @@ import com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon
 object ElecIcons {
 
     // Navigation and chrome
-    val Back = Icons.AutoMirrored.Outlined.ArrowBack
+    /** Drawn, not Material's arrow — see [ElecChromeIcons]. */
+    val Back = ElecChromeIcons.Back
     val Home = Icons.Outlined.Home
 
     /**
      * The More tab.
      *
-     * A horizontal ellipsis, not the vertical [More] used for overflow menus.
-     * They mean different things — one opens a section, the other opens actions
-     * on the thing beside it — and using the same glyph for both would teach
-     * the reader that the dots are unpredictable.
+     * A bare horizontal ellipsis — which is also what iOS's own tab bar uses
+     * for its More tab, so the glyph is right on both platforms.
+     *
+     * [More], the overflow menu, is the same ellipsis inside a ring. They mean
+     * different things — one opens a section, the other opens actions on the
+     * thing beside it — and the ring is what keeps them apart now that the
+     * vertical ellipsis has been dropped for being unreadable on iOS.
      */
     val MoreTab = Icons.Outlined.MoreHoriz
     val Search = Icons.Outlined.Search
@@ -106,7 +107,7 @@ object ElecIcons {
 
     // Actions
     val Copy = Icons.Outlined.ContentCopy
-    val Share = Icons.Outlined.Share
+    val Share = ElecChromeIcons.Share
     val FavoriteOn = Icons.Filled.Star
     val FavoriteOff = Icons.Outlined.StarBorder
 
@@ -126,7 +127,7 @@ object ElecIcons {
     val Remove = Icons.Outlined.RemoveCircleOutline
 
     // Managing saved work: an overflow menu and the three things inside it
-    val More = Icons.Outlined.MoreVert
+    val More = ElecChromeIcons.Overflow
     val Rename = Icons.Outlined.DriveFileRenameOutline
     val Delete = Icons.Outlined.DeleteOutline
 
