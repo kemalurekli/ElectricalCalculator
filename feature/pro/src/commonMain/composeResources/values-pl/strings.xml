@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pro_benefit_calculation">Dowolny z dwudziestu dwóch kalkulatorów, z podanymi wartościami</string>
+    <string name="pro_benefit_calculation_title">Każde obliczenie również</string>
     <string name="pro_benefit_free">Kalkulatory, materiały, teoria i forum pozostają bezpłatne</string>
     <string name="pro_benefit_future">Wszystko, co później trafi do Pro, bez dopłat</string>
     <string name="pro_benefit_future_title">Bez drugiego zakupu</string>
@@ -15,7 +17,7 @@
     <string name="pro_error_store">Sklep w tej chwili nie odpowiada. Spróbuj później.</string>
     <string name="pro_error_unknown">Nie udało się. Spróbuj później.</string>
     <string name="pro_headline_calculation">Przekaż te obliczenia jako dokument</string>
-    <string name="pro_headline_general">Odblokuj funkcje profesjonalne</string>
+    <string name="pro_headline_general">Przekaż swoją pracę jako dokument</string>
     <string name="pro_headline_pdf">Przekaż zestawienie obwodów w PDF</string>
     <string name="pro_nothing_to_restore">To konto sklepu nie ma zakupu do przywrócenia.</string>
     <string name="pro_one_time">Płatność jednorazowa. Bez abonamentu.</string>

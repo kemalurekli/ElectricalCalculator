@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pro_benefit_calculation">Jeder der zweiundzwanzig Rechner, mit den eingegebenen Werten</string>
+    <string name="pro_benefit_calculation_title">Auch jede Berechnung</string>
     <string name="pro_benefit_free">Rechner, Referenzen, Theorie und Forum bleiben kostenlos</string>
     <string name="pro_benefit_future">Alles, was später zu Pro kommt, ohne Aufpreis</string>
     <string name="pro_benefit_future_title">Kein zweiter Kauf</string>
@@ -15,7 +17,7 @@
     <string name="pro_error_store">Der Store antwortet gerade nicht. Versuchen Sie es später.</string>
     <string name="pro_error_unknown">Das hat nicht geklappt. Versuchen Sie es später.</string>
     <string name="pro_headline_calculation">Diese Berechnung als Dokument übergeben</string>
-    <string name="pro_headline_general">Die professionellen Funktionen freischalten</string>
+    <string name="pro_headline_general">Übergeben Sie Ihre Arbeit als Dokument</string>
     <string name="pro_headline_pdf">Den Stromkreisplan als PDF übergeben</string>
     <string name="pro_nothing_to_restore">Für dieses Store-Konto gibt es keinen Kauf zum Wiederherstellen.</string>
     <string name="pro_one_time">Einmalzahlung. Kein Abo.</string>

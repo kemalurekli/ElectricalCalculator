@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pro_benefit_calculation">Elk van de tweeëntwintig rekenmodules, met de waarden die u invoerde</string>
+    <string name="pro_benefit_calculation_title">Elke berekening ook</string>
     <string name="pro_benefit_free">Rekenhulpen, naslag, theorie en forum blijven gratis</string>
     <string name="pro_benefit_future">Alles wat later aan Pro wordt toegevoegd, zonder meerkosten</string>
     <string name="pro_benefit_future_title">Geen tweede aankoop</string>
@@ -15,7 +17,7 @@
     <string name="pro_error_store">De store reageert nu niet. Probeer het later opnieuw.</string>
     <string name="pro_error_unknown">Dat is niet gelukt. Probeer het later opnieuw.</string>
     <string name="pro_headline_calculation">Geef deze berekening als document mee</string>
-    <string name="pro_headline_general">Ontgrendel de professionele functies</string>
+    <string name="pro_headline_general">Geef uw werk als document mee</string>
     <string name="pro_headline_pdf">Lever het stroomkringenschema als pdf</string>
     <string name="pro_nothing_to_restore">Dit store-account heeft geen aankoop om te herstellen.</string>
     <string name="pro_one_time">Eenmalige betaling. Geen abonnement.</string>

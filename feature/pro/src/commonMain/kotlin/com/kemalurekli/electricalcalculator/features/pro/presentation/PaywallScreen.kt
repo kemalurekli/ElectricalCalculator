@@ -39,6 +39,8 @@ import com.kemalurekli.electricalcalculator.core.navigation.PaywallReason
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignRes
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_retry
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_calculation
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_calculation_title
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_free
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_future
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_future_title
@@ -214,6 +216,15 @@ fun PaywallScreen(
                         icon = ElecIcons.ProSchedule,
                         title = stringResource(Res.string.pro_benefit_schedule_title),
                         description = stringResource(Res.string.pro_benefit_schedule),
+                    )
+                    // Added when the export stopped being one screen's. A
+                    // paywall that promises only the schedule is selling less
+                    // than it has, and the reader finds out after paying —
+                    // which is the pleasant version of the same mistake.
+                    Benefit(
+                        icon = ElecIcons.Calculators,
+                        title = stringResource(Res.string.pro_benefit_calculation_title),
+                        description = stringResource(Res.string.pro_benefit_calculation),
                     )
                     Benefit(
                         icon = ElecIcons.ProIncluded,

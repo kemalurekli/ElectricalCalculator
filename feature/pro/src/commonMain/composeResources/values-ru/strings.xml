@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pro_benefit_calculation">Любой из двадцати двух калькуляторов, с введёнными значениями</string>
+    <string name="pro_benefit_calculation_title">И каждый расчёт</string>
     <string name="pro_benefit_free">Калькуляторы, справочники, теория и форум остаются бесплатными</string>
     <string name="pro_benefit_future">Всё, что позже добавят в Pro, без доплаты</string>
     <string name="pro_benefit_future_title">Без второй покупки</string>
@@ -15,7 +17,7 @@
     <string name="pro_error_store">Магазин сейчас не отвечает. Повторите позже.</string>
     <string name="pro_error_unknown">Не получилось. Повторите позже.</string>
     <string name="pro_headline_calculation">Передайте этот расчёт документом</string>
-    <string name="pro_headline_general">Откройте профессиональные возможности</string>
+    <string name="pro_headline_general">Передайте свою работу документом</string>
     <string name="pro_headline_pdf">Передайте ведомость линий в PDF</string>
     <string name="pro_nothing_to_restore">У этой учётной записи магазина нет покупок для восстановления.</string>
     <string name="pro_one_time">Разовая оплата. Без подписки.</string>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pro_benefit_calculation">N'importe lequel des vingt-deux calculateurs, avec vos valeurs</string>
+    <string name="pro_benefit_calculation_title">Chaque calcul aussi</string>
     <string name="pro_benefit_free">Calculatrices, références, théorie et forum restent gratuits</string>
     <string name="pro_benefit_future">Tout ce qui sera ajouté à Pro plus tard, sans supplément</string>
     <string name="pro_benefit_future_title">Pas de second achat</string>
@@ -15,7 +17,7 @@
     <string name="pro_error_store">La boutique ne répond pas pour le moment. Réessayez plus tard.</string>
     <string name="pro_error_unknown">L'opération n'a pas abouti. Réessayez plus tard.</string>
     <string name="pro_headline_calculation">Remettez ce calcul sous forme de document</string>
-    <string name="pro_headline_general">Débloquez les fonctions professionnelles</string>
+    <string name="pro_headline_general">Remettez votre travail sous forme de document</string>
     <string name="pro_headline_pdf">Remettez le tableau des circuits en PDF</string>
     <string name="pro_nothing_to_restore">Ce compte de boutique n'a aucun achat à restaurer.</string>
     <string name="pro_one_time">Paiement unique. Sans abonnement.</string>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pro_benefit_calculation">Bất kỳ công cụ nào trong hai mươi hai công cụ, cùng các giá trị bạn nhập</string>
+    <string name="pro_benefit_calculation_title">Mọi phép tính cũng vậy</string>
     <string name="pro_benefit_free">Máy tính, tra cứu, lý thuyết và diễn đàn vẫn miễn phí</string>
     <string name="pro_benefit_future">Mọi thứ được thêm vào Pro sau này, không tính thêm phí</string>
     <string name="pro_benefit_future_title">Không mua lần thứ hai</string>
@@ -15,7 +17,7 @@
     <string name="pro_error_store">Cửa hàng hiện không phản hồi. Hãy thử lại sau.</string>
     <string name="pro_error_unknown">Không thực hiện được. Hãy thử lại sau.</string>
     <string name="pro_headline_calculation">Bàn giao phép tính này dưới dạng tài liệu</string>
-    <string name="pro_headline_general">Mở khóa các tính năng chuyên nghiệp</string>
+    <string name="pro_headline_general">Bàn giao công việc của bạn dưới dạng tài liệu</string>
     <string name="pro_headline_pdf">Giao bảng mạch dưới dạng PDF</string>
     <string name="pro_nothing_to_restore">Tài khoản cửa hàng này không có giao dịch nào để khôi phục.</string>
     <string name="pro_one_time">Thanh toán một lần. Không thuê bao.</string>

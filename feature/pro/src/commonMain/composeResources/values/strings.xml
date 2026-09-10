@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pro_benefit_calculation">Any of the twenty-two calculators, with the figures you gave it</string>
+    <string name="pro_benefit_calculation_title">Every calculation, too</string>
     <string name="pro_benefit_free">Calculators, references, theory and forum stay free</string>
     <string name="pro_benefit_future">Everything added to Pro later, at no extra cost</string>
     <string name="pro_benefit_future_title">No second purchase</string>
@@ -15,7 +17,7 @@
     <string name="pro_error_store">The store is not answering right now. Try again later.</string>
     <string name="pro_error_unknown">That did not go through. Try again later.</string>
     <string name="pro_headline_calculation">Hand this calculation over as a document</string>
-    <string name="pro_headline_general">Unlock the professional features</string>
+    <string name="pro_headline_general">Hand your work over as a document</string>
     <string name="pro_headline_pdf">Hand the schedule over as a PDF</string>
     <string name="pro_nothing_to_restore">This store account has no purchase to restore.</string>
     <string name="pro_one_time">One-time payment. No subscription.</string>
