@@ -160,7 +160,7 @@
     <string name="cs_export_environment">%1$s °C · %2$s линий · не более %3$s %</string>
     <string name="cs_export_load">%1$s V · %2$s A · %3$s m</string>
     <string name="cs_export_result">Рекомендуемое сечение: %1$s mm²</string>
-    <string name="cs_formula">I_z ≥ I_b / (n · Ca · Cg)\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
+    <string name="cs_formula">I_z = I_t · n · Ca · Cg ≥ I_b\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
     <string name="cs_history_summary">%1$s mm²</string>
     <string name="cs_history_title">Сечение кабеля — %1$s A, %2$s m</string>
     <string name="cs_installation_method">Способ прокладки</string>
@@ -208,7 +208,8 @@
     <string name="cs_var_cg">Коэффициент прокладки в пучке</string>
     <string name="cs_var_dumax">Допустимая потеря напряжения</string>
     <string name="cs_var_ib">Расчётный ток</string>
-    <string name="cs_var_iz">Табличный длительно допустимый ток</string>
+    <string name="cs_var_it">Длительно допустимый ток по таблице, до применения коэффициентов</string>
+    <string name="cs_var_iz">Длительно допустимый ток в условиях прокладки, после применения коэффициентов</string>
     <string name="cw_conductor_count">Число жил</string>
     <string name="cw_conductor_count_hint">Считайте каждую жилу, включая нулевую рабочую и PE</string>
     <string name="cw_cross_section">Сечение одной жилы</string>

@@ -160,7 +160,7 @@
     <string name="cs_export_environment">%1$s °C · %2$s circuito(s) · máx. %3$s %</string>
     <string name="cs_export_load">%1$s V · %2$s A · %3$s m</string>
     <string name="cs_export_result">Sección recomendada: %1$s mm²</string>
-    <string name="cs_formula">I_z ≥ I_b / (n · Ca · Cg)\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
+    <string name="cs_formula">I_z = I_t · n · Ca · Cg ≥ I_b\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
     <string name="cs_history_summary">%1$s mm²</string>
     <string name="cs_history_title">Sección del cable — %1$s A, %2$s m</string>
     <string name="cs_installation_method">Método de instalación</string>
@@ -208,7 +208,8 @@
     <string name="cs_var_cg">Factor de agrupamiento</string>
     <string name="cs_var_dumax">Caída de tensión admisible</string>
     <string name="cs_var_ib">Corriente de empleo</string>
-    <string name="cs_var_iz">Intensidad admisible de tabla</string>
+    <string name="cs_var_it">Intensidad admisible de tabla, antes de aplicar los factores</string>
+    <string name="cs_var_iz">Intensidad admisible en las condiciones de instalación, tras aplicar los factores</string>
     <string name="cw_conductor_count">Número de conductores</string>
     <string name="cw_conductor_count_hint">Cuente todas las venas, incluidos el neutro y el PE</string>
     <string name="cw_cross_section">Sección por conductor</string>

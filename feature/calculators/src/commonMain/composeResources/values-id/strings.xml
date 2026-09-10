@@ -160,7 +160,7 @@
     <string name="cs_export_environment">%1$s °C · %2$s sirkit · maks %3$s %</string>
     <string name="cs_export_load">%1$s V · %2$s A · %3$s m</string>
     <string name="cs_export_result">Luas penampang yang dianjurkan: %1$s mm²</string>
-    <string name="cs_formula">I_z ≥ I_b / (n · Ca · Cg)\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
+    <string name="cs_formula">I_z = I_t · n · Ca · Cg ≥ I_b\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
     <string name="cs_history_summary">%1$s mm²</string>
     <string name="cs_history_title">Luas penampang kabel — %1$s A, %2$s m</string>
     <string name="cs_installation_method">Metode pemasangan</string>
@@ -208,7 +208,8 @@
     <string name="cs_var_cg">Faktor pengelompokan</string>
     <string name="cs_var_dumax">Susut tegangan yang diizinkan</string>
     <string name="cs_var_ib">Arus desain</string>
-    <string name="cs_var_iz">Kemampuan hantar arus menurut tabel</string>
+    <string name="cs_var_it">Kemampuan hantar arus dari tabel, sebelum faktor diterapkan</string>
+    <string name="cs_var_iz">Kemampuan hantar arus pada kondisi pemasangan, setelah faktor diterapkan</string>
     <string name="cw_conductor_count">Jumlah penghantar</string>
     <string name="cw_conductor_count_hint">Hitung setiap inti, termasuk netral dan PE</string>
     <string name="cw_cross_section">Luas penampang tiap penghantar</string>

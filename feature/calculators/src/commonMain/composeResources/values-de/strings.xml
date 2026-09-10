@@ -160,7 +160,7 @@
     <string name="cs_export_environment">%1$s °C · %2$s Stromkreis(e) · max. %3$s %</string>
     <string name="cs_export_load">%1$s V · %2$s A · %3$s m</string>
     <string name="cs_export_result">Empfohlener Querschnitt: %1$s mm²</string>
-    <string name="cs_formula">I_z ≥ I_b / (n · Ca · Cg)\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
+    <string name="cs_formula">I_z = I_t · n · Ca · Cg ≥ I_b\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
     <string name="cs_history_summary">%1$s mm²</string>
     <string name="cs_history_title">Leitungsquerschnitt — %1$s A, %2$s m</string>
     <string name="cs_installation_method">Verlegeart</string>
@@ -208,7 +208,8 @@
     <string name="cs_var_cg">Häufungsfaktor</string>
     <string name="cs_var_dumax">Zulässiger Spannungsfall</string>
     <string name="cs_var_ib">Betriebsstrom</string>
-    <string name="cs_var_iz">Tabellierte Strombelastbarkeit</string>
+    <string name="cs_var_it">Tabellierte Strombelastbarkeit, vor Anwendung der Faktoren</string>
+    <string name="cs_var_iz">Strombelastbarkeit unter den Verlegebedingungen, nach Anwendung der Faktoren</string>
     <string name="cw_conductor_count">Anzahl der Leiter</string>
     <string name="cw_conductor_count_hint">Jede Ader zählen, auch Neutralleiter und PE</string>
     <string name="cw_cross_section">Querschnitt je Leiter</string>

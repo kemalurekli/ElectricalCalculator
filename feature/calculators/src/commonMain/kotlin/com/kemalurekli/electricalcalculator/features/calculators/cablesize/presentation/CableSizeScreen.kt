@@ -138,6 +138,7 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.cs_var_cg
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.cs_var_dumax
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.cs_var_ib
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.cs_var_it
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.cs_var_iz
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.message_copied
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.vd_var_k
@@ -512,6 +513,14 @@ fun CableSizeScreen(
                     title = stringResource(Res.string.calculator_formula),
                     formula = stringResource(Res.string.cs_formula),
                     variables = persistentListOf(
+                        // Two symbols where there was one. IEC 60364-5-52 uses
+                        // I_z for the capacity *in the installed conditions* —
+                        // which is what the project schedule prints under that
+                        // heading — and the app was using it here for the
+                        // tabulated figure the factors have yet to touch.
+                        // Reading one screen's I_z into the other's formula
+                        // applied the derating twice.
+                        FormulaVariable("I_t", stringResource(Res.string.cs_var_it), "A"),
                         FormulaVariable("I_z", stringResource(Res.string.cs_var_iz), "A"),
                         FormulaVariable("I_b", stringResource(Res.string.cs_var_ib), "A"),
                         FormulaVariable("Ca", stringResource(Res.string.cs_var_ca), "—"),

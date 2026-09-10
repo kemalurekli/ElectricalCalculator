@@ -160,7 +160,7 @@
     <string name="cs_export_environment">%1$s °C · %2$s stroomkring(en) · max %3$s %</string>
     <string name="cs_export_load">%1$s V · %2$s A · %3$s m</string>
     <string name="cs_export_result">Aanbevolen doorsnede: %1$s mm²</string>
-    <string name="cs_formula">I_z ≥ I_b / (n · Ca · Cg)\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
+    <string name="cs_formula">I_z = I_t · n · Ca · Cg ≥ I_b\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
     <string name="cs_history_summary">%1$s mm²</string>
     <string name="cs_history_title">Kabeldoorsnede — %1$s A, %2$s m</string>
     <string name="cs_installation_method">Installatiemethode</string>
@@ -208,7 +208,8 @@
     <string name="cs_var_cg">Bundelingsfactor</string>
     <string name="cs_var_dumax">Toegestane spanningsval</string>
     <string name="cs_var_ib">Ontwerpstroom</string>
-    <string name="cs_var_iz">Stroombelastbaarheid volgens tabel</string>
+    <string name="cs_var_it">Stroombelastbaarheid uit de tabel, vóór de factoren</string>
+    <string name="cs_var_iz">Stroombelastbaarheid in de installatieomstandigheden, na toepassing van de factoren</string>
     <string name="cw_conductor_count">Aantal geleiders</string>
     <string name="cw_conductor_count_hint">Tel elke ader mee, nul en PE inbegrepen</string>
     <string name="cw_cross_section">Doorsnede per geleider</string>

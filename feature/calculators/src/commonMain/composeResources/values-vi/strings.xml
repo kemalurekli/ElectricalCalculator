@@ -160,7 +160,7 @@
     <string name="cs_export_environment">%1$s °C · %2$s mạch · tối đa %3$s %</string>
     <string name="cs_export_load">%1$s V · %2$s A · %3$s m</string>
     <string name="cs_export_result">Tiết diện khuyến nghị: %1$s mm²</string>
-    <string name="cs_formula">I_z ≥ I_b / (n · Ca · Cg)\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
+    <string name="cs_formula">I_z = I_t · n · Ca · Cg ≥ I_b\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
     <string name="cs_history_summary">%1$s mm²</string>
     <string name="cs_history_title">Tiết diện cáp — %1$s A, %2$s m</string>
     <string name="cs_installation_method">Phương pháp lắp đặt</string>
@@ -208,7 +208,8 @@
     <string name="cs_var_cg">Hệ số đi chung bó</string>
     <string name="cs_var_dumax">Sụt áp cho phép</string>
     <string name="cs_var_ib">Dòng điện tính toán</string>
-    <string name="cs_var_iz">Dòng điện cho phép tra bảng</string>
+    <string name="cs_var_it">Dòng điện cho phép tra bảng, trước khi áp dụng các hệ số</string>
+    <string name="cs_var_iz">Dòng điện cho phép trong điều kiện lắp đặt, sau khi áp dụng các hệ số</string>
     <string name="cw_conductor_count">Số ruột dẫn</string>
     <string name="cw_conductor_count_hint">Đếm mọi lõi, kể cả dây trung tính và PE</string>
     <string name="cw_cross_section">Tiết diện mỗi ruột dẫn</string>

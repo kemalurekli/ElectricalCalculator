@@ -160,7 +160,7 @@
     <string name="cs_export_environment">%1$s °C · %2$s circuit(s) · max %3$s %</string>
     <string name="cs_export_load">%1$s V · %2$s A · %3$s m</string>
     <string name="cs_export_result">Section recommandée : %1$s mm²</string>
-    <string name="cs_formula">I_z ≥ I_b / (n · Ca · Cg)\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
+    <string name="cs_formula">I_z = I_t · n · Ca · Cg ≥ I_b\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
     <string name="cs_history_summary">%1$s mm²</string>
     <string name="cs_history_title">Section de câble — %1$s A, %2$s m</string>
     <string name="cs_installation_method">Mode de pose</string>
@@ -208,7 +208,8 @@
     <string name="cs_var_cg">Facteur de groupement</string>
     <string name="cs_var_dumax">Chute de tension admissible</string>
     <string name="cs_var_ib">Courant d'emploi</string>
-    <string name="cs_var_iz">Courant admissible de tableau</string>
+    <string name="cs_var_it">Courant admissible de tableau, avant application des facteurs</string>
+    <string name="cs_var_iz">Courant admissible dans les conditions de pose, après application des facteurs</string>
     <string name="cw_conductor_count">Nombre de conducteurs</string>
     <string name="cw_conductor_count_hint">Comptez chaque âme, neutre et PE compris</string>
     <string name="cw_cross_section">Section par conducteur</string>

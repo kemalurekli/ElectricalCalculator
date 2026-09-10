@@ -3081,7 +3081,7 @@ object ReferenceCatalog {
                 title = Res.string.ref_formula_s1,
                 rows = listOf(
                     ReferenceRow(Symbol("ΔU = k · I · ρ(θ) · L · cos φ / (A · n)"), Localized(Res.string.ref_formula_0)),
-                    ReferenceRow(Symbol("I_z ≥ I_b / (n · Ca · Cg)"), Localized(Res.string.ref_formula_1)),
+                    ReferenceRow(Symbol("I_z = I_t · n · Ca · Cg ≥ I_b"), Localized(Res.string.ref_formula_1)),
                     ReferenceRow(Symbol("I = S / (k · U)"), Localized(Res.string.ref_formula_2)),
                     ReferenceRow(Symbol("I = P_in / (k · U · cos φ)"), Localized(Res.string.ref_formula_3)),
                     ReferenceRow(Symbol("S² = P² + Q²"), Localized(Res.string.ref_formula_4)),

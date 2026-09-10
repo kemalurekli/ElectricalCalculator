@@ -160,7 +160,7 @@
     <string name="cs_export_environment">%1$s °C · %2$s circuito/i · max %3$s %</string>
     <string name="cs_export_load">%1$s V · %2$s A · %3$s m</string>
     <string name="cs_export_result">Sezione consigliata: %1$s mm²</string>
-    <string name="cs_formula">I_z ≥ I_b / (n · Ca · Cg)\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
+    <string name="cs_formula">I_z = I_t · n · Ca · Cg ≥ I_b\nA ≥ k · I_b · ρ(θ) · L · cos φ / (ΔU_max · n)</string>
     <string name="cs_history_summary">%1$s mm²</string>
     <string name="cs_history_title">Sezione del cavo — %1$s A, %2$s m</string>
     <string name="cs_installation_method">Tipo di posa</string>
@@ -208,7 +208,8 @@
     <string name="cs_var_cg">Fattore di raggruppamento</string>
     <string name="cs_var_dumax">Caduta di tensione ammessa</string>
     <string name="cs_var_ib">Corrente d'impiego</string>
-    <string name="cs_var_iz">Portata di tabella</string>
+    <string name="cs_var_it">Portata da tabella, prima dei fattori</string>
+    <string name="cs_var_iz">Portata nelle condizioni di posa, dopo l'applicazione dei fattori</string>
     <string name="cw_conductor_count">Numero di conduttori</string>
     <string name="cw_conductor_count_hint">Conta ogni anima, neutro e PE compresi</string>
     <string name="cw_cross_section">Sezione per conduttore</string>
