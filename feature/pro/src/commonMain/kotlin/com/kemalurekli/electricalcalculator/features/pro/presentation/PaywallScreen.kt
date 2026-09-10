@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,7 +41,11 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.Res
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_free
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_future
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_future_title
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_pdf
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_pdf_title
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_schedule
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_schedule_title
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_buy_loading
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_error_no_connection
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_error_not_configured
@@ -174,17 +179,46 @@ fun PaywallScreen(
                     .padding(bottom = spacing.lg),
                 verticalArrangement = Arrangement.spacedBy(spacing.lg),
             ) {
-                Text(
-                    text = stringResource(reason.headline()),
-                    style = MaterialTheme.typography.headlineSmall,
-                )
+                Column(verticalArrangement = Arrangement.spacedBy(spacing.xs)) {
+                    Text(
+                        text = stringResource(reason.headline()),
+                        style = MaterialTheme.typography.headlineSmall,
+                    )
+                    // Said once, at the top, where somebody deciding whether to
+                    // keep reading is deciding. It used to appear only beside
+                    // the button, at the end of a page they had to finish
+                    // before learning the two things most likely to reassure
+                    // them: how much, and that it is not a subscription.
+                    Text(
+                        text = stringResource(Res.string.pro_one_time),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
 
                 SchedulePreview()
 
-                Column(verticalArrangement = Arrangement.spacedBy(spacing.md)) {
-                    Benefit(stringResource(Res.string.pro_benefit_pdf))
-                    Benefit(stringResource(Res.string.pro_benefit_future))
-                    Benefit(stringResource(Res.string.pro_benefit_free))
+                // Ranked, not ticked. Three identical check marks made three
+                // unequal things look interchangeable — an artefact, what is
+                // written on it, and a promise about later — and buried the
+                // only one of them a reader can judge: what the document
+                // actually says.
+                Column(verticalArrangement = Arrangement.spacedBy(spacing.lg)) {
+                    Benefit(
+                        icon = ElecIcons.ProDocument,
+                        title = stringResource(Res.string.pro_benefit_pdf_title),
+                        description = stringResource(Res.string.pro_benefit_pdf),
+                    )
+                    Benefit(
+                        icon = ElecIcons.ProSchedule,
+                        title = stringResource(Res.string.pro_benefit_schedule_title),
+                        description = stringResource(Res.string.pro_benefit_schedule),
+                    )
+                    Benefit(
+                        icon = ElecIcons.ProIncluded,
+                        title = stringResource(Res.string.pro_benefit_future_title),
+                        description = stringResource(Res.string.pro_benefit_future),
+                    )
                 }
 
                 Column(
@@ -215,15 +249,12 @@ fun PaywallScreen(
                             textAlign = TextAlign.Center,
                         )
 
-                        is PriceState.Ready -> Row(verticalAlignment = Alignment.CenterVertically) {
+                        // The figure alone. "One-time payment, no subscription"
+                        // used to sit beside it and now leads the page, where
+                        // it reassures somebody deciding whether to read on
+                        // rather than somebody who has already decided.
+                        is PriceState.Ready ->
                             Text(text = price.formattedPrice, style = NumericCompactTextStyle)
-                            Text(
-                                text = stringResource(Res.string.pro_one_time),
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(start = spacing.sm),
-                            )
-                        }
                     }
 
                     Button(
@@ -265,11 +296,23 @@ fun PaywallScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
+                    // Reassurance, not a benefit, so it is no longer in the
+                    // list of them. "The calculators stay free" answers a fear
+                    // about what happens to the rest of the app; ranked beside
+                    // what the money buys, it was the one row arguing that
+                    // paying is unnecessary.
+                    Text(
+                        text = stringResource(Res.string.pro_benefit_free),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                    )
                     Text(
                         text = stringResource(Res.string.pro_store_note),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = spacing.xs),
                     )
                     Row {
                         TextButton(
@@ -294,21 +337,42 @@ fun PaywallScreen(
     }
 }
 
+/**
+ * One thing Pro gives, as a heading and a sentence.
+ *
+ * The heading is what the row is; the sentence is why it is worth paying for.
+ * A single line had to be both and managed neither — it was skimmed as a label
+ * and read as a claim.
+ */
 @Composable
-private fun Benefit(text: String) {
+private fun Benefit(
+    icon: ImageVector,
+    title: String,
+    description: String,
+) {
     val spacing = ElecTheme.spacing
     Row(verticalAlignment = Alignment.Top) {
         Icon(
-            imageVector = ElecIcons.StagePass,
+            imageVector = icon,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(BENEFIT_ICON),
         )
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyMedium,
+        Column(
             modifier = Modifier.padding(start = spacing.md),
-        )
+            verticalArrangement = Arrangement.spacedBy(spacing.xxs),
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
     }
 }
 

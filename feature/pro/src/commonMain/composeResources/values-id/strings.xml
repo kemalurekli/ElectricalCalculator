@@ -2,7 +2,11 @@
 <resources>
     <string name="pro_benefit_free">Kalkulator, referensi, teori dan forum tetap gratis</string>
     <string name="pro_benefit_future">Semua yang ditambahkan ke Pro nanti, tanpa biaya tambahan</string>
+    <string name="pro_benefit_future_title">Tanpa pembelian kedua</string>
     <string name="pro_benefit_pdf">Dokumen yang Anda serahkan ke pelanggan atau pemeriksa</string>
+    <string name="pro_benefit_pdf_title">Daftar rangkaian sebagai PDF</string>
+    <string name="pro_benefit_schedule">Arus desain, luas penampang dan gawai proteksi, baris demi baris</string>
+    <string name="pro_benefit_schedule_title">Setiap rangkaian dalam satu lembar</string>
     <string name="pro_buy_loading">Menghubungi toko…</string>
     <string name="pro_close">Tutup</string>
     <string name="pro_error_no_connection">Tidak ada koneksi ke toko. Coba lagi saat kembali daring.</string>

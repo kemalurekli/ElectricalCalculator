@@ -2,7 +2,11 @@
 <resources>
     <string name="pro_benefit_free">Rekenhulpen, naslag, theorie en forum blijven gratis</string>
     <string name="pro_benefit_future">Alles wat later aan Pro wordt toegevoegd, zonder meerkosten</string>
+    <string name="pro_benefit_future_title">Geen tweede aankoop</string>
     <string name="pro_benefit_pdf">Het document dat u aan een klant of inspecteur geeft</string>
+    <string name="pro_benefit_pdf_title">Het schema als pdf</string>
+    <string name="pro_benefit_schedule">Ontwerpstroom, doorsnede en beveiliging, regel voor regel</string>
+    <string name="pro_benefit_schedule_title">Elke stroomkring op één blad</string>
     <string name="pro_buy_loading">Verbinden met de store…</string>
     <string name="pro_close">Sluiten</string>
     <string name="pro_error_no_connection">Geen verbinding met de store. Probeer het opnieuw zodra u online bent.</string>

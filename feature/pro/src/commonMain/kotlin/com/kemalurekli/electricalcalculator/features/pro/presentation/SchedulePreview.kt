@@ -71,11 +71,17 @@ internal fun SchedulePreview(modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .clearAndSetSemantics { contentDescription = caption },
     ) {
+        // Tighter than a card the reader is meant to work in. This one is
+        // evidence, not content: it has to be legible enough to be believed
+        // and small enough that the three things Pro actually gives are not
+        // below the fold. All four circuits stay — the range from a 6 A
+        // lighting way to a 32 A heat pump is most of what makes it look like
+        // a real schedule rather than a mock-up.
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.sm),
+                .padding(spacing.md),
+            verticalArrangement = Arrangement.spacedBy(spacing.xs),
         ) {
             Text(
                 text = stringResource(Res.string.pro_preview_title),

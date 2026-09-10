@@ -2,7 +2,11 @@
 <resources>
     <string name="pro_benefit_free">Калькуляторы, справочники, теория и форум остаются бесплатными</string>
     <string name="pro_benefit_future">Всё, что позже добавят в Pro, без доплаты</string>
+    <string name="pro_benefit_future_title">Без второй покупки</string>
     <string name="pro_benefit_pdf">Документ, который вы отдаёте заказчику или инспектору</string>
+    <string name="pro_benefit_pdf_title">Ведомость в PDF</string>
+    <string name="pro_benefit_schedule">Расчётный ток, сечение и аппарат защиты, строка за строкой</string>
+    <string name="pro_benefit_schedule_title">Каждая линия на одном листе</string>
     <string name="pro_buy_loading">Соединение с магазином…</string>
     <string name="pro_close">Закрыть</string>
     <string name="pro_error_no_connection">Нет связи с магазином. Повторите, когда появится сеть.</string>

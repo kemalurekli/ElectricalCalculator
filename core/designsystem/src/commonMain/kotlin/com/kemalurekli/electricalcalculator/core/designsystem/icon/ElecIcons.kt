@@ -8,6 +8,9 @@ import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.TrendingDown
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.AccountTree
+import androidx.compose.material.icons.outlined.PictureAsPdf
+import androidx.compose.material.icons.outlined.TableChart
+import androidx.compose.material.icons.outlined.Upgrade
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.automirrored.outlined.Send
@@ -130,6 +133,19 @@ object ElecIcons {
     /** A disclosure chevron, pointing at what tapping it will do. */
     val Expand = Icons.Filled.ExpandMore
     val Collapse = Icons.Filled.ExpandLess
+
+    /**
+     * The three rows of the paywall.
+     *
+     * Different glyphs on purpose, against the rule that a repeated mark in a
+     * checklist *is* the meaning. That rule held while the rows were three
+     * equal claims under one tick; they are a ranked list now, and each row is
+     * a different kind of thing — an artefact, what is written on it, and a
+     * promise about later. Three identical ticks would flatten that back out.
+     */
+    val ProDocument = Icons.Outlined.PictureAsPdf
+    val ProSchedule = Icons.Outlined.TableChart
+    val ProIncluded = Icons.Outlined.Upgrade
 
     val StagePass = Icons.Outlined.CheckCircle
     val StageFail = Icons.Outlined.ErrorOutline

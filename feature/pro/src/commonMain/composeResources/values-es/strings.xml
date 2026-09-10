@@ -2,7 +2,11 @@
 <resources>
     <string name="pro_benefit_free">Calculadoras, referencias, teoría y foro siguen siendo gratis</string>
     <string name="pro_benefit_future">Todo lo que se añada a Pro más adelante, sin coste extra</string>
+    <string name="pro_benefit_future_title">Sin una segunda compra</string>
     <string name="pro_benefit_pdf">El documento que entrega a un cliente o a un inspector</string>
+    <string name="pro_benefit_pdf_title">El cuadro en PDF</string>
+    <string name="pro_benefit_schedule">Corriente de empleo, sección y dispositivo de protección, línea a línea</string>
+    <string name="pro_benefit_schedule_title">Cada circuito en una hoja</string>
     <string name="pro_buy_loading">Contactando con la tienda…</string>
     <string name="pro_close">Cerrar</string>
     <string name="pro_error_no_connection">Sin conexión con la tienda. Inténtelo cuando vuelva a estar en línea.</string>

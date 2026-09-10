@@ -2,7 +2,11 @@
 <resources>
     <string name="pro_benefit_free">Hesaplayıcılar, referanslar, teori ve forum ücretsiz kalır</string>
     <string name="pro_benefit_future">Sonradan Pro'ya eklenen her şey, ek ücret olmadan</string>
+    <string name="pro_benefit_future_title">İkinci bir ödeme yok</string>
     <string name="pro_benefit_pdf">Müşteriye ya da denetime verdiğiniz belge</string>
+    <string name="pro_benefit_pdf_title">Cetvel, PDF olarak</string>
+    <string name="pro_benefit_schedule">Tasarım akımı, kesit ve koruma cihazı, satır satır</string>
+    <string name="pro_benefit_schedule_title">Her devre tek sayfada</string>
     <string name="pro_buy_loading">Mağazaya bağlanılıyor…</string>
     <string name="pro_close">Kapat</string>
     <string name="pro_error_no_connection">Mağazaya bağlanılamadı. Çevrimiçi olduğunuzda yeniden deneyin.</string>

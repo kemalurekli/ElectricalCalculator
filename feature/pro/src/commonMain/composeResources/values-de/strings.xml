@@ -2,7 +2,11 @@
 <resources>
     <string name="pro_benefit_free">Rechner, Referenzen, Theorie und Forum bleiben kostenlos</string>
     <string name="pro_benefit_future">Alles, was später zu Pro kommt, ohne Aufpreis</string>
+    <string name="pro_benefit_future_title">Kein zweiter Kauf</string>
     <string name="pro_benefit_pdf">Das Dokument, das Sie dem Kunden oder Prüfer geben</string>
+    <string name="pro_benefit_pdf_title">Der Stromkreisplan als PDF</string>
+    <string name="pro_benefit_schedule">Betriebsstrom, Querschnitt und Schutzeinrichtung, Zeile für Zeile</string>
+    <string name="pro_benefit_schedule_title">Jeder Stromkreis auf einem Blatt</string>
     <string name="pro_buy_loading">Verbindung zum Store …</string>
     <string name="pro_close">Schließen</string>
     <string name="pro_error_no_connection">Keine Verbindung zum Store. Versuchen Sie es online erneut.</string>

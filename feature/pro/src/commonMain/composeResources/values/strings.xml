@@ -2,7 +2,11 @@
 <resources>
     <string name="pro_benefit_free">Calculators, references, theory and forum stay free</string>
     <string name="pro_benefit_future">Everything added to Pro later, at no extra cost</string>
+    <string name="pro_benefit_future_title">No second purchase</string>
     <string name="pro_benefit_pdf">The document you hand to a client or an inspector</string>
+    <string name="pro_benefit_pdf_title">The schedule as a PDF</string>
+    <string name="pro_benefit_schedule">Design current, cross-section and protective device, line by line</string>
+    <string name="pro_benefit_schedule_title">Every circuit on one sheet</string>
     <string name="pro_buy_loading">Contacting the store…</string>
     <string name="pro_close">Close</string>
     <string name="pro_error_no_connection">No connection to the store. Try again when you are back online.</string>

@@ -2,7 +2,11 @@
 <resources>
     <string name="pro_benefit_free">Máy tính, tra cứu, lý thuyết và diễn đàn vẫn miễn phí</string>
     <string name="pro_benefit_future">Mọi thứ được thêm vào Pro sau này, không tính thêm phí</string>
+    <string name="pro_benefit_future_title">Không mua lần thứ hai</string>
     <string name="pro_benefit_pdf">Tài liệu bạn giao cho khách hàng hoặc người kiểm tra</string>
+    <string name="pro_benefit_pdf_title">Bảng mạch dạng PDF</string>
+    <string name="pro_benefit_schedule">Dòng điện tính toán, tiết diện và thiết bị bảo vệ, từng dòng một</string>
+    <string name="pro_benefit_schedule_title">Mỗi mạch trên một trang</string>
     <string name="pro_buy_loading">Đang kết nối cửa hàng…</string>
     <string name="pro_close">Đóng</string>
     <string name="pro_error_no_connection">Không kết nối được cửa hàng. Hãy thử lại khi có mạng.</string>
