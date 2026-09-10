@@ -103,7 +103,7 @@
     <string name="gl_impedance_term">Tổng trở</string>
     <string name="gl_impedance_def">Toàn bộ sự cản trở mà mạch xoay chiều đặt ra với dòng: điện trở và điện kháng cộng lại. Khác với điện trở, nó phụ thuộc vào tần số.</string>
     <string name="gl_impedance_voltage_term">Điện áp ngắn mạch (uk)</string>
-    <string name="gl_impedance_voltage_def">Phần trăm điện áp sơ cấp định mức cần thiết để đẩy dòng định mức qua máy biến áp khi thứ cấp bị nối tắt. Trị số này ghi trên nhãn máy và quyết định dòng sự cố mà máy biến áp có thể cấp.</string>
+    <string name="gl_impedance_voltage_def">Phần trăm điện áp sơ cấp định mức cần thiết để đẩy dòng điện định mức qua máy biến áp khi thứ cấp bị nối tắt. Trị số này ghi trên nhãn máy và quyết định dòng sự cố mà máy biến áp có thể cấp.</string>
     <string name="gl_indirect_contact_term">Tiếp xúc gián tiếp</string>
     <string name="gl_indirect_contact_def">Chạm vào kim loại đã mang điện do sự cố, khác với chạm vào dây vốn mang điện theo thiết kế. Tên gọi cũ của điều mà tiêu chuẩn nay xếp vào bảo vệ khi sự cố.</string>
     <string name="gl_inductive_reactance_term">Cảm kháng</string>
@@ -113,7 +113,7 @@
     <string name="gl_inrush_current_term">Dòng đóng điện</string>
     <string name="gl_inrush_current_def">Dòng lớn trong chốc lát mà máy biến áp, động cơ hay phụ tải điện dung lấy vào ngay lúc đóng điện. Chính vì nó mà có aptomat đường cong C hoặc D.</string>
     <string name="gl_instantaneous_trip_term">Cắt nhanh</string>
-    <string name="gl_instantaneous_trip_def">Phần điện từ trong hoạt động của aptomat, mở tiếp điểm trong vài mili giây ngay khi dòng vượt một bội số dòng định mức — 5× với đường cong B, 10× với C, 20× với D.</string>
+    <string name="gl_instantaneous_trip_def">Phần điện từ trong hoạt động của aptomat, mở tiếp điểm trong vài mili giây ngay khi dòng vượt một bội số dòng điện định mức — 5× với đường cong B, 10× với C, 20× với D.</string>
     <string name="gl_insulation_resistance_term">Điện trở cách điện</string>
     <string name="gl_insulation_resistance_def">Điện trở đo giữa các dây dẫn, và giữa dây dẫn với đất, bằng một điện áp thử một chiều. IEC 60364-6 đòi ít nhất 1,0 MΩ với mạch 230/400 V thử ở 500 V.</string>
     <string name="gl_interlock_term">Liên động</string>
@@ -168,7 +168,7 @@
     <string name="gl_protective_conductor_def">Dây nối phần kim loại để hở với đất để dòng sự cố có đường trở về nguồn. Màu xanh-vàng, và không bao giờ dùng vào việc gì khác.</string>
     <string name="gl_pvc_term">PVC</string>
     <string name="gl_pvc_def">Cách điện cáp bằng polyvinyl clorua, cho phép nhiệt độ ruột dẫn tới 70 °C. Rẻ và phổ biến; mềm ra khi nóng và tỏa khói đặc có tính axit khi cháy.</string>
-    <string name="gl_rated_current_term">Dòng định mức</string>
+    <string name="gl_rated_current_term">Dòng điện định mức</string>
     <string name="gl_rated_current_def">Dòng mà thiết bị được thiết kế để mang liên tục, In trên nhãn máy. Với thiết bị bảo vệ, đây còn là mốc để tính các bội số tác động.</string>
     <string name="gl_rated_voltage_term">Điện áp định mức</string>
     <string name="gl_rated_voltage_def">Điện áp mà thiết bị được thiết kế cho. IEC 60038 đặt 230/400 V cho phân phối hạ áp, kèm dung sai mà một thiết kế phải làm việc được bên trong đó chứ không chỉ tại trị số danh nghĩa.</string>

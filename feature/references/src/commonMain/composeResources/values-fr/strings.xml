@@ -204,7 +204,7 @@
     <string name="ref_formula_20">Courant de neutre : les rangs divisibles par trois arrivent en phase et s'additionnent</string>
     <string name="ref_formula_21">Puissance de court-circuit d'un transformateur, d'après sa puissance et sa tension de court-circuit</string>
     <string name="ref_formula_22">Creux de tension au démarrage ; retirer S_start du dénominateur le surestime</string>
-    <string name="ref_formula_23">Rapport des courants assignés de deux appareils en série ; environ 1,6 est le seuil usuel en surcharge</string>
+    <string name="ref_formula_23">Rapport des calibres de deux appareils en série ; environ 1,6 est le seuil usuel en surcharge</string>
     <string name="ref_formula_24">Courant d'emploi d'un ensemble de points de charge ; un véhicule absorbe son plein courant des heures durant</string>
     <string name="ref_formula_2">Courant de transformateur</string>
     <string name="ref_formula_3">Courant moteur</string>

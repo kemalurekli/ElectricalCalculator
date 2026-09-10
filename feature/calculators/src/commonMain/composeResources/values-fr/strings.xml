@@ -773,10 +773,10 @@
     <string name="sel_upstream">Appareil amont</string>
     <string name="sel_upstream_rating">Calibre amont, In</string>
     <string name="sel_var_iinst">Seuil magnétique : au-dessus, l'appareil ouvre sans temporisation</string>
-    <string name="sel_var_indn">Courant assigné de l'appareil aval</string>
-    <string name="sel_var_inup">Courant assigné de l'appareil amont</string>
+    <string name="sel_var_indn">Calibre de l'appareil aval</string>
+    <string name="sel_var_inup">Calibre de l'appareil amont</string>
     <string name="sel_var_m">Multiple de déclenchement magnétique de la courbe : 5 pour B, 10 pour C</string>
-    <string name="sel_var_n">Rapport des courants assignés ; environ 1,6 est le seuil usuel en surcharge</string>
+    <string name="sel_var_n">Rapport des calibres ; environ 1,6 est le seuil usuel en surcharge</string>
     <string name="ss_coefficient_hint">β d'après la fiche technique. Négatif sur tout module au silicium — typiquement −0,25 à −0,35.</string>
     <string name="ss_coefficient_label">Coefficient de température de la tension</string>
     <string name="ss_example_continental">Site continental, −25 °C</string>

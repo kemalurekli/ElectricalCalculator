@@ -405,7 +405,7 @@
     <string name="ev_step_per_point">Potência num ponto</string>
     <string name="ev_var_f">Fator de simultaneidade; um veículo absorve a corrente plena durante horas</string>
     <string name="ev_var_ib">Corrente de serviço para a qual o circuito é dimensionado</string>
-    <string name="ev_var_in">Corrente nominal de um ponto de carregamento</string>
+    <string name="ev_var_in">Corrente estipulada de um ponto de carregamento</string>
     <string name="ev_var_k">1 para monofásico, √3 para trifásico</string>
     <string name="ev_var_n">Número de pontos de carregamento</string>
     <string name="ev_var_u">Tensão de alimentação no ponto</string>
@@ -519,7 +519,7 @@
     <string name="ms_var_istart">Corrente de arranque: plena carga × rotor bloqueado × método</string>
     <string name="ms_var_ssc">Potência de curto-circuito que a alimentação pode fornecer</string>
     <string name="ms_var_sstart">Potência aparente absorvida durante o arranque</string>
-    <string name="ms_var_st">Potência nominal do transformador</string>
+    <string name="ms_var_st">Potência estipulada do transformador</string>
     <string name="ms_var_u">Tensão de alimentação entre fases</string>
     <string name="ms_var_uk">Impedância de curto-circuito, da chapa do transformador</string>
     <string name="ms_warn_contactor">A esta profundidade, as bobinas dos contactores podem largar. Um arranque que leva atrás o resto do quadro não é um arranque.</string>
@@ -773,10 +773,10 @@
     <string name="sel_upstream">Aparelho a montante</string>
     <string name="sel_upstream_rating">Corrente estipulada a montante, In</string>
     <string name="sel_var_iinst">Limiar instantâneo: acima dele, o dispositivo abre sem atraso</string>
-    <string name="sel_var_indn">Corrente nominal do dispositivo a jusante</string>
-    <string name="sel_var_inup">Corrente nominal do dispositivo a montante</string>
+    <string name="sel_var_indn">Corrente estipulada do dispositivo a jusante</string>
+    <string name="sel_var_inup">Corrente estipulada do dispositivo a montante</string>
     <string name="sel_var_m">Múltiplo de disparo instantâneo da curva: 5 para B, 10 para C</string>
-    <string name="sel_var_n">Relação das correntes nominais; cerca de 1,6 é o limiar habitual em sobrecarga</string>
+    <string name="sel_var_n">Relação das correntes estipuladas; cerca de 1,6 é o limiar habitual em sobrecarga</string>
     <string name="ss_coefficient_hint">β da ficha técnica. Negativo em qualquer módulo de silício — tipicamente −0,25 a −0,35.</string>
     <string name="ss_coefficient_label">Coeficiente de temperatura da tensão</string>
     <string name="ss_example_continental">Local continental, −25 °C</string>

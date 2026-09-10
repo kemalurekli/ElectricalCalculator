@@ -439,8 +439,15 @@ class StringResourceIntegrityTest {
          */
         val REPLACED_TERMS: Map<String, List<Pair<Regex, String>>> = mapOf(
             "values-de" to listOf(Regex("Schutzorgan", IGNORE) to "Schutzeinrichtung"),
-            "values-es" to listOf(Regex("corriente de dise\u00f1o", IGNORE) to "corriente de empleo"),
-            "values-pt" to listOf(Regex("capacidade de corrente", IGNORE) to "corrente admiss\u00edvel"),
+            "values-es" to listOf(
+                Regex("corriente de dise\u00f1o", IGNORE) to "corriente de empleo",
+                Regex("corriente asignada del dispositivo", IGNORE) to "intensidad nominal del dispositivo",
+                Regex("corriente admisible del cable", IGNORE) to "intensidad admisible del cable",
+            ),
+            "values-pt" to listOf(
+                Regex("capacidade de corrente", IGNORE) to "corrente admiss\u00edvel",
+                Regex("corrente nominal do dispositivo", IGNORE) to "corrente estipulada do dispositivo",
+            ),
             "values-vi" to listOf(
                 Regex("kh\u1ea3 n\u0103ng t\u1ea3i d\u00f2ng", IGNORE) to "d\u00f2ng \u0111i\u1ec7n cho ph\u00e9p",
                 // The agreed terms in full. Vietnamese shortens both of these in
@@ -448,9 +455,22 @@ class StringResourceIntegrityTest {
                 // a different thing from the next.
                 Regex("(?<!\u0111i\u1ec7n )d\u00f2ng cho ph\u00e9p", IGNORE) to "d\u00f2ng \u0111i\u1ec7n cho ph\u00e9p",
                 Regex("(?<!\u0111i\u1ec7n )d\u00f2ng t\u00ednh to\u00e1n", IGNORE) to "d\u00f2ng \u0111i\u1ec7n t\u00ednh to\u00e1n",
+                // The third of the same family, found the same way: TCVN 7447
+                // writes a device's rating in full, and the app shortened it in
+                // twenty-one places across four modules.
+                Regex("(?<!\u0111i\u1ec7n )d\u00f2ng \u0111\u1ecbnh m\u1ee9c", IGNORE) to "d\u00f2ng \u0111i\u1ec7n \u0111\u1ecbnh m\u1ee9c",
             ),
             "values-id" to listOf(Regex("drop tegangan", IGNORE) to "susut tegangan"),
             "values-nl" to listOf(Regex("""\bkring""", IGNORE) to "stroomkring"),
+            // One adjective per concept, per language. Each of these three has a
+            // settled word for the rating of a *protective device* and had a
+            // second one loose in the same screen — a label reading one thing
+            // and the formula card under it reading another. The machine
+            // ratings keep their own word, which is why these are phrased
+            // tightly enough to leave "corrente nominal do transformador" alone.
+            "values-fr" to listOf(
+                Regex("courant assign\u00e9 de l'appareil", IGNORE) to "calibre de l'appareil",
+            ),
         )
 
         /** Deep enough for `feature/<name>/src/commonMain/composeResources`. */

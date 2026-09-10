@@ -773,10 +773,10 @@
     <string name="sel_upstream">Dispositivo aguas arriba</string>
     <string name="sel_upstream_rating">Intensidad nominal aguas arriba, In</string>
     <string name="sel_var_iinst">Umbral instantáneo: por encima, el dispositivo abre sin retardo</string>
-    <string name="sel_var_indn">Corriente asignada del dispositivo aguas abajo</string>
-    <string name="sel_var_inup">Corriente asignada del dispositivo aguas arriba</string>
+    <string name="sel_var_indn">Intensidad nominal del dispositivo aguas abajo</string>
+    <string name="sel_var_inup">Intensidad nominal del dispositivo aguas arriba</string>
     <string name="sel_var_m">Múltiplo de disparo instantáneo de la curva: 5 para B, 10 para C</string>
-    <string name="sel_var_n">Relación de corrientes asignadas; 1,6 es el umbral habitual en sobrecarga</string>
+    <string name="sel_var_n">Relación de intensidades nominales; 1,6 es el umbral habitual en sobrecarga</string>
     <string name="ss_coefficient_hint">β de la hoja de características. Negativo en todo módulo de silicio — normalmente entre −0,25 y −0,35.</string>
     <string name="ss_coefficient_label">Coeficiente de temperatura de la tensión</string>
     <string name="ss_example_continental">Emplazamiento continental, −25 °C</string>

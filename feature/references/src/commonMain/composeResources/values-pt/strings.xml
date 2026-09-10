@@ -204,7 +204,7 @@
     <string name="ref_formula_20">Corrente de neutro: as ordens divisíveis por três chegam em fase e somam-se</string>
     <string name="ref_formula_21">Potência de curto-circuito de um transformador, a partir da potência e da impedância</string>
     <string name="ref_formula_22">Cava de tensão no arranque; retirar S_start do denominador sobrestima-a</string>
-    <string name="ref_formula_23">Relação das correntes nominais de dois dispositivos em série; cerca de 1,6 é o limiar habitual em sobrecarga</string>
+    <string name="ref_formula_23">Relação das correntes estipuladas de dois dispositivos em série; cerca de 1,6 é o limiar habitual em sobrecarga</string>
     <string name="ref_formula_24">Corrente de serviço de um conjunto de pontos de carregamento; um veículo absorve a corrente plena durante horas</string>
     <string name="ref_formula_2">Corrente do transformador</string>
     <string name="ref_formula_3">Corrente do motor</string>

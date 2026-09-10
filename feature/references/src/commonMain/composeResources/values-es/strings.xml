@@ -204,7 +204,7 @@
     <string name="ref_formula_20">Corriente de neutro: los órdenes divisibles entre tres llegan en fase y se suman</string>
     <string name="ref_formula_21">Potencia de cortocircuito de un transformador, a partir de su potencia e impedancia</string>
     <string name="ref_formula_22">Hueco de tensión durante el arranque; quitar S_start del denominador lo sobrestima</string>
-    <string name="ref_formula_23">Relación de corrientes asignadas de dos dispositivos en serie; 1,6 es el umbral habitual en sobrecarga</string>
+    <string name="ref_formula_23">Relación de intensidades nominales de dos dispositivos en serie; 1,6 es el umbral habitual en sobrecarga</string>
     <string name="ref_formula_24">Corriente de empleo de un conjunto de puntos de carga; un vehículo absorbe su corriente plena durante horas</string>
     <string name="ref_formula_2">Corriente de transformador</string>
     <string name="ref_formula_3">Corriente de motor</string>
@@ -488,7 +488,7 @@
     <string name="ref_ratings_coordination">Coordinación con el cable</string>
     <string name="ref_ratings_coordination_note">Deben cumplirse las dos condiciones. La primera coloca el calibre entre la carga y el cable. La segunda exige que el aparato actúe realmente antes de que el cable se dañe: en un interruptor moderno se cumple por construcción, pero en algunos fusibles no, y hay que comprobarlo.</string>
     <string name="ref_ratings_description">Calibres normalizados y regla de coordinación</string>
-    <string name="ref_ratings_first">Corriente de empleo ≤ calibre del aparato ≤ corriente admisible del cable</string>
+    <string name="ref_ratings_first">Corriente de empleo ≤ calibre del aparato ≤ intensidad admisible del cable</string>
     <string name="ref_ratings_fuse">Cartuchos fusibles gG</string>
     <string name="ref_ratings_fuse_large">Calibres mayores</string>
     <string name="ref_ratings_fuse_note">Un fusible gG protege tanto contra sobrecarga como contra cortocircuito. Un fusible aM solo protege contra cortocircuito y debe ir con un relé de sobrecarga aparte; cambiar uno por otro deja al motor sin ninguna protección contra sobrecargas.</string>
@@ -496,7 +496,7 @@
     <string name="ref_ratings_mcb">Interruptores magnetotérmicos</string>
     <string name="ref_ratings_mcb_large">Calibres mayores</string>
     <string name="ref_ratings_mcb_series">Serie habitual</string>
-    <string name="ref_ratings_second">La corriente convencional de funcionamiento no debe superar 1,45 × corriente admisible del cable</string>
+    <string name="ref_ratings_second">La corriente convencional de funcionamiento no debe superar 1,45 × intensidad admisible del cable</string>
     <string name="ref_ratings_source">IEC 60898 · IEC 60269 · IEC 60364-4-43</string>
     <string name="ref_ratings_title">Calibres preferentes</string>
     <string name="ref_rcd_100ma">Selectividad por encima de un aparato de 30 mA</string>

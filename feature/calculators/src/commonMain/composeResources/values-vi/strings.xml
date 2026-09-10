@@ -325,7 +325,7 @@
     <string name="ef_history_title">Vòng sự cố — %1$s, %2$s m</string>
     <string name="ef_line_section">Tiết diện dây pha</string>
     <string name="ef_note_adiabatic_table">IEC 60364-5-54 cho phép hai cách chọn dây bảo vệ: tính toán như trình bày ở đây, hoặc quy tắc tra bảng (S ≤ 16 → S, 16–35 → 16, trên 35 → S/2). Cả hai đều được nêu. Cách tra bảng nhanh hơn và thường cho dây lớn hơn; cả hai đều thỏa mãn tiêu chuẩn.</string>
-    <string name="ef_note_curve">Đường đặc tính của thiết bị quyết định không kém gì sợi cáp. Đường C cần dòng gấp mười lần dòng định mức mới cắt, trong khi đường B chỉ cần gấp năm, tức là chỉ được phép có một nửa tổng trở vòng. Cùng một sợi cáp, cùng chiều dài, đổi áp tô mát — và một mạch vốn đạt yêu cầu trở thành không đạt.</string>
+    <string name="ef_note_curve">Đường đặc tính của thiết bị quyết định không kém gì sợi cáp. Đường C cần dòng gấp mười lần dòng điện định mức mới cắt, trong khi đường B chỉ cần gấp năm, tức là chỉ được phép có một nửa tổng trở vòng. Cùng một sợi cáp, cùng chiều dài, đổi áp tô mát — và một mạch vốn đạt yêu cầu trở thành không đạt.</string>
     <string name="ef_note_k_source">Các trị số k áp dụng cho dây bảo vệ nằm trong cáp hoặc đi chung bó với cáp, theo Bảng 54.3 của IEC 60364-5-54. Dây đi riêng được phép có nhiệt độ cuối cao hơn, tức là k lớn hơn; dùng các trị số này cho trường hợp đó thì an toàn, nhưng không phải bảng đúng.</string>
     <string name="ef_note_length">Sai sót thường ngày nằm ở chiều dài. Một tuyến có thể đạt về dòng điện cho phép và đạt về sụt áp mà vẫn khiến thiết bị không nhìn thấy sự cố ở đầu kia. Chính vì thế phép kiểm tra này đứng riêng bên cạnh việc chọn tiết diện chứ không gộp vào trong đó.</string>
     <string name="ef_note_measure">Ze và Zs sau khi thi công nên được đo chứ không chỉ tính. Vòng sự cố tính toán mặc nhiên coi mọi mối nối đều tốt; chỉ phép đo mới chứng minh được điều đó.</string>
@@ -335,7 +335,7 @@
     <string name="ef_protective_section">Tiết diện dây bảo vệ</string>
     <string name="ef_rating_ia">Dòng tác động</string>
     <string name="ef_rating_idn">Dòng dư định mức</string>
-    <string name="ef_rating_in">Dòng định mức của thiết bị</string>
+    <string name="ef_rating_in">Dòng điện định mức của thiết bị</string>
     <string name="ef_result_adiabatic">Dây bảo vệ cần thiết</string>
     <string name="ef_result_adiabatic_factor">Hệ số đoạn nhiệt k</string>
     <string name="ef_result_fail_both">Không cắt và cũng không chịu được</string>
@@ -388,7 +388,7 @@
     <string name="ev_note_dc">Xe có thể đưa dòng một chiều phẳng vào dây bảo vệ; dòng đó làm bão hòa lõi của RCD loại A và khiến nó mù trước chính dòng sự cố xoay chiều mà nó được lắp để phát hiện. Cần loại B, hoặc loại A đi kèm một thiết bị tác động ở 6 mA dòng một chiều — thứ mà phần lớn bộ sạc hiện nay đã có sẵn, nhưng chỉ khi nhãn máy ghi rõ.</string>
     <string name="ev_note_scope">Chưa mô hình hóa việc điều phối công suất sạc. Một bộ điều khiển chia nguồn cấp cố định cho các điểm sạc sẽ biến dòng điện tính toán thành một trị số cài đặt chứ không còn là phép cộng.</string>
     <string name="ev_point_count">Số điểm sạc</string>
-    <string name="ev_rated_current">Dòng định mức mỗi điểm sạc</string>
+    <string name="ev_rated_current">Dòng điện định mức mỗi điểm sạc</string>
     <string name="ev_rcd_a">Loại A, đi kèm bộ phát hiện 6 mA của chính bộ sạc</string>
     <string name="ev_rcd_b">Loại B</string>
     <string name="ev_result_connected">Tổng dòng đấu nối</string>
@@ -405,7 +405,7 @@
     <string name="ev_step_per_point">Công suất tại một điểm sạc</string>
     <string name="ev_var_f">Hệ số đồng thời; một xe rút dòng đầy trong nhiều giờ</string>
     <string name="ev_var_ib">Dòng điện tính toán để chọn cỡ mạch</string>
-    <string name="ev_var_in">Dòng định mức của một điểm sạc</string>
+    <string name="ev_var_in">Dòng điện định mức của một điểm sạc</string>
     <string name="ev_var_k">1 với một pha, √3 với ba pha</string>
     <string name="ev_var_n">Số điểm sạc</string>
     <string name="ev_var_u">Điện áp nguồn tại điểm sạc</string>
@@ -540,7 +540,7 @@
     <string name="mt_history_title">Động cơ — %1$s, %2$s V</string>
     <string name="mt_note_dc">Với nguồn một chiều không có góc pha, nên hệ số công suất không tham gia và cũng không có thành phần phản kháng.</string>
     <string name="mt_note_full_load">Hiệu suất và hệ số công suất đều là trị số ở đầy tải. Cả hai đều giảm đáng kể khi non tải, nên kết quả này không mô tả một động cơ chạy nhẹ tải.</string>
-    <string name="mt_note_nameplate">Khi nhãn máy có ghi dòng định mức, hãy dùng nó thay cho trị số tính toán: nó phản ánh chính cỗ máy thật chứ không phải hiệu suất và hệ số công suất giả định.</string>
+    <string name="mt_note_nameplate">Khi nhãn máy có ghi dòng điện định mức, hãy dùng nó thay cho trị số tính toán: nó phản ánh chính cỗ máy thật chứ không phải hiệu suất và hệ số công suất giả định.</string>
     <string name="mt_note_shaft_output" formatted="false">Công suất ghi trên nhãn động cơ là công suất cơ trên trục, không phải công suất điện mà nó tiêu thụ. Công suất tiêu thụ lớn hơn theo hiệu suất, nên bỏ qua phép chia đó sẽ làm dòng điện nhỏ đi 8–15 % — đủ để chọn thiếu tiết diện cáp hoặc thiếu thiết bị bảo vệ.</string>
     <string name="mt_note_starting">Dòng khởi động là trị số xác lập khi rôto bị hãm. Đỉnh dòng ban đầu còn chứa thành phần quá độ một chiều và cao hơn; bảo vệ động cơ và bài toán sụt áp cần đỉnh đó chứ không phải con số này.</string>
     <string name="mt_power_unit">Đơn vị công suất</string>
@@ -750,9 +750,9 @@
     <string name="sc_voltage_line_neutral_hint">Pha với trung tính</string>
     <string name="sc_voltage_three_phase_hint">Giữa các pha</string>
     <string name="sel_downstream">Thiết bị phía sau</string>
-    <string name="sel_downstream_rating">Dòng định mức phía sau, In</string>
+    <string name="sel_downstream_rating">Dòng điện định mức phía sau, In</string>
     <string name="sel_example_at_board">Cùng cặp thiết bị, sự cố tại tủ điện</string>
-    <string name="sel_example_close">Dòng định mức chỉ cách nhau 1,6 lần</string>
+    <string name="sel_example_close">Dòng điện định mức chỉ cách nhau 1,6 lần</string>
     <string name="sel_example_holds">Mạch nhánh dài, sự cố ở cuối tuyến</string>
     <string name="sel_fault_current">Dòng sự cố dự kiến</string>
     <string name="sel_fault_hint">Tại vị trí đặt thiết bị phía sau. Vị trí đổi thì câu trả lời cũng đổi.</string>
@@ -762,21 +762,21 @@
     <string name="sel_grade_selective">Chọn lọc ở mức dòng sự cố này</string>
     <string name="sel_history_title">%1$s A trên %2$s A</string>
     <string name="sel_note_bound">Những gì các đường đặc tính công bố cho phép chỉ là cận trên chứ không phải bảo đảm. Ứng xử thật ở dòng sự cố lớn phụ thuộc năng lượng cho qua — vì thế các nhà sản xuất công bố bảng chọn lọc cho từng cặp thiết bị cụ thể, và cũng vì thế các bảng ấy đôi khi hứa nhiều hơn đường đặc tính. Ở đâu có bảng như vậy thì bảng đó là căn cứ.</string>
-    <string name="sel_note_overload">Hai đầu hỏng theo hai cách độc lập. Quá tải do phần tử nhiệt xử lý và đòi hỏi dòng định mức cách nhau đủ xa; ngắn mạch do phần tử từ xử lý và đòi hỏi dòng sự cố phải nằm dưới ngưỡng tác động tức thời của thiết bị phía trước. Một cặp thiết bị có thể đạt điều này mà hỏng điều kia.</string>
+    <string name="sel_note_overload">Hai đầu hỏng theo hai cách độc lập. Quá tải do phần tử nhiệt xử lý và đòi hỏi dòng điện định mức cách nhau đủ xa; ngắn mạch do phần tử từ xử lý và đòi hỏi dòng sự cố phải nằm dưới ngưỡng tác động tức thời của thiết bị phía trước. Một cặp thiết bị có thể đạt điều này mà hỏng điều kia.</string>
     <string name="sel_result_downstream_threshold">Thiết bị phía sau cắt tức thời khi vượt quá</string>
     <string name="sel_result_limit">Giới hạn chọn lọc</string>
-    <string name="sel_result_ratio">Tỷ số dòng định mức</string>
+    <string name="sel_result_ratio">Tỷ số dòng điện định mức</string>
     <string name="sel_result_upstream_threshold">Thiết bị phía trước cắt tức thời khi vượt quá</string>
     <string name="sel_step_compare">Dòng sự cố so với ngưỡng đó</string>
-    <string name="sel_step_ratio">Phía quá tải: tỷ số dòng định mức</string>
+    <string name="sel_step_ratio">Phía quá tải: tỷ số dòng điện định mức</string>
     <string name="sel_step_threshold">Phía ngắn mạch: ngưỡng tức thời của thiết bị phía trước</string>
     <string name="sel_upstream">Thiết bị phía trước</string>
-    <string name="sel_upstream_rating">Dòng định mức phía trước, In</string>
+    <string name="sel_upstream_rating">Dòng điện định mức phía trước, In</string>
     <string name="sel_var_iinst">Ngưỡng cắt tức thời: vượt qua đó thiết bị mở ngay</string>
-    <string name="sel_var_indn">Dòng định mức của thiết bị phía dưới</string>
-    <string name="sel_var_inup">Dòng định mức của thiết bị phía trên</string>
+    <string name="sel_var_indn">Dòng điện định mức của thiết bị phía dưới</string>
+    <string name="sel_var_inup">Dòng điện định mức của thiết bị phía trên</string>
     <string name="sel_var_m">Bội số cắt tức thời của đường đặc tính: 5 với B, 10 với C</string>
-    <string name="sel_var_n">Tỷ số dòng định mức; khoảng 1,6 là ngưỡng thường dùng khi quá tải</string>
+    <string name="sel_var_n">Tỷ số dòng điện định mức; khoảng 1,6 là ngưỡng thường dùng khi quá tải</string>
     <string name="ss_coefficient_hint">β lấy từ tài liệu kỹ thuật. Luôn âm với mọi tấm pin silic — thường là −0,25 đến −0,35.</string>
     <string name="ss_coefficient_label">Hệ số nhiệt của điện áp</string>
     <string name="ss_example_continental">Vùng khí hậu lục địa, −25 °C</string>

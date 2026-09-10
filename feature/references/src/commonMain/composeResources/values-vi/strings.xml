@@ -204,7 +204,7 @@
     <string name="ref_formula_20">Dòng dây trung tính: các bậc chia hết cho ba đến cùng pha và cộng dồn</string>
     <string name="ref_formula_21">Công suất ngắn mạch của máy biến áp, từ công suất định mức và điện áp ngắn mạch</string>
     <string name="ref_formula_22">Sụt áp khi động cơ khởi động; bỏ S_start khỏi mẫu số sẽ làm nó lớn hơn thực tế</string>
-    <string name="ref_formula_23">Tỷ số dòng định mức của hai thiết bị nối tiếp; khoảng 1,6 là ngưỡng thường dùng khi quá tải</string>
+    <string name="ref_formula_23">Tỷ số dòng điện định mức của hai thiết bị nối tiếp; khoảng 1,6 là ngưỡng thường dùng khi quá tải</string>
     <string name="ref_formula_24">Dòng điện tính toán của một nhóm điểm sạc; một xe rút dòng đầy trong nhiều giờ</string>
     <string name="ref_formula_2">Dòng máy biến áp</string>
     <string name="ref_formula_3">Dòng động cơ</string>
@@ -488,7 +488,7 @@
     <string name="ref_ratings_coordination">Phối hợp với sợi cáp</string>
     <string name="ref_ratings_coordination_note">Cả hai điều kiện đều phải thỏa. Điều kiện thứ nhất chọn thiết bị nằm giữa phụ tải và sợi cáp. Điều kiện thứ hai nói rằng thiết bị phải thật sự tác động trước khi cáp bị hư hại — với áptômát hiện đại thì điều đó tự thỏa theo cấu tạo, nhưng với một số cầu chảy thì không, và phải kiểm tra.</string>
     <string name="ref_ratings_description">Các cỡ thiết bị tiêu chuẩn và quy tắc phối hợp</string>
-    <string name="ref_ratings_first">Dòng điện tính toán ≤ dòng định mức thiết bị ≤ dòng điện cho phép của cáp</string>
+    <string name="ref_ratings_first">Dòng điện tính toán ≤ dòng điện định mức thiết bị ≤ dòng điện cho phép của cáp</string>
     <string name="ref_ratings_fuse">Dây chảy gG</string>
     <string name="ref_ratings_fuse_large">Các cỡ lớn hơn</string>
     <string name="ref_ratings_fuse_note">Dây chảy gG bảo vệ cả quá tải lẫn ngắn mạch. Dây chảy aM chỉ bảo vệ ngắn mạch và phải đi kèm một thiết bị bảo vệ quá tải riêng — thay cái này bằng cái kia sẽ để động cơ hoàn toàn không có bảo vệ quá tải.</string>
