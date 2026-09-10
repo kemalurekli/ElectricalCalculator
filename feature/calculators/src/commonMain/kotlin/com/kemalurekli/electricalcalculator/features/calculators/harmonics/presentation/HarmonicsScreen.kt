@@ -25,6 +25,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import kotlinx.collections.immutable.toImmutableList
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
+import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_k
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_in
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_irms
@@ -88,6 +93,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 
 @Composable
 fun HarmonicsRoute(
+    onReferenceClick: (String) -> Unit,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     recordId: Long? = null,
@@ -117,6 +123,7 @@ fun HarmonicsRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onReferenceClick = onReferenceClick,
         onExportPdf = summary?.let { text -> { export.export(title, text) } },
         exportLocked = !export.isPro,
         snackbarHostState = snackbarHostState,
@@ -145,6 +152,7 @@ fun HarmonicsScreen(
     onMagnitudeChange: (Int, String) -> Unit,
     onBalancedChange: (Boolean) -> Unit,
     onCalculate: () -> Unit,
+    onReferenceClick: (String) -> Unit,
     onReset: () -> Unit,
     onApplyExample: (WorkedExample<HarmonicsUiState>) -> Unit,
     onToggleFavorite: () -> Unit,
@@ -293,20 +301,11 @@ fun HarmonicsScreen(
                 }
             }
 
-            if (uiState.result != null) {
-                ElecStepsCard(
-                    steps = uiState.steps,
-                    modifier = Modifier.padding(
-                        horizontal = spacing.screenHorizontal,
-                        vertical = spacing.xs,
-                    ),
-                )
-                NoteCard(showNeutralCaveat = !uiState.balanced)
-            }
-
-            // Outside the result block on purpose: the method is worth
-            // reading before there is an answer, and these four screens
-            // were the only ones that never showed it.
+            // Above the result rather than below it. The method is worth
+            // reading before there is an answer, and a card that sits
+            // under the working moves down the page the moment somebody
+            // presses calculate — which is exactly when they were
+            // reading it.
             ElecFormulaCard(
                 title = stringResource(Res.string.calculator_formula),
                 formula = stringResource(Res.string.hm_formula),
@@ -324,6 +323,17 @@ fun HarmonicsScreen(
                     vertical = spacing.xs,
                 ),
             )
+
+            if (uiState.result != null) {
+                ElecStepsCard(
+                    steps = uiState.steps,
+                    modifier = Modifier.padding(
+                        horizontal = spacing.screenHorizontal,
+                        vertical = spacing.xs,
+                    ),
+                )
+                NoteCard(showNeutralCaveat = !uiState.balanced, onLinkClick = onReferenceClick)
+            }
         }
     }
 }
@@ -373,31 +383,33 @@ private fun ResultCard(result: HarmonicsResult, balanced: Boolean) {
 }
 
 @Composable
-private fun NoteCard(showNeutralCaveat: Boolean) {
+private fun NoteCard(showNeutralCaveat: Boolean, onLinkClick: (String) -> Unit) {
     val spacing = ElecTheme.spacing
-    ElecCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
-    ) {
-        Column(
-            modifier = Modifier.padding(spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.sm),
-        ) {
-            if (showNeutralCaveat) {
-                Text(
-                    text = stringResource(Res.string.hm_result_neutral_unknown),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            Text(
-                text = stringResource(Res.string.hm_note_scope),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-    }
+    // The shared card, like the other sixteen calculators. Its own was
+    // a plain container of paragraphs, which is why this screen had
+    // nowhere to put the references its notes were already talking about.
+    ElecNotesCard(
+        title = stringResource(Res.string.calculator_notes),
+        notes = buildList {
+            if (showNeutralCaveat) add(stringResource(Res.string.hm_result_neutral_unknown))
+            add(stringResource(Res.string.hm_note_scope))
+        }.toImmutableList(),
+        links = persistentListOf(
+            NoteLink(
+                topicKey = "primer_harmonics",
+                label = stringResource(ReferenceCatalog.titleOf("primer_harmonics")),
+            ),
+            NoteLink(
+                topicKey = "primer_powerquality",
+                label = stringResource(ReferenceCatalog.titleOf("primer_powerquality")),
+            ),
+        ),
+        onLinkClick = onLinkClick,
+        modifier = Modifier.padding(
+            horizontal = spacing.screenHorizontal,
+            vertical = spacing.xs,
+        ),
+    )
 }
 
 private fun Double.f() = NumberFormatter.format(this, decimals = 2)

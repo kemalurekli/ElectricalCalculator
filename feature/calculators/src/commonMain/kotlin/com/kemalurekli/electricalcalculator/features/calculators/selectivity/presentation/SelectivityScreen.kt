@@ -3,6 +3,10 @@ package com.kemalurekli.electricalcalculator.features.calculators.selectivity.pr
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
+import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sel_var_iinst
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sel_var_m
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sel_var_indn
@@ -90,6 +94,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 
 @Composable
 fun SelectivityRoute(
+    onReferenceClick: (String) -> Unit,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     recordId: Long? = null,
@@ -119,6 +124,7 @@ fun SelectivityRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onReferenceClick = onReferenceClick,
         onExportPdf = summary?.let { text -> { export.export(title, text) } },
         exportLocked = !export.isPro,
         snackbarHostState = snackbarHostState,
@@ -159,6 +165,7 @@ fun SelectivityScreen(
     onDownstreamRatingChange: (String) -> Unit,
     onFaultCurrentChange: (String) -> Unit,
     onCalculate: () -> Unit,
+    onReferenceClick: (String) -> Unit,
     onReset: () -> Unit,
     onApplyExample: (WorkedExample<SelectivityUiState>) -> Unit,
     onToggleFavorite: () -> Unit,
@@ -290,20 +297,11 @@ fun SelectivityScreen(
                 }
             }
 
-            if (uiState.result != null) {
-                ElecStepsCard(
-                    steps = uiState.steps,
-                    modifier = Modifier.padding(
-                        horizontal = spacing.screenHorizontal,
-                        vertical = spacing.xs,
-                    ),
-                )
-                NotesCard()
-            }
-
-            // Outside the result block on purpose: the method is worth
-            // reading before there is an answer, and these four screens
-            // were the only ones that never showed it.
+            // Above the result rather than below it. The method is worth
+            // reading before there is an answer, and a card that sits
+            // under the working moves down the page the moment somebody
+            // presses calculate — which is exactly when they were
+            // reading it.
             ElecFormulaCard(
                 title = stringResource(Res.string.calculator_formula),
                 formula = stringResource(Res.string.sel_formula),
@@ -319,6 +317,17 @@ fun SelectivityScreen(
                     vertical = spacing.xs,
                 ),
             )
+
+            if (uiState.result != null) {
+                ElecStepsCard(
+                    steps = uiState.steps,
+                    modifier = Modifier.padding(
+                        horizontal = spacing.screenHorizontal,
+                        vertical = spacing.xs,
+                    ),
+                )
+                NotesCard(onLinkClick = onReferenceClick)
+            }
         }
     }
 }
@@ -369,29 +378,33 @@ private fun ResultCard(result: SelectivityResult) {
 }
 
 @Composable
-private fun NotesCard() {
+private fun NotesCard(onLinkClick: (String) -> Unit) {
     val spacing = ElecTheme.spacing
-    ElecCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
-    ) {
-        Column(
-            modifier = Modifier.padding(spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.sm),
-        ) {
-            Text(
-                text = stringResource(Res.string.sel_note_overload),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            Text(
-                text = stringResource(Res.string.sel_note_bound),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-    }
+    // The shared card, like the other sixteen calculators. Its own was
+    // a plain container of paragraphs, which is why this screen had
+    // nowhere to put the references its notes were already talking about.
+    ElecNotesCard(
+        title = stringResource(Res.string.calculator_notes),
+        notes = buildList {
+            add(stringResource(Res.string.sel_note_overload))
+            add(stringResource(Res.string.sel_note_bound))
+        }.toImmutableList(),
+        links = persistentListOf(
+            NoteLink(
+                topicKey = "primer_selectivity",
+                label = stringResource(ReferenceCatalog.titleOf("primer_selectivity")),
+            ),
+            NoteLink(
+                topicKey = "breaker_curves",
+                label = stringResource(ReferenceCatalog.titleOf("breaker_curves")),
+            ),
+        ),
+        onLinkClick = onLinkClick,
+        modifier = Modifier.padding(
+            horizontal = spacing.screenHorizontal,
+            vertical = spacing.xs,
+        ),
+    )
 }
 
 private fun ProtectiveDeviceType.label(): StringResource = when (this) {

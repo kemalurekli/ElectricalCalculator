@@ -3,6 +3,10 @@ package com.kemalurekli.electricalcalculator.features.calculators.evse.presentat
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
+import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ev_var_ib
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ev_var_f
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ev_var_n
@@ -101,6 +105,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 
 @Composable
 fun EvseRoute(
+    onReferenceClick: (String) -> Unit,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     recordId: Long? = null,
@@ -130,6 +135,7 @@ fun EvseRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onReferenceClick = onReferenceClick,
         // A charge point's own plate. Phases land on this screen's connection
         // rather than on a supply system, which is the enum it happens to use.
         onNameplate = { plate ->
@@ -170,6 +176,7 @@ fun EvseScreen(
     onCopy: () -> Unit,
     onShare: () -> Unit,
     onNameplate: (NameplateReading) -> Unit,
+    onReferenceClick: (String) -> Unit,
     onExportPdf: (() -> Unit)?,
     exportLocked: Boolean,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -324,22 +331,11 @@ fun EvseScreen(
                 }
             }
 
-            if (uiState.result != null) {
-                ElecStepsCard(
-                    steps = uiState.steps,
-                    modifier = Modifier.padding(
-                        horizontal = spacing.screenHorizontal,
-                        vertical = spacing.xs,
-                    ),
-                )
-                NotesCard(
-                    showDcNote = uiState.result?.rcdRequirement != RcdRequirement.TYPE_B,
-                )
-            }
-
-            // Outside the result block on purpose: the method is worth
-            // reading before there is an answer, and these four screens
-            // were the only ones that never showed it.
+            // Above the result rather than below it. The method is worth
+            // reading before there is an answer, and a card that sits
+            // under the working moves down the page the moment somebody
+            // presses calculate — which is exactly when they were
+            // reading it.
             ElecFormulaCard(
                 title = stringResource(Res.string.calculator_formula),
                 formula = stringResource(Res.string.ev_formula),
@@ -356,6 +352,20 @@ fun EvseScreen(
                     vertical = spacing.xs,
                 ),
             )
+
+            if (uiState.result != null) {
+                ElecStepsCard(
+                    steps = uiState.steps,
+                    modifier = Modifier.padding(
+                        horizontal = spacing.screenHorizontal,
+                        vertical = spacing.xs,
+                    ),
+                )
+                NotesCard(
+                    showDcNote = uiState.result?.rcdRequirement != RcdRequirement.TYPE_B,
+                    onLinkClick = onReferenceClick,
+                )
+            }
         }
     }
 }
@@ -402,34 +412,34 @@ private fun ResultCard(result: EvseResult) {
 }
 
 @Composable
-private fun NotesCard(showDcNote: Boolean) {
+private fun NotesCard(showDcNote: Boolean, onLinkClick: (String) -> Unit) {
     val spacing = ElecTheme.spacing
-    ElecCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
-    ) {
-        Column(
-            modifier = Modifier.padding(spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.sm),
-        ) {
-            // The DC note is the result card's status line when a Type B is
-            // what the installation needs, and printing the same paragraph
-            // twice on one screen teaches the reader to skip both.
-            listOfNotNull(
-                Res.string.ev_note_dc.takeIf { showDcNote },
-                Res.string.ev_note_continuous,
-                Res.string.ev_note_scope,
-            )
-                .forEach { note ->
-                    Text(
-                        text = stringResource(note),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-        }
-    }
+    // The shared card, like the other sixteen calculators. Its own was
+    // a plain container of paragraphs, which is why this screen had
+    // nowhere to put the references its notes were already talking about.
+    ElecNotesCard(
+        title = stringResource(Res.string.calculator_notes),
+        notes = buildList {
+            if (showDcNote) add(stringResource(Res.string.ev_note_dc))
+            add(stringResource(Res.string.ev_note_continuous))
+            add(stringResource(Res.string.ev_note_scope))
+        }.toImmutableList(),
+        links = persistentListOf(
+            NoteLink(
+                topicKey = "rcd_types",
+                label = stringResource(ReferenceCatalog.titleOf("rcd_types")),
+            ),
+            NoteLink(
+                topicKey = "selection_rcdtype",
+                label = stringResource(ReferenceCatalog.titleOf("selection_rcdtype")),
+            ),
+        ),
+        onLinkClick = onLinkClick,
+        modifier = Modifier.padding(
+            horizontal = spacing.screenHorizontal,
+            vertical = spacing.xs,
+        ),
+    )
 }
 
 private fun EvseConnection.label(): StringResource = when (this) {

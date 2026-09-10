@@ -3,6 +3,10 @@ package com.kemalurekli.electricalcalculator.features.calculators.motorstarting.
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
+import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_du
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_istart
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_u
@@ -99,6 +103,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 
 @Composable
 fun MotorStartingRoute(
+    onReferenceClick: (String) -> Unit,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     recordId: Long? = null,
@@ -128,6 +133,7 @@ fun MotorStartingRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onReferenceClick = onReferenceClick,
         // Two fields, and both of them are on the plate in front of the reader.
         // The locked rotor multiple is printed on many plates too, but it is not
         // one of the figures the reader recognises, so it is still typed.
@@ -164,6 +170,7 @@ fun MotorStartingScreen(
     onCopy: () -> Unit,
     onShare: () -> Unit,
     onNameplate: (NameplateReading) -> Unit,
+    onReferenceClick: (String) -> Unit,
     onExportPdf: (() -> Unit)?,
     exportLocked: Boolean,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -321,20 +328,11 @@ fun MotorStartingScreen(
                 }
             }
 
-            if (uiState.result != null) {
-                ElecStepsCard(
-                    steps = uiState.steps,
-                    modifier = Modifier.padding(
-                        horizontal = spacing.screenHorizontal,
-                        vertical = spacing.xs,
-                    ),
-                )
-                NotesCard()
-            }
-
-            // Outside the result block on purpose: the method is worth
-            // reading before there is an answer, and these four screens
-            // were the only ones that never showed it.
+            // Above the result rather than below it. The method is worth
+            // reading before there is an answer, and a card that sits
+            // under the working moves down the page the moment somebody
+            // presses calculate — which is exactly when they were
+            // reading it.
             ElecFormulaCard(
                 title = stringResource(Res.string.calculator_formula),
                 formula = stringResource(Res.string.ms_formula),
@@ -352,6 +350,17 @@ fun MotorStartingScreen(
                     vertical = spacing.xs,
                 ),
             )
+
+            if (uiState.result != null) {
+                ElecStepsCard(
+                    steps = uiState.steps,
+                    modifier = Modifier.padding(
+                        horizontal = spacing.screenHorizontal,
+                        vertical = spacing.xs,
+                    ),
+                )
+                NotesCard(onLinkClick = onReferenceClick)
+            }
         }
     }
 }
@@ -410,29 +419,33 @@ private fun ResultCard(result: MotorStartingResult) {
 }
 
 @Composable
-private fun NotesCard() {
+private fun NotesCard(onLinkClick: (String) -> Unit) {
     val spacing = ElecTheme.spacing
-    ElecCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = spacing.screenHorizontal, vertical = spacing.xs),
-    ) {
-        Column(
-            modifier = Modifier.padding(spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.sm),
-        ) {
-            Text(
-                text = stringResource(Res.string.ms_note_torque),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            Text(
-                text = stringResource(Res.string.ms_note_scope),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-    }
+    // The shared card, like the other sixteen calculators. Its own was
+    // a plain container of paragraphs, which is why this screen had
+    // nowhere to put the references its notes were already talking about.
+    ElecNotesCard(
+        title = stringResource(Res.string.calculator_notes),
+        notes = buildList {
+            add(stringResource(Res.string.ms_note_torque))
+            add(stringResource(Res.string.ms_note_scope))
+        }.toImmutableList(),
+        links = persistentListOf(
+            NoteLink(
+                topicKey = "selection_starting",
+                label = stringResource(ReferenceCatalog.titleOf("selection_starting")),
+            ),
+            NoteLink(
+                topicKey = "primer_nameplate",
+                label = stringResource(ReferenceCatalog.titleOf("primer_nameplate")),
+            ),
+        ),
+        onLinkClick = onLinkClick,
+        modifier = Modifier.padding(
+            horizontal = spacing.screenHorizontal,
+            vertical = spacing.xs,
+        ),
+    )
 }
 
 private fun StartingMethod.label(): StringResource = when (this) {

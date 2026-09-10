@@ -170,24 +170,28 @@ fun CalculatorDestination(
 
             CalculatorId.SELECTIVITY ->
                 SelectivityRoute(
+                    onReferenceClick = onReferenceClick,
                     onNavigateBack = onNavigateBack,
                     recordId = recordId,
                 )
 
             CalculatorId.MOTOR_STARTING ->
                 MotorStartingRoute(
+                    onReferenceClick = onReferenceClick,
                     onNavigateBack = onNavigateBack,
                     recordId = recordId,
                 )
 
             CalculatorId.HARMONICS ->
                 HarmonicsRoute(
+                    onReferenceClick = onReferenceClick,
                     onNavigateBack = onNavigateBack,
                     recordId = recordId,
                 )
 
             CalculatorId.EVSE ->
                 EvseRoute(
+                    onReferenceClick = onReferenceClick,
                     onNavigateBack = onNavigateBack,
                     recordId = recordId,
                 )
