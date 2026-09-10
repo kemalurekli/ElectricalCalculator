@@ -381,6 +381,7 @@
     <string name="ev_example_car_park">Lahan parkir, delapan titik</string>
     <string name="ev_example_home">Satu titik, satu fasa</string>
     <string name="ev_example_three_phase">Arus yang sama, tiga fasa</string>
+    <string name="ev_formula">P = k · U · I_n / 1000\nI_b = n · I_n · f\nI_device ≥ I_b</string>
     <string name="ev_history_summary">Arus desain %1$s A</string>
     <string name="ev_history_title">%1$s titik pada %2$s A</string>
     <string name="ev_note_continuous">Kendaraan listrik menarik arus penuhnya berjam-jam. Tidak satu pun kebiasaan faktor kebersamaan yang membuat sirkit kotak kontak masuk akal dapat dipakai di sini — karena itu faktor kebersamaannya bermula dari satu dan ditanyakan, bukan diandaikan.</string>
@@ -402,11 +403,18 @@
     <string name="ev_step_connected">Segala yang tersambung</string>
     <string name="ev_step_design">Setelah faktor kebersamaan</string>
     <string name="ev_step_per_point">Daya pada satu titik</string>
+    <string name="ev_var_f">Faktor kesertaan; kendaraan menarik arus penuh berjam-jam</string>
+    <string name="ev_var_ib">Arus desain yang menjadi dasar ukuran rangkaian</string>
+    <string name="ev_var_in">Arus pengenal satu titik pengisian</string>
+    <string name="ev_var_k">1 untuk satu fase, √3 untuk tiga fase</string>
+    <string name="ev_var_n">Jumlah titik pengisian</string>
+    <string name="ev_var_u">Tegangan suplai di titik pengisian</string>
     <string name="hm_balanced">Ketiga fasa membawa spektrum yang sama</string>
     <string name="hm_balanced_hint">Harmonisa kelipatan tiga hanya menjumlah di penghantar netral bila ketiga fasa membangkitkannya bersama-sama. Pada panel yang bebannya bercampur, arus netral tidak bisa dihitung dari satu fasa saja.</string>
     <string name="hm_example_drive">Penggerak enam pulsa</string>
     <string name="hm_example_lighting">Sirkit pencahayaan LED</string>
     <string name="hm_example_office">Lantai perkantoran, catu daya sakelar</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Arus dasar, I₁</string>
     <string name="hm_history_summary">THD %1$s %</string>
     <string name="hm_history_title">%1$s A dengan harmonisa</string>
@@ -423,6 +431,13 @@
     <string name="hm_step_neutral">Yang sampai ke titik bintang</string>
     <string name="hm_step_rms">Yang membuat penghantarnya panas</string>
     <string name="hm_step_thd">Distorsi terhadap arus dasar</string>
+    <string name="hm_var_h">Orde harmonisa: 3, 5, 7 dan seterusnya</string>
+    <string name="hm_var_i1">Arus fundamental, komponen 50 atau 60 Hz</string>
+    <string name="hm_var_ih">Arus pada orde harmonisa h</string>
+    <string name="hm_var_in">Arus netral: harmonisa kelipatan tiga saling menjumlah</string>
+    <string name="hm_var_irms">Arus rms sejati: fundamental dan harmonisa bersama</string>
+    <string name="hm_var_k">Faktor K: pemanasan trafo; 1 untuk sinus bersih</string>
+    <string name="hm_var_thd">Distorsi harmonisa total, terhadap fundamental</string>
     <string name="hm_warn_neutral">Penghantar netral membawa arus lebih besar daripada fasa yang dilayaninya. Ini bukan kerusakan — begitulah kelakuan harmonisa kelipatan tiga, dan karena itulah netral yang ukurannya separuh fasa bisa terbakar.</string>
     <string name="lt_example_drawing">Ruang gambar, 750 lx</string>
     <string name="lt_example_office">Kantor, 500 lx</string>
@@ -473,6 +488,7 @@
     <string name="ms_example_small">Motor yang sama, lokasi 50 kVA</string>
     <string name="ms_example_star_delta">Lokasi yang sama, bintang-delta</string>
     <string name="ms_example_stiff">30 kW pada suplai 400 kVA</string>
+    <string name="ms_formula">S_sc = S_t / (u_k / 100)\nS_start = √3 · U · I_start / 1000\nΔU/U = S_start / (S_sc + S_start)</string>
     <string name="ms_full_load_current">Arus beban penuh motor, In</string>
     <string name="ms_history_summary">kedip %1$s %</string>
     <string name="ms_history_title">Motor %1$s A pada %2$s kVA</string>
@@ -498,6 +514,13 @@
     <string name="ms_transformer_impedance">Tegangan impedans trafo, uk</string>
     <string name="ms_transformer_impedance_hint">Empat persen lazim sampai sekitar 630 kVA. Nol berarti jaringan tak terhingga.</string>
     <string name="ms_transformer_kva">Daya pengenal trafo</string>
+    <string name="ms_var_du">Kedip tegangan, sebagai pecahan dari nominal</string>
+    <string name="ms_var_istart">Arus start: beban penuh × rotor terkunci × metode</string>
+    <string name="ms_var_ssc">Daya hubung singkat yang dapat diberikan sumber</string>
+    <string name="ms_var_sstart">Daya semu yang ditarik saat motor start</string>
+    <string name="ms_var_st">Daya pengenal trafo</string>
+    <string name="ms_var_u">Tegangan suplai antar fase</string>
+    <string name="ms_var_uk">Impedansi hubung singkat, dari pelat nama trafo</string>
     <string name="ms_warn_contactor">Pada kedalaman ini, kumparan kontaktor bisa terlepas. Pengasutan yang menyeret seluruh isi panel bukanlah pengasutan.</string>
     <string name="ms_warn_flicker">Cukup dalam untuk terlihat pada pencahayaan.</string>
     <string name="mt_efficiency">Efisiensi (η)</string>
@@ -732,6 +755,7 @@
     <string name="sel_example_holds">Sirkit akhir yang panjang, gangguan di ujungnya</string>
     <string name="sel_fault_current">Arus gangguan prospektif</string>
     <string name="sel_fault_hint">Di tempat gawai sisi beban berada. Jawabannya berubah bersama tempat itu.</string>
+    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Tidak selektif</string>
     <string name="sel_grade_partial">Sebagian — selektif hanya di bawah batasnya</string>
     <string name="sel_grade_selective">Selektif pada tingkat gangguan ini</string>
@@ -747,6 +771,11 @@
     <string name="sel_step_threshold">Sisi hubung pendek: ambang seketika gawai sisi suplai</string>
     <string name="sel_upstream">Gawai di sisi suplai</string>
     <string name="sel_upstream_rating">Arus pengenal sisi suplai, In</string>
+    <string name="sel_var_iinst">Ambang seketika: di atasnya gawai membuka tanpa tunda</string>
+    <string name="sel_var_indn">Arus pengenal gawai di sisi hilir</string>
+    <string name="sel_var_inup">Arus pengenal gawai di sisi hulu</string>
+    <string name="sel_var_m">Kelipatan trip seketika dari kurva: 5 untuk B, 10 untuk C</string>
+    <string name="sel_var_n">Rasio arus pengenal; sekitar 1,6 adalah ambang lazim untuk beban lebih</string>
     <string name="ss_coefficient_hint">β dari lembar data. Bertanda negatif pada setiap modul silikon — lazimnya −0,25 sampai −0,35.</string>
     <string name="ss_coefficient_label">Koefisien suhu tegangan</string>
     <string name="ss_example_continental">Lokasi kontinental, −25 °C</string>

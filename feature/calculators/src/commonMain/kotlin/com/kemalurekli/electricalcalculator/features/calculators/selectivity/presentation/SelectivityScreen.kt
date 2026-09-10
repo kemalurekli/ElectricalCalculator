@@ -3,6 +3,15 @@ package com.kemalurekli.electricalcalculator.features.calculators.selectivity.pr
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sel_var_iinst
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sel_var_m
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sel_var_indn
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sel_var_inup
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sel_var_n
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.sel_formula
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
+import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
@@ -291,6 +300,25 @@ fun SelectivityScreen(
                 )
                 NotesCard()
             }
+
+            // Outside the result block on purpose: the method is worth
+            // reading before there is an answer, and these four screens
+            // were the only ones that never showed it.
+            ElecFormulaCard(
+                title = stringResource(Res.string.calculator_formula),
+                formula = stringResource(Res.string.sel_formula),
+                variables = persistentListOf(
+                        FormulaVariable("n", stringResource(Res.string.sel_var_n), "—"),
+                        FormulaVariable("I_n(up)", stringResource(Res.string.sel_var_inup), "A"),
+                        FormulaVariable("I_n(down)", stringResource(Res.string.sel_var_indn), "A"),
+                        FormulaVariable("m", stringResource(Res.string.sel_var_m), "—"),
+                        FormulaVariable("I_inst", stringResource(Res.string.sel_var_iinst), "A"),
+                ),
+                modifier = Modifier.padding(
+                    horizontal = spacing.screenHorizontal,
+                    vertical = spacing.xs,
+                ),
+            )
         }
     }
 }

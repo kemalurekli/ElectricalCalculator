@@ -381,6 +381,7 @@
     <string name="ev_example_car_park">Parque de estacionamento, oito pontos</string>
     <string name="ev_example_home">Um ponto, monofásico</string>
     <string name="ev_example_three_phase">A mesma corrente, em trifásico</string>
+    <string name="ev_formula">P = k · U · I_n / 1000\nI_b = n · I_n · f\nI_device ≥ I_b</string>
     <string name="ev_history_summary">%1$s A de corrente de serviço</string>
     <string name="ev_history_title">%1$s ponto(s) a %2$s A</string>
     <string name="ev_note_continuous">Um veículo elétrico consome toda a sua corrente durante horas. Nenhum dos hábitos de simultaneidade que fazem funcionar um circuito de tomadas se aplica aqui — por isso o fator de simultaneidade parte de um e é perguntado em vez de assumido.</string>
@@ -402,11 +403,18 @@
     <string name="ev_step_connected">Tudo o que está ligado</string>
     <string name="ev_step_design">Depois da simultaneidade</string>
     <string name="ev_step_per_point">Potência num ponto</string>
+    <string name="ev_var_f">Fator de simultaneidade; um veículo absorve a corrente plena durante horas</string>
+    <string name="ev_var_ib">Corrente de serviço para a qual o circuito é dimensionado</string>
+    <string name="ev_var_in">Corrente nominal de um ponto de carregamento</string>
+    <string name="ev_var_k">1 para monofásico, √3 para trifásico</string>
+    <string name="ev_var_n">Número de pontos de carregamento</string>
+    <string name="ev_var_u">Tensão de alimentação no ponto</string>
     <string name="hm_balanced">As três fases levam o mesmo espectro</string>
     <string name="hm_balanced_hint">As harmónicas múltiplas de três só se somam no neutro se as três fases as produzirem em conjunto. Num quadro misto, a corrente no neutro não se deduz de uma só fase.</string>
     <string name="hm_example_drive">Variador de seis pulsos</string>
     <string name="hm_example_lighting">Circuito de iluminação LED</string>
     <string name="hm_example_office">Piso de escritórios, fontes comutadas</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Corrente fundamental, I₁</string>
     <string name="hm_history_summary">%1$s % de THD</string>
     <string name="hm_history_title">%1$s A com harmónicas</string>
@@ -423,6 +431,13 @@
     <string name="hm_step_neutral">O que chega ao ponto neutro</string>
     <string name="hm_step_rms">Aquilo com que o condutor aquece</string>
     <string name="hm_step_thd">Distorção face à fundamental</string>
+    <string name="hm_var_h">Ordem harmónica: 3, 5, 7 e superiores</string>
+    <string name="hm_var_i1">Corrente fundamental, a componente de 50 ou 60 Hz</string>
+    <string name="hm_var_ih">Corrente da ordem harmónica h</string>
+    <string name="hm_var_in">Corrente de neutro: as harmónicas triplas somam-se em vez de anularem-se</string>
+    <string name="hm_var_irms">Corrente eficaz verdadeira: fundamental e harmónicas juntas</string>
+    <string name="hm_var_k">Fator K: aquecimento do transformador; 1 para uma sinusoide limpa</string>
+    <string name="hm_var_thd">Distorção harmónica total, em relação à fundamental</string>
     <string name="hm_warn_neutral">O neutro conduz mais do que as fases que serve. Não é uma avaria — é o que as harmónicas múltiplas de três fazem, e é por isso que um neutro dimensionado a metade da fase arde.</string>
     <string name="lt_example_drawing">Sala de desenho, 750 lx</string>
     <string name="lt_example_office">Escritório, 500 lx</string>
@@ -473,6 +488,7 @@
     <string name="ms_example_small">O mesmo motor, instalação de 50 kVA</string>
     <string name="ms_example_star_delta">A mesma instalação, estrela-triângulo</string>
     <string name="ms_example_stiff">30 kW numa alimentação de 400 kVA</string>
+    <string name="ms_formula">S_sc = S_t / (u_k / 100)\nS_start = √3 · U · I_start / 1000\nΔU/U = S_start / (S_sc + S_start)</string>
     <string name="ms_full_load_current">Corrente do motor a plena carga, In</string>
     <string name="ms_history_summary">cava de %1$s %</string>
     <string name="ms_history_title">Motor de %1$s A em %2$s kVA</string>
@@ -498,6 +514,13 @@
     <string name="ms_transformer_impedance">Tensão de curto-circuito do transformador, uk</string>
     <string name="ms_transformer_impedance_hint">Quatro por cento é o habitual até cerca de 630 kVA. Zero significa uma rede de potência infinita.</string>
     <string name="ms_transformer_kva">Potência do transformador</string>
+    <string name="ms_var_du">Cava de tensão, como fração da nominal</string>
+    <string name="ms_var_istart">Corrente de arranque: plena carga × rotor bloqueado × método</string>
+    <string name="ms_var_ssc">Potência de curto-circuito que a alimentação pode fornecer</string>
+    <string name="ms_var_sstart">Potência aparente absorvida durante o arranque</string>
+    <string name="ms_var_st">Potência nominal do transformador</string>
+    <string name="ms_var_u">Tensão de alimentação entre fases</string>
+    <string name="ms_var_uk">Impedância de curto-circuito, da chapa do transformador</string>
     <string name="ms_warn_contactor">A esta profundidade, as bobinas dos contactores podem largar. Um arranque que leva atrás o resto do quadro não é um arranque.</string>
     <string name="ms_warn_flicker">Fundo o suficiente para se ver na iluminação.</string>
     <string name="mt_efficiency">Rendimento (η)</string>
@@ -732,6 +755,7 @@
     <string name="sel_example_holds">Circuito terminal longo, defeito na extremidade</string>
     <string name="sel_fault_current">Corrente de defeito presumida</string>
     <string name="sel_fault_hint">No local do aparelho a jusante. Com ele muda a resposta.</string>
+    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Não seletivo</string>
     <string name="sel_grade_partial">Parcial — seletivo apenas abaixo do limite</string>
     <string name="sel_grade_selective">Seletivo a este nível de defeito</string>
@@ -747,6 +771,11 @@
     <string name="sel_step_threshold">Lado do curto-circuito: disparo instantâneo a montante</string>
     <string name="sel_upstream">Aparelho a montante</string>
     <string name="sel_upstream_rating">Corrente estipulada a montante, In</string>
+    <string name="sel_var_iinst">Limiar instantâneo: acima dele, o dispositivo abre sem atraso</string>
+    <string name="sel_var_indn">Corrente nominal do dispositivo a jusante</string>
+    <string name="sel_var_inup">Corrente nominal do dispositivo a montante</string>
+    <string name="sel_var_m">Múltiplo de disparo instantâneo da curva: 5 para B, 10 para C</string>
+    <string name="sel_var_n">Relação das correntes nominais; cerca de 1,6 é o limiar habitual em sobrecarga</string>
     <string name="ss_coefficient_hint">β da ficha técnica. Negativo em qualquer módulo de silício — tipicamente −0,25 a −0,35.</string>
     <string name="ss_coefficient_label">Coeficiente de temperatura da tensão</string>
     <string name="ss_example_continental">Local continental, −25 °C</string>

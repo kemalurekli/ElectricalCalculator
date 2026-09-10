@@ -381,6 +381,7 @@
     <string name="ev_example_car_park">Bãi đỗ xe, tám điểm sạc</string>
     <string name="ev_example_home">Một điểm sạc, một pha</string>
     <string name="ev_example_three_phase">Cùng dòng điện, đấu ba pha</string>
+    <string name="ev_formula">P = k · U · I_n / 1000\nI_b = n · I_n · f\nI_device ≥ I_b</string>
     <string name="ev_history_summary">Dòng điện tính toán %1$s A</string>
     <string name="ev_history_title">%1$s điểm sạc ở %2$s A</string>
     <string name="ev_note_continuous">Xe điện lấy trọn dòng của nó trong nhiều giờ liền. Không thói quen tính đồng thời nào vốn dùng được cho mạch ổ cắm còn đúng ở đây — vì thế hệ số đồng thời bắt đầu từ một và được hỏi chứ không được mặc định.</string>
@@ -402,11 +403,18 @@
     <string name="ev_step_connected">Tất cả những gì đã đấu nối</string>
     <string name="ev_step_design">Sau khi tính hệ số đồng thời</string>
     <string name="ev_step_per_point">Công suất tại một điểm sạc</string>
+    <string name="ev_var_f">Hệ số đồng thời; một xe rút dòng đầy trong nhiều giờ</string>
+    <string name="ev_var_ib">Dòng điện tính toán để chọn cỡ mạch</string>
+    <string name="ev_var_in">Dòng định mức của một điểm sạc</string>
+    <string name="ev_var_k">1 với một pha, √3 với ba pha</string>
+    <string name="ev_var_n">Số điểm sạc</string>
+    <string name="ev_var_u">Điện áp nguồn tại điểm sạc</string>
     <string name="hm_balanced">Cả ba pha mang cùng một phổ sóng hài</string>
     <string name="hm_balanced_hint">Sóng hài bội ba chỉ cộng dồn trong dây trung tính khi cả ba pha cùng sinh ra chúng. Ở tủ điện có phụ tải pha trộn, không thể suy dòng trung tính từ một pha.</string>
     <string name="hm_example_drive">Bộ biến tần sáu xung</string>
     <string name="hm_example_lighting">Mạch chiếu sáng LED</string>
     <string name="hm_example_office">Sàn văn phòng, nguồn xung</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Dòng sóng cơ bản, I₁</string>
     <string name="hm_history_summary">THD %1$s %</string>
     <string name="hm_history_title">%1$s A có sóng hài</string>
@@ -423,6 +431,13 @@
     <string name="hm_step_neutral">Phần đi tới điểm trung tính</string>
     <string name="hm_step_rms">Cái làm ruột dẫn nóng lên</string>
     <string name="hm_step_thd">Độ méo so với sóng cơ bản</string>
+    <string name="hm_var_h">Bậc hài: 3, 5, 7 và cao hơn</string>
+    <string name="hm_var_i1">Dòng điện cơ bản, thành phần 50 hoặc 60 Hz</string>
+    <string name="hm_var_ih">Dòng điện ở bậc hài h</string>
+    <string name="hm_var_in">Dòng dây trung tính: các hài bậc ba cộng dồn thay vì triệt tiêu</string>
+    <string name="hm_var_irms">Dòng hiệu dụng thực: cơ bản và các hài cộng lại</string>
+    <string name="hm_var_k">Hệ số K: phát nhiệt máy biến áp; bằng 1 với sóng sin sạch</string>
+    <string name="hm_var_thd">Độ méo hài tổng, so với thành phần cơ bản</string>
     <string name="hm_warn_neutral">Dây trung tính mang dòng lớn hơn các pha mà nó phục vụ. Đó không phải hư hỏng — sóng hài bội ba vốn như vậy, và đó là lý do dây trung tính chọn bằng nửa tiết diện pha bị cháy.</string>
     <string name="lt_example_drawing">Phòng vẽ kỹ thuật, 750 lx</string>
     <string name="lt_example_office">Văn phòng, 500 lx</string>
@@ -473,6 +488,7 @@
     <string name="ms_example_small">Cùng động cơ, trạm 50 kVA</string>
     <string name="ms_example_star_delta">Cùng công trình, đổi sao-tam giác</string>
     <string name="ms_example_stiff">30 kW trên nguồn 400 kVA</string>
+    <string name="ms_formula">S_sc = S_t / (u_k / 100)\nS_start = √3 · U · I_start / 1000\nΔU/U = S_start / (S_sc + S_start)</string>
     <string name="ms_full_load_current">Dòng đầy tải của động cơ, In</string>
     <string name="ms_history_summary">sụt %1$s %</string>
     <string name="ms_history_title">Động cơ %1$s A trên %2$s kVA</string>
@@ -498,6 +514,13 @@
     <string name="ms_transformer_impedance">Điện áp ngắn mạch của máy biến áp, uk</string>
     <string name="ms_transformer_impedance_hint">Bốn phần trăm là thường gặp tới khoảng 630 kVA. Bằng không nghĩa là lưới vô cùng lớn.</string>
     <string name="ms_transformer_kva">Công suất máy biến áp</string>
+    <string name="ms_var_du">Sụt áp, tính theo tỷ lệ của giá trị định mức</string>
+    <string name="ms_var_istart">Dòng khởi động: đầy tải × rotor hãm × phương pháp</string>
+    <string name="ms_var_ssc">Công suất ngắn mạch mà nguồn có thể cấp</string>
+    <string name="ms_var_sstart">Công suất biểu kiến khi động cơ khởi động</string>
+    <string name="ms_var_st">Công suất định mức máy biến áp</string>
+    <string name="ms_var_u">Điện áp nguồn giữa các pha</string>
+    <string name="ms_var_uk">Điện áp ngắn mạch, ghi trên nhãn máy biến áp</string>
     <string name="ms_warn_contactor">Ở mức sụt này, cuộn hút của công tắc tơ có thể nhả. Một lần khởi động kéo theo cả tủ điện thì không phải là khởi động.</string>
     <string name="ms_warn_flicker">Đủ sâu để nhìn thấy trên đèn chiếu sáng.</string>
     <string name="mt_efficiency">Hiệu suất (η)</string>
@@ -732,6 +755,7 @@
     <string name="sel_example_holds">Mạch nhánh dài, sự cố ở cuối tuyến</string>
     <string name="sel_fault_current">Dòng sự cố dự kiến</string>
     <string name="sel_fault_hint">Tại vị trí đặt thiết bị phía sau. Vị trí đổi thì câu trả lời cũng đổi.</string>
+    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Không chọn lọc</string>
     <string name="sel_grade_partial">Một phần — chỉ chọn lọc dưới giới hạn</string>
     <string name="sel_grade_selective">Chọn lọc ở mức dòng sự cố này</string>
@@ -747,6 +771,11 @@
     <string name="sel_step_threshold">Phía ngắn mạch: ngưỡng tức thời của thiết bị phía trước</string>
     <string name="sel_upstream">Thiết bị phía trước</string>
     <string name="sel_upstream_rating">Dòng định mức phía trước, In</string>
+    <string name="sel_var_iinst">Ngưỡng cắt tức thời: vượt qua đó thiết bị mở ngay</string>
+    <string name="sel_var_indn">Dòng định mức của thiết bị phía dưới</string>
+    <string name="sel_var_inup">Dòng định mức của thiết bị phía trên</string>
+    <string name="sel_var_m">Bội số cắt tức thời của đường đặc tính: 5 với B, 10 với C</string>
+    <string name="sel_var_n">Tỷ số dòng định mức; khoảng 1,6 là ngưỡng thường dùng khi quá tải</string>
     <string name="ss_coefficient_hint">β lấy từ tài liệu kỹ thuật. Luôn âm với mọi tấm pin silic — thường là −0,25 đến −0,35.</string>
     <string name="ss_coefficient_label">Hệ số nhiệt của điện áp</string>
     <string name="ss_example_continental">Vùng khí hậu lục địa, −25 °C</string>

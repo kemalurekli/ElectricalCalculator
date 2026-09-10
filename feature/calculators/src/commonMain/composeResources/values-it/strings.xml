@@ -381,6 +381,7 @@
     <string name="ev_example_car_park">Parcheggio, otto punti</string>
     <string name="ev_example_home">Un punto, monofase</string>
     <string name="ev_example_three_phase">Stessa corrente, trifase</string>
+    <string name="ev_formula">P = k · U · I_n / 1000\nI_b = n · I_n · f\nI_device ≥ I_b</string>
     <string name="ev_history_summary">%1$s A di corrente d'impiego</string>
     <string name="ev_history_title">%1$s punto/i a %2$s A</string>
     <string name="ev_note_continuous">Un veicolo elettrico assorbe tutta la sua corrente per ore. Nessuna delle abitudini di contemporaneità con cui funziona un circuito prese vale qui: per questo il fattore di contemporaneità parte da uno e viene chiesto invece che presunto.</string>
@@ -402,11 +403,18 @@
     <string name="ev_step_connected">Tutto ciò che è collegato</string>
     <string name="ev_step_design">Dopo la contemporaneità</string>
     <string name="ev_step_per_point">Potenza a un punto</string>
+    <string name="ev_var_f">Fattore di contemporaneità; un veicolo assorbe la corrente piena per ore</string>
+    <string name="ev_var_ib">Corrente d'impiego per cui il circuito è dimensionato</string>
+    <string name="ev_var_in">Corrente nominale di un punto di ricarica</string>
+    <string name="ev_var_k">1 per monofase, √3 per trifase</string>
+    <string name="ev_var_n">Numero di punti di ricarica</string>
+    <string name="ev_var_u">Tensione di alimentazione al punto</string>
     <string name="hm_balanced">Le tre fasi portano lo stesso spettro</string>
     <string name="hm_balanced_hint">Le armoniche multiple di tre si sommano nel neutro solo se tutte e tre le fasi le producono insieme. Su un quadro misto la corrente di neutro non si ricava da una sola fase.</string>
     <string name="hm_example_drive">Azionamento a sei impulsi</string>
     <string name="hm_example_lighting">Circuito di illuminazione LED</string>
     <string name="hm_example_office">Piano uffici, alimentatori switching</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Corrente fondamentale, I₁</string>
     <string name="hm_history_summary">%1$s % di THD</string>
     <string name="hm_history_title">%1$s A con armoniche</string>
@@ -423,6 +431,13 @@
     <string name="hm_step_neutral">Ciò che arriva al centro stella</string>
     <string name="hm_step_rms">Ciò su cui il conduttore si scalda</string>
     <string name="hm_step_thd">Distorsione rispetto alla fondamentale</string>
+    <string name="hm_var_h">Ordine armonico: 3, 5, 7 e oltre</string>
+    <string name="hm_var_i1">Corrente fondamentale, la componente a 50 o 60 Hz</string>
+    <string name="hm_var_ih">Corrente dell'ordine armonico h</string>
+    <string name="hm_var_in">Corrente di neutro: le armoniche triple si sommano invece di annullarsi</string>
+    <string name="hm_var_irms">Corrente efficace vera: fondamentale e armoniche insieme</string>
+    <string name="hm_var_k">Fattore K: riscaldamento del trasformatore; 1 per una sinusoide pulita</string>
+    <string name="hm_var_thd">Distorsione armonica totale, rispetto alla fondamentale</string>
     <string name="hm_warn_neutral">Il neutro porta più delle fasi che serve. Non è un guasto: è ciò che fanno le armoniche multiple di tre, ed è il motivo per cui un neutro dimensionato a metà della fase brucia.</string>
     <string name="lt_example_drawing">Sala disegno, 750 lx</string>
     <string name="lt_example_office">Ufficio, 500 lx</string>
@@ -473,6 +488,7 @@
     <string name="ms_example_small">Stesso motore, sito da 50 kVA</string>
     <string name="ms_example_star_delta">Stesso sito, stella-triangolo</string>
     <string name="ms_example_stiff">30 kW su una fornitura da 400 kVA</string>
+    <string name="ms_formula">S_sc = S_t / (u_k / 100)\nS_start = √3 · U · I_start / 1000\nΔU/U = S_start / (S_sc + S_start)</string>
     <string name="ms_full_load_current">Corrente del motore a pieno carico, In</string>
     <string name="ms_history_summary">%1$s % di buco</string>
     <string name="ms_history_title">Motore da %1$s A su %2$s kVA</string>
@@ -498,6 +514,13 @@
     <string name="ms_transformer_impedance">Tensione di cortocircuito del trasformatore, uk</string>
     <string name="ms_transformer_impedance_hint">Il quattro per cento è consueto fino a circa 630 kVA. Zero significa rete di potenza infinita.</string>
     <string name="ms_transformer_kva">Potenza del trasformatore</string>
+    <string name="ms_var_du">Buco di tensione, come frazione della nominale</string>
+    <string name="ms_var_istart">Corrente di avviamento: pieno carico × rotore bloccato × metodo</string>
+    <string name="ms_var_ssc">Potenza di cortocircuito che l'alimentazione può erogare</string>
+    <string name="ms_var_sstart">Potenza apparente assorbita durante l'avviamento</string>
+    <string name="ms_var_st">Potenza nominale del trasformatore</string>
+    <string name="ms_var_u">Tensione di alimentazione tra le fasi</string>
+    <string name="ms_var_uk">Impedenza di cortocircuito, dalla targa del trasformatore</string>
     <string name="ms_warn_contactor">A questa profondità le bobine dei contattori possono diseccitarsi. Un avviamento che si porta dietro il resto del quadro non è un avviamento.</string>
     <string name="ms_warn_flicker">Abbastanza profondo da vedersi nell'illuminazione.</string>
     <string name="mt_efficiency">Rendimento (η)</string>
@@ -732,6 +755,7 @@
     <string name="sel_example_holds">Circuito terminale lungo, guasto all'estremità</string>
     <string name="sel_fault_current">Corrente di guasto presunta</string>
     <string name="sel_fault_hint">Nel punto in cui sta il dispositivo a valle. Con esso cambia la risposta.</string>
+    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Non selettivo</string>
     <string name="sel_grade_partial">Parziale — selettivo solo sotto il limite</string>
     <string name="sel_grade_selective">Selettivo a questo livello di guasto</string>
@@ -747,6 +771,11 @@
     <string name="sel_step_threshold">Lato cortocircuito: soglia istantanea del dispositivo a monte</string>
     <string name="sel_upstream">Dispositivo a monte</string>
     <string name="sel_upstream_rating">Corrente nominale a monte, In</string>
+    <string name="sel_var_iinst">Soglia istantanea: oltre, il dispositivo apre senza ritardo</string>
+    <string name="sel_var_indn">Corrente nominale del dispositivo a valle</string>
+    <string name="sel_var_inup">Corrente nominale del dispositivo a monte</string>
+    <string name="sel_var_m">Multiplo di intervento istantaneo della curva: 5 per B, 10 per C</string>
+    <string name="sel_var_n">Rapporto tra le correnti nominali; circa 1,6 è la soglia usuale in sovraccarico</string>
     <string name="ss_coefficient_hint">β dalla scheda tecnica. Negativo su ogni modulo al silicio — tipicamente da −0,25 a −0,35.</string>
     <string name="ss_coefficient_label">Coefficiente di temperatura della tensione</string>
     <string name="ss_example_continental">Sito continentale, −25 °C</string>

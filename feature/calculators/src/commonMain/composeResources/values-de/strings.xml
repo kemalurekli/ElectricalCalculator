@@ -381,6 +381,7 @@
     <string name="ev_example_car_park">Parkhaus, acht Ladepunkte</string>
     <string name="ev_example_home">Ein Ladepunkt, einphasig</string>
     <string name="ev_example_three_phase">Gleicher Strom, dreiphasig</string>
+    <string name="ev_formula">P = k · U · I_n / 1000\nI_b = n · I_n · f\nI_device ≥ I_b</string>
     <string name="ev_history_summary">%1$s A Betriebsstrom</string>
     <string name="ev_history_title">%1$s Ladepunkt(e) mit %2$s A</string>
     <string name="ev_note_continuous">Ein Elektrofahrzeug nimmt seinen vollen Strom über Stunden auf. Keine der Gleichzeitigkeitsgewohnheiten, mit denen ein Steckdosenstromkreis funktioniert, lässt sich übertragen — deshalb beginnt der Gleichzeitigkeitsfaktor bei eins und wird abgefragt statt angenommen.</string>
@@ -402,11 +403,18 @@
     <string name="ev_step_connected">Alles Angeschlossene</string>
     <string name="ev_step_design">Nach der Gleichzeitigkeit</string>
     <string name="ev_step_per_point">Leistung an einem Ladepunkt</string>
+    <string name="ev_var_f">Gleichzeitigkeitsfaktor; ein Fahrzeug zieht seinen vollen Strom stundenlang</string>
+    <string name="ev_var_ib">Betriebsstrom, für den der Stromkreis bemessen wird</string>
+    <string name="ev_var_in">Bemessungsstrom eines Ladepunkts</string>
+    <string name="ev_var_k">1 bei Wechselstrom, √3 bei Drehstrom</string>
+    <string name="ev_var_n">Anzahl der Ladepunkte</string>
+    <string name="ev_var_u">Versorgungsspannung am Ladepunkt</string>
     <string name="hm_balanced">Alle drei Außenleiter führen dasselbe Spektrum</string>
     <string name="hm_balanced_hint">Oberschwingungen dritter Ordnung addieren sich im Neutralleiter nur, wenn alle drei Außenleiter sie gemeinsam erzeugen. In einer gemischten Verteilung lässt sich der Neutralleiterstrom nicht aus einem Außenleiter herleiten.</string>
     <string name="hm_example_drive">Sechspulsiger Umrichter</string>
     <string name="hm_example_lighting">LED-Beleuchtungsstromkreis</string>
     <string name="hm_example_office">Bürogeschoss, Schaltnetzteile</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Strom der Grundschwingung, I₁</string>
     <string name="hm_history_summary">%1$s % THD</string>
     <string name="hm_history_title">%1$s A mit Oberschwingungen</string>
@@ -423,6 +431,13 @@
     <string name="hm_step_neutral">Was am Sternpunkt ankommt</string>
     <string name="hm_step_rms">Woran sich der Leiter erwärmt</string>
     <string name="hm_step_thd">Verzerrung gegenüber der Grundschwingung</string>
+    <string name="hm_var_h">Ordnungszahl der Harmonischen: 3, 5, 7 und aufwärts</string>
+    <string name="hm_var_i1">Grundschwingungsstrom, die 50- oder 60-Hz-Komponente</string>
+    <string name="hm_var_ih">Strom der Harmonischen h-ter Ordnung</string>
+    <string name="hm_var_in">Neutralleiterstrom: durch drei teilbare Harmonische addieren sich</string>
+    <string name="hm_var_irms">Echter Effektivstrom: Grundschwingung und Harmonische zusammen</string>
+    <string name="hm_var_k">K-Faktor: Transformatorerwärmung; 1 bei reiner Sinusform</string>
+    <string name="hm_var_thd">Gesamtoberschwingungsgehalt, bezogen auf die Grundschwingung</string>
     <string name="hm_warn_neutral">Der Neutralleiter führt mehr als die Außenleiter, die er bedient. Das ist kein Fehler — das tun Oberschwingungen dritter Ordnung, und deshalb brennt ein Neutralleiter mit halbem Außenleiterquerschnitt durch.</string>
     <string name="lt_example_drawing">Konstruktionsbüro, 750 lx</string>
     <string name="lt_example_office">Büro, 500 lx</string>
@@ -473,6 +488,7 @@
     <string name="ms_example_small">Derselbe Motor, 50-kVA-Standort</string>
     <string name="ms_example_star_delta">Derselbe Standort, Stern-Dreieck</string>
     <string name="ms_example_stiff">30 kW an einer 400-kVA-Einspeisung</string>
+    <string name="ms_formula">S_sc = S_t / (u_k / 100)\nS_start = √3 · U · I_start / 1000\nΔU/U = S_start / (S_sc + S_start)</string>
     <string name="ms_full_load_current">Bemessungsstrom des Motors, In</string>
     <string name="ms_history_summary">%1$s % Einbruch</string>
     <string name="ms_history_title">%1$s A Motor an %2$s kVA</string>
@@ -498,6 +514,13 @@
     <string name="ms_transformer_impedance">Kurzschlussspannung des Transformators, uk</string>
     <string name="ms_transformer_impedance_hint">Vier Prozent sind bis etwa 630 kVA üblich. Null bedeutet ein starres Netz.</string>
     <string name="ms_transformer_kva">Bemessungsleistung des Transformators</string>
+    <string name="ms_var_du">Spannungseinbruch, bezogen auf die Nennspannung</string>
+    <string name="ms_var_istart">Anlaufstrom: Bemessungsstrom × Anzugsvielfaches × Verfahren</string>
+    <string name="ms_var_ssc">Kurzschlussleistung, die das Netz liefern kann</string>
+    <string name="ms_var_sstart">Scheinleistung während des Hochlaufs</string>
+    <string name="ms_var_st">Bemessungsleistung des Transformators</string>
+    <string name="ms_var_u">Netzspannung zwischen den Außenleitern</string>
+    <string name="ms_var_uk">Kurzschlussspannung, vom Leistungsschild des Transformators</string>
     <string name="ms_warn_contactor">Bei dieser Tiefe können Schützspulen abfallen. Ein Anlauf, der die übrige Verteilung mitnimmt, ist kein Anlauf.</string>
     <string name="ms_warn_flicker">Tief genug, um in der Beleuchtung sichtbar zu werden.</string>
     <string name="mt_efficiency">Wirkungsgrad (η)</string>
@@ -732,6 +755,7 @@
     <string name="sel_example_holds">Langer Endstromkreis, Fehler am fernen Ende</string>
     <string name="sel_fault_current">Zu erwartender Kurzschlussstrom</string>
     <string name="sel_fault_hint">An der Einbaustelle der nachgeordneten Einrichtung. Mit ihr ändert sich die Antwort.</string>
+    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Nicht selektiv</string>
     <string name="sel_grade_partial">Teilweise — nur unterhalb der Grenze selektiv</string>
     <string name="sel_grade_selective">Bei diesem Kurzschlussstrom selektiv</string>
@@ -747,6 +771,11 @@
     <string name="sel_step_threshold">Kurzschlussseite: unverzögerter Ansprechwert der vorgeordneten Einrichtung</string>
     <string name="sel_upstream">Vorgeordnete Einrichtung</string>
     <string name="sel_upstream_rating">Vorgeordneter Bemessungsstrom, In</string>
+    <string name="sel_var_iinst">Schwelle des Schnellauslösers: darüber öffnet die Einrichtung unverzögert</string>
+    <string name="sel_var_indn">Bemessungsstrom der nachgelagerten Schutzeinrichtung</string>
+    <string name="sel_var_inup">Bemessungsstrom der vorgelagerten Schutzeinrichtung</string>
+    <string name="sel_var_m">Auslösefaktor der Kennlinie: 5 bei B, 10 bei C</string>
+    <string name="sel_var_n">Verhältnis der Bemessungsströme; etwa 1,6 ist die übliche Schwelle bei Überlast</string>
     <string name="ss_coefficient_hint">β aus dem Datenblatt. Bei jedem Siliziummodul negativ — üblich −0,25 bis −0,35.</string>
     <string name="ss_coefficient_label">Temperaturkoeffizient der Spannung</string>
     <string name="ss_example_continental">Kontinentaler Standort, −25 °C</string>

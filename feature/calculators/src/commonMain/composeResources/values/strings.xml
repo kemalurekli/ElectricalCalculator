@@ -381,6 +381,7 @@
     <string name="ev_example_car_park">Car park, eight points</string>
     <string name="ev_example_home">One point, single-phase</string>
     <string name="ev_example_three_phase">Same current, three-phase</string>
+    <string name="ev_formula">P = k · U · I_n / 1000\nI_b = n · I_n · f\nI_device ≥ I_b</string>
     <string name="ev_history_summary">%1$s A design current</string>
     <string name="ev_history_title">%1$s point(s) at %2$s A</string>
     <string name="ev_note_continuous">An EV draws its full current for hours. None of the diversity habits that make a socket circuit work carry over, which is why the simultaneity factor starts at one and is asked for rather than assumed.</string>
@@ -402,11 +403,18 @@
     <string name="ev_step_connected">Everything connected</string>
     <string name="ev_step_design">After simultaneity</string>
     <string name="ev_step_per_point">Power at one point</string>
+    <string name="ev_var_f">Simultaneity factor; a vehicle draws its full current for hours</string>
+    <string name="ev_var_ib">Design current the circuit is sized for</string>
+    <string name="ev_var_in">Rated current of one charging point</string>
+    <string name="ev_var_k">1 for single phase, √3 for three phase</string>
+    <string name="ev_var_n">Number of charging points</string>
+    <string name="ev_var_u">Supply voltage at the point</string>
     <string name="hm_balanced">Three lines carry the same spectrum</string>
     <string name="hm_balanced_hint">Triplen harmonics add in the neutral only when all three lines produce them together. On a mixed board the neutral cannot be worked out from one line.</string>
     <string name="hm_example_drive">Six-pulse drive</string>
     <string name="hm_example_lighting">LED lighting circuit</string>
     <string name="hm_example_office">Office floor, switch-mode supplies</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Fundamental current, I₁</string>
     <string name="hm_history_summary">%1$s % THD</string>
     <string name="hm_history_title">%1$s A with harmonics</string>
@@ -423,6 +431,13 @@
     <string name="hm_step_neutral">What reaches the star point</string>
     <string name="hm_step_rms">What the conductor heats on</string>
     <string name="hm_step_thd">Distortion against the fundamental</string>
+    <string name="hm_var_h">Harmonic order: 3, 5, 7 and upward</string>
+    <string name="hm_var_i1">Fundamental current, the 50 or 60 Hz component</string>
+    <string name="hm_var_ih">Current at harmonic order h</string>
+    <string name="hm_var_in">Neutral current: triplen harmonics add rather than cancel</string>
+    <string name="hm_var_irms">True RMS current: fundamental and harmonics together</string>
+    <string name="hm_var_k">K-factor: transformer heating; 1 for a clean sine</string>
+    <string name="hm_var_thd">Total harmonic distortion, against the fundamental</string>
     <string name="hm_warn_neutral">The neutral carries more than the lines it serves. This is not a fault — it is what triplen harmonics do, and it is why a neutral sized as half the phase burns.</string>
     <string name="lt_example_drawing">Drawing office, 750 lx</string>
     <string name="lt_example_office">Office, 500 lx</string>
@@ -473,6 +488,7 @@
     <string name="ms_example_small">Same motor, 50 kVA site</string>
     <string name="ms_example_star_delta">Same site, star-delta</string>
     <string name="ms_example_stiff">30 kW on a 400 kVA supply</string>
+    <string name="ms_formula">S_sc = S_t / (u_k / 100)\nS_start = √3 · U · I_start / 1000\nΔU/U = S_start / (S_sc + S_start)</string>
     <string name="ms_full_load_current">Motor full load current, In</string>
     <string name="ms_history_summary">%1$s % dip</string>
     <string name="ms_history_title">%1$s A motor on %2$s kVA</string>
@@ -498,6 +514,13 @@
     <string name="ms_transformer_impedance">Transformer impedance, uk</string>
     <string name="ms_transformer_impedance_hint">Four per cent is usual up to about 630 kVA. Zero means an infinite bus.</string>
     <string name="ms_transformer_kva">Transformer rating</string>
+    <string name="ms_var_du">Voltage dip, as a fraction of nominal</string>
+    <string name="ms_var_istart">Starting current: full load × locked rotor × method</string>
+    <string name="ms_var_ssc">Short-circuit power the supply can deliver</string>
+    <string name="ms_var_sstart">Apparent power drawn while the motor runs up</string>
+    <string name="ms_var_st">Transformer rating</string>
+    <string name="ms_var_u">Supply voltage between lines</string>
+    <string name="ms_var_uk">Short-circuit impedance, from the transformer's plate</string>
     <string name="ms_warn_contactor">Contactor coils may release at this depth. A start that takes the rest of the board with it is not a start.</string>
     <string name="ms_warn_flicker">Deep enough to be seen in the lighting.</string>
     <string name="mt_efficiency">Efficiency (η)</string>
@@ -732,6 +755,7 @@
     <string name="sel_example_holds">Long final circuit, fault at the far end</string>
     <string name="sel_fault_current">Prospective fault current</string>
     <string name="sel_fault_hint">At the downstream device’s position. The answer changes with it.</string>
+    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Not selective</string>
     <string name="sel_grade_partial">Partial — selective only below the limit</string>
     <string name="sel_grade_selective">Selective at this fault level</string>
@@ -747,6 +771,11 @@
     <string name="sel_step_threshold">Short-circuit end: upstream instantaneous pickup</string>
     <string name="sel_upstream">Upstream device</string>
     <string name="sel_upstream_rating">Upstream rating, In</string>
+    <string name="sel_var_iinst">Instantaneous threshold: above it the device opens without delay</string>
+    <string name="sel_var_indn">Rated current of the downstream device</string>
+    <string name="sel_var_inup">Rated current of the upstream device</string>
+    <string name="sel_var_m">Instantaneous multiplier of the device's curve: 5 for B, 10 for C</string>
+    <string name="sel_var_n">Rating ratio; about 1.6 is the usual threshold for overload selectivity</string>
     <string name="ss_coefficient_hint">β from the datasheet. Negative on every silicon module — typically −0.25 to −0,35.</string>
     <string name="ss_coefficient_label">Voltage temperature coefficient</string>
     <string name="ss_example_continental">Continental site, −25 °C</string>

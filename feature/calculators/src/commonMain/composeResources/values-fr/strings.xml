@@ -381,6 +381,7 @@
     <string name="ev_example_car_park">Parking, huit points</string>
     <string name="ev_example_home">Un point, monophasé</string>
     <string name="ev_example_three_phase">Même courant, en triphasé</string>
+    <string name="ev_formula">P = k · U · I_n / 1000\nI_b = n · I_n · f\nI_device ≥ I_b</string>
     <string name="ev_history_summary">%1$s A de courant d'emploi</string>
     <string name="ev_history_title">%1$s point(s) à %2$s A</string>
     <string name="ev_note_continuous">Un véhicule électrique appelle tout son courant pendant des heures. Aucune des habitudes de foisonnement qui font marcher un circuit de prises ne s'applique ici : c'est pourquoi le facteur de simultanéité part de un et se demande au lieu de se supposer.</string>
@@ -402,11 +403,18 @@
     <string name="ev_step_connected">Tout ce qui est raccordé</string>
     <string name="ev_step_design">Après simultanéité</string>
     <string name="ev_step_per_point">Puissance à un point</string>
+    <string name="ev_var_f">Facteur de simultanéité ; un véhicule absorbe son plein courant des heures durant</string>
+    <string name="ev_var_ib">Courant d'emploi pour lequel le circuit est dimensionné</string>
+    <string name="ev_var_in">Courant assigné d'un point de charge</string>
+    <string name="ev_var_k">1 en monophasé, √3 en triphasé</string>
+    <string name="ev_var_n">Nombre de points de charge</string>
+    <string name="ev_var_u">Tension d'alimentation au point de charge</string>
     <string name="hm_balanced">Les trois phases portent le même spectre</string>
     <string name="hm_balanced_hint">Les harmoniques multiples de trois ne s'additionnent dans le neutre que si les trois phases les produisent ensemble. Sur un tableau mixte, le courant de neutre ne se déduit pas d'une seule phase.</string>
     <string name="hm_example_drive">Variateur à six pulses</string>
     <string name="hm_example_lighting">Circuit d'éclairage LED</string>
     <string name="hm_example_office">Plateau de bureaux, alimentations à découpage</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Courant fondamental, I₁</string>
     <string name="hm_history_summary">%1$s % de THD</string>
     <string name="hm_history_title">%1$s A avec harmoniques</string>
@@ -423,6 +431,13 @@
     <string name="hm_step_neutral">Ce qui arrive au point neutre</string>
     <string name="hm_step_rms">Ce sur quoi le conducteur s'échauffe</string>
     <string name="hm_step_thd">Distorsion par rapport au fondamental</string>
+    <string name="hm_var_h">Rang harmonique : 3, 5, 7 et au-delà</string>
+    <string name="hm_var_i1">Courant fondamental, la composante à 50 ou 60 Hz</string>
+    <string name="hm_var_ih">Courant du rang harmonique h</string>
+    <string name="hm_var_in">Courant de neutre : les harmoniques de rang 3 s'additionnent</string>
+    <string name="hm_var_irms">Courant efficace vrai : fondamental et harmoniques ensemble</string>
+    <string name="hm_var_k">Facteur K : échauffement du transformateur ; 1 pour une sinusoïde pure</string>
+    <string name="hm_var_thd">Taux de distorsion harmonique, rapporté au fondamental</string>
     <string name="hm_warn_neutral">Le neutre porte plus que les phases qu'il dessert. Ce n'est pas un défaut : c'est ce que font les harmoniques multiples de trois, et c'est pour cela qu'un neutre dimensionné à la moitié de la phase brûle.</string>
     <string name="lt_example_drawing">Salle de dessin, 750 lx</string>
     <string name="lt_example_office">Bureau, 500 lx</string>
@@ -473,6 +488,7 @@
     <string name="ms_example_small">Même moteur, site de 50 kVA</string>
     <string name="ms_example_star_delta">Même site, étoile-triangle</string>
     <string name="ms_example_stiff">30 kW sur une alimentation de 400 kVA</string>
+    <string name="ms_formula">S_sc = S_t / (u_k / 100)\nS_start = √3 · U · I_start / 1000\nΔU/U = S_start / (S_sc + S_start)</string>
     <string name="ms_full_load_current">Courant du moteur à pleine charge, In</string>
     <string name="ms_history_summary">%1$s % de creux</string>
     <string name="ms_history_title">Moteur de %1$s A sur %2$s kVA</string>
@@ -498,6 +514,13 @@
     <string name="ms_transformer_impedance">Tension de court-circuit du transformateur, uk</string>
     <string name="ms_transformer_impedance_hint">Quatre pour cent est l'usage jusqu'à 630 kVA environ. Zéro signifie un réseau de puissance infinie.</string>
     <string name="ms_transformer_kva">Puissance du transformateur</string>
+    <string name="ms_var_du">Creux de tension, en fraction de la valeur nominale</string>
+    <string name="ms_var_istart">Courant de démarrage : pleine charge × rotor bloqué × méthode</string>
+    <string name="ms_var_ssc">Puissance de court-circuit que le réseau peut fournir</string>
+    <string name="ms_var_sstart">Puissance apparente absorbée pendant le démarrage</string>
+    <string name="ms_var_st">Puissance assignée du transformateur</string>
+    <string name="ms_var_u">Tension d'alimentation entre phases</string>
+    <string name="ms_var_uk">Tension de court-circuit, lue sur la plaque du transformateur</string>
     <string name="ms_warn_contactor">À cette profondeur, les bobines de contacteurs peuvent lâcher. Un démarrage qui emporte le reste du tableau n'est pas un démarrage.</string>
     <string name="ms_warn_flicker">Assez profond pour se voir dans l'éclairage.</string>
     <string name="mt_efficiency">Rendement (η)</string>
@@ -732,6 +755,7 @@
     <string name="sel_example_holds">Long circuit terminal, défaut à l'extrémité</string>
     <string name="sel_fault_current">Courant de défaut présumé</string>
     <string name="sel_fault_hint">À l'emplacement de l'appareil aval. La réponse change avec lui.</string>
+    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Non sélectif</string>
     <string name="sel_grade_partial">Partielle — sélectif seulement en dessous de la limite</string>
     <string name="sel_grade_selective">Sélectif à ce niveau de défaut</string>
@@ -747,6 +771,11 @@
     <string name="sel_step_threshold">Côté court-circuit : seuil instantané de l'appareil amont</string>
     <string name="sel_upstream">Appareil amont</string>
     <string name="sel_upstream_rating">Calibre amont, In</string>
+    <string name="sel_var_iinst">Seuil magnétique : au-dessus, l'appareil ouvre sans temporisation</string>
+    <string name="sel_var_indn">Courant assigné de l'appareil aval</string>
+    <string name="sel_var_inup">Courant assigné de l'appareil amont</string>
+    <string name="sel_var_m">Multiple de déclenchement magnétique de la courbe : 5 pour B, 10 pour C</string>
+    <string name="sel_var_n">Rapport des courants assignés ; environ 1,6 est le seuil usuel en surcharge</string>
     <string name="ss_coefficient_hint">β d'après la fiche technique. Négatif sur tout module au silicium — typiquement −0,25 à −0,35.</string>
     <string name="ss_coefficient_label">Coefficient de température de la tension</string>
     <string name="ss_example_continental">Site continental, −25 °C</string>

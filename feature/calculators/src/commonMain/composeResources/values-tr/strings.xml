@@ -381,6 +381,7 @@
     <string name="ev_example_car_park">Otopark, sekiz nokta</string>
     <string name="ev_example_home">Tek nokta, tek fazlı</string>
     <string name="ev_example_three_phase">Aynı akım, üç fazlı</string>
+    <string name="ev_formula">P = k · U · I_n / 1000\nI_b = n · I_n · f\nI_device ≥ I_b</string>
     <string name="ev_history_summary">%1$s A tasarım akımı</string>
     <string name="ev_history_title">%2$s A’de %1$s nokta</string>
     <string name="ev_note_continuous">Bir elektrikli araç tam akımını saatlerce çeker. Priz devrelerini yürüten eşzamanlılık alışkanlıklarının hiçbiri buraya geçmez; eşzamanlılık katsayısının birden başlamasının ve varsayılmak yerine sorulmasının sebebi budur.</string>
@@ -402,11 +403,18 @@
     <string name="ev_step_connected">Bağlı olanın tamamı</string>
     <string name="ev_step_design">Eşzamanlılıktan sonra</string>
     <string name="ev_step_per_point">Tek noktadaki güç</string>
+    <string name="ev_var_f">Eşzamanlılık faktörü; bir araç tam akımını saatlerce çeker</string>
+    <string name="ev_var_ib">Devrenin boyutlandırıldığı tasarım akımı</string>
+    <string name="ev_var_in">Bir şarj noktasının anma akımı</string>
+    <string name="ev_var_k">Tek fazda 1, üç fazda √3</string>
+    <string name="ev_var_n">Şarj noktası sayısı</string>
+    <string name="ev_var_u">Şarj noktasındaki besleme gerilimi</string>
     <string name="hm_balanced">Üç hat aynı spektrumu taşıyor</string>
     <string name="hm_balanced_hint">Üçün katı harmonikler nötrde ancak üç hat da onları birlikte ürettiğinde toplanır. Karışık bir panoda nötr, tek bir hattan hesaplanamaz.</string>
     <string name="hm_example_drive">Altı darbeli sürücü</string>
     <string name="hm_example_lighting">LED aydınlatma devresi</string>
     <string name="hm_example_office">Ofis katı, anahtarlamalı güç kaynakları</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Temel bileşen akımı, I₁</string>
     <string name="hm_history_summary">%1$s % THD</string>
     <string name="hm_history_title">Harmonikli %1$s A</string>
@@ -423,6 +431,13 @@
     <string name="hm_step_neutral">Yıldız noktasına ulaşan</string>
     <string name="hm_step_rms">İletkenin ısındığı akım</string>
     <string name="hm_step_thd">Temel bileşene göre bozulma</string>
+    <string name="hm_var_h">Harmonik mertebesi: 3, 5, 7 ve yukarısı</string>
+    <string name="hm_var_i1">Temel bileşen akımı, 50 ya da 60 Hz'lik bileşen</string>
+    <string name="hm_var_ih">h. harmonik mertebesindeki akım</string>
+    <string name="hm_var_in">Nötr akımı: üçün katı harmonikler sönmez, toplanır</string>
+    <string name="hm_var_irms">Gerçek etkin akım: temel bileşen ve harmonikler birlikte</string>
+    <string name="hm_var_k">K faktörü: trafo ısınması; temiz sinüste 1</string>
+    <string name="hm_var_thd">Toplam harmonik bozulma, temel bileşene göre</string>
     <string name="hm_warn_neutral">Nötr, beslediği hatlardan daha fazla akım taşıyor. Bu bir arıza değil — üçün katı harmoniklerin yaptığı şey bu; fazın yarısı kadar seçilen bir nötrün yanmasının sebebi de bu.</string>
     <string name="lt_example_drawing">Teknik büro, 750 lx</string>
     <string name="lt_example_office">Ofis, 500 lx</string>
@@ -473,6 +488,7 @@
     <string name="ms_example_small">Aynı motor, 50 kVA saha</string>
     <string name="ms_example_star_delta">Aynı saha, yıldız-üçgen</string>
     <string name="ms_example_stiff">400 kVA beslemede 30 kW</string>
+    <string name="ms_formula">S_sc = S_t / (u_k / 100)\nS_start = √3 · U · I_start / 1000\nΔU/U = S_start / (S_sc + S_start)</string>
     <string name="ms_full_load_current">Motor tam yük akımı, In</string>
     <string name="ms_history_summary">%1$s % çökme</string>
     <string name="ms_history_title">%2$s kVA üzerinde %1$s A motor</string>
@@ -498,6 +514,13 @@
     <string name="ms_transformer_impedance">Trafo empedansı, uk</string>
     <string name="ms_transformer_impedance_hint">630 kVA'ya kadar yüzde dört alışılmıştır. Sıfır, sonsuz bara demektir.</string>
     <string name="ms_transformer_kva">Trafo gücü</string>
+    <string name="ms_var_du">Gerilim çökmesi, anma değerine oran olarak</string>
+    <string name="ms_var_istart">Yol alma akımı: tam yük × kilitli rotor × yöntem</string>
+    <string name="ms_var_ssc">Beslemenin verebileceği kısa devre gücü</string>
+    <string name="ms_var_sstart">Motor yol alırken çekilen görünür güç</string>
+    <string name="ms_var_st">Trafonun anma gücü</string>
+    <string name="ms_var_u">Fazlar arası besleme gerilimi</string>
+    <string name="ms_var_uk">Kısa devre empedansı, trafonun etiketinden</string>
     <string name="ms_warn_contactor">Bu derinlikte kontaktör bobinleri bırakabilir. Panonun geri kalanını da götüren bir yol alma, yol alma değildir.</string>
     <string name="ms_warn_flicker">Aydınlatmada görülecek kadar derin.</string>
     <string name="mt_efficiency">Verim (η)</string>
@@ -732,6 +755,7 @@
     <string name="sel_example_holds">Uzun son devre, arıza uçta</string>
     <string name="sel_fault_current">Beklenen arıza akımı</string>
     <string name="sel_fault_hint">Alttaki cihazın bulunduğu noktada. Cevap bununla birlikte değişir.</string>
+    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Selektif değil</string>
     <string name="sel_grade_partial">Kısmi — yalnızca sınırın altında selektif</string>
     <string name="sel_grade_selective">Bu arıza seviyesinde selektif</string>
@@ -747,6 +771,11 @@
     <string name="sel_step_threshold">Kısa devre ucu: üst cihazın ani açma eşiği</string>
     <string name="sel_upstream">Üstteki cihaz</string>
     <string name="sel_upstream_rating">Üst cihaz anması, In</string>
+    <string name="sel_var_iinst">Ani açma eşiği: üstünde cihaz beklemeden açar</string>
+    <string name="sel_var_indn">Alttaki cihazın anma akımı</string>
+    <string name="sel_var_inup">Üstteki cihazın anma akımı</string>
+    <string name="sel_var_m">Cihaz eğrisinin ani açma katsayısı: B için 5, C için 10</string>
+    <string name="sel_var_n">Anma akımı oranı; aşırı yük selektivitesi için alışılmış eşik 1,6 civarı</string>
     <string name="ss_coefficient_hint">Veri sayfasındaki β. Her silisyum panelde negatiftir — tipik olarak −0,25 ile −0,35.</string>
     <string name="ss_coefficient_label">Gerilim sıcaklık katsayısı</string>
     <string name="ss_example_continental">Karasal saha, −25 °C</string>

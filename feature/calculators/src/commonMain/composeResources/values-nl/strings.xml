@@ -381,6 +381,7 @@
     <string name="ev_example_car_park">Parkeergarage, acht punten</string>
     <string name="ev_example_home">Eén punt, eenfase</string>
     <string name="ev_example_three_phase">Dezelfde stroom, driefasen</string>
+    <string name="ev_formula">P = k · U · I_n / 1000\nI_b = n · I_n · f\nI_device ≥ I_b</string>
     <string name="ev_history_summary">%1$s A ontwerpstroom</string>
     <string name="ev_history_title">%1$s laadpunt(en) op %2$s A</string>
     <string name="ev_note_continuous">Een elektrische auto trekt urenlang zijn volle stroom. Geen van de gelijktijdigheidsgewoonten waarmee een wandcontactdozengroep werkt, gaat hier op — daarom begint de gelijktijdigheidsfactor bij één en wordt hij gevraagd in plaats van aangenomen.</string>
@@ -402,11 +403,18 @@
     <string name="ev_step_connected">Alles wat is aangesloten</string>
     <string name="ev_step_design">Na gelijktijdigheid</string>
     <string name="ev_step_per_point">Vermogen op één punt</string>
+    <string name="ev_var_f">Gelijktijdigheidsfactor; een voertuig trekt uren zijn volle stroom</string>
+    <string name="ev_var_ib">Ontwerpstroom waarop de stroomkring wordt bemeten</string>
+    <string name="ev_var_in">Nominale stroom van één laadpunt</string>
+    <string name="ev_var_k">1 bij één fase, √3 bij drie fasen</string>
+    <string name="ev_var_n">Aantal laadpunten</string>
+    <string name="ev_var_u">Voedingsspanning bij het laadpunt</string>
     <string name="hm_balanced">Alle drie de fasen voeren hetzelfde spectrum</string>
     <string name="hm_balanced_hint">Harmonischen die een veelvoud van drie zijn, tellen alleen in de nulleider op als alle drie de fasen ze samen opwekken. In een gemengde verdeler valt de nulleiderstroom niet uit één fase af te leiden.</string>
     <string name="hm_example_drive">Zespulsomvormer</string>
     <string name="hm_example_lighting">Ledverlichtingsgroep</string>
     <string name="hm_example_office">Kantoorverdieping, schakelende voedingen</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Grondharmonische stroom, I₁</string>
     <string name="hm_history_summary">%1$s % THD</string>
     <string name="hm_history_title">%1$s A met harmonischen</string>
@@ -423,6 +431,13 @@
     <string name="hm_step_neutral">Wat er in het sterpunt aankomt</string>
     <string name="hm_step_rms">Waarop de geleider opwarmt</string>
     <string name="hm_step_thd">Vervorming ten opzichte van de grondharmonische</string>
+    <string name="hm_var_h">Orde van de harmonische: 3, 5, 7 en hoger</string>
+    <string name="hm_var_i1">Grondstroom, de component van 50 of 60 Hz</string>
+    <string name="hm_var_ih">Stroom van de h-de harmonische</string>
+    <string name="hm_var_in">Nulleiderstroom: drievoudige harmonischen tellen op in plaats van weg</string>
+    <string name="hm_var_irms">Werkelijke effectieve stroom: grondgolf en harmonischen samen</string>
+    <string name="hm_var_k">K-factor: opwarming van de transformator; 1 bij een zuivere sinus</string>
+    <string name="hm_var_thd">Totale harmonische vervorming, ten opzichte van de grondgolf</string>
     <string name="hm_warn_neutral">De nulleider voert meer dan de fasen die hij bedient. Dat is geen storing — dat doen harmonischen die een veelvoud van drie zijn, en daarom brandt een nulleider met de halve fasedoorsnede door.</string>
     <string name="lt_example_drawing">Tekenkamer, 750 lx</string>
     <string name="lt_example_office">Kantoor, 500 lx</string>
@@ -473,6 +488,7 @@
     <string name="ms_example_small">Dezelfde motor, locatie van 50 kVA</string>
     <string name="ms_example_star_delta">Dezelfde locatie, ster-driehoek</string>
     <string name="ms_example_stiff">30 kW op een aansluiting van 400 kVA</string>
+    <string name="ms_formula">S_sc = S_t / (u_k / 100)\nS_start = √3 · U · I_start / 1000\nΔU/U = S_start / (S_sc + S_start)</string>
     <string name="ms_full_load_current">Motorstroom bij volle belasting, In</string>
     <string name="ms_history_summary">%1$s % dip</string>
     <string name="ms_history_title">Motor van %1$s A op %2$s kVA</string>
@@ -498,6 +514,13 @@
     <string name="ms_transformer_impedance">Kortsluitspanning van de transformator, uk</string>
     <string name="ms_transformer_impedance_hint">Vier procent is gebruikelijk tot ongeveer 630 kVA. Nul betekent een oneindig sterk net.</string>
     <string name="ms_transformer_kva">Vermogen van de transformator</string>
+    <string name="ms_var_du">Spanningsdip, als fractie van de nominale waarde</string>
+    <string name="ms_var_istart">Aanloopstroom: vollast × geblokkeerde rotor × methode</string>
+    <string name="ms_var_ssc">Kortsluitvermogen dat de voeding kan leveren</string>
+    <string name="ms_var_sstart">Schijnbaar vermogen tijdens het aanlopen</string>
+    <string name="ms_var_st">Nominaal vermogen van de transformator</string>
+    <string name="ms_var_u">Voedingsspanning tussen de fasen</string>
+    <string name="ms_var_uk">Kortsluitimpedantie, van het typeplaatje van de transformator</string>
     <string name="ms_warn_contactor">Bij deze diepte kunnen spoelen van magneetschakelaars afvallen. Een aanloop die de rest van de verdeler meeneemt, is geen aanloop.</string>
     <string name="ms_warn_flicker">Diep genoeg om in de verlichting te zien te zijn.</string>
     <string name="mt_efficiency">Rendement (η)</string>
@@ -732,6 +755,7 @@
     <string name="sel_example_holds">Lange eindgroep, fout aan het verre einde</string>
     <string name="sel_fault_current">Verwachte foutstroom</string>
     <string name="sel_fault_hint">Op de plaats van de onderliggende beveiliging. Met die plaats verandert het antwoord.</string>
+    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Niet selectief</string>
     <string name="sel_grade_partial">Gedeeltelijk — alleen selectief onder de grens</string>
     <string name="sel_grade_selective">Selectief bij deze foutstroom</string>
@@ -747,6 +771,11 @@
     <string name="sel_step_threshold">Kortsluitkant: momentane aanspreekwaarde bovenliggend</string>
     <string name="sel_upstream">Bovenliggende beveiliging</string>
     <string name="sel_upstream_rating">Nominale stroom bovenliggend, In</string>
+    <string name="sel_var_iinst">Momentane drempel: daarboven schakelt het toestel zonder vertraging uit</string>
+    <string name="sel_var_indn">Nominale stroom van het onderliggende toestel</string>
+    <string name="sel_var_inup">Nominale stroom van het bovenliggende toestel</string>
+    <string name="sel_var_m">Momentane uitschakelfactor van de karakteristiek: 5 bij B, 10 bij C</string>
+    <string name="sel_var_n">Verhouding van de nominale stromen; ongeveer 1,6 is de gebruikelijke drempel bij overbelasting</string>
     <string name="ss_coefficient_hint">β van het gegevensblad. Negatief bij elk siliciumpaneel — gewoonlijk −0,25 tot −0,35.</string>
     <string name="ss_coefficient_label">Temperatuurcoëfficiënt van de spanning</string>
     <string name="ss_example_continental">Continentale locatie, −25 °C</string>

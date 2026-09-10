@@ -3,6 +3,16 @@ package com.kemalurekli.electricalcalculator.features.calculators.evse.presentat
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ev_var_ib
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ev_var_f
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ev_var_n
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ev_var_in
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ev_var_u
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ev_var_k
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ev_formula
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
+import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.NameplateScanAction
 import com.kemalurekli.electricalcalculator.core.vision.NameplateReading
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
@@ -326,6 +336,26 @@ fun EvseScreen(
                     showDcNote = uiState.result?.rcdRequirement != RcdRequirement.TYPE_B,
                 )
             }
+
+            // Outside the result block on purpose: the method is worth
+            // reading before there is an answer, and these four screens
+            // were the only ones that never showed it.
+            ElecFormulaCard(
+                title = stringResource(Res.string.calculator_formula),
+                formula = stringResource(Res.string.ev_formula),
+                variables = persistentListOf(
+                        FormulaVariable("k", stringResource(Res.string.ev_var_k), "—"),
+                        FormulaVariable("U", stringResource(Res.string.ev_var_u), "V"),
+                        FormulaVariable("I_n", stringResource(Res.string.ev_var_in), "A"),
+                        FormulaVariable("n", stringResource(Res.string.ev_var_n), "—"),
+                        FormulaVariable("f", stringResource(Res.string.ev_var_f), "—"),
+                        FormulaVariable("I_b", stringResource(Res.string.ev_var_ib), "A"),
+                ),
+                modifier = Modifier.padding(
+                    horizontal = spacing.screenHorizontal,
+                    vertical = spacing.xs,
+                ),
+            )
         }
     }
 }

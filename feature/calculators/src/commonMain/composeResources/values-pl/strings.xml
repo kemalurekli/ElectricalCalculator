@@ -381,6 +381,7 @@
     <string name="ev_example_car_park">Parking, osiem punktów</string>
     <string name="ev_example_home">Jeden punkt, jednofazowo</string>
     <string name="ev_example_three_phase">Ten sam prąd, trójfazowo</string>
+    <string name="ev_formula">P = k · U · I_n / 1000\nI_b = n · I_n · f\nI_device ≥ I_b</string>
     <string name="ev_history_summary">%1$s A prądu obliczeniowego</string>
     <string name="ev_history_title">%1$s punkt(y) po %2$s A</string>
     <string name="ev_note_continuous">Pojazd elektryczny pobiera pełny prąd godzinami. Żaden z nawyków jednoczesności, na których opiera się obwód gniazd, tu nie działa — dlatego współczynnik jednoczesności zaczyna się od jedności i jest pytaniem, a nie założeniem.</string>
@@ -402,11 +403,18 @@
     <string name="ev_step_connected">Wszystko, co przyłączone</string>
     <string name="ev_step_design">Po uwzględnieniu jednoczesności</string>
     <string name="ev_step_per_point">Moc w jednym punkcie</string>
+    <string name="ev_var_f">Współczynnik jednoczesności; pojazd pobiera pełny prąd godzinami</string>
+    <string name="ev_var_ib">Prąd obliczeniowy, na który dobrano obwód</string>
+    <string name="ev_var_in">Prąd znamionowy jednego punktu ładowania</string>
+    <string name="ev_var_k">1 dla jednofazowego, √3 dla trójfazowego</string>
+    <string name="ev_var_n">Liczba punktów ładowania</string>
+    <string name="ev_var_u">Napięcie zasilania w punkcie ładowania</string>
     <string name="hm_balanced">Wszystkie trzy fazy niosą to samo widmo</string>
     <string name="hm_balanced_hint">Harmoniczne będące wielokrotnością trzech sumują się w przewodzie neutralnym tylko wtedy, gdy wytwarzają je wszystkie trzy fazy naraz. W rozdzielnicy mieszanej prądu w przewodzie neutralnym nie da się wyliczyć z jednej fazy.</string>
     <string name="hm_example_drive">Przekształtnik sześciopulsowy</string>
     <string name="hm_example_lighting">Obwód oświetlenia LED</string>
     <string name="hm_example_office">Piętro biurowe, zasilacze impulsowe</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Prąd podstawowej harmonicznej, I₁</string>
     <string name="hm_history_summary">THD %1$s %</string>
     <string name="hm_history_title">%1$s A z harmonicznymi</string>
@@ -423,6 +431,13 @@
     <string name="hm_step_neutral">To, co dociera do punktu gwiazdowego</string>
     <string name="hm_step_rms">To, od czego nagrzewa się żyła</string>
     <string name="hm_step_thd">Odkształcenie wobec harmonicznej podstawowej</string>
+    <string name="hm_var_h">Rząd harmonicznej: 3, 5, 7 i wyższe</string>
+    <string name="hm_var_i1">Prąd podstawowej harmonicznej, składowa 50 lub 60 Hz</string>
+    <string name="hm_var_ih">Prąd harmonicznej rzędu h</string>
+    <string name="hm_var_in">Prąd w przewodzie neutralnym: harmoniczne potrójne sumują się</string>
+    <string name="hm_var_irms">Rzeczywisty prąd skuteczny: podstawowa i harmoniczne razem</string>
+    <string name="hm_var_k">Współczynnik K: nagrzewanie transformatora; 1 dla czystej sinusoidy</string>
+    <string name="hm_var_thd">Całkowite zniekształcenie harmoniczne, względem podstawowej</string>
     <string name="hm_warn_neutral">Przewód neutralny prowadzi więcej niż fazy, które obsługuje. To nie awaria — tak działają harmoniczne będące wielokrotnością trzech, i dlatego neutralny o połowie przekroju fazy się przepala.</string>
     <string name="lt_example_drawing">Kreślarnia, 750 lx</string>
     <string name="lt_example_office">Biuro, 500 lx</string>
@@ -473,6 +488,7 @@
     <string name="ms_example_small">Ten sam silnik, obiekt 50 kVA</string>
     <string name="ms_example_star_delta">Ten sam obiekt, gwiazda-trójkąt</string>
     <string name="ms_example_stiff">30 kW przy zasilaniu 400 kVA</string>
+    <string name="ms_formula">S_sc = S_t / (u_k / 100)\nS_start = √3 · U · I_start / 1000\nΔU/U = S_start / (S_sc + S_start)</string>
     <string name="ms_full_load_current">Prąd znamionowy silnika, In</string>
     <string name="ms_history_summary">zapad %1$s %</string>
     <string name="ms_history_title">Silnik %1$s A przy %2$s kVA</string>
@@ -498,6 +514,13 @@
     <string name="ms_transformer_impedance">Napięcie zwarcia transformatora, uk</string>
     <string name="ms_transformer_impedance_hint">Cztery procent to norma do około 630 kVA. Zero oznacza sieć o nieskończonej mocy.</string>
     <string name="ms_transformer_kva">Moc transformatora</string>
+    <string name="ms_var_du">Zapad napięcia, jako ułamek wartości znamionowej</string>
+    <string name="ms_var_istart">Prąd rozruchowy: pełne obciążenie × zablokowany wirnik × metoda</string>
+    <string name="ms_var_ssc">Moc zwarciowa, jaką może dostarczyć zasilanie</string>
+    <string name="ms_var_sstart">Moc pozorna pobierana podczas rozruchu</string>
+    <string name="ms_var_st">Moc znamionowa transformatora</string>
+    <string name="ms_var_u">Napięcie zasilania między fazami</string>
+    <string name="ms_var_uk">Impedancja zwarciowa, z tabliczki transformatora</string>
     <string name="ms_warn_contactor">Przy takim zapadzie cewki styczników mogą odpaść. Rozruch, który zabiera ze sobą resztę rozdzielnicy, nie jest rozruchem.</string>
     <string name="ms_warn_flicker">Dość głęboki, by było go widać w oświetleniu.</string>
     <string name="mt_efficiency">Sprawność (η)</string>
@@ -732,6 +755,7 @@
     <string name="sel_example_holds">Długi obwód odbiorczy, zwarcie na końcu</string>
     <string name="sel_fault_current">Spodziewany prąd zwarciowy</string>
     <string name="sel_fault_hint">W miejscu aparatu po stronie odbioru. Wraz z nim zmienia się odpowiedź.</string>
+    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Brak selektywności</string>
     <string name="sel_grade_partial">Częściowa — selektywność tylko poniżej granicy</string>
     <string name="sel_grade_selective">Selektywne przy tym prądzie zwarciowym</string>
@@ -747,6 +771,11 @@
     <string name="sel_step_threshold">Strona zwarcia: próg bezzwłoczny aparatu zasilającego</string>
     <string name="sel_upstream">Aparat po stronie zasilania</string>
     <string name="sel_upstream_rating">Prąd znamionowy po stronie zasilania, In</string>
+    <string name="sel_var_iinst">Próg wyzwalania magnetycznego: powyżej urządzenie otwiera bez zwłoki</string>
+    <string name="sel_var_indn">Prąd znamionowy urządzenia po stronie odbioru</string>
+    <string name="sel_var_inup">Prąd znamionowy urządzenia po stronie zasilania</string>
+    <string name="sel_var_m">Krotność wyzwalania magnetycznego: 5 dla B, 10 dla C</string>
+    <string name="sel_var_n">Stosunek prądów znamionowych; około 1,6 to zwykły próg przy przeciążeniu</string>
     <string name="ss_coefficient_hint">β z karty katalogowej. W każdym module krzemowym ujemny — zwykle od −0,25 do −0,35.</string>
     <string name="ss_coefficient_label">Temperaturowy współczynnik napięcia</string>
     <string name="ss_example_continental">Lokalizacja kontynentalna, −25 °C</string>

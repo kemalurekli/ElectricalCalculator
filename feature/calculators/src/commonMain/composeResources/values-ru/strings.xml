@@ -381,6 +381,7 @@
     <string name="ev_example_car_park">Парковка, восемь точек</string>
     <string name="ev_example_home">Одна точка, однофазная</string>
     <string name="ev_example_three_phase">Тот же ток, трёхфазное подключение</string>
+    <string name="ev_formula">P = k · U · I_n / 1000\nI_b = n · I_n · f\nI_device ≥ I_b</string>
     <string name="ev_history_summary">Расчётный ток %1$s A</string>
     <string name="ev_history_title">%1$s точк(и) по %2$s A</string>
     <string name="ev_note_continuous">Электромобиль берёт свой полный ток часами. Ни одна из привычек по коэффициенту одновременности, на которых держится розеточная линия, здесь не работает — поэтому коэффициент одновременности начинается с единицы и запрашивается, а не предполагается.</string>
@@ -402,11 +403,18 @@
     <string name="ev_step_connected">Всё, что подключено</string>
     <string name="ev_step_design">После коэффициента одновременности</string>
     <string name="ev_step_per_point">Мощность в одной точке</string>
+    <string name="ev_var_f">Коэффициент одновременности; машина берёт полный ток часами</string>
+    <string name="ev_var_ib">Расчётный ток, на который рассчитана линия</string>
+    <string name="ev_var_in">Номинальный ток одной точки зарядки</string>
+    <string name="ev_var_k">1 для однофазной, √3 для трёхфазной</string>
+    <string name="ev_var_n">Количество точек зарядки</string>
+    <string name="ev_var_u">Напряжение питания в точке</string>
     <string name="hm_balanced">Все три фазы несут один и тот же спектр</string>
     <string name="hm_balanced_hint">Гармоники, кратные трём, складываются в нулевом рабочем проводнике только тогда, когда их создают все три фазы разом. В щите со смешанной нагрузкой ток нулевого проводника нельзя получить из одной фазы.</string>
     <string name="hm_example_drive">Шестипульсный привод</string>
     <string name="hm_example_lighting">Линия светодиодного освещения</string>
     <string name="hm_example_office">Офисный этаж, импульсные блоки питания</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Ток основной гармоники, I₁</string>
     <string name="hm_history_summary">THD %1$s %</string>
     <string name="hm_history_title">%1$s A с гармониками</string>
@@ -423,6 +431,13 @@
     <string name="hm_step_neutral">Что приходит в нулевую точку</string>
     <string name="hm_step_rms">То, от чего нагревается жила</string>
     <string name="hm_step_thd">Искажение относительно основной гармоники</string>
+    <string name="hm_var_h">Порядок гармоники: 3, 5, 7 и выше</string>
+    <string name="hm_var_i1">Ток основной гармоники, составляющая 50 или 60 Hz</string>
+    <string name="hm_var_ih">Ток гармоники порядка h</string>
+    <string name="hm_var_in">Ток нейтрали: гармоники, кратные трём, складываются, а не гасятся</string>
+    <string name="hm_var_irms">Истинный действующий ток: основная и гармоники вместе</string>
+    <string name="hm_var_k">K-фактор: нагрев трансформатора; 1 для чистой синусоиды</string>
+    <string name="hm_var_thd">Суммарный коэффициент гармоник, относительно основной</string>
     <string name="hm_warn_neutral">Нулевой рабочий проводник несёт больше, чем фазы, которые он обслуживает. Это не неисправность — так ведут себя гармоники, кратные трём, и поэтому нулевой проводник вдвое меньшего сечения перегорает.</string>
     <string name="lt_example_drawing">Чертёжный зал, 750 lx</string>
     <string name="lt_example_office">Офис, 500 lx</string>
@@ -473,6 +488,7 @@
     <string name="ms_example_small">Тот же двигатель, объект 50 kVA</string>
     <string name="ms_example_star_delta">Тот же объект, звезда-треугольник</string>
     <string name="ms_example_stiff">30 kW при питании 400 kVA</string>
+    <string name="ms_formula">S_sc = S_t / (u_k / 100)\nS_start = √3 · U · I_start / 1000\nΔU/U = S_start / (S_sc + S_start)</string>
     <string name="ms_full_load_current">Номинальный ток двигателя, In</string>
     <string name="ms_history_summary">просадка %1$s %</string>
     <string name="ms_history_title">Двигатель %1$s A при %2$s kVA</string>
@@ -498,6 +514,13 @@
     <string name="ms_transformer_impedance">Напряжение КЗ трансформатора, uk</string>
     <string name="ms_transformer_impedance_hint">Четыре процента — обычное значение примерно до 630 kVA. Ноль означает сеть бесконечной мощности.</string>
     <string name="ms_transformer_kva">Мощность трансформатора</string>
+    <string name="ms_var_du">Провал напряжения, в долях от номинального</string>
+    <string name="ms_var_istart">Пусковой ток: полная нагрузка × кратность × способ пуска</string>
+    <string name="ms_var_ssc">Мощность короткого замыкания, которую даёт питание</string>
+    <string name="ms_var_sstart">Полная мощность, потребляемая при пуске</string>
+    <string name="ms_var_st">Номинальная мощность трансформатора</string>
+    <string name="ms_var_u">Линейное напряжение питания</string>
+    <string name="ms_var_uk">Напряжение короткого замыкания, с шильдика трансформатора</string>
     <string name="ms_warn_contactor">При такой глубине катушки контакторов могут отпасть. Пуск, уносящий за собой весь остальной щит, — это не пуск.</string>
     <string name="ms_warn_flicker">Достаточно глубоко, чтобы это было заметно по освещению.</string>
     <string name="mt_efficiency">КПД (η)</string>
@@ -732,6 +755,7 @@
     <string name="sel_example_holds">Длинная конечная линия, замыкание в её конце</string>
     <string name="sel_fault_current">Ожидаемый ток КЗ</string>
     <string name="sel_fault_hint">В месте установки нижнего аппарата. С этим местом меняется и ответ.</string>
+    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Селективности нет</string>
     <string name="sel_grade_partial">Частичная — селективно только ниже предела</string>
     <string name="sel_grade_selective">Селективно при этом токе КЗ</string>
@@ -747,6 +771,11 @@
     <string name="sel_step_threshold">Со стороны КЗ: порог мгновенного срабатывания вышестоящего аппарата</string>
     <string name="sel_upstream">Аппарат выше по схеме</string>
     <string name="sel_upstream_rating">Номинальный ток выше по схеме, In</string>
+    <string name="sel_var_iinst">Порог мгновенного срабатывания: выше него аппарат отключает без выдержки</string>
+    <string name="sel_var_indn">Номинальный ток нижестоящего аппарата</string>
+    <string name="sel_var_inup">Номинальный ток вышестоящего аппарата</string>
+    <string name="sel_var_m">Кратность мгновенного расцепителя: 5 для B, 10 для C</string>
+    <string name="sel_var_n">Отношение номинальных токов; обычный порог при перегрузке около 1,6</string>
     <string name="ss_coefficient_hint">β из технических данных. У любого кремниевого модуля отрицательный — обычно от −0,25 до −0,35.</string>
     <string name="ss_coefficient_label">Температурный коэффициент напряжения</string>
     <string name="ss_example_continental">Континентальная площадка, −25 °C</string>

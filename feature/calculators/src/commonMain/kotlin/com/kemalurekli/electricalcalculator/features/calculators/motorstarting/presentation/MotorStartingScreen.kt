@@ -3,6 +3,17 @@ package com.kemalurekli.electricalcalculator.features.calculators.motorstarting.
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_du
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_istart
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_u
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_sstart
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_uk
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_st
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_ssc
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_formula
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
+import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.NameplateScanAction
 import com.kemalurekli.electricalcalculator.core.vision.NameplateReading
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
@@ -320,6 +331,27 @@ fun MotorStartingScreen(
                 )
                 NotesCard()
             }
+
+            // Outside the result block on purpose: the method is worth
+            // reading before there is an answer, and these four screens
+            // were the only ones that never showed it.
+            ElecFormulaCard(
+                title = stringResource(Res.string.calculator_formula),
+                formula = stringResource(Res.string.ms_formula),
+                variables = persistentListOf(
+                        FormulaVariable("S_sc", stringResource(Res.string.ms_var_ssc), "kVA"),
+                        FormulaVariable("S_t", stringResource(Res.string.ms_var_st), "kVA"),
+                        FormulaVariable("u_k", stringResource(Res.string.ms_var_uk), "%"),
+                        FormulaVariable("S_start", stringResource(Res.string.ms_var_sstart), "kVA"),
+                        FormulaVariable("U", stringResource(Res.string.ms_var_u), "V"),
+                        FormulaVariable("I_start", stringResource(Res.string.ms_var_istart), "A"),
+                        FormulaVariable("ΔU/U", stringResource(Res.string.ms_var_du), "—"),
+                ),
+                modifier = Modifier.padding(
+                    horizontal = spacing.screenHorizontal,
+                    vertical = spacing.xs,
+                ),
+            )
         }
     }
 }

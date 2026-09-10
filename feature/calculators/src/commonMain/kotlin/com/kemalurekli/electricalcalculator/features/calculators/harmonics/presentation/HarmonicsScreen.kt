@@ -25,6 +25,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_k
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_in
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_irms
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_thd
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_h
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_ih
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_i1
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_formula
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
+import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
@@ -292,6 +303,27 @@ fun HarmonicsScreen(
                 )
                 NoteCard(showNeutralCaveat = !uiState.balanced)
             }
+
+            // Outside the result block on purpose: the method is worth
+            // reading before there is an answer, and these four screens
+            // were the only ones that never showed it.
+            ElecFormulaCard(
+                title = stringResource(Res.string.calculator_formula),
+                formula = stringResource(Res.string.hm_formula),
+                variables = persistentListOf(
+                        FormulaVariable("I₁", stringResource(Res.string.hm_var_i1), "A"),
+                        FormulaVariable("Ih", stringResource(Res.string.hm_var_ih), "A"),
+                        FormulaVariable("h", stringResource(Res.string.hm_var_h), "—"),
+                        FormulaVariable("THD", stringResource(Res.string.hm_var_thd), "—"),
+                        FormulaVariable("I_rms", stringResource(Res.string.hm_var_irms), "A"),
+                        FormulaVariable("I_N", stringResource(Res.string.hm_var_in), "A"),
+                        FormulaVariable("K", stringResource(Res.string.hm_var_k), "—"),
+                ),
+                modifier = Modifier.padding(
+                    horizontal = spacing.screenHorizontal,
+                    vertical = spacing.xs,
+                ),
+            )
         }
     }
 }
