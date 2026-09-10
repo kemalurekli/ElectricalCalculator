@@ -14,6 +14,7 @@
     <string name="pro_error_owned">Vous le possédez déjà. Utilisez « Restaurer un achat ».</string>
     <string name="pro_error_store">La boutique ne répond pas pour le moment. Réessayez plus tard.</string>
     <string name="pro_error_unknown">L'opération n'a pas abouti. Réessayez plus tard.</string>
+    <string name="pro_headline_calculation">Remettez ce calcul sous forme de document</string>
     <string name="pro_headline_general">Débloquez les fonctions professionnelles</string>
     <string name="pro_headline_pdf">Remettez le tableau des circuits en PDF</string>
     <string name="pro_nothing_to_restore">Ce compte de boutique n'a aucun achat à restaurer.</string>

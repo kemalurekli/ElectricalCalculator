@@ -2,6 +2,7 @@
 <resources>
     <string name="action_back">Kembali</string>
     <string name="action_copy">Salin</string>
+    <string name="action_export_pdf">Ekspor sebagai PDF</string>
     <string name="action_favorite_add">Tambah ke favorit</string>
     <string name="action_favorite_remove">Hapus dari favorit</string>
     <string name="action_retry">Coba lagi</string>
@@ -13,6 +14,8 @@
     <string name="disclaimer_accept">Saya telah membaca dan menerima</string>
     <string name="disclaimer_body" formatted="false">Aplikasi ini disediakan hanya untuk informasi umum.\n\nTidak ada tanggung jawab apa pun yang diterima atas perhitungan, hasil, tabel, atau teks penjelasan yang dimuatnya. Hasilnya tidak boleh dijadikan dasar pekerjaan ilmiah atau keteknikan.\n\nTanggung jawab atas segala penggunaan aplikasi ini, dan atas verifikasi apa pun yang diambil darinya, sepenuhnya berada pada pengguna. Dalam keadaan apa pun aplikasi atau pengembangnya tidak dapat dimintai pertanggungjawaban atas kerugian atau kerusakan yang timbul dari penggunaannya.\n\nIsi dan aplikasi itu sendiri disusun dengan bantuan kecerdasan buatan. Gunakan dengan menyadari hal itu.\n\nForum memuat pesan yang ditulis pengguna lain. Tidak ada yang diperiksa, diverifikasi, atau didukung oleh pengembang, itu bukan nasihat keteknikan, dan tanggung jawab atas tindakan yang diambil ada pada pembaca. Anda bertanggung jawab atas apa yang Anda kirim, dan untuk tidak mengirimkan data pribadi siapa pun.\n\nJika ada bagian lain dalam aplikasi ini yang tampak menyatakan sebaliknya, ketentuan di sini yang berlaku.\n\nDengan menggunakan aplikasi ini Anda dianggap telah menerima ketentuan di atas.</string>
     <string name="disclaimer_title">Penafian</string>
+    <string name="document_notice">Dibuat dengan VoltageBoard, dengan bantuan kecerdasan buatan. Nilai-nilai ini bukan rancangan dan harus diverifikasi terhadap standar yang berlaku sebelum digunakan; verifikasi tersebut, dan segala hal yang didasarkan padanya, menjadi tanggung jawab pengguna.</string>
+    <string name="pro_badge">Pro</string>
     <string name="search_clear">Hapus pencarian</string>
     <string name="search_hint">Cari kalkulator, konverter, referensi</string>
     <string name="state_empty_favorites_message">Sematkan kalkulator agar tetap ada di layar utama.</string>

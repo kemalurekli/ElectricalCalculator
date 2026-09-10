@@ -2,6 +2,7 @@
 <resources>
     <string name="action_back">Quay lại</string>
     <string name="action_copy">Sao chép</string>
+    <string name="action_export_pdf">Xuất ra PDF</string>
     <string name="action_favorite_add">Thêm vào yêu thích</string>
     <string name="action_favorite_remove">Bỏ khỏi yêu thích</string>
     <string name="action_retry">Thử lại</string>
@@ -13,6 +14,8 @@
     <string name="disclaimer_accept">Tôi đã đọc và chấp nhận</string>
     <string name="disclaimer_body" formatted="false">Ứng dụng này chỉ cung cấp thông tin chung.\n\nKhông chịu bất kỳ trách nhiệm nào đối với các phép tính, kết quả, bảng biểu hay phần giải thích trong ứng dụng. Không được dùng kết quả làm căn cứ cho công việc khoa học hoặc kỹ thuật.\n\nTrách nhiệm đối với mọi việc sử dụng ứng dụng này, và việc kiểm chứng bất cứ điều gì lấy từ đây, hoàn toàn thuộc về người dùng. Trong mọi trường hợp, ứng dụng và những người phát triển không chịu trách nhiệm về bất kỳ mất mát hay thiệt hại nào phát sinh từ việc sử dụng.\n\nNội dung và bản thân ứng dụng được tạo ra với sự hỗ trợ của trí tuệ nhân tạo. Hãy sử dụng với hiểu biết đó.\n\nDiễn đàn chứa các bài viết của người dùng khác. Không nội dung nào ở đó được người phát triển kiểm tra, xác minh hay xác nhận; đó không phải là tư vấn kỹ thuật, và trách nhiệm về mọi hành động dựa trên đó thuộc về người đọc. Bạn chịu trách nhiệm về những gì mình đăng, và về việc không đăng thông tin cá nhân của bất kỳ ai.\n\nNếu bất kỳ nơi nào khác trong ứng dụng có vẻ nói khác đi, các điều khoản nêu ở đây được ưu tiên áp dụng.\n\nKhi sử dụng ứng dụng này, bạn được xem là đã chấp nhận những điều trên.</string>
     <string name="disclaimer_title">Miễn trừ trách nhiệm</string>
+    <string name="document_notice">Được tạo bằng VoltageBoard, với sự hỗ trợ của trí tuệ nhân tạo. Các giá trị này không phải là thiết kế và phải được kiểm tra theo tiêu chuẩn hiện hành trước khi sử dụng; việc kiểm tra đó, và mọi thứ dựa trên nó, thuộc trách nhiệm của người dùng.</string>
+    <string name="pro_badge">Pro</string>
     <string name="search_clear">Xóa tìm kiếm</string>
     <string name="search_hint">Tìm máy tính, bộ đổi đơn vị, tài liệu tra cứu</string>
     <string name="state_empty_favorites_message">Ghim một máy tính để giữ nó trên màn hình chính.</string>

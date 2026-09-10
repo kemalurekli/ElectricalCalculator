@@ -2,6 +2,7 @@
 <resources>
     <string name="action_back">Retour</string>
     <string name="action_copy">Copier</string>
+    <string name="action_export_pdf">Exporter en PDF</string>
     <string name="action_favorite_add">Ajouter aux favoris</string>
     <string name="action_favorite_remove">Retirer des favoris</string>
     <string name="action_retry">Réessayer</string>
@@ -13,6 +14,8 @@
     <string name="disclaimer_accept">J'ai lu et j'accepte</string>
     <string name="disclaimer_body" formatted="false">Cette application est fournie à titre d'information générale uniquement.\n\nAucune responsabilité n'est acceptée concernant les calculs, résultats, tableaux ou textes explicatifs qu'elle contient. Les résultats ne doivent pas servir de base à des travaux scientifiques ou d'ingénierie.\n\nLa responsabilité de toute utilisation de cette application, et de la vérification de tout ce qui en est tiré, incombe entièrement à l'utilisateur. En aucun cas l'application ou ses développeurs ne peuvent être tenus responsables d'une perte ou d'un dommage résultant de son utilisation.\n\nLe contenu et l'application elle-même ont été produits avec l'aide de l'intelligence artificielle. Utilisez-la en le sachant.\n\nLe forum contient des messages écrits par d'autres utilisateurs. Rien de ce qui y est publié n'est contrôlé, vérifié ni approuvé par les développeurs, il ne s'agit pas de conseils d'ingénierie, et la responsabilité de ce qui en découle appartient au lecteur. Vous êtes responsable de ce que vous publiez et de ne pas publier les données personnelles d'autrui.\n\nLorsque quoi que ce soit ailleurs dans cette application semble indiquer le contraire, les conditions énoncées ici prévalent.\n\nEn utilisant cette application, vous êtes réputé avoir accepté ce qui précède.</string>
     <string name="disclaimer_title">Avertissement</string>
+    <string name="document_notice">Produit avec VoltageBoard, avec l'aide de l'intelligence artificielle. Les valeurs ne constituent pas une étude et doivent être vérifiées au regard de la norme applicable avant utilisation ; cette vérification, et tout ce qui en découle, relèvent de la responsabilité de l'utilisateur.</string>
+    <string name="pro_badge">Pro</string>
     <string name="search_clear">Effacer la recherche</string>
     <string name="search_hint">Rechercher calculatrices, convertisseurs, références</string>
     <string name="state_empty_favorites_message">Épinglez une calculatrice pour la garder sur l'écran d'accueil.</string>

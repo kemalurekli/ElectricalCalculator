@@ -14,6 +14,7 @@
     <string name="pro_error_owned">You already own this. Use “Restore a purchase”.</string>
     <string name="pro_error_store">The store is not answering right now. Try again later.</string>
     <string name="pro_error_unknown">That did not go through. Try again later.</string>
+    <string name="pro_headline_calculation">Hand this calculation over as a document</string>
     <string name="pro_headline_general">Unlock the professional features</string>
     <string name="pro_headline_pdf">Hand the schedule over as a PDF</string>
     <string name="pro_nothing_to_restore">This store account has no purchase to restore.</string>

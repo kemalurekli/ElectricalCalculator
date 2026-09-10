@@ -52,6 +52,7 @@ import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_error_owned
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_error_store
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_error_unknown
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_headline_calculation
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_headline_general
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_headline_pdf
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_nothing_to_restore
@@ -379,6 +380,7 @@ private fun Benefit(
 /** The first line, chosen by what the reader was reaching for. */
 private fun String.headline() = when (this) {
     PaywallReason.PDF_EXPORT -> Res.string.pro_headline_pdf
+    PaywallReason.CALCULATION_EXPORT -> Res.string.pro_headline_calculation
     else -> Res.string.pro_headline_general
 }
 

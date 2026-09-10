@@ -2,6 +2,7 @@
 <resources>
     <string name="action_back">Wstecz</string>
     <string name="action_copy">Kopiuj</string>
+    <string name="action_export_pdf">Eksportuj do PDF</string>
     <string name="action_favorite_add">Dodaj do ulubionych</string>
     <string name="action_favorite_remove">Usuń z ulubionych</string>
     <string name="action_retry">Ponów</string>
@@ -13,6 +14,8 @@
     <string name="disclaimer_accept">Przeczytałem i akceptuję</string>
     <string name="disclaimer_body" formatted="false">Ta aplikacja służy wyłącznie celom informacyjnym.\n\nNie ponosi się żadnej odpowiedzialności za zawarte w niej obliczenia, wyniki, tabele ani teksty objaśniające. Wyniki nie mogą stanowić podstawy prac naukowych ani inżynierskich.\n\nOdpowiedzialność za jakiekolwiek wykorzystanie tej aplikacji oraz za weryfikację wszystkiego, co z niej zaczerpnięto, spoczywa wyłącznie na użytkowniku. W żadnym wypadku aplikacja ani jej twórcy nie odpowiadają za straty ani szkody wynikłe z jej użycia.\n\nTreść i sama aplikacja powstały z pomocą sztucznej inteligencji. Korzystaj z tego ze świadomością tego faktu.\n\nForum zawiera wiadomości pisane przez innych użytkowników. Nic z tego nie jest sprawdzane, weryfikowane ani zatwierdzane przez twórców, nie stanowi porady inżynierskiej, a odpowiedzialność za działania podjęte na tej podstawie spoczywa na czytelniku. Odpowiadasz za to, co publikujesz, oraz za nieujawnianie cudzych danych osobowych.\n\nJeżeli gdziekolwiek indziej w tej aplikacji wydaje się napisane inaczej, obowiązują warunki określone tutaj.\n\nKorzystając z tej aplikacji, uznaje się, że powyższe zostało zaakceptowane.</string>
     <string name="disclaimer_title">Zastrzeżenie</string>
+    <string name="document_notice">Utworzono w VoltageBoard, przy udziale sztucznej inteligencji. Wartości nie stanowią projektu i przed użyciem muszą zostać zweryfikowane według obowiązującej normy; weryfikacja ta i wszystko, co się na niej opiera, pozostają w odpowiedzialności użytkownika.</string>
+    <string name="pro_badge">Pro</string>
     <string name="search_clear">Wyczyść wyszukiwanie</string>
     <string name="search_hint">Szukaj kalkulatorów, przeliczników, materiałów</string>
     <string name="state_empty_favorites_message">Przypnij kalkulator, aby został na ekranie głównym.</string>

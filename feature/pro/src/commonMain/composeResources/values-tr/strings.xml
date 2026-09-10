@@ -14,6 +14,7 @@
     <string name="pro_error_owned">Bu ürün zaten sizde. “Satın alımları geri yükle”yi kullanın.</string>
     <string name="pro_error_store">Mağaza şu anda yanıt vermiyor. Sonra yeniden deneyin.</string>
     <string name="pro_error_unknown">İşlem tamamlanamadı. Sonra yeniden deneyin.</string>
+    <string name="pro_headline_calculation">Bu hesabı belge olarak teslim edin</string>
     <string name="pro_headline_general">Profesyonel özellikleri açın</string>
     <string name="pro_headline_pdf">Cetveli PDF olarak teslim edin</string>
     <string name="pro_nothing_to_restore">Bu mağaza hesabında geri yüklenecek bir satın alma yok.</string>

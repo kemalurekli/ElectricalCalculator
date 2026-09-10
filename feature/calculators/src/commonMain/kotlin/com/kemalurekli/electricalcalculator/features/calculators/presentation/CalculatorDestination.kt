@@ -1,6 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.calculators.presentation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.features.calculators.battery.presentation.BatteryRoute
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.presentation.CableSizeRoute
@@ -45,144 +46,153 @@ fun CalculatorDestination(
     recordId: Long?,
     onReferenceClick: (String) -> Unit,
     onNavigateBack: (() -> Unit)?,
+    onShowPaywall: () -> Unit,
 ) {
+    // Provided once, here, rather than threaded through twenty-two route
+    // signatures that have nothing to say about it. Every calculator can turn
+    // its result into a document, and none of them needs to know about the
+    // entitlement, the file sharing or the way to the paywall to do it.
+    CompositionLocalProvider(
+        LocalCalculationExport provides rememberCalculationExport(onShowPaywall),
+    ) {
         when (id) {
-        CalculatorId.VOLTAGE_DROP ->
-            VoltageDropRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.VOLTAGE_DROP ->
+                VoltageDropRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.CABLE_SIZE ->
-            CableSizeRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.CABLE_SIZE ->
+                CableSizeRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.TRANSFORMER_CURRENT ->
-            TransformerRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.TRANSFORMER_CURRENT ->
+                TransformerRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.MOTOR_CURRENT ->
-            MotorRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.MOTOR_CURRENT ->
+                MotorRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.POWER ->
-            PowerRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.POWER ->
+                PowerRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.POWER_FACTOR_CORRECTION ->
-            PowerFactorRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.POWER_FACTOR_CORRECTION ->
+                PowerFactorRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.BATTERY_RUNTIME ->
-            BatteryRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.BATTERY_RUNTIME ->
+                BatteryRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.CABLE_WEIGHT ->
-            CableWeightRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.CABLE_WEIGHT ->
+                CableWeightRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.CONDUIT_FILL ->
-            ConduitFillRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.CONDUIT_FILL ->
+                ConduitFillRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.CABLE_TRAY_FILL ->
-            TrayFillRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.CABLE_TRAY_FILL ->
+                TrayFillRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.SHORT_CIRCUIT ->
-            ShortCircuitRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.SHORT_CIRCUIT ->
+                ShortCircuitRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.EARTH_FAULT_LOOP ->
-            EarthFaultRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.EARTH_FAULT_LOOP ->
+                EarthFaultRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.LIGHTING_LUMEN ->
-            LightingRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.LIGHTING_LUMEN ->
+                LightingRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.SOLAR_STRING ->
-            SolarStringRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.SOLAR_STRING ->
+                SolarStringRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.NEUTRAL_CURRENT ->
-            NeutralCurrentRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.NEUTRAL_CURRENT ->
+                NeutralCurrentRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.ENERGY_COST ->
-            EnergyCostRoute(
-                onReferenceClick = onReferenceClick,
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.ENERGY_COST ->
+                EnergyCostRoute(
+                    onReferenceClick = onReferenceClick,
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.SELECTIVITY ->
-            SelectivityRoute(
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.SELECTIVITY ->
+                SelectivityRoute(
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.MOTOR_STARTING ->
-            MotorStartingRoute(
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.MOTOR_STARTING ->
+                MotorStartingRoute(
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.HARMONICS ->
-            HarmonicsRoute(
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.HARMONICS ->
+                HarmonicsRoute(
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        CalculatorId.EVSE ->
-            EvseRoute(
-                onNavigateBack = onNavigateBack,
-                recordId = recordId,
-            )
+            CalculatorId.EVSE ->
+                EvseRoute(
+                    onNavigateBack = onNavigateBack,
+                    recordId = recordId,
+                )
 
-        else -> CalculatorDetailRoute(onNavigateBack = onNavigateBack)
+            else -> CalculatorDetailRoute(onNavigateBack = onNavigateBack)
+        }
     }
 }

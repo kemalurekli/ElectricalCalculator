@@ -2,6 +2,7 @@
 <resources>
     <string name="action_back">Atrás</string>
     <string name="action_copy">Copiar</string>
+    <string name="action_export_pdf">Exportar como PDF</string>
     <string name="action_favorite_add">Añadir a favoritos</string>
     <string name="action_favorite_remove">Quitar de favoritos</string>
     <string name="action_retry">Reintentar</string>
@@ -13,6 +14,8 @@
     <string name="disclaimer_accept">He leído y acepto</string>
     <string name="disclaimer_body" formatted="false">Esta aplicación se ofrece únicamente con fines de información general.\n\nNo se asume responsabilidad alguna por los cálculos, resultados, tablas o textos explicativos que contiene. Los resultados no deben utilizarse como base de trabajos científicos o de ingeniería.\n\nLa responsabilidad por cualquier uso de esta aplicación, y por verificar todo lo que se tome de ella, recae enteramente en el usuario. En ningún caso la aplicación o sus desarrolladores serán responsables de pérdidas o daños derivados de su uso.\n\nEl contenido y la propia aplicación se elaboraron con ayuda de inteligencia artificial. Úsela sabiéndolo.\n\nEl foro contiene mensajes escritos por otros usuarios. Nada de lo publicado allí es revisado, verificado ni respaldado por los desarrolladores, no constituye asesoramiento de ingeniería, y la responsabilidad de actuar en consecuencia recae en quien lo lee. Usted es responsable de lo que publica y de no publicar datos personales de nadie.\n\nCuando algo en otra parte de esta aplicación parezca decir lo contrario, prevalecen las condiciones aquí establecidas.\n\nAl utilizar esta aplicación se considera que ha aceptado lo anterior.</string>
     <string name="disclaimer_title">Aviso legal</string>
+    <string name="document_notice">Generado con VoltageBoard, con ayuda de inteligencia artificial. Los valores no son un proyecto y deben verificarse conforme a la norma aplicable antes de su uso; esa verificación, y cuanto se base en ella, son responsabilidad del usuario.</string>
+    <string name="pro_badge">Pro</string>
     <string name="search_clear">Borrar búsqueda</string>
     <string name="search_hint">Buscar calculadoras, conversores, referencias</string>
     <string name="state_empty_favorites_message">Fije una calculadora para mantenerla en la pantalla de inicio.</string>

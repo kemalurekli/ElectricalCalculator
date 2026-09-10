@@ -2,6 +2,7 @@
 <resources>
     <string name="action_back">Voltar</string>
     <string name="action_copy">Copiar</string>
+    <string name="action_export_pdf">Exportar como PDF</string>
     <string name="action_favorite_add">Adicionar aos favoritos</string>
     <string name="action_favorite_remove">Remover dos favoritos</string>
     <string name="action_retry">Tentar novamente</string>
@@ -13,6 +14,8 @@
     <string name="disclaimer_accept">Li e aceito</string>
     <string name="disclaimer_body" formatted="false">Esta aplicação é fornecida apenas para informação geral.\n\nNão é aceite qualquer responsabilidade pelos cálculos, resultados, tabelas ou textos explicativos que contém. Os resultados não devem ser usados como base de trabalhos científicos ou de engenharia.\n\nA responsabilidade por qualquer utilização desta aplicação, e pela verificação de tudo o que dela for retirado, é inteiramente do utilizador. Em nenhuma circunstância a aplicação ou os seus programadores podem ser responsabilizados por perdas ou danos decorrentes da sua utilização.\n\nO conteúdo e a própria aplicação foram produzidos com o apoio de inteligência artificial. Utilize-a com essa consciência.\n\nO fórum contém mensagens escritas por outros utilizadores. Nada do que aí é publicado é verificado, validado ou subscrito pelos programadores, não constitui aconselhamento de engenharia, e a responsabilidade por qualquer ação daí decorrente é do leitor. É responsável pelo que publica e por não publicar dados pessoais de terceiros.\n\nSempre que algo noutro ponto desta aplicação pareça dizer o contrário, prevalecem as condições aqui estabelecidas.\n\nAo utilizar esta aplicação considera-se que aceitou o acima exposto.</string>
     <string name="disclaimer_title">Aviso legal</string>
+    <string name="document_notice">Produzido com o VoltageBoard, com o apoio de inteligência artificial. Os valores não constituem um projeto e devem ser verificados face à norma aplicável antes de serem usados; essa verificação, e tudo o que nela se basear, são da responsabilidade do utilizador.</string>
+    <string name="pro_badge">Pro</string>
     <string name="search_clear">Limpar pesquisa</string>
     <string name="search_hint">Pesquisar calculadoras, conversores, referências</string>
     <string name="state_empty_favorites_message">Fixe uma calculadora para a manter no ecrã inicial.</string>

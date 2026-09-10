@@ -8,6 +8,8 @@ import com.kemalurekli.electricalcalculator.core.domain.model.Project
 import com.kemalurekli.electricalcalculator.features.design.domain.ReportField
 import com.kemalurekli.electricalcalculator.features.design.domain.ScheduleReport
 import com.kemalurekli.electricalcalculator.features.inspection.domain.TestKind
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignRes
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.document_notice
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.Res
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.circuit_untitled
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.common_supply_system
@@ -19,7 +21,6 @@ import com.kemalurekli.electricalcalculator.feature.projects.generated.resources
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.project_site
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.projects_untitled
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_column_binding
-import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_notice
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_column_capacity
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_column_circuit
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_column_device
@@ -78,7 +79,10 @@ class ScheduleReportBuilder(
         plainNumbers: Boolean,
     ): ScheduleReport = ScheduleReport(
         title = project.reference.ifBlank { string(Res.string.projects_untitled) },
-        notice = string(Res.string.report_notice),
+        // From the design system rather than this module: the same sentence
+        // goes on every document the app exports, and a legal notice kept in
+        // two places is a legal notice that will one day say two things.
+        notice = string(DesignRes.string.document_notice),
         supply = supplyFields(project, plainNumbers),
         columns = listOf(
             string(Res.string.report_column_circuit),

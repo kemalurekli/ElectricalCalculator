@@ -98,7 +98,6 @@
     <string name="report_column_protective">PE (mm²)</string>
     <string name="report_column_result">Esito</string>
     <string name="report_column_size">Sezione (mm²)</string>
-    <string name="report_notice">Prodotto con VoltageBoard, con l'ausilio dell'intelligenza artificiale. I valori non costituiscono un progetto e vanno verificati secondo la norma applicabile prima dell'uso; tale verifica, e quanto ne consegue, sono responsabilità dell'utente.</string>
     <string name="report_export">Esporta</string>
     <string name="report_export_csv">Esporta come CSV</string>
     <string name="report_export_empty">Aggiungi un circuito prima di esportare.</string>

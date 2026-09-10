@@ -8,12 +8,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.unit.dp
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_copy
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_export_pdf
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.pro_badge
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_share
 
 /**
@@ -33,11 +36,31 @@ fun ElecResultActions(
     onCopy: () -> Unit,
     onShare: () -> Unit,
     modifier: Modifier = Modifier,
+    onExportPdf: (() -> Unit)? = null,
+    exportLocked: Boolean = false,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
+        // Leftmost of the three, and the only one that produces a file. Copy
+        // and share hand over text; this hands over a document, which is a
+        // different promise and belongs at the start of the row rather than
+        // hidden past two glyphs that look like it.
+        if (onExportPdf != null) {
+            if (exportLocked) {
+                ElecPillBadge(text = stringResource(Res.string.pro_badge))
+            }
+            IconButton(onClick = onExportPdf) {
+                Icon(
+                    imageVector = ElecIcons.ProDocument,
+                    contentDescription = stringResource(Res.string.action_export_pdf),
+                    modifier = Modifier.size(ACTION_ICON),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
         IconButton(onClick = onCopy) {
             Icon(
                 imageVector = ElecIcons.Copy,

@@ -98,7 +98,6 @@
     <string name="report_column_protective">Koruma iletkeni (mm²)</string>
     <string name="report_column_result">Sonuç</string>
     <string name="report_column_size">Kesit (mm²)</string>
-    <string name="report_notice">VoltageBoard ile, yapay zekâ desteğiyle üretilmiştir. Buradaki değerler bir proje değildir ve kullanılmadan önce ilgili standarda göre doğrulanmalıdır; doğrulama ve buna dayanarak yapılan her şey kullanıcının sorumluluğundadır.</string>
     <string name="report_export">Dışa aktar</string>
     <string name="report_export_csv">CSV olarak dışa aktar</string>
     <string name="report_export_empty">Dışa aktarmadan önce bir devre ekleyin.</string>

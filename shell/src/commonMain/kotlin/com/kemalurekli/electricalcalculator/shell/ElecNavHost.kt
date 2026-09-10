@@ -20,6 +20,7 @@ import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
 import com.kemalurekli.electricalcalculator.core.navigation.ElecTab
+import com.kemalurekli.electricalcalculator.core.navigation.PaywallReason
 import com.kemalurekli.electricalcalculator.core.navigation.Route
 import com.kemalurekli.electricalcalculator.core.navigation.TopLevelDestination
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.CalculatorDestination
@@ -194,6 +195,7 @@ fun ElecNavHost(
                 recordId = recordId,
                 onReferenceClick = actions::navigateToReference,
                 onNavigateBack = actions::navigateBack,
+                onShowPaywall = { actions.navigateTo(Route.Paywall(PaywallReason.CALCULATION_EXPORT)) },
             )
         }
 

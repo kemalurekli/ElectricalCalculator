@@ -69,6 +69,8 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:designsystem"))
             api(project(":core:data"))
+            implementation(project(":core:billing"))
+            implementation(project(":core:document"))
             // A calculator points at the table its figures come from.
             api(project(":feature:references"))
 

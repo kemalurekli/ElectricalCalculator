@@ -37,6 +37,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNote
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
@@ -144,6 +145,7 @@ fun VoltageDropRoute(
     val copiedMessage = stringResource(Res.string.message_copied)
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
+    val export = LocalCalculationExport.current
 
     VoltageDropScreen(
         uiState = uiState,
@@ -168,6 +170,8 @@ fun VoltageDropRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
         onNavigateBack = onNavigateBack,
         snackbarHostState = snackbarHostState,
@@ -195,6 +199,8 @@ fun VoltageDropScreen(
     onToggleFavorite: () -> Unit,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -262,7 +268,7 @@ fun VoltageDropScreen(
             // they just finished typing.
             if (uiState.result != null) {
                 item(key = "result") {
-                    ResultSection(uiState.result, onCopy, onShare)
+                    ResultSection(uiState.result, onCopy, onShare, onExportPdf, exportLocked)
                 }
             }
 
@@ -455,6 +461,8 @@ private fun ResultSection(
     result: VoltageDropResult,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onExportPdf: (() -> Unit)?,
+    exportLocked: Boolean,
 ) {
     val spacing = ElecTheme.spacing
     val percentage = NumberFormatter.format(result.dropPercentage, decimals = 2)
@@ -484,7 +492,12 @@ private fun ResultSection(
                 ),
             ),
         )
-        ElecResultActions(onCopy = onCopy, onShare = onShare)
+        ElecResultActions(
+            onCopy = onCopy,
+            onShare = onShare,
+            onExportPdf = onExportPdf,
+            exportLocked = exportLocked,
+        )
     }
 }
 
@@ -594,6 +607,7 @@ private fun VoltageDropScreenPreview() {
             onPowerFactorChange = {}, onTemperatureChange = {},
             onParallelConductorsChange = {}, onCalculate = {}, onApplyExample = {}, onReferenceClick = {}, onReset = {},
             onToggleFavorite = {}, onCopy = {}, onShare = {}, onNavigateBack = {},
+            onExportPdf = null, exportLocked = false,
         )
     }
 }

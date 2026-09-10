@@ -14,6 +14,7 @@
     <string name="pro_error_owned">Das besitzen Sie bereits. Nutzen Sie „Kauf wiederherstellen“.</string>
     <string name="pro_error_store">Der Store antwortet gerade nicht. Versuchen Sie es später.</string>
     <string name="pro_error_unknown">Das hat nicht geklappt. Versuchen Sie es später.</string>
+    <string name="pro_headline_calculation">Diese Berechnung als Dokument übergeben</string>
     <string name="pro_headline_general">Die professionellen Funktionen freischalten</string>
     <string name="pro_headline_pdf">Den Stromkreisplan als PDF übergeben</string>
     <string name="pro_nothing_to_restore">Für dieses Store-Konto gibt es keinen Kauf zum Wiederherstellen.</string>

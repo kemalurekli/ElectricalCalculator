@@ -2,6 +2,7 @@
 <resources>
     <string name="action_back">Zurück</string>
     <string name="action_copy">Kopieren</string>
+    <string name="action_export_pdf">Als PDF exportieren</string>
     <string name="action_favorite_add">Zu Favoriten</string>
     <string name="action_favorite_remove">Aus Favoriten entfernen</string>
     <string name="action_retry">Erneut versuchen</string>
@@ -13,6 +14,8 @@
     <string name="disclaimer_accept">Gelesen und akzeptiert</string>
     <string name="disclaimer_body" formatted="false">Diese Anwendung dient ausschließlich der allgemeinen Information.\n\nFür die enthaltenen Berechnungen, Ergebnisse, Tabellen und Erläuterungen wird keinerlei Haftung übernommen. Die Ergebnisse dürfen nicht als Grundlage für wissenschaftliche oder ingenieurtechnische Arbeiten verwendet werden.\n\nDie Verantwortung für jede Nutzung dieser Anwendung und für die Überprüfung aller daraus entnommenen Angaben liegt vollständig beim Anwender. Die Anwendung und ihre Entwickler haften unter keinen Umständen für Verluste oder Schäden, die aus ihrer Nutzung entstehen.\n\nDie Inhalte und die Anwendung selbst wurden mit Unterstützung künstlicher Intelligenz erstellt. Nutzen Sie sie in diesem Bewusstsein.\n\nDas Forum enthält Beiträge anderer Nutzer. Nichts davon wird von den Entwicklern geprüft, verifiziert oder bestätigt, es ist keine ingenieurtechnische Beratung, und die Verantwortung für alles, was danach getan wird, liegt beim Leser. Sie sind für Ihre eigenen Beiträge verantwortlich und dafür, keine personenbezogenen Daten Dritter zu veröffentlichen.\n\nWo an anderer Stelle in dieser Anwendung etwas anderes zu stehen scheint, gelten die hier festgelegten Bedingungen.\n\nMit der Nutzung dieser Anwendung gelten die vorstehenden Bedingungen als angenommen.</string>
     <string name="disclaimer_title">Haftungsausschluss</string>
+    <string name="document_notice">Erstellt mit VoltageBoard, unter Mitwirkung künstlicher Intelligenz. Die Werte sind keine Planung und müssen vor der Verwendung anhand der geltenden Norm geprüft werden; die Prüfung und alles, was darauf aufbaut, liegen in der Verantwortung des Nutzers.</string>
+    <string name="pro_badge">Pro</string>
     <string name="search_clear">Suche löschen</string>
     <string name="search_hint">Rechner, Umrechner, Referenzen suchen</string>
     <string name="state_empty_favorites_message">Heften Sie einen Rechner an, damit er auf der Startseite bleibt.</string>

@@ -98,7 +98,6 @@
     <string name="report_column_protective">PE (mm²)</string>
     <string name="report_column_result">Resultaat</string>
     <string name="report_column_size">Doorsnede (mm²)</string>
-    <string name="report_notice">Gemaakt met VoltageBoard, met behulp van kunstmatige intelligentie. De waarden zijn geen ontwerp en moeten vóór gebruik aan de geldende norm worden getoetst; die toetsing, en alles wat daarop steunt, zijn de verantwoordelijkheid van de gebruiker.</string>
     <string name="report_export">Exporteren</string>
     <string name="report_export_csv">Exporteren als CSV</string>
     <string name="report_export_empty">Voeg een stroomkring toe voordat u exporteert.</string>

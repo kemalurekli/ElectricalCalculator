@@ -14,6 +14,7 @@
     <string name="pro_error_owned">Já o possui. Use «Restaurar compra».</string>
     <string name="pro_error_store">A loja não está a responder neste momento. Tente mais tarde.</string>
     <string name="pro_error_unknown">Não foi possível concluir. Tente mais tarde.</string>
+    <string name="pro_headline_calculation">Entregue este cálculo como documento</string>
     <string name="pro_headline_general">Desbloqueie as funcionalidades profissionais</string>
     <string name="pro_headline_pdf">Entregue o quadro de circuitos em PDF</string>
     <string name="pro_nothing_to_restore">Esta conta da loja não tem qualquer compra para restaurar.</string>

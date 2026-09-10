@@ -14,6 +14,7 @@
     <string name="pro_error_owned">U heeft dit al. Gebruik ‘Aankoop herstellen’.</string>
     <string name="pro_error_store">De store reageert nu niet. Probeer het later opnieuw.</string>
     <string name="pro_error_unknown">Dat is niet gelukt. Probeer het later opnieuw.</string>
+    <string name="pro_headline_calculation">Geef deze berekening als document mee</string>
     <string name="pro_headline_general">Ontgrendel de professionele functies</string>
     <string name="pro_headline_pdf">Lever het stroomkringenschema als pdf</string>
     <string name="pro_nothing_to_restore">Dit store-account heeft geen aankoop om te herstellen.</string>

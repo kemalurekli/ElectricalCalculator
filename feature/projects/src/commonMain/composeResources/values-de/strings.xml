@@ -98,7 +98,6 @@
     <string name="report_column_protective">PE (mm²)</string>
     <string name="report_column_result">Ergebnis</string>
     <string name="report_column_size">Querschnitt (mm²)</string>
-    <string name="report_notice">Erstellt mit VoltageBoard, unter Mitwirkung künstlicher Intelligenz. Die Werte sind keine Planung und müssen vor der Verwendung anhand der geltenden Norm geprüft werden; die Prüfung und alles, was darauf aufbaut, liegen in der Verantwortung des Nutzers.</string>
     <string name="report_export">Exportieren</string>
     <string name="report_export_csv">Als CSV exportieren</string>
     <string name="report_export_empty">Fügen Sie einen Stromkreis hinzu, bevor Sie exportieren.</string>

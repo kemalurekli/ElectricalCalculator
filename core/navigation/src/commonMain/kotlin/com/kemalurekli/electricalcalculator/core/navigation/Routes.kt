@@ -267,5 +267,16 @@ sealed interface Route {
  */
 object PaywallReason {
     const val GENERAL: String = "general"
+
+    /** The circuit schedule of a project. */
     const val PDF_EXPORT: String = "pdf_export"
+
+    /**
+     * A single calculation.
+     *
+     * Its own reason rather than [PDF_EXPORT]'s: that headline offers to hand
+     * over *the schedule*, and somebody who tapped export on a voltage drop is
+     * being answered about something they were not looking at.
+     */
+    const val CALCULATION_EXPORT: String = "calculation_export"
 }

@@ -14,6 +14,7 @@
     <string name="pro_error_owned">Już to masz. Użyj „Przywróć zakup”.</string>
     <string name="pro_error_store">Sklep w tej chwili nie odpowiada. Spróbuj później.</string>
     <string name="pro_error_unknown">Nie udało się. Spróbuj później.</string>
+    <string name="pro_headline_calculation">Przekaż te obliczenia jako dokument</string>
     <string name="pro_headline_general">Odblokuj funkcje profesjonalne</string>
     <string name="pro_headline_pdf">Przekaż zestawienie obwodów w PDF</string>
     <string name="pro_nothing_to_restore">To konto sklepu nie ma zakupu do przywrócenia.</string>

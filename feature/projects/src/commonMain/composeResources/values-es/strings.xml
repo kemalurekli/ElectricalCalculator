@@ -98,7 +98,6 @@
     <string name="report_column_protective">CP (mm²)</string>
     <string name="report_column_result">Resultado</string>
     <string name="report_column_size">Sección (mm²)</string>
-    <string name="report_notice">Generado con VoltageBoard, con ayuda de inteligencia artificial. Los valores no son un proyecto y deben verificarse conforme a la norma aplicable antes de su uso; esa verificación, y cuanto se base en ella, son responsabilidad del usuario.</string>
     <string name="report_export">Exportar</string>
     <string name="report_export_csv">Exportar como CSV</string>
     <string name="report_export_empty">Añada un circuito antes de exportar.</string>
