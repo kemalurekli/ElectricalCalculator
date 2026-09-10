@@ -51,13 +51,16 @@ import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.
  *
  * ### On the accents
  *
- * [ElecAccent] is documented as tinting a section by what it is *for*, so the
- * dashboard draws one distinction and draws it consistently: the six shelves
- * the app ships — tools, reference material, theory and working knowledge — are
- * primary, and the two built from the user's own activity are tertiary. Read
- * down the grid, the colour now means something. Assigned ad hoc it means
- * nothing, and alternating hues at random is what makes a set of cards look
+ * [ElecAccent] says which territory a section belongs to, and one distinction
+ * is drawn consistently: the six shelves the app ships — tools, reference
+ * material, theory and working knowledge — are primary, and the two built from
+ * the user's own activity are tertiary. Assigned ad hoc it would mean nothing,
+ * and alternating hues at random is what makes a set of sections look
  * assembled rather than designed.
+ *
+ * The dashboard no longer paints it. It orders by it instead — the app's own
+ * shelves first, the reader's own last — which carries the same distinction
+ * without putting a second hue on the screen.
  *
  * Three roles are in play, which is one more than the old palette could carry:
  * its `secondaryContainer` (#DAE2F9) and `primaryContainer` (#D8E2FF) were

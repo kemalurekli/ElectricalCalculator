@@ -4,15 +4,10 @@ import org.jetbrains.compose.resources.StringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -34,9 +29,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecAccent
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.asRelativeTime
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecDashboardCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecRecentRow
@@ -232,15 +227,8 @@ fun HomeScreen(
                     }
                 }
 
-                fullWidthItem(key = "browse-header") {
-                    ElecSectionHeader(
-                        title = stringResource(Res.string.home_browse),
-                        modifier = Modifier.padding(horizontal = 0.dp),
-                    )
-                }
-                fullWidthItem(key = "dashboard") {
-                    DashboardGrid(
-                        columns = layout.dashboardColumns,
+                fullWidthItem(key = "index") {
+                    IndexList(
                         favoriteCount = uiState.favorites.size,
                         savedCount = uiState.savedCount,
                         onNavigate = onNavigate,
@@ -288,111 +276,76 @@ private fun <T> SectionGroup(
 }
 
 /**
- * The dashboard cards, laid out in rows of [columns].
+ * The app's other shelves, as an index.
  *
- * Deliberately *not* a lazy grid. `LazyVerticalGrid` measures every cell
- * independently, so a card cannot stretch to match its neighbour and rows come
- * out ragged the moment one translation runs longer than another — which is
- * exactly what happens once the app is localised.
+ * ### Why this stopped being a grid of cards
  *
- * `IntrinsicSize.Min` on the row makes it as tall as its tallest card, and
- * `fillMaxHeight` then squares up the rest. That costs a second measure pass,
- * which is irrelevant for a fixed set of six cards but would not be for a long
- * list.
+ * It was six cards at 150dp each — an icon in a tinted square, a title and a
+ * two-line subtitle — taking about 470dp, half the dashboard, below two
+ * sections that were already lists inside cards. Two problems with that.
  *
- * Equal heights *within* a row were never the whole problem, though: rows still
- * differed from each other, so a three-line subtitle in the first row left the
- * grid visibly stepped. [CARD_MIN_HEIGHT] sets a floor every card clears, which
- * collapses that variation to at most the one line a long translation adds,
- * without capping the text and truncating the languages that need the room.
+ * One: it is the More tab. `moreDestinations` is literally `dashboardCards +
+ * SETTINGS`, so half the home screen was the contents of another tab drawn as
+ * posters. A poster is a claim that something is the main event; these are
+ * shelves you look something up on.
+ *
+ * Two: the screen spoke two languages at once — titled lists in cards at the
+ * top, a poster wall underneath — and the half that got the visual weight was
+ * the half that was not the reader's own work.
+ *
+ * As rows it costs about 290dp, the dashboard has one object language, and
+ * what the reader has actually been doing keeps the top of the screen. The
+ * destinations are still one tap away; they are simply no longer shouting.
+ *
+ * The subtitles go with the cards. In a list of eight words — Referanslar,
+ * Sözlük, Teori — a sentence under each is describing what the noun already
+ * says. This is the one place in the app where that is true; every other list
+ * explains its rows, and still does.
+ *
+ * ### Where the accent went
+ *
+ * The cards were tinted by territory: the shelves the app ships in one colour,
+ * the two built from the reader's own activity in another. That distinction is
+ * worth keeping and a hue is not the only way to say it — in a list, order
+ * says it, and says it without adding a second colour to a screen that has
+ * enough. The app's own material comes first and the reader's own comes last,
+ * which is also the order the More tab groups them in.
  */
 @Composable
-private fun DashboardGrid(
-    columns: Int,
+private fun IndexList(
     favoriteCount: Int,
     savedCount: Int,
     onNavigate: (Route) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val spacing = ElecTheme.spacing
+    SectionGroup(
+        title = stringResource(Res.string.home_browse),
+        items = TopLevelDestination.dashboardCards
+            .sortedBy { it.accent == ElecAccent.TERTIARY },
+        modifier = modifier,
+    ) { destination ->
+        ElecListItem(
+            title = stringResource(destination.title),
+            onClick = { onNavigate(destination.route) },
+            icon = destination.icon,
+            // Only the two sections that accumulate content carry a count; a
+            // badge reading "0" on an empty section is noise, not information.
+            badge = when (destination) {
+                TopLevelDestination.FAVORITES -> favoriteCount
+                    .takeIf { it > 0 }
+                    ?.let { stringResource(Res.string.home_badge_pinned, it) }
 
-    val cards = TopLevelDestination.dashboardCards
-    // An odd card count would leave one stranded beside an empty cell. The
-    // first card takes the whole width instead: the destinations are declared
-    // in order of how central they are, so the extra room lands on the one
-    // that has earned it rather than on whatever happened to sort last. On a
-    // wider layout the count usually divides evenly and no card is singled out.
-    val leading = cards.firstOrNull()?.takeIf { cards.size % columns != 0 }
-    val remainder = if (leading == null) cards else cards.drop(1)
+                TopLevelDestination.HISTORY -> savedCount
+                    .takeIf { it > 0 }
+                    ?.let { stringResource(Res.string.home_badge_saved, it) }
 
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(spacing.md),
-    ) {
-        if (leading != null) {
-            ElecDashboardCard(
-                title = stringResource(leading.title),
-                subtitle = stringResource(leading.subtitle),
-                icon = leading.icon,
-                accent = leading.accent,
-                onClick = { onNavigate(leading.route) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = CARD_MIN_HEIGHT),
-            )
-        }
-
-        remainder.chunked(columns).forEach { row ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Min),
-                horizontalArrangement = Arrangement.spacedBy(spacing.md),
-            ) {
-                row.forEach { destination ->
-                    ElecDashboardCard(
-                        title = stringResource(destination.title),
-                        subtitle = stringResource(destination.subtitle),
-                        icon = destination.icon,
-                        accent = destination.accent,
-                        // Only the two sections that accumulate content carry a
-                        // count; a badge reading "0" on an empty section is
-                        // noise rather than information.
-                        badge = when (destination) {
-                            TopLevelDestination.FAVORITES -> favoriteCount
-                                .takeIf { it > 0 }
-                                ?.let { stringResource(Res.string.home_badge_pinned, it) }
-
-                            TopLevelDestination.HISTORY -> savedCount
-                                .takeIf { it > 0 }
-                                ?.let { stringResource(Res.string.home_badge_saved, it) }
-
-                            else -> null
-                        },
-                        onClick = { onNavigate(destination.route) },
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
-                            .heightIn(min = CARD_MIN_HEIGHT),
-                    )
-                }
-                // Keeps a short final row aligned with the columns above it
-                // instead of stretching its cards across the full width.
-                repeat(columns - row.size) {
-                    Spacer(modifier = Modifier.weight(1f))
-                }
-            }
-        }
-
+                else -> null
+            },
+            contentPadding = PaddingValues(vertical = 12.dp),
+        )
     }
 }
 
-/**
- * Floor for a dashboard card, chosen to fit an icon, a two-line title and a
- * two-line subtitle at the default font scale — the shape most of the cards
- * take — so the shorter ones stop reading as unfinished next to the longer.
- */
-private val CARD_MIN_HEIGHT = 150.dp
 
 /**
  * Search results, grouped by which shelf they came from.

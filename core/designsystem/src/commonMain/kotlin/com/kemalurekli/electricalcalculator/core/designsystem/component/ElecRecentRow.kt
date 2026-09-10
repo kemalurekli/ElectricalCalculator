@@ -2,10 +2,13 @@ package com.kemalurekli.electricalcalculator.core.designsystem.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -58,7 +61,20 @@ fun ElecRecentRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(spacing.md),
     ) {
-        ElecIconBadge(icon = icon, containerSize = 36.dp, accent = ElecAccent.SECONDARY)
+        // Bare, like every other row in the app. The tinted square is what a
+        // card gets; a row is a doorway. See ElecListItem.
+        Box(
+            modifier = Modifier.size(ElecListItemDefaults.LeadingSlot),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = icon,
+                // The title beside it already names the run.
+                contentDescription = null,
+                modifier = Modifier.size(ElecListItemDefaults.LeadingGlyph),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
 
         Column(
             modifier = Modifier.weight(1f),

@@ -60,7 +60,8 @@ unlit workshop at night is where it is actually read.
 
 ### What the accents mean
 
-Colour on the dashboard encodes *what a section is for*, and encodes only that:
+A section belongs to one of three territories, and that is the only thing the
+app's accents are allowed to encode:
 
 - **primary** — the app's own material: tools, reference, theory, notes
 - **secondary** — where the reader's work meets other people's: Projects, Forum
@@ -68,6 +69,13 @@ Colour on the dashboard encodes *what a section is for*, and encodes only that:
 
 Assigned any other way it means nothing, and alternating hues at random is what
 makes a set of cards look assembled rather than designed.
+
+The dashboard used to say this in colour, on six tinted cards. It says it in
+**order** now — the app's own shelves first, the reader's own last — because a
+list can carry the distinction without adding a second hue to a screen that
+already has enough, and because those six cards were the More tab wearing a
+costume. `TopLevelDestination.accent` is still where a section declares which
+territory it is in.
 
 ### Status colours are a separate system
 

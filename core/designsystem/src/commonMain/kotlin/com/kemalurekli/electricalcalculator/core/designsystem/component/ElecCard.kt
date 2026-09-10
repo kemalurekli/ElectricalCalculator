@@ -71,79 +71,6 @@ fun ElecCard(
     }
 }
 
-/**
- * Large entry card used by the home dashboard.
- *
- * The whole card is one accessibility node reading "title. subtitle", so a
- * screen-reader user hears a single coherent target instead of three
- * fragments — matching how the card behaves for touch.
- */
-@Composable
-fun ElecDashboardCard(
-    title: String,
-    subtitle: String,
-    icon: ImageVector,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    accent: ElecAccent = ElecAccent.PRIMARY,
-    badge: String? = null,
-) {
-    val spacing = ElecTheme.spacing
-    ElecCard(
-        modifier = modifier.clearAndSetSemantics {
-            // The badge carries live state ("3 pinned"), so it belongs in the
-            // spoken description rather than being visual-only.
-            contentDescription = listOfNotNull(title, badge, subtitle).joinToString(". ")
-            role = Role.Button
-        },
-        onClick = onClick,
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(spacing.lg),
-            verticalArrangement = Arrangement.spacedBy(spacing.md),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                ElecIconBadge(icon = icon, accent = accent)
-                if (badge != null) {
-                    ElecPillBadge(text = badge)
-                }
-            }
-            Column(verticalArrangement = Arrangement.spacedBy(spacing.xs)) {
-                // Leading is tightened from the theme's 24sp. A tile this narrow
-                // wraps most titles, and at the body-text leading the two halves
-                // of "Electrical Calculators" sit far enough apart to read as
-                // two separate labels rather than one wrapped one. The tracking
-                // goes to zero for the same reason it exists at display sizes,
-                // in reverse: it buys nothing here and costs a line break.
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        lineHeight = TITLE_LINE_HEIGHT,
-                        letterSpacing = 0.sp,
-                    ),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = MAX_TITLE_LINES,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                Text(
-                    text = subtitle,
-                    style = MaterialTheme.typography.bodySmall.copy(
-                        lineHeight = SUBTITLE_LINE_HEIGHT,
-                    ),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = MAX_SUBTITLE_LINES,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-        }
-    }
-}
 
 /**
  * Two lines each.
@@ -244,19 +171,3 @@ fun ElecIconBadge(
     }
 }
 
-@Preview(name = "Dashboard card", showBackground = true)
-@Preview(name = "Dashboard card (dark)", showBackground = true)
-@Composable
-private fun ElecDashboardCardPreview() {
-    ElecToolkitTheme {
-        Row(modifier = Modifier.padding(16.dp)) {
-            ElecDashboardCard(
-                title = "Electrical Calculators",
-                subtitle = "Voltage drop, cable sizing, motor current and more",
-                icon = ElecIcons.Calculators,
-                onClick = {},
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
-    }
-}

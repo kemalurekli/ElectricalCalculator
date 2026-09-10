@@ -60,6 +60,11 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
  * list can do. The slot keeps its width so every title still starts at the
  * same x.
  *
+ * The [description] is optional for the same reason the icon is. A row that
+ * exists only to name where it goes — an index of the app's own shelves — says
+ * the name and stops, and comes out about twenty dp shorter for it. A list
+ * whose entries genuinely differ in what they contain still explains them.
+ *
  * A property worth reading goes in [badge] at the trailing edge instead of the
  * leading one, so that every title in the list still starts at the same place.
  * A leading pill would be as wide as its longest word — "Intermediate" against
@@ -79,8 +84,8 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 @Composable
 fun ElecListItem(
     title: String,
-    description: String,
     onClick: () -> Unit,
+    description: String? = null,
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     badge: String? = null,
@@ -124,13 +129,15 @@ fun ElecListItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
+            if (description != null) {
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
             if (caption != null) {
                 Text(
                     text = caption,
