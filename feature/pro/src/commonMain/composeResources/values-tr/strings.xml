@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Yirmi iki hesaplayıcının herhangi biri, verdiğiniz değerlerle</string>
+    <string name="pro_benefit_calculation">Herhangi bir hesaplayıcı, verdiğiniz değerlerle</string>
     <string name="pro_benefit_calculation_title">Her hesap da belge olur</string>
     <string name="pro_benefit_free">Hesaplayıcılar, referanslar, teori ve forum ücretsiz kalır</string>
     <string name="pro_benefit_future">Sonradan Pro'ya eklenen her şey, ek ücret olmadan</string>

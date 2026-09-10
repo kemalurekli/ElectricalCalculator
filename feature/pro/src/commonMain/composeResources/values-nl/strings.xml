@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Elk van de tweeëntwintig rekenmodules, met de waarden die u invoerde</string>
+    <string name="pro_benefit_calculation">Elke rekenmodule, met de waarden die u invoerde</string>
     <string name="pro_benefit_calculation_title">Elke berekening ook</string>
     <string name="pro_benefit_free">Rekenhulpen, naslag, theorie en forum blijven gratis</string>
     <string name="pro_benefit_future">Alles wat later aan Pro wordt toegevoegd, zonder meerkosten</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Bất kỳ công cụ nào trong hai mươi hai công cụ, cùng các giá trị bạn nhập</string>
+    <string name="pro_benefit_calculation">Bất kỳ công cụ nào, cùng các giá trị bạn nhập</string>
     <string name="pro_benefit_calculation_title">Mọi phép tính cũng vậy</string>
     <string name="pro_benefit_free">Máy tính, tra cứu, lý thuyết và diễn đàn vẫn miễn phí</string>
     <string name="pro_benefit_future">Mọi thứ được thêm vào Pro sau này, không tính thêm phí</string>

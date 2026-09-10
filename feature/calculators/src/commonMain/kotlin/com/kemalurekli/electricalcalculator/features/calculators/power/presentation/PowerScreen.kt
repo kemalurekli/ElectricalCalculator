@@ -30,6 +30,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.NameplateScanAction
+import com.kemalurekli.electricalcalculator.core.vision.NameplateReading
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
@@ -154,6 +156,22 @@ fun PowerRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        onNameplate = { plate ->
+            plate.phases?.let {
+                viewModel.onSystemChange(
+                    if (it == 1) SupplySystem.SINGLE_PHASE_AC else SupplySystem.THREE_PHASE_AC,
+                )
+            }
+            plate.voltageVolts?.let {
+                viewModel.onVoltageChange(NumberFormatter.formatSignificant(it))
+            }
+            plate.currentAmperes?.let {
+                viewModel.onCurrentChange(NumberFormatter.formatSignificant(it))
+            }
+            plate.powerFactor?.let {
+                viewModel.onPowerFactorChange(NumberFormatter.formatSignificant(it))
+            }
+        },
         onExportPdf = summary?.let { text -> { export.export(title, text) } },
         exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
@@ -179,6 +197,7 @@ fun PowerScreen(
     onToggleFavorite: () -> Unit,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onNameplate: (NameplateReading) -> Unit,
     onExportPdf: (() -> Unit)?,
     exportLocked: Boolean,
     onNavigateBack: (() -> Unit)?,
@@ -254,6 +273,13 @@ fun PowerScreen(
                     title = stringResource(Res.string.calculator_inputs),
                     modifier = Modifier.padding(horizontal = 0.dp),
                 )
+            }
+
+            // Under the heading and above the first field, where
+            // somebody who has just walked up to the equipment is
+            // looking. Absent on a device with no camera.
+            item(key = "nameplate") {
+                NameplateScanAction(onApply = onNameplate)
             }
 
             item(key = "system") {
@@ -504,7 +530,7 @@ private fun PowerScreenPreview() {
             uiState = PowerUiState(voltage = "400", current = "100"),
             onSystemChange = {}, onPowerFactorTypeChange = {}, onVoltageChange = {},
             onCurrentChange = {}, onPowerFactorChange = {}, onCalculate = {},
-            onReset = {}, onApplyExample = {}, onReferenceClick = {}, onToggleFavorite = {}, onCopy = {}, onShare = {}, onExportPdf = null, exportLocked = false,
+            onReset = {}, onApplyExample = {}, onReferenceClick = {}, onToggleFavorite = {}, onCopy = {}, onShare = {}, onNameplate = {}, onExportPdf = null, exportLocked = false,
             onNavigateBack = {},
         )
     }

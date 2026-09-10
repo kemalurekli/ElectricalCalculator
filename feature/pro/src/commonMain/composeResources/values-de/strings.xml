@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Jeder der zweiundzwanzig Rechner, mit den eingegebenen Werten</string>
+    <string name="pro_benefit_calculation">Jeder Rechner, mit den eingegebenen Werten</string>
     <string name="pro_benefit_calculation_title">Auch jede Berechnung</string>
     <string name="pro_benefit_free">Rechner, Referenzen, Theorie und Forum bleiben kostenlos</string>
     <string name="pro_benefit_future">Alles, was später zu Pro kommt, ohne Aufpreis</string>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="billing">
+    <output-path>$PROJECT_DIR$/core/billing/build/libs</output-path>
+    <root id="archive" name="billing.jar">
+      <element id="module-output" name="Electrical_Calculator.core.billing.androidMain" />
+    </root>
+  </artifact>
+</component>

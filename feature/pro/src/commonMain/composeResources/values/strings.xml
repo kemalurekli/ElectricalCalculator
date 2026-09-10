@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Any of the twenty-two calculators, with the figures you gave it</string>
+    <string name="pro_benefit_calculation">Any calculator, with the figures you gave it</string>
     <string name="pro_benefit_calculation_title">Every calculation, too</string>
     <string name="pro_benefit_free">Calculators, references, theory and forum stay free</string>
     <string name="pro_benefit_future">Everything added to Pro later, at no extra cost</string>

@@ -30,6 +30,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.NameplateScanAction
+import com.kemalurekli.electricalcalculator.core.vision.NameplateReading
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
@@ -199,6 +201,24 @@ fun CableSizeRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        // The load half of a long form. Length, cross-section, installation
+        // method and ambient are facts about the run, and no plate knows them.
+        onNameplate = { plate ->
+            plate.phases?.let {
+                viewModel.onSystemChange(
+                    if (it == 1) SupplySystem.SINGLE_PHASE_AC else SupplySystem.THREE_PHASE_AC,
+                )
+            }
+            plate.voltageVolts?.let {
+                viewModel.onVoltageChange(NumberFormatter.formatSignificant(it))
+            }
+            plate.currentAmperes?.let {
+                viewModel.onCurrentChange(NumberFormatter.formatSignificant(it))
+            }
+            plate.powerFactor?.let {
+                viewModel.onPowerFactorChange(NumberFormatter.formatSignificant(it))
+            }
+        },
         onExportPdf = summary?.let { text -> { export.export(title, text) } },
         exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
@@ -231,6 +251,7 @@ fun CableSizeScreen(
     onToggleFavorite: () -> Unit,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onNameplate: (NameplateReading) -> Unit,
     onExportPdf: (() -> Unit)?,
     exportLocked: Boolean,
     onNavigateBack: (() -> Unit)?,
@@ -317,6 +338,13 @@ fun CableSizeScreen(
                     title = stringResource(Res.string.calculator_inputs),
                     modifier = Modifier.padding(horizontal = 0.dp),
                 )
+            }
+
+            // Under the heading and above the first field, where
+            // somebody who has just walked up to the equipment is
+            // looking. Absent on a device with no camera.
+            item(key = "nameplate") {
+                NameplateScanAction(onApply = onNameplate)
             }
 
             item(key = "system") {
@@ -712,7 +740,7 @@ private fun CableSizeScreenPreview() {
             onLengthChange = {}, onPowerFactorChange = {}, onMaxDropChange = {},
             onAmbientChange = {}, onCircuitsChange = {}, onParallelConductorsChange = {},
             onCalculate = {}, onApplyExample = {}, onReferenceClick = {}, onReset = {}, onToggleFavorite = {}, onCopy = {},
-            onShare = {}, onExportPdf = null, exportLocked = false, onNavigateBack = {},
+            onShare = {}, onNameplate = {}, onExportPdf = null, exportLocked = false, onNavigateBack = {},
         )
     }
 }

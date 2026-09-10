@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="vision">
+    <output-path>$PROJECT_DIR$/core/vision/build/libs</output-path>
+    <root id="archive" name="vision.jar">
+      <element id="module-output" name="Electrical_Calculator.core.vision.androidMain" />
+    </root>
+  </artifact>
+</component>

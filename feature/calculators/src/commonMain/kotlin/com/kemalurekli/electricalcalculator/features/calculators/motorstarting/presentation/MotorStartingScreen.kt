@@ -3,6 +3,8 @@ package com.kemalurekli.electricalcalculator.features.calculators.motorstarting.
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.NameplateScanAction
+import com.kemalurekli.electricalcalculator.core.vision.NameplateReading
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
@@ -115,6 +117,17 @@ fun MotorStartingRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        // Two fields, and both of them are on the plate in front of the reader.
+        // The locked rotor multiple is printed on many plates too, but it is not
+        // one of the figures the reader recognises, so it is still typed.
+        onNameplate = { plate ->
+            plate.currentAmperes?.let {
+                viewModel.onFullLoadCurrentChange(NumberFormatter.formatSignificant(it))
+            }
+            plate.voltageVolts?.let {
+                viewModel.onSupplyVoltageChange(NumberFormatter.formatSignificant(it))
+            }
+        },
         onExportPdf = summary?.let { text -> { export.export(title, text) } },
         exportLocked = !export.isPro,
         snackbarHostState = snackbarHostState,
@@ -139,6 +152,7 @@ fun MotorStartingScreen(
     uiState: MotorStartingUiState,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onNameplate: (NameplateReading) -> Unit,
     onExportPdf: (() -> Unit)?,
     exportLocked: Boolean,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -216,6 +230,14 @@ fun MotorStartingScreen(
             )
 
             ElecSectionHeader(title = stringResource(Res.string.calculator_inputs))
+
+            // Under the heading and above the first field, where
+            // somebody who has just walked up to the equipment is
+            // looking. Absent on a device with no camera.
+            NameplateScanAction(
+                onApply = onNameplate,
+                modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+            )
 
             ElecCard(
                 modifier = Modifier

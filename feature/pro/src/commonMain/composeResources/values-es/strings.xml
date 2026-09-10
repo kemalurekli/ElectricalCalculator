@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Cualquiera de los veintidós calculadores, con los valores que introdujo</string>
+    <string name="pro_benefit_calculation">Cualquier calculador, con los valores que introdujo</string>
     <string name="pro_benefit_calculation_title">También cada cálculo</string>
     <string name="pro_benefit_free">Calculadoras, referencias, teoría y foro siguen siendo gratis</string>
     <string name="pro_benefit_future">Todo lo que se añada a Pro más adelante, sin coste extra</string>

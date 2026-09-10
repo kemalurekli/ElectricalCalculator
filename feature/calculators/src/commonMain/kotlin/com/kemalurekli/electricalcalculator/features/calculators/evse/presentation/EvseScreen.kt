@@ -3,6 +3,8 @@ package com.kemalurekli.electricalcalculator.features.calculators.evse.presentat
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.NameplateScanAction
+import com.kemalurekli.electricalcalculator.core.vision.NameplateReading
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
@@ -118,6 +120,21 @@ fun EvseRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        // A charge point's own plate. Phases land on this screen's connection
+        // rather than on a supply system, which is the enum it happens to use.
+        onNameplate = { plate ->
+            plate.phases?.let {
+                viewModel.onConnectionChange(
+                    if (it == 1) EvseConnection.SINGLE_PHASE else EvseConnection.THREE_PHASE,
+                )
+            }
+            plate.currentAmperes?.let {
+                viewModel.onRatedCurrentChange(NumberFormatter.formatSignificant(it))
+            }
+            plate.voltageVolts?.let {
+                viewModel.onSupplyVoltageChange(NumberFormatter.formatSignificant(it))
+            }
+        },
         onExportPdf = summary?.let { text -> { export.export(title, text) } },
         exportLocked = !export.isPro,
         snackbarHostState = snackbarHostState,
@@ -142,6 +159,7 @@ fun EvseScreen(
     uiState: EvseUiState,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onNameplate: (NameplateReading) -> Unit,
     onExportPdf: (() -> Unit)?,
     exportLocked: Boolean,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -219,6 +237,14 @@ fun EvseScreen(
             )
 
             ElecSectionHeader(title = stringResource(Res.string.calculator_inputs))
+
+            // Under the heading and above the first field, where
+            // somebody who has just walked up to the equipment is
+            // looking. Absent on a device with no camera.
+            NameplateScanAction(
+                onApply = onNameplate,
+                modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+            )
 
             ElecCard(
                 modifier = Modifier

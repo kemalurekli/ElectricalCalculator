@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Salah satu dari dua puluh dua kalkulator, dengan nilai yang Anda masukkan</string>
+    <string name="pro_benefit_calculation">Kalkulator mana pun, dengan nilai yang Anda masukkan</string>
     <string name="pro_benefit_calculation_title">Setiap perhitungan juga</string>
     <string name="pro_benefit_free">Kalkulator, referensi, teori dan forum tetap gratis</string>
     <string name="pro_benefit_future">Semua yang ditambahkan ke Pro nanti, tanpa biaya tambahan</string>
