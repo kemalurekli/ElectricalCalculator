@@ -209,12 +209,18 @@ fun HomeScreen(
                         SectionGroup(
                             title = stringResource(Res.string.home_recent),
                             items = uiState.recent,
-                        ) { record ->
+                        ) { entry ->
+                            val record = entry.record
                             ElecRecentRow(
                                 title = record.title,
                                 summary = record.summary,
                                 timestamp = record.createdAt.asRelativeTime(),
-                                icon = ElecIcons.History,
+                                // The calculator's own glyph, not a clock.
+                                // Every row here is a past run, so a clock on
+                                // each one is an indent rather than an icon —
+                                // and which calculator it was is the one thing
+                                // that tells two rows apart at a glance.
+                                icon = ElecIcons.forCalculator(entry.icon),
                                 // The whole record, not just which calculator
                                 // it was. `onCalculatorClick` cannot carry the
                                 // row's id, and opening a past calculation on

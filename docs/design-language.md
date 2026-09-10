@@ -203,6 +203,13 @@ beside the rest of the set. The overflow keeps its ring: `MoreTab` is a bare
 horizontal ellipsis, which is also iOS's own More tab, and the two have to stay
 apart.
 
+**A row's leading glyph is bare; a card's sits in a tinted square.** The square
+is `ElecIconBadge`, and on the dashboard its tint is doing work — it says which
+of the app's three territories a section belongs to. A row is a doorway, and a
+column of coloured plaques down the left of a list is the most template-looking
+thing a list can do. `ElecListItem` keeps the slot's width so every title still
+starts at the same x.
+
 **A leading glyph has to differ between rows.** `ElecListItem` takes an optional
 icon, and three lists used to be required to supply one: references drew twenty
 identical books, theory twenty identical sigmas, projects a column of folders.

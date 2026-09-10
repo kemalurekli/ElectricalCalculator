@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.core.designsystem.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon
@@ -49,6 +51,14 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
  *
  * So the [icon] is optional now, and a list that has nothing to say there says
  * nothing: the titles move left and the rows get shorter.
+ *
+ * Where a row does carry one, it is a bare glyph rather than the rounded tinted
+ * square [ElecIconBadge] draws. The square is what a card gets — on the
+ * dashboard the tint is doing work, since it says which of the app's three
+ * territories a section belongs to. A row is a doorway, and twenty coloured
+ * plaques down the left of a list is the single most template-looking thing a
+ * list can do. The slot keeps its width so every title still starts at the
+ * same x.
  *
  * A property worth reading goes in [badge] at the trailing edge instead of the
  * leading one, so that every title in the list still starts at the same place.
@@ -88,7 +98,20 @@ fun ElecListItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(spacing.lg),
     ) {
-        if (icon != null) ElecIconBadge(icon = icon)
+        if (icon != null) {
+            Box(
+                modifier = Modifier.size(ElecListItemDefaults.LeadingSlot),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = icon,
+                    // The title beside it already names the row.
+                    contentDescription = null,
+                    modifier = Modifier.size(ElecListItemDefaults.LeadingGlyph),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
 
         Column(
             modifier = Modifier.weight(1f),
@@ -192,6 +215,15 @@ private const val UNSET_STAR_ALPHA = 0.7f
 /** Defaults for [ElecListItem]. */
 object ElecListItemDefaults {
     val contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+
+    /**
+     * The leading slot keeps the width the tinted badge used to occupy, so
+     * dropping the badge did not move every title in the app four pixels left.
+     */
+    val LeadingSlot: Dp = 40.dp
+
+    /** The glyph inside it, at the size Material draws an icon unaided. */
+    val LeadingGlyph: Dp = 24.dp
 }
 
 /**

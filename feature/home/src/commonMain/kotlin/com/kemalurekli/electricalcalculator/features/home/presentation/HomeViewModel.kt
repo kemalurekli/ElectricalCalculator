@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kemalurekli.electricalcalculator.core.common.util.StringResolver
+import com.kemalurekli.electricalcalculator.core.common.model.CalculatorIcon
 import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorSearch
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculationRecord
@@ -38,10 +39,23 @@ import kotlinx.coroutines.launch
  * @param searchResults ranked matches, shown in place of everything else while
  *   [query] is non-blank.
  */
+/**
+ * A past calculation on the dashboard, carrying the glyph of the calculator
+ * that produced it.
+ *
+ * The icon is resolved here rather than in the composable because the catalog
+ * is the one place that knows which glyph a calculator claims, and it is
+ * injected into this view model rather than reachable from a `@Composable`.
+ */
+data class RecentEntry(
+    val record: CalculationRecord,
+    val icon: CalculatorIcon,
+)
+
 data class HomeUiState(
     val query: String = "",
     val favorites: ImmutableList<CalculatorUiModel> = persistentListOf(),
-    val recent: ImmutableList<CalculationRecord> = persistentListOf(),
+    val recent: ImmutableList<RecentEntry> = persistentListOf(),
     val savedCount: Int = 0,
     /** Matches from every shelf, grouped and in declaration order. */
     val searchResults: ImmutableList<SearchSection> = persistentListOf(),
@@ -127,7 +141,9 @@ class HomeViewModel(
                 .mapNotNull { id -> catalog.findById(id) }
                 .map { it.toUiModel(stringResolver, isFavorite = true) }
                 .toImmutableList(),
-            recent = recent.toImmutableList(),
+            recent = recent
+                .map { RecentEntry(it, catalog[it.calculatorId].icon) }
+                .toImmutableList(),
             savedCount = savedCount,
             isLoading = false,
         )

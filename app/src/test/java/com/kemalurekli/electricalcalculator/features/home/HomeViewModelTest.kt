@@ -223,7 +223,7 @@ class HomeViewModelTest {
             val state = awaitItem()
 
             assertTrue(state.hasRecent)
-            assertEquals(listOf("Newest", "Middle", "Oldest"), state.recent.map { it.title })
+            assertEquals(listOf("Newest", "Middle", "Oldest"), state.recent.map { it.record.title })
         }
     }
 
