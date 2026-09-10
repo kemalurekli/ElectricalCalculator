@@ -32,8 +32,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
@@ -41,7 +40,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResu
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
@@ -67,7 +65,7 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_cable_weight_title
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_inputs
-import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes_tab
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_conductor_material
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_material_aluminium
@@ -346,13 +344,8 @@ fun CableWeightScreen(
                 }
             }
 
-            if (uiState.steps.isNotEmpty()) {
-                item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
-            }
-
-            item(key = "formula") {
-                ElecFormulaCard(
-                    title = stringResource(Res.string.calculator_formula),
+            item(key = "explainer") {
+                ElecExplainerCard(
                     formula = stringResource(Res.string.cw_formula),
                     variables = persistentListOf(
                         FormulaVariable("m", stringResource(Res.string.cw_var_m), "kg"),
@@ -364,12 +357,9 @@ fun CableWeightScreen(
                         FormulaVariable("δ", stringResource(Res.string.cw_var_delta), "kg/dm³"),
                         FormulaVariable("δ_s", stringResource(Res.string.cw_var_deltas), "kg/dm³"),
                     ),
-                )
-            }
-
-            item(key = "notes") {
-                ElecNotesCard(
-                    title = stringResource(Res.string.calculator_notes),
+                    formulaLabel = stringResource(Res.string.calculator_formula),
+                    notesLabel = stringResource(Res.string.calculator_notes_tab),
+                    steps = uiState.steps,
                     notes = persistentListOf(
                         stringResource(Res.string.cw_note_exact),
                         stringResource(Res.string.cw_note_estimate),

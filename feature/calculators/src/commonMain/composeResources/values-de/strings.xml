@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Spannungseinbruch beim Anlauf</string>
     <string name="calculator_neutral_title">Neutralleiterstrom</string>
     <string name="calculator_notes">Technische Hinweise</string>
+    <string name="calculator_notes_tab">Hinweise</string>
     <string name="calculator_power_factor_title">Blindleistungskompensation</string>
     <string name="calculator_power_title">Leistungsrechner</string>
     <string name="calculator_selectivity_title">Selektivitätsprüfung</string>

@@ -32,8 +32,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
@@ -41,7 +40,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResu
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
@@ -68,7 +66,7 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_earth_fault_title
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_inputs
-import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes_tab
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_conductor_material
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_material_aluminium
@@ -299,21 +297,14 @@ fun EarthFaultScreen(
             }
 
             item(key = "device") {
-                Column {
-                    ElecOptionSelector(
-                        label = stringResource(Res.string.ef_device),
-                        options = ProtectiveDeviceType.entries.toImmutableList(),
-                        selected = uiState.deviceType,
-                        onSelect = onDeviceTypeChange,
-                        optionLabel = { stringResource(it.label()) },
-                    )
-                    Text(
-                        text = stringResource(uiState.deviceType.hint()),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
-                    )
-                }
+                ElecOptionSelector(
+                    label = stringResource(Res.string.ef_device),
+                    options = ProtectiveDeviceType.entries.toImmutableList(),
+                    selected = uiState.deviceType,
+                    onSelect = onDeviceTypeChange,
+                    optionLabel = { stringResource(it.label()) },
+                    explanation = stringResource(uiState.deviceType.hint()),
+                )
             }
 
             item(key = "device-rating") {
@@ -435,13 +426,8 @@ fun EarthFaultScreen(
                 }
             }
 
-            if (uiState.steps.isNotEmpty()) {
-                item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
-            }
-
-            item(key = "formula") {
-                ElecFormulaCard(
-                    title = stringResource(Res.string.calculator_formula),
+            item(key = "explainer") {
+                ElecExplainerCard(
                     formula = stringResource(Res.string.ef_formula),
                     variables = persistentListOf(
                         FormulaVariable("Z_s", stringResource(Res.string.ef_var_zs), "Ω"),
@@ -456,12 +442,9 @@ fun EarthFaultScreen(
                         // Line to earth, which is what the field above asks for.
                         FormulaVariable("U₀", stringResource(Res.string.ef_voltage), "V"),
                     ),
-                )
-            }
-
-            item(key = "notes") {
-                ElecNotesCard(
-                    title = stringResource(Res.string.calculator_notes),
+                    formulaLabel = stringResource(Res.string.calculator_formula),
+                    notesLabel = stringResource(Res.string.calculator_notes_tab),
+                    steps = uiState.steps,
                     notes = persistentListOf(
                         stringResource(Res.string.ef_note_two_checks),
                         stringResource(Res.string.ef_note_curve),

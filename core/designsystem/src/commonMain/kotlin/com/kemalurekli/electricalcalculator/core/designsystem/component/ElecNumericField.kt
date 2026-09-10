@@ -1,14 +1,19 @@
 package com.kemalurekli.electricalcalculator.core.designsystem.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -16,6 +21,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
+import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 
 /**
@@ -51,10 +57,6 @@ fun ElecNumericField(
 ) {
     val message = error?.let { errorMessage ?: it.asMessage() }
 
-    // Only one line of helper text is shown: an error replaces the hint, so the
-    // field's height stays stable as validation state changes.
-    val helper = message ?: supportingText
-
     OutlinedTextField(
         value = value,
         onValueChange = { proposed ->
@@ -66,8 +68,36 @@ fun ElecNumericField(
         // The supporting-text slot rather than a Text of our own: Material
         // wires it into the field's own semantics node, so TalkBack announces
         // the error when focus lands instead of leaving it as a stray label.
-        supportingText = helper?.let {
-            { Text(text = it, style = MaterialTheme.typography.bodySmall) }
+        //
+        // Only one line is ever shown — an error replaces the hint — and the
+        // two are told apart by more than colour. A hint is a quiet sentence
+        // about what to type; an error carries a glyph, so a reader who cannot
+        // separate the red from the grey still sees which one is which. Both
+        // are one line of bodySmall beside a 14dp mark, so the field's height
+        // does not move as validation state changes.
+        supportingText = when {
+            message != null -> {
+                {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(ERROR_GLYPH_GAP),
+                    ) {
+                        Icon(
+                            imageVector = ElecIcons.StageFail,
+                            // The message beside it already says what is wrong.
+                            contentDescription = null,
+                            modifier = Modifier.size(ERROR_GLYPH),
+                        )
+                        Text(text = message, style = MaterialTheme.typography.bodySmall)
+                    }
+                }
+            }
+
+            supportingText != null -> {
+                { Text(text = supportingText, style = MaterialTheme.typography.bodySmall) }
+            }
+
+            else -> null
         },
         isError = error != null,
         singleLine = true,
@@ -85,6 +115,9 @@ fun ElecNumericField(
         ),
     )
 }
+
+private val ERROR_GLYPH = 14.dp
+private val ERROR_GLYPH_GAP = 4.dp
 
 @Preview(showBackground = true)
 @Composable

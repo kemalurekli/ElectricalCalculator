@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Kedip tegangan saat start</string>
     <string name="calculator_neutral_title">Arus netral</string>
     <string name="calculator_notes">Catatan teknik</string>
+    <string name="calculator_notes_tab">Catatan</string>
     <string name="calculator_power_factor_title">Perbaikan faktor daya</string>
     <string name="calculator_power_title">Kalkulator daya</string>
     <string name="calculator_selectivity_title">Pemeriksaan selektivitas</string>

@@ -3,10 +3,9 @@ package com.kemalurekli.electricalcalculator.features.calculators.motorstarting.
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes_tab
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_du
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_istart
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_var_u
@@ -17,7 +16,8 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ms_formula
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
+import com.kemalurekli.electricalcalculator.core.designsystem.model.CalculationStep
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.NameplateScanAction
 import com.kemalurekli.electricalcalculator.core.vision.NameplateReading
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
@@ -28,6 +28,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberR
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_export_line
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.message_copied
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
@@ -61,7 +62,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNume
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
@@ -328,39 +328,11 @@ fun MotorStartingScreen(
                 }
             }
 
-            // Above the result rather than below it. The method is worth
-            // reading before there is an answer, and a card that sits
-            // under the working moves down the page the moment somebody
-            // presses calculate — which is exactly when they were
-            // reading it.
-            ElecFormulaCard(
-                title = stringResource(Res.string.calculator_formula),
-                formula = stringResource(Res.string.ms_formula),
-                variables = persistentListOf(
-                        FormulaVariable("S_sc", stringResource(Res.string.ms_var_ssc), "kVA"),
-                        FormulaVariable("S_t", stringResource(Res.string.ms_var_st), "kVA"),
-                        FormulaVariable("u_k", stringResource(Res.string.ms_var_uk), "%"),
-                        FormulaVariable("S_start", stringResource(Res.string.ms_var_sstart), "kVA"),
-                        FormulaVariable("U", stringResource(Res.string.ms_var_u), "V"),
-                        FormulaVariable("I_start", stringResource(Res.string.ms_var_istart), "A"),
-                        FormulaVariable("ΔU/U", stringResource(Res.string.ms_var_du), "—"),
-                ),
-                modifier = Modifier.padding(
-                    horizontal = spacing.screenHorizontal,
-                    vertical = spacing.xs,
-                ),
-            )
 
-            if (uiState.result != null) {
-                ElecStepsCard(
-                    steps = uiState.steps,
-                    modifier = Modifier.padding(
-                        horizontal = spacing.screenHorizontal,
-                        vertical = spacing.xs,
-                    ),
-                )
-                NotesCard(onLinkClick = onReferenceClick)
-            }
+            Explainer(
+                steps = uiState.steps,
+                onLinkClick = onReferenceClick,
+            )
         }
     }
 }
@@ -419,13 +391,29 @@ private fun ResultCard(result: MotorStartingResult) {
 }
 
 @Composable
-private fun NotesCard(onLinkClick: (String) -> Unit) {
+private fun Explainer(
+    steps: ImmutableList<CalculationStep>,
+    onLinkClick: (String) -> Unit,
+) {
     val spacing = ElecTheme.spacing
-    // The shared card, like the other sixteen calculators. Its own was
-    // a plain container of paragraphs, which is why this screen had
-    // nowhere to put the references its notes were already talking about.
-    ElecNotesCard(
-        title = stringResource(Res.string.calculator_notes),
+    // The same card the other calculators end on. This screen used to split
+    // it — the formula above the result, the steps and notes below — which
+    // was a reasonable answer while they were three separate cards and is
+    // one card's worth of inconsistency now.
+    ElecExplainerCard(
+        formula = stringResource(Res.string.ms_formula),
+        variables = persistentListOf(
+            FormulaVariable("S_sc", stringResource(Res.string.ms_var_ssc), "kVA"),
+            FormulaVariable("S_t", stringResource(Res.string.ms_var_st), "kVA"),
+            FormulaVariable("u_k", stringResource(Res.string.ms_var_uk), "%"),
+            FormulaVariable("S_start", stringResource(Res.string.ms_var_sstart), "kVA"),
+            FormulaVariable("U", stringResource(Res.string.ms_var_u), "V"),
+            FormulaVariable("I_start", stringResource(Res.string.ms_var_istart), "A"),
+            FormulaVariable("ΔU/U", stringResource(Res.string.ms_var_du), "—"),
+                ),
+        formulaLabel = stringResource(Res.string.calculator_formula),
+        notesLabel = stringResource(Res.string.calculator_notes_tab),
+        steps = steps,
         notes = buildList {
             add(stringResource(Res.string.ms_note_torque))
             add(stringResource(Res.string.ms_note_scope))

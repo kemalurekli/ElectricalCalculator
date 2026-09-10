@@ -94,70 +94,15 @@ fun ElecFormulaCard(
             }
 
             AnimatedVisibility(visible = expanded) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = spacing.lg,
-                            end = spacing.lg,
-                            bottom = spacing.lg,
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(spacing.md),
-                ) {
-                    Surface(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(10.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    ) {
-                        Text(
-                            text = formula,
-                            style = FormulaTextStyle,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(spacing.md),
-                        )
-                    }
-
-                    // The symbols are set in a monospaced face, so the widest
-                    // one in this list can decide the column outright: character
-                    // count times the advance width, in text units so that it
-                    // grows with the reader's font size. A fixed width fitted
-                    // five characters and broke ΔU_max across two lines.
-                    val symbolWidth = with(LocalDensity.current) {
-                        val widest = variables.maxOfOrNull { it.symbol.length } ?: 0
-                        (FormulaTextStyle.fontSize.toDp() * MONO_ADVANCE * widest)
-                            .coerceAtLeast(MIN_SYMBOL_WIDTH)
-                    }
-
-                    variables.forEach { variable ->
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(spacing.md),
-                        ) {
-                            Text(
-                                text = variable.symbol,
-                                style = FormulaTextStyle,
-                                color = MaterialTheme.colorScheme.primary,
-                                // One width for the whole list, so every
-                                // meaning starts on the same vertical line.
-                                modifier = Modifier.width(symbolWidth),
-                            )
-                            Text(
-                                text = variable.meaning,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.weight(1f),
-                            )
-                            Text(
-                                text = variable.unit,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
-                    }
-                }
+                FormulaBody(
+                    formula = formula,
+                    variables = variables,
+                    modifier = Modifier.padding(
+                        start = spacing.lg,
+                        end = spacing.lg,
+                        bottom = spacing.lg,
+                    ),
+                )
             }
         }
     }
@@ -217,51 +162,150 @@ fun ElecNotesCard(
             }
 
             AnimatedVisibility(visible = expanded) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = spacing.lg, end = spacing.lg, bottom = spacing.lg),
-                    verticalArrangement = Arrangement.spacedBy(spacing.sm),
-                ) {
-                    notes.forEach { note ->
-                        Row(horizontalArrangement = Arrangement.spacedBy(spacing.sm)) {
-                            Text(
-                                text = "•",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.primary,
-                            )
-                            Text(
-                                text = note,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
-                    }
+                NotesBody(
+                    notes = notes,
+                    links = links,
+                    onLinkClick = onLinkClick,
+                    modifier = Modifier.padding(
+                        start = spacing.lg,
+                        end = spacing.lg,
+                        bottom = spacing.lg,
+                    ),
+                )
+            }
+        }
+    }
+}
 
-                    if (links.isNotEmpty()) {
+/**
+ * The equation and its symbol table, with no header and no collapsing.
+ *
+ * Shared with [ElecExplainerCard], which supplies the header as a tab.
+ */
+@Composable
+internal fun FormulaBody(
+    formula: String,
+    variables: ImmutableList<FormulaVariable>,
+    modifier: Modifier = Modifier,
+) {
+    val spacing = ElecTheme.spacing
+
+            Column(
+                modifier = modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(spacing.md),
+            ) {
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(10.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                ) {
+                    Text(
+                        text = formula,
+                        style = FormulaTextStyle,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(spacing.md),
+                    )
+                }
+
+                // The symbols are set in a monospaced face, so the widest
+                // one in this list can decide the column outright: character
+                // count times the advance width, in text units so that it
+                // grows with the reader's font size. A fixed width fitted
+                // five characters and broke ΔU_max across two lines.
+                val symbolWidth = with(LocalDensity.current) {
+                    val widest = variables.maxOfOrNull { it.symbol.length } ?: 0
+                    (FormulaTextStyle.fontSize.toDp() * MONO_ADVANCE * widest)
+                        .coerceAtLeast(MIN_SYMBOL_WIDTH)
+                }
+
+                variables.forEach { variable ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(spacing.md),
+                    ) {
                         Text(
-                            text = stringResource(Res.string.calculator_notes_read_more),
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(top = spacing.xs),
+                            text = variable.symbol,
+                            style = FormulaTextStyle,
+                            color = MaterialTheme.colorScheme.primary,
+                            // One width for the whole list, so every
+                            // meaning starts on the same vertical line.
+                            modifier = Modifier.width(symbolWidth),
                         )
-                        FlowRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(spacing.xs),
-                            verticalArrangement = Arrangement.spacedBy(spacing.xs),
-                        ) {
-                            links.forEach { link ->
-                                AssistChip(
-                                    onClick = { onLinkClick(link.topicKey) },
-                                    label = { Text(link.label) },
-                                )
-                            }
+                        Text(
+                            text = variable.meaning,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.weight(1f),
+                        )
+                        Text(
+                            text = variable.unit,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+            }
+        
+}
+
+/**
+ * The notes and their reference links, with no header and no collapsing.
+ *
+ * Shared with [ElecExplainerCard], which supplies the header as a tab.
+ */
+@Composable
+internal fun NotesBody(
+    notes: ImmutableList<String>,
+    modifier: Modifier = Modifier,
+    links: ImmutableList<NoteLink> = persistentListOf(),
+    onLinkClick: (String) -> Unit = {},
+) {
+    val spacing = ElecTheme.spacing
+
+            Column(
+                modifier = modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(spacing.sm),
+            ) {
+                notes.forEach { note ->
+                    Row(horizontalArrangement = Arrangement.spacedBy(spacing.sm)) {
+                        Text(
+                            text = "•",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                        Text(
+                            text = note,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+
+                if (links.isNotEmpty()) {
+                    Text(
+                        text = stringResource(Res.string.calculator_notes_read_more),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = spacing.xs),
+                    )
+                    FlowRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(spacing.xs),
+                        verticalArrangement = Arrangement.spacedBy(spacing.xs),
+                    ) {
+                        links.forEach { link ->
+                            AssistChip(
+                                onClick = { onLinkClick(link.topicKey) },
+                                label = { Text(link.label) },
+                            )
                         }
                     }
                 }
             }
-        }
-    }
+        
 }
 
 /**

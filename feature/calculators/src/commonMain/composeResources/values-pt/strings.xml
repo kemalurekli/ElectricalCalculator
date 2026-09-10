@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Cava de tensão no arranque</string>
     <string name="calculator_neutral_title">Corrente no neutro</string>
     <string name="calculator_notes">Notas técnicas</string>
+    <string name="calculator_notes_tab">Notas</string>
     <string name="calculator_power_factor_title">Compensação do fator de potência</string>
     <string name="calculator_power_title">Calculadora de potência</string>
     <string name="calculator_selectivity_title">Verificação de seletividade</string>

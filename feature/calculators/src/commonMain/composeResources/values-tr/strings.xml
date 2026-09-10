@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Motor Yol Alma Çökmesi</string>
     <string name="calculator_neutral_title">Nötr Akımı</string>
     <string name="calculator_notes">Mühendislik notları</string>
+    <string name="calculator_notes_tab">Notlar</string>
     <string name="calculator_power_factor_title">Kompanzasyon</string>
     <string name="calculator_power_title">Güç Hesaplayıcı</string>
     <string name="calculator_selectivity_title">Selektivite kontrolü</string>

@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Просадка напряжения при пуске</string>
     <string name="calculator_neutral_title">Ток в нулевом рабочем проводнике</string>
     <string name="calculator_notes">Технические примечания</string>
+    <string name="calculator_notes_tab">Примечания</string>
     <string name="calculator_power_factor_title">Компенсация реактивной мощности</string>
     <string name="calculator_power_title">Калькулятор мощности</string>
     <string name="calculator_selectivity_title">Проверка селективности</string>

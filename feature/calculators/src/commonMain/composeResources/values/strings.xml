@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Motor Starting Dip</string>
     <string name="calculator_neutral_title">Neutral Current</string>
     <string name="calculator_notes">Engineering notes</string>
+    <string name="calculator_notes_tab">Notes</string>
     <string name="calculator_power_factor_title">Power Factor Correction</string>
     <string name="calculator_power_title">Power Calculator</string>
     <string name="calculator_selectivity_title">Selectivity check</string>

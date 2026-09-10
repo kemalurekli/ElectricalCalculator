@@ -32,8 +32,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
@@ -41,7 +40,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResu
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
@@ -69,7 +67,7 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_inputs
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_motor_current_title
-import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes_tab
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_power_factor
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_supply_system
@@ -316,21 +314,14 @@ fun MotorScreen(
             }
 
             item(key = "power-unit") {
-                Column {
-                    ElecOptionSelector(
-                        label = stringResource(Res.string.mt_power_unit),
-                        options = PowerUnit.entries.toImmutableList(),
-                        selected = uiState.powerUnit,
-                        onSelect = onPowerUnitChange,
-                        optionLabel = { stringResource(it.label()) },
-                    )
-                    Text(
-                        text = stringResource(Res.string.mt_unit_hint),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
-                    )
-                }
+                ElecOptionSelector(
+                    label = stringResource(Res.string.mt_power_unit),
+                    options = PowerUnit.entries.toImmutableList(),
+                    selected = uiState.powerUnit,
+                    onSelect = onPowerUnitChange,
+                    optionLabel = { stringResource(it.label()) },
+                    explanation = stringResource(Res.string.mt_unit_hint),
+                )
             }
 
             item(key = "power") {
@@ -408,13 +399,8 @@ fun MotorScreen(
                 }
             }
 
-            if (uiState.steps.isNotEmpty()) {
-                item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
-            }
-
-            item(key = "formula") {
-                ElecFormulaCard(
-                    title = stringResource(Res.string.calculator_formula),
+            item(key = "explainer") {
+                ElecExplainerCard(
                     formula = stringResource(Res.string.mt_formula),
                     variables = persistentListOf(
                         FormulaVariable("I", stringResource(Res.string.mt_var_current), "A"),
@@ -425,12 +411,9 @@ fun MotorScreen(
                         FormulaVariable("U", stringResource(Res.string.mt_var_voltage), "V"),
                         FormulaVariable("cos φ", stringResource(Res.string.mt_var_pf), "—"),
                     ),
-                )
-            }
-
-            item(key = "notes") {
-                ElecNotesCard(
-                    title = stringResource(Res.string.calculator_notes),
+                    formulaLabel = stringResource(Res.string.calculator_formula),
+                    notesLabel = stringResource(Res.string.calculator_notes_tab),
+                    steps = uiState.steps,
                     notes = persistentListOf(
                         stringResource(Res.string.mt_note_shaft_output),
                         stringResource(Res.string.mt_note_full_load),

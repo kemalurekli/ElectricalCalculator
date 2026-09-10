@@ -212,6 +212,26 @@ What the row knows instead goes in `badge` at the trailing edge — kept there s
 every title still starts at the same x — or in `caption`, a third line for a
 provenance such as the standard a reference transcribes.
 
+**A choice owns the sentence that explains it.** `ElecOptionSelector` takes an
+`explanation`, held one step closer than the label above it and crossfaded when
+the selection changes. Seven calculators used to draw that sentence themselves
+as a loose `Text` under the selector — the same four lines, seven times — and it
+floated between the pills it belonged to and the field below, which is nearer in
+reading order. The app explains itself deliberately; that is most of what it
+sells. The explanations stay. What changed is that they are part of a control
+rather than grey text left lying around.
+
+**A calculator explains itself in one card, not three.** `ElecExplainerCard`
+carries the worked solution, the equation and the engineering notes behind three
+pills — the same `ElecOptionPill` a form's choices are made of. They were three
+collapsible cards, stacked and all closed, which is both the most generic thing
+a screen can end with and a good way to make sure nobody reads the part of the
+app worth paying for. The card opens on whatever tab exists leftmost: the
+formula before a calculation, and the worked solution the moment a result lands,
+which is what somebody who just pressed Calculate came for. The reader loses the
+ability to hold two open at once, which is worth less than having any of them
+open at all.
+
 **A floating action button needs `spacing.fabClearance` under the list.** It
 floats above the content rather than beside it, so without that the last row is
 permanently underneath it. Three screens had this and none had noticed, because

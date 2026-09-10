@@ -26,10 +26,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kotlinx.collections.immutable.toImmutableList
-import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes_tab
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_k
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_i3n
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_in
@@ -41,7 +40,8 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_formula
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
+import com.kemalurekli.electricalcalculator.core.designsystem.model.CalculationStep
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
@@ -50,6 +50,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberR
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_export_line
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.message_copied
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -63,7 +64,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExam
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
@@ -302,40 +302,12 @@ fun HarmonicsScreen(
                 }
             }
 
-            // Above the result rather than below it. The method is worth
-            // reading before there is an answer, and a card that sits
-            // under the working moves down the page the moment somebody
-            // presses calculate — which is exactly when they were
-            // reading it.
-            ElecFormulaCard(
-                title = stringResource(Res.string.calculator_formula),
-                formula = stringResource(Res.string.hm_formula),
-                variables = persistentListOf(
-                        FormulaVariable("I₁", stringResource(Res.string.hm_var_i1), "A"),
-                        FormulaVariable("Ih", stringResource(Res.string.hm_var_ih), "A"),
-                        FormulaVariable("h", stringResource(Res.string.hm_var_h), "—"),
-                        FormulaVariable("THD", stringResource(Res.string.hm_var_thd), "—"),
-                        FormulaVariable("I_rms", stringResource(Res.string.hm_var_irms), "A"),
-                        FormulaVariable("I_3n", stringResource(Res.string.hm_var_i3n), "A"),
-                    FormulaVariable("I_N", stringResource(Res.string.hm_var_in), "A"),
-                        FormulaVariable("K", stringResource(Res.string.hm_var_k), "—"),
-                ),
-                modifier = Modifier.padding(
-                    horizontal = spacing.screenHorizontal,
-                    vertical = spacing.xs,
-                ),
-            )
 
-            if (uiState.result != null) {
-                ElecStepsCard(
-                    steps = uiState.steps,
-                    modifier = Modifier.padding(
-                        horizontal = spacing.screenHorizontal,
-                        vertical = spacing.xs,
-                    ),
-                )
-                NoteCard(showNeutralCaveat = !uiState.balanced, onLinkClick = onReferenceClick)
-            }
+            Explainer(
+                steps = uiState.steps,
+                showNeutralCaveat = !uiState.balanced,
+                onLinkClick = onReferenceClick,
+            )
         }
     }
 }
@@ -385,13 +357,31 @@ private fun ResultCard(result: HarmonicsResult, balanced: Boolean) {
 }
 
 @Composable
-private fun NoteCard(showNeutralCaveat: Boolean, onLinkClick: (String) -> Unit) {
+private fun Explainer(
+    steps: ImmutableList<CalculationStep>,
+    showNeutralCaveat: Boolean,
+    onLinkClick: (String) -> Unit,
+) {
     val spacing = ElecTheme.spacing
-    // The shared card, like the other sixteen calculators. Its own was
-    // a plain container of paragraphs, which is why this screen had
-    // nowhere to put the references its notes were already talking about.
-    ElecNotesCard(
-        title = stringResource(Res.string.calculator_notes),
+    // The same card the other calculators end on. This screen used to split
+    // it — the formula above the result, the steps and notes below — which
+    // was a reasonable answer while they were three separate cards and is
+    // one card's worth of inconsistency now.
+    ElecExplainerCard(
+        formula = stringResource(Res.string.hm_formula),
+        variables = persistentListOf(
+            FormulaVariable("I₁", stringResource(Res.string.hm_var_i1), "A"),
+            FormulaVariable("Ih", stringResource(Res.string.hm_var_ih), "A"),
+            FormulaVariable("h", stringResource(Res.string.hm_var_h), "—"),
+            FormulaVariable("THD", stringResource(Res.string.hm_var_thd), "—"),
+            FormulaVariable("I_rms", stringResource(Res.string.hm_var_irms), "A"),
+            FormulaVariable("I_3n", stringResource(Res.string.hm_var_i3n), "A"),
+            FormulaVariable("I_N", stringResource(Res.string.hm_var_in), "A"),
+            FormulaVariable("K", stringResource(Res.string.hm_var_k), "—"),
+                ),
+        formulaLabel = stringResource(Res.string.calculator_formula),
+        notesLabel = stringResource(Res.string.calculator_notes_tab),
+        steps = steps,
         notes = buildList {
             if (showNeutralCaveat) add(stringResource(Res.string.hm_result_neutral_unknown))
             add(stringResource(Res.string.hm_note_scope))

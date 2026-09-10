@@ -33,14 +33,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
@@ -64,7 +62,7 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_energy_cost_title
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_inputs
-import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes_tab
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ec_comparison_header
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.ec_days_hint
@@ -332,13 +330,8 @@ fun EnergyCostScreen(
                 }
             }
 
-            if (uiState.steps.isNotEmpty()) {
-                item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
-            }
-
-            item(key = "formula") {
-                ElecFormulaCard(
-                    title = stringResource(Res.string.calculator_formula),
+            item(key = "explainer") {
+                ElecExplainerCard(
                     formula = stringResource(Res.string.ec_formula),
                     variables = persistentListOf(
                         FormulaVariable("E", stringResource(Res.string.ec_var_e), "kWh"),
@@ -347,12 +340,9 @@ fun EnergyCostScreen(
                         FormulaVariable("d", stringResource(Res.string.ec_var_d), "—"),
                         FormulaVariable("C", stringResource(Res.string.ec_var_c), "—"),
                     ),
-                )
-            }
-
-            item(key = "notes") {
-                ElecNotesCard(
-                    title = stringResource(Res.string.calculator_notes),
+                    formulaLabel = stringResource(Res.string.calculator_formula),
+                    notesLabel = stringResource(Res.string.calculator_notes_tab),
+                    steps = uiState.steps,
                     notes = persistentListOf(
                         stringResource(Res.string.ec_note_energy_only),
                         stringResource(Res.string.ec_note_hours),

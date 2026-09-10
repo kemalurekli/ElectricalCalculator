@@ -1,6 +1,11 @@
 package com.kemalurekli.electricalcalculator.core.designsystem.component
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -55,6 +60,12 @@ import kotlinx.collections.immutable.persistentListOf
  * @param optionLabel maps an option to its display text. Composable so callers
  *   can resolve the label from a string resource, which is what keeps the
  *   option enums themselves free of Android references.
+ * @param explanation what the current choice means, in a sentence. Seven
+ *   calculators used to draw this themselves as a loose `Text` under the
+ *   selector, each with its own padding, and four of them changed it with the
+ *   selection. Owning it here makes it part of the control rather than a grey
+ *   sentence floating between two fields — and it crossfades when the choice
+ *   changes, so the reader sees that the text answered them.
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -65,6 +76,7 @@ fun <T> ElecOptionSelector(
     onSelect: (T) -> Unit,
     optionLabel: @Composable (T) -> String,
     modifier: Modifier = Modifier,
+    explanation: String? = null,
 ) {
     val spacing = ElecTheme.spacing
 
@@ -78,29 +90,61 @@ fun <T> ElecOptionSelector(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(start = spacing.xs),
         )
-        FlowRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                // One group, so a screen reader announces "2 of 3" as the user
-                // moves between options rather than reading three unrelated
-                // buttons.
-                .selectableGroup(),
-            horizontalArrangement = Arrangement.spacedBy(spacing.sm),
-            verticalArrangement = Arrangement.spacedBy(spacing.sm),
-        ) {
-            options.forEach { option ->
-                OptionPill(
-                    text = optionLabel(option),
-                    selected = option == selected,
-                    onSelect = { onSelect(option) },
-                )
+        // The pills and their explanation are one block, held closer together
+        // than the label above them, so the sentence reads as belonging to the
+        // choice rather than to the field that follows it.
+        Column(verticalArrangement = Arrangement.spacedBy(spacing.xs)) {
+            FlowRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    // One group, so a screen reader announces "2 of 3" as the
+                    // user moves between options rather than reading three
+                    // unrelated buttons.
+                    .selectableGroup(),
+                horizontalArrangement = Arrangement.spacedBy(spacing.sm),
+                verticalArrangement = Arrangement.spacedBy(spacing.sm),
+            ) {
+                options.forEach { option ->
+                    ElecOptionPill(
+                        text = optionLabel(option),
+                        selected = option == selected,
+                        onSelect = { onSelect(option) },
+                    )
+                }
+            }
+            if (explanation != null) {
+                AnimatedContent(
+                    targetState = explanation,
+                    // Out before in, and quickly: the reader's eye is still on
+                    // the pill they just pressed, and a slow crossfade under it
+                    // would pull it away.
+                    transitionSpec = {
+                        fadeIn(tween(durationMillis = 150, delayMillis = 60)) togetherWith
+                            fadeOut(tween(durationMillis = 60))
+                    },
+                    label = "optionExplanation",
+                ) { text ->
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(start = spacing.xs),
+                    )
+                }
             }
         }
     }
 }
 
+/**
+ * One choice, as a pill.
+ *
+ * Internal rather than private so [ElecExplainerCard]'s tabs are drawn by the
+ * same code as a calculator's choices. A tab row that merely resembled the
+ * pills would drift the first time either was touched.
+ */
 @Composable
-private fun OptionPill(
+internal fun ElecOptionPill(
     text: String,
     selected: Boolean,
     onSelect: () -> Unit,

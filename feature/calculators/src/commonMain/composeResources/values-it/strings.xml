@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Buco di tensione all'avviamento</string>
     <string name="calculator_neutral_title">Corrente di neutro</string>
     <string name="calculator_notes">Note tecniche</string>
+    <string name="calculator_notes_tab">Note</string>
     <string name="calculator_power_factor_title">Rifasamento</string>
     <string name="calculator_power_title">Calcolatore di potenza</string>
     <string name="calculator_selectivity_title">Verifica di selettività</string>

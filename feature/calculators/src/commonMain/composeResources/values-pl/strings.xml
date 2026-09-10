@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Zapad napięcia przy rozruchu</string>
     <string name="calculator_neutral_title">Prąd w przewodzie neutralnym</string>
     <string name="calculator_notes">Uwagi techniczne</string>
+    <string name="calculator_notes_tab">Uwagi</string>
     <string name="calculator_power_factor_title">Kompensacja mocy biernej</string>
     <string name="calculator_power_title">Kalkulator mocy</string>
     <string name="calculator_selectivity_title">Sprawdzenie selektywności</string>

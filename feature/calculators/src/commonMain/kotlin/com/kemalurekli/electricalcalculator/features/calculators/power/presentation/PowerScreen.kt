@@ -34,8 +34,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.presentation.Na
 import com.kemalurekli.electricalcalculator.core.vision.NameplateReading
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
@@ -43,7 +42,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResu
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
@@ -68,7 +66,7 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.action_reset
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_inputs
-import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes_tab
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_power_title
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_current
@@ -330,21 +328,14 @@ fun PowerScreen(
                 }
 
                 item(key = "pf-type") {
-                    Column {
-                        ElecOptionSelector(
-                            label = stringResource(Res.string.common_pf_type),
-                            options = PowerFactorType.entries.toImmutableList(),
-                            selected = uiState.powerFactorType,
-                            onSelect = onPowerFactorTypeChange,
-                            optionLabel = { stringResource(it.label()) },
-                        )
-                        Text(
-                            text = stringResource(Res.string.common_pf_type_hint),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
-                        )
-                    }
+                    ElecOptionSelector(
+                        label = stringResource(Res.string.common_pf_type),
+                        options = PowerFactorType.entries.toImmutableList(),
+                        selected = uiState.powerFactorType,
+                        onSelect = onPowerFactorTypeChange,
+                        optionLabel = { stringResource(it.label()) },
+                        explanation = stringResource(Res.string.common_pf_type_hint),
+                    )
                 }
             }
 
@@ -364,13 +355,8 @@ fun PowerScreen(
                 }
             }
 
-            if (uiState.steps.isNotEmpty()) {
-                item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
-            }
-
-            item(key = "formula") {
-                ElecFormulaCard(
-                    title = stringResource(Res.string.calculator_formula),
+            item(key = "explainer") {
+                ElecExplainerCard(
                     formula = stringResource(Res.string.pw_formula),
                     variables = persistentListOf(
                         FormulaVariable("S", stringResource(Res.string.pw_var_s), "VA"),
@@ -381,12 +367,9 @@ fun PowerScreen(
                         FormulaVariable("I", stringResource(Res.string.pw_var_i), "A"),
                         FormulaVariable("cos φ", stringResource(Res.string.pw_var_pf), "—"),
                     ),
-                )
-            }
-
-            item(key = "notes") {
-                ElecNotesCard(
-                    title = stringResource(Res.string.calculator_notes),
+                    formulaLabel = stringResource(Res.string.calculator_formula),
+                    notesLabel = stringResource(Res.string.calculator_notes_tab),
+                    steps = uiState.steps,
                     notes = persistentListOf(
                         stringResource(Res.string.pw_note_triangle),
                         stringResource(Res.string.pw_note_direction),

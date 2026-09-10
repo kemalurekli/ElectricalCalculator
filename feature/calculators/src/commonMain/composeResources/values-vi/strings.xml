@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Sụt áp khi khởi động</string>
     <string name="calculator_neutral_title">Dòng dây trung tính</string>
     <string name="calculator_notes">Ghi chú kỹ thuật</string>
+    <string name="calculator_notes_tab">Ghi chú</string>
     <string name="calculator_power_factor_title">Bù hệ số công suất</string>
     <string name="calculator_power_title">Máy tính công suất</string>
     <string name="calculator_selectivity_title">Kiểm tra tính chọn lọc</string>

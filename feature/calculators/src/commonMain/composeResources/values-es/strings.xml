@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Hueco de tensión en el arranque</string>
     <string name="calculator_neutral_title">Corriente de neutro</string>
     <string name="calculator_notes">Notas técnicas</string>
+    <string name="calculator_notes_tab">Notas</string>
     <string name="calculator_power_factor_title">Compensación del factor de potencia</string>
     <string name="calculator_power_title">Calculadora de potencia</string>
     <string name="calculator_selectivity_title">Comprobación de selectividad</string>

@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Creux de tension au démarrage</string>
     <string name="calculator_neutral_title">Courant de neutre</string>
     <string name="calculator_notes">Notes techniques</string>
+    <string name="calculator_notes_tab">Notes</string>
     <string name="calculator_power_factor_title">Compensation du facteur de puissance</string>
     <string name="calculator_power_title">Calculatrice de puissance</string>
     <string name="calculator_selectivity_title">Vérification de sélectivité</string>

@@ -72,6 +72,7 @@
     <string name="calculator_motor_starting_title">Spanningsdip bij aanloop</string>
     <string name="calculator_neutral_title">Nulleiderstroom</string>
     <string name="calculator_notes">Technische opmerkingen</string>
+    <string name="calculator_notes_tab">Opmerkingen</string>
     <string name="calculator_power_factor_title">Arbeidsfactorcorrectie</string>
     <string name="calculator_power_title">Vermogensrekenhulp</string>
     <string name="calculator_selectivity_title">Selectiviteitscontrole</string>

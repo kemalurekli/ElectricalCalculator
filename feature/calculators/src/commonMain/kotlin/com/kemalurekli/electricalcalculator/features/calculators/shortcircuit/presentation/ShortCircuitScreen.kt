@@ -32,8 +32,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecFormulaCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExplainerCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNumericField
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecOptionSelector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResultActions
@@ -41,7 +40,6 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecResu
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecExamplesCard
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecStepsCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.FormulaVariable
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ResultRow
@@ -67,7 +65,7 @@ import com.kemalurekli.electricalcalculator.feature.calculators.generated.resour
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.action_reset
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_inputs
-import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes_tab
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_share_subject
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_short_circuit_title
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.common_conductor_material
@@ -286,21 +284,14 @@ fun ShortCircuitScreen(
             }
 
             item(key = "fault-type") {
-                Column {
-                    ElecOptionSelector(
-                        label = stringResource(Res.string.sc_fault_type),
-                        options = FaultType.entries.toImmutableList(),
-                        selected = uiState.faultType,
-                        onSelect = onFaultTypeChange,
-                        optionLabel = { stringResource(it.label()) },
-                    )
-                    Text(
-                        text = stringResource(uiState.faultType.hint()),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(top = spacing.xs, start = spacing.xs),
-                    )
-                }
+                ElecOptionSelector(
+                    label = stringResource(Res.string.sc_fault_type),
+                    options = FaultType.entries.toImmutableList(),
+                    selected = uiState.faultType,
+                    onSelect = onFaultTypeChange,
+                    optionLabel = { stringResource(it.label()) },
+                    explanation = stringResource(uiState.faultType.hint()),
+                )
             }
 
             item(key = "voltage") {
@@ -421,13 +412,8 @@ fun ShortCircuitScreen(
                 }
             }
 
-            if (uiState.steps.isNotEmpty()) {
-                item(key = "steps") { ElecStepsCard(steps = uiState.steps) }
-            }
-
-            item(key = "formula") {
-                ElecFormulaCard(
-                    title = stringResource(Res.string.calculator_formula),
+            item(key = "explainer") {
+                ElecExplainerCard(
                     formula = stringResource(Res.string.sc_formula),
                     variables = persistentListOf(
                         FormulaVariable("I", stringResource(Res.string.sc_var_i), "A"),
@@ -445,12 +431,9 @@ fun ShortCircuitScreen(
                         FormulaVariable("A", stringResource(Res.string.vd_var_area), "mm²"),
                         FormulaVariable("n", stringResource(Res.string.vd_var_parallel), "—"),
                     ),
-                )
-            }
-
-            item(key = "notes") {
-                ElecNotesCard(
-                    title = stringResource(Res.string.calculator_notes),
+                    formulaLabel = stringResource(Res.string.calculator_formula),
+                    notesLabel = stringResource(Res.string.calculator_notes_tab),
+                    steps = uiState.steps,
                     notes = persistentListOf(
                         stringResource(Res.string.sc_note_two_currents),
                         stringResource(Res.string.sc_note_temperature),

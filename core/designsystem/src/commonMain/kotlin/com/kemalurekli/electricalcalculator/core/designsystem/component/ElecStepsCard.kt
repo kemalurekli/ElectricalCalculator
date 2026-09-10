@@ -90,18 +90,39 @@ fun ElecStepsCard(
             }
 
             AnimatedVisibility(visible = expanded) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = spacing.lg, end = spacing.lg, bottom = spacing.lg),
-                    verticalArrangement = Arrangement.spacedBy(spacing.md),
-                ) {
-                    steps.forEachIndexed { index, step ->
-                        if (index > 0) HorizontalDivider()
-                        StepBlock(step)
-                    }
-                }
+                StepsBody(
+                    steps = steps,
+                    modifier = Modifier.padding(
+                        start = spacing.lg,
+                        end = spacing.lg,
+                        bottom = spacing.lg,
+                    ),
+                )
             }
+        }
+    }
+}
+
+/**
+ * The worked solution on its own, with no header and no collapsing.
+ *
+ * Shared with [ElecExplainerCard], which supplies its own header in the form
+ * of a tab. Kept here beside [StepBlock] so the two move together.
+ */
+@Composable
+internal fun StepsBody(
+    steps: ImmutableList<CalculationStep>,
+    modifier: Modifier = Modifier,
+) {
+    val spacing = ElecTheme.spacing
+
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(spacing.md),
+    ) {
+        steps.forEachIndexed { index, step ->
+            if (index > 0) HorizontalDivider()
+            StepBlock(step)
         }
     }
 }
