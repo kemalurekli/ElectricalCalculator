@@ -98,6 +98,7 @@
     <string name="report_column_protective">PE (mm²)</string>
     <string name="report_column_result">Wynik</string>
     <string name="report_column_size">Przekrój (mm²)</string>
+    <string name="report_notice">Utworzono w VoltageBoard, przy udziale sztucznej inteligencji. Wartości nie stanowią projektu i przed użyciem muszą zostać zweryfikowane według obowiązującej normy; weryfikacja ta i wszystko, co się na niej opiera, pozostają w odpowiedzialności użytkownika.</string>
     <string name="report_export">Eksportuj</string>
     <string name="report_export_csv">Eksportuj jako CSV</string>
     <string name="report_export_empty">Dodaj obwód przed eksportem.</string>

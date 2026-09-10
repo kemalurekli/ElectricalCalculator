@@ -98,6 +98,7 @@
     <string name="report_column_protective">PE (мм²)</string>
     <string name="report_column_result">Результат</string>
     <string name="report_column_size">Сечение (мм²)</string>
+    <string name="report_notice">Создано в VoltageBoard с использованием искусственного интеллекта. Значения не являются проектом и до применения должны быть проверены по действующему стандарту; проверка и всё, что на ней основано, остаются под ответственностью пользователя.</string>
     <string name="report_export">Выгрузить</string>
     <string name="report_export_csv">Выгрузить в CSV</string>
     <string name="report_export_empty">Добавьте линию перед выгрузкой.</string>

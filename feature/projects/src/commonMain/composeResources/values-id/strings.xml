@@ -98,6 +98,7 @@
     <string name="report_column_protective">PE (mm²)</string>
     <string name="report_column_result">Hasil</string>
     <string name="report_column_size">Luas penampang (mm²)</string>
+    <string name="report_notice">Dibuat dengan VoltageBoard, dengan bantuan kecerdasan buatan. Nilai-nilai ini bukan rancangan dan harus diverifikasi terhadap standar yang berlaku sebelum digunakan; verifikasi tersebut, dan segala hal yang didasarkan padanya, menjadi tanggung jawab pengguna.</string>
     <string name="report_export">Ekspor</string>
     <string name="report_export_csv">Ekspor sebagai CSV</string>
     <string name="report_export_empty">Tambahkan rangkaian sebelum mengekspor.</string>

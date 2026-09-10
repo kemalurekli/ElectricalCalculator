@@ -5,10 +5,14 @@ import com.kemalurekli.electricalcalculator.features.design.domain.ScheduleRepor
 /**
  * Whether this platform can draw a schedule.
  *
- * False on iOS. The Android version draws with `android.graphics.pdf`; the
- * counterpart is Core Graphics work that has not been done, and a button that
- * produced nothing would be worse than one that is not there. The CSV export
- * works on both and carries the same figures.
+ * True on both. It was false on iOS while the Core Graphics side was unwritten,
+ * and the flag stayed because a button that produced nothing would have been
+ * worse than one that was not there. `UIGraphicsPDFRenderer` does the work now,
+ * off the same [ScheduleLayout] the Android renderer uses, so the two draw the
+ * same pages.
+ *
+ * The expectation is kept rather than deleted: it is the seam a third platform
+ * would arrive through, and the callers already ask before offering the button.
  */
 expect val isSchedulePdfSupported: Boolean
 

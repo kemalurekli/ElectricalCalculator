@@ -21,7 +21,21 @@ class ReportCsvTest {
         supply: List<ReportField> = listOf(ReportField("Site", "Depot")),
         columns: List<String> = listOf("Circuit", "Size"),
         rows: List<List<String>> = listOf(listOf("Lighting", "1.5")),
-    ) = ScheduleReport(title, supply, columns, rows)
+        notice: String = "Verify before use.",
+    ) = ScheduleReport(title, supply, columns, rows, notice)
+
+    @Test
+    fun `the notice travels with the preamble, above the table`() {
+        // The reader accepted a disclaimer in the app; whoever opens this file
+        // did not. It sits with the supply block rather than after the rows,
+        // because everything below the header line has to stay a data row.
+        val lines = ReportCsv.render(report(notice = "Verify against the standard.")).lines()
+        val notice = lines.indexOf("Verify against the standard.")
+        val header = lines.indexOf("Circuit,Size")
+
+        assertTrue("the notice has to be in the file at all", notice > 0)
+        assertTrue("the notice belongs above the table", notice < header)
+    }
 
     @Test
     fun `the supply is written above the table`() {
@@ -35,8 +49,11 @@ class ReportCsvTest {
         assertEquals("Block A", lines[0])
         assertEquals("Ambient,30", lines[1])
         assertEquals("Ze,0.35", lines[2])
-        assertEquals("", lines[3])
-        assertEquals("Circuit,Size", lines[4])
+        // The parameters describe the installation; the notice describes the
+        // file. It closes the preamble rather than sitting among the fields.
+        assertEquals("Verify before use.", lines[3])
+        assertEquals("", lines[4])
+        assertEquals("Circuit,Size", lines[5])
     }
 
     @Test

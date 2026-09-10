@@ -19,6 +19,7 @@ import com.kemalurekli.electricalcalculator.feature.projects.generated.resources
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.project_site
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.projects_untitled
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_column_binding
+import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_notice
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_column_capacity
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_column_circuit
 import com.kemalurekli.electricalcalculator.feature.projects.generated.resources.report_column_device
@@ -77,6 +78,7 @@ class ScheduleReportBuilder(
         plainNumbers: Boolean,
     ): ScheduleReport = ScheduleReport(
         title = project.reference.ifBlank { string(Res.string.projects_untitled) },
+        notice = string(Res.string.report_notice),
         supply = supplyFields(project, plainNumbers),
         columns = listOf(
             string(Res.string.report_column_circuit),

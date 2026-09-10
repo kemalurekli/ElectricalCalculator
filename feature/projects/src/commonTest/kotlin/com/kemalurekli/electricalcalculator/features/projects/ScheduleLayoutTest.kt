@@ -31,7 +31,41 @@ class ScheduleLayoutTest {
         supply = listOf(ReportField("Şebeke", "400 V"), ReportField("Malzeme", "Bakır")),
         columns = listOf("Devre", "Yük", "Kesit"),
         rows = List(rows) { index -> listOf("C$index", "16 A", "2,5 mm²") },
+        notice = "Bu değerler doğrulanmadan kullanılamaz.",
     )
+
+    @Test
+    fun `no row is drawn into the notice`() {
+        // The reason the notice is measured before the table is placed. Added
+        // afterwards it would have been drawn over the last row of a full page,
+        // and a full page is the common case for a real installation.
+        val pages = ScheduleLayout.pages(report(200), measurer)
+        val full = pages.first()
+        val text = full.filterIsInstance<PdfOp.Text>()
+        val noticeTop = text.filter { "doğrulanmadan" in it.text }.minOf { it.y }
+        val lastRow = text.filter { it.style == PdfStyle.BODY }.maxOf { it.y }
+
+        assertTrue(
+            lastRow < noticeTop,
+            "a row at ${'$'}lastRow overlaps the notice starting at ${'$'}noticeTop",
+        )
+    }
+
+    @Test
+    fun `every page carries the notice, not only the last`() {
+        // Schedules get separated. A continuation sheet handed over on its own
+        // would otherwise be fourteen columns of figures and nothing saying
+        // what they are.
+        val pages = ScheduleLayout.pages(report(200), measurer)
+
+        assertTrue(pages.size > 1, "the fixture has to span pages for this to mean anything")
+        pages.forEachIndexed { index, page ->
+            assertTrue(
+                page.filterIsInstance<PdfOp.Text>().any { "doğrulanmadan" in it.text },
+                "page ${'$'}{index + 1} has no notice",
+            )
+        }
+    }
 
     @Test
     fun `a short schedule is one page`() {

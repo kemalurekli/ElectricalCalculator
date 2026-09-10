@@ -98,6 +98,7 @@
     <string name="report_column_protective">PE (mm²)</string>
     <string name="report_column_result">Kết quả</string>
     <string name="report_column_size">Tiết diện (mm²)</string>
+    <string name="report_notice">Được tạo bằng VoltageBoard, với sự hỗ trợ của trí tuệ nhân tạo. Các giá trị này không phải là thiết kế và phải được kiểm tra theo tiêu chuẩn hiện hành trước khi sử dụng; việc kiểm tra đó, và mọi thứ dựa trên nó, thuộc trách nhiệm của người dùng.</string>
     <string name="report_export">Xuất</string>
     <string name="report_export_csv">Xuất ra CSV</string>
     <string name="report_export_empty">Hãy thêm một mạch trước khi xuất.</string>

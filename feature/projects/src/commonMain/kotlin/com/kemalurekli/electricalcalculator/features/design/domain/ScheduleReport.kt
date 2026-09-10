@@ -25,6 +25,15 @@ data class ScheduleReport(
     val supply: List<ReportField>,
     val columns: List<String>,
     val rows: List<List<String>>,
+    /**
+     * The sentence the document carries about itself.
+     *
+     * It is part of the report rather than of either renderer because it has to
+     * appear in both: the reader accepted a disclaimer inside the app, and the
+     * client or inspector holding the export never saw it. A document that
+     * leaves the app has to say what it is on its own face.
+     */
+    val notice: String,
 )
 
 data class ReportField(
@@ -63,6 +72,11 @@ object ReportCsv {
             append(escape(field.label)).append(SEPARATOR)
             append(escape(field.value)).append(LINE_BREAK)
         }
+        // With the preamble, not after the table. The table has to stay the
+        // tail of the file: everything below the header line is a data row, and
+        // a sentence down there would arrive in a spreadsheet as a short row
+        // that shifts nothing but reads as a circuit with no cross-section.
+        append(escape(report.notice)).append(LINE_BREAK)
         // A blank line, so a spreadsheet's import preview shows the table as a
         // table rather than folding the preamble into its first column.
         append(LINE_BREAK)

@@ -98,6 +98,7 @@
     <string name="report_column_protective">CPC (mm²)</string>
     <string name="report_column_result">Result</string>
     <string name="report_column_size">Cross-section (mm²)</string>
+    <string name="report_notice">Produced with VoltageBoard, with the assistance of artificial intelligence. The figures are not a design and must be verified against the applicable standard before use; responsibility for that verification, and for anything based on it, rests with the user.</string>
     <string name="report_export">Export</string>
     <string name="report_export_csv">Export as CSV</string>
     <string name="report_export_empty">Add a circuit before exporting.</string>

@@ -46,6 +46,7 @@ object ScheduleLayout {
     private const val COLUMN_GAP = 4f
     private const val LABEL_WIDTH = 130f
     private const val RULE_OFFSET = 4f
+    private const val NOTICE_LINE_HEIGHT = 10f
     private const val ELLIPSIS = "…"
 
     /**
@@ -61,12 +62,17 @@ object ScheduleLayout {
     /** One list of operations per page, in draw order. */
     fun pages(report: ScheduleReport, measurer: TextMeasurer): List<List<PdfOp>> {
         val widths = columnWidths(report.columns.size)
+        // Measured before anything is placed, because it decides where the
+        // table has to stop. A notice added after the fact would have been
+        // drawn over the last row of a full page.
+        val noticeLines = wrap(report.notice, PAGE_WIDTH - 2 * MARGIN, measurer)
+        val floor = PAGE_HEIGHT - MARGIN - noticeLines.size * NOTICE_LINE_HEIGHT - ROW_HEIGHT
         val pages = mutableListOf<MutableList<PdfOp>>()
         var page = mutableListOf<PdfOp>()
         var y = header(report, widths, page, measurer)
 
         report.rows.forEach { row ->
-            if (y + ROW_HEIGHT > PAGE_HEIGHT - MARGIN) {
+            if (y + ROW_HEIGHT > floor) {
                 pages += page
                 page = mutableListOf()
                 // The header is repeated on every page. A continuation sheet of
@@ -86,7 +92,42 @@ object ScheduleLayout {
         }
 
         pages += page
+        // On every page, not only the last. Schedules get separated, and a
+        // continuation sheet handed over on its own would otherwise carry
+        // fourteen columns of figures and nothing saying what they are.
+        pages.forEach { drawNotice(it, noticeLines) }
         return pages
+    }
+
+    private fun drawNotice(page: MutableList<PdfOp>, lines: List<String>) {
+        val top = PAGE_HEIGHT - MARGIN - lines.size * NOTICE_LINE_HEIGHT
+        page += PdfOp.Rule(MARGIN, PAGE_WIDTH - MARGIN, top - RULE_OFFSET)
+        lines.forEachIndexed { index, line ->
+            page += PdfOp.Text(line, MARGIN, top + index * NOTICE_LINE_HEIGHT, PdfStyle.LABEL)
+        }
+    }
+
+    /**
+     * Breaks [text] on spaces to fit [width].
+     *
+     * Word by word rather than by character count: the notice is a sentence in
+     * twelve languages, and German compounds and Vietnamese diacritics make a
+     * count of characters a poor guess at how wide any of them will draw.
+     */
+    private fun wrap(text: String, width: Float, measurer: TextMeasurer): List<String> {
+        val lines = mutableListOf<String>()
+        var line = StringBuilder()
+        text.split(' ').forEach { word ->
+            val candidate = if (line.isEmpty()) word else "$line $word"
+            if (measurer.widthOf(candidate, PdfStyle.LABEL) <= width || line.isEmpty()) {
+                line = StringBuilder(candidate)
+            } else {
+                lines += line.toString()
+                line = StringBuilder(word)
+            }
+        }
+        if (line.isNotEmpty()) lines += line.toString()
+        return lines
     }
 
     private fun header(
