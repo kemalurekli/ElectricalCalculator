@@ -174,6 +174,28 @@ fades in as content scrolls under it. The large-title bar is iOS's default for a
 root screen; the app declines it, on both platforms, so that one question has
 one answer.
 
+**A quantity is a row with a rule under it; prose is a box.**
+`ElecNumericField` is not an `OutlinedTextField`. Each field used to cost about
+140dp — a box, a label floating on its border, the value, and a line of help —
+so four of them filled a phone and a form could never be seen together with the
+result it produces, which is the one thing anybody wants to do with a
+calculator. It is a row now: the name on the left, the figure right-aligned in
+the app's tabular face, its unit after it, a hairline under the lot. The value
+column and the unit column are fixed widths, held even when a field is
+dimensionless, so a filled-in form reads down its right edge like an instrument
+rather than across like a questionnaire. About 88dp with a hint, 60dp without.
+
+The rule carries the state — it thickens and takes the accent on focus, and
+turns to the error colour when a value is refused — and the whole row is the
+touch target, not the digits at the far edge of the screen.
+
+`ElecTextField` keeps its box, for a project's name or a forum post. A box says
+"write something here"; a rule says "this is a quantity and it has a value".
+Those are different acts and should not look the same.
+
+The hint sits **above** the rule, not below it. Below, it belongs to the field
+that follows — which is the opposite of what it says.
+
 **Choices wrap, they never ellipsize.** `ElecOptionSelector` lays options out as
 pills in a `FlowRow`. Ellipsis is acceptable in a summary and never in a choice
 — a reader cannot pick between options the layout has stopped naming, which is
