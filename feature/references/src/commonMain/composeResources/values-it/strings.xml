@@ -200,6 +200,12 @@
     <string name="ref_formula_16">Stringa fotovoltaica</string>
     <string name="ref_formula_17">Corrente nel neutro</string>
     <string name="ref_formula_18">Costo dell'energia</string>
+    <string name="ref_formula_19">Distorsione armonica totale di una corrente, rispetto alla sua fondamentale</string>
+    <string name="ref_formula_20">Corrente di neutro: gli ordini divisibili per tre arrivano in fase e si sommano</string>
+    <string name="ref_formula_21">Potenza di cortocircuito di un trasformatore, da potenza nominale e impedenza</string>
+    <string name="ref_formula_22">Buco di tensione all'avviamento; togliere S_start dal denominatore lo sovrastima</string>
+    <string name="ref_formula_23">Rapporto tra le correnti nominali di due dispositivi in serie; circa 1,6 è la soglia usuale in sovraccarico</string>
+    <string name="ref_formula_24">Corrente d'impiego di un gruppo di punti di ricarica; un veicolo assorbe la corrente piena per ore</string>
     <string name="ref_formula_2">Corrente del trasformatore</string>
     <string name="ref_formula_3">Corrente del motore</string>
     <string name="ref_formula_4">Triangolo delle potenze</string>

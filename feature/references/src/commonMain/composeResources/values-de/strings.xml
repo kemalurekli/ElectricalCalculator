@@ -200,6 +200,12 @@
     <string name="ref_formula_16">Solarstrang</string>
     <string name="ref_formula_17">Neutralleiterstrom</string>
     <string name="ref_formula_18">Energiekosten</string>
+    <string name="ref_formula_19">Gesamtoberschwingungsgehalt eines Stroms, bezogen auf seine Grundschwingung</string>
+    <string name="ref_formula_20">Neutralleiterstrom: durch drei teilbare Ordnungen treffen phasengleich ein und addieren sich</string>
+    <string name="ref_formula_21">Kurzschlussleistung eines Transformators, aus Bemessungsleistung und Kurzschlussspannung</string>
+    <string name="ref_formula_22">Spannungseinbruch beim Hochlauf; ohne S_start im Nenner fällt er zu groß aus</string>
+    <string name="ref_formula_23">Verhältnis der Bemessungsströme zweier in Reihe liegender Einrichtungen; etwa 1,6 ist die übliche Schwelle bei Überlast</string>
+    <string name="ref_formula_24">Betriebsstrom einer Gruppe von Ladepunkten; ein Fahrzeug zieht seinen vollen Strom stundenlang</string>
     <string name="ref_formula_2">Transformatorstrom</string>
     <string name="ref_formula_3">Motorstrom</string>
     <string name="ref_formula_4">Leistungsdreieck</string>

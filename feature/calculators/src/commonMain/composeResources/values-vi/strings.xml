@@ -414,7 +414,7 @@
     <string name="hm_example_drive">Bộ biến tần sáu xung</string>
     <string name="hm_example_lighting">Mạch chiếu sáng LED</string>
     <string name="hm_example_office">Sàn văn phòng, nguồn xung</string>
-    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_3n²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Dòng sóng cơ bản, I₁</string>
     <string name="hm_history_summary">THD %1$s %</string>
     <string name="hm_history_title">%1$s A có sóng hài</string>
@@ -433,6 +433,7 @@
     <string name="hm_step_thd">Độ méo so với sóng cơ bản</string>
     <string name="hm_var_h">Bậc hài: 3, 5, 7 và cao hơn</string>
     <string name="hm_var_i1">Dòng điện cơ bản, thành phần 50 hoặc 60 Hz</string>
+    <string name="hm_var_i3n">Dòng ở bậc chia hết cho ba: 3, 9, 15 và cao hơn</string>
     <string name="hm_var_ih">Dòng điện ở bậc hài h</string>
     <string name="hm_var_in">Dòng dây trung tính: các hài bậc ba cộng dồn thay vì triệt tiêu</string>
     <string name="hm_var_irms">Dòng hiệu dụng thực: cơ bản và các hài cộng lại</string>
@@ -755,7 +756,7 @@
     <string name="sel_example_holds">Mạch nhánh dài, sự cố ở cuối tuyến</string>
     <string name="sel_fault_current">Dòng sự cố dự kiến</string>
     <string name="sel_fault_hint">Tại vị trí đặt thiết bị phía sau. Vị trí đổi thì câu trả lời cũng đổi.</string>
-    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
+    <string name="sel_formula">n = I_n1 / I_n2\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Không chọn lọc</string>
     <string name="sel_grade_partial">Một phần — chỉ chọn lọc dưới giới hạn</string>
     <string name="sel_grade_selective">Chọn lọc ở mức dòng sự cố này</string>

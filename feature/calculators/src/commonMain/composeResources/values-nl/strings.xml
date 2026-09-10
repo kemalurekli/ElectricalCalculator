@@ -414,7 +414,7 @@
     <string name="hm_example_drive">Zespulsomvormer</string>
     <string name="hm_example_lighting">Ledverlichtingsgroep</string>
     <string name="hm_example_office">Kantoorverdieping, schakelende voedingen</string>
-    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_3n²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Grondharmonische stroom, I₁</string>
     <string name="hm_history_summary">%1$s % THD</string>
     <string name="hm_history_title">%1$s A met harmonischen</string>
@@ -433,6 +433,7 @@
     <string name="hm_step_thd">Vervorming ten opzichte van de grondharmonische</string>
     <string name="hm_var_h">Orde van de harmonische: 3, 5, 7 en hoger</string>
     <string name="hm_var_i1">Grondstroom, de component van 50 of 60 Hz</string>
+    <string name="hm_var_i3n">Stroom van een orde deelbaar door drie: 3, 9, 15 en hoger</string>
     <string name="hm_var_ih">Stroom van de h-de harmonische</string>
     <string name="hm_var_in">Nulleiderstroom: drievoudige harmonischen tellen op in plaats van weg</string>
     <string name="hm_var_irms">Werkelijke effectieve stroom: grondgolf en harmonischen samen</string>
@@ -755,7 +756,7 @@
     <string name="sel_example_holds">Lange eindgroep, fout aan het verre einde</string>
     <string name="sel_fault_current">Verwachte foutstroom</string>
     <string name="sel_fault_hint">Op de plaats van de onderliggende beveiliging. Met die plaats verandert het antwoord.</string>
-    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
+    <string name="sel_formula">n = I_n1 / I_n2\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Niet selectief</string>
     <string name="sel_grade_partial">Gedeeltelijk — alleen selectief onder de grens</string>
     <string name="sel_grade_selective">Selectief bij deze foutstroom</string>

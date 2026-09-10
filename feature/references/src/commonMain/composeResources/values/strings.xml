@@ -200,6 +200,12 @@
     <string name="ref_formula_16">Solar string</string>
     <string name="ref_formula_17">Neutral current</string>
     <string name="ref_formula_18">Energy cost</string>
+    <string name="ref_formula_19">Total harmonic distortion of a current, against its fundamental</string>
+    <string name="ref_formula_20">Neutral current: orders divisible by three arrive in phase and add</string>
+    <string name="ref_formula_21">Short-circuit power a transformer can deliver, from its rating and impedance</string>
+    <string name="ref_formula_22">Voltage dip while a motor runs up; dropping S_start from the denominator overstates it</string>
+    <string name="ref_formula_23">Rating ratio of two devices in series; about 1.6 is the usual threshold for overload selectivity</string>
+    <string name="ref_formula_24">Design current of a bank of charging points; a vehicle draws its full current for hours</string>
     <string name="ref_formula_2">Transformer current</string>
     <string name="ref_formula_3">Motor current</string>
     <string name="ref_formula_4">Power triangle</string>

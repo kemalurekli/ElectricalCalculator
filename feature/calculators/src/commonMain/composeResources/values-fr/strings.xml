@@ -414,7 +414,7 @@
     <string name="hm_example_drive">Variateur à six pulses</string>
     <string name="hm_example_lighting">Circuit d'éclairage LED</string>
     <string name="hm_example_office">Plateau de bureaux, alimentations à découpage</string>
-    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_3n²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Courant fondamental, I₁</string>
     <string name="hm_history_summary">%1$s % de THD</string>
     <string name="hm_history_title">%1$s A avec harmoniques</string>
@@ -433,6 +433,7 @@
     <string name="hm_step_thd">Distorsion par rapport au fondamental</string>
     <string name="hm_var_h">Rang harmonique : 3, 5, 7 et au-delà</string>
     <string name="hm_var_i1">Courant fondamental, la composante à 50 ou 60 Hz</string>
+    <string name="hm_var_i3n">Courant d'un rang divisible par trois : 3, 9, 15 et au-delà</string>
     <string name="hm_var_ih">Courant du rang harmonique h</string>
     <string name="hm_var_in">Courant de neutre : les harmoniques de rang 3 s'additionnent</string>
     <string name="hm_var_irms">Courant efficace vrai : fondamental et harmoniques ensemble</string>
@@ -755,7 +756,7 @@
     <string name="sel_example_holds">Long circuit terminal, défaut à l'extrémité</string>
     <string name="sel_fault_current">Courant de défaut présumé</string>
     <string name="sel_fault_hint">À l'emplacement de l'appareil aval. La réponse change avec lui.</string>
-    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
+    <string name="sel_formula">n = I_n1 / I_n2\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Non sélectif</string>
     <string name="sel_grade_partial">Partielle — sélectif seulement en dessous de la limite</string>
     <string name="sel_grade_selective">Sélectif à ce niveau de défaut</string>

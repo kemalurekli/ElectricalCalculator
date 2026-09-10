@@ -200,6 +200,12 @@
     <string name="ref_formula_16">Łańcuch fotowoltaiczny</string>
     <string name="ref_formula_17">Prąd w przewodzie neutralnym</string>
     <string name="ref_formula_18">Koszt energii</string>
+    <string name="ref_formula_19">Całkowite zniekształcenie harmoniczne prądu, względem jego podstawowej</string>
+    <string name="ref_formula_20">Prąd w przewodzie neutralnym: rzędy podzielne przez trzy przychodzą w fazie i sumują się</string>
+    <string name="ref_formula_21">Moc zwarciowa transformatora, z jego mocy znamionowej i impedancji</string>
+    <string name="ref_formula_22">Zapad napięcia przy rozruchu; pominięcie S_start w mianowniku zawyża go</string>
+    <string name="ref_formula_23">Stosunek prądów znamionowych dwóch urządzeń w szeregu; około 1,6 to zwykły próg przy przeciążeniu</string>
+    <string name="ref_formula_24">Prąd obliczeniowy zespołu punktów ładowania; pojazd pobiera pełny prąd godzinami</string>
     <string name="ref_formula_2">Prąd transformatora</string>
     <string name="ref_formula_3">Prąd silnika</string>
     <string name="ref_formula_4">Trójkąt mocy</string>

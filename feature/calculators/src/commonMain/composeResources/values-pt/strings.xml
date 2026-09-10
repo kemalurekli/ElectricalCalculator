@@ -414,7 +414,7 @@
     <string name="hm_example_drive">Variador de seis pulsos</string>
     <string name="hm_example_lighting">Circuito de iluminação LED</string>
     <string name="hm_example_office">Piso de escritórios, fontes comutadas</string>
-    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_3n²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Corrente fundamental, I₁</string>
     <string name="hm_history_summary">%1$s % de THD</string>
     <string name="hm_history_title">%1$s A com harmónicas</string>
@@ -433,6 +433,7 @@
     <string name="hm_step_thd">Distorção face à fundamental</string>
     <string name="hm_var_h">Ordem harmónica: 3, 5, 7 e superiores</string>
     <string name="hm_var_i1">Corrente fundamental, a componente de 50 ou 60 Hz</string>
+    <string name="hm_var_i3n">Corrente de uma ordem divisível por três: 3, 9, 15 e superiores</string>
     <string name="hm_var_ih">Corrente da ordem harmónica h</string>
     <string name="hm_var_in">Corrente de neutro: as harmónicas triplas somam-se em vez de anularem-se</string>
     <string name="hm_var_irms">Corrente eficaz verdadeira: fundamental e harmónicas juntas</string>
@@ -755,7 +756,7 @@
     <string name="sel_example_holds">Circuito terminal longo, defeito na extremidade</string>
     <string name="sel_fault_current">Corrente de defeito presumida</string>
     <string name="sel_fault_hint">No local do aparelho a jusante. Com ele muda a resposta.</string>
-    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
+    <string name="sel_formula">n = I_n1 / I_n2\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Não seletivo</string>
     <string name="sel_grade_partial">Parcial — seletivo apenas abaixo do limite</string>
     <string name="sel_grade_selective">Seletivo a este nível de defeito</string>

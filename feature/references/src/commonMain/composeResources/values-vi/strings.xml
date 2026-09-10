@@ -200,6 +200,12 @@
     <string name="ref_formula_16">Chuỗi pin mặt trời</string>
     <string name="ref_formula_17">Dòng trong dây trung tính</string>
     <string name="ref_formula_18">Chi phí điện năng</string>
+    <string name="ref_formula_19">Độ méo hài tổng của dòng điện, so với thành phần cơ bản của nó</string>
+    <string name="ref_formula_20">Dòng dây trung tính: các bậc chia hết cho ba đến cùng pha và cộng dồn</string>
+    <string name="ref_formula_21">Công suất ngắn mạch của máy biến áp, từ công suất định mức và điện áp ngắn mạch</string>
+    <string name="ref_formula_22">Sụt áp khi động cơ khởi động; bỏ S_start khỏi mẫu số sẽ làm nó lớn hơn thực tế</string>
+    <string name="ref_formula_23">Tỷ số dòng định mức của hai thiết bị nối tiếp; khoảng 1,6 là ngưỡng thường dùng khi quá tải</string>
+    <string name="ref_formula_24">Dòng điện tính toán của một nhóm điểm sạc; một xe rút dòng đầy trong nhiều giờ</string>
     <string name="ref_formula_2">Dòng máy biến áp</string>
     <string name="ref_formula_3">Dòng động cơ</string>
     <string name="ref_formula_4">Tam giác công suất</string>

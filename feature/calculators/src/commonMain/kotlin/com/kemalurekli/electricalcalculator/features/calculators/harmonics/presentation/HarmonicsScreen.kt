@@ -31,6 +31,7 @@ import com.kemalurekli.electricalcalculator.features.references.domain.Reference
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecNotesCard
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_k
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_i3n
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_in
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_irms
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.hm_var_thd
@@ -315,7 +316,8 @@ fun HarmonicsScreen(
                         FormulaVariable("h", stringResource(Res.string.hm_var_h), "—"),
                         FormulaVariable("THD", stringResource(Res.string.hm_var_thd), "—"),
                         FormulaVariable("I_rms", stringResource(Res.string.hm_var_irms), "A"),
-                        FormulaVariable("I_N", stringResource(Res.string.hm_var_in), "A"),
+                        FormulaVariable("I_3n", stringResource(Res.string.hm_var_i3n), "A"),
+                    FormulaVariable("I_N", stringResource(Res.string.hm_var_in), "A"),
                         FormulaVariable("K", stringResource(Res.string.hm_var_k), "—"),
                 ),
                 modifier = Modifier.padding(

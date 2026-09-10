@@ -414,7 +414,7 @@
     <string name="hm_example_drive">Altı darbeli sürücü</string>
     <string name="hm_example_lighting">LED aydınlatma devresi</string>
     <string name="hm_example_office">Ofis katı, anahtarlamalı güç kaynakları</string>
-    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_3n²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Temel bileşen akımı, I₁</string>
     <string name="hm_history_summary">%1$s % THD</string>
     <string name="hm_history_title">Harmonikli %1$s A</string>
@@ -433,6 +433,7 @@
     <string name="hm_step_thd">Temel bileşene göre bozulma</string>
     <string name="hm_var_h">Harmonik mertebesi: 3, 5, 7 ve yukarısı</string>
     <string name="hm_var_i1">Temel bileşen akımı, 50 ya da 60 Hz'lik bileşen</string>
+    <string name="hm_var_i3n">Üçe bölünen mertebedeki akım: 3, 9, 15 ve yukarısı</string>
     <string name="hm_var_ih">h. harmonik mertebesindeki akım</string>
     <string name="hm_var_in">Nötr akımı: üçün katı harmonikler sönmez, toplanır</string>
     <string name="hm_var_irms">Gerçek etkin akım: temel bileşen ve harmonikler birlikte</string>
@@ -755,7 +756,7 @@
     <string name="sel_example_holds">Uzun son devre, arıza uçta</string>
     <string name="sel_fault_current">Beklenen arıza akımı</string>
     <string name="sel_fault_hint">Alttaki cihazın bulunduğu noktada. Cevap bununla birlikte değişir.</string>
-    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
+    <string name="sel_formula">n = I_n1 / I_n2\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Selektif değil</string>
     <string name="sel_grade_partial">Kısmi — yalnızca sınırın altında selektif</string>
     <string name="sel_grade_selective">Bu arıza seviyesinde selektif</string>

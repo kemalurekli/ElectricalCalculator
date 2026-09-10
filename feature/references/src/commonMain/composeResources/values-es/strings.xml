@@ -200,6 +200,12 @@
     <string name="ref_formula_16">Cadena fotovoltaica</string>
     <string name="ref_formula_17">Corriente por el neutro</string>
     <string name="ref_formula_18">Coste de la energía</string>
+    <string name="ref_formula_19">Distorsión armónica total de una corriente, respecto a su fundamental</string>
+    <string name="ref_formula_20">Corriente de neutro: los órdenes divisibles entre tres llegan en fase y se suman</string>
+    <string name="ref_formula_21">Potencia de cortocircuito de un transformador, a partir de su potencia e impedancia</string>
+    <string name="ref_formula_22">Hueco de tensión durante el arranque; quitar S_start del denominador lo sobrestima</string>
+    <string name="ref_formula_23">Relación de corrientes asignadas de dos dispositivos en serie; 1,6 es el umbral habitual en sobrecarga</string>
+    <string name="ref_formula_24">Corriente de empleo de un conjunto de puntos de carga; un vehículo absorbe su corriente plena durante horas</string>
     <string name="ref_formula_2">Corriente de transformador</string>
     <string name="ref_formula_3">Corriente de motor</string>
     <string name="ref_formula_4">Triángulo de potencias</string>

@@ -414,7 +414,7 @@
     <string name="hm_example_drive">Azionamento a sei impulsi</string>
     <string name="hm_example_lighting">Circuito di illuminazione LED</string>
     <string name="hm_example_office">Piano uffici, alimentatori switching</string>
-    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_3n²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Corrente fondamentale, I₁</string>
     <string name="hm_history_summary">%1$s % di THD</string>
     <string name="hm_history_title">%1$s A con armoniche</string>
@@ -433,6 +433,7 @@
     <string name="hm_step_thd">Distorsione rispetto alla fondamentale</string>
     <string name="hm_var_h">Ordine armonico: 3, 5, 7 e oltre</string>
     <string name="hm_var_i1">Corrente fondamentale, la componente a 50 o 60 Hz</string>
+    <string name="hm_var_i3n">Corrente di un ordine divisibile per tre: 3, 9, 15 e oltre</string>
     <string name="hm_var_ih">Corrente dell'ordine armonico h</string>
     <string name="hm_var_in">Corrente di neutro: le armoniche triple si sommano invece di annullarsi</string>
     <string name="hm_var_irms">Corrente efficace vera: fondamentale e armoniche insieme</string>
@@ -755,7 +756,7 @@
     <string name="sel_example_holds">Circuito terminale lungo, guasto all'estremità</string>
     <string name="sel_fault_current">Corrente di guasto presunta</string>
     <string name="sel_fault_hint">Nel punto in cui sta il dispositivo a valle. Con esso cambia la risposta.</string>
-    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
+    <string name="sel_formula">n = I_n1 / I_n2\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Non selettivo</string>
     <string name="sel_grade_partial">Parziale — selettivo solo sotto il limite</string>
     <string name="sel_grade_selective">Selettivo a questo livello di guasto</string>

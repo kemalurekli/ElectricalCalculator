@@ -414,7 +414,7 @@
     <string name="hm_example_drive">Penggerak enam pulsa</string>
     <string name="hm_example_lighting">Sirkit pencahayaan LED</string>
     <string name="hm_example_office">Lantai perkantoran, catu daya sakelar</string>
-    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_3n²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Arus dasar, I₁</string>
     <string name="hm_history_summary">THD %1$s %</string>
     <string name="hm_history_title">%1$s A dengan harmonisa</string>
@@ -433,6 +433,7 @@
     <string name="hm_step_thd">Distorsi terhadap arus dasar</string>
     <string name="hm_var_h">Orde harmonisa: 3, 5, 7 dan seterusnya</string>
     <string name="hm_var_i1">Arus fundamental, komponen 50 atau 60 Hz</string>
+    <string name="hm_var_i3n">Arus pada orde kelipatan tiga: 3, 9, 15 dan seterusnya</string>
     <string name="hm_var_ih">Arus pada orde harmonisa h</string>
     <string name="hm_var_in">Arus netral: harmonisa kelipatan tiga saling menjumlah</string>
     <string name="hm_var_irms">Arus rms sejati: fundamental dan harmonisa bersama</string>
@@ -755,7 +756,7 @@
     <string name="sel_example_holds">Sirkit akhir yang panjang, gangguan di ujungnya</string>
     <string name="sel_fault_current">Arus gangguan prospektif</string>
     <string name="sel_fault_hint">Di tempat gawai sisi beban berada. Jawabannya berubah bersama tempat itu.</string>
-    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
+    <string name="sel_formula">n = I_n1 / I_n2\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Tidak selektif</string>
     <string name="sel_grade_partial">Sebagian — selektif hanya di bawah batasnya</string>
     <string name="sel_grade_selective">Selektif pada tingkat gangguan ini</string>

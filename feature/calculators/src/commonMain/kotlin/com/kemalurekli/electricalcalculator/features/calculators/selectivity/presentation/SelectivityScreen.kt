@@ -307,8 +307,8 @@ fun SelectivityScreen(
                 formula = stringResource(Res.string.sel_formula),
                 variables = persistentListOf(
                         FormulaVariable("n", stringResource(Res.string.sel_var_n), "—"),
-                        FormulaVariable("I_n(up)", stringResource(Res.string.sel_var_inup), "A"),
-                        FormulaVariable("I_n(down)", stringResource(Res.string.sel_var_indn), "A"),
+                        FormulaVariable("I_n1", stringResource(Res.string.sel_var_inup), "A"),
+                        FormulaVariable("I_n2", stringResource(Res.string.sel_var_indn), "A"),
                         FormulaVariable("m", stringResource(Res.string.sel_var_m), "—"),
                         FormulaVariable("I_inst", stringResource(Res.string.sel_var_iinst), "A"),
                 ),

@@ -200,6 +200,12 @@
     <string name="ref_formula_16">Rangkaian seri modul surya</string>
     <string name="ref_formula_17">Arus netral</string>
     <string name="ref_formula_18">Biaya energi</string>
+    <string name="ref_formula_19">Distorsi harmonisa total suatu arus, terhadap fundamentalnya</string>
+    <string name="ref_formula_20">Arus netral: orde kelipatan tiga datang sefase dan menjumlah</string>
+    <string name="ref_formula_21">Daya hubung singkat trafo, dari daya pengenal dan impedansinya</string>
+    <string name="ref_formula_22">Kedip tegangan saat motor start; menghapus S_start dari penyebut membuatnya berlebihan</string>
+    <string name="ref_formula_23">Rasio arus pengenal dua gawai seri; sekitar 1,6 adalah ambang lazim untuk beban lebih</string>
+    <string name="ref_formula_24">Arus desain sekelompok titik pengisian; kendaraan menarik arus penuh berjam-jam</string>
     <string name="ref_formula_2">Arus transformator</string>
     <string name="ref_formula_3">Arus motor</string>
     <string name="ref_formula_4">Segitiga daya</string>

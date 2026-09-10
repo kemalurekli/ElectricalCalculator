@@ -414,7 +414,7 @@
     <string name="hm_example_drive">Six-pulse drive</string>
     <string name="hm_example_lighting">LED lighting circuit</string>
     <string name="hm_example_office">Office floor, switch-mode supplies</string>
-    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_3n²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Fundamental current, I₁</string>
     <string name="hm_history_summary">%1$s % THD</string>
     <string name="hm_history_title">%1$s A with harmonics</string>
@@ -433,6 +433,7 @@
     <string name="hm_step_thd">Distortion against the fundamental</string>
     <string name="hm_var_h">Harmonic order: 3, 5, 7 and upward</string>
     <string name="hm_var_i1">Fundamental current, the 50 or 60 Hz component</string>
+    <string name="hm_var_i3n">Current at an order divisible by three: 3, 9, 15 and upward</string>
     <string name="hm_var_ih">Current at harmonic order h</string>
     <string name="hm_var_in">Neutral current: triplen harmonics add rather than cancel</string>
     <string name="hm_var_irms">True RMS current: fundamental and harmonics together</string>
@@ -755,7 +756,7 @@
     <string name="sel_example_holds">Long final circuit, fault at the far end</string>
     <string name="sel_fault_current">Prospective fault current</string>
     <string name="sel_fault_hint">At the downstream device’s position. The answer changes with it.</string>
-    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
+    <string name="sel_formula">n = I_n1 / I_n2\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Not selective</string>
     <string name="sel_grade_partial">Partial — selective only below the limit</string>
     <string name="sel_grade_selective">Selective at this fault level</string>

@@ -200,6 +200,12 @@
     <string name="ref_formula_16">Солнечная цепочка</string>
     <string name="ref_formula_17">Ток в нейтрали</string>
     <string name="ref_formula_18">Стоимость энергии</string>
+    <string name="ref_formula_19">Суммарный коэффициент гармоник тока, относительно его основной</string>
+    <string name="ref_formula_20">Ток нейтрали: кратные трём гармоники приходят в фазе и складываются</string>
+    <string name="ref_formula_21">Мощность короткого замыкания трансформатора, из его мощности и напряжения КЗ</string>
+    <string name="ref_formula_22">Провал напряжения при пуске; без S_start в знаменателе он завышается</string>
+    <string name="ref_formula_23">Отношение номинальных токов двух последовательных аппаратов; обычный порог при перегрузке около 1,6</string>
+    <string name="ref_formula_24">Расчётный ток группы точек зарядки; машина берёт полный ток часами</string>
     <string name="ref_formula_2">Ток трансформатора</string>
     <string name="ref_formula_3">Ток двигателя</string>
     <string name="ref_formula_4">Треугольник мощностей</string>

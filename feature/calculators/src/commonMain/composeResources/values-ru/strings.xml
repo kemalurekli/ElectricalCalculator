@@ -414,7 +414,7 @@
     <string name="hm_example_drive">Шестипульсный привод</string>
     <string name="hm_example_lighting">Линия светодиодного освещения</string>
     <string name="hm_example_office">Офисный этаж, импульсные блоки питания</string>
-    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_3n²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Ток основной гармоники, I₁</string>
     <string name="hm_history_summary">THD %1$s %</string>
     <string name="hm_history_title">%1$s A с гармониками</string>
@@ -433,6 +433,7 @@
     <string name="hm_step_thd">Искажение относительно основной гармоники</string>
     <string name="hm_var_h">Порядок гармоники: 3, 5, 7 и выше</string>
     <string name="hm_var_i1">Ток основной гармоники, составляющая 50 или 60 Hz</string>
+    <string name="hm_var_i3n">Ток гармоники, кратной трём: 3, 9, 15 и выше</string>
     <string name="hm_var_ih">Ток гармоники порядка h</string>
     <string name="hm_var_in">Ток нейтрали: гармоники, кратные трём, складываются, а не гасятся</string>
     <string name="hm_var_irms">Истинный действующий ток: основная и гармоники вместе</string>
@@ -755,7 +756,7 @@
     <string name="sel_example_holds">Длинная конечная линия, замыкание в её конце</string>
     <string name="sel_fault_current">Ожидаемый ток КЗ</string>
     <string name="sel_fault_hint">В месте установки нижнего аппарата. С этим местом меняется и ответ.</string>
-    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
+    <string name="sel_formula">n = I_n1 / I_n2\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Селективности нет</string>
     <string name="sel_grade_partial">Частичная — селективно только ниже предела</string>
     <string name="sel_grade_selective">Селективно при этом токе КЗ</string>

@@ -213,6 +213,12 @@ import com.kemalurekli.electricalcalculator.feature.references.generated.resourc
 import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_16
 import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_17
 import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_18
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_19
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_20
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_21
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_22
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_23
+import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_24
 import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_2
 import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_3
 import com.kemalurekli.electricalcalculator.feature.references.generated.resources.ref_formula_4
@@ -3102,6 +3108,24 @@ object ReferenceCatalog {
                     // it is drawn from code and reads the same in all twelve
                     // languages. A word here would be a word in one of them.
                     ReferenceRow(Symbol("C = P · h · d · T / 1000"), Localized(Res.string.ref_formula_18)),
+                    // The four calculators this page had never covered.
+                    // Somebody looking a formula up here has not opened
+                    // the screen that uses it — that is what the page is
+                    // for — so leaving them out hid four of the app's own
+                    // methods from the one place people go to find them.
+                    //
+                    // `I_3n` rather than a word for the orders divisible by
+                    // three, and `I_n1`/`I_n2` rather than upstream and
+                    // downstream, for the reason the rows above give: a
+                    // Symbol is drawn from code and reads the same in all
+                    // twelve languages, so a word here would be a word in
+                    // one of them.
+                    ReferenceRow(Symbol("THD = √(Σ Ih²) / I₁"), Localized(Res.string.ref_formula_19)),
+                    ReferenceRow(Symbol("I_N = 3 · √(Σ I_3n²)"), Localized(Res.string.ref_formula_20)),
+                    ReferenceRow(Symbol("S_sc = S_t / (u_k / 100)"), Localized(Res.string.ref_formula_21)),
+                    ReferenceRow(Symbol("ΔU/U = S_start / (S_sc + S_start)"), Localized(Res.string.ref_formula_22)),
+                    ReferenceRow(Symbol("n = I_n1 / I_n2"), Localized(Res.string.ref_formula_23)),
+                    ReferenceRow(Symbol("I_b = n · I_n · f"), Localized(Res.string.ref_formula_24)),
                 ),
                 footnote = Res.string.ref_formula_note,
             ),

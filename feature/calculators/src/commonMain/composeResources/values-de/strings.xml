@@ -414,7 +414,7 @@
     <string name="hm_example_drive">Sechspulsiger Umrichter</string>
     <string name="hm_example_lighting">LED-Beleuchtungsstromkreis</string>
     <string name="hm_example_office">Bürogeschoss, Schaltnetzteile</string>
-    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_triplen²)\nK = Σ (Ih(pu)² · h²)</string>
+    <string name="hm_formula">THD = √(Σ Ih²) / I₁\nI_rms = √(I₁² + Σ Ih²)\nI_N = 3 · √(Σ I_3n²)\nK = Σ (Ih(pu)² · h²)</string>
     <string name="hm_fundamental">Strom der Grundschwingung, I₁</string>
     <string name="hm_history_summary">%1$s % THD</string>
     <string name="hm_history_title">%1$s A mit Oberschwingungen</string>
@@ -433,6 +433,7 @@
     <string name="hm_step_thd">Verzerrung gegenüber der Grundschwingung</string>
     <string name="hm_var_h">Ordnungszahl der Harmonischen: 3, 5, 7 und aufwärts</string>
     <string name="hm_var_i1">Grundschwingungsstrom, die 50- oder 60-Hz-Komponente</string>
+    <string name="hm_var_i3n">Strom einer durch drei teilbaren Ordnung: 3, 9, 15 und aufwärts</string>
     <string name="hm_var_ih">Strom der Harmonischen h-ter Ordnung</string>
     <string name="hm_var_in">Neutralleiterstrom: durch drei teilbare Harmonische addieren sich</string>
     <string name="hm_var_irms">Echter Effektivstrom: Grundschwingung und Harmonische zusammen</string>
@@ -755,7 +756,7 @@
     <string name="sel_example_holds">Langer Endstromkreis, Fehler am fernen Ende</string>
     <string name="sel_fault_current">Zu erwartender Kurzschlussstrom</string>
     <string name="sel_fault_hint">An der Einbaustelle der nachgeordneten Einrichtung. Mit ihr ändert sich die Antwort.</string>
-    <string name="sel_formula">n = I_n(up) / I_n(down)\nI_inst = m · I_n</string>
+    <string name="sel_formula">n = I_n1 / I_n2\nI_inst = m · I_n</string>
     <string name="sel_grade_none">Nicht selektiv</string>
     <string name="sel_grade_partial">Teilweise — nur unterhalb der Grenze selektiv</string>
     <string name="sel_grade_selective">Bei diesem Kurzschlussstrom selektiv</string>
