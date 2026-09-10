@@ -8,6 +8,7 @@ import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.TrendingDown
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.AccountTree
+import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.TableChart
 import androidx.compose.material.icons.outlined.Upgrade
@@ -143,6 +144,9 @@ object ElecIcons {
      * a different kind of thing — an artefact, what is written on it, and a
      * promise about later. Three identical ticks would flatten that back out.
      */
+    /** Photographing what is printed on a motor. */
+    val Nameplate = Icons.Outlined.PhotoCamera
+
     val ProDocument = Icons.Outlined.PictureAsPdf
     val ProSchedule = Icons.Outlined.TableChart
     val ProIncluded = Icons.Outlined.Upgrade

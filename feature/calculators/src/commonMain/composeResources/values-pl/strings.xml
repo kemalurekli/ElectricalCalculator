@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Pobierana moc elektryczna</string>
     <string name="mt_var_pout">Znamionowa moc na wale</string>
     <string name="mt_var_voltage">Napięcie zasilania</string>
+    <string name="nameplate_apply">Zastosuj</string>
+    <string name="nameplate_found_title">Znalezione na tabliczce</string>
+    <string name="nameplate_nothing">Na tym zdjęciu nie ma nic czytelnego.</string>
+    <string name="nameplate_scan">Odczytaj tabliczkę</string>
     <string name="nc_example_balanced">Symetryczne, liniowe</string>
     <string name="nc_example_electronic">Symetryczne, odbiory elektroniczne</string>
     <string name="nc_example_unbalanced">Rozdzielnica niesymetryczna</string>

@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Potenza elettrica assorbita</string>
     <string name="mt_var_pout">Potenza nominale all'albero</string>
     <string name="mt_var_voltage">Tensione di alimentazione</string>
+    <string name="nameplate_apply">Applica</string>
+    <string name="nameplate_found_title">Trovato sulla targhetta</string>
+    <string name="nameplate_nothing">Niente di leggibile in quella foto.</string>
+    <string name="nameplate_scan">Leggi la targhetta</string>
     <string name="nc_example_balanced">Equilibrato, lineare</string>
     <string name="nc_example_electronic">Equilibrato, carico elettronico</string>
     <string name="nc_example_unbalanced">Quadro squilibrato</string>

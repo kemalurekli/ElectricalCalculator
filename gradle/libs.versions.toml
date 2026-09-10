@@ -56,6 +56,12 @@ kotlinxCollectionsImmutable = "0.5.1"
 # 3.x requires Kotlin 2.3.20+, Compose Multiplatform 1.9.3+ and minSdk 23.
 purchasesKmp = "3.6.0"
 
+# On-device text recognition, bundled rather than downloaded through Play
+# services. Four megabytes for a model that works in a basement, which is where
+# a nameplate is read; the unbundled build saves the space and then needs a
+# network the moment somebody points a camera at a motor.
+mlkitTextRecognition = "16.0.1"
+
 # Forum backend. supabase-kt is Kotlin Multiplatform, which is why it is
 # preferred over hand-rolling PostgREST calls: the whole data layer moves to a
 # shared module unchanged if the iOS port happens.
@@ -145,6 +151,7 @@ okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-i
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 
 purchases-kmp-core = { group = "com.revenuecat.purchases", name = "purchases-kmp-core", version.ref = "purchasesKmp" }
+mlkit-text-recognition = { group = "com.google.mlkit", name = "text-recognition", version.ref = "mlkitTextRecognition" }
 
 supabase-bom = { group = "io.github.jan-tennert.supabase", name = "bom", version.ref = "supabase" }
 supabase-postgrest = { group = "io.github.jan-tennert.supabase", name = "postgrest-kt" }

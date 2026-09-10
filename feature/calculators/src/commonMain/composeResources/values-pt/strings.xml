@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Potência elétrica absorvida</string>
     <string name="mt_var_pout">Potência estipulada ao veio</string>
     <string name="mt_var_voltage">Tensão de alimentação</string>
+    <string name="nameplate_apply">Aplicar</string>
+    <string name="nameplate_found_title">Encontrado na chapa</string>
+    <string name="nameplate_nothing">Nada legível nessa fotografia.</string>
+    <string name="nameplate_scan">Ler a chapa</string>
     <string name="nc_example_balanced">Equilibrada, linear</string>
     <string name="nc_example_electronic">Equilibrada, carga eletrónica</string>
     <string name="nc_example_unbalanced">Quadro desequilibrado</string>

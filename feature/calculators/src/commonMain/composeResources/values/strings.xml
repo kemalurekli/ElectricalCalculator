@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Electrical input power</string>
     <string name="mt_var_pout">Rated shaft output</string>
     <string name="mt_var_voltage">Supply voltage</string>
+    <string name="nameplate_apply">Apply</string>
+    <string name="nameplate_found_title">Found on the nameplate</string>
+    <string name="nameplate_nothing">Nothing readable in that photograph.</string>
+    <string name="nameplate_scan">Read the nameplate</string>
     <string name="nc_example_balanced">Balanced, linear</string>
     <string name="nc_example_electronic">Balanced, electronic load</string>
     <string name="nc_example_unbalanced">Unbalanced board</string>

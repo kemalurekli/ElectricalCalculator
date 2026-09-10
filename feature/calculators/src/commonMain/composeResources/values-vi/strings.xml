@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Công suất điện tiêu thụ</string>
     <string name="mt_var_pout">Công suất trục định mức</string>
     <string name="mt_var_voltage">Điện áp nguồn</string>
+    <string name="nameplate_apply">Áp dụng</string>
+    <string name="nameplate_found_title">Tìm thấy trên nhãn máy</string>
+    <string name="nameplate_nothing">Không đọc được gì trong ảnh đó.</string>
+    <string name="nameplate_scan">Đọc nhãn máy</string>
     <string name="nc_example_balanced">Cân bằng, tải tuyến tính</string>
     <string name="nc_example_electronic">Cân bằng, tải điện tử</string>
     <string name="nc_example_unbalanced">Tủ điện lệch pha</string>

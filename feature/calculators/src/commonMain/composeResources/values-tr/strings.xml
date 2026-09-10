@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Elektriksel giriş gücü</string>
     <string name="mt_var_pout">Anma mil çıkış gücü</string>
     <string name="mt_var_voltage">Besleme gerilimi</string>
+    <string name="nameplate_apply">Uygula</string>
+    <string name="nameplate_found_title">Etikette bulunanlar</string>
+    <string name="nameplate_nothing">Bu fotoğrafta okunabilir bir değer yok.</string>
+    <string name="nameplate_scan">Etiketten oku</string>
     <string name="nc_example_balanced">Dengeli, doğrusal</string>
     <string name="nc_example_electronic">Dengeli, elektronik yük</string>
     <string name="nc_example_unbalanced">Dengesiz pano</string>

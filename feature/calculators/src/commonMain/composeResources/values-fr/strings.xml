@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Puissance électrique absorbée</string>
     <string name="mt_var_pout">Puissance assignée à l'arbre</string>
     <string name="mt_var_voltage">Tension d'alimentation</string>
+    <string name="nameplate_apply">Appliquer</string>
+    <string name="nameplate_found_title">Trouvé sur la plaque</string>
+    <string name="nameplate_nothing">Rien de lisible sur cette photo.</string>
+    <string name="nameplate_scan">Lire la plaque</string>
     <string name="nc_example_balanced">Équilibrée, linéaire</string>
     <string name="nc_example_electronic">Équilibrée, charge électronique</string>
     <string name="nc_example_unbalanced">Tableau déséquilibré</string>

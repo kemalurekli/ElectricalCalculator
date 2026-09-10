@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Potencia eléctrica absorbida</string>
     <string name="mt_var_pout">Potencia asignada en el eje</string>
     <string name="mt_var_voltage">Tensión de alimentación</string>
+    <string name="nameplate_apply">Aplicar</string>
+    <string name="nameplate_found_title">Encontrado en la placa</string>
+    <string name="nameplate_nothing">No hay nada legible en esa fotografía.</string>
+    <string name="nameplate_scan">Leer la placa</string>
     <string name="nc_example_balanced">Equilibrada, lineal</string>
     <string name="nc_example_electronic">Equilibrada, carga electrónica</string>
     <string name="nc_example_unbalanced">Cuadro desequilibrado</string>

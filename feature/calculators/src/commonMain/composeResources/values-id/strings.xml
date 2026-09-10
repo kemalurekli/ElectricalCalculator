@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Daya listrik yang diserap</string>
     <string name="mt_var_pout">Keluaran poros pengenal</string>
     <string name="mt_var_voltage">Tegangan suplai</string>
+    <string name="nameplate_apply">Terapkan</string>
+    <string name="nameplate_found_title">Ditemukan pada pelat nama</string>
+    <string name="nameplate_nothing">Tidak ada yang terbaca pada foto itu.</string>
+    <string name="nameplate_scan">Baca pelat nama</string>
     <string name="nc_example_balanced">Seimbang, linier</string>
     <string name="nc_example_electronic">Seimbang, beban elektronik</string>
     <string name="nc_example_unbalanced">Panel tidak seimbang</string>

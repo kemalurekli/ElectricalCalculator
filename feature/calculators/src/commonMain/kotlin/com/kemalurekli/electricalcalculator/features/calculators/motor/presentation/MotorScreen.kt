@@ -55,7 +55,9 @@ import com.kemalurekli.electricalcalculator.core.domain.model.SupplySystem
 import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberResultSharing
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
+import com.kemalurekli.electricalcalculator.core.vision.NameplateReading
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.NameplateScanAction
 import com.kemalurekli.electricalcalculator.features.calculators.motor.domain.MotorResult
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import kotlinx.collections.immutable.persistentListOf
@@ -163,6 +165,34 @@ fun MotorRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
+        // A plate that does not print a figure leaves that field alone. The
+        // reader may have typed something there already, and overwriting it
+        // with a default dressed up as a reading is the failure this whole
+        // feature is built to avoid.
+        onNameplate = { plate ->
+            plate.phases?.let {
+                viewModel.onSystemChange(
+                    if (it == 1) SupplySystem.SINGLE_PHASE_AC else SupplySystem.THREE_PHASE_AC,
+                )
+            }
+            plate.powerKilowatts?.let {
+                viewModel.onPowerUnitChange(PowerUnit.KILOWATT)
+                viewModel.onPowerChange(NumberFormatter.formatSignificant(it))
+            }
+            plate.powerHorsepower?.let {
+                viewModel.onPowerUnitChange(PowerUnit.HORSEPOWER)
+                viewModel.onPowerChange(NumberFormatter.formatSignificant(it))
+            }
+            plate.voltageVolts?.let {
+                viewModel.onVoltageChange(NumberFormatter.formatSignificant(it))
+            }
+            plate.powerFactor?.let {
+                viewModel.onPowerFactorChange(NumberFormatter.formatSignificant(it))
+            }
+            plate.efficiencyPercent?.let {
+                viewModel.onEfficiencyChange(NumberFormatter.formatSignificant(it))
+            }
+        },
         onExportPdf = summary?.let { text -> { export.export(title, text) } },
         exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
@@ -190,6 +220,7 @@ fun MotorScreen(
     onToggleFavorite: () -> Unit,
     onCopy: () -> Unit,
     onShare: () -> Unit,
+    onNameplate: (NameplateReading) -> Unit,
     onExportPdf: (() -> Unit)?,
     exportLocked: Boolean,
     onNavigateBack: (() -> Unit)?,
@@ -265,6 +296,13 @@ fun MotorScreen(
                     title = stringResource(Res.string.calculator_inputs),
                     modifier = Modifier.padding(horizontal = 0.dp),
                 )
+            }
+
+            // Under the heading and above the first field, where somebody who
+            // has just walked up to a motor is looking. Absent on a device with
+            // no camera; see NameplateScanAction.
+            item(key = "nameplate") {
+                NameplateScanAction(onApply = onNameplate)
             }
 
             item(key = "system") {
@@ -547,7 +585,8 @@ private fun MotorScreenPreview() {
             onSystemChange = {}, onPowerUnitChange = {}, onPowerChange = {},
             onVoltageChange = {}, onEfficiencyChange = {}, onPowerFactorChange = {},
             onStartingRatioChange = {}, onCalculate = {}, onApplyExample = {}, onReferenceClick = {}, onReset = {},
-            onToggleFavorite = {}, onCopy = {}, onShare = {}, onExportPdf = null, exportLocked = false, onNavigateBack = {},
+            onToggleFavorite = {}, onCopy = {}, onShare = {}, onNameplate = {},
+            onExportPdf = null, exportLocked = false, onNavigateBack = {},
         )
     }
 }

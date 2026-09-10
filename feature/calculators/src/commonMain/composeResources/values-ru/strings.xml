@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Потребляемая электрическая мощность</string>
     <string name="mt_var_pout">Номинальная мощность на валу</string>
     <string name="mt_var_voltage">Напряжение питания</string>
+    <string name="nameplate_apply">Применить</string>
+    <string name="nameplate_found_title">Найдено на шильдике</string>
+    <string name="nameplate_nothing">На этом снимке ничего не читается.</string>
+    <string name="nameplate_scan">Считать шильдик</string>
     <string name="nc_example_balanced">Симметричная, линейная</string>
     <string name="nc_example_electronic">Симметричная, электронная нагрузка</string>
     <string name="nc_example_unbalanced">Щит с перекосом</string>

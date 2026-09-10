@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Elektrisch opgenomen vermogen</string>
     <string name="mt_var_pout">Nominaal asvermogen</string>
     <string name="mt_var_voltage">Voedingsspanning</string>
+    <string name="nameplate_apply">Toepassen</string>
+    <string name="nameplate_found_title">Op het typeplaatje gevonden</string>
+    <string name="nameplate_nothing">Niets leesbaars op die foto.</string>
+    <string name="nameplate_scan">Typeplaatje lezen</string>
     <string name="nc_example_balanced">Symmetrisch, lineair</string>
     <string name="nc_example_electronic">Symmetrisch, elektronische belasting</string>
     <string name="nc_example_unbalanced">Onevenwichtige verdeler</string>

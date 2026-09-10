@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_back">Retour</string>
+    <string name="action_cancel">Annuler</string>
     <string name="action_copy">Copier</string>
     <string name="action_export_pdf">Exporter en PDF</string>
     <string name="action_favorite_add">Ajouter aux favoris</string>

@@ -71,6 +71,7 @@ kotlin {
             api(project(":core:data"))
             implementation(project(":core:billing"))
             implementation(project(":core:document"))
+            implementation(project(":core:vision"))
             // A calculator points at the table its figures come from.
             api(project(":feature:references"))
 

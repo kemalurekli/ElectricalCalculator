@@ -547,6 +547,10 @@
     <string name="mt_var_pin">Aufgenommene elektrische Leistung</string>
     <string name="mt_var_pout">Bemessungsleistung an der Welle</string>
     <string name="mt_var_voltage">Versorgungsspannung</string>
+    <string name="nameplate_apply">Übernehmen</string>
+    <string name="nameplate_found_title">Auf dem Typenschild gefunden</string>
+    <string name="nameplate_nothing">Auf dieser Aufnahme ist nichts lesbar.</string>
+    <string name="nameplate_scan">Typenschild lesen</string>
     <string name="nc_example_balanced">Symmetrisch, linear</string>
     <string name="nc_example_electronic">Symmetrisch, elektronische Last</string>
     <string name="nc_example_unbalanced">Unsymmetrische Verteilung</string>
