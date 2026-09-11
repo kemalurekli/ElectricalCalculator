@@ -23,6 +23,8 @@
     <string name="pro_one_time">Einmalzahlung. Kein Abo.</string>
     <string name="pro_owned">Pro ist auf diesem Gerät freigeschaltet.</string>
     <string name="pro_preview_caption">Ein Beispiel des exportierten Stromkreisplans: Stromkreise mit Betriebsstrom, Querschnitt und Schutzeinrichtung.</string>
+    <string name="pro_preview_document_caption">Ihre eigene Berechnung auf dem Blatt, auf dem sie übergeben würde. Pro exportiert sie ohne Stempel als PDF.</string>
+    <string name="pro_preview_watermark">VORSCHAU</string>
     <string name="pro_preview_column_circuit">Stromkreis</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

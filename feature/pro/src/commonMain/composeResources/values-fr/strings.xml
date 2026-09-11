@@ -23,6 +23,8 @@
     <string name="pro_one_time">Paiement unique. Sans abonnement.</string>
     <string name="pro_owned">Pro est débloqué sur cet appareil.</string>
     <string name="pro_preview_caption">Un exemple du tableau exporté : les circuits avec leur courant d'emploi, leur section et leur protection.</string>
+    <string name="pro_preview_document_caption">Votre propre calcul, sur la page telle qu'elle serait remise. Pro l'exporte en PDF, sans le tampon.</string>
+    <string name="pro_preview_watermark">APERÇU</string>
     <string name="pro_preview_column_circuit">Circuit</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

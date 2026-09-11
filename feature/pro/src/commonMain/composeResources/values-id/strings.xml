@@ -23,6 +23,8 @@
     <string name="pro_one_time">Pembayaran sekali. Tanpa langganan.</string>
     <string name="pro_owned">Pro aktif di perangkat ini.</string>
     <string name="pro_preview_caption">Contoh daftar rangkaian yang diekspor: rangkaian dengan arus desain, luas penampang dan gawai proteksi.</string>
+    <string name="pro_preview_document_caption">Perhitungan Anda sendiri, pada halaman seperti saat diserahkan. Pro mengekspornya sebagai PDF, tanpa cap.</string>
+    <string name="pro_preview_watermark">PRATINJAU</string>
     <string name="pro_preview_column_circuit">Rangkaian</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

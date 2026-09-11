@@ -23,6 +23,8 @@
     <string name="pro_one_time">One-time payment. No subscription.</string>
     <string name="pro_owned">Pro is unlocked on this device.</string>
     <string name="pro_preview_caption">An example of the exported schedule: circuits with their design current, cross-section and protective device.</string>
+    <string name="pro_preview_document_caption">Your own calculation, on the page it would be handed over on. Pro exports it as a PDF, without the stamp.</string>
+    <string name="pro_preview_watermark">PREVIEW</string>
     <string name="pro_preview_column_circuit">Circuit</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

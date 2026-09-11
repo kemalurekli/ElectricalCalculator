@@ -64,6 +64,8 @@ kotlin {
             api(project(":core:designsystem"))
             api(project(":core:billing"))
             api(project(":core:navigation"))
+            // The paywall draws the page a calculator was about to export.
+            implementation(project(":core:document"))
 
             implementation(libs.lifecycle.viewmodel.savedstate)
 

@@ -23,6 +23,8 @@
     <string name="pro_one_time">Thanh toán một lần. Không thuê bao.</string>
     <string name="pro_owned">Pro đã mở khóa trên thiết bị này.</string>
     <string name="pro_preview_caption">Ví dụ về bảng mạch xuất ra: các mạch cùng dòng điện tính toán, tiết diện và thiết bị bảo vệ.</string>
+    <string name="pro_preview_document_caption">Phép tính của chính bạn, trên trang sẽ được bàn giao. Pro xuất trang này thành PDF, không có dấu.</string>
+    <string name="pro_preview_watermark">XEM TRƯỚC</string>
     <string name="pro_preview_column_circuit">Mạch</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

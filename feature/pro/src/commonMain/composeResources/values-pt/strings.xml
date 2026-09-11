@@ -23,6 +23,8 @@
     <string name="pro_one_time">Pagamento único. Sem subscrição.</string>
     <string name="pro_owned">O Pro está desbloqueado neste dispositivo.</string>
     <string name="pro_preview_caption">Um exemplo do quadro exportado: circuitos com a corrente de serviço, a secção e o dispositivo de proteção.</string>
+    <string name="pro_preview_document_caption">O seu próprio cálculo, na página em que seria entregue. O Pro exporta-o em PDF, sem o carimbo.</string>
+    <string name="pro_preview_watermark">PRÉ-VISUALIZAÇÃO</string>
     <string name="pro_preview_column_circuit">Circuito</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

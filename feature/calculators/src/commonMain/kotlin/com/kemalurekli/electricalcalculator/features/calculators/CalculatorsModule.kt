@@ -5,6 +5,7 @@ import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domai
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CalculateCableSizeUseCase
 import com.kemalurekli.electricalcalculator.features.calculators.cableweight.domain.CalculateCableWeightUseCase
 import com.kemalurekli.electricalcalculator.features.calculators.conduitfill.domain.CalculateConduitFillUseCase
+import com.kemalurekli.electricalcalculator.core.document.PendingDocument
 import com.kemalurekli.electricalcalculator.features.calculators.domain.CalculatorCatalog
 import com.kemalurekli.electricalcalculator.features.calculators.earthfault.domain.CalculateEarthFaultUseCase
 import com.kemalurekli.electricalcalculator.features.calculators.energycost.domain.CalculateEnergyCostUseCase
@@ -67,6 +68,12 @@ import org.koin.dsl.module
  * had arrived after the file was generated.
  */
 val calculatorsModule: Module = module {
+    // Where a calculator leaves the page it just laid out when the paywall
+    // stops it, so the paywall can show the reader their own document instead
+    // of a sample. Declared by the end that produces it; the paywall asks Koin
+    // for it by type and neither feature has to know about the other.
+    single { PendingDocument() }
+
     singleOf(::CalculateBatteryRuntimeUseCase)
     singleOf(::AmpacityTable)
     singleOf(::CalculateCableSizeUseCase)

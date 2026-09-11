@@ -23,6 +23,8 @@
     <string name="pro_one_time">Płatność jednorazowa. Bez abonamentu.</string>
     <string name="pro_owned">Pro jest odblokowane na tym urządzeniu.</string>
     <string name="pro_preview_caption">Przykład wyeksportowanego zestawienia: obwody wraz z prądem obliczeniowym, przekrojem i zabezpieczeniem.</string>
+    <string name="pro_preview_document_caption">Twoje własne obliczenie na stronie, w jakiej zostałoby przekazane. Pro eksportuje je do PDF, bez pieczęci.</string>
+    <string name="pro_preview_watermark">PODGLĄD</string>
     <string name="pro_preview_column_circuit">Obwód</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

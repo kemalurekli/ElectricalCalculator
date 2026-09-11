@@ -13,6 +13,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberFileSharing
 import com.kemalurekli.electricalcalculator.core.designsystem.platform.safeFileName
 import com.kemalurekli.electricalcalculator.core.document.DocumentBlock
+import com.kemalurekli.electricalcalculator.core.document.PendingDocument
 import com.kemalurekli.electricalcalculator.core.document.TextDocumentLayout
 import com.kemalurekli.electricalcalculator.core.document.pdfTextMeasurer
 import com.kemalurekli.electricalcalculator.core.document.renderPdf
@@ -43,9 +44,12 @@ interface CalculationExport {
     /**
      * Renders [body] as a PDF and offers it to another app.
      *
-     * When Pro is not owned this opens the paywall instead. The screens do not
+     * When Pro is not owned the page is laid out anyway and left where the
+     * paywall can show it, so the reader is asked to pay for a document they
+     * are looking at rather than one they have to imagine. The screens do not
      * check first: a locked action that silently does nothing is the failure
-     * this is written to avoid, and one that explains itself is the paywall.
+     * this is written to avoid, and one that shows its own output is a better
+     * answer than one that explains itself.
      */
     fun export(title: String, body: String)
 }
@@ -68,6 +72,7 @@ val LocalCalculationExport = staticCompositionLocalOf<CalculationExport> { NoCal
 fun rememberCalculationExport(
     onShowPaywall: () -> Unit,
     entitlements: EntitlementRepository = koinInject(),
+    pending: PendingDocument = koinInject(),
 ): CalculationExport {
     // Not named `isPro`. The object below has a member of that name, and an
     // unqualified read inside its methods binds to this local rather than to
@@ -79,15 +84,11 @@ fun rememberCalculationExport(
     val notice = stringResource(DesignRes.string.document_notice)
     val chooserTitle = stringResource(DesignRes.string.action_export_pdf)
 
-    return remember(paid, sharing, notice, chooserTitle, onShowPaywall) {
+    return remember(paid, sharing, notice, chooserTitle, onShowPaywall, pending) {
         object : CalculationExport {
             override val isPro: Boolean = paid
 
             override fun export(title: String, body: String) {
-                if (!isPro) {
-                    onShowPaywall()
-                    return
-                }
                 val blocks = body.lines().drop(1).map { line ->
                     // The first line is the title, which the page already has.
                     // The separators are a phone's idea of a rule and become a
@@ -101,6 +102,15 @@ fun rememberCalculationExport(
                     notice = notice,
                     measurer = pdfTextMeasurer,
                 )
+                if (!isPro) {
+                    // Laid out with the same arithmetic as the real thing,
+                    // because it *is* the real thing: the paywall draws these
+                    // operations on a canvas instead of on paper.
+                    pending.hold(pages, TextDocumentLayout.PAGE)
+                    onShowPaywall()
+                    return
+                }
+
                 sharing.share(
                     fileName = "${safeFileName(title, APP_NAME)}.pdf",
                     mimeType = MIME_PDF,

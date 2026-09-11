@@ -23,6 +23,8 @@
     <string name="pro_one_time">Eenmalige betaling. Geen abonnement.</string>
     <string name="pro_owned">Pro is op dit apparaat ontgrendeld.</string>
     <string name="pro_preview_caption">Een voorbeeld van het geëxporteerde schema: stroomkringen met hun ontwerpstroom, doorsnede en beveiliging.</string>
+    <string name="pro_preview_document_caption">Uw eigen berekening, op het blad waarop het zou worden overhandigd. Pro exporteert het als pdf, zonder stempel.</string>
+    <string name="pro_preview_watermark">VOORBEELD</string>
     <string name="pro_preview_column_circuit">Stroomkring</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

@@ -30,6 +30,9 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kemalurekli.electricalcalculator.core.document.PendingDocument
+import com.kemalurekli.electricalcalculator.core.document.PdfPageSize
+import com.kemalurekli.electricalcalculator.core.document.PdfOp
 import com.kemalurekli.electricalcalculator.core.billing.domain.BillingFailure
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
@@ -70,6 +73,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSkel
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.NumericCompactTextStyle
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_unlock
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -79,6 +83,24 @@ fun PaywallRoute(
     modifier: Modifier = Modifier,
     viewModel: PaywallViewModel = koinViewModel(),
 ) {
+    val pending: PendingDocument = koinInject()
+
+    // Read once per visit. The calculator writes the page before it navigates,
+    // so it is already there; capturing it here means a rotation redraws the
+    // same page rather than losing it to a lifecycle callback.
+    //
+    // A paywall opened any other way — from Settings, from a project — clears
+    // it, so an old calculation can never turn up under a headline that is not
+    // about it.
+    val previewPage = remember(reason) {
+        if (reason == PaywallReason.CALCULATION_EXPORT) {
+            pending.page
+        } else {
+            pending.clear()
+            null
+        }
+    }
+
     val isPro by viewModel.isPro.collectAsStateWithLifecycle()
     val price by viewModel.price.collectAsStateWithLifecycle()
     val status by viewModel.status.collectAsStateWithLifecycle()
@@ -99,6 +121,8 @@ fun PaywallRoute(
         onRetryPrice = viewModel::onRetryPrice,
         onRestore = viewModel::onRestore,
         onMessageShown = viewModel::onMessageShown,
+        previewPage = previewPage,
+        previewSize = pending.size,
         onClose = onDone,
         modifier = modifier,
     )
@@ -131,6 +155,8 @@ fun PaywallScreen(
     onMessageShown: () -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
+    previewPage: List<PdfOp>? = null,
+    previewSize: PdfPageSize = PdfPageSize.A4_PORTRAIT,
 ) {
     val spacing = ElecTheme.spacing
     val snackbarHostState = remember { SnackbarHostState() }
@@ -199,7 +225,15 @@ fun PaywallScreen(
                     )
                 }
 
-                SchedulePreview()
+                // The reader's own page when they got here by trying to
+                // export one, and the sample schedule otherwise. A sample asks
+                // somebody to imagine their work in it; their own page does
+                // not have to be imagined.
+                if (previewPage != null) {
+                    DocumentPreview(page = previewPage, size = previewSize)
+                } else {
+                    SchedulePreview()
+                }
 
                 // Ranked, not ticked. Three identical check marks made three
                 // unequal things look interchangeable — an artefact, what is

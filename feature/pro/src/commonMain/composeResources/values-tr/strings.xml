@@ -23,6 +23,8 @@
     <string name="pro_one_time">Tek seferlik ödeme. Abonelik yok.</string>
     <string name="pro_owned">Pro bu cihazda açık.</string>
     <string name="pro_preview_caption">Dışa aktarılan cetvelin bir örneği: devreler, tasarım akımları, kesitleri ve koruma cihazları.</string>
+    <string name="pro_preview_document_caption">Kendi hesabınız, teslim edileceği sayfanın üzerinde. Pro bunu damgasız PDF olarak dışa aktarır.</string>
+    <string name="pro_preview_watermark">ÖNİZLEME</string>
     <string name="pro_preview_column_circuit">Devre</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

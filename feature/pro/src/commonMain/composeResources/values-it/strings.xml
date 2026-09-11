@@ -23,6 +23,8 @@
     <string name="pro_one_time">Pagamento unico. Nessun abbonamento.</string>
     <string name="pro_owned">Pro è sbloccato su questo dispositivo.</string>
     <string name="pro_preview_caption">Un esempio dello schema esportato: circuiti con corrente d'impiego, sezione e dispositivo di protezione.</string>
+    <string name="pro_preview_document_caption">Il vostro calcolo, sulla pagina con cui verrebbe consegnato. Pro lo esporta in PDF, senza il timbro.</string>
+    <string name="pro_preview_watermark">ANTEPRIMA</string>
     <string name="pro_preview_column_circuit">Circuito</string>
     <string name="pro_preview_column_current">Ib (A)</string>
     <string name="pro_preview_column_device">In (A)</string>

@@ -23,6 +23,8 @@
     <string name="pro_one_time">Разовая оплата. Без подписки.</string>
     <string name="pro_owned">Pro открыт на этом устройстве.</string>
     <string name="pro_preview_caption">Пример выгруженной ведомости: линии с расчётным током, сечением и аппаратом защиты.</string>
+    <string name="pro_preview_document_caption">Ваш собственный расчёт на странице, в которой он был бы передан. Pro выгружает её в PDF без штампа.</string>
+    <string name="pro_preview_watermark">ОБРАЗЕЦ</string>
     <string name="pro_preview_column_circuit">Линия</string>
     <string name="pro_preview_column_current">Ib (А)</string>
     <string name="pro_preview_column_device">In (А)</string>
