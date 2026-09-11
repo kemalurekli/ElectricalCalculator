@@ -169,7 +169,6 @@
     <string name="th_field_time">Waktu sejak penyakelaran</string>
     <string name="th_field_turns">Lilitan</string>
     <string name="th_field_voltage">Tegangan</string>
-    <string name="th_filter_all">Semua</string>
     <string name="th_has_calculator">Kalkulator</string>
     <string name="th_kirchhoff_assumption_lumped">Rangkaiannya terpusat: komponen berupa titik, dan kawat di antaranya tidak masuk hitungan. Pada frekuensi radio, atau pada jalur yang cukup panjang, hal itu tidak lagi benar.</string>
     <string name="th_kirchhoff_assumption_signs">Tandanya Anda sendiri yang harus jaga. Tetapkan arah bagi setiap cabang sebelum mulai; arus yang keluar negatif berarti hanya mengalir ke arah sebaliknya.</string>

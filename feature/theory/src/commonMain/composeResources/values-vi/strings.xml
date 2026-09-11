@@ -169,7 +169,6 @@
     <string name="th_field_time">Thời gian kể từ khi đóng mạch</string>
     <string name="th_field_turns">Số vòng</string>
     <string name="th_field_voltage">Điện áp</string>
-    <string name="th_filter_all">Tất cả</string>
     <string name="th_has_calculator">Máy tính</string>
     <string name="th_kirchhoff_assumption_lumped">Mạch có thông số tập trung: các phần tử là những điểm, còn dây nối giữa chúng không tính vào tổng. Ở tần số vô tuyến, hoặc trên tuyến đủ dài, điều đó không còn đúng.</string>
     <string name="th_kirchhoff_assumption_signs">Dấu là việc bạn phải tự giữ cho đúng. Hãy chọn chiều cho từng nhánh trước khi bắt đầu; dòng nào ra âm thì đơn giản là chạy theo chiều ngược lại.</string>

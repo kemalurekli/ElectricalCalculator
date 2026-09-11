@@ -169,7 +169,6 @@
     <string name="th_field_time">Tijd sinds het inschakelen</string>
     <string name="th_field_turns">Windingen</string>
     <string name="th_field_voltage">Spanning</string>
-    <string name="th_filter_all">Alles</string>
     <string name="th_has_calculator">Rekenhulp</string>
     <string name="th_kirchhoff_assumption_lumped">De schakeling is geconcentreerd: componenten zijn punten en de draad ertussen telt niet mee in de som. Bij radiofrequenties, of over een voldoende lang traject, gaat dat niet meer op.</string>
     <string name="th_kirchhoff_assumption_signs">De tekens moet u zelf bijhouden. Kies vooraf een richting voor elke tak; een stroom die negatief uitkomt loopt gewoon de andere kant op.</string>

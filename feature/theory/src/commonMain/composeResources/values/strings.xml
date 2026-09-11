@@ -169,7 +169,6 @@
     <string name="th_field_time">Time since switching</string>
     <string name="th_field_turns">Turns</string>
     <string name="th_field_voltage">Voltage</string>
-    <string name="th_filter_all">All</string>
     <string name="th_has_calculator">Calculator</string>
     <string name="th_kirchhoff_assumption_lumped">The circuit is lumped: components are points, and the wire between them is not part of the sum. At radio frequencies, or over a long enough run, that stops being true.</string>
     <string name="th_kirchhoff_assumption_signs">Signs are yours to keep straight. Pick a direction for each branch before you start; a current that comes out negative simply runs the other way.</string>

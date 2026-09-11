@@ -169,7 +169,6 @@
     <string name="th_field_time">Tempo desde a manobra</string>
     <string name="th_field_turns">Espiras</string>
     <string name="th_field_voltage">Tensão</string>
-    <string name="th_filter_all">Tudo</string>
     <string name="th_has_calculator">Calculadora</string>
     <string name="th_kirchhoff_assumption_lumped">O circuito é de parâmetros concentrados: os componentes são pontos e o fio entre eles não entra na soma. Em radiofrequência, ou num percurso suficientemente longo, isso deixa de ser verdade.</string>
     <string name="th_kirchhoff_assumption_signs">Os sinais são consigo. Escolha um sentido para cada ramo antes de começar; uma corrente que saia negativa apenas circula ao contrário.</string>

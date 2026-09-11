@@ -169,7 +169,6 @@
     <string name="th_field_time">Temps depuis la manœuvre</string>
     <string name="th_field_turns">Spires</string>
     <string name="th_field_voltage">Tension</string>
-    <string name="th_filter_all">Tous</string>
     <string name="th_has_calculator">Calculatrice</string>
     <string name="th_kirchhoff_assumption_lumped">Le circuit est à constantes localisées : les composants sont des points et le fil entre eux ne compte pas dans la somme. Aux fréquences radio, ou sur un parcours assez long, cela cesse d'être vrai.</string>
     <string name="th_kirchhoff_assumption_signs">Les signes sont à votre charge. Choisissez un sens pour chaque branche avant de commencer ; un courant qui sort négatif circule simplement dans l'autre sens.</string>

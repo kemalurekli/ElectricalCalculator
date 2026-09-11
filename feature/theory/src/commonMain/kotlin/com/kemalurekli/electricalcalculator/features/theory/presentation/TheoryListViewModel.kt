@@ -53,9 +53,6 @@ data class TheorySection(
 @Immutable
 data class TheoryListUiState(
     val query: String = "",
-    val filter: TheoryLevel? = null,
-    /** Levels that actually carry topics, in declaration order. */
-    val levels: ImmutableList<TheoryLevel> = persistentListOf(),
     val sections: ImmutableList<TheorySection> = persistentListOf(),
     /** Whether the advanced shelf is open. */
     val isPro: Boolean = false,
@@ -115,25 +112,17 @@ class TheoryListViewModel(
         // Restores an in-progress search across process death, not just rotation.
         rebuild(
             query = savedStateHandle[KEY_QUERY] ?: "",
-            filter = savedStateHandle.get<String>(KEY_FILTER)?.let(::levelOrNull),
         )
     }
 
     fun onQueryChange(value: String) {
         savedStateHandle[KEY_QUERY] = value
-        rebuild(query = value, filter = _uiState.value.filter)
+        rebuild(query = value)
     }
 
-    /** Selects a level, or clears the filter if it is the one already active. */
-    fun onFilterChange(level: TheoryLevel?) {
-        val next = level.takeIf { it != _uiState.value.filter }
-        savedStateHandle[KEY_FILTER] = next?.name
-        rebuild(query = _uiState.value.query, filter = next)
-    }
 
-    private fun rebuild(query: String, filter: TheoryLevel?) {
+    private fun rebuild(query: String) {
         val matching = resolved
-            .filter { filter == null || it.level == filter }
             .filter { matches(it, query) }
 
         val sections = TheoryLevel.entries
@@ -152,13 +141,6 @@ class TheoryListViewModel(
         _uiState.value = TheoryListUiState(
             isPro = entitlements.isPro.value,
             query = query,
-            filter = filter,
-            // Chips list every level that has content at all, not just the ones
-            // surviving the current query — a chip that vanished as you typed
-            // would take away the control you use to widen the search.
-            levels = TheoryLevel.entries
-                .filter { level -> resolved.any { it.level == level } }
-                .toImmutableList(),
             sections = sections,
         )
     }
@@ -185,12 +167,9 @@ class TheoryListViewModel(
         hasCalculator = topic.calculator != null,
     )
 
-    private fun levelOrNull(name: String): TheoryLevel? =
-        TheoryLevel.entries.firstOrNull { it.name == name }
 
     private companion object {
         const val KEY_QUERY = "theory_query"
-        const val KEY_FILTER = "theory_filter"
     }
 }
 

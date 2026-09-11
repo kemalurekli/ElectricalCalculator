@@ -169,7 +169,6 @@
     <string name="th_field_time">Время с момента включения</string>
     <string name="th_field_turns">Витки</string>
     <string name="th_field_voltage">Напряжение</string>
-    <string name="th_filter_all">Все</string>
     <string name="th_has_calculator">Калькулятор</string>
     <string name="th_kirchhoff_assumption_lumped">Цепь с сосредоточенными параметрами: элементы — это точки, а провод между ними в сумму не входит. На радиочастотах или на достаточно длинной трассе это перестаёт быть верным.</string>
     <string name="th_kirchhoff_assumption_signs">За знаками следите сами. Выберите направление для каждой ветви до начала счёта; ток, вышедший отрицательным, просто течёт в другую сторону.</string>

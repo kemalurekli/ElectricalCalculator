@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -250,11 +251,23 @@ fun ElecSectionHeader(
     val spacing = ElecTheme.spacing
     Text(
         text = title,
-        style = MaterialTheme.typography.titleSmall,
+        // A step up from titleSmall, and semibold. A heading has to be findable
+        // while the thumb is moving, and on the theory shelf it is now the only
+        // thing that says which level the rows under it belong to — the filter
+        // chips that used to say the same three words a screen higher are gone.
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.SemiBold,
         color = MaterialTheme.colorScheme.onSurface,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = spacing.lg, vertical = spacing.sm)
+            // More above than below: the space is what says the section before
+            // this one has ended, and the heading belongs to what follows it.
+            .padding(
+                start = spacing.lg,
+                end = spacing.lg,
+                top = spacing.lg,
+                bottom = spacing.xs,
+            )
             .semantics { heading() },
     )
 }

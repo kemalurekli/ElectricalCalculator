@@ -169,7 +169,6 @@
     <string name="th_field_time">Tempo dalla manovra</string>
     <string name="th_field_turns">Spire</string>
     <string name="th_field_voltage">Tensione</string>
-    <string name="th_filter_all">Tutti</string>
     <string name="th_has_calculator">Calcolatore</string>
     <string name="th_kirchhoff_assumption_lumped">Il circuito è a costanti concentrate: i componenti sono punti e il filo fra loro non entra nella somma. Alle radiofrequenze, o su un percorso abbastanza lungo, questo smette di valere.</string>
     <string name="th_kirchhoff_assumption_signs">I segni restano a vostro carico. Scegliete un verso per ogni ramo prima di cominciare; una corrente che risulta negativa scorre semplicemente nell'altro senso.</string>

@@ -169,7 +169,6 @@
     <string name="th_field_time">Tiempo desde la maniobra</string>
     <string name="th_field_turns">Espiras</string>
     <string name="th_field_voltage">Tensión</string>
-    <string name="th_filter_all">Todos</string>
     <string name="th_has_calculator">Calculadora</string>
     <string name="th_kirchhoff_assumption_lumped">El circuito es de constantes concentradas: los componentes son puntos y el hilo entre ellos no entra en la suma. A frecuencias de radio, o en un recorrido bastante largo, eso deja de ser cierto.</string>
     <string name="th_kirchhoff_assumption_signs">Los signos corren de su cuenta. Elija un sentido para cada rama antes de empezar; una corriente que sale negativa simplemente circula al revés.</string>

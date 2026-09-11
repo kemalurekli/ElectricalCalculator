@@ -169,7 +169,6 @@
     <string name="th_field_time">Zeit seit dem Schalten</string>
     <string name="th_field_turns">Windungen</string>
     <string name="th_field_voltage">Spannung</string>
-    <string name="th_filter_all">Alle</string>
     <string name="th_has_calculator">Rechner</string>
     <string name="th_kirchhoff_assumption_lumped">Der Stromkreis ist konzentriert: Bauteile sind Punkte, und der Draht dazwischen gehört nicht zur Summe. Bei Hochfrequenz oder über eine hinreichend lange Strecke gilt das nicht mehr.</string>
     <string name="th_kirchhoff_assumption_signs">Die Vorzeichen muss man selbst im Griff behalten. Lege für jeden Zweig vorher eine Richtung fest; ein Strom, der negativ herauskommt, fließt schlicht andersherum.</string>

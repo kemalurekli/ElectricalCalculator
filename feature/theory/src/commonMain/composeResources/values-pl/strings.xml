@@ -169,7 +169,6 @@
     <string name="th_field_time">Czas od załączenia</string>
     <string name="th_field_turns">Zwoje</string>
     <string name="th_field_voltage">Napięcie</string>
-    <string name="th_filter_all">Wszystko</string>
     <string name="th_has_calculator">Kalkulator</string>
     <string name="th_kirchhoff_assumption_lumped">Obwód jest o parametrach skupionych: elementy są punktami, a przewód między nimi nie wchodzi do sumy. Przy częstotliwościach radiowych albo na dostatecznie długiej trasie przestaje to być prawdą.</string>
     <string name="th_kirchhoff_assumption_signs">Znaki musisz pilnować sam. Przed rozpoczęciem przyjmij kierunek dla każdej gałęzi; prąd, który wyjdzie ujemny, po prostu płynie w drugą stronę.</string>
