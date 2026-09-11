@@ -17,7 +17,7 @@
     <string name="cs_method_e_full">E — di udara bebas atau pada tray berlubang</string>
     <string name="destination_settings">Pengaturan</string>
     <string name="forum_account_section">Akun forum</string>
-    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/voltageboard/privacy.html</string>
     <string name="settings_about">Tentang</string>
     <string name="settings_appearance">Tampilan</string>
     <string name="settings_engineering">Nilai bawaan teknik</string>

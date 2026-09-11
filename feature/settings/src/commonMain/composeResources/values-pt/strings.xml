@@ -17,7 +17,7 @@
     <string name="cs_method_e_full">E — ao ar livre ou em esteira perfurada</string>
     <string name="destination_settings">Definições</string>
     <string name="forum_account_section">Conta do fórum</string>
-    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/voltageboard/privacy.html</string>
     <string name="settings_about">Sobre</string>
     <string name="settings_appearance">Aspeto</string>
     <string name="settings_engineering">Valores de engenharia</string>

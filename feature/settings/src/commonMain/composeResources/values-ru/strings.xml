@@ -17,7 +17,7 @@
     <string name="cs_method_e_full">E — в свободном воздухе или на перфолотке</string>
     <string name="destination_settings">Настройки</string>
     <string name="forum_account_section">Учётная запись форума</string>
-    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/voltageboard/privacy.html</string>
     <string name="settings_about">О приложении</string>
     <string name="settings_appearance">Оформление</string>
     <string name="settings_engineering">Технические умолчания</string>

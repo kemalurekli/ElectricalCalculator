@@ -2,42 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!--
-	  A partial Info.plist. GENERATE_INFOPLIST_FILE stays on, so Xcode merges
-	  everything it derives from build settings — bundle id, version, scene
-	  manifest, launch screen — on top of what is here.
-
-	  This file exists for one key. Compose Multiplatform refuses to start
-	  without it: PlistSanityCheck throws on a background queue a moment after
-	  launch, which looks like the app opening and then vanishing.
-
-	  The key opts out of UIKit's 60fps cap on ProMotion displays. Compose
-	  drives its own frame pacing, and without this it is limited to half the
-	  refresh rate of every recent iPhone — so the check is a refusal to ship
-	  something that would feel wrong on the hardware most people have.
-
-	  INFOPLIST_KEY_CADisableMinimumFrameDurationOnPhone does not work: that
-	  mechanism only passes through keys Xcode knows about, and this is not one.
-	-->
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-
-	<!--
-	  The languages the app ships, so iOS knows it has more than one.
-
-	  Without this the bundle has no .lproj directories — the strings live in
-	  Compose Resources, not in the bundle's own localisation folders — so iOS
-	  treats the app as English-only and gives it no Language row in Settings.
-	  The reader could not change the language anywhere: not in the app, which
-	  deliberately does not offer a picker, and not in Settings, which did not
-	  know there was a choice.
-
-	  Declaring them is the whole fix. Per-app language then appears in Settings
-	  and writes NSLocale.preferredLanguages, which is exactly what Compose
-	  Resources reads to pick a `values-*` directory.
-
-	  Keep this in step with the `values-*` folders under composeResources.
-	-->
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>

@@ -17,7 +17,7 @@
     <string name="cs_method_e_full">E — trong không khí hoặc trên máng đục lỗ</string>
     <string name="destination_settings">Cài đặt</string>
     <string name="forum_account_section">Tài khoản diễn đàn</string>
-    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/voltageboard/privacy.html</string>
     <string name="settings_about">Giới thiệu</string>
     <string name="settings_appearance">Giao diện</string>
     <string name="settings_engineering">Giá trị mặc định kỹ thuật</string>

@@ -17,7 +17,7 @@
     <string name="cs_method_e_full">E — in vrije lucht of op geperforeerde goot</string>
     <string name="destination_settings">Instellingen</string>
     <string name="forum_account_section">Forumaccount</string>
-    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/voltageboard/privacy.html</string>
     <string name="settings_about">Over</string>
     <string name="settings_appearance">Weergave</string>
     <string name="settings_engineering">Technische standaarden</string>

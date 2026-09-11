@@ -17,7 +17,7 @@
     <string name="cs_method_e_full">E — frei in Luft oder auf Lochblechwanne</string>
     <string name="destination_settings">Einstellungen</string>
     <string name="forum_account_section">Forumkonto</string>
-    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/voltageboard/privacy.html</string>
     <string name="settings_about">Über</string>
     <string name="settings_appearance">Darstellung</string>
     <string name="settings_engineering">Technische Vorgaben</string>

@@ -17,7 +17,7 @@
     <string name="cs_method_e_full">E — à l'air libre ou sur chemin perforé</string>
     <string name="destination_settings">Paramètres</string>
     <string name="forum_account_section">Compte du forum</string>
-    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/voltageboard/privacy.html</string>
     <string name="settings_about">À propos</string>
     <string name="settings_appearance">Apparence</string>
     <string name="settings_engineering">Valeurs par défaut</string>

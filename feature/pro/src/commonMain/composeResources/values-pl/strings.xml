@@ -28,7 +28,7 @@
     <string name="pro_preview_section_oven">4,0</string>
     <string name="pro_preview_section_sockets">2,5</string>
     <string name="pro_privacy">Polityka prywatności</string>
-    <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="pro_privacy_url" translatable="false">https://mobronic.com/voltageboard/privacy.html</string>
     <string name="pro_restore">Przywróć zakup</string>
     <string name="pro_restored">Zakup przywrócony.</string>
     <string name="pro_settings_hint">Kupiłeś już VoltageBoard Pro, albo na innym urządzeniu?</string>

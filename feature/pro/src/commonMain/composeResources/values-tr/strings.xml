@@ -28,7 +28,7 @@
     <string name="pro_preview_section_oven">4,0</string>
     <string name="pro_preview_section_sockets">2,5</string>
     <string name="pro_privacy">Gizlilik politikası</string>
-    <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="pro_privacy_url" translatable="false">https://mobronic.com/voltageboard/privacy.html</string>
     <string name="pro_restore">Satın alımları geri yükle</string>
     <string name="pro_restored">Satın alma geri yüklendi.</string>
     <string name="pro_settings_hint">VoltageBoard Pro'yu daha önce ya da başka bir cihazda mı aldınız?</string>

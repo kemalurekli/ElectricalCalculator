@@ -1,6 +1,6 @@
 # VoltageBoard — Privacy Policy
 
-_Last updated: 17 August 2026_
+_Last updated: 11 September 2026_
 
 VoltageBoard is an offline toolkit for electrical work. The calculators, the
 reference texts, your projects and your calculation history stay on your
@@ -46,19 +46,24 @@ problem they describe has been dealt with.
 
 ## What is collected when you sign in
 
-Signing in uses your Google account. From it the app receives, and the server
-stores:
+There are three ways in: **Google** on Android, **Apple** on iOS, and a
+**six-digit code sent to your email address** on either. Whichever you use, the
+server stores the same three things and nothing else:
 
 | What | Why |
 |---|---|
 | A user identifier | Ties your posts to you, so you can edit and delete them |
 | Your email address | Identifies the account. **It is never shown to other users** and is never sent to any app screen |
-| A display name | Shown next to what you post. Taken from your Google name at first, and you can change it |
+| A display name | Shown next to what you post. Taken from your Google or Apple name at first, and you can change it |
 
-The app does not receive or store your Google password. Sign-in happens through
-Google, which returns a token; the app never sees a credential.
+The app never sees a password. Google and Apple return a token, which the server
+checks; the code sign-in sends a one-time code to an address you type and no
+password exists at all.
 
-Your Google profile picture is not used. The forum shows no avatars.
+If you use **Sign in with Apple** and choose *Hide My Email*, what is stored is
+Apple's relay address. We cannot see your real one, and we do not ask for it.
+
+Your profile picture is not used. The forum shows no avatars.
 
 ## What is collected when you post
 
@@ -102,8 +107,33 @@ Deleted content already in the moderation record stays there.
 
 ## Where the data is
 
-The forum runs on [Supabase](https://supabase.com). Data is stored on their
-infrastructure and subject to their security practices.
+The forum and the error reports run on [Supabase](https://supabase.com). Data is
+stored on their infrastructure and subject to their security practices.
+
+Nothing else leaves your device. Your projects, your calculation history, your
+field notes, your favourites and every figure you have typed into a calculator
+are stored on the device only, and there is no account that syncs them.
+
+## Purchases
+
+VoltageBoard Pro is a one-off purchase. The payment itself is handled entirely
+by Google Play or the App Store; the app never sees a card number, a billing
+address or a name.
+
+To know whether this copy has been paid for, the app uses
+[RevenueCat](https://www.revenuecat.com), a service that records purchases and
+answers that one question. It receives:
+
+- the purchase and its receipt, as the store reports it,
+- an identifier RevenueCat generates for this installation,
+- the store, the country the store reports, and the app version.
+
+It does not receive your name, your email address, or anything else in this
+app. RevenueCat is based in the United States, so this information is processed
+there.
+
+Restoring a purchase on a new device asks the store, not us, which is why it
+works without an account.
 
 ## Children
 
@@ -112,8 +142,14 @@ at which you can consent to data processing where you live.
 
 ## Analytics and advertising
 
-There are none. The app contains no analytics SDK, no advertising, no tracking,
-and no third-party service other than Google sign-in and Supabase.
+There are none. The app contains no analytics SDK, no advertising and no
+tracking: nothing measures what you open, how long you stay, or what you
+calculate.
+
+Three third-party services are used, each for one job and nothing else: Google
+and Apple for signing in to the forum, Supabase for the forum and error reports
+(*Where the data is*), and RevenueCat for purchases (*Purchases*). There are no
+others.
 
 ## Changes
 
@@ -122,9 +158,9 @@ above.
 
 ## Contact
 
-<!--
-  REPLACE THIS with a contact address before publishing. Play requires a
-  reachable one, and an unanswered address is worse than no forum at all.
--->
-For questions about this policy or about data held about you: **[your contact
-address here]**
+For questions about this policy, or about data held about you:
+**devforandr@gmail.com**
+
+Requests to see or delete your data are answered from this address. You can also
+delete everything yourself, at any time, without asking: **Settings → Forum
+account → Delete forum account**.

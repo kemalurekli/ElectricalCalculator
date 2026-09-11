@@ -17,7 +17,7 @@
     <string name="cs_method_e_full">E — w powietrzu lub na korytku perforowanym</string>
     <string name="destination_settings">Ustawienia</string>
     <string name="forum_account_section">Konto na forum</string>
-    <string name="privacy_policy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
+    <string name="privacy_policy_url" translatable="false">https://mobronic.com/voltageboard/privacy.html</string>
     <string name="settings_about">O aplikacji</string>
     <string name="settings_appearance">Wygląd</string>
     <string name="settings_engineering">Domyślne wartości</string>
