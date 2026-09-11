@@ -33,8 +33,10 @@ is:
   identifier and is not tied to your name or account; it exists so that the
   server can refuse a flood of reports from one source. Reinstalling the app
   replaces it,
-- your account identifier, **only if you are signed in to the forum**. Reports
-  sent without signing in are not tied to anyone.
+- your account identifier, **only if you are signed in to the forum**. It lets
+  the operator see which account sent the report, and therefore the display
+  name and the email address on it. Reports sent without signing in are not
+  tied to anyone.
 
 **Nothing you typed into a calculator is sent.** The values, results and
 projects on your device stay on your device.
