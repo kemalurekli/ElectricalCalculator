@@ -17,6 +17,8 @@ import platform.UIKit.NSFontAttributeName
 import platform.UIKit.NSForegroundColorAttributeName
 import platform.UIKit.UIColor
 import platform.UIKit.UIFont
+import platform.UIKit.UIFontWeightRegular
+import platform.UIKit.UIFontWeightSemibold
 import platform.UIKit.UIGraphicsPDFRenderer
 import platform.UIKit.UIGraphicsPDFRendererContext
 import platform.UIKit.drawAtPoint
@@ -81,16 +83,34 @@ private fun PdfOp.drawIn(context: UIGraphicsPDFRendererContext) = when (this) {
  * enum compiled here as a missing branch and there as a silent default.
  */
 private fun attributesFor(style: PdfStyle): Map<Any?, Any> = mapOf(
-    NSFontAttributeName to if (style.bold) {
-        UIFont.boldSystemFontOfSize(style.size.toDouble())
-    } else {
-        UIFont.systemFontOfSize(style.size.toDouble())
+    NSFontAttributeName to when {
+        style.mono -> UIFont.monospacedSystemFontOfSize(
+            style.size.toDouble(),
+            weight = if (style.bold) UIFontWeightSemibold else UIFontWeightRegular,
+        )
+
+        style.bold -> UIFont.boldSystemFontOfSize(style.size.toDouble())
+        else -> UIFont.systemFontOfSize(style.size.toDouble())
     },
-    NSForegroundColorAttributeName to if (style.muted) {
-        UIColor.darkGrayColor
-    } else {
-        UIColor.blackColor
+    NSForegroundColorAttributeName to when (style.ink) {
+        PdfInk.DEFAULT -> UIColor.blackColor
+        PdfInk.MUTED -> UIColor.darkGrayColor
+        PdfInk.WARNING -> WARNING_RED
     },
+)
+
+/**
+ * Darker than a signal red, because this is print.
+ *
+ * The same value the Android renderer uses, for the same reason: a
+ * full-saturation red is drawn for a backlit screen and goes muddy on paper
+ * and on a greyscale printer.
+ */
+private val WARNING_RED: UIColor = UIColor.colorWithRed(
+    red = 176.0 / 255.0,
+    green = 32.0 / 255.0,
+    blue = 32.0 / 255.0,
+    alpha = 1.0,
 )
 
 @OptIn(ExperimentalForeignApi::class)

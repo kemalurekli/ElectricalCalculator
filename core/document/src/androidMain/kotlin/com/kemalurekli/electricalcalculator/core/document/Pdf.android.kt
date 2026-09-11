@@ -3,6 +3,7 @@ package com.kemalurekli.electricalcalculator.core.document
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
 import android.text.TextPaint
 import java.io.ByteArrayOutputStream
@@ -43,6 +44,16 @@ private fun PdfOp.drawOn(canvas: Canvas) = when (this) {
 }
 
 /**
+ * Darker than a signal red, because this is print.
+ *
+ * A full-saturation red is drawn for a screen with a backlight behind it; on
+ * paper, and on the greyscale printer half of these documents will come out
+ * of, it goes muddy. This one stays legibly red on colour and reads as heavy
+ * black without.
+ */
+private val WARNING_RED = Color.rgb(176, 32, 32)
+
+/**
  * Built once per style rather than per operation.
  *
  * A full schedule is a few thousand draws, and a `TextPaint` allocated inside
@@ -51,10 +62,16 @@ private fun PdfOp.drawOn(canvas: Canvas) = when (this) {
 private val paints: Map<PdfStyle, TextPaint> = PdfStyle.entries.associateWith { style ->
     TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = style.size
-        color = if (style.muted) Color.DKGRAY else Color.BLACK
+        color = when (style.ink) {
+            PdfInk.DEFAULT -> Color.BLACK
+            PdfInk.MUTED -> Color.DKGRAY
+            PdfInk.WARNING -> WARNING_RED
+        }
         isFakeBoldText = style.bold
+        if (style.mono) typeface = Typeface.MONOSPACE
     }
 }
+
 
 private fun paintFor(style: PdfStyle): TextPaint = paints.getValue(style)
 

@@ -1,6 +1,12 @@
 package com.kemalurekli.electricalcalculator.features.calculators.presentation
 
 import androidx.compose.runtime.Composable
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.calculator_steps
+import com.kemalurekli.electricalcalculator.core.designsystem.model.CalculationStep
+import com.kemalurekli.electricalcalculator.core.document.DocumentNotice
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.Res
+import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_formula
+import kotlinx.collections.immutable.ImmutableList
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -10,6 +16,7 @@ import com.kemalurekli.electricalcalculator.core.common.util.formatAsDate
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignRes
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_export_pdf
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.document_notice
+import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.document_notice_label
 import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberFileSharing
 import com.kemalurekli.electricalcalculator.core.designsystem.platform.safeFileName
 import com.kemalurekli.electricalcalculator.core.document.DocumentBlock
@@ -51,13 +58,49 @@ interface CalculationExport {
      * this is written to avoid, and one that shows its own output is a better
      * answer than one that explains itself.
      */
-    fun export(title: String, body: String)
+    fun export(
+        title: String,
+        formula: String,
+        body: String,
+        steps: List<DocumentStep>,
+    )
 }
+
+/**
+ * One line of working, with its labels already translated.
+ *
+ * Resolved in composition rather than carried as string resources, because the
+ * export runs outside it: a `StringResource` is a key, and the thing that turns
+ * a key into a sentence is a `@Composable`.
+ */
+data class DocumentStep(
+    val label: String,
+    val formula: String,
+    val substitution: String,
+    val result: String,
+)
+
+/** Translates a calculator's working into something the document can print. */
+@Composable
+fun rememberDocumentSteps(steps: ImmutableList<CalculationStep>): List<DocumentStep> =
+    steps.map { step ->
+        DocumentStep(
+            label = stringResource(step.label),
+            formula = step.formula,
+            substitution = step.substitution,
+            result = step.result,
+        )
+    }
 
 /** No export at all, for a preview or a screen outside the destination. */
 private object NoCalculationExport : CalculationExport {
     override val isPro: Boolean = true
-    override fun export(title: String, body: String) = Unit
+    override fun export(
+        title: String,
+        formula: String,
+        body: String,
+        steps: List<DocumentStep>,
+    ) = Unit
 }
 
 val LocalCalculationExport = staticCompositionLocalOf<CalculationExport> { NoCalculationExport }
@@ -81,25 +124,70 @@ fun rememberCalculationExport(
     // do not.
     val paid by entitlements.isPro.collectAsStateWithLifecycle()
     val sharing = rememberFileSharing()
-    val notice = stringResource(DesignRes.string.document_notice)
     val chooserTitle = stringResource(DesignRes.string.action_export_pdf)
+    val formulaLabel = stringResource(Res.string.calculator_formula)
+    val stepsLabel = stringResource(DesignRes.string.calculator_steps)
 
-    return remember(paid, sharing, notice, chooserTitle, onShowPaywall, pending) {
+    // The reader's own language, and English underneath it unless they are the
+    // same. A document produced here may be read by somebody who does not share
+    // the language it was made in, and the one paragraph that has to survive
+    // that is the one saying the figures are not a design.
+    val notices = buildList {
+        val label = stringResource(DesignRes.string.document_notice_label)
+        val body = stringResource(DesignRes.string.document_notice)
+        add(DocumentNotice(label = label, body = body))
+        if (body != ENGLISH_NOTICE) {
+            add(DocumentNotice(label = ENGLISH_NOTICE_LABEL, body = ENGLISH_NOTICE))
+        }
+    }
+
+    return remember(paid, sharing, notices, chooserTitle, onShowPaywall, pending) {
         object : CalculationExport {
             override val isPro: Boolean = paid
 
-            override fun export(title: String, body: String) {
-                val blocks = body.lines().drop(1).map { line ->
-                    // The first line is the title, which the page already has.
-                    // The separators are a phone's idea of a rule and become a
-                    // real one on paper.
-                    if (line.isSeparator()) DocumentBlock.Divider else DocumentBlock.Line(line)
+            override fun export(
+                title: String,
+                formula: String,
+                body: String,
+                steps: List<DocumentStep>,
+            ) {
+                val blocks = buildList {
+                    // The formula first. Somebody checking a number wants to
+                    // see what was applied before they see what came out, and
+                    // the working after both, because it is only worth reading
+                    // if one of the first two looks wrong.
+                    if (formula.isNotBlank()) {
+                        add(DocumentBlock.Heading(formulaLabel))
+                        formula.lines().forEach { add(DocumentBlock.Expression(it)) }
+                        add(DocumentBlock.Divider)
+                    }
+                    body.lines().drop(1).forEach { line ->
+                        // The first line is the title, which the page already
+                        // has. The separators are a phone's idea of a rule and
+                        // become a real one on paper.
+                        add(
+                            if (line.isSeparator()) {
+                                DocumentBlock.Divider
+                            } else {
+                                DocumentBlock.Line(line)
+                            },
+                        )
+                    }
+                    if (steps.isNotEmpty()) {
+                        add(DocumentBlock.Divider)
+                        add(DocumentBlock.Heading(stepsLabel))
+                        steps.forEach { step ->
+                            add(DocumentBlock.Line(step.label))
+                            add(DocumentBlock.Expression(step.formula))
+                            add(DocumentBlock.Expression("= ${step.substitution}"))
+                            add(DocumentBlock.Expression("= ${step.result}"))
+                        }
+                    }
                 }
                 val pages = TextDocumentLayout.pages(
                     title = title,
-                    subtitle = "$APP_NAME · ${Clock.System.now().formatAsDate()}",
                     body = blocks,
-                    notice = notice,
+                    notices = notices,
                     measurer = pdfTextMeasurer,
                 )
                 if (!isPro) {
@@ -133,6 +221,22 @@ private fun String.isSeparator(): Boolean {
     val trimmed = trim()
     return trimmed.isNotEmpty() && trimmed.all { it == '—' || it == ' ' }
 }
+
+/**
+ * The disclaimer in English, as a constant rather than a resource.
+ *
+ * Every document carries it, whatever the reader's language, so it cannot come
+ * from a string table that resolves to the language in use. The comparison
+ * against the resolved body is what stops an English reader getting it twice —
+ * exact, and needing no locale API to ask a question the strings already answer.
+ */
+private const val ENGLISH_NOTICE_LABEL = "Warning:"
+
+private const val ENGLISH_NOTICE =
+    "These results are not definitive. This application was produced with the help of " +
+        "artificial-intelligence tools and may therefore contain errors. It must not be used " +
+        "for any scientific, academic or engineering purpose. Checking the accuracy of every " +
+        "result is the user's own responsibility, and VoltageBoard can in no way be held liable."
 
 /** Untranslated, like the name on the launcher. */
 private const val APP_NAME = "VoltageBoard"

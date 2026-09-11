@@ -58,6 +58,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberR
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.rememberDocumentSteps
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.CableSizeResult
 import com.kemalurekli.electricalcalculator.features.calculators.cablesize.domain.GoverningConstraint
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
@@ -172,6 +173,8 @@ fun CableSizeRoute(
         ?.takeIf { it.hasSolution }
         ?.let { rememberShareText(title, uiState, it) }
     val export = LocalCalculationExport.current
+    val documentFormula = stringResource(Res.string.cs_formula)
+    val documentSteps = rememberDocumentSteps(uiState.steps)
 
     CableSizeScreen(
         uiState = uiState,
@@ -217,7 +220,7 @@ fun CableSizeRoute(
                 viewModel.onPowerFactorChange(NumberFormatter.formatSignificant(it))
             }
         },
-        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        onExportPdf = summary?.let { text -> { export.export(title, documentFormula, text, documentSteps) } },
         exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
         onNavigateBack = onNavigateBack,

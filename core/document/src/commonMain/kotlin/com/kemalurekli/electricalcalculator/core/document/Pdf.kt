@@ -8,22 +8,37 @@ package com.kemalurekli.electricalcalculator.core.document
  * `android.graphics.pdf` and `UIGraphicsPDFRenderer` without either platform
  * holding an opinion about margins.
  */
-enum class PdfStyle(val size: Float, val bold: Boolean, val muted: Boolean) {
+/**
+ * What colour a style draws in.
+ *
+ * Three, and no more: a document is black on white with a grey for what is
+ * secondary, and one red reserved for the one line on the page a reader must
+ * not skip. A palette is how a PDF stops looking like a report and starts
+ * looking like a leaflet.
+ */
+enum class PdfInk { DEFAULT, MUTED, WARNING }
+
+enum class PdfStyle(
+    val size: Float,
+    val bold: Boolean,
+    val ink: PdfInk,
+    val mono: Boolean = false,
+) {
 
     /** The name of the document. */
-    TITLE(size = 16f, bold = true, muted = false),
+    TITLE(size = 16f, bold = true, ink = PdfInk.DEFAULT),
 
     /** Under the title: what produced it and when. */
-    SUBTITLE(size = 11f, bold = false, muted = true),
+    SUBTITLE(size = 11f, bold = false, ink = PdfInk.MUTED),
 
     /** A section within a document — "Inputs", "Result". */
-    HEADING(size = 10f, bold = true, muted = false),
+    HEADING(size = 10f, bold = true, ink = PdfInk.DEFAULT),
 
     /** Prose and values in a document somebody reads a line at a time. */
-    TEXT(size = 10f, bold = false, muted = false),
+    TEXT(size = 10f, bold = false, ink = PdfInk.DEFAULT),
 
     /** A column heading in a table. */
-    HEADER(size = 8.5f, bold = true, muted = false),
+    HEADER(size = 8.5f, bold = true, ink = PdfInk.DEFAULT),
 
     /**
      * A table cell.
@@ -32,10 +47,31 @@ enum class PdfStyle(val size: Float, val bold: Boolean, val muted: Boolean) {
      * the figures have to stay on one line, where a document's own sentences
      * have a whole page width to run in.
      */
-    BODY(size = 8.5f, bold = false, muted = false),
+    BODY(size = 8.5f, bold = false, ink = PdfInk.DEFAULT),
 
-    /** A field label, and the notice at the foot of a page. */
-    LABEL(size = 8.5f, bold = false, muted = true),
+    /** A field label. */
+    LABEL(size = 8.5f, bold = false, ink = PdfInk.MUTED),
+
+    /**
+     * An equation, and the substitutions under it.
+     *
+     * Monospaced, because the point of showing the working is that the reader
+     * can follow one line into the next, and digits that do not sit above each
+     * other make that harder than reading the formula again.
+     */
+    FORMULA(size = 10f, bold = false, ink = PdfInk.DEFAULT, mono = true),
+
+    /** "Warning:", and only that word. */
+    NOTICE_LABEL(size = 8.5f, bold = true, ink = PdfInk.WARNING),
+
+    /**
+     * The disclaimer itself.
+     *
+     * Black rather than grey, unlike every other small print in this app. Grey
+     * is what a document uses for what the reader may skip, and this is the one
+     * paragraph that has to be readable when it matters.
+     */
+    NOTICE(size = 8.5f, bold = false, ink = PdfInk.DEFAULT),
 }
 
 sealed interface PdfOp {

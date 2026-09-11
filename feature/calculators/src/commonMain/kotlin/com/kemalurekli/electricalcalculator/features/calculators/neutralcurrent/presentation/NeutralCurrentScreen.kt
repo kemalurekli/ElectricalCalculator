@@ -50,6 +50,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.platform.rememberR
 import com.kemalurekli.electricalcalculator.core.ui.layout.currentWindowLayout
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.rememberDocumentSteps
 import com.kemalurekli.electricalcalculator.features.calculators.neutralcurrent.domain.NeutralCurrentResult
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import kotlinx.collections.immutable.persistentListOf
@@ -114,6 +115,8 @@ fun NeutralCurrentRoute(
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
     val export = LocalCalculationExport.current
+    val documentFormula = stringResource(Res.string.nc_formula)
+    val documentSteps = rememberDocumentSteps(uiState.steps)
 
     NeutralCurrentScreen(
         uiState = uiState,
@@ -133,7 +136,7 @@ fun NeutralCurrentRoute(
             }
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
-        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        onExportPdf = summary?.let { text -> { export.export(title, documentFormula, text, documentSteps) } },
         exportLocked = !export.isPro,
         onReferenceClick = onReferenceClick,
         onNavigateBack = onNavigateBack,

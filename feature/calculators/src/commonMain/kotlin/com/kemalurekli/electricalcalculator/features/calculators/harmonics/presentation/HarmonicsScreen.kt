@@ -68,6 +68,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.rememberDocumentSteps
 import com.kemalurekli.electricalcalculator.features.calculators.harmonics.domain.HarmonicsResult
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.Res
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.action_calculate
@@ -112,6 +113,8 @@ fun HarmonicsRoute(
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
     val export = LocalCalculationExport.current
+    val documentFormula = stringResource(Res.string.hm_formula)
+    val documentSteps = rememberDocumentSteps(uiState.steps)
 
     HarmonicsScreen(
         uiState = uiState,
@@ -124,7 +127,7 @@ fun HarmonicsRoute(
         },
         onShare = { summary?.let { sharing.share(shareSubject, it) } },
         onReferenceClick = onReferenceClick,
-        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        onExportPdf = summary?.let { text -> { export.export(title, documentFormula, text, documentSteps) } },
         exportLocked = !export.isPro,
         snackbarHostState = snackbarHostState,
         onFundamentalChange = viewModel::onFundamentalChange,

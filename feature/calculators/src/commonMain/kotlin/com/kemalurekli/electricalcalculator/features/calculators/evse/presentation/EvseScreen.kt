@@ -65,6 +65,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.model.WorkedExample
 import com.kemalurekli.electricalcalculator.features.calculators.presentation.LocalCalculationExport
+import com.kemalurekli.electricalcalculator.features.calculators.presentation.rememberDocumentSteps
 import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.DcFaultDetection
 import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.EvseConnection
 import com.kemalurekli.electricalcalculator.features.calculators.evse.domain.EvseResult
@@ -123,6 +124,8 @@ fun EvseRoute(
     val shareSubject = stringResource(Res.string.calculator_share_subject, title)
     val summary = uiState.result?.let { rememberShareText(title, uiState, it) }
     val export = LocalCalculationExport.current
+    val documentFormula = stringResource(Res.string.ev_formula)
+    val documentSteps = rememberDocumentSteps(uiState.steps)
 
     EvseScreen(
         uiState = uiState,
@@ -150,7 +153,7 @@ fun EvseRoute(
                 viewModel.onSupplyVoltageChange(NumberFormatter.formatSignificant(it))
             }
         },
-        onExportPdf = summary?.let { text -> { export.export(title, text) } },
+        onExportPdf = summary?.let { text -> { export.export(title, documentFormula, text, documentSteps) } },
         exportLocked = !export.isPro,
         snackbarHostState = snackbarHostState,
         onPointCountChange = viewModel::onPointCountChange,
