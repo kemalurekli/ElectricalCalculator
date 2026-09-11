@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
@@ -40,7 +41,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecLoadingState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchBar
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
@@ -135,6 +136,7 @@ fun HistoryScreen(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val spacing = ElecTheme.spacing
+    val listState = rememberLazyListState()
     val scrollBehavior = rememberElecScrollBehavior()
 
     var renaming by remember { mutableStateOf<CalculationRecord?>(null) }
@@ -162,16 +164,13 @@ fun HistoryScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            ElecSearchBar(
+            ElecSearchHeader(
                 query = query,
                 onQueryChange = onQueryChange,
                 // This field searches saved calculations, not the catalog, so
                 // it must not borrow the home screen's placeholder.
                 placeholder = stringResource(Res.string.search_history_hint),
-                modifier = Modifier.padding(
-                    horizontal = spacing.screenHorizontal,
-                    vertical = spacing.sm,
-                ),
+                scrolled = listState.canScrollBackward,
             )
 
             when {
@@ -185,6 +184,7 @@ fun HistoryScreen(
                 )
 
                 else -> LazyColumn(
+                    state = listState,
                     contentPadding = PaddingValues(
                         start = spacing.screenHorizontal,
                         end = spacing.screenHorizontal,

@@ -28,7 +28,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmpt
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListDivider
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecListItem
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchBar
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
@@ -107,15 +107,11 @@ fun TheoryScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            ElecSearchBar(
+            ElecSearchHeader(
                 query = uiState.query,
                 onQueryChange = onQueryChange,
                 placeholder = stringResource(Res.string.th_search_hint),
-                modifier = Modifier.padding(
-                    start = spacing.screenHorizontal,
-                    end = spacing.screenHorizontal,
-                    bottom = spacing.sm,
-                ),
+                scrolled = listState.canScrollBackward,
             )
 
             if (uiState.hasNoResults) {

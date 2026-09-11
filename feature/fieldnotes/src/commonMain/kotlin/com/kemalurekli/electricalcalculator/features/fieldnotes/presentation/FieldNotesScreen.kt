@@ -40,7 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchBar
+import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSearchHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecSectionHeader
 import com.kemalurekli.electricalcalculator.core.designsystem.component.rememberElecScrollBehavior
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
@@ -150,15 +150,11 @@ fun FieldNotesScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            ElecSearchBar(
+            ElecSearchHeader(
                 query = uiState.query,
                 onQueryChange = onQueryChange,
                 placeholder = stringResource(Res.string.fn_search_hint),
-                modifier = Modifier.padding(
-                    start = spacing.screenHorizontal,
-                    end = spacing.screenHorizontal,
-                    bottom = spacing.sm,
-                ),
+                scrolled = listState.canScrollBackward,
             )
 
             CategoryFilter(
