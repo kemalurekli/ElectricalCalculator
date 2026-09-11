@@ -1,0 +1,11 @@
+/* Why VoltageBoard asks for the camera.
+
+   Apple shows this sentence in the permission prompt, in the reader's own
+   language, and rejects a vague one. It answers the three questions somebody
+   holding the phone actually has: what for, where the photo is processed, and
+   where it goes.
+
+   The app's own text is translated through Compose Resources; this file exists
+   because an Info.plist string cannot be. */
+
+"NSCameraUsageDescription" = "VoltageBoard использует камеру, чтобы вы могли сфотографировать заводскую табличку оборудования и перенести её значения прямо в калькулятор. Снимки обрабатываются на вашем устройстве, не сохраняются и никуда не передаются.";
