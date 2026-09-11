@@ -142,19 +142,6 @@ private fun Header() {
     }
 }
 
-/**
- * Gold, darkened enough to clear 4.5:1 on the light scheme's surface.
- *
- * The raw `ProGold` is drawn to sit on navy, where it is a light colour. On
- * paper-white it is a mid-tone and fails as text, so the light scheme gets a
- * deeper version of the same hue rather than a different colour.
- */
-@Composable
-private fun ProGoldInk(): Color =
-    if (MaterialTheme.colorScheme.surface.luminance() > 0.5f) GOLD_INK_ON_LIGHT else ProGold
-
-private fun Color.luminance(): Float = 0.299f * red + 0.587f * green + 0.114f * blue
-
 @Composable
 private fun Feature(text: String, inFree: Boolean, last: Boolean = false) {
     val spacing = ElecTheme.spacing
@@ -226,6 +213,5 @@ private val MARK = 20.dp
 private val MARK_PRO = 24.dp
 private val PANEL_CORNER = 16.dp
 private val PANEL_STROKE = 1.dp
-private val GOLD_INK_ON_LIGHT = Color(0xFF8A6410)
 private const val TINT_ALPHA = 0.13f
 private const val BORDER_ALPHA = 0.55f

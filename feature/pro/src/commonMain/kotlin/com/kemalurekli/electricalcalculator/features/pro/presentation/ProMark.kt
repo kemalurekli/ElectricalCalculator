@@ -9,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -131,3 +132,20 @@ private val RING_WIDTH = 2.5.dp
 private const val FULL_TURN = 360f
 private const val TURN_MILLIS = 3200
 private const val OVERDRAW = 3f
+
+/**
+ * Gold, darkened enough to clear 4.5:1 on the light scheme's surface.
+ *
+ * [ProGold] is drawn to sit on dark: on the mark's ring, and against the ink of
+ * a night-time screen. On paper-white it is a mid-tone and fails as text, so
+ * the light scheme gets a deeper version of the same hue rather than a
+ * different colour. One gold with two values, not two golds.
+ */
+@Composable
+internal fun ProGoldInk(): Color =
+    if (MaterialTheme.colorScheme.surface.luminance() > LIGHT_THRESHOLD) GOLD_ON_LIGHT else ProGold
+
+private fun Color.luminance(): Float = 0.299f * red + 0.587f * green + 0.114f * blue
+
+private val GOLD_ON_LIGHT = Color(0xFF8A6410)
+private const val LIGHT_THRESHOLD = 0.5f

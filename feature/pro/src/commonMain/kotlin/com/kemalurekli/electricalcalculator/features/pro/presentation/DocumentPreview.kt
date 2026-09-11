@@ -2,7 +2,7 @@ package com.kemalurekli.electricalcalculator.features.pro.presentation
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -84,14 +84,18 @@ internal fun DocumentPreview(
         // Paper, not a themed surface: a document is white in every scheme,
         // and showing it on the dark grey of a night-time card would be a
         // picture of something the reader is never going to receive.
+        // Fills whatever box the caller gives it, and scales the page by
+        // width. Asking for the paper's aspect ratio and clipping the overflow
+        // was the obvious way and it did not survive contact: inside a fixed
+        // height the constraint negotiation put the middle of the page on
+        // screen instead of the top. Scaling by width and simply not drawing
+        // what falls below the box has one answer and it is the same on both
+        // platforms.
         Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(size.width / size.height),
-            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxSize(),
             color = PAPER,
         ) {
-            Canvas(modifier = Modifier.fillMaxWidth()) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
                 val scale = this.size.width / size.width
                 page.forEach { op ->
                     when (op) {

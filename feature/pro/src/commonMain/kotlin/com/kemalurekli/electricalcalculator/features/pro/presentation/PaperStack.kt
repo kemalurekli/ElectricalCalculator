@@ -1,8 +1,7 @@
 package com.kemalurekli.electricalcalculator.features.pro.presentation
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -10,6 +9,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 
 /**
@@ -40,11 +40,7 @@ import androidx.compose.ui.graphics.drawscope.rotate
  */
 @Composable
 internal fun PaperStack(modifier: Modifier = Modifier) {
-    Canvas(
-        modifier = modifier
-            .fillMaxWidth()
-            .aspectRatio(ASPECT),
-    ) {
+    Canvas(modifier = modifier.fillMaxSize()) {
         val sheet = Size(size.width * SHEET_WIDTH, size.height * SHEET_HEIGHT)
         val centre = Offset((size.width - sheet.width) / 2f, (size.height - sheet.height) / 2f)
 
@@ -58,6 +54,16 @@ internal fun PaperStack(modifier: Modifier = Modifier) {
                     topLeft = centre,
                     size = sheet,
                     cornerRadius = CornerRadius(CORNER, CORNER),
+                )
+                // A hairline, because the app separates containers by tone plus
+                // an outline everywhere else and white on near-white is not a
+                // findable edge.
+                drawRoundRect(
+                    color = PAPER_EDGE,
+                    topLeft = centre,
+                    size = sheet,
+                    cornerRadius = CornerRadius(CORNER, CORNER),
+                    style = Stroke(width = EDGE_WIDTH),
                 )
                 if (front) drawRules(centre, sheet)
             }
@@ -93,13 +99,22 @@ private fun DrawScope.drawRules(topLeft: Offset, sheet: Size) {
 /** Degrees, back sheet first. The front one sits square. */
 private val TILTS = listOf(-7f, 4f, 0f)
 
-private const val ASPECT = 1.5f
 private const val SHEET_WIDTH = 0.52f
 private const val SHEET_HEIGHT = 0.84f
 private const val CORNER = 10f
+private const val EDGE_WIDTH = 1.5f
 
-private val PAPER_FRONT = Color(0xFFF7F9FB)
-private val PAPER_BACK = Color(0x40FFFFFF)
+/**
+ * Paper, committed to in both schemes.
+ *
+ * The sheets used to sit on a navy panel and took their contrast from it. On
+ * the page's own background they have to carry it themselves, so the front one
+ * is white with a hairline and the ones behind it are a step darker — which is
+ * also what a stack of paper looks like.
+ */
+private val PAPER_FRONT = Color(0xFFFDFDFD)
+private val PAPER_BACK = Color(0xFFE4E9EE)
+private val PAPER_EDGE = Color(0xFFC8D0D8)
 private val RULE_TITLE = Color(0xFF1D4C70)
 private val RULE_LINE = Color(0xFFC3CCD4)
 

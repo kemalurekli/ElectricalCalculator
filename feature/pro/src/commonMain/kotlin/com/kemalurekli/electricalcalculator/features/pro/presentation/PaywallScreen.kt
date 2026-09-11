@@ -204,9 +204,9 @@ fun PaywallScreen(
                     .padding(bottom = spacing.lg),
                 verticalArrangement = Arrangement.spacedBy(spacing.lg),
             ) {
-                // Full width, so the band reaches both edges. Everything below
+                // Full width, so the page reaches both edges. Everything below
                 // it keeps the screen inset.
-                ProHero(subline = stringResource(Res.string.pro_one_time)) {
+                ProShowcase(subline = stringResource(Res.string.pro_one_time)) {
                     // The reader's own page when they got here by trying to
                     // export one. A sample asks somebody to imagine their work
                     // in it; their own page does not have to be imagined.
@@ -215,20 +215,20 @@ fun PaywallScreen(
                     // Settings — no figures at all, rather than a schedule of
                     // invented circuits standing in for work nobody has done.
                     if (previewPage != null) {
-                        DocumentPreview(
-                            page = previewPage,
-                            size = previewSize,
-                            modifier = Modifier.padding(top = spacing.sm),
-                        )
-                        Text(
-                            text = stringResource(Res.string.pro_preview_document_caption),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = HERO_CAPTION,
-                            textAlign = TextAlign.Center,
-                        )
+                        DocumentPreview(page = previewPage, size = previewSize)
                     } else {
-                        PaperStack(modifier = Modifier.padding(top = spacing.sm))
+                        PaperStack()
                     }
+                }
+
+                if (previewPage != null) {
+                    Text(
+                        text = stringResource(Res.string.pro_preview_document_caption),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+                    )
                 }
 
                 // Four benefit rows used to sit here. They answered "what do I
@@ -382,9 +382,6 @@ private val PRICE_SKELETON = 120.dp
 
 private val SPINNER = 20.dp
 private val SPINNER_STROKE = 2.dp
-
-/** Quieter than the gold line, and still legible on the panel. */
-private val HERO_CAPTION = Color(0xFFB9C9D6)
 
 /** Near-black rather than white: gold is a light colour and carries dark text. */
 private val ON_GOLD = Color(0xFF16222B)
