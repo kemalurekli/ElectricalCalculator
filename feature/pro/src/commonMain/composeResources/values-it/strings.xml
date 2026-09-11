@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Qualsiasi calcolatore, con i valori inseriti</string>
-    <string name="pro_benefit_calculation_title">Anche ogni calcolo</string>
-    <string name="pro_benefit_free">Calcolatori, riferimenti, teoria e forum restano gratuiti</string>
-    <string name="pro_benefit_future">Tutto ciò che verrà aggiunto a Pro in seguito, senza costi</string>
+    <string name="pro_benefit_calculation_title">Un PDF da ogni calcolo</string>
     <string name="pro_benefit_future_title">Nessun secondo acquisto</string>
     <string name="pro_benefit_pdf">Il documento che consegni al cliente o al verificatore</string>
     <string name="pro_benefit_pdf_title">Lo schema in PDF</string>
-    <string name="pro_benefit_schedule">Corrente d'impiego, sezione e dispositivo di protezione, riga per riga</string>
     <string name="pro_benefit_schedule_title">Ogni circuito su un foglio</string>
     <string name="pro_buy_loading">Connessione allo store…</string>
     <string name="pro_compare_free">Gratis</string>
@@ -20,29 +16,16 @@
     <string name="pro_error_owned">Lo possiedi già. Usa «Ripristina un acquisto».</string>
     <string name="pro_error_store">Lo store non risponde in questo momento. Riprova più tardi.</string>
     <string name="pro_error_unknown">Non è andata a buon fine. Riprova più tardi.</string>
-    <string name="pro_headline_calculation">Consegna questo calcolo come documento</string>
-    <string name="pro_headline_general">Consegna il tuo lavoro come documento</string>
-    <string name="pro_headline_pdf">Consegna lo schema dei circuiti in PDF</string>
     <string name="pro_nothing_to_restore">Questo account dello store non ha acquisti da ripristinare.</string>
     <string name="pro_one_time">Pagamento unico. Nessun abbonamento.</string>
     <string name="pro_owned">Pro è sbloccato su questo dispositivo.</string>
-    <string name="pro_preview_caption">Un esempio dello schema esportato: circuiti con corrente d'impiego, sezione e dispositivo di protezione.</string>
     <string name="pro_preview_document_caption">Il vostro calcolo, sulla pagina con cui verrebbe consegnato. Pro lo esporta in PDF, senza il timbro.</string>
     <string name="pro_preview_watermark">ANTEPRIMA</string>
-    <string name="pro_preview_column_circuit">Circuito</string>
-    <string name="pro_preview_column_current">Ib (A)</string>
-    <string name="pro_preview_column_device">In (A)</string>
-    <string name="pro_preview_column_section">S (mm²)</string>
-    <string name="pro_preview_row_heat_pump">Pompa di calore</string>
-    <string name="pro_preview_row_lighting">Illuminazione</string>
-    <string name="pro_preview_row_oven">Forno</string>
     <string name="pro_preview_row_sockets">Prese</string>
     <string name="pro_preview_section_heat_pump">6,0</string>
     <string name="pro_preview_section_lighting">1,5</string>
     <string name="pro_preview_section_oven">4,0</string>
     <string name="pro_preview_section_sockets">2,5</string>
-    <string name="pro_preview_supply">400 V · trifase · Rame · PVC 70 °C</string>
-    <string name="pro_preview_title">Schema dei circuiti</string>
     <string name="pro_privacy">Informativa sulla privacy</string>
     <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
     <string name="pro_restore">Ripristina un acquisto</string>

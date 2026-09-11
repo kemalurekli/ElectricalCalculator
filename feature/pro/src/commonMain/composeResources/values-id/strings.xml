@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Kalkulator mana pun, dengan nilai yang Anda masukkan</string>
-    <string name="pro_benefit_calculation_title">Setiap perhitungan juga</string>
-    <string name="pro_benefit_free">Kalkulator, referensi, teori dan forum tetap gratis</string>
-    <string name="pro_benefit_future">Semua yang ditambahkan ke Pro nanti, tanpa biaya tambahan</string>
+    <string name="pro_benefit_calculation_title">PDF dari setiap perhitungan</string>
     <string name="pro_benefit_future_title">Tanpa pembelian kedua</string>
     <string name="pro_benefit_pdf">Dokumen yang Anda serahkan ke pelanggan atau pemeriksa</string>
     <string name="pro_benefit_pdf_title">Daftar rangkaian sebagai PDF</string>
-    <string name="pro_benefit_schedule">Arus desain, luas penampang dan gawai proteksi, baris demi baris</string>
     <string name="pro_benefit_schedule_title">Setiap rangkaian dalam satu lembar</string>
     <string name="pro_buy_loading">Menghubungi toko…</string>
     <string name="pro_compare_free">Gratis</string>
@@ -20,29 +16,16 @@
     <string name="pro_error_owned">Anda sudah memilikinya. Gunakan “Pulihkan pembelian”.</string>
     <string name="pro_error_store">Toko sedang tidak merespons. Coba lagi nanti.</string>
     <string name="pro_error_unknown">Tidak berhasil diproses. Coba lagi nanti.</string>
-    <string name="pro_headline_calculation">Serahkan perhitungan ini sebagai dokumen</string>
-    <string name="pro_headline_general">Serahkan pekerjaan Anda sebagai dokumen</string>
-    <string name="pro_headline_pdf">Serahkan daftar rangkaian sebagai PDF</string>
     <string name="pro_nothing_to_restore">Akun toko ini tidak punya pembelian untuk dipulihkan.</string>
     <string name="pro_one_time">Pembayaran sekali. Tanpa langganan.</string>
     <string name="pro_owned">Pro aktif di perangkat ini.</string>
-    <string name="pro_preview_caption">Contoh daftar rangkaian yang diekspor: rangkaian dengan arus desain, luas penampang dan gawai proteksi.</string>
     <string name="pro_preview_document_caption">Perhitungan Anda sendiri, pada halaman seperti saat diserahkan. Pro mengekspornya sebagai PDF, tanpa cap.</string>
     <string name="pro_preview_watermark">PRATINJAU</string>
-    <string name="pro_preview_column_circuit">Rangkaian</string>
-    <string name="pro_preview_column_current">Ib (A)</string>
-    <string name="pro_preview_column_device">In (A)</string>
-    <string name="pro_preview_column_section">S (mm²)</string>
-    <string name="pro_preview_row_heat_pump">Pompa kalor</string>
-    <string name="pro_preview_row_lighting">Penerangan</string>
-    <string name="pro_preview_row_oven">Oven</string>
     <string name="pro_preview_row_sockets">Stopkontak</string>
     <string name="pro_preview_section_heat_pump">6,0</string>
     <string name="pro_preview_section_lighting">1,5</string>
     <string name="pro_preview_section_oven">4,0</string>
     <string name="pro_preview_section_sockets">2,5</string>
-    <string name="pro_preview_supply">400 V · 3 fasa · Tembaga · PVC 70 °C</string>
-    <string name="pro_preview_title">Daftar rangkaian</string>
     <string name="pro_privacy">Kebijakan privasi</string>
     <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
     <string name="pro_restore">Pulihkan pembelian</string>

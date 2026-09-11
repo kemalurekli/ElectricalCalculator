@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Jeder Rechner, mit den eingegebenen Werten</string>
-    <string name="pro_benefit_calculation_title">Auch jede Berechnung</string>
-    <string name="pro_benefit_free">Rechner, Referenzen, Theorie und Forum bleiben kostenlos</string>
-    <string name="pro_benefit_future">Alles, was später zu Pro kommt, ohne Aufpreis</string>
+    <string name="pro_benefit_calculation_title">PDF aus jeder Berechnung</string>
     <string name="pro_benefit_future_title">Kein zweiter Kauf</string>
     <string name="pro_benefit_pdf">Das Dokument, das Sie dem Kunden oder Prüfer geben</string>
     <string name="pro_benefit_pdf_title">Der Stromkreisplan als PDF</string>
-    <string name="pro_benefit_schedule">Betriebsstrom, Querschnitt und Schutzeinrichtung, Zeile für Zeile</string>
     <string name="pro_benefit_schedule_title">Jeder Stromkreis auf einem Blatt</string>
     <string name="pro_buy_loading">Verbindung zum Store …</string>
     <string name="pro_compare_free">Kostenlos</string>
@@ -20,29 +16,16 @@
     <string name="pro_error_owned">Das besitzen Sie bereits. Nutzen Sie „Kauf wiederherstellen“.</string>
     <string name="pro_error_store">Der Store antwortet gerade nicht. Versuchen Sie es später.</string>
     <string name="pro_error_unknown">Das hat nicht geklappt. Versuchen Sie es später.</string>
-    <string name="pro_headline_calculation">Diese Berechnung als Dokument übergeben</string>
-    <string name="pro_headline_general">Übergeben Sie Ihre Arbeit als Dokument</string>
-    <string name="pro_headline_pdf">Den Stromkreisplan als PDF übergeben</string>
     <string name="pro_nothing_to_restore">Für dieses Store-Konto gibt es keinen Kauf zum Wiederherstellen.</string>
     <string name="pro_one_time">Einmalzahlung. Kein Abo.</string>
     <string name="pro_owned">Pro ist auf diesem Gerät freigeschaltet.</string>
-    <string name="pro_preview_caption">Ein Beispiel des exportierten Stromkreisplans: Stromkreise mit Betriebsstrom, Querschnitt und Schutzeinrichtung.</string>
     <string name="pro_preview_document_caption">Ihre eigene Berechnung auf dem Blatt, auf dem sie übergeben würde. Pro exportiert sie ohne Stempel als PDF.</string>
     <string name="pro_preview_watermark">VORSCHAU</string>
-    <string name="pro_preview_column_circuit">Stromkreis</string>
-    <string name="pro_preview_column_current">Ib (A)</string>
-    <string name="pro_preview_column_device">In (A)</string>
-    <string name="pro_preview_column_section">S (mm²)</string>
-    <string name="pro_preview_row_heat_pump">Wärmepumpe</string>
-    <string name="pro_preview_row_lighting">Beleuchtung</string>
-    <string name="pro_preview_row_oven">Backofen</string>
     <string name="pro_preview_row_sockets">Steckdosen</string>
     <string name="pro_preview_section_heat_pump">6,0</string>
     <string name="pro_preview_section_lighting">1,5</string>
     <string name="pro_preview_section_oven">4,0</string>
     <string name="pro_preview_section_sockets">2,5</string>
-    <string name="pro_preview_supply">400 V · 3-phasig · Kupfer · PVC 70 °C</string>
-    <string name="pro_preview_title">Stromkreisplan</string>
     <string name="pro_privacy">Datenschutzerklärung</string>
     <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
     <string name="pro_restore">Kauf wiederherstellen</string>

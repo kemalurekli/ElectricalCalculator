@@ -1,11 +1,11 @@
 package com.kemalurekli.electricalcalculator.features.pro.presentation
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,12 +20,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.Res
@@ -52,12 +51,46 @@ import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_
  * are ticked in both columns. Saying plainly that the calculators, the
  * reference library and the forum stay free is the most trust-building thing
  * on the page, and it costs nothing, because they were never for sale.
+ *
+ * ### Why the Pro column is a column and not six tinted cells
+ *
+ * It was the latter, and it read as six separate highlights rather than as one
+ * thing you could run a finger down. It is now a single panel drawn behind the
+ * rows: tinted, outlined in the gold that means Pro on the mark above and on
+ * the button below, and capped with the word. Every paywall that sells one
+ * option out of several does some version of this, and the reason is that a
+ * reader's eye has to be told where to land before it will read anything at all.
  */
 @Composable
 internal fun ProComparison(modifier: Modifier = Modifier) {
     val spacing = ElecTheme.spacing
 
-    ElecCard(modifier = modifier.fillMaxWidth()) {
+    Box(modifier = modifier.fillMaxWidth()) {
+        // Drawn first and behind: the column exists before the rows do, which
+        // is what makes it read as a container rather than as a row property.
+        //
+        // Two boxes, not one. The table sits inside a vertical scroll, so its
+        // incoming height constraint is infinite and a bare `fillMaxHeight`
+        // resolves to nothing. `matchParentSize` measures against the size the
+        // rows settled on, and gives the inner box a bound to fill.
+        Box(modifier = Modifier.matchParentSize()) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .width(COLUMN)
+                    .fillMaxHeight()
+                    .background(
+                        color = ProGold.copy(alpha = TINT_ALPHA),
+                        shape = RoundedCornerShape(PANEL_CORNER),
+                    )
+                    .border(
+                        width = PANEL_STROKE,
+                        color = ProGold.copy(alpha = BORDER_ALPHA),
+                        shape = RoundedCornerShape(PANEL_CORNER),
+                    ),
+            )
+        }
+
         Column(modifier = Modifier.fillMaxWidth()) {
             Header()
 
@@ -71,6 +104,10 @@ internal fun ProComparison(modifier: Modifier = Modifier) {
                 inFree = false,
                 last = true,
             )
+
+            // Inside the panel, under the last row: the column's own foot, so
+            // the tint does not stop flush against a tick.
+            Box(modifier = Modifier.height(spacing.md))
         }
     }
 }
@@ -82,37 +119,42 @@ private fun Header() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = spacing.lg, top = spacing.md, bottom = spacing.sm),
-        verticalAlignment = Alignment.CenterVertically,
+            .padding(bottom = spacing.sm),
+        verticalAlignment = Alignment.Bottom,
     ) {
         Box(modifier = Modifier.weight(1f))
-        ColumnLabel(
+        Text(
             text = stringResource(Res.string.pro_compare_free),
-            colour = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.width(COLUMN),
         )
-        ColumnLabel(text = PRO, colour = MaterialTheme.colorScheme.onSurface)
+        Text(
+            text = PRO,
+            style = MaterialTheme.typography.titleSmall,
+            color = ProGoldInk(),
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .width(COLUMN)
+                .padding(top = spacing.md),
+        )
     }
-    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-}
-
-@Composable
-private fun ColumnLabel(text: String, colour: Color) {
-    Text(
-        text = text,
-        style = MaterialTheme.typography.labelLarge,
-        color = colour,
-        textAlign = TextAlign.Center,
-        modifier = Modifier.width(COLUMN),
-    )
 }
 
 /**
- * One row.
+ * Gold, darkened enough to clear 4.5:1 on the light scheme's surface.
  *
- * The Pro column is tinted down the whole height of the table rather than cell
- * by cell, which is what makes it read as a column somebody could run a finger
- * down instead of as six separate highlights.
+ * The raw `ProGold` is drawn to sit on navy, where it is a light colour. On
+ * paper-white it is a mid-tone and fails as text, so the light scheme gets a
+ * deeper version of the same hue rather than a different colour.
  */
+@Composable
+private fun ProGoldInk(): Color =
+    if (MaterialTheme.colorScheme.surface.luminance() > 0.5f) GOLD_INK_ON_LIGHT else ProGold
+
+private fun Color.luminance(): Float = 0.299f * red + 0.587f * green + 0.114f * blue
+
 @Composable
 private fun Feature(text: String, inFree: Boolean, last: Boolean = false) {
     val spacing = ElecTheme.spacing
@@ -129,39 +171,29 @@ private fun Feature(text: String, inFree: Boolean, last: Boolean = false) {
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .weight(1f)
-                .padding(start = spacing.lg, end = spacing.sm),
+                .padding(end = spacing.sm),
         )
-        Mark(present = inFree, tinted = false)
-        Mark(present = true, tinted = true, rounded = last)
+        Mark(
+            present = inFree,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            size = MARK,
+        )
+        Mark(present = true, tint = ProGoldInk(), size = MARK_PRO)
     }
     if (!last) {
         HorizontalDivider(
             color = MaterialTheme.colorScheme.outlineVariant,
-            modifier = Modifier.padding(start = spacing.lg),
+            // Stops short of the Pro column, so the panel is not crossed by
+            // five lines that belong to the table rather than to it.
+            modifier = Modifier.padding(end = COLUMN),
         )
     }
 }
 
 @Composable
-private fun RowScope.Mark(present: Boolean, tinted: Boolean, rounded: Boolean = false) {
-    val shape = if (rounded) {
-        RoundedCornerShape(bottomStart = TINT_CORNER, bottomEnd = TINT_CORNER)
-    } else {
-        RoundedCornerShape(0.dp)
-    }
-
+private fun Mark(present: Boolean, tint: Color, size: Dp) {
     Box(
-        modifier = Modifier
-            .width(COLUMN)
-            .fillMaxHeight()
-            .clip(shape)
-            .background(
-                if (tinted) {
-                    MaterialTheme.colorScheme.primary.copy(alpha = TINT_ALPHA)
-                } else {
-                    Color.Transparent
-                },
-            ),
+        modifier = Modifier.width(COLUMN),
         contentAlignment = Alignment.Center,
     ) {
         if (present) {
@@ -169,12 +201,8 @@ private fun RowScope.Mark(present: Boolean, tinted: Boolean, rounded: Boolean = 
                 imageVector = ElecIcons.StagePass,
                 // The row's own text names the feature; the tick is its value.
                 contentDescription = null,
-                modifier = Modifier.size(MARK),
-                tint = if (tinted) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    MaterialTheme.colorScheme.onSurfaceVariant
-                },
+                modifier = Modifier.size(size),
+                tint = tint,
             )
         } else {
             // A dash, not an empty cell. Blank reads as "not filled in yet";
@@ -192,8 +220,12 @@ private fun RowScope.Mark(present: Boolean, tinted: Boolean, rounded: Boolean = 
 private const val PRO = "Pro"
 private const val ABSENT = "—"
 
-private val COLUMN = 64.dp
+private val COLUMN = 68.dp
 private val ROW_HEIGHT = 52.dp
 private val MARK = 20.dp
-private val TINT_CORNER = 14.dp
-private const val TINT_ALPHA = 0.08f
+private val MARK_PRO = 24.dp
+private val PANEL_CORNER = 16.dp
+private val PANEL_STROKE = 1.dp
+private val GOLD_INK_ON_LIGHT = Color(0xFF8A6410)
+private const val TINT_ALPHA = 0.13f
+private const val BORDER_ALPHA = 0.55f

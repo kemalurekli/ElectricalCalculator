@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Any calculator, with the figures you gave it</string>
-    <string name="pro_benefit_calculation_title">Every calculation, too</string>
-    <string name="pro_benefit_free">Calculators, references, theory and forum stay free</string>
-    <string name="pro_benefit_future">Everything added to Pro later, at no extra cost</string>
+    <string name="pro_benefit_calculation_title">A PDF from every calculation</string>
     <string name="pro_benefit_future_title">No second purchase</string>
     <string name="pro_benefit_pdf">The document you hand to a client or an inspector</string>
     <string name="pro_benefit_pdf_title">The schedule as a PDF</string>
-    <string name="pro_benefit_schedule">Design current, cross-section and protective device, line by line</string>
     <string name="pro_benefit_schedule_title">Every circuit on one sheet</string>
     <string name="pro_buy_loading">Contacting the store…</string>
     <string name="pro_compare_free">Free</string>
@@ -20,29 +16,16 @@
     <string name="pro_error_owned">You already own this. Use “Restore a purchase”.</string>
     <string name="pro_error_store">The store is not answering right now. Try again later.</string>
     <string name="pro_error_unknown">That did not go through. Try again later.</string>
-    <string name="pro_headline_calculation">Hand this calculation over as a document</string>
-    <string name="pro_headline_general">Hand your work over as a document</string>
-    <string name="pro_headline_pdf">Hand the schedule over as a PDF</string>
     <string name="pro_nothing_to_restore">This store account has no purchase to restore.</string>
     <string name="pro_one_time">One-time payment. No subscription.</string>
     <string name="pro_owned">Pro is unlocked on this device.</string>
-    <string name="pro_preview_caption">An example of the exported schedule: circuits with their design current, cross-section and protective device.</string>
     <string name="pro_preview_document_caption">Your own calculation, on the page it would be handed over on. Pro exports it as a PDF, without the stamp.</string>
     <string name="pro_preview_watermark">PREVIEW</string>
-    <string name="pro_preview_column_circuit">Circuit</string>
-    <string name="pro_preview_column_current">Ib (A)</string>
-    <string name="pro_preview_column_device">In (A)</string>
-    <string name="pro_preview_column_section">S (mm²)</string>
-    <string name="pro_preview_row_heat_pump">Heat pump</string>
-    <string name="pro_preview_row_lighting">Lighting</string>
-    <string name="pro_preview_row_oven">Oven</string>
     <string name="pro_preview_row_sockets">Sockets</string>
     <string name="pro_preview_section_heat_pump">6.0</string>
     <string name="pro_preview_section_lighting">1.5</string>
     <string name="pro_preview_section_oven">4.0</string>
     <string name="pro_preview_section_sockets">2.5</string>
-    <string name="pro_preview_supply">400 V · 3-phase · Copper · PVC 70 °C</string>
-    <string name="pro_preview_title">Circuit schedule</string>
     <string name="pro_privacy">Privacy policy</string>
     <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
     <string name="pro_restore">Restore a purchase</string>

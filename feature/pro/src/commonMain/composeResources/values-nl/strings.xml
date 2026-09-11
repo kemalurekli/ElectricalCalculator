@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Elke rekenmodule, met de waarden die u invoerde</string>
-    <string name="pro_benefit_calculation_title">Elke berekening ook</string>
-    <string name="pro_benefit_free">Rekenhulpen, naslag, theorie en forum blijven gratis</string>
-    <string name="pro_benefit_future">Alles wat later aan Pro wordt toegevoegd, zonder meerkosten</string>
+    <string name="pro_benefit_calculation_title">Een pdf van elke berekening</string>
     <string name="pro_benefit_future_title">Geen tweede aankoop</string>
     <string name="pro_benefit_pdf">Het document dat u aan een klant of inspecteur geeft</string>
     <string name="pro_benefit_pdf_title">Het schema als pdf</string>
-    <string name="pro_benefit_schedule">Ontwerpstroom, doorsnede en beveiliging, regel voor regel</string>
     <string name="pro_benefit_schedule_title">Elke stroomkring op één blad</string>
     <string name="pro_buy_loading">Verbinden met de store…</string>
     <string name="pro_compare_free">Gratis</string>
@@ -20,29 +16,16 @@
     <string name="pro_error_owned">U heeft dit al. Gebruik ‘Aankoop herstellen’.</string>
     <string name="pro_error_store">De store reageert nu niet. Probeer het later opnieuw.</string>
     <string name="pro_error_unknown">Dat is niet gelukt. Probeer het later opnieuw.</string>
-    <string name="pro_headline_calculation">Geef deze berekening als document mee</string>
-    <string name="pro_headline_general">Geef uw werk als document mee</string>
-    <string name="pro_headline_pdf">Lever het stroomkringenschema als pdf</string>
     <string name="pro_nothing_to_restore">Dit store-account heeft geen aankoop om te herstellen.</string>
     <string name="pro_one_time">Eenmalige betaling. Geen abonnement.</string>
     <string name="pro_owned">Pro is op dit apparaat ontgrendeld.</string>
-    <string name="pro_preview_caption">Een voorbeeld van het geëxporteerde schema: stroomkringen met hun ontwerpstroom, doorsnede en beveiliging.</string>
     <string name="pro_preview_document_caption">Uw eigen berekening, op het blad waarop het zou worden overhandigd. Pro exporteert het als pdf, zonder stempel.</string>
     <string name="pro_preview_watermark">VOORBEELD</string>
-    <string name="pro_preview_column_circuit">Stroomkring</string>
-    <string name="pro_preview_column_current">Ib (A)</string>
-    <string name="pro_preview_column_device">In (A)</string>
-    <string name="pro_preview_column_section">S (mm²)</string>
-    <string name="pro_preview_row_heat_pump">Warmtepomp</string>
-    <string name="pro_preview_row_lighting">Verlichting</string>
-    <string name="pro_preview_row_oven">Oven</string>
     <string name="pro_preview_row_sockets">Stopcontacten</string>
     <string name="pro_preview_section_heat_pump">6,0</string>
     <string name="pro_preview_section_lighting">1,5</string>
     <string name="pro_preview_section_oven">4,0</string>
     <string name="pro_preview_section_sockets">2,5</string>
-    <string name="pro_preview_supply">400 V · 3-fasen · Koper · PVC 70 °C</string>
-    <string name="pro_preview_title">Stroomkringschema</string>
     <string name="pro_privacy">Privacybeleid</string>
     <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
     <string name="pro_restore">Aankoop herstellen</string>

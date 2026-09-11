@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -25,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
@@ -42,14 +45,11 @@ import com.kemalurekli.electricalcalculator.core.navigation.PaywallReason
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignRes
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_retry
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.Res
-import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_calculation
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_preview_document_caption
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_calculation_title
-import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_free
-import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_future
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_future_title
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_pdf
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_pdf_title
-import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_schedule
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_benefit_schedule_title
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_buy_loading
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_error_no_connection
@@ -57,9 +57,6 @@ import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_error_owned
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_error_store
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_error_unknown
-import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_headline_calculation
-import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_headline_general
-import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_headline_pdf
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_nothing_to_restore
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_one_time
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_owned
@@ -209,31 +206,38 @@ fun PaywallScreen(
             ) {
                 // Full width, so the band reaches both edges. Everything below
                 // it keeps the screen inset.
-                ProHero(
-                    headline = stringResource(reason.headline()),
-                    subline = stringResource(Res.string.pro_one_time),
-                )
-
-                Column(
-                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
-                    verticalArrangement = Arrangement.spacedBy(spacing.lg),
-                ) {
+                ProHero(subline = stringResource(Res.string.pro_one_time)) {
                     // The reader's own page when they got here by trying to
-                    // export one, and the sample schedule otherwise. A sample
-                    // asks somebody to imagine their work in it; their own page
-                    // does not have to be imagined.
+                    // export one. A sample asks somebody to imagine their work
+                    // in it; their own page does not have to be imagined.
+                    //
+                    // And when there is no page yet — the paywall opened from
+                    // Settings — no figures at all, rather than a schedule of
+                    // invented circuits standing in for work nobody has done.
                     if (previewPage != null) {
-                        DocumentPreview(page = previewPage, size = previewSize)
+                        DocumentPreview(
+                            page = previewPage,
+                            size = previewSize,
+                            modifier = Modifier.padding(top = spacing.sm),
+                        )
+                        Text(
+                            text = stringResource(Res.string.pro_preview_document_caption),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = HERO_CAPTION,
+                            textAlign = TextAlign.Center,
+                        )
                     } else {
-                        SchedulePreview()
+                        PaperStack(modifier = Modifier.padding(top = spacing.sm))
                     }
-
-                    // Four benefit rows used to sit here. They answered "what
-                    // do I get" and left "what am I paying for" to inference —
-                    // and left unsaid the thing most worth saying, which is how
-                    // much of the app was never for sale.
-                    ProComparison()
                 }
+
+                // Four benefit rows used to sit here. They answered "what do I
+                // get" and left "what am I paying for" to inference — and left
+                // unsaid the thing most worth saying, which is how much of the
+                // app was never for sale.
+                ProComparison(
+                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+                )
 
                 Column(
                     modifier = Modifier
@@ -283,6 +287,17 @@ fun PaywallScreen(
                         // that starts a payment without naming the amount is not one
                         // anybody should be asked to press.
                         enabled = price != PriceState.Loading && status == PaywallStatus.IDLE,
+                        // Gold, and the only gold control in the app. Pro is
+                        // gold on the mark, gold in the panel above, and this
+                        // is the press that buys it; a navy button here was the
+                        // same colour as every secondary action on every other
+                        // screen.
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = ProGold,
+                            contentColor = ON_GOLD,
+                        ),
+                        shape = MaterialTheme.shapes.large,
+                        contentPadding = PaddingValues(vertical = BUTTON_PADDING),
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         if (status == PaywallStatus.PURCHASING) {
@@ -348,12 +363,6 @@ fun PaywallScreen(
 }
 
 
-/** The first line, chosen by what the reader was reaching for. */
-private fun String.headline() = when (this) {
-    PaywallReason.PDF_EXPORT -> Res.string.pro_headline_pdf
-    PaywallReason.CALCULATION_EXPORT -> Res.string.pro_headline_calculation
-    else -> Res.string.pro_headline_general
-}
 
 @Composable
 private fun PaywallMessage.text(): String = when (this) {
@@ -373,3 +382,11 @@ private val PRICE_SKELETON = 120.dp
 
 private val SPINNER = 20.dp
 private val SPINNER_STROKE = 2.dp
+
+/** Quieter than the gold line, and still legible on the panel. */
+private val HERO_CAPTION = Color(0xFFB9C9D6)
+
+/** Near-black rather than white: gold is a light colour and carries dark text. */
+private val ON_GOLD = Color(0xFF16222B)
+
+private val BUTTON_PADDING = 16.dp

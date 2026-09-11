@@ -2,10 +2,8 @@ package com.kemalurekli.electricalcalculator.features.pro.presentation
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -32,7 +30,6 @@ import com.kemalurekli.electricalcalculator.core.document.PdfOp
 import com.kemalurekli.electricalcalculator.core.document.PdfPageSize
 import com.kemalurekli.electricalcalculator.core.document.PdfStyle
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.Res
-import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_preview_document_caption
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_preview_watermark
 
 /**
@@ -111,14 +108,6 @@ internal fun DocumentPreview(
             }
         }
 
-        Spacer(modifier = Modifier.height(spacing.sm))
-
-        Text(
-            text = stringResource(Res.string.pro_preview_document_caption),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = spacing.xs),
-        )
     }
 }
 
@@ -231,14 +220,14 @@ private const val MIN_LEGIBLE = 3f
 /** Where a baseline sits within a line box, near enough. */
 private const val BASELINE_FRACTION = 0.82f
 
-private const val STAMP_ALPHA = 0.22f
-private const val STAMP_FRACTION = 0.052f
+private const val STAMP_ALPHA = 0.26f
+private const val STAMP_FRACTION = 0.030f
 private const val STAMP_TRACKING = 0.5f
 private const val STAMP_DEGREES = 30f
 
 /** Space between stamps, as a share of the page. */
-private const val STAMP_GAP_X = 0.09f
-private const val STAMP_GAP_Y = 0.13f
+private const val STAMP_GAP_X = 0.045f
+private const val STAMP_GAP_Y = 0.062f
 
 /** How far past each edge the field is drawn, so rotation leaves no bare corner. */
 private const val STAMP_BLEED = 0.6f

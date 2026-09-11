@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -46,9 +47,9 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
  */
 @Composable
 internal fun ProHero(
-    headline: String,
     subline: String,
     modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     val spacing = ElecTheme.spacing
 
@@ -82,29 +83,29 @@ internal fun ProHero(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = spacing.xl)
-                .padding(top = spacing.xl, bottom = spacing.xxl),
+                .padding(top = spacing.xl, bottom = spacing.xl),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(spacing.md),
         ) {
             ProMark(highlighted = true)
 
-            Text(
-                text = headline,
-                style = MaterialTheme.typography.headlineSmall,
-                color = HERO_TEXT,
-                textAlign = TextAlign.Center,
-            )
-
-            // Gold, and said here rather than beside the button. On a one-off
-            // purchase "no subscription" is the strongest sentence on the
-            // page, and a reader deciding whether to keep reading is deciding
-            // now.
+            // The only sentence in the panel. A headline used to sit above
+            // this one and it was the weaker of the two: it named what the
+            // reader had just tried to do, which they knew, while this names
+            // the thing they are deciding about. On a one-off purchase "no
+            // subscription" is the strongest thing the page can say.
             Text(
                 text = subline,
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.titleMedium,
                 color = ProGold,
                 textAlign = TextAlign.Center,
             )
+
+            // Whatever is being sold, standing on the panel rather than in a
+            // card below it. A document on navy under a gold light reads as
+            // one object; the same document on the page's own grey, under a
+            // separate band, read as two.
+            content()
         }
     }
 }

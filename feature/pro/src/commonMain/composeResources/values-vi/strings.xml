@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Bất kỳ công cụ nào, cùng các giá trị bạn nhập</string>
-    <string name="pro_benefit_calculation_title">Mọi phép tính cũng vậy</string>
-    <string name="pro_benefit_free">Máy tính, tra cứu, lý thuyết và diễn đàn vẫn miễn phí</string>
-    <string name="pro_benefit_future">Mọi thứ được thêm vào Pro sau này, không tính thêm phí</string>
+    <string name="pro_benefit_calculation_title">Bản PDF từ mọi phép tính</string>
     <string name="pro_benefit_future_title">Không mua lần thứ hai</string>
     <string name="pro_benefit_pdf">Tài liệu bạn giao cho khách hàng hoặc người kiểm tra</string>
     <string name="pro_benefit_pdf_title">Bảng mạch dạng PDF</string>
-    <string name="pro_benefit_schedule">Dòng điện tính toán, tiết diện và thiết bị bảo vệ, từng dòng một</string>
     <string name="pro_benefit_schedule_title">Mỗi mạch trên một trang</string>
     <string name="pro_buy_loading">Đang kết nối cửa hàng…</string>
     <string name="pro_compare_free">Miễn phí</string>
@@ -20,29 +16,16 @@
     <string name="pro_error_owned">Bạn đã sở hữu mục này. Hãy dùng “Khôi phục giao dịch”.</string>
     <string name="pro_error_store">Cửa hàng hiện không phản hồi. Hãy thử lại sau.</string>
     <string name="pro_error_unknown">Không thực hiện được. Hãy thử lại sau.</string>
-    <string name="pro_headline_calculation">Bàn giao phép tính này dưới dạng tài liệu</string>
-    <string name="pro_headline_general">Bàn giao công việc của bạn dưới dạng tài liệu</string>
-    <string name="pro_headline_pdf">Giao bảng mạch dưới dạng PDF</string>
     <string name="pro_nothing_to_restore">Tài khoản cửa hàng này không có giao dịch nào để khôi phục.</string>
     <string name="pro_one_time">Thanh toán một lần. Không thuê bao.</string>
     <string name="pro_owned">Pro đã mở khóa trên thiết bị này.</string>
-    <string name="pro_preview_caption">Ví dụ về bảng mạch xuất ra: các mạch cùng dòng điện tính toán, tiết diện và thiết bị bảo vệ.</string>
     <string name="pro_preview_document_caption">Phép tính của chính bạn, trên trang sẽ được bàn giao. Pro xuất trang này thành PDF, không có dấu.</string>
     <string name="pro_preview_watermark">XEM TRƯỚC</string>
-    <string name="pro_preview_column_circuit">Mạch</string>
-    <string name="pro_preview_column_current">Ib (A)</string>
-    <string name="pro_preview_column_device">In (A)</string>
-    <string name="pro_preview_column_section">S (mm²)</string>
-    <string name="pro_preview_row_heat_pump">Bơm nhiệt</string>
-    <string name="pro_preview_row_lighting">Chiếu sáng</string>
-    <string name="pro_preview_row_oven">Lò nướng</string>
     <string name="pro_preview_row_sockets">Ổ cắm</string>
     <string name="pro_preview_section_heat_pump">6,0</string>
     <string name="pro_preview_section_lighting">1,5</string>
     <string name="pro_preview_section_oven">4,0</string>
     <string name="pro_preview_section_sockets">2,5</string>
-    <string name="pro_preview_supply">400 V · 3 pha · Đồng · PVC 70 °C</string>
-    <string name="pro_preview_title">Bảng mạch</string>
     <string name="pro_privacy">Chính sách quyền riêng tư</string>
     <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
     <string name="pro_restore">Khôi phục giao dịch</string>

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Dowolny kalkulator, z podanymi wartościami</string>
-    <string name="pro_benefit_calculation_title">Każde obliczenie również</string>
-    <string name="pro_benefit_free">Kalkulatory, materiały, teoria i forum pozostają bezpłatne</string>
-    <string name="pro_benefit_future">Wszystko, co później trafi do Pro, bez dopłat</string>
+    <string name="pro_benefit_calculation_title">PDF z każdego obliczenia</string>
     <string name="pro_benefit_future_title">Bez drugiego zakupu</string>
     <string name="pro_benefit_pdf">Dokument, który wręczasz klientowi lub kontrolerowi</string>
     <string name="pro_benefit_pdf_title">Zestawienie w PDF</string>
-    <string name="pro_benefit_schedule">Prąd obliczeniowy, przekrój i zabezpieczenie, wiersz po wierszu</string>
     <string name="pro_benefit_schedule_title">Każdy obwód na jednej stronie</string>
     <string name="pro_buy_loading">Łączenie ze sklepem…</string>
     <string name="pro_compare_free">Za darmo</string>
@@ -20,29 +16,16 @@
     <string name="pro_error_owned">Już to masz. Użyj „Przywróć zakup”.</string>
     <string name="pro_error_store">Sklep w tej chwili nie odpowiada. Spróbuj później.</string>
     <string name="pro_error_unknown">Nie udało się. Spróbuj później.</string>
-    <string name="pro_headline_calculation">Przekaż te obliczenia jako dokument</string>
-    <string name="pro_headline_general">Przekaż swoją pracę jako dokument</string>
-    <string name="pro_headline_pdf">Przekaż zestawienie obwodów w PDF</string>
     <string name="pro_nothing_to_restore">To konto sklepu nie ma zakupu do przywrócenia.</string>
     <string name="pro_one_time">Płatność jednorazowa. Bez abonamentu.</string>
     <string name="pro_owned">Pro jest odblokowane na tym urządzeniu.</string>
-    <string name="pro_preview_caption">Przykład wyeksportowanego zestawienia: obwody wraz z prądem obliczeniowym, przekrojem i zabezpieczeniem.</string>
     <string name="pro_preview_document_caption">Twoje własne obliczenie na stronie, w jakiej zostałoby przekazane. Pro eksportuje je do PDF, bez pieczęci.</string>
     <string name="pro_preview_watermark">PODGLĄD</string>
-    <string name="pro_preview_column_circuit">Obwód</string>
-    <string name="pro_preview_column_current">Ib (A)</string>
-    <string name="pro_preview_column_device">In (A)</string>
-    <string name="pro_preview_column_section">S (mm²)</string>
-    <string name="pro_preview_row_heat_pump">Pompa ciepła</string>
-    <string name="pro_preview_row_lighting">Oświetlenie</string>
-    <string name="pro_preview_row_oven">Piekarnik</string>
     <string name="pro_preview_row_sockets">Gniazda</string>
     <string name="pro_preview_section_heat_pump">6,0</string>
     <string name="pro_preview_section_lighting">1,5</string>
     <string name="pro_preview_section_oven">4,0</string>
     <string name="pro_preview_section_sockets">2,5</string>
-    <string name="pro_preview_supply">400 V · 3-fazowe · Miedź · PVC 70 °C</string>
-    <string name="pro_preview_title">Zestawienie obwodów</string>
     <string name="pro_privacy">Polityka prywatności</string>
     <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
     <string name="pro_restore">Przywróć zakup</string>

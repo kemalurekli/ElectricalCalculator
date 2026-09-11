@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pro_benefit_calculation">Любой калькулятор, с введёнными значениями</string>
-    <string name="pro_benefit_calculation_title">И каждый расчёт</string>
-    <string name="pro_benefit_free">Калькуляторы, справочники, теория и форум остаются бесплатными</string>
-    <string name="pro_benefit_future">Всё, что позже добавят в Pro, без доплаты</string>
+    <string name="pro_benefit_calculation_title">PDF из каждого расчёта</string>
     <string name="pro_benefit_future_title">Без второй покупки</string>
     <string name="pro_benefit_pdf">Документ, который вы отдаёте заказчику или инспектору</string>
     <string name="pro_benefit_pdf_title">Ведомость в PDF</string>
-    <string name="pro_benefit_schedule">Расчётный ток, сечение и аппарат защиты, строка за строкой</string>
     <string name="pro_benefit_schedule_title">Каждая линия на одном листе</string>
     <string name="pro_buy_loading">Соединение с магазином…</string>
     <string name="pro_compare_free">Бесплатно</string>
@@ -20,29 +16,16 @@
     <string name="pro_error_owned">Он у вас уже есть. Воспользуйтесь «Восстановить покупку».</string>
     <string name="pro_error_store">Магазин сейчас не отвечает. Повторите позже.</string>
     <string name="pro_error_unknown">Не получилось. Повторите позже.</string>
-    <string name="pro_headline_calculation">Передайте этот расчёт документом</string>
-    <string name="pro_headline_general">Передайте свою работу документом</string>
-    <string name="pro_headline_pdf">Передайте ведомость линий в PDF</string>
     <string name="pro_nothing_to_restore">У этой учётной записи магазина нет покупок для восстановления.</string>
     <string name="pro_one_time">Разовая оплата. Без подписки.</string>
     <string name="pro_owned">Pro открыт на этом устройстве.</string>
-    <string name="pro_preview_caption">Пример выгруженной ведомости: линии с расчётным током, сечением и аппаратом защиты.</string>
     <string name="pro_preview_document_caption">Ваш собственный расчёт на странице, в которой он был бы передан. Pro выгружает её в PDF без штампа.</string>
     <string name="pro_preview_watermark">ОБРАЗЕЦ</string>
-    <string name="pro_preview_column_circuit">Линия</string>
-    <string name="pro_preview_column_current">Ib (А)</string>
-    <string name="pro_preview_column_device">In (А)</string>
-    <string name="pro_preview_column_section">S (мм²)</string>
-    <string name="pro_preview_row_heat_pump">Тепловой насос</string>
-    <string name="pro_preview_row_lighting">Освещение</string>
-    <string name="pro_preview_row_oven">Духовой шкаф</string>
     <string name="pro_preview_row_sockets">Розетки</string>
     <string name="pro_preview_section_heat_pump">6,0</string>
     <string name="pro_preview_section_lighting">1,5</string>
     <string name="pro_preview_section_oven">4,0</string>
     <string name="pro_preview_section_sockets">2,5</string>
-    <string name="pro_preview_supply">400 V · 3 фазы · Медь · ПВХ 70 °C</string>
-    <string name="pro_preview_title">Ведомость линий</string>
     <string name="pro_privacy">Политика конфиденциальности</string>
     <string name="pro_privacy_url" translatable="false">https://mobronic.com/electricalcalculator/privacypolicy.html</string>
     <string name="pro_restore">Восстановить покупку</string>
