@@ -49,21 +49,20 @@ class ForumRepositoryImpl(
         categoryId: String,
         language: ForumLanguage,
         limit: Int,
-        before: Instant?,
+        offset: Int,
     ) = query {
         it.postgrest.from(TABLE_THREADS)
-            // The author's name is embedded rather than fetched separately: a
-            // list of twenty threads would otherwise be twenty-one requests to
-            // render one line of text each.
             .select(Columns.raw(THREAD_COLUMNS)) {
                 filter {
                     eq("category_id", categoryId)
                     eq("language", language.code)
                     eq("is_deleted", false)
-                    if (before != null) lt("last_reply_at", before.toString())
                 }
+                // Most recently active first, which is what a forum list is
+                // for: the conversation somebody just added to is the one
+                // worth looking at.
                 order("last_reply_at", Order.DESCENDING)
-                limit(limit.toLong())
+                range(offset.toLong(), (offset + limit - 1).toLong())
             }
             .decodeList<ThreadDto>()
             .map(ThreadDto::toDomain)

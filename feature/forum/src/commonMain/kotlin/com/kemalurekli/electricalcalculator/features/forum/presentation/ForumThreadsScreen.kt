@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,7 +24,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,6 +62,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun ForumThreadsRoute(
     categoryId: String,
     categoryTitle: String,
+    threadCount: Int = 0,
     onThreadClick: (ForumThread) -> Unit,
     onNewThread: (language: String) -> Unit,
     onNavigateBack: (() -> Unit)?,
@@ -73,8 +72,9 @@ fun ForumThreadsRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val session by viewModel.session.collectAsStateWithLifecycle()
     val pinned by viewModel.pinned.collectAsStateWithLifecycle()
+    val position by viewModel.position.collectAsStateWithLifecycle()
 
-    LaunchedEffect(categoryId) { viewModel.onOpen(categoryId) }
+    LaunchedEffect(categoryId) { viewModel.onOpen(categoryId, threadCount) }
 
     // A category belongs to one language's board. If the reader changes the
     // language while reading one, the category they are in stops existing —
@@ -100,7 +100,8 @@ fun ForumThreadsRoute(
                 promptingSignIn = true
             }
         },
-        onLoadMore = viewModel::onLoadMore,
+        position = position,
+        onGoToPage = viewModel::onGoToPage,
         pinned = pinned,
         onTogglePin = viewModel::onTogglePin,
         onRetry = viewModel::onRefresh,
@@ -127,7 +128,8 @@ fun ForumThreadsScreen(
     uiState: ForumScreenState<List<ForumThread>>,
     onThreadClick: (ForumThread) -> Unit,
     onNewThread: () -> Unit = {},
-    onLoadMore: () -> Unit = {},
+    position: ThreadListPosition = ThreadListPosition(),
+    onGoToPage: (Int) -> Unit = {},
     pinned: Set<String> = emptySet(),
     onTogglePin: (String) -> Unit = {},
     onRetry: () -> Unit,
@@ -176,12 +178,22 @@ fun ForumThreadsScreen(
             } else {
                 // Pinned first, the rest in the order the server sent them.
                 // A stable sort, so nothing else moves.
+                //
+                // Within the page, which is as far as this can reach: the pins
+                // live on this device and the pages come from the server, so a
+                // pinned thread sitting on page four rises to the top of page
+                // four. Lifting it onto page one would mean fetching the
+                // pinned threads by id alongside the page and is a separate
+                // piece of work.
                 val ordered = remember(threads, pinned) {
                     threads.sortedByDescending { it.id in pinned }
                 }
                 val listState = rememberLazyListState()
-                LoadMoreOnApproachingEnd(listState, ordered.size, onLoadMore)
 
+                // A page change replaces every row, so the list has to be told
+                // to go and look at the top of the new one — otherwise page two
+                // opens at whatever offset the reader had scrolled to on
+                // page one.
                 LazyColumn(
                     state = listState,
                     modifier = Modifier.fillMaxSize(),
@@ -205,6 +217,25 @@ fun ForumThreadsScreen(
                         HorizontalDivider(
                             color = MaterialTheme.colorScheme.outlineVariant,
                         )
+                    }
+
+                    // After the twentieth row, not above the first. A reader
+                    // arrives at a category to look at threads; a pager offered
+                    // before they have seen one is a control for a problem they
+                    // do not have yet. It scrolls away with the list for the
+                    // same reason.
+                    if (position.isPaged) {
+                        item(key = "pager") {
+                            ForumPager(
+                                page = position.page,
+                                pageCount = position.pageCount,
+                                onGoToPage = { page ->
+                                    onGoToPage(page)
+                                    scope.launch { listState.scrollToItem(0) }
+                                },
+                                rule = PagerRule.Above,
+                            )
+                        }
                     }
                 }
             }
@@ -332,31 +363,3 @@ private const val PINNED_TINT = 0.4f
 private fun ForumThread.subtitle(): String {
     return "$authorName · ${lastReplyAt.formatAsDateTime()}"
 }
-
-/**
- * Calls [onLoadMore] as the reader nears the end of [state]'s list.
- *
- * Three rows early rather than at the very last one, so the next page is on its
- * way before the scroll reaches the bottom and the list does not visibly stop.
- * `derivedStateOf` keeps this from recomposing on every pixel of scroll — the
- * question is only ever "are we close yet", and that answer changes rarely.
- */
-@Composable
-internal fun LoadMoreOnApproachingEnd(
-    state: LazyListState,
-    itemCount: Int,
-    onLoadMore: () -> Unit,
-) {
-    val shouldLoad by remember(itemCount) {
-        derivedStateOf {
-            val last = state.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: return@derivedStateOf false
-            itemCount > 0 && last >= itemCount - LOAD_MORE_LEAD
-        }
-    }
-
-    LaunchedEffect(shouldLoad, itemCount) {
-        if (shouldLoad) onLoadMore()
-    }
-}
-
-private const val LOAD_MORE_LEAD = 3

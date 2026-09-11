@@ -400,8 +400,9 @@ fun ForumThreadScreen(
 
                 Column(modifier = Modifier.fillMaxSize()) {
                     if (position.isPaged) {
-                        ThreadPositionBar(
-                            position = position,
+                        ForumPager(
+                            page = position.page,
+                            pageCount = position.pageCount,
                             // The window is replaced, so the list has to be
                             // told to look at the top of it — otherwise the
                             // reader lands at whatever offset they had scrolled

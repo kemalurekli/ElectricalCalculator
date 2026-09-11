@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
@@ -37,32 +40,51 @@ import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.fo
 /**
  * The pager: both ends, one step either way, and a way to name a page.
  *
- * ### What a page is here
+ * Shared by the two lists a forum has, which want the same five controls and
+ * disagree only about where they sit.
  *
- * An address, not a container. The list underneath is continuous and a reader
- * scrolls straight through a page boundary; this bar says where they have got
- * to and lets them go somewhere else. That is the difference between a page
- * number that helps — a place you can name, jump to and come back to — and one
- * that stops a read every ten messages to ask permission to carry on.
+ * ### What a page is in a thread
  *
- * ### Why it is at the top
+ * An address, not a container. The list of messages underneath is continuous
+ * and a reader scrolls straight through a page boundary; this bar says where
+ * they have got to and lets them go somewhere else. That is the difference
+ * between a page number that helps — a place you can name, jump to and come
+ * back to — and one that stops a read every ten messages to ask permission to
+ * carry on.
  *
- * The bottom of this screen is the reply box. Two bars at the one place a thumb
- * rests is one too many, and the one that matters more is the one you write
- * with.
+ * ### What a page is in a list of threads
+ *
+ * A container, and deliberately. Nobody reads a board index from top to bottom;
+ * they scan twenty rows, and either one of them is the thread or the next
+ * twenty are. So there the window holds exactly one page and the bar comes
+ * after the last row, where a reader who has run out of rows is already
+ * looking.
+ *
+ * ### Where it sits
+ *
+ * In a thread, at the top: the bottom of that screen is the reply box, and two
+ * bars at the one place a thumb rests is one too many. In a list, at the
+ * bottom: there is nothing else down there, and a pager above twenty rows
+ * would be a control offered before the reader could want it.
  *
  * ### When it is not there at all
  *
- * A thread that fits on one page has nothing to navigate, and most do.
+ * Whenever there is one page, which is most threads and most categories.
  */
 @Composable
-internal fun ThreadPositionBar(
-    position: ThreadPosition,
+internal fun ForumPager(
+    page: Int,
+    pageCount: Int,
     onGoToPage: (Int) -> Unit,
     modifier: Modifier = Modifier,
+    rule: PagerRule = PagerRule.Below,
 ) {
     val spacing = ElecTheme.spacing
     var picking by remember { mutableStateOf(false) }
+
+    if (rule == PagerRule.Above) {
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+    }
 
     Row(
         modifier = modifier
@@ -75,14 +97,14 @@ internal fun ThreadPositionBar(
             Step(
                 icon = ElecIcons.ToStart,
                 label = stringResource(Res.string.forum_page_first),
-                enabled = position.page > 1,
+                enabled = page > 1,
                 onClick = { onGoToPage(1) },
             )
             Step(
                 icon = ElecIcons.Back,
                 label = stringResource(Res.string.forum_page_previous),
-                enabled = position.page > 1,
-                onClick = { onGoToPage(position.page - 1) },
+                enabled = page > 1,
+                onClick = { onGoToPage(page - 1) },
             )
         }
 
@@ -92,8 +114,8 @@ internal fun ThreadPositionBar(
             Text(
                 text = stringResource(
                     Res.string.forum_page_of,
-                    position.page,
-                    position.pageCount,
+                    page,
+                    pageCount,
                 ),
                 style = NumericCompactTextStyle,
             )
@@ -111,13 +133,13 @@ internal fun ThreadPositionBar(
                 // Every page, because a picker that offers a window around the
                 // current page cannot answer "take me to page ninety" — which
                 // is the only question a picker is for.
-                (1..position.pageCount).forEach { page ->
+                (1..pageCount).forEach { page ->
                     DropdownMenuItem(
                         text = {
                             Text(
                                 text = stringResource(Res.string.forum_page_number, page),
                                 style = NumericCompactTextStyle,
-                                color = if (page == position.page) {
+                                color = if (page == page) {
                                     MaterialTheme.colorScheme.primary
                                 } else {
                                     MaterialTheme.colorScheme.onSurface
@@ -137,19 +159,25 @@ internal fun ThreadPositionBar(
             Step(
                 icon = ElecIcons.Forward,
                 label = stringResource(Res.string.forum_page_next),
-                enabled = position.page < position.pageCount,
-                onClick = { onGoToPage(position.page + 1) },
+                enabled = page < pageCount,
+                onClick = { onGoToPage(page + 1) },
             )
             Step(
                 icon = ElecIcons.ToEnd,
                 label = stringResource(Res.string.forum_page_last),
-                enabled = position.page < position.pageCount,
-                onClick = { onGoToPage(position.pageCount) },
+                enabled = page < pageCount,
+                onClick = { onGoToPage(pageCount) },
             )
         }
     }
-    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+
+    if (rule == PagerRule.Below) {
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+    }
 }
+
+/** Which side the hairline goes, which is the side the list is on. */
+internal enum class PagerRule { Above, Below }
 
 /**
  * One of the four jumps.
@@ -177,3 +205,35 @@ private fun Step(
 private val GLYPH = 20.dp
 private val CHEVRON = 18.dp
 private val MENU_HEIGHT = 320.dp
+
+/**
+ * Calls [onLoadMore] as the reader nears the end of [state]'s list.
+ *
+ * Three rows early rather than at the very last one, so the next page is on its
+ * way before the scroll reaches the bottom and the list does not visibly stop.
+ * `derivedStateOf` keeps this from recomposing on every pixel of scroll — the
+ * question is only ever "are we close yet", and that answer changes rarely.
+ *
+ * Used by threads, not by the list of threads: a thread reads forwards and
+ * wants the next ten messages without being asked, while a board index is
+ * scanned twenty rows at a time and stops there on purpose.
+ */
+@Composable
+internal fun LoadMoreOnApproachingEnd(
+    state: LazyListState,
+    itemCount: Int,
+    onLoadMore: () -> Unit,
+) {
+    val shouldLoad by remember(itemCount) {
+        derivedStateOf {
+            val last = state.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: return@derivedStateOf false
+            itemCount > 0 && last >= itemCount - LOAD_MORE_LEAD
+        }
+    }
+
+    LaunchedEffect(shouldLoad, itemCount) {
+        if (shouldLoad) onLoadMore()
+    }
+}
+
+private const val LOAD_MORE_LEAD = 3

@@ -21,12 +21,15 @@ import kotlin.test.Test
  * cursor that only pointed forwards, so the end of a long thread was twelve
  * requests away and page four could not be named at all.
  *
- * Posts are addressed by offset now, and the reason they can be — where the
- * thread *list* cannot — is that they are ordered by when they were written and
- * only ever appended. A reply landing while somebody reads shifts nothing
- * already loaded. A thread list reorders itself every time anybody posts
- * anywhere, which is what offsets cannot survive and why that list still holds
- * a cursor.
+ * Posts are addressed by offset, and safely: they are ordered by when they were
+ * written and only ever appended, so a reply landing while somebody reads
+ * shifts nothing already loaded.
+ *
+ * The list of threads is addressed by offset too, for a different reason. It
+ * does reorder itself every time anybody posts anywhere — but it holds one page
+ * and replaces it, so there is no accumulated window for a shifted row to
+ * duplicate or skip. Offsets are unsafe for infinite scroll, not for a pager;
+ * see [ForumThreadListPagingTest].
  */
 class ForumPagingTest {
 

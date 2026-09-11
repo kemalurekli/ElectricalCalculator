@@ -35,16 +35,26 @@ interface ForumRepository {
     suspend fun categories(language: ForumLanguage): ForumResult<List<ForumCategory>>
 
     /**
-     * Threads in a category, most recently active first.
+     * A page of one category's threads, most recently active first.
      *
-     * @param before pass the last thread's `lastReplyAt` to fetch the next
-     *   page. Null starts from the top.
+     * Addressed by [offset], like a thread's messages and for the same reason:
+     * a page number has to name a page.
+     *
+     * Unlike a thread's messages, these rows genuinely move — a reply anywhere
+     * lifts its thread to the top and pushes the rest down. That was once the
+     * argument against offsets here, and it was an argument about a different
+     * screen: a list that *accumulated* pages as the reader scrolled would skip
+     * a thread or show it twice. This one holds exactly one page and replaces
+     * it, so a shifted row means the reader sees the list as it is now, which
+     * is what every forum on the web does and what "page 3" means.
+     *
+     * @param offset how many threads to skip.
      */
     suspend fun threads(
         categoryId: String,
         language: ForumLanguage,
-        limit: Int = DEFAULT_PAGE_SIZE,
-        before: Instant? = null,
+        limit: Int = THREADS_PER_PAGE,
+        offset: Int = 0,
     ): ForumResult<List<ForumThread>>
 
     /**
@@ -150,14 +160,6 @@ interface ForumRepository {
 
     companion object {
         /**
-         * Enough to fill a phone screen twice over.
-         *
-         * Small enough that a slow connection returns something quickly, large
-         * enough that most threads need no second request at all.
-         */
-        const val DEFAULT_PAGE_SIZE = 25
-
-        /**
          * Messages to a page of a thread.
          *
          * Smaller than a list page because it is an address the reader uses,
@@ -166,5 +168,15 @@ interface ForumRepository {
          * what fits between two glances at the bar.
          */
         const val POSTS_PER_PAGE = 10
+
+        /**
+         * Threads to a page of a category.
+         *
+         * Twice a thread's page, because a row here is one line about a
+         * conversation rather than the conversation: twenty of them is a screen
+         * or two of scanning, and ten would put the pager in front of a reader
+         * who had barely started looking.
+         */
+        const val THREADS_PER_PAGE = 20
     }
 }

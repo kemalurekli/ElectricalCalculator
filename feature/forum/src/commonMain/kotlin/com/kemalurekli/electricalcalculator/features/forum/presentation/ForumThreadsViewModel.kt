@@ -72,27 +72,36 @@ class ForumThreadsViewModel(
     private var categoryId: String? = null
 
     /**
-     * Whether the server has run out of older threads.
+     * Which page is on screen, and how many there are.
      *
-     * A page that comes back short is the last one — asking again would spend a
-     * request to be told the same thing, and the list would keep asking every
-     * time the reader reached the bottom.
+     * Unlike a thread, this list holds **one page at a time** and replaces it.
+     * That is the whole of the difference, and it is why an offset is safe
+     * here: a list that accumulates pages as the reader scrolls has to survive
+     * rows moving underneath it — a reply anywhere lifts its thread to the top
+     * and pushes the rest down, so the same thread arrives twice or not at all.
+     * A list that throws its page away and asks for another one cannot have
+     * that bug; a shifted row just means the reader sees the board as it is
+     * now, which is what "page 3" means everywhere else on the web.
      */
-    private var endReached = false
-    private var loadingMore = false
+    private val _position = MutableStateFlow(ThreadListPosition())
+    val position: StateFlow<ThreadListPosition> = _position.asStateFlow()
 
     /**
      * The load in flight, so a second one replaces it rather than racing it.
      *
      * Without this the screen issued the same page three times: re-entering
-     * composition restarts the load, and a next-page request already on its way
-     * carried a cursor computed from the list as it was before either landed.
+     * composition restarts the load, and pressing the pager twice quickly used
+     * to leave whichever request happened to land last on screen.
      */
     private var loadJob: Job? = null
 
-    /** Does nothing when the category is already loaded, so the screen's
-     *  `LaunchedEffect` can be keyed on its argument without refetching. */
-    fun onOpen(id: String) {
+    /**
+     * @param threadCount what the category row said, so the pager can show a
+     *   page count on the first frame instead of appearing once the request
+     *   lands. It is a count the server maintains and may be a thread or two
+     *   out of date, so a page that comes back short overrules it.
+     */
+    fun onOpen(id: String, threadCount: Int = 0) {
         // Reloads even for the category already held. The guard that used to
         // sit here was protecting against recompositions, but the caller is a
         // LaunchedEffect keyed on the id — it already fires once per entry into
@@ -100,46 +109,22 @@ class ForumThreadsViewModel(
         // from a thread. Skipping that left a thread the reader had just
         // deleted still sitting in the list.
         categoryId = id
-        load(refreshing = uiState.value is ForumScreenState.Content)
+        _position.value = ThreadListPosition(total = threadCount)
+        load(page = 1, refreshing = uiState.value is ForumScreenState.Content)
     }
 
-    fun onRefresh() = load(refreshing = true)
+    /** Reloads the page being read, not the first one. */
+    fun onRefresh() = load(page = _position.value.page, refreshing = true)
 
-    /**
-     * Fetches the next page and appends it.
-     *
-     * The cursor is the oldest loaded thread's last-reply time rather than an
-     * offset. Offsets skip and repeat rows when something is posted while the
-     * reader is scrolling, which is exactly when a forum list moves.
-     */
-    fun onLoadMore() {
-        val id = categoryId ?: return
-        val current = _uiState.value as? ForumScreenState.Content ?: return
-        if (endReached || loadingMore) return
-
-        loadingMore = true
-        loadJob = viewModelScope.launch {
-            val cursor = current.value.lastOrNull()?.lastReplyAt
-            when (val result = repository.threads(id, language.value, before = cursor)) {
-                is ForumResult.Success -> {
-                    endReached = result.value.size < ForumRepository.DEFAULT_PAGE_SIZE
-                    _uiState.value = ForumScreenState.Content(
-                        (current.value + result.value).toImmutableList(),
-                    )
-                }
-                // Keeps what is already on screen. A failed next page is not a
-                // reason to throw away the page the reader is reading.
-                is ForumResult.Failure -> Unit
-            }
-            loadingMore = false
-        }
+    fun onGoToPage(page: Int) {
+        val target = page.coerceIn(1, _position.value.pageCount)
+        if (target == _position.value.page) return
+        load(page = target, refreshing = true)
     }
 
-    private fun load(refreshing: Boolean = false) {
+    private fun load(page: Int, refreshing: Boolean = false) {
         val id = categoryId ?: return
-        endReached = false
-        loadingMore = false
-        // Whatever was being fetched was for the list as it used to be.
+        // Whatever was being fetched was for a page the reader has left.
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
             val current = _uiState.value
@@ -149,12 +134,58 @@ class ForumThreadsViewModel(
                 _uiState.value = ForumScreenState.Loading
             }
 
-            _uiState.value = when (val result = repository.threads(id, language.value)) {
-                is ForumResult.Success ->
+            val offset = (page - 1) * ForumRepository.THREADS_PER_PAGE
+            val result = repository.threads(id, language.value, offset = offset)
+            _uiState.value = when (result) {
+                is ForumResult.Success -> {
+                    _position.value = _position.value.after(page, result.value.size)
                     ForumScreenState.Content(result.value.toImmutableList())
+                }
 
+                // Leaves the position alone: the page the reader asked for is
+                // still the page they asked for, and the pager is how they get
+                // back off it.
                 is ForumResult.Failure -> ForumScreenState.Error(result.reason)
             }
         }
+    }
+}
+
+/**
+ * Which page of a category is showing, and how many there are.
+ *
+ * [total] is a running best guess rather than a fact. It starts from the count
+ * on the category row and is corrected by what the server actually sends: a
+ * short page is the last page and settles the count exactly, while a full one
+ * only proves there is at least one more.
+ */
+data class ThreadListPosition(
+    /** One-based, for a reader who does not count from zero. */
+    val page: Int = 1,
+    /** Threads in the category, as far as anybody knows. */
+    val total: Int = 0,
+) {
+    val pageCount: Int
+        get() = ((total + ForumRepository.THREADS_PER_PAGE - 1) / ForumRepository.THREADS_PER_PAGE)
+            .coerceAtLeast(1)
+
+    /** Nothing to navigate when the category fits on one page, and most do. */
+    val isPaged: Boolean get() = pageCount > 1
+
+    /** What the server just told us, folded into what we thought. */
+    internal fun after(page: Int, loaded: Int): ThreadListPosition {
+        val before = (page - 1) * ForumRepository.THREADS_PER_PAGE
+        val total = if (loaded < ForumRepository.THREADS_PER_PAGE) {
+            // The end of the board. Authoritative, and allowed to shrink the
+            // count — threads get deleted, and a pager offering a page that no
+            // longer exists sends the reader to an empty screen.
+            before + loaded
+        } else {
+            // A full page proves there is more, but not how much. Claiming one
+            // extra thread is what turns the next-page control on; the page
+            // after that will say whether it was the truth.
+            maxOf(this.total, before + loaded + 1)
+        }
+        return copy(page = page, total = total)
     }
 }

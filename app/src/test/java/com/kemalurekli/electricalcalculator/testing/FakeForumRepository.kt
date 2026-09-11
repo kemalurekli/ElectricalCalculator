@@ -52,10 +52,14 @@ class FakeForumRepository(
         categoryId: String,
         language: ForumLanguage,
         limit: Int,
-        before: Instant?,
+        offset: Int,
     ): ForumResult<List<ForumThread>> =
-        respond("threads($categoryId, limit=$limit, before=$before)") {
+        respond("threads($categoryId, limit=$limit, offset=$offset)") {
+            // The window the server would return, so a test that asks for
+            // page two gets page two rather than the whole category.
             threads.filter { it.categoryId == categoryId }
+                .drop(offset)
+                .take(limit)
         }
 
     override suspend fun posts(

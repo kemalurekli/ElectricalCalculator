@@ -114,7 +114,7 @@ fun ElecNavHost(
 
         composable<Route.Forum> {
             ForumCategoriesRoute(
-                onCategoryClick = { actions.navigateTo(Route.ForumCategory(it.id, it.title, it.key)) },
+                onCategoryClick = { actions.navigateTo(Route.ForumCategory(it.id, it.title, it.key, it.threadCount)) },
             )
         }
 
@@ -123,6 +123,7 @@ fun ElecNavHost(
             ForumThreadsRoute(
                 categoryId = route.categoryId,
                 categoryTitle = route.title,
+                threadCount = route.threadCount,
                 onThreadClick = { actions.navigateTo(Route.ForumThread(it.id, it.title, it.isLocked, it.authorId, route.title, it.replyCount)) },
                 onNewThread = {
                     actions.navigateTo(

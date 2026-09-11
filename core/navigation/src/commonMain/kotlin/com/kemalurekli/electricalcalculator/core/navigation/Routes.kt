@@ -108,12 +108,18 @@ sealed interface Route {
      * The key rides along for the section's icon. It is the stable identifier —
      * titles are translated, keys are not — and it is what lets the compose
      * screen show the same glyph the reader tapped on the way in.
+     *
+     * [threadCount] rides along for the same reason as the title: the list is
+     * paged, and a pager cannot say "1 / 4" until it knows how many threads
+     * there are. The category row already carries the count, so bringing it
+     * saves a second request whose only answer is a number we had.
      */
     @Serializable
     data class ForumCategory(
         val categoryId: String,
         val title: String,
         val key: String = "",
+        val threadCount: Int = 0,
     ) : Route
 
     /**
