@@ -47,11 +47,28 @@ interface ForumRepository {
         before: Instant? = null,
     ): ForumResult<List<ForumThread>>
 
-    /** One thread's messages, oldest first, with the opening post at the top. */
+    /**
+     * One thread's messages, oldest first, with the opening post at the top.
+     *
+     * Walks in either direction, and that is not a convenience. Reading a
+     * thread only forwards means the last message of a long one is reached by
+     * loading every message before it — twelve requests to answer "what did
+     * people say", on a phone, in a plant room. [before] is what makes the end
+     * of a thread one request away, and what lets a reader who jumped there
+     * scroll back up through what they skipped.
+     *
+     * @param after returns the messages written after this instant, oldest
+     *   first. The ordinary forward read.
+     * @param before returns the messages written before it, and returns the
+     *   ones *nearest* it — the last page rather than the first. Still handed
+     *   back oldest first, because that is the order they are read in.
+     *   Passing both is a caller bug: a window has one open end.
+     */
     suspend fun posts(
         threadId: String,
         limit: Int = DEFAULT_PAGE_SIZE,
         after: Instant? = null,
+        before: Instant? = null,
     ): ForumResult<List<ForumPost>>
 
     /**

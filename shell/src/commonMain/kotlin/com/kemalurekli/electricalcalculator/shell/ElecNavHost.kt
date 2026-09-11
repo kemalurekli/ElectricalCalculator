@@ -123,7 +123,7 @@ fun ElecNavHost(
             ForumThreadsRoute(
                 categoryId = route.categoryId,
                 categoryTitle = route.title,
-                onThreadClick = { actions.navigateTo(Route.ForumThread(it.id, it.title, it.isLocked, it.authorId, route.title)) },
+                onThreadClick = { actions.navigateTo(Route.ForumThread(it.id, it.title, it.isLocked, it.authorId, route.title, it.replyCount)) },
                 onNewThread = {
                     actions.navigateTo(
                         Route.ForumComposeThread(route.categoryId, it, route.title, route.key),
@@ -157,6 +157,7 @@ fun ElecNavHost(
                 isLocked = route.isLocked,
                 threadAuthorId = route.authorId,
                 categoryTitle = route.categoryTitle,
+                replyCount = route.replyCount,
                 onOpenProfile = { actions.navigateTo(Route.ForumProfile(it)) },
                 onNavigateBack = actions::navigateBack,
             )

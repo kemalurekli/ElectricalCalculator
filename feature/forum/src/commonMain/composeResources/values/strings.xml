@@ -5,6 +5,9 @@
     <string name="action_edit">Edit</string>
     <string name="action_save">Save</string>
     <string name="destination_forum">Forum</string>
+    <string name="forum_thread_to_start">To the start</string>
+    <string name="forum_thread_to_end">To the latest</string>
+    <string name="forum_thread_position">Message %1$d of %2$d</string>
     <string name="forum_account_danger">Leaving for good</string>
     <string name="forum_account_signed_out">Not signed in</string>
     <string name="forum_account_signed_out_hint">Needed to open threads and reply</string>

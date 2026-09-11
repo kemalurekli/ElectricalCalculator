@@ -69,22 +69,36 @@ class ForumRepositoryImpl(
             .map(ThreadDto::toDomain)
     }
 
-    override suspend fun posts(threadId: String, limit: Int, after: Instant?) = query {
-        it.postgrest.from(TABLE_POSTS)
+    override suspend fun posts(
+        threadId: String,
+        limit: Int,
+        after: Instant?,
+        before: Instant?,
+    ) = query {
+        require(after == null || before == null) { "a window has one open end" }
+
+        // Backwards means asking the database for the *newest* of what is left
+        // and reversing the page afterwards. Ordering ascending and taking a
+        // limit would hand back the oldest messages in the thread, which is
+        // the page the reader already has.
+        val newestFirst = before != null
+        val page = it.postgrest.from(TABLE_POSTS)
             .select(Columns.raw(POST_COLUMNS)) {
                 filter {
                     eq("thread_id", threadId)
                     eq("is_deleted", false)
                     if (after != null) gt("created_at", after.toString())
+                    if (before != null) lt("created_at", before.toString())
                 }
-                // Oldest first, so the opening post is at the top and a reply
-                // reads after whatever it is replying to.
-                order("created_at", Order.ASCENDING)
+                order("created_at", if (newestFirst) Order.DESCENDING else Order.ASCENDING)
                 limit(limit.toLong())
             }
             .decodeList<PostDto>()
             .map(PostDto::toDomain)
-            .withThanksBy(it)
+
+        // Oldest first whichever way it was fetched, so the opening post is at
+        // the top and a reply reads after whatever it is replying to.
+        (if (newestFirst) page.asReversed() else page).withThanksBy(it)
     }
 
     /**

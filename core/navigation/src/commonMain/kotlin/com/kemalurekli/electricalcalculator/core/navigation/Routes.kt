@@ -139,6 +139,16 @@ sealed interface Route {
          * the content where it can wrap; the bar says where you are.
          */
         val categoryTitle: String = "",
+        /**
+         * How many replies the list said the thread had.
+         *
+         * Carried for the same reason as the title: the screen needs it on the
+         * first frame, to say where in the thread the reader is without asking
+         * the server a second question it already answered. Approximate by the
+         * time it is read — a reply can land while the thread is open — so the
+         * screen treats it as a floor rather than as a fact.
+         */
+        val replyCount: Int = 0,
     ) : Route
 
     /**

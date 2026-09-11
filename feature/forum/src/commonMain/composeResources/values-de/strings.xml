@@ -5,6 +5,9 @@
     <string name="action_edit">Bearbeiten</string>
     <string name="action_save">Speichern</string>
     <string name="destination_forum">Forum</string>
+    <string name="forum_thread_to_start">Zum Anfang</string>
+    <string name="forum_thread_to_end">Zum Neuesten</string>
+    <string name="forum_thread_position">Nachricht %1$d von %2$d</string>
     <string name="forum_account_danger">Endgültig gehen</string>
     <string name="forum_account_signed_out">Nicht angemeldet</string>
     <string name="forum_account_signed_out_hint">Nötig, um Themen zu eröffnen und zu antworten</string>

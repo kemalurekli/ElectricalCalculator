@@ -44,6 +44,8 @@ import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.material.icons.outlined.Insights
+import androidx.compose.material.icons.outlined.KeyboardDoubleArrowDown
+import androidx.compose.material.icons.outlined.KeyboardDoubleArrowUp
 import androidx.compose.material.icons.outlined.Lightbulb
 import androidx.compose.material.icons.outlined.OfflineBolt
 import androidx.compose.material.icons.outlined.RemoveCircleOutline
@@ -135,6 +137,16 @@ object ElecIcons {
     /** A disclosure chevron, pointing at what tapping it will do. */
     val Expand = Icons.Filled.ExpandMore
     val Collapse = Icons.Filled.ExpandLess
+
+    /**
+     * The two ends of a long list.
+     *
+     * A bar with a line, which is what every media control has used for "go to
+     * the end" for fifty years, and unmistakable beside a plain chevron that
+     * means "one more".
+     */
+    val ToStart = Icons.Outlined.KeyboardDoubleArrowUp
+    val ToEnd = Icons.Outlined.KeyboardDoubleArrowDown
 
     /**
      * The three rows of the paywall.

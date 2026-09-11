@@ -62,9 +62,18 @@ class FakeForumRepository(
         threadId: String,
         limit: Int,
         after: Instant?,
+        before: Instant?,
     ): ForumResult<List<ForumPost>> =
-        respond("posts($threadId, limit=$limit, after=$after)") {
-            posts.filter { it.threadId == threadId }
+        respond("posts($threadId, limit=$limit, after=$after, before=$before)") {
+            // The window the real one would return, so a test that walks a
+            // thread backwards walks the same thread the server would give it:
+            // the messages nearest the cursor, still handed back oldest first.
+            val all = posts.filter { it.threadId == threadId }.sortedBy { it.createdAt }
+            when {
+                before != null -> all.filter { it.createdAt < before }.takeLast(limit)
+                after != null -> all.filter { it.createdAt > after }.take(limit)
+                else -> all.take(limit)
+            }
         }
 
     override suspend fun createThread(

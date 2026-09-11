@@ -39,6 +39,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -109,6 +112,7 @@ fun ForumThreadRoute(
     isLocked: Boolean = false,
     threadAuthorId: String = "",
     categoryTitle: String = "",
+    replyCount: Int = 0,
     onNavigateBack: (() -> Unit)?,
     onOpenProfile: (String) -> Unit = {},
     modifier: Modifier = Modifier,
@@ -127,6 +131,7 @@ fun ForumThreadRoute(
     val deleteFailed by viewModel.deleteFailed.collectAsStateWithLifecycle()
     val reported by viewModel.reported.collectAsStateWithLifecycle()
     val blocked by viewModel.blocked.collectAsStateWithLifecycle()
+    val position by viewModel.position.collectAsStateWithLifecycle()
 
     // The thread is gone, so this screen has nothing left to show.
     LaunchedEffect(threadDeleted) {
@@ -134,7 +139,7 @@ fun ForumThreadRoute(
     }
     var showingRules by remember { mutableStateOf(false) }
 
-    LaunchedEffect(threadId) { viewModel.onOpen(threadId) }
+    LaunchedEffect(threadId) { viewModel.onOpen(threadId, replyCount) }
 
     ForumThreadScreen(
         title = threadTitle,
@@ -168,6 +173,11 @@ fun ForumThreadRoute(
         onBlock = viewModel::onBlock,
         onOpenProfile = onOpenProfile,
         onLoadMore = viewModel::onLoadMore,
+        onLoadOlder = viewModel::onLoadOlder,
+        onJumpToStart = viewModel::onJumpToStart,
+        onJumpToEnd = viewModel::onJumpToEnd,
+        onTopVisible = viewModel::onTopVisible,
+        position = position,
         onDeleteFailureShown = viewModel::onDeleteFailureShown,
         onRetry = viewModel::onRefresh,
         onNavigateBack = onNavigateBack,
@@ -223,6 +233,11 @@ fun ForumThreadScreen(
     onBlock: (String) -> Unit = {},
     onOpenProfile: (String) -> Unit = {},
     onLoadMore: () -> Unit = {},
+    onLoadOlder: () -> Unit = {},
+    onJumpToStart: () -> Unit = {},
+    onJumpToEnd: () -> Unit = {},
+    onTopVisible: (Int) -> Unit = {},
+    position: ThreadPosition = ThreadPosition(),
     onDeleteThread: () -> Unit = {},
     onDeleteFailureShown: () -> Unit = {},
     onRetry: () -> Unit,
@@ -372,43 +387,74 @@ fun ForumThreadScreen(
             } else {
                 val listState = rememberLazyListState()
                 LoadMoreOnApproachingEnd(listState, posts.size, onLoadMore)
+                LoadOlderOnApproachingStart(listState, posts.size, onLoadOlder)
 
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(
-                        vertical = spacing.xs,
-                    ),
-                ) {
-                    // The title, at the size a title should be and free to
-                    // use as many lines as it needs. In the app bar it was one
-                    // line of a sentence with the rest replaced by an ellipsis.
-                    item(key = "thread-title") {
-                        Text(
-                            text = title,
-                            style = MaterialTheme.typography.headlineSmall,
-                            modifier = Modifier.padding(
-                                start = spacing.screenHorizontal,
-                                end = spacing.screenHorizontal,
-                                top = spacing.lg,
-                                bottom = spacing.md,
-                            ),
+                // What the bar reports. The title is an item too, so the first
+                // message is at index one and the reader's position is the
+                // topmost message rather than the topmost row.
+                LaunchedEffect(listState) {
+                    snapshotFlow { listState.firstVisibleItemIndex }
+                        .collect { onTopVisible((it - 1).coerceAtLeast(0)) }
+                }
+
+                // A jump changes the whole window, so the list has to be told
+                // to go and look at it: after a jump to the end the reader
+                // wants the bottom of what just arrived, and after a jump to
+                // the start, the title.
+                val scope = rememberCoroutineScope()
+
+                Column(modifier = Modifier.fillMaxSize()) {
+                    if (position.isPaged) {
+                        ThreadPositionBar(
+                            position = position,
+                            onJumpToStart = {
+                                onJumpToStart()
+                                scope.launch { listState.scrollToItem(0) }
+                            },
+                            onJumpToEnd = {
+                                onJumpToEnd()
+                                scope.launch { listState.scrollToItem(Int.MAX_VALUE) }
+                            },
                         )
                     }
 
-                    items(posts, key = { it.id }) { post ->
-                        PostCard(
-                            post = post,
-                            isOwn = post.authorId == currentUserId,
-                            canModerate = currentUserId != null,
-                            onReport = { reason, note -> onReport(post.id, reason, note) },
-                            onBlock = { onBlock(post.authorId) },
-                            onOpenProfile = { onOpenProfile(post.authorId) },
-                            canThank = currentUserId != null && post.authorId != currentUserId,
-                            onToggleThanks = { onToggleThanks(post) },
-                            onEdit = { onEditPost(post.id, it) },
-                            onDelete = { onDeletePost(post.id) },
-                        )
+                    LazyColumn(
+                        state = listState,
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                            vertical = spacing.xs,
+                        ),
+                    ) {
+                        // The title, at the size a title should be and free to
+                        // use as many lines as it needs. In the app bar it was one
+                        // line of a sentence with the rest replaced by an ellipsis.
+                        item(key = "thread-title") {
+                            Text(
+                                text = title,
+                                style = MaterialTheme.typography.headlineSmall,
+                                modifier = Modifier.padding(
+                                    start = spacing.screenHorizontal,
+                                    end = spacing.screenHorizontal,
+                                    top = spacing.lg,
+                                    bottom = spacing.md,
+                                ),
+                            )
+                        }
+
+                        items(posts, key = { it.id }) { post ->
+                            PostCard(
+                                post = post,
+                                isOwn = post.authorId == currentUserId,
+                                canModerate = currentUserId != null,
+                                onReport = { reason, note -> onReport(post.id, reason, note) },
+                                onBlock = { onBlock(post.authorId) },
+                                onOpenProfile = { onOpenProfile(post.authorId) },
+                                canThank = currentUserId != null && post.authorId != currentUserId,
+                                onToggleThanks = { onToggleThanks(post) },
+                                onEdit = { onEditPost(post.id, it) },
+                                onDelete = { onDeletePost(post.id) },
+                            )
+                        }
                     }
                 }
             }
