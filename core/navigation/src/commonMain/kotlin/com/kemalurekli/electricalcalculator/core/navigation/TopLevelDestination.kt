@@ -4,7 +4,6 @@ import org.jetbrains.compose.resources.StringResource
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecAccent
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
-import kotlin.reflect.KClass
 import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.Res
 import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_calculators_subtitle
 import com.kemalurekli.electricalcalculator.core.navigation.generated.resources.dashboard_calculators_title
@@ -251,53 +250,6 @@ enum class ElecTab(
             else -> requireNotNull(destination).route
         }
 
-    /**
-     * Every destination this tab owns.
-     *
-     * Listed rather than derived, because "which tab is this screen in" has no
-     * answer the navigation graph can give: the graph is flat, so a thread and
-     * the forum it belongs to are siblings as far as it knows. The bar reads
-     * this to decide what to highlight, which is why a detail screen has to
-     * name its tab — otherwise opening a thread would appear to leave the forum.
-     */
-    val routes: List<KClass<out Route>>
-        get() = when (this) {
-            HOME -> listOf(Route.Home::class)
-
-            CALCULATORS -> listOf(Route.Calculators::class, Route.Calculator::class)
-
-            PROJECTS -> listOf(
-                Route.Projects::class,
-                Route.Project::class,
-                Route.Circuit::class,
-            )
-
-            FORUM -> listOf(
-                Route.Forum::class,
-                Route.ForumCategory::class,
-                Route.ForumThread::class,
-                Route.ForumComposeThread::class,
-                Route.ForumProfile::class,
-            )
-
-            // Everything with no tab of its own. Settings is here as well as in
-            // the home top bar: two doors into a room nobody visits often is
-            // better than one nobody can find.
-            MORE -> listOf(
-                Route.More::class,
-                Route.Converter::class,
-                Route.References::class,
-                Route.Reference::class,
-                Route.Glossary::class,
-                Route.Theory::class,
-                Route.TheoryTopic::class,
-                Route.FieldNotes::class,
-                Route.Favorites::class,
-                Route.History::class,
-                Route.Settings::class,
-                Route.ForumAccount::class,
-            )
-        }
 }
 
 /** The tab destinations, for the dashboard to exclude. */

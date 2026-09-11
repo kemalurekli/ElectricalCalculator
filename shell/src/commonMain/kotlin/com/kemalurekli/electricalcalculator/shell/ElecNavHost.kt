@@ -345,6 +345,18 @@ class NavActions(private val navController: NavHostController) {
     }
 
     /**
+     * Back to where a tab begins, for a second press on the tab already showing.
+     *
+     * `popBackStack` rather than `navigate`: the tab's root is already in the
+     * stack — that is what made this tab the active one — so the work is
+     * removing what is on top of it, not putting another copy underneath.
+     * Pressing it at the root pops nothing and correctly does nothing.
+     */
+    fun resetTab(tab: ElecTab) {
+        navController.popBackStack(tab.route, inclusive = false)
+    }
+
+    /**
      * Goes to [route] and drops the screen that asked for it.
      *
      * For a form whose job is finished once it succeeds: backing out of the

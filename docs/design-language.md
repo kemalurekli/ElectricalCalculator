@@ -339,6 +339,19 @@ switched tabs, and the bar below is what takes them back.
 thread finds it half-written. Tapping around the bar does not accumulate history
 — one back gesture still leaves the app.
 
+**The highlighted tab is the one you are inside, not the one a screen belongs
+to.** The bar used to read a table naming which tab owned each destination, and
+that table could not answer for a screen reachable from two places: the
+reference library is on the More shelf and is also linked from the dashboard, so
+opening it from the dashboard lit More while Home sat under it in the back
+stack — and Home, the tab the reader was already in, looked like a button that
+did nothing. The nearest tab root below the current screen is the answer, and
+the navigator already knows it.
+
+**A second press on the tab you are in goes back to where that tab starts.**
+Every reader has been taught to expect it, and it is the way out of a screen
+opened from the dashboard without reaching for the back arrow.
+
 **The tab bar hides while the keyboard is up.** A row of controls behind a
 keyboard is a row nobody can reach. On this codebase it also removes an entire
 class of inset bug: with the bar gone the content is the whole window again, and

@@ -106,6 +106,24 @@ fun ElecAppShell(
     // the bar, not the exit.
     val onPaywall = current?.hasRoute(Route.Paywall::class) == true
 
+    // Which tab the reader is *inside*, which is not the same question as which
+    // tab a destination belongs to.
+    //
+    // The reference library is on the More shelf and is also linked from the
+    // dashboard. Asked the second way, the bar lit More while the Home screen
+    // sat underneath it in the back stack — so the bar was telling the reader
+    // they were somewhere they were not, and Home, the tab they were already
+    // in, looked like a button that did nothing.
+    //
+    // The back stack knows. The nearest tab root below the current screen is
+    // the tab they are in, whatever route they took to get here.
+    val backStack by navController.currentBackStack.collectAsState()
+    val activeTab = remember(backStack) {
+        backStack.asReversed().firstNotNullOfOrNull { entry ->
+            ElecTab.entries.firstOrNull { tab -> entry.destination.hasRoute(tab.route::class) }
+        } ?: ElecTab.HOME
+    }
+
     val fullWindow = keyboardVisible || onPaywall
     val suiteType = if (fullWindow) {
         NavigationSuiteType.None
@@ -119,8 +137,19 @@ fun ElecAppShell(
         navigationSuiteItems = {
             ElecTab.entries.forEach { tab ->
                 item(
-                    selected = current.isIn(tab),
-                    onClick = { actions.navigateToTab(tab) },
+                    selected = activeTab == tab,
+                    // A second press on the tab you are already in goes back to
+                    // where that tab starts. It is what every reader has been
+                    // taught to expect by every other app, and it is the way
+                    // out of a screen opened from the dashboard without
+                    // reaching for the back arrow.
+                    onClick = {
+                        if (activeTab == tab) {
+                            actions.resetTab(tab)
+                        } else {
+                            actions.navigateToTab(tab)
+                        }
+                    },
                     // The label names it; announcing the icon as well would
                     // read every tab twice.
                     icon = { Icon(imageVector = tab.icon, contentDescription = null) },
@@ -148,18 +177,6 @@ fun ElecAppShell(
     }
 }
 
-/**
- * Whether what is on screen belongs to [tab], so the bar can highlight it.
- *
- * Matched against every route the tab owns, not only its root. A reader three
- * screens into the forum — a category, a thread, an author's profile — is still
- * in the Forum tab, and a bar that drops its highlight the moment they open
- * something has stopped telling them where they are.
- */
-private fun NavDestination?.isIn(tab: ElecTab): Boolean {
-    val destination = this ?: return false
-    return tab.routes.any { route -> destination.hasRoute(route) }
-}
 
 /**
  * The first-run guess at supply voltage and frequency.
