@@ -7,6 +7,9 @@
     <string name="calculator_share_subject">%1$s — VoltageBoard</string>
     <string name="destination_theory">Theory</string>
     <string name="message_copied">Result copied</string>
+    <string name="th_pro_title">The rest of this topic is in Pro</string>
+    <string name="th_pro_body">Advanced topics, their worked examples and the interactive solver open with Pro. Everything else in the app stays free.</string>
+    <string name="th_pro_action">Unlock Pro</string>
     <string name="th_conductor_assumption_dc">Direct current, or alternating current in anything but a very large conductor. At 50 Hz the skin effect is worth under a per cent up to about 185 mm²; by 300 mm² it is a couple of per cent, and in the hundreds it has to be calculated rather than ignored.</string>
     <string name="th_conductor_assumption_one_way">This is the resistance of one conductor. A circuit needs the current to come back, so voltage drop uses the loop — both conductors, which is the second figure here.</string>
     <string name="th_conductor_assumption_uniform">The whole run is at one temperature. A cable that leaves a warm panel and crosses a cold roof space is not.</string>

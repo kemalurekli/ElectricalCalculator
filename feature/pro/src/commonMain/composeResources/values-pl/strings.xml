@@ -8,7 +8,8 @@
     <string name="pro_buy_loading">Łączenie ze sklepem…</string>
     <string name="pro_compare_free">Za darmo</string>
     <string name="pro_compare_calculators">Wszystkie kalkulatory</string>
-    <string name="pro_compare_reference">Tabele, teoria i słownik</string>
+    <string name="pro_compare_reference">Tabele i słownik</string>
+    <string name="pro_compare_theory">Teoria zaawansowana</string>
     <string name="pro_compare_forum">Forum</string>
     <string name="pro_close">Zamknij</string>
     <string name="pro_error_no_connection">Brak połączenia ze sklepem. Spróbuj ponownie po powrocie online.</string>

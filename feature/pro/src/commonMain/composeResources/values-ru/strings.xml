@@ -8,7 +8,8 @@
     <string name="pro_buy_loading">Соединение с магазином…</string>
     <string name="pro_compare_free">Бесплатно</string>
     <string name="pro_compare_calculators">Все расчёты</string>
-    <string name="pro_compare_reference">Справочники, теория и глоссарий</string>
+    <string name="pro_compare_reference">Справочные таблицы и глоссарий</string>
+    <string name="pro_compare_theory">Продвинутая теория</string>
     <string name="pro_compare_forum">Форум</string>
     <string name="pro_close">Закрыть</string>
     <string name="pro_error_no_connection">Нет связи с магазином. Повторите, когда появится сеть.</string>

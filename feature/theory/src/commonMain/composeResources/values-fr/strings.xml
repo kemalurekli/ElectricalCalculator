@@ -7,6 +7,9 @@
     <string name="calculator_share_subject">%1$s — VoltageBoard</string>
     <string name="destination_theory">Théorie</string>
     <string name="message_copied">Résultat copié</string>
+    <string name="th_pro_title">La suite de ce sujet est dans Pro</string>
+    <string name="th_pro_body">Les sujets avancés, leurs exemples résolus et le solveur interactif s'ouvrent avec Pro. Tout le reste de l'application reste gratuit.</string>
+    <string name="th_pro_action">Activer Pro</string>
     <string name="th_conductor_assumption_dc">Courant continu, ou courant alternatif dans tout sauf un très gros conducteur. À 50 Hz l'effet de peau vaut moins d'un pour cent jusqu'à environ 185 mm² ; vers 300 mm² il atteint quelques pour cent, et au-delà de la centaine il faut le calculer plutôt que l'ignorer.</string>
     <string name="th_conductor_assumption_one_way">C'est la résistance d'un seul conducteur. Un circuit a besoin que le courant revienne, donc la chute de tension se calcule sur la boucle — les deux conducteurs, ce qui est la seconde valeur ici.</string>
     <string name="th_conductor_assumption_uniform">Tout le parcours est à une seule température. Un câble qui sort d'un tableau chaud et traverse des combles froids ne l'est pas.</string>

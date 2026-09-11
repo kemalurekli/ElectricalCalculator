@@ -30,6 +30,14 @@ appearance — hiding the tab bar behind a keyboard, drawing a separator under a
 scrolled title bar — the app follows it, because both platforms agree and the
 user is right either way.
 
+And where a platform simply **cannot draw a thing**, it gets the same screen
+without that one effect rather than a different screen. There is one of these:
+`Modifier.blur` does nothing on Android below 12 — silently, with no exception
+and no log line — so `canBlurContent` asks whether it will work and the answer
+decides only whether blur is *added*. What the effect was there to do has to be
+done by something that needs no API: the theory gate hides its text with a fade,
+and blurs it as well where it can.
+
 ---
 
 ## Colour

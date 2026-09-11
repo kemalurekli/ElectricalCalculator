@@ -8,7 +8,8 @@
     <string name="pro_buy_loading">Verbinden met de store…</string>
     <string name="pro_compare_free">Gratis</string>
     <string name="pro_compare_calculators">Alle rekenmodules</string>
-    <string name="pro_compare_reference">Naslag, theorie en woordenlijst</string>
+    <string name="pro_compare_reference">Naslagtabellen en woordenlijst</string>
+    <string name="pro_compare_theory">Gevorderde theorie</string>
     <string name="pro_compare_forum">Forum</string>
     <string name="pro_close">Sluiten</string>
     <string name="pro_error_no_connection">Geen verbinding met de store. Probeer het opnieuw zodra u online bent.</string>

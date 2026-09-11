@@ -35,6 +35,9 @@ import androidx.compose.ui.text.input.ImeAction
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.compose.koinInject
+import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryLevel
+import com.kemalurekli.electricalcalculator.core.billing.domain.EntitlementRepository
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
@@ -105,6 +108,7 @@ fun TheoryTopicRoute(
     onCalculatorClick: (CalculatorId) -> Unit,
     onReferenceClick: (String) -> Unit,
     onGlossaryClick: (String) -> Unit,
+    onShowPaywall: () -> Unit,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     viewModel: TheoryTopicViewModel = koinViewModel(),
@@ -149,6 +153,7 @@ fun TheoryTopicRoute(
         onCalculatorClick = onCalculatorClick,
         onReferenceClick = onReferenceClick,
         onGlossaryClick = onGlossaryClick,
+        onShowPaywall = onShowPaywall,
         onNavigateBack = onNavigateBack,
         modifier = modifier,
     )
@@ -188,6 +193,7 @@ fun TheoryTopicScreen(
     onCalculatorClick: (CalculatorId) -> Unit,
     onReferenceClick: (String) -> Unit,
     onGlossaryClick: (String) -> Unit,
+    onShowPaywall: () -> Unit,
     onNavigateBack: (() -> Unit)?,
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
@@ -198,6 +204,12 @@ fun TheoryTopicScreen(
     val scrollBehavior = rememberElecScrollBehavior()
     val topic = uiState.topic
     val solution = uiState.solution
+
+    // Only the advanced shelf, and only for a reader who has not paid. The
+    // foundation and intermediate topics are the ones somebody learning the
+    // trade needs, and they stay open.
+    val paid by koinInject<EntitlementRepository>().isPro.collectAsStateWithLifecycle()
+    val locked = !paid && topic?.level == TheoryLevel.ADVANCED
 
     // The answer is prepended to the list while the reader is looking at the
     // bottom of the form, so without this it arrives above the viewport and the
@@ -283,11 +295,30 @@ fun TheoryTopicScreen(
             }
 
             item(key = "theory") {
-                TheoryProseCard(
-                    title = stringResource(Res.string.th_section_theory),
-                    text = stringResource(topic.theory),
-                )
+                val prose = stringResource(topic.theory)
+                if (locked) {
+                    val halves = remember(prose) { splitForGate(prose) }
+                    TheoryProseCard(
+                        title = stringResource(Res.string.th_section_theory),
+                        text = halves.first,
+                        teaser = halves.second,
+                    )
+                    TheoryProGate(
+                        onUnlock = onShowPaywall,
+                        modifier = Modifier.padding(top = spacing.md),
+                    )
+                } else {
+                    TheoryProseCard(
+                        title = stringResource(Res.string.th_section_theory),
+                        text = prose,
+                    )
+                }
             }
+
+            // Everything past the gate belongs to the half that was not given
+            // away: the worked examples, the quiz, the solver and its working.
+            // A locked topic stops here.
+            if (locked) return@LazyColumn
 
             if (solution.examples.isNotEmpty()) {
                 item(key = "examples") {
@@ -471,7 +502,7 @@ private fun rememberSolutionText(
  * to a number, and a reader who came to read it should not have to open it first.
  */
 @Composable
-private fun TheoryProseCard(title: String, text: String) {
+private fun TheoryProseCard(title: String, text: String, teaser: String? = null) {
     val spacing = ElecTheme.spacing
 
     ElecCard(modifier = Modifier.fillMaxWidth()) {
@@ -491,6 +522,10 @@ private fun TheoryProseCard(title: String, text: String) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
+            // Inside the card, not under it. What follows is the rest of the
+            // same passage, and a fading fragment floating on the page between
+            // two cards read as a third thing that belonged to neither.
+            if (teaser != null) TheoryProseTeaser(teaser)
         }
     }
 }

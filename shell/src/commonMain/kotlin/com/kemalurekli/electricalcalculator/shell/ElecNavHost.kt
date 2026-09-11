@@ -227,6 +227,7 @@ fun ElecNavHost(
                 onCalculatorClick = actions::navigateToCalculator,
                 onReferenceClick = actions::navigateToReference,
                 onGlossaryClick = { actions.navigateTo(Route.Glossary(it)) },
+                onShowPaywall = { actions.navigateTo(Route.Paywall(PaywallReason.THEORY)) },
                 onNavigateBack = actions::navigateBack,
             )
         }

@@ -35,6 +35,7 @@ import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_compare_forum
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_compare_free
 import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_compare_reference
+import com.kemalurekli.electricalcalculator.feature.pro.generated.resources.pro_compare_theory
 
 /**
  * What is free and what is not, in two columns.
@@ -97,6 +98,7 @@ internal fun ProComparison(modifier: Modifier = Modifier) {
             Feature(stringResource(Res.string.pro_compare_calculators), inFree = true)
             Feature(stringResource(Res.string.pro_compare_reference), inFree = true)
             Feature(stringResource(Res.string.pro_compare_forum), inFree = true)
+            Feature(stringResource(Res.string.pro_compare_theory), inFree = false)
             Feature(stringResource(Res.string.pro_benefit_calculation_title), inFree = false)
             Feature(stringResource(Res.string.pro_benefit_schedule_title), inFree = false)
             Feature(

@@ -225,13 +225,13 @@ private const val MIN_LEGIBLE = 3f
 private const val BASELINE_FRACTION = 0.82f
 
 private const val STAMP_ALPHA = 0.26f
-private const val STAMP_FRACTION = 0.030f
+private const val STAMP_FRACTION = 0.020f
 private const val STAMP_TRACKING = 0.5f
 private const val STAMP_DEGREES = 30f
 
 /** Space between stamps, as a share of the page. */
-private const val STAMP_GAP_X = 0.045f
-private const val STAMP_GAP_Y = 0.062f
+private const val STAMP_GAP_X = 0.085f
+private const val STAMP_GAP_Y = 0.105f
 
 /** How far past each edge the field is drawn, so rotation leaves no bare corner. */
 private const val STAMP_BLEED = 0.6f

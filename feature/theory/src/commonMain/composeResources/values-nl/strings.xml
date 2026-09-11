@@ -7,6 +7,9 @@
     <string name="calculator_share_subject">%1$s — VoltageBoard</string>
     <string name="destination_theory">Theorie</string>
     <string name="message_copied">Resultaat gekopieerd</string>
+    <string name="th_pro_title">De rest van dit onderwerp zit in Pro</string>
+    <string name="th_pro_body">Gevorderde onderwerpen, hun uitgewerkte voorbeelden en de interactieve oplosser gaan open met Pro. De rest van de app blijft gratis.</string>
+    <string name="th_pro_action">Pro ontgrendelen</string>
     <string name="th_conductor_assumption_dc">Gelijkstroom, of wisselstroom in alles behalve een zeer grote geleider. Bij 50 Hz is het skineffect tot ongeveer 185 mm² minder dan een procent waard; bij 300 mm² is het een paar procent, en in de honderdtallen moet het worden berekend in plaats van genegeerd.</string>
     <string name="th_conductor_assumption_one_way">Dit is de weerstand van één geleider. Een stroomkring heeft de stroom ook terug nodig, dus de spanningsval rekent met de lus — beide geleiders, het tweede getal hier.</string>
     <string name="th_conductor_assumption_uniform">Het hele traject heeft één temperatuur. Een kabel die een warme verdeelkast verlaat en een koude zolder oversteekt, heeft dat niet.</string>

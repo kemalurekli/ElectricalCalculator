@@ -279,4 +279,14 @@ object PaywallReason {
      * being answered about something they were not looking at.
      */
     const val CALCULATION_EXPORT: String = "calculation_export"
+
+    /**
+     * An advanced theory topic that stopped halfway.
+     *
+     * Distinct from [GENERAL] even though both currently open the same screen:
+     * the reasons are what a paywall would need if it ever wanted to answer the
+     * question that was actually asked, and folding two of them together now
+     * means finding out later that the information was thrown away.
+     */
+    const val THEORY: String = "theory"
 }

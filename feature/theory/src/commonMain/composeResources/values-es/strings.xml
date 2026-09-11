@@ -7,6 +7,9 @@
     <string name="calculator_share_subject">%1$s — VoltageBoard</string>
     <string name="destination_theory">Teoría</string>
     <string name="message_copied">Resultado copiado</string>
+    <string name="th_pro_title">El resto de este tema está en Pro</string>
+    <string name="th_pro_body">Los temas avanzados, sus ejemplos resueltos y el solucionador interactivo se abren con Pro. Todo lo demás de la aplicación sigue siendo gratis.</string>
+    <string name="th_pro_action">Activar Pro</string>
     <string name="th_conductor_assumption_dc">Corriente continua, o corriente alterna en cualquier cosa salvo un conductor muy grande. A 50 Hz el efecto pelicular vale menos de un por ciento hasta unos 185 mm²; hacia 300 mm² son un par de por ciento, y en los centenares hay que calcularlo en vez de ignorarlo.</string>
     <string name="th_conductor_assumption_one_way">Esta es la resistencia de un solo conductor. Un circuito necesita que la corriente vuelva, así que la caída de tensión se calcula sobre el bucle — los dos conductores, que es la segunda cifra de aquí.</string>
     <string name="th_conductor_assumption_uniform">Todo el recorrido está a una sola temperatura. Un cable que sale de un cuadro caliente y cruza un desván frío no lo está.</string>
