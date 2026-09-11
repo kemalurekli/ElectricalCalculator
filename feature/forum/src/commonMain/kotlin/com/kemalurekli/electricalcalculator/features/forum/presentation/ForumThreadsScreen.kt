@@ -234,6 +234,9 @@ fun ForumThreadsScreen(
                                     scope.launch { listState.scrollToItem(0) }
                                 },
                                 rule = PagerRule.Above,
+                                // Two or three pages, where "last" is "next"
+                                // with a second chevron on it.
+                                ends = false,
                             )
                         }
                     }

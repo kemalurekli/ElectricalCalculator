@@ -67,6 +67,14 @@ import com.kemalurekli.electricalcalculator.feature.forum.generated.resources.fo
  * bottom: there is nothing else down there, and a pager above twenty rows
  * would be a control offered before the reader could want it.
  *
+ * ### Why a list has three controls and a thread has five
+ *
+ * A thread can run to twenty pages and the last message is where an argument
+ * got to, so jumping to either end is a thing a reader actually wants. A
+ * category has two or three pages, and there a jump to the end is the step
+ * either way with a different glyph — two controls earning nothing, drawn as
+ * stacked chevrons that read as up and down rather than as first and last.
+ *
  * ### When it is not there at all
  *
  * Whenever there is one page, which is most threads and most categories.
@@ -78,6 +86,7 @@ internal fun ForumPager(
     onGoToPage: (Int) -> Unit,
     modifier: Modifier = Modifier,
     rule: PagerRule = PagerRule.Below,
+    ends: Boolean = true,
 ) {
     val spacing = ElecTheme.spacing
     var picking by remember { mutableStateOf(false) }
@@ -94,12 +103,14 @@ internal fun ForumPager(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Row {
-            Step(
-                icon = ElecIcons.ToStart,
-                label = stringResource(Res.string.forum_page_first),
-                enabled = page > 1,
-                onClick = { onGoToPage(1) },
-            )
+            if (ends) {
+                Step(
+                    icon = ElecIcons.ToStart,
+                    label = stringResource(Res.string.forum_page_first),
+                    enabled = page > 1,
+                    onClick = { onGoToPage(1) },
+                )
+            }
             Step(
                 icon = ElecIcons.Back,
                 label = stringResource(Res.string.forum_page_previous),
@@ -162,12 +173,14 @@ internal fun ForumPager(
                 enabled = page < pageCount,
                 onClick = { onGoToPage(page + 1) },
             )
-            Step(
-                icon = ElecIcons.ToEnd,
-                label = stringResource(Res.string.forum_page_last),
-                enabled = page < pageCount,
-                onClick = { onGoToPage(pageCount) },
-            )
+            if (ends) {
+                Step(
+                    icon = ElecIcons.ToEnd,
+                    label = stringResource(Res.string.forum_page_last),
+                    enabled = page < pageCount,
+                    onClick = { onGoToPage(pageCount) },
+                )
+            }
         }
     }
 
