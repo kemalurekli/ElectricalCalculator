@@ -10,6 +10,10 @@
     <string name="pro_benefit_schedule">Расчётный ток, сечение и аппарат защиты, строка за строкой</string>
     <string name="pro_benefit_schedule_title">Каждая линия на одном листе</string>
     <string name="pro_buy_loading">Соединение с магазином…</string>
+    <string name="pro_compare_free">Бесплатно</string>
+    <string name="pro_compare_calculators">Все расчёты</string>
+    <string name="pro_compare_reference">Справочники, теория и глоссарий</string>
+    <string name="pro_compare_forum">Форум</string>
     <string name="pro_close">Закрыть</string>
     <string name="pro_error_no_connection">Нет связи с магазином. Повторите, когда появится сеть.</string>
     <string name="pro_error_not_configured">Эта сборка не может обратиться к магазину.</string>

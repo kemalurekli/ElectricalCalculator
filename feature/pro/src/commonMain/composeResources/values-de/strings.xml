@@ -10,6 +10,10 @@
     <string name="pro_benefit_schedule">Betriebsstrom, Querschnitt und Schutzeinrichtung, Zeile für Zeile</string>
     <string name="pro_benefit_schedule_title">Jeder Stromkreis auf einem Blatt</string>
     <string name="pro_buy_loading">Verbindung zum Store …</string>
+    <string name="pro_compare_free">Kostenlos</string>
+    <string name="pro_compare_calculators">Alle Rechner</string>
+    <string name="pro_compare_reference">Referenzen, Theorie und Glossar</string>
+    <string name="pro_compare_forum">Forum</string>
     <string name="pro_close">Schließen</string>
     <string name="pro_error_no_connection">Keine Verbindung zum Store. Versuchen Sie es online erneut.</string>
     <string name="pro_error_not_configured">Dieser Build erreicht keinen Store.</string>

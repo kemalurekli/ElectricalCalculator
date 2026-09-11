@@ -204,71 +204,41 @@ fun PaywallScreen(
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
                     .heightIn(min = available)
-                    .padding(horizontal = spacing.screenHorizontal)
                     .padding(bottom = spacing.lg),
                 verticalArrangement = Arrangement.spacedBy(spacing.lg),
             ) {
-                Column(verticalArrangement = Arrangement.spacedBy(spacing.xs)) {
-                    Text(
-                        text = stringResource(reason.headline()),
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
-                    // Said once, at the top, where somebody deciding whether to
-                    // keep reading is deciding. It used to appear only beside
-                    // the button, at the end of a page they had to finish
-                    // before learning the two things most likely to reassure
-                    // them: how much, and that it is not a subscription.
-                    Text(
-                        text = stringResource(Res.string.pro_one_time),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
+                // Full width, so the band reaches both edges. Everything below
+                // it keeps the screen inset.
+                ProHero(
+                    headline = stringResource(reason.headline()),
+                    subline = stringResource(Res.string.pro_one_time),
+                )
 
-                // The reader's own page when they got here by trying to
-                // export one, and the sample schedule otherwise. A sample asks
-                // somebody to imagine their work in it; their own page does
-                // not have to be imagined.
-                if (previewPage != null) {
-                    DocumentPreview(page = previewPage, size = previewSize)
-                } else {
-                    SchedulePreview()
-                }
+                Column(
+                    modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
+                    verticalArrangement = Arrangement.spacedBy(spacing.lg),
+                ) {
+                    // The reader's own page when they got here by trying to
+                    // export one, and the sample schedule otherwise. A sample
+                    // asks somebody to imagine their work in it; their own page
+                    // does not have to be imagined.
+                    if (previewPage != null) {
+                        DocumentPreview(page = previewPage, size = previewSize)
+                    } else {
+                        SchedulePreview()
+                    }
 
-                // Ranked, not ticked. Three identical check marks made three
-                // unequal things look interchangeable — an artefact, what is
-                // written on it, and a promise about later — and buried the
-                // only one of them a reader can judge: what the document
-                // actually says.
-                Column(verticalArrangement = Arrangement.spacedBy(spacing.lg)) {
-                    Benefit(
-                        icon = ElecIcons.ProDocument,
-                        title = stringResource(Res.string.pro_benefit_pdf_title),
-                        description = stringResource(Res.string.pro_benefit_pdf),
-                    )
-                    Benefit(
-                        icon = ElecIcons.ProSchedule,
-                        title = stringResource(Res.string.pro_benefit_schedule_title),
-                        description = stringResource(Res.string.pro_benefit_schedule),
-                    )
-                    // Added when the export stopped being one screen's. A
-                    // paywall that promises only the schedule is selling less
-                    // than it has, and the reader finds out after paying —
-                    // which is the pleasant version of the same mistake.
-                    Benefit(
-                        icon = ElecIcons.Calculators,
-                        title = stringResource(Res.string.pro_benefit_calculation_title),
-                        description = stringResource(Res.string.pro_benefit_calculation),
-                    )
-                    Benefit(
-                        icon = ElecIcons.ProIncluded,
-                        title = stringResource(Res.string.pro_benefit_future_title),
-                        description = stringResource(Res.string.pro_benefit_future),
-                    )
+                    // Four benefit rows used to sit here. They answered "what
+                    // do I get" and left "what am I paying for" to inference —
+                    // and left unsaid the thing most worth saying, which is how
+                    // much of the app was never for sale.
+                    ProComparison()
                 }
 
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = spacing.screenHorizontal),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(spacing.sm),
                 ) {
@@ -339,20 +309,14 @@ fun PaywallScreen(
                 // already paid, and next to the primary action it was a second
                 // control competing for the same press.
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = spacing.screenHorizontal),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    // Reassurance, not a benefit, so it is no longer in the
-                    // list of them. "The calculators stay free" answers a fear
-                    // about what happens to the rest of the app; ranked beside
-                    // what the money buys, it was the one row arguing that
-                    // paying is unnecessary.
-                    Text(
-                        text = stringResource(Res.string.pro_benefit_free),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center,
-                    )
+                    // "The calculators stay free" used to be said here in a
+                    // sentence. The table says it in three ticked rows, which
+                    // is both shorter and harder to disbelieve.
                     Text(
                         text = stringResource(Res.string.pro_store_note),
                         style = MaterialTheme.typography.bodySmall,
@@ -383,44 +347,6 @@ fun PaywallScreen(
     }
 }
 
-/**
- * One thing Pro gives, as a heading and a sentence.
- *
- * The heading is what the row is; the sentence is why it is worth paying for.
- * A single line had to be both and managed neither — it was skimmed as a label
- * and read as a claim.
- */
-@Composable
-private fun Benefit(
-    icon: ImageVector,
-    title: String,
-    description: String,
-) {
-    val spacing = ElecTheme.spacing
-    Row(verticalAlignment = Alignment.Top) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(BENEFIT_ICON),
-        )
-        Column(
-            modifier = Modifier.padding(start = spacing.md),
-            verticalArrangement = Arrangement.spacedBy(spacing.xxs),
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-    }
-}
 
 /** The first line, chosen by what the reader was reaching for. */
 private fun String.headline() = when (this) {
@@ -445,6 +371,5 @@ private fun PaywallMessage.text(): String = when (this) {
 /** Roughly the width of a formatted price, so nothing jumps when one arrives. */
 private val PRICE_SKELETON = 120.dp
 
-private val BENEFIT_ICON = 20.dp
 private val SPINNER = 20.dp
 private val SPINNER_STROKE = 2.dp

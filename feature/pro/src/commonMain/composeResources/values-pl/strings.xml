@@ -10,6 +10,10 @@
     <string name="pro_benefit_schedule">Prąd obliczeniowy, przekrój i zabezpieczenie, wiersz po wierszu</string>
     <string name="pro_benefit_schedule_title">Każdy obwód na jednej stronie</string>
     <string name="pro_buy_loading">Łączenie ze sklepem…</string>
+    <string name="pro_compare_free">Za darmo</string>
+    <string name="pro_compare_calculators">Wszystkie kalkulatory</string>
+    <string name="pro_compare_reference">Tabele, teoria i słownik</string>
+    <string name="pro_compare_forum">Forum</string>
     <string name="pro_close">Zamknij</string>
     <string name="pro_error_no_connection">Brak połączenia ze sklepem. Spróbuj ponownie po powrocie online.</string>
     <string name="pro_error_not_configured">Ta kompilacja nie ma dostępu do sklepu.</string>

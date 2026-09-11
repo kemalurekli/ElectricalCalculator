@@ -10,6 +10,10 @@
     <string name="pro_benefit_schedule">Corriente de empleo, sección y dispositivo de protección, línea a línea</string>
     <string name="pro_benefit_schedule_title">Cada circuito en una hoja</string>
     <string name="pro_buy_loading">Contactando con la tienda…</string>
+    <string name="pro_compare_free">Gratis</string>
+    <string name="pro_compare_calculators">Todas las calculadoras</string>
+    <string name="pro_compare_reference">Referencias, teoría y glosario</string>
+    <string name="pro_compare_forum">Foro</string>
     <string name="pro_close">Cerrar</string>
     <string name="pro_error_no_connection">Sin conexión con la tienda. Inténtelo cuando vuelva a estar en línea.</string>
     <string name="pro_error_not_configured">Esta compilación no puede acceder a una tienda.</string>

@@ -10,6 +10,10 @@
     <string name="pro_benefit_schedule">Tasarım akımı, kesit ve koruma cihazı, satır satır</string>
     <string name="pro_benefit_schedule_title">Her devre tek sayfada</string>
     <string name="pro_buy_loading">Mağazaya bağlanılıyor…</string>
+    <string name="pro_compare_free">Ücretsiz</string>
+    <string name="pro_compare_calculators">Tüm hesaplayıcılar</string>
+    <string name="pro_compare_reference">Referanslar, teori ve sözlük</string>
+    <string name="pro_compare_forum">Forum</string>
     <string name="pro_close">Kapat</string>
     <string name="pro_error_no_connection">Mağazaya bağlanılamadı. Çevrimiçi olduğunuzda yeniden deneyin.</string>
     <string name="pro_error_not_configured">Bu derleme bir mağazaya ulaşamıyor.</string>

@@ -103,7 +103,8 @@ internal fun ProMark(
  * else in the app, and lending it to a badge would spend a meaning the
  * calculators need. This one is a brand accent and appears nowhere but here.
  */
-private val ProGold = Color(0xFFE0A72E)
+/** Shared with the paywall's hero panel, which is the same gold saying the same thing. */
+internal val ProGold = Color(0xFFE0A72E)
 
 /** The glint at the head of the sweep — gold with the light on it. */
 private val ProGlint = Color(0xFFFFE9A8)

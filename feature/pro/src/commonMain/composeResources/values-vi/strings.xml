@@ -10,6 +10,10 @@
     <string name="pro_benefit_schedule">Dòng điện tính toán, tiết diện và thiết bị bảo vệ, từng dòng một</string>
     <string name="pro_benefit_schedule_title">Mỗi mạch trên một trang</string>
     <string name="pro_buy_loading">Đang kết nối cửa hàng…</string>
+    <string name="pro_compare_free">Miễn phí</string>
+    <string name="pro_compare_calculators">Mọi công cụ tính</string>
+    <string name="pro_compare_reference">Tra cứu, lý thuyết và thuật ngữ</string>
+    <string name="pro_compare_forum">Diễn đàn</string>
     <string name="pro_close">Đóng</string>
     <string name="pro_error_no_connection">Không kết nối được cửa hàng. Hãy thử lại khi có mạng.</string>
     <string name="pro_error_not_configured">Bản dựng này không truy cập được cửa hàng.</string>

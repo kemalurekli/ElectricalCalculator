@@ -10,6 +10,10 @@
     <string name="pro_benefit_schedule">Design current, cross-section and protective device, line by line</string>
     <string name="pro_benefit_schedule_title">Every circuit on one sheet</string>
     <string name="pro_buy_loading">Contacting the store…</string>
+    <string name="pro_compare_free">Free</string>
+    <string name="pro_compare_calculators">Every calculator</string>
+    <string name="pro_compare_reference">Reference, theory and glossary</string>
+    <string name="pro_compare_forum">Forum</string>
     <string name="pro_close">Close</string>
     <string name="pro_error_no_connection">No connection to the store. Try again when you are back online.</string>
     <string name="pro_error_not_configured">This build cannot reach a store.</string>
