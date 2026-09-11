@@ -1,5 +1,10 @@
 package com.kemalurekli.electricalcalculator.features.theory.presentation
 
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.launchIn
+import com.kemalurekli.electricalcalculator.core.billing.domain.EntitlementRepository
+import androidx.lifecycle.viewModelScope
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -52,8 +57,13 @@ data class TheoryListUiState(
     /** Levels that actually carry topics, in declaration order. */
     val levels: ImmutableList<TheoryLevel> = persistentListOf(),
     val sections: ImmutableList<TheorySection> = persistentListOf(),
+    /** Whether the advanced shelf is open. */
+    val isPro: Boolean = false,
 ) {
     val hasNoResults: Boolean get() = sections.isEmpty()
+
+    /** Whether a row should say it is behind the paywall. */
+    fun isLocked(level: TheoryLevel): Boolean = !isPro && level == TheoryLevel.ADVANCED
 }
 
 /**
@@ -71,10 +81,27 @@ data class TheoryListUiState(
 class TheoryListViewModel(
     private val stringResolver: StringResolver,
     private val savedStateHandle: SavedStateHandle,
+    private val entitlements: EntitlementRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TheoryListUiState())
     val uiState: StateFlow<TheoryListUiState> = _uiState.asStateFlow()
+
+    init {
+        // Read here rather than in the screen, so the screen stays a function
+        // of its state and can be drawn in a preview or a test without a
+        // billing graph behind it.
+        //
+        // Seeded synchronously and then followed. A StateFlow always has an
+        // answer, and the cache means that answer is already the right one on a
+        // cold launch; collecting alone would leave the first composition
+        // drawing a gate over content the reader has paid for, for as long as
+        // the dispatcher took to get to it.
+        _uiState.update { it.copy(isPro = entitlements.isPro.value) }
+        entitlements.isPro
+            .onEach { pro -> _uiState.update { it.copy(isPro = pro) } }
+            .launchIn(viewModelScope)
+    }
 
     /**
      * Every topic, resolved once at construction.
@@ -117,7 +144,13 @@ class TheoryListViewModel(
             }
             .toImmutableList()
 
+        // Rebuilt from scratch on every keystroke, so anything that is not
+        // about the query has to be put back — and read from its own source
+        // rather than copied off the old state. The entitlement is the one
+        // such field, and a paying reader was watching the Pro badge reappear
+        // on rows they own the moment they typed.
         _uiState.value = TheoryListUiState(
+            isPro = entitlements.isPro.value,
             query = query,
             filter = filter,
             // Chips list every level that has content at all, not just the ones

@@ -10,6 +10,7 @@
     <string name="th_pro_title">Il resto di questo argomento è in Pro</string>
     <string name="th_pro_body">Gli argomenti avanzati, i loro esempi svolti e il risolutore interattivo si aprono con Pro. Tutto il resto dell'app resta gratuito.</string>
     <string name="th_pro_action">Attiva Pro</string>
+    <string name="th_pro_badge">Pro</string>
     <string name="th_conductor_assumption_dc">Corrente continua, oppure corrente alternata in tutto tranne un conduttore molto grande. A 50 Hz l'effetto pelle vale meno dell'uno per cento fino a circa 185 mm²; verso i 300 mm² sono un paio di punti percentuali, e nelle centinaia va calcolato anziché ignorato.</string>
     <string name="th_conductor_assumption_one_way">Questa è la resistenza di un solo conduttore. Un circuito ha bisogno che la corrente torni indietro, quindi la caduta di tensione si calcola sull'anello — entrambi i conduttori, che è il secondo valore qui.</string>
     <string name="th_conductor_assumption_uniform">Tutto il percorso è a una sola temperatura. Un cavo che esce da un quadro caldo e attraversa un sottotetto freddo non lo è.</string>

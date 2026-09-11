@@ -35,9 +35,7 @@ import androidx.compose.ui.text.input.ImeAction
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.koin.compose.koinInject
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryLevel
-import com.kemalurekli.electricalcalculator.core.billing.domain.EntitlementRepository
 import com.kemalurekli.electricalcalculator.core.designsystem.ElecTestTags
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecCard
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecEmptyState
@@ -208,8 +206,7 @@ fun TheoryTopicScreen(
     // Only the advanced shelf, and only for a reader who has not paid. The
     // foundation and intermediate topics are the ones somebody learning the
     // trade needs, and they stay open.
-    val paid by koinInject<EntitlementRepository>().isPro.collectAsStateWithLifecycle()
-    val locked = !paid && topic?.level == TheoryLevel.ADVANCED
+    val locked = !uiState.isPro && topic?.level == TheoryLevel.ADVANCED
 
     // The answer is prepended to the list while the reader is looking at the
     // bottom of the form, so without this it arrives above the viewport and the

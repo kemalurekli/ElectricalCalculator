@@ -10,6 +10,7 @@
     <string name="th_pro_title">Sisa topik ini ada di Pro</string>
     <string name="th_pro_body">Topik lanjutan, contoh terselesaikannya, dan pemecah interaktif terbuka dengan Pro. Semua yang lain di aplikasi tetap gratis.</string>
     <string name="th_pro_action">Buka Pro</string>
+    <string name="th_pro_badge">Pro</string>
     <string name="th_conductor_assumption_dc">Arus searah, atau arus bolak-balik pada apa pun kecuali penghantar yang sangat besar. Pada 50 Hz efek kulit bernilai di bawah satu persen sampai sekitar 185 mm²; pada 300 mm² sudah beberapa persen, dan di angka ratusan ia harus dihitung, bukan diabaikan.</string>
     <string name="th_conductor_assumption_one_way">Ini resistansi satu penghantar. Sebuah rangkaian butuh jalan pulang bagi arusnya, jadi susut tegangan memakai lingkar — kedua penghantar, yaitu angka kedua di sini.</string>
     <string name="th_conductor_assumption_uniform">Seluruh jalur berada pada satu suhu. Kabel yang keluar dari panel yang hangat lalu melintasi ruang atap yang dingin tidak begitu.</string>

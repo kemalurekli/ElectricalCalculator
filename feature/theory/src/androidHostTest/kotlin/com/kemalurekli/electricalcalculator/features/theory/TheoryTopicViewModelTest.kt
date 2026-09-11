@@ -1,5 +1,8 @@
 package com.kemalurekli.electricalcalculator.features.theory
 
+import kotlin.test.assertTrue
+import kotlin.test.assertFalse
+import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryLevel
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
 import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryCatalog
 import com.kemalurekli.electricalcalculator.features.theory.presentation.TheoryTopicViewModel
@@ -35,9 +38,10 @@ class TheoryTopicViewModelTest {
         ioDispatcher = UnconfinedTestDispatcher(),
     )
 
-    private fun viewModel() = TheoryTopicViewModel(
+    private fun viewModel(pro: Boolean = false) = TheoryTopicViewModel(
         stringResolver = FakeStringResolver(),
         favoritesRepository = favoritesRepository,
+        entitlements = FakeEntitlementRepository(pro),
     )
 
     // -- Opening --------------------------------------------------------------
@@ -259,4 +263,37 @@ class TheoryTopicViewModelTest {
         assertEquals("", state.values["i"])
         assertNull(state.result)
     }
+
+    // -- The advanced shelf ---------------------------------------------------
+
+    @Test
+    fun `an advanced topic is locked for a reader who has not paid`() {
+        val model = viewModel(pro = false)
+        model.onOpenTopic(ADVANCED_TOPIC)
+
+        val state = model.uiState.value
+        assertEquals(TheoryLevel.ADVANCED, state.topic?.level)
+        assertFalse(state.isPro, "the gate is drawn on this, so it has to be false here")
+    }
+
+    @Test
+    fun `the same topic is open once Pro is owned`() {
+        val model = viewModel(pro = true)
+        model.onOpenTopic(ADVANCED_TOPIC)
+
+        assertTrue(model.uiState.value.isPro)
+    }
+
+    @Test
+    fun `a foundation topic is never gated, paid or not`() {
+        // The gate is level plus entitlement, and the level half is what stops
+        // somebody learning the trade hitting a wall on Ohm's law.
+        val model = viewModel(pro = false)
+        model.onOpenTopic("ohm_law")
+
+        assertEquals(TheoryLevel.FOUNDATION, model.uiState.value.topic?.level)
+    }
 }
+
+/** Series RLC impedance: on the advanced shelf, and it has a worked example. */
+private const val ADVANCED_TOPIC = "rlc_impedance"

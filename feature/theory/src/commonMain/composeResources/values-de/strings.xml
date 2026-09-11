@@ -10,6 +10,7 @@
     <string name="th_pro_title">Der Rest dieses Themas ist in Pro</string>
     <string name="th_pro_body">Fortgeschrittene Themen, ihre Rechenbeispiele und der interaktive Löser werden mit Pro freigeschaltet. Alles Übrige in der App bleibt kostenlos.</string>
     <string name="th_pro_action">Pro freischalten</string>
+    <string name="th_pro_badge">Pro</string>
     <string name="th_conductor_assumption_dc">Gleichstrom oder Wechselstrom in allem außer einem sehr großen Leiter. Bei 50 Hz macht der Skineffekt bis etwa 185 mm² weniger als ein Prozent aus; bei 300 mm² sind es ein paar Prozent, und in den Hunderten muss er gerechnet statt übergangen werden.</string>
     <string name="th_conductor_assumption_one_way">Das ist der Widerstand eines Leiters. Ein Stromkreis braucht den Rückweg, deshalb rechnet der Spannungsfall mit der Schleife — beiden Leitern, was hier die zweite Zahl ist.</string>
     <string name="th_conductor_assumption_uniform">Die ganze Strecke hat eine Temperatur. Eine Leitung, die aus einem warmen Schrank kommt und einen kalten Dachboden quert, hat das nicht.</string>

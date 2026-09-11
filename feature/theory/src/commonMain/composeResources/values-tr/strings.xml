@@ -10,6 +10,7 @@
     <string name="th_pro_title">Bu konunun gerisi Pro'da</string>
     <string name="th_pro_body">İleri seviye konular, çözümlü örnekleri ve etkileşimli çözücü Pro ile açılır. Uygulamadaki her şey ücretsiz kalır.</string>
     <string name="th_pro_action">Pro'yu aç</string>
+    <string name="th_pro_badge">Pro</string>
     <string name="th_conductor_assumption_dc">Doğru akım ya da çok büyük olmayan bir iletkendeki alternatif akım. 50 Hz'de deri olayı yaklaşık 185 mm²'ye kadar yüzde birin altında kalır; 300 mm²'de yüzde birkaçtır, birkaç yüz mm²'de ise artık göz ardı edilmeyip hesaplanması gerekir.</string>
     <string name="th_conductor_assumption_one_way">Bu tek bir iletkenin direncidir. Devrede akımın geri dönmesi gerekir; bu yüzden gerilim düşümü çevrimi kullanır — her iki iletken, yani buradaki ikinci değer.</string>
     <string name="th_conductor_assumption_uniform">Hattın tamamı tek bir sıcaklıktadır. Sıcak bir panodan çıkıp soğuk bir çatı arasından geçen kablo öyle değildir.</string>

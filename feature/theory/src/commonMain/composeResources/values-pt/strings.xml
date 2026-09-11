@@ -10,6 +10,7 @@
     <string name="th_pro_title">O resto deste tema está no Pro</string>
     <string name="th_pro_body">Os temas avançados, os seus exemplos resolvidos e o resolvedor interativo abrem com o Pro. Todo o resto da aplicação continua gratuito.</string>
     <string name="th_pro_action">Ativar Pro</string>
+    <string name="th_pro_badge">Pro</string>
     <string name="th_conductor_assumption_dc">Corrente contínua, ou corrente alternada em tudo menos num condutor muito grande. A 50 Hz o efeito pelicular vale menos de um por cento até cerca de 185 mm²; aos 300 mm² são alguns por cento, e nas centenas tem de ser calculado em vez de ignorado.</string>
     <string name="th_conductor_assumption_one_way">Esta é a resistência de um condutor. Um circuito precisa que a corrente volte, por isso a queda de tensão usa o anel — ambos os condutores, que é o segundo valor aqui.</string>
     <string name="th_conductor_assumption_uniform">Todo o percurso está a uma só temperatura. Um cabo que sai de um quadro quente e atravessa um sótão frio não está.</string>

@@ -39,6 +39,7 @@ import com.kemalurekli.electricalcalculator.features.theory.domain.TheoryLevel
 import kotlinx.collections.immutable.persistentListOf
 import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.Res
 import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_has_calculator
+import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_pro_badge
 import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.destination_theory
 import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_empty_message
 import com.kemalurekli.electricalcalculator.feature.theory.generated.resources.th_empty_title
@@ -165,8 +166,17 @@ fun TheoryScreen(
                             // topic, so a sigma on each of twenty rows was an
                             // indent with an opinion. The level a reader might
                             // have wanted from it is the heading above.
-                            badge = stringResource(Res.string.th_has_calculator)
-                                .takeIf { topic.hasCalculator },
+                            // "Pro" outranks "has a calculator" on a row the
+                            // reader cannot open yet: one sets an expectation
+                            // before the tap, the other describes something
+                            // behind a door that is shut. Once Pro is owned
+                            // the calculator badge comes back.
+                            badge = if (uiState.isLocked(topic.level)) {
+                                stringResource(Res.string.th_pro_badge)
+                            } else {
+                                stringResource(Res.string.th_has_calculator)
+                                    .takeIf { topic.hasCalculator }
+                            },
                             onClick = { onTopicClick(topic.key) },
                         )
                         if (index < section.topics.lastIndex) ElecListDivider()

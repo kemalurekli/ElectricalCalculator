@@ -10,6 +10,7 @@
     <string name="th_pro_title">Dalsza część tego tematu jest w Pro</string>
     <string name="th_pro_body">Tematy zaawansowane, ich rozwiązane przykłady i interaktywny kalkulator otwiera Pro. Cała reszta aplikacji pozostaje darmowa.</string>
     <string name="th_pro_action">Odblokuj Pro</string>
+    <string name="th_pro_badge">Pro</string>
     <string name="th_conductor_assumption_dc">Prąd stały albo prąd przemienny we wszystkim poza bardzo dużym przewodem. Przy 50 Hz efekt naskórkowości wart jest mniej niż procent do około 185 mm²; przy 300 mm² to kilka procent, a w setkach trzeba go policzyć, a nie pominąć.</string>
     <string name="th_conductor_assumption_one_way">To rezystancja jednego przewodu. Obwód potrzebuje drogi powrotnej, więc spadek napięcia liczy się po pętli — po obu przewodach, i to jest druga liczba tutaj.</string>
     <string name="th_conductor_assumption_uniform">Cała trasa ma jedną temperaturę. Kabel, który wychodzi z ciepłej rozdzielnicy i przechodzi przez zimne poddasze, jej nie ma.</string>

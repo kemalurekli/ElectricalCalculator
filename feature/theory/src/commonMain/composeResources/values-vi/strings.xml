@@ -10,6 +10,7 @@
     <string name="th_pro_title">Phần còn lại của chủ đề nằm trong Pro</string>
     <string name="th_pro_body">Các chủ đề nâng cao, ví dụ có lời giải và công cụ giải tương tác mở ra cùng Pro. Mọi thứ khác trong ứng dụng vẫn miễn phí.</string>
     <string name="th_pro_action">Mở khoá Pro</string>
+    <string name="th_pro_badge">Pro</string>
     <string name="th_conductor_assumption_dc">Dòng một chiều, hoặc dòng xoay chiều trong mọi trường hợp trừ dây dẫn rất lớn. Ở 50 Hz, hiệu ứng bề mặt chiếm dưới một phần trăm cho tới khoảng 185 mm²; đến 300 mm² đã là vài phần trăm, và ở hàng trăm thì phải tính chứ không được bỏ qua.</string>
     <string name="th_conductor_assumption_one_way">Đây là điện trở của một dây dẫn. Mạch cần đường về cho dòng điện, nên sụt áp tính theo vòng — cả hai dây dẫn, tức là con số thứ hai ở đây.</string>
     <string name="th_conductor_assumption_uniform">Toàn tuyến ở cùng một nhiệt độ. Cáp đi ra từ tủ điện ấm rồi băng qua trần nhà lạnh thì không như vậy.</string>

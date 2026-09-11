@@ -1,5 +1,8 @@
 package com.kemalurekli.electricalcalculator.features.theory.presentation
 
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.launchIn
+import com.kemalurekli.electricalcalculator.core.billing.domain.EntitlementRepository
 import com.kemalurekli.electricalcalculator.core.common.util.NumberSymbols
 import com.kemalurekli.electricalcalculator.core.common.util.currentNumberSymbols
 import androidx.compose.runtime.Immutable
@@ -66,6 +69,8 @@ data class TheoryTopicUiState(
     val quizVerdict: QuizVerdict? = null,
     /** Revealed only after an attempt, so the card is not a lookup table. */
     val quizExpected: String = "",
+    /** Whether the advanced shelf is open to this reader. */
+    val isPro: Boolean = false,
 ) {
     /** Null before a topic is loaded, and when a deep link named one that is gone. */
     val solution: TheorySolution?
@@ -97,10 +102,27 @@ data class TheoryTopicUiState(
 class TheoryTopicViewModel(
     private val stringResolver: StringResolver,
     private val favoritesRepository: FavoritesRepository,
+    private val entitlements: EntitlementRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TheoryTopicUiState())
     val uiState: StateFlow<TheoryTopicUiState> = _uiState.asStateFlow()
+
+    init {
+        // Read here rather than in the screen, so the screen stays a function
+        // of its state and can be drawn in a preview or a test without a
+        // billing graph behind it.
+        //
+        // Seeded synchronously and then followed. A StateFlow always has an
+        // answer, and the cache means that answer is already the right one on a
+        // cold launch; collecting alone would leave the first composition
+        // drawing a gate over content the reader has paid for, for as long as
+        // the dispatcher took to get to it.
+        _uiState.update { it.copy(isPro = entitlements.isPro.value) }
+        entitlements.isPro
+            .onEach { pro -> _uiState.update { it.copy(isPro = pro) } }
+            .launchIn(viewModelScope)
+    }
 
     /** Cancelled and restarted when a different topic is opened. */
     private var favoriteWatch: Job? = null
@@ -117,15 +139,21 @@ class TheoryTopicViewModel(
         if (_uiState.value.topic?.key == key) return
         val topic = TheoryCatalog.topicOrNull(key)
         if (topic == null) {
-            _uiState.value = TheoryTopicUiState()
+            _uiState.value = TheoryTopicUiState(isPro = entitlements.isPro.value)
             return
         }
         val first = topic.solutions.first()
+        // A whole new state, on purpose: a topic's values, errors, result and
+        // quiz all belong to the topic that is leaving. Anything here that is
+        // *not* about the topic has to be put back, and read from its own
+        // source rather than copied off the old state — the entitlement is one,
+        // and a reader who had paid was being shown the gate because it was not.
         _uiState.value = TheoryTopicUiState(
             topic = topic,
             solutionKey = first.key,
             values = defaultsFor(first).toImmutableMap(),
             question = TheoryQuiz.questionsFor(topic).randomOrNull(),
+            isPro = entitlements.isPro.value,
         )
         watchFavorite(topic.key)
     }
