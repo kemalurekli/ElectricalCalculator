@@ -40,6 +40,8 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.calculator_notes_read_more
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.elecRevealEnter
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.elecRevealExit
 
 /** One symbol in a formula, with what it means and the unit it carries. */
 @Immutable
@@ -93,7 +95,11 @@ fun ElecFormulaCard(
                 )
             }
 
-            AnimatedVisibility(visible = expanded) {
+            AnimatedVisibility(
+                visible = expanded,
+                enter = elecRevealEnter,
+                exit = elecRevealExit,
+            ) {
                 FormulaBody(
                     formula = formula,
                     variables = variables,
@@ -161,7 +167,11 @@ fun ElecNotesCard(
                 )
             }
 
-            AnimatedVisibility(visible = expanded) {
+            AnimatedVisibility(
+                visible = expanded,
+                enter = elecRevealEnter,
+                exit = elecRevealExit,
+            ) {
                 NotesBody(
                     notes = notes,
                     links = links,

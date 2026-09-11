@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecMotion
 import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteItem
 import com.kemalurekli.electricalcalculator.core.domain.model.FavoriteKind
@@ -458,8 +459,5 @@ private fun AnimatedContentTransitionScope<NavBackStackEntry>.backOut(tabSwitch:
         slideOutOfContainer(SlideDirection.End, tween(PUSH_MILLIS)) + fadeOut(tween(PUSH_MILLIS))
     }
 
-/** Short: a tab is a place you are already in, not one you travel to. */
-private const val TAB_MILLIS = 150
-
-/** Long enough to read as a direction, short enough not to be waited on. */
-private const val PUSH_MILLIS = 300
+private const val TAB_MILLIS = ElecMotion.TAB_MILLIS
+private const val PUSH_MILLIS = ElecMotion.PUSH_MILLIS

@@ -40,6 +40,8 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.calculator_steps
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.elecRevealEnter
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.elecRevealExit
 
 /**
  * The worked solution: how the answer was reached, line by line.
@@ -89,7 +91,11 @@ fun ElecStepsCard(
                 )
             }
 
-            AnimatedVisibility(visible = expanded) {
+            AnimatedVisibility(
+                visible = expanded,
+                enter = elecRevealEnter,
+                exit = elecRevealExit,
+            ) {
                 StepsBody(
                     steps = steps,
                     modifier = Modifier.padding(

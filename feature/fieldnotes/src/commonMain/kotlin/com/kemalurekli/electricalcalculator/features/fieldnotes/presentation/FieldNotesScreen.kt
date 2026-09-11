@@ -62,6 +62,8 @@ import com.kemalurekli.electricalcalculator.feature.fieldnotes.generated.resourc
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res as DesignSystemRes
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_add
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.action_favorite_remove
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.elecRevealEnter
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.elecRevealExit
 
 @Composable
 fun FieldNotesRoute(
@@ -309,7 +311,11 @@ private fun NoteCard(
                     }
             }
 
-            AnimatedVisibility(visible = isExpanded) {
+            AnimatedVisibility(
+                visible = isExpanded,
+                enter = elecRevealEnter,
+                exit = elecRevealExit,
+            ) {
                 Column(
                     modifier = Modifier.padding(top = spacing.sm),
                     verticalArrangement = Arrangement.spacedBy(spacing.sm),

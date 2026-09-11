@@ -43,6 +43,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import com.kemalurekli.electricalcalculator.core.common.result.ValidationError
 import com.kemalurekli.electricalcalculator.core.common.util.NumericInput
 import com.kemalurekli.electricalcalculator.core.designsystem.icon.ElecIcons
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecMotion
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.NumericCompactTextStyle
@@ -106,6 +107,7 @@ fun ElecNumericField(
     val focusRequester = remember { FocusRequester() }
 
     val ruleColour by animateColorAsState(
+        animationSpec = ElecMotion.react(),
         targetValue = when {
             message != null -> MaterialTheme.colorScheme.error
             focused -> MaterialTheme.colorScheme.primary
@@ -114,6 +116,7 @@ fun ElecNumericField(
         label = "fieldRule",
     )
     val ruleWeight by animateDpAsState(
+        animationSpec = ElecMotion.react(),
         targetValue = if (focused || message != null) RULE_ACTIVE else RULE_RESTING,
         label = "fieldRuleWeight",
     )

@@ -338,6 +338,49 @@ class of inset bug: with the bar gone the content is the whole window again, and
 
 ---
 
+## Motion
+
+`core/designsystem/theme/Motion.kt`. This section used to say motion was
+deliberately undecided — that the app should not get a language for it until
+the palette and the structure had been lived with. They have been, and by then
+five components were animating with numbers typed at the call site, which is
+how a motion language ends up being three slightly different fades nobody
+chose.
+
+**Motion says a state changed. It never decorates.** Every animation in the app
+is the visible half of an answer to something the reader did.
+
+**Nothing overshoots.** No bouncing springs, no scale, no rotation. This is an
+instrument and instruments do not bob. The one exception is the sweep on the
+Pro mark, which is advertising and is allowed to behave like it.
+
+**Content fades; only navigation travels.** A slide says you went somewhere.
+Inside a screen you did not, so content replacing other content crossfades in
+place — out first, then in, because two texts dissolving through each other
+read as a smear rather than as a change.
+
+**Short.** Everything is under a quarter of a second except a push, which has a
+direction to establish.
+
+| Token | ms | For |
+|---|---|---|
+| `REACT_MILLIS` | 120 | a control changing under the finger: a pill lighting up, a field's rule taking the accent |
+| `SWAP_MILLIS` | 180 | content replaced in place: an explanation answering a choice, the body behind a tab |
+| `REVEAL_MILLIS` | 220 | something the reader asked to open: an accordion, a disclosure |
+| `TAB_MILLIS` | 150 | switching tabs — a place you are already in, not one you travel to |
+| `PUSH_MILLIS` | 300 | opening a screen, which slides, so the back gesture undoes a direction |
+
+Easing is one curve, `CubicBezierEasing(0.2, 0, 0, 1)`: set moving, then coming
+to rest.
+
+**The one place motion is spent rather than saved** is the figure on
+`ElecResultCard`. A recalculation replaces it, and when the new answer looks
+like the old one — 5.36 becoming 5.38 — nothing on screen says anything
+happened. A screen reader is already told, because the card is a live region.
+The crossfade is the same courtesy for everyone else.
+
+---
+
 ## Accessibility
 
 Not a section that gets skipped, because a lot of the layout above only makes
@@ -356,7 +399,4 @@ sense with it:
 
 ## Things deliberately not decided here
 
-- **Motion.** Beyond the option pill's colour transition and the top-bar
-  separator fade, the app has no motion language yet. It should not get one
-  until the palette and the structure have been lived with.
 - **Illustration.** There is none, and empty states use a single tinted glyph.

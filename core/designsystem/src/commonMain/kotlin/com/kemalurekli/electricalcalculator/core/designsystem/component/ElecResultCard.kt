@@ -1,5 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.designsystem.component
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +27,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.NumericCompactTextStyle
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.NumericTextStyle
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.elecSwap
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -135,7 +137,19 @@ fun ElecResultCard(
                     horizontalArrangement = Arrangement.spacedBy(spacing.sm),
                     modifier = Modifier.clearAndSetSemantics {},
                 ) {
-                    Text(text = value, style = NumericTextStyle, color = accent)
+                    // The one place in the app where motion is worth spending.
+                    // A recalculation replaces this figure, and if the new
+                    // answer happens to look like the old one — 5.36 becoming
+                    // 5.38 — nothing on screen says anything happened. A screen
+                    // reader is already told, because the card is a live
+                    // region; this is the same courtesy for everyone else.
+                    AnimatedContent(
+                        targetState = value,
+                        transitionSpec = { elecSwap() },
+                        label = "resultValue",
+                    ) { shown ->
+                        Text(text = shown, style = NumericTextStyle, color = accent)
+                    }
                     Text(
                         text = unit,
                         style = MaterialTheme.typography.titleMedium,

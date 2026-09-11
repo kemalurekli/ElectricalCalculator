@@ -2,10 +2,6 @@ package com.kemalurekli.electricalcalculator.core.designsystem.component
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,7 +22,9 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecMotion
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.elecSwap
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -115,13 +113,7 @@ fun <T> ElecOptionSelector(
             if (explanation != null) {
                 AnimatedContent(
                     targetState = explanation,
-                    // Out before in, and quickly: the reader's eye is still on
-                    // the pill they just pressed, and a slow crossfade under it
-                    // would pull it away.
-                    transitionSpec = {
-                        fadeIn(tween(durationMillis = 150, delayMillis = 60)) togetherWith
-                            fadeOut(tween(durationMillis = 60))
-                    },
+                    transitionSpec = { elecSwap() },
                     label = "optionExplanation",
                 ) { text ->
                     Text(
@@ -154,6 +146,7 @@ internal fun ElecOptionPill(
     // Animated so a tap reads as the same control changing rather than as two
     // controls swapping places.
     val container by animateColorAsState(
+        animationSpec = ElecMotion.react(),
         targetValue = if (selected) {
             MaterialTheme.colorScheme.primaryContainer
         } else {
@@ -162,6 +155,7 @@ internal fun ElecOptionPill(
         label = "optionContainer",
     )
     val content by animateColorAsState(
+        animationSpec = ElecMotion.react(),
         targetValue = if (selected) {
             MaterialTheme.colorScheme.onPrimaryContainer
         } else {

@@ -1,8 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.designsystem.component
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -25,6 +23,8 @@ import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitT
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.Res
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.search_clear
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.search_hint
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.elecAppear
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.elecVanish
 
 /**
  * Search input used on the home and calculator list screens.
@@ -62,8 +62,8 @@ fun ElecSearchBar(
         trailingIcon = {
             AnimatedVisibility(
                 visible = query.isNotEmpty(),
-                enter = fadeIn(),
-                exit = fadeOut(),
+                enter = elecAppear,
+                exit = elecVanish,
             ) {
                 IconButton(onClick = { onQueryChange("") }) {
                     Icon(

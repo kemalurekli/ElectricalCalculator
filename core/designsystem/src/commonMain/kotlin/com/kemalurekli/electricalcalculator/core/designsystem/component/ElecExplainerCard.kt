@@ -1,10 +1,6 @@
 package com.kemalurekli.electricalcalculator.core.designsystem.component
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -24,6 +20,7 @@ import com.kemalurekli.electricalcalculator.core.designsystem.generated.resource
 import com.kemalurekli.electricalcalculator.core.designsystem.generated.resources.calculator_steps
 import com.kemalurekli.electricalcalculator.core.designsystem.model.CalculationStep
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecTheme
+import com.kemalurekli.electricalcalculator.core.designsystem.theme.elecSwap
 import com.kemalurekli.electricalcalculator.core.designsystem.theme.ElecToolkitTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -119,12 +116,7 @@ fun ElecExplainerCard(
 
             AnimatedContent(
                 targetState = current,
-                // The tab the reader pressed is already lit; the body follows
-                // it rather than announcing itself.
-                transitionSpec = {
-                    fadeIn(tween(durationMillis = 150, delayMillis = 60)) togetherWith
-                        fadeOut(tween(durationMillis = 60))
-                },
+                transitionSpec = { elecSwap() },
                 label = "explainerBody",
             ) { tab ->
                 when (tab) {
