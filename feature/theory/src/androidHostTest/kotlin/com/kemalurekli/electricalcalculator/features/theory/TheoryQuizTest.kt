@@ -61,6 +61,53 @@ class TheoryQuizTest {
         }
     }
 
+    @Test
+    fun `every topic with a worked example asks more than that one question`() {
+        // The promise the variants exist to keep. A topic with a single example
+        // used to have a single question, which a reader exhausts in one tap
+        // and then meets again for the rest of the shelf's life.
+        TheoryCatalog.all.forEach { topic ->
+            val examples = topic.solutions.sumOf { it.examples.size }
+            if (examples == 0) return@forEach
+
+            val questions = TheoryQuiz.questionsFor(topic).size
+            assertTrue(
+                "${topic.key} has $examples examples and only $questions questions",
+                questions >= examples + EXTRA_PER_EXAMPLE,
+            )
+        }
+    }
+
+    @Test
+    fun `no two questions on a topic ask the same thing`() {
+        // Rounding and a field's own limits can land a variant on the example
+        // it came from. Two identical questions in a row read as the quiz
+        // having run out.
+        TheoryCatalog.all.forEach { topic ->
+            val questions = TheoryQuiz.questionsFor(topic)
+            val distinct = questions.map { it.solutionKey to it.givens }.distinct()
+            assertEquals("${topic.key} repeats a question", questions.size, distinct.size)
+        }
+    }
+
+    @Test
+    fun `a variant is its own example with exactly one given moved`() {
+        // One input changed and the answer following it is the whole teaching
+        // value; a variant that moved three would be an unrelated circuit.
+        TheoryCatalog.all.forEach { topic ->
+            val byExample = TheoryQuiz.questionsFor(topic)
+                .groupBy { it.solutionKey to it.exampleKey.substringBefore('#') }
+
+            byExample.forEach { (id, questions) ->
+                val base = questions.first { '#' !in it.exampleKey }
+                questions.filter { it !== base }.forEach { variant ->
+                    val moved = variant.givens.count { (key, value) -> base.givens[key] != value }
+                    assertEquals("$id/${variant.exampleKey} moved $moved givens", 1, moved)
+                }
+            }
+        }
+    }
+
     private fun question(expected: Double) = QuizQuestion(
         topicKey = "t",
         solutionKey = "s",
@@ -112,3 +159,6 @@ class TheoryQuizTest {
         }
     }
 }
+
+/** One original plus the variants built from it. */
+private const val EXTRA_PER_EXAMPLE = 5

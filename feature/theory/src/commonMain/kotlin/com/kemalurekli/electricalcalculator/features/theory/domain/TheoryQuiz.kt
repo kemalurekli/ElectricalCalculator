@@ -2,6 +2,7 @@ package com.kemalurekli.electricalcalculator.features.theory.domain
 
 import org.jetbrains.compose.resources.StringResource
 import com.kemalurekli.electricalcalculator.core.common.util.NumberFormatter
+import kotlin.math.pow
 
 /**
  * A question, and the answer the topic's own solver gives.
@@ -74,10 +75,117 @@ object TheoryQuiz {
      * a mismatch the catalog tests already fail on, and not something to guess
      * around here.
      */
-    fun questionFor(topic: TheoryTopic, solution: TheorySolution, example: TheoryExample): QuizQuestion? {
+    fun questionFor(topic: TheoryTopic, solution: TheorySolution, example: TheoryExample): QuizQuestion? =
+        ask(topic, solution, example, example.key, overrides = emptyMap())
+
+    /**
+     * Every question a topic can ask.
+     *
+     * One per worked example, and then several more built by moving a single
+     * given and asking the solver again.
+     *
+     * ### Why the extras are generated and not written
+     *
+     * The same reason the first one is. More questions could have been had by
+     * writing more worked examples, but an example carries a translated title,
+     * so five more on each of twenty-four topics is over a thousand new strings
+     * in twelve languages — a week of translation to ask "what if the cable
+     * were longer".
+     *
+     * Moving one number costs nothing and teaches more. A variant is the
+     * reader's own scenario with exactly one thing changed, which is how
+     * anybody actually builds intuition about a formula: not by meeting five
+     * unrelated circuits, but by watching one circuit answer differently. The
+     * answer is still whatever the solver returns, so it cannot go stale, and
+     * a topic added next year gets the variants too.
+     */
+    fun questionsFor(topic: TheoryTopic): List<QuizQuestion> = topic.solutions
+        .flatMap { solution ->
+            solution.examples.flatMap { example ->
+                val base = questionFor(topic, solution, example) ?: return@flatMap emptyList()
+                listOf(base) + variantsOf(topic, solution, example)
+            }
+        }
+        // Across the whole topic, not within one example. Clamping and rounding
+        // can land a variant on the example it came from, and two examples that
+        // differ in one field can be moved onto each other. Two identical
+        // questions in a row read as the quiz having run out.
+        .distinctBy { it.solutionKey to it.givens }
+
+    /**
+     * One given moved, the rest left alone, once per field and factor.
+     *
+     * Rotating through the fields rather than disturbing them all at once is
+     * the point: a reader learns what a formula does by seeing one input change
+     * and the answer follow it. Five factors either side of the example give a
+     * topic with a single worked scenario six questions and one with two
+     * scenarios twelve.
+     */
+    private fun variantsOf(
+        topic: TheoryTopic,
+        solution: TheorySolution,
+        example: TheoryExample,
+    ): List<QuizQuestion> {
+        val varied = solution.fields.filter { field ->
+            val raw = example.values[field.key] ?: field.default
+            raw.isNotBlank() && NumberFormatter.parseOrNull(raw) != null
+        }
+        if (varied.isEmpty()) return emptyList()
+
+        return FACTORS.mapIndexedNotNull { index, factor ->
+            val field = varied[index % varied.size]
+            val raw = example.values[field.key] ?: field.default
+            val moved = move(NumberFormatter.parseOrNull(raw) ?: return@mapIndexedNotNull null, factor, field)
+                ?: return@mapIndexedNotNull null
+            ask(
+                topic = topic,
+                solution = solution,
+                example = example,
+                exampleKey = "${example.key}$VARIANT_MARK${index + 1}",
+                overrides = mapOf(field.key to moved),
+            )
+        }
+    }
+
+    /**
+     * Scales a given, keeps it inside what its field will accept, and rounds it
+     * to something a person would write down.
+     *
+     * Two significant figures: 230 stays 230 and 264.5 becomes 260, which reads
+     * as a scenario rather than as a number that fell out of a multiplication.
+     * Null when the field's own limits leave nowhere to move to.
+     */
+    private fun move(value: Double, factor: Double, field: TheoryField): String? {
+        val scaled = round(value * factor)
+        val bounded = scaled
+            .coerceAtLeast(field.min ?: Double.NEGATIVE_INFINITY)
+            .coerceAtMost(field.max ?: Double.POSITIVE_INFINITY)
+        if (!bounded.isFinite()) return null
+        if (bounded == 0.0 && !field.allowZero) return null
+        if (bounded < 0.0 && !field.allowNegative) return null
+        if (bounded == value) return null
+        return NumberFormatter.format(bounded, DECIMALS).replace(',', '.')
+    }
+
+    /** Two significant figures, keeping small values from collapsing to zero. */
+    private fun round(value: Double): Double {
+        if (value == 0.0) return 0.0
+        val magnitude = kotlin.math.floor(kotlin.math.log10(kotlin.math.abs(value)))
+        val step = (10.0).pow(magnitude - 1)
+        return kotlin.math.round(value / step) * step
+    }
+
+    private fun ask(
+        topic: TheoryTopic,
+        solution: TheorySolution,
+        example: TheoryExample,
+        exampleKey: String,
+        overrides: Map<String, String>,
+    ): QuizQuestion? {
+        val raws = mutableMapOf<String, String>()
         val values = mutableMapOf<String, Double>()
         solution.fields.forEach { field ->
-            val raw = example.values[field.key] ?: field.default
+            val raw = overrides[field.key] ?: example.values[field.key] ?: field.default
             if (raw.isBlank()) {
                 // An optional field left out is a component that is not in the
                 // circuit; a required one missing means the example is broken.
@@ -85,25 +193,31 @@ object TheoryQuiz {
                 return null
             }
             values[field.key] = NumberFormatter.parseOrNull(raw) ?: return null
+            raws[field.key] = raw
         }
 
-        val solved = solution.solve(TheoryInputs(values))
+        // A moved given can put a solver somewhere it cannot go — a square root
+        // of a negative, a division by a difference that is now zero. The
+        // catalog's own examples never do; a variant is allowed to, and is
+        // dropped rather than shown.
+        val solved = runCatching { solution.solve(TheoryInputs(values)) }.getOrNull() ?: return null
+        if (!solved.primary.number.value.isFinite()) return null
+
         return QuizQuestion(
             topicKey = topic.key,
             solutionKey = solution.key,
-            exampleKey = example.key,
-            givens = solution.fields
-                .filter { values.containsKey(it.key) }
-                .associate { it.key to (example.values[it.key] ?: it.default) },
+            exampleKey = exampleKey,
+            givens = raws,
             expected = solved.primary.number,
             targetLabel = solution.targetLabel,
         )
     }
 
-    /** Every question a topic can ask, one per example on each of its solutions. */
-    fun questionsFor(topic: TheoryTopic): List<QuizQuestion> = topic.solutions.flatMap { solution ->
-        solution.examples.mapNotNull { questionFor(topic, solution, it) }
-    }
+    /** Either side of the worked example, and never so far as to be silly. */
+    private val FACTORS = listOf(0.5, 1.5, 0.75, 2.0, 1.25, 0.4)
+
+    private const val VARIANT_MARK = "#"
+    private const val DECIMALS = 4
 
     /**
      * Marks [answer], which is whatever the reader typed.

@@ -337,23 +337,6 @@ fun TheoryTopicScreen(
                 }
             }
 
-            uiState.question?.let { question ->
-                item(key = "quiz") {
-                    QuizCard(
-                        question = question,
-                        answer = uiState.quizAnswer,
-                        verdict = uiState.quizVerdict,
-                        expected = uiState.quizExpected,
-                        fieldLabel = { key ->
-                            solution.fields.firstOrNull { it.key == key }?.label
-                        },
-                        onAnswerChange = onQuizAnswerChange,
-                        onCheck = onCheckAnswer,
-                        onNext = onNextQuestion,
-                    )
-                }
-            }
-
             item(key = "inputs-header") {
                 ElecSectionHeader(title = stringResource(Res.string.calculator_inputs))
             }
@@ -430,6 +413,41 @@ fun TheoryTopicScreen(
                         notes = topic.assumptions
                             .map { stringResource(it) }
                             .toImmutableList(),
+                    )
+                }
+            }
+
+            // Last but one, under the working and above where the reader is
+            // sent next. It used to sit between the worked examples and the
+            // form, which is the middle of the act of using the topic: the
+            // reader is on their way to type something in, and a question
+            // arrives across the path. Here it is what the page ends on, after
+            // the derivation has been available to read, and it hands over to
+            // the links rather than interrupting anything.
+            uiState.question?.let { question ->
+                item(key = "quiz") {
+                    QuizCard(
+                        question = question,
+                        answer = uiState.quizAnswer,
+                        verdict = uiState.quizVerdict,
+                        expected = uiState.quizExpected,
+                        // The question's own solution, not the one the form
+                        // happens to be showing. A topic solves for several
+                        // unknowns and a question can come from any of them, so
+                        // looking the label up in the selected solution missed
+                        // whenever the two disagreed — and printed the raw field
+                        // key at the reader, which is how "i" got onto a page
+                        // that everywhere else says "Akım".
+                        fieldLabel = { key ->
+                            topic.solutions
+                                .firstOrNull { it.key == question.solutionKey }
+                                ?.fields
+                                ?.firstOrNull { it.key == key }
+                                ?.label
+                        },
+                        onAnswerChange = onQuizAnswerChange,
+                        onCheck = onCheckAnswer,
+                        onNext = onNextQuestion,
                     )
                 }
             }
