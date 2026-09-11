@@ -26,6 +26,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import com.kemalurekli.electricalcalculator.core.feedback.domain.FeedbackArea
+import com.kemalurekli.electricalcalculator.core.feedback.presentation.reportIssueItem
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kemalurekli.electricalcalculator.core.designsystem.component.ElecScreenScaffold
@@ -220,6 +222,12 @@ fun ReferenceDetailRoute(
                     )
                 }
             }
+
+            // A reference table is the one kind of page here whose mistakes are
+            // somebody else's too: these figures are transcribed from standards
+            // and manufacturers' guides, and a transcription is exactly the sort
+            // of thing a reader in the trade spots first.
+            reportIssueItem(FeedbackArea.reference(topicKey))
         }
     }
 }

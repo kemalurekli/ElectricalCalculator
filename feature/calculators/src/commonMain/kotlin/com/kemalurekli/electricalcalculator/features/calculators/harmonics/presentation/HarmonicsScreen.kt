@@ -25,6 +25,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
+import com.kemalurekli.electricalcalculator.core.feedback.domain.FeedbackArea
+import com.kemalurekli.electricalcalculator.core.feedback.presentation.ElecReportIssue
 import kotlinx.collections.immutable.toImmutableList
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes_tab
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
@@ -302,6 +305,13 @@ fun HarmonicsScreen(
                 steps = uiState.steps,
                 showNeutralCaveat = !uiState.balanced,
                 onLinkClick = onReferenceClick,
+            )
+
+            // After the workings, which is where somebody who has
+            // found a mistake ends up.
+            ElecReportIssue(
+                area = FeedbackArea.calculator(CalculatorId.HARMONICS.key),
+                modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
             )
         }
     }

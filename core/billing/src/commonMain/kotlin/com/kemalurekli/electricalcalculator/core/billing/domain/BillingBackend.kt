@@ -7,7 +7,7 @@ package com.kemalurekli.electricalcalculator.core.billing.domain
  * repository to work on the calculators — has no RevenueCat key. That must not
  * turn a working app into a broken one, so the absence of configuration is a
  * state the app carries rather than an error it throws. The same decision
- * `ForumBackend` makes, for the same reason.
+ * `AppBackend` makes, for the same reason.
  *
  * What it resolves to is the opposite of the forum's, though. The forum has
  * nothing to show without a backend and says so. Billing has something to show

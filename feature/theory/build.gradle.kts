@@ -69,6 +69,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:designsystem"))
             api(project(":core:data"))
+            implementation(project(":core:feedback"))
             // The advanced shelf is a Pro feature; the gate needs the entitlement.
             implementation(project(":core:billing"))
             // A topic links to the glossary term for the quantity it derives.

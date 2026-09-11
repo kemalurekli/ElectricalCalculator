@@ -1,6 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.forum
 
-import com.kemalurekli.electricalcalculator.features.forum.domain.ForumBackend
+import com.kemalurekli.electricalcalculator.core.backend.AppBackend
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
@@ -19,7 +19,7 @@ import kotlin.test.assertTrue
  * Constructing the client is the whole check: it is where the engine is
  * resolved. Nothing here talks to a server, and the credentials are made up.
  */
-class ForumBackendIosTest {
+class AppBackendIosTest {
 
     @Test
     fun `a client can be created`() {
@@ -31,6 +31,6 @@ class ForumBackendIosTest {
             install(Auth)
         }
 
-        assertTrue(ForumBackend.Available(client) is ForumBackend)
+        assertTrue(AppBackend.Available(client) is AppBackend)
     }
 }

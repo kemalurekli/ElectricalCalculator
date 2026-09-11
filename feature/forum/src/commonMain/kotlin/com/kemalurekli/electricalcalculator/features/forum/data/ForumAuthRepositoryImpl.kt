@@ -3,7 +3,7 @@ package com.kemalurekli.electricalcalculator.features.forum.data
 import com.kemalurekli.electricalcalculator.features.forum.auth.SignInProvider
 import com.kemalurekli.electricalcalculator.features.forum.auth.SignInCredential
 import io.github.jan.supabase.auth.providers.Apple
-import com.kemalurekli.electricalcalculator.features.forum.domain.ForumBackend
+import com.kemalurekli.electricalcalculator.core.backend.AppBackend
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumAuthRepository
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumFailure
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumProfile
@@ -31,7 +31,7 @@ import io.github.jan.supabase.auth.OtpType
 import io.github.jan.supabase.SupabaseClient
 
 class ForumAuthRepositoryImpl(
-    private val backend: ForumBackend,
+    private val backend: AppBackend,
     private val ioDispatcher: CoroutineDispatcher,
 ) : ForumAuthRepository {
 
@@ -43,8 +43,8 @@ class ForumAuthRepositoryImpl(
      * itself, the fetch happens once here and the session carries the result.
      */
     override val session: Flow<ForumSession> = when (backend) {
-        is ForumBackend.NotConfigured -> flowOf(ForumSession.SignedOut)
-        is ForumBackend.Available -> flow {
+        is AppBackend.NotConfigured -> flowOf(ForumSession.SignedOut)
+        is AppBackend.Available -> flow {
             emit(ForumSession.Unknown)
             backend.client.auth.sessionStatus.collect { status ->
                 emit(
@@ -68,7 +68,7 @@ class ForumAuthRepositoryImpl(
     }
 
     override suspend fun signIn(credential: SignInCredential): Result<Unit> {
-        val client = (backend as? ForumBackend.Available)?.client
+        val client = (backend as? AppBackend.Available)?.client
             ?: return Result.failure(IllegalStateException("Supabase is not configured"))
 
         return runCatching {
@@ -138,14 +138,14 @@ class ForumAuthRepositoryImpl(
      * failure here whose remedy is to wait.
      */
     private suspend fun withClient(block: suspend (SupabaseClient) -> Unit): Result<Unit> {
-        val client = (backend as? ForumBackend.Available)?.client
+        val client = (backend as? AppBackend.Available)?.client
             ?: return Result.failure(IllegalStateException("Supabase is not configured"))
 
         return runCatching { withContext(ioDispatcher) { block(client) } }
     }
 
     override suspend fun signOut() {
-        val client = (backend as? ForumBackend.Available)?.client ?: return
+        val client = (backend as? AppBackend.Available)?.client ?: return
         runCatching { withContext(ioDispatcher) { client.auth.signOut() } }
             
     }
@@ -155,7 +155,7 @@ class ForumAuthRepositoryImpl(
     }
 
     override suspend fun updateDisplayName(displayName: String): ForumResult<Unit> = query {
-        val client = (backend as ForumBackend.Available).client
+        val client = (backend as AppBackend.Available).client
         val id = client.auth.currentUserOrNull()?.id ?: error("not signed in")
         client.postgrest.from(TABLE_PROFILES)
             .update(buildJsonObject { put("display_name", displayName) }) {
@@ -165,7 +165,7 @@ class ForumAuthRepositoryImpl(
     }
 
     override suspend fun deleteAccount(): ForumResult<Unit> = query {
-        val client = (backend as ForumBackend.Available).client
+        val client = (backend as AppBackend.Available).client
         // The anon key cannot reach auth.users, and giving it that reach would
         // be far worse than the inconvenience. The server-side function runs as
         // definer and deletes only its own caller.
@@ -175,7 +175,7 @@ class ForumAuthRepositoryImpl(
     }
 
     private suspend fun fetchProfile(userId: String): ForumProfile? {
-        val client = (backend as? ForumBackend.Available)?.client ?: return null
+        val client = (backend as? AppBackend.Available)?.client ?: return null
         return runCatching {
             withContext(ioDispatcher) {
                 client.postgrest.from(TABLE_PROFILES)
@@ -196,7 +196,7 @@ class ForumAuthRepositoryImpl(
 
     /** Same shape as [ForumRepositoryImpl.query]; see the reasoning there. */
     private suspend fun <T> query(block: suspend () -> T): ForumResult<T> {
-        if (backend !is ForumBackend.Available) {
+        if (backend !is AppBackend.Available) {
             return ForumResult.Failure(ForumFailure.NOT_CONFIGURED)
         }
         return try {

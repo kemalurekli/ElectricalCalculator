@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Strings for the report button and its dialog.
+
+  They live in this module rather than in the design system because they are
+  sentences about a feature; the design system holds the words that belong to
+  components ("Retry", "Close").
+-->
+<resources>
+    <string name="feedback_open">Ada yang salah di halaman ini?</string>
+    <string name="feedback_title">Laporkan kesalahan</string>
+    <string name="feedback_label">Apa yang tampak salah?</string>
+    <string name="feedback_hint">Jelaskan apa yang Anda lihat dan apa yang Anda harapkan.</string>
+    <string name="feedback_note">Hanya pesan Anda, layar ini, versi aplikasi, dan bahasa Anda yang dikirim. Tidak ada yang Anda ketikkan di kalkulator ikut terkirim.</string>
+    <string name="feedback_send">Kirim</string>
+    <string name="feedback_cancel">Batal</string>
+    <string name="feedback_sent_title">Terima kasih</string>
+    <string name="feedback_sent">Laporan Anda telah kami terima. Kami membaca semuanya, tetapi tidak dapat membalas satu per satu.</string>
+    <string name="feedback_sent_close">Tutup</string>
+    <string name="feedback_failed_network">Tidak dapat dikirim. Periksa koneksi Anda dan coba lagi.</string>
+    <string name="feedback_failed_too_many">Terlalu banyak laporan dalam satu jam. Silakan coba lagi nanti.</string>
+    <string name="feedback_failed_not_configured">Laporan tidak dapat dikirim dari versi ini.</string>
+</resources>

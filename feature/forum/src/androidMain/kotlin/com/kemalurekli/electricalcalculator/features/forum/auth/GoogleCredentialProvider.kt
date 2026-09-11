@@ -13,7 +13,7 @@ import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.kemalurekli.electricalcalculator.features.forum.domain.ForumConfig
+import com.kemalurekli.electricalcalculator.core.backend.BackendConfig
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumAuthFailure
 import java.io.IOException
 import java.security.MessageDigest
@@ -37,7 +37,7 @@ private class GoogleCredentialProvider(private val activity: Activity) : ForumSi
      */
     override val provider: SignInProvider = SignInProvider.GOOGLE
 
-    override val isConfigured: Boolean get() = ForumConfig.GOOGLE_WEB_CLIENT_ID.isNotBlank()
+    override val isConfigured: Boolean get() = BackendConfig.GOOGLE_WEB_CLIENT_ID.isNotBlank()
 
     /**
      * @param onlyPreviousAccounts show only accounts that have signed in
@@ -65,7 +65,7 @@ private class GoogleCredentialProvider(private val activity: Activity) : ForumSi
 
         val option = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(onlyPreviousAccounts)
-            .setServerClientId(ForumConfig.GOOGLE_WEB_CLIENT_ID)
+            .setServerClientId(BackendConfig.GOOGLE_WEB_CLIENT_ID)
             .setNonce(hashedNonce)
             .build()
 

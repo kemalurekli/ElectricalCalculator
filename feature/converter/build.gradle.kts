@@ -59,6 +59,7 @@ kotlin {
 
         commonMain.dependencies {
             api(project(":core:designsystem"))
+            implementation(project(":core:feedback"))
 
             implementation(compose.runtime)
             implementation(compose.foundation)

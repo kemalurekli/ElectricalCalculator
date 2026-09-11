@@ -70,6 +70,8 @@ kotlin {
             api(project(":core:designsystem"))
             api(project(":core:data"))
             implementation(project(":core:billing"))
+            // The report row at the end of every calculator.
+            implementation(project(":core:feedback"))
             implementation(project(":core:document"))
             implementation(project(":core:vision"))
             // A calculator points at the table its figures come from.

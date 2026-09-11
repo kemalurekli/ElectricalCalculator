@@ -30,6 +30,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import com.kemalurekli.electricalcalculator.core.feedback.domain.FeedbackArea
+import com.kemalurekli.electricalcalculator.core.feedback.presentation.reportIssueItem
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -314,8 +316,13 @@ fun TheoryTopicScreen(
 
             // Everything past the gate belongs to the half that was not given
             // away: the worked examples, the quiz, the solver and its working.
-            // A locked topic stops here.
-            if (locked) return@LazyColumn
+            // A locked topic stops here — but not before the report row: a
+            // reader who can see only half the page can still tell us that
+            // half of it is wrong.
+            if (locked) {
+                reportIssueItem(FeedbackArea.theory(topic.key))
+                return@LazyColumn
+            }
 
             if (solution.examples.isNotEmpty()) {
                 item(key = "examples") {
@@ -462,6 +469,8 @@ fun TheoryTopicScreen(
                     )
                 }
             }
+
+            reportIssueItem(FeedbackArea.theory(topic.key))
         }
     }
 }

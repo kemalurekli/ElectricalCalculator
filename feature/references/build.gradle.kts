@@ -62,6 +62,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:designsystem"))
             api(project(":core:data"))
+            implementation(project(":core:feedback"))
 
             implementation(libs.lifecycle.viewmodel.savedstate)
 

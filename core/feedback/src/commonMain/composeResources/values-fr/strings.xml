@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Strings for the report button and its dialog.
+
+  They live in this module rather than in the design system because they are
+  sentences about a feature; the design system holds the words that belong to
+  components ("Retry", "Close").
+-->
+<resources>
+    <string name="feedback_open">Quelque chose ne va pas sur cette page ?</string>
+    <string name="feedback_title">Signaler une erreur</string>
+    <string name="feedback_label">Qu\'est-ce qui semble incorrect ?</string>
+    <string name="feedback_hint">Décrivez ce que vous avez vu et ce que vous attendiez à la place.</string>
+    <string name="feedback_note">Seuls votre message, cet écran, la version de l\'application et votre langue sont envoyés. Rien de ce que vous avez saisi dans un calculateur n\'est inclus.</string>
+    <string name="feedback_send">Envoyer</string>
+    <string name="feedback_cancel">Annuler</string>
+    <string name="feedback_sent_title">Merci</string>
+    <string name="feedback_sent">Votre signalement nous est parvenu. Nous les lisons tous, mais ne pouvons pas y répondre individuellement.</string>
+    <string name="feedback_sent_close">Fermer</string>
+    <string name="feedback_failed_network">Envoi impossible. Vérifiez votre connexion et réessayez.</string>
+    <string name="feedback_failed_too_many">Trop de signalements en une heure. Veuillez réessayer plus tard.</string>
+    <string name="feedback_failed_not_configured">Les signalements ne peuvent pas être envoyés depuis cette version.</string>
+</resources>

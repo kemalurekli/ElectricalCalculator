@@ -378,6 +378,8 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:datastore"))
     implementation(project(":core:billing"))
+    implementation(project(":core:backend"))
+    implementation(project(":core:feedback"))
     implementation(project(":core:data"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:navigation"))

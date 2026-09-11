@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Strings for the report button and its dialog.
+
+  They live in this module rather than in the design system because they are
+  sentences about a feature; the design system holds the words that belong to
+  components ("Retry", "Close").
+-->
+<resources>
+    <string name="feedback_open">Bu sayfada bir hata mı var?</string>
+    <string name="feedback_title">Hata bildir</string>
+    <string name="feedback_label">Ne yanlış görünüyor?</string>
+    <string name="feedback_hint">Gördüğünüzü ve onun yerine ne beklediğinizi yazın.</string>
+    <string name="feedback_note">Yalnızca yazdığınız metin, bu ekran, uygulama sürümü ve diliniz gönderilir. Hesaplayıcıya girdiğiniz hiçbir değer eklenmez.</string>
+    <string name="feedback_send">Gönder</string>
+    <string name="feedback_cancel">Vazgeç</string>
+    <string name="feedback_sent_title">Teşekkürler</string>
+    <string name="feedback_sent">Bildiriminiz ulaştı. Hepsini okuyoruz, ancak tek tek yanıt veremiyoruz.</string>
+    <string name="feedback_sent_close">Kapat</string>
+    <string name="feedback_failed_network">Gönderilemedi. Bağlantınızı kontrol edip tekrar deneyin.</string>
+    <string name="feedback_failed_too_many">Bir saat içinde çok fazla bildirim gönderildi. Lütfen daha sonra tekrar deneyin.</string>
+    <string name="feedback_failed_not_configured">Bu sürümden bildirim gönderilemiyor.</string>
+</resources>

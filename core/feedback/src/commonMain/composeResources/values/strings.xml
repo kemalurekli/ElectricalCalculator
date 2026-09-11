@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Strings for the report button and its dialog.
+
+  They live in this module rather than in the design system because they are
+  sentences about a feature; the design system holds the words that belong to
+  components ("Retry", "Close").
+-->
+<resources>
+    <string name="feedback_open">Is something wrong on this page?</string>
+    <string name="feedback_title">Report a mistake</string>
+    <string name="feedback_label">What looks wrong?</string>
+    <string name="feedback_hint">Describe what you saw, and what you expected instead.</string>
+    <string name="feedback_note">Only your message, this screen, the app version and your language are sent. Nothing you typed into a calculator is included.</string>
+    <string name="feedback_send">Send</string>
+    <string name="feedback_cancel">Cancel</string>
+    <string name="feedback_sent_title">Thank you</string>
+    <string name="feedback_sent">Your report has been received. We read every one, but cannot reply to them individually.</string>
+    <string name="feedback_sent_close">Close</string>
+    <string name="feedback_failed_network">Could not be sent. Check your connection and try again.</string>
+    <string name="feedback_failed_too_many">Too many reports in one hour. Please try again later.</string>
+    <string name="feedback_failed_not_configured">Reports cannot be sent from this build.</string>
+</resources>

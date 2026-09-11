@@ -31,6 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.kemalurekli.electricalcalculator.core.feedback.domain.FeedbackArea
+import com.kemalurekli.electricalcalculator.core.feedback.presentation.reportIssueItem
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -264,6 +266,8 @@ fun ConverterScreen(
                     modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
                 )
             }
+
+            reportIssueItem(FeedbackArea.CONVERTER)
         }
     }
 }

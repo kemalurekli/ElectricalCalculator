@@ -19,7 +19,7 @@ import com.kemalurekli.electricalcalculator.features.converter.converterModule
 import com.kemalurekli.electricalcalculator.features.favorites.favoritesModule
 import com.kemalurekli.electricalcalculator.features.fieldnotes.fieldNotesModule
 import com.kemalurekli.electricalcalculator.core.domain.repository.AppLanguageRepository
-import com.kemalurekli.electricalcalculator.features.forum.domain.ForumBackend
+import com.kemalurekli.electricalcalculator.core.backend.AppBackend
 import com.kemalurekli.electricalcalculator.features.forum.forumModule
 import com.kemalurekli.electricalcalculator.features.pro.proModule
 import com.kemalurekli.electricalcalculator.core.billing.domain.EntitlementRepository
@@ -81,8 +81,8 @@ class KoinGraphTest {
                     RegionProvider::class,
                     // Whether there is a backend at all depends on configuration
                     // the platform supplies; the entry point declares it.
-                    // forumModule, from ForumConfig
-                    ForumBackend::class,
+                    // forumModule, from BackendConfig
+                    AppBackend::class,
                     // settingsModule
                     AppLanguageRepository::class,
                     // billingModule, from BillingConfig. Same shape as the

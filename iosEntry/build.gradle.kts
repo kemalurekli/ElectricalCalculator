@@ -51,6 +51,8 @@ kotlin {
             implementation(project(":feature:fieldnotes"))
             implementation(project(":core:data"))
             implementation(project(":core:billing"))
+            implementation(project(":core:backend"))
+            implementation(project(":core:feedback"))
             implementation(project(":feature:pro"))
 
             implementation(compose.runtime)

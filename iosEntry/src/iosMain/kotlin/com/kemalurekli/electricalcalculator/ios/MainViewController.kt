@@ -4,6 +4,8 @@ import androidx.compose.ui.window.ComposeUIViewController
 import com.kemalurekli.electricalcalculator.core.common.di.coreCommonModule
 import com.kemalurekli.electricalcalculator.core.data.di.coreDataModule
 import com.kemalurekli.electricalcalculator.features.pro.proModule
+import com.kemalurekli.electricalcalculator.core.backend.backendModule
+import com.kemalurekli.electricalcalculator.core.feedback.feedbackModule
 import com.kemalurekli.electricalcalculator.core.billing.di.billingModule
 import com.kemalurekli.electricalcalculator.features.calculators.calculatorsModule
 import com.kemalurekli.electricalcalculator.features.converter.converterModule
@@ -70,6 +72,8 @@ private fun startGraphOnce() {
             coreCommonModule,
             coreDataModule,
             billingModule,
+            backendModule,
+            feedbackModule,
             converterModule,
             historyModule,
             glossaryModule,

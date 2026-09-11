@@ -1,6 +1,6 @@
 package com.kemalurekli.electricalcalculator.features.forum.data
 
-import com.kemalurekli.electricalcalculator.features.forum.domain.ForumBackend
+import com.kemalurekli.electricalcalculator.core.backend.AppBackend
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumRepository
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumCategory
 import com.kemalurekli.electricalcalculator.features.forum.domain.ForumFailure
@@ -25,7 +25,7 @@ import kotlin.time.Instant
 import kotlin.time.Clock
 
 class ForumRepositoryImpl(
-    private val backend: ForumBackend,
+    private val backend: AppBackend,
     private val ioDispatcher: CoroutineDispatcher,
 ) : ForumRepository {
 
@@ -283,8 +283,8 @@ class ForumRepositoryImpl(
      */
     private suspend fun <T> query(block: suspend (SupabaseClient) -> T): ForumResult<T> {
         val client = when (backend) {
-            is ForumBackend.Available -> backend.client
-            ForumBackend.NotConfigured -> return ForumResult.Failure(ForumFailure.NOT_CONFIGURED)
+            is AppBackend.Available -> backend.client
+            AppBackend.NotConfigured -> return ForumResult.Failure(ForumFailure.NOT_CONFIGURED)
         }
 
         return withContext(ioDispatcher) {

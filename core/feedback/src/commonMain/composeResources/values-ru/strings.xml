@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Strings for the report button and its dialog.
+
+  They live in this module rather than in the design system because they are
+  sentences about a feature; the design system holds the words that belong to
+  components ("Retry", "Close").
+-->
+<resources>
+    <string name="feedback_open">На этой странице что-то не так?</string>
+    <string name="feedback_title">Сообщить об ошибке</string>
+    <string name="feedback_label">Что выглядит неправильно?</string>
+    <string name="feedback_hint">Опишите, что вы увидели и что ожидали увидеть вместо этого.</string>
+    <string name="feedback_note">Отправляются только ваше сообщение, этот экран, версия приложения и язык. Ничего из введённого в калькулятор не передаётся.</string>
+    <string name="feedback_send">Отправить</string>
+    <string name="feedback_cancel">Отмена</string>
+    <string name="feedback_sent_title">Спасибо</string>
+    <string name="feedback_sent">Ваше сообщение получено. Мы читаем все, но не можем ответить на каждое.</string>
+    <string name="feedback_sent_close">Закрыть</string>
+    <string name="feedback_failed_network">Не удалось отправить. Проверьте соединение и попробуйте снова.</string>
+    <string name="feedback_failed_too_many">Слишком много сообщений за час. Повторите попытку позже.</string>
+    <string name="feedback_failed_not_configured">Из этой сборки нельзя отправлять сообщения.</string>
+</resources>

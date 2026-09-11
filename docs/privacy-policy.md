@@ -15,6 +15,33 @@ Nothing about you is collected. You can read the forum without an account, and
 reading does not create one. Every other feature works with no account at all
 and no network connection.
 
+The one exception is the report button, and only when you press it — see
+*Reporting a mistake* below.
+
+## Reporting a mistake
+
+Calculators, theory topics and reference tables carry a "report a mistake"
+button. Nothing is sent unless you write something and press send. What is sent
+is:
+
+- the message you typed,
+- which screen you were on, as an internal key such as
+  `calculator:voltage_drop`,
+- the app version, the platform (Android or iOS) and the language the app was
+  being read in,
+- a random identifier created once for this installation. It is not a device
+  identifier and is not tied to your name or account; it exists so that the
+  server can refuse a flood of reports from one source. Reinstalling the app
+  replaces it,
+- your account identifier, **only if you are signed in to the forum**. Reports
+  sent without signing in are not tied to anyone.
+
+**Nothing you typed into a calculator is sent.** The values, results and
+projects on your device stay on your device.
+
+Reports are visible only to the operator of the service. They are kept until the
+problem they describe has been dealt with.
+
 ## What is collected when you sign in
 
 Signing in uses your Google account. From it the app receives, and the server

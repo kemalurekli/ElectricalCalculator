@@ -1,4 +1,3 @@
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -36,63 +35,6 @@ val packageComposeResourcesForAndroid = tasks.register<Copy>("packageComposeReso
  *
  * It depends on `:feature:glossary` because a note can point at a term.
  */
-/**
- * The forum's backend settings, generated into shared code.
- *
- * `:app` reads the same three keys into `BuildConfig`, which is an Android
- * build artefact and therefore useless to the iOS half of this module. They are
- * emitted as a plain Kotlin object instead, so both platforms read one source.
- *
- * ### What is in here and what is not
- *
- * The anon key is public by design — it identifies the project and row-level
- * security is what protects the data — and the Google *web* client id is public
- * for the same reason it is already in the shipped APK. The `service_role` key
- * is not here, has never been in this repository, and must never be: it
- * bypasses RLS entirely.
- *
- * Missing values are empty strings rather than a build failure. A checkout
- * without `local.properties` — a fork, a CI runner, anyone working on the
- * calculators — gets an app that starts and a forum that says it is not
- * configured.
- */
-val forumProperties = Properties().apply {
-    val file = rootProject.file("local.properties")
-    if (file.exists()) file.inputStream().use { load(it) }
-}
-
-fun forumProperty(key: String): String = forumProperties.getProperty(key).orEmpty()
-
-val generateForumConfig = tasks.register("generateForumConfig") {
-    val output = layout.buildDirectory.dir("generated/forumConfig/kotlin")
-    val url = forumProperty("supabase.url")
-    val anonKey = forumProperty("supabase.anonKey")
-    val googleWebClientId = forumProperty("supabase.googleWebClientId")
-    // See the same declaration in core/billing: without these the task is up
-    // to date whenever its output file exists, and a value changed in
-    // `local.properties` is silently ignored from the second build onwards.
-    inputs.property("url", url)
-    inputs.property("anonKey", anonKey)
-    inputs.property("googleWebClientId", googleWebClientId)
-    outputs.dir(output)
-    doLast {
-        val directory = output.get().asFile
-            .resolve("com/kemalurekli/electricalcalculator/features/forum/domain")
-        directory.mkdirs()
-        directory.resolve("ForumConfig.kt").writeText(
-            """
-            package com.kemalurekli.electricalcalculator.features.forum.domain
-
-            /** GENERATED from `local.properties`; see feature/forum/build.gradle.kts. */
-            object ForumConfig {
-                const val SUPABASE_URL: String = "$url"
-                const val SUPABASE_ANON_KEY: String = "$anonKey"
-                const val GOOGLE_WEB_CLIENT_ID: String = "$googleWebClientId"
-            }
-            """.trimIndent() + "\n",
-        )
-    }
-}
 
 kotlin {
     androidLibrary {
@@ -141,8 +83,6 @@ kotlin {
             implementation(libs.google.identity.googleid)
         }
 
-        commonMain.configure { kotlin.srcDir(generateForumConfig) }
-
         iosMain.dependencies {
             // The counterpart of OkHttp above. Darwin is the only engine on
             // this platform and NSURLSession is what it wraps.
@@ -151,6 +91,7 @@ kotlin {
 
         commonMain.dependencies {
             api(project(":core:designsystem"))
+            api(project(":core:backend"))
             api(project(":core:data"))
             api(project(":core:navigation"))
             // Every shelf a pin can come from.
@@ -170,12 +111,6 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.collections.immutable)
 
-            // supabase-kt is Kotlin Multiplatform; its Ktor transport picks an
-            // engine per target, which is why this is the one network stack in
-            // the app that needed no seam.
-            implementation(project.dependencies.platform(libs.supabase.bom))
-            implementation(libs.supabase.postgrest)
-            implementation(libs.supabase.auth)
             implementation(libs.kotlinx.serialization.json)
         }
     }

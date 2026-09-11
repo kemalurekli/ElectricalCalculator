@@ -311,6 +311,16 @@ groups rows and this one gives the card a base. They used to float under the
 card as three unlabelled glyphs on the page background with the badge among
 them, belonging to nothing the eye could name.
 
+**Every page that shows content ends with a way to say it is wrong.**
+`ElecReportIssue` is a quiet text button under a hairline, after the last card:
+a calculator's explainer, a theory topic's links, a reference table's final
+section. It is at the end because somebody who has found a mistake found it by
+reading, and reading ends at the bottom — and it is quiet because a prominent
+"report a mistake" on an engineering tool reads as an admission that there are
+many. The glyph is a speech bubble, not a warning triangle: the triangle is
+this app's word for "this result needs care", and a page offering to be
+corrected must not look like a page warning about itself.
+
 ---
 
 ## Navigation

@@ -3,11 +3,14 @@ package com.kemalurekli.electricalcalculator
 import com.kemalurekli.electricalcalculator.core.common.util.regionContext
 import com.kemalurekli.electricalcalculator.core.common.util.appInfoContext
 import com.kemalurekli.electricalcalculator.core.datastore.preferencesContext
+import com.kemalurekli.electricalcalculator.core.feedback.domain.feedbackContext
 import com.kemalurekli.electricalcalculator.core.database.databaseContext
 import android.app.Application
 import com.kemalurekli.electricalcalculator.core.common.di.coreCommonModule
 import com.kemalurekli.electricalcalculator.core.data.di.coreDataModule
 import com.kemalurekli.electricalcalculator.features.pro.proModule
+import com.kemalurekli.electricalcalculator.core.backend.backendModule
+import com.kemalurekli.electricalcalculator.core.feedback.feedbackModule
 import com.kemalurekli.electricalcalculator.core.billing.di.billingModule
 import com.kemalurekli.electricalcalculator.core.di.androidAppModule
 import com.kemalurekli.electricalcalculator.features.calculators.calculatorsModule
@@ -46,6 +49,7 @@ class ElecToolkitApplication : Application() {
         // set these are gone, and nothing else runs early enough.
         databaseContext = this
         preferencesContext = this
+        feedbackContext = this
         appInfoContext = this
         regionContext = this
         startKoin {
@@ -54,6 +58,8 @@ class ElecToolkitApplication : Application() {
                 coreCommonModule,
                 coreDataModule,
                 billingModule,
+                backendModule,
+                feedbackModule,
                 androidAppModule,
                 converterModule,
                 historyModule,

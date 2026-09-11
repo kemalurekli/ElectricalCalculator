@@ -7,6 +7,7 @@ import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.TrendingDown
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.AccountTree
+import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.TableChart
@@ -166,6 +167,16 @@ object ElecIcons {
     val ProDocument = Icons.Outlined.PictureAsPdf
     val ProSchedule = Icons.Outlined.TableChart
     val ProIncluded = Icons.Outlined.Upgrade
+
+    /**
+     * The report button, on every screen that shows content.
+     *
+     * An outlined speech bubble with a mark in it rather than a warning
+     * triangle: the triangle is the app's language for "this result needs
+     * care", and a page offering to be corrected must not look like a page
+     * warning about itself.
+     */
+    val ReportIssue = Icons.Outlined.ChatBubbleOutline
 
     val StagePass = Icons.Outlined.CheckCircle
     val StageFail = Icons.Outlined.ErrorOutline

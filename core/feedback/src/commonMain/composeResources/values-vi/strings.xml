@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Strings for the report button and its dialog.
+
+  They live in this module rather than in the design system because they are
+  sentences about a feature; the design system holds the words that belong to
+  components ("Retry", "Close").
+-->
+<resources>
+    <string name="feedback_open">Có gì đó sai trên trang này?</string>
+    <string name="feedback_title">Báo lỗi</string>
+    <string name="feedback_label">Điều gì có vẻ sai?</string>
+    <string name="feedback_hint">Hãy mô tả những gì bạn thấy và những gì bạn mong đợi.</string>
+    <string name="feedback_note">Chỉ tin nhắn của bạn, màn hình này, phiên bản ứng dụng và ngôn ngữ được gửi đi. Không có giá trị nào bạn nhập vào máy tính được đính kèm.</string>
+    <string name="feedback_send">Gửi</string>
+    <string name="feedback_cancel">Hủy</string>
+    <string name="feedback_sent_title">Cảm ơn bạn</string>
+    <string name="feedback_sent">Chúng tôi đã nhận được báo cáo của bạn. Chúng tôi đọc tất cả, nhưng không thể trả lời từng báo cáo.</string>
+    <string name="feedback_sent_close">Đóng</string>
+    <string name="feedback_failed_network">Không gửi được. Hãy kiểm tra kết nối và thử lại.</string>
+    <string name="feedback_failed_too_many">Quá nhiều báo cáo trong một giờ. Vui lòng thử lại sau.</string>
+    <string name="feedback_failed_not_configured">Không thể gửi báo cáo từ bản dựng này.</string>
+</resources>

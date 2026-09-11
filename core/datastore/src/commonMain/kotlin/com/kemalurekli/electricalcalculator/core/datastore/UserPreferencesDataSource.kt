@@ -14,6 +14,24 @@ import com.kemalurekli.electricalcalculator.core.domain.model.UserPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlin.random.Random
+
+/**
+ * 32 hex characters from the platform's random source.
+ *
+ * Hand-rolled rather than `Uuid.random()` because that is still experimental in
+ * common code, and what is wanted here is thirty-two characters that nobody can
+ * guess — not a UUID's version bits.
+ */
+private fun randomInstallId(): String = buildString(32) {
+    repeat(16) {
+        val byte = Random.nextInt(256)
+        append(HEX[byte shr 4])
+        append(HEX[byte and 0x0F])
+    }
+}
+
+private const val HEX = "0123456789abcdef"
 
 /**
  * Reads and writes settings to Preferences DataStore.
@@ -113,6 +131,27 @@ class UserPreferencesDataSource(
         }
     }
 
+    /**
+     * A random id for this installation, made the first time it is asked for.
+     *
+     * Not an identity and not a device id. It is attached to no name, survives
+     * no reinstall, and is read by exactly one thing: an error report, so that
+     * the server can refuse the sixth one in an hour and so that twenty reports
+     * of the same fault can be told apart from one person pressing send twenty
+     * times.
+     *
+     * Written inside the same `edit` block that reads it, so two callers racing
+     * at startup cannot mint two ids — DataStore serialises the transform, and
+     * the second one finds the first one's value.
+     */
+    suspend fun installId(): String {
+        var id = ""
+        dataStore.edit { prefs ->
+            id = prefs[Keys.INSTALL_ID] ?: randomInstallId().also { prefs[Keys.INSTALL_ID] = it }
+        }
+        return id
+    }
+
     private fun Preferences.toUserPreferences() = UserPreferences(
         themeMode = enumOrDefault(this[Keys.THEME_MODE], UserPreferences.Default.themeMode),
         unitSystem = enumOrDefault(this[Keys.UNIT_SYSTEM], UserPreferences.Default.unitSystem),
@@ -163,6 +202,7 @@ class UserPreferencesDataSource(
         val DISCLAIMER_ACCEPTED = booleanPreferencesKey("disclaimer_accepted")
         val FORUM_RULES_ACCEPTED = booleanPreferencesKey("forum_rules_accepted")
         val PINNED_THREADS = stringSetPreferencesKey("pinned_forum_threads")
+        val INSTALL_ID = stringPreferencesKey("install_id")
     }
 
 }

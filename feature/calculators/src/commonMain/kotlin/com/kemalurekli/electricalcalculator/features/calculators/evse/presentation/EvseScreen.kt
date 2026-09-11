@@ -3,6 +3,9 @@ package com.kemalurekli.electricalcalculator.features.calculators.evse.presentat
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.kemalurekli.electricalcalculator.core.domain.model.CalculatorId
+import com.kemalurekli.electricalcalculator.core.feedback.domain.FeedbackArea
+import com.kemalurekli.electricalcalculator.core.feedback.presentation.ElecReportIssue
 import com.kemalurekli.electricalcalculator.feature.calculators.generated.resources.calculator_notes_tab
 import com.kemalurekli.electricalcalculator.features.references.domain.ReferenceCatalog
 import com.kemalurekli.electricalcalculator.core.designsystem.component.NoteLink
@@ -331,6 +334,13 @@ fun EvseScreen(
                 steps = uiState.steps,
                 showDcNote = uiState.result?.rcdRequirement != RcdRequirement.TYPE_B,
                 onLinkClick = onReferenceClick,
+            )
+
+            // After the workings, which is where somebody who has
+            // found a mistake ends up.
+            ElecReportIssue(
+                area = FeedbackArea.calculator(CalculatorId.EVSE.key),
+                modifier = Modifier.padding(horizontal = spacing.screenHorizontal),
             )
         }
     }
