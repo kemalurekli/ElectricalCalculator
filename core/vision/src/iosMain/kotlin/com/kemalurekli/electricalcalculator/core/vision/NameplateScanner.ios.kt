@@ -64,8 +64,16 @@ actual fun rememberNameplateScanner(onRead: (NameplateReading) -> Unit): Namepla
     }
 }
 
+/**
+ * Internal rather than private so a test can hand it an image.
+ *
+ * The camera cannot be driven in a simulator and a real plate cannot be put in
+ * front of one, so without this the whole iOS half of the feature — the Vision
+ * request, the CGImage bridge, the candidate extraction — has no proof at all
+ * outside somebody holding a phone.
+ */
 @OptIn(ExperimentalForeignApi::class)
-private fun recognise(image: UIImage, onLines: (List<String>) -> Unit) {
+internal fun recognise(image: UIImage, onLines: (List<String>) -> Unit) {
     val cgImage = image.CGImage ?: return onLines(emptyList())
     val request = VNRecognizeTextRequest { request, _: NSError? ->
         val observations = request?.results.orEmpty()
