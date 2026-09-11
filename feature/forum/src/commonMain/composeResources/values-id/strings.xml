@@ -5,9 +5,12 @@
     <string name="action_edit">Edit</string>
     <string name="action_save">Simpan</string>
     <string name="destination_forum">Forum</string>
-    <string name="forum_thread_to_start">Ke awal</string>
-    <string name="forum_thread_to_end">Ke terbaru</string>
-    <string name="forum_thread_position">Pesan %1$d dari %2$d</string>
+    <string name="forum_page_first">Halaman pertama</string>
+    <string name="forum_page_previous">Halaman sebelumnya</string>
+    <string name="forum_page_next">Halaman berikutnya</string>
+    <string name="forum_page_last">Halaman terakhir</string>
+    <string name="forum_page_of">Halaman %1$d dari %2$d</string>
+    <string name="forum_page_number">Halaman %1$d</string>
     <string name="forum_account_danger">Pergi untuk selamanya</string>
     <string name="forum_account_signed_out">Belum masuk</string>
     <string name="forum_account_signed_out_hint">Diperlukan untuk membuka topik dan membalas</string>

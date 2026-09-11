@@ -5,9 +5,12 @@
     <string name="action_edit">Modifica</string>
     <string name="action_save">Salva</string>
     <string name="destination_forum">Forum</string>
-    <string name="forum_thread_to_start">All'inizio</string>
-    <string name="forum_thread_to_end">All'ultimo</string>
-    <string name="forum_thread_position">Messaggio %1$d di %2$d</string>
+    <string name="forum_page_first">Prima pagina</string>
+    <string name="forum_page_previous">Pagina precedente</string>
+    <string name="forum_page_next">Pagina successiva</string>
+    <string name="forum_page_last">Ultima pagina</string>
+    <string name="forum_page_of">Pagina %1$d di %2$d</string>
+    <string name="forum_page_number">Pagina %1$d</string>
     <string name="forum_account_danger">Andarsene del tutto</string>
     <string name="forum_account_signed_out">Non hai effettuato l'accesso</string>
     <string name="forum_account_signed_out_hint">Serve per aprire discussioni e rispondere</string>

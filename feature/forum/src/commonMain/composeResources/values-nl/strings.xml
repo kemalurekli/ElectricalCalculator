@@ -5,9 +5,12 @@
     <string name="action_edit">Bewerken</string>
     <string name="action_save">Opslaan</string>
     <string name="destination_forum">Forum</string>
-    <string name="forum_thread_to_start">Naar het begin</string>
-    <string name="forum_thread_to_end">Naar het nieuwste</string>
-    <string name="forum_thread_position">Bericht %1$d van %2$d</string>
+    <string name="forum_page_first">Eerste pagina</string>
+    <string name="forum_page_previous">Vorige pagina</string>
+    <string name="forum_page_next">Volgende pagina</string>
+    <string name="forum_page_last">Laatste pagina</string>
+    <string name="forum_page_of">Pagina %1$d van %2$d</string>
+    <string name="forum_page_number">Pagina %1$d</string>
     <string name="forum_account_danger">Definitief vertrekken</string>
     <string name="forum_account_signed_out">Niet aangemeld</string>
     <string name="forum_account_signed_out_hint">Nodig om onderwerpen te openen en te reageren</string>

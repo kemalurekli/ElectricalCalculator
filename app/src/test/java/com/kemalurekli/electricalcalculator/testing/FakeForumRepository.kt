@@ -61,19 +61,16 @@ class FakeForumRepository(
     override suspend fun posts(
         threadId: String,
         limit: Int,
-        after: Instant?,
-        before: Instant?,
+        offset: Int,
     ): ForumResult<List<ForumPost>> =
-        respond("posts($threadId, limit=$limit, after=$after, before=$before)") {
-            // The window the real one would return, so a test that walks a
-            // thread backwards walks the same thread the server would give it:
-            // the messages nearest the cursor, still handed back oldest first.
-            val all = posts.filter { it.threadId == threadId }.sortedBy { it.createdAt }
-            when {
-                before != null -> all.filter { it.createdAt < before }.takeLast(limit)
-                after != null -> all.filter { it.createdAt > after }.take(limit)
-                else -> all.take(limit)
-            }
+        respond("posts($threadId, limit=$limit, offset=$offset)") {
+            // The same window the server would return: oldest first, and the
+            // slice the offset names, so a test that asks for page four gets
+            // page four rather than everything.
+            posts.filter { it.threadId == threadId }
+                .sortedBy { it.createdAt }
+                .drop(offset)
+                .take(limit)
         }
 
     override suspend fun createThread(

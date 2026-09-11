@@ -76,6 +76,9 @@ object ElecIcons {
     // Navigation and chrome
     /** Drawn, not Material's arrow — see [ElecChromeIcons]. */
     val Back = ElecChromeIcons.Back
+
+    /** The same chevron the other way, for stepping along a pager. */
+    val Forward = ElecChromeIcons.Forward
     val Home = Icons.Outlined.Home
 
     /**

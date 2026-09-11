@@ -359,34 +359,4 @@ internal fun LoadMoreOnApproachingEnd(
     }
 }
 
-/**
- * Calls [onLoadOlder] as the reader nears the top of [state]'s list.
- *
- * The mirror of [LoadMoreOnApproachingEnd], and needed for the same reason in
- * the other direction: a reader who jumped to the end of a thread is looking at
- * its last page, and scrolling up has to fetch what they skipped rather than
- * stopping at the top of a window that begins in the middle of a conversation.
- *
- * Only the thread screen can do this, and only after a jump — a list read from
- * the top already has everything above it, and the view model returns at once.
- */
-@Composable
-internal fun LoadOlderOnApproachingStart(
-    state: LazyListState,
-    itemCount: Int,
-    onLoadOlder: () -> Unit,
-) {
-    val shouldLoad by remember(itemCount) {
-        derivedStateOf {
-            val first = state.layoutInfo.visibleItemsInfo.firstOrNull()?.index
-                ?: return@derivedStateOf false
-            itemCount > 0 && first <= LOAD_MORE_LEAD
-        }
-    }
-
-    LaunchedEffect(shouldLoad, itemCount) {
-        if (shouldLoad) onLoadOlder()
-    }
-}
-
 private const val LOAD_MORE_LEAD = 3

@@ -5,9 +5,12 @@
     <string name="action_edit">Düzenle</string>
     <string name="action_save">Kaydet</string>
     <string name="destination_forum">Forum</string>
-    <string name="forum_thread_to_start">Başa</string>
-    <string name="forum_thread_to_end">Sona</string>
-    <string name="forum_thread_position">%2$d mesajın %1$d’i</string>
+    <string name="forum_page_first">İlk sayfa</string>
+    <string name="forum_page_previous">Önceki sayfa</string>
+    <string name="forum_page_next">Sonraki sayfa</string>
+    <string name="forum_page_last">Son sayfa</string>
+    <string name="forum_page_of">Sayfa %1$d / %2$d</string>
+    <string name="forum_page_number">Sayfa %1$d</string>
     <string name="forum_account_danger">Hesabı kapatmak</string>
     <string name="forum_account_signed_out">Giriş yapılmadı</string>
     <string name="forum_account_signed_out_hint">Konu açmak ve cevap yazmak için gerekli</string>

@@ -48,27 +48,25 @@ interface ForumRepository {
     ): ForumResult<List<ForumThread>>
 
     /**
-     * One thread's messages, oldest first, with the opening post at the top.
+     * A window of one thread's messages, oldest first.
      *
-     * Walks in either direction, and that is not a convenience. Reading a
-     * thread only forwards means the last message of a long one is reached by
-     * loading every message before it — twelve requests to answer "what did
-     * people say", on a phone, in a plant room. [before] is what makes the end
-     * of a thread one request away, and what lets a reader who jumped there
-     * scroll back up through what they skipped.
+     * Addressed by [offset] rather than by a cursor, and the difference
+     * matters: a cursor can only say "what comes after this", which makes the
+     * end of a long thread twelve requests away and page four unreachable
+     * without walking through pages one to three. An offset names any message
+     * in one request, which is what a page number has to mean.
      *
-     * @param after returns the messages written after this instant, oldest
-     *   first. The ordinary forward read.
-     * @param before returns the messages written before it, and returns the
-     *   ones *nearest* it — the last page rather than the first. Still handed
-     *   back oldest first, because that is the order they are read in.
-     *   Passing both is a caller bug: a window has one open end.
+     * Offsets are stable here in a way they are not in the thread list: posts
+     * are ordered by when they were written and only ever appended, so nothing
+     * already loaded shifts when somebody replies. A deletion shifts what comes
+     * after it, which moves a reader by one message and is not worth a cursor.
+     *
+     * @param offset how many messages to skip. Zero is the opening post.
      */
     suspend fun posts(
         threadId: String,
-        limit: Int = DEFAULT_PAGE_SIZE,
-        after: Instant? = null,
-        before: Instant? = null,
+        limit: Int = POSTS_PER_PAGE,
+        offset: Int = 0,
     ): ForumResult<List<ForumPost>>
 
     /**
@@ -158,5 +156,15 @@ interface ForumRepository {
          * enough that most threads need no second request at all.
          */
         const val DEFAULT_PAGE_SIZE = 25
+
+        /**
+         * Messages to a page of a thread.
+         *
+         * Smaller than a list page because it is an address the reader uses,
+         * not a batch size they never see: "page 4 of 17" is a useful thing to
+         * hold in your head and "page 2 of 3" is not, and ten messages is about
+         * what fits between two glances at the bar.
+         */
+        const val POSTS_PER_PAGE = 10
     }
 }

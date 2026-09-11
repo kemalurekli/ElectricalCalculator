@@ -173,9 +173,7 @@ fun ForumThreadRoute(
         onBlock = viewModel::onBlock,
         onOpenProfile = onOpenProfile,
         onLoadMore = viewModel::onLoadMore,
-        onLoadOlder = viewModel::onLoadOlder,
-        onJumpToStart = viewModel::onJumpToStart,
-        onJumpToEnd = viewModel::onJumpToEnd,
+        onGoToPage = viewModel::onGoToPage,
         onTopVisible = viewModel::onTopVisible,
         position = position,
         onDeleteFailureShown = viewModel::onDeleteFailureShown,
@@ -233,9 +231,7 @@ fun ForumThreadScreen(
     onBlock: (String) -> Unit = {},
     onOpenProfile: (String) -> Unit = {},
     onLoadMore: () -> Unit = {},
-    onLoadOlder: () -> Unit = {},
-    onJumpToStart: () -> Unit = {},
-    onJumpToEnd: () -> Unit = {},
+    onGoToPage: (Int) -> Unit = {},
     onTopVisible: (Int) -> Unit = {},
     position: ThreadPosition = ThreadPosition(),
     onDeleteThread: () -> Unit = {},
@@ -387,7 +383,6 @@ fun ForumThreadScreen(
             } else {
                 val listState = rememberLazyListState()
                 LoadMoreOnApproachingEnd(listState, posts.size, onLoadMore)
-                LoadOlderOnApproachingStart(listState, posts.size, onLoadOlder)
 
                 // What the bar reports. The title is an item too, so the first
                 // message is at index one and the reader's position is the
@@ -407,13 +402,13 @@ fun ForumThreadScreen(
                     if (position.isPaged) {
                         ThreadPositionBar(
                             position = position,
-                            onJumpToStart = {
-                                onJumpToStart()
+                            // The window is replaced, so the list has to be
+                            // told to look at the top of it — otherwise the
+                            // reader lands at whatever offset they had scrolled
+                            // to on the page they just left.
+                            onGoToPage = { page ->
+                                onGoToPage(page)
                                 scope.launch { listState.scrollToItem(0) }
-                            },
-                            onJumpToEnd = {
-                                onJumpToEnd()
-                                scope.launch { listState.scrollToItem(Int.MAX_VALUE) }
                             },
                         )
                     }

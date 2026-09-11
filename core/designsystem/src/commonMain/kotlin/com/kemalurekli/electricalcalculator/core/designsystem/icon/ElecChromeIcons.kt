@@ -90,6 +90,22 @@ internal object ElecChromeIcons {
         .build()
 
     /**
+     * The other way along a row: the back chevron, mirrored.
+     *
+     * Drawn rather than reflected at the call site so it keeps the same weight
+     * and the same cap, and auto-mirrored for the same reason [Back] is — in a
+     * right-to-left language "next" is to the left, and a pager whose arrows
+     * disagree with the writing direction sends the reader backwards.
+     */
+    val Forward: ImageVector = chromeIcon("ElecForward", autoMirror = true)
+        .stroked(width = 2.2f) {
+            moveTo(8.5f, 5f)
+            lineTo(15.5f, 12f)
+            lineTo(8.5f, 19f)
+        }
+        .build()
+
+    /**
      * Share: a document leaving an open tray.
      *
      * The tray is open at the top so the arrow reads as passing through it

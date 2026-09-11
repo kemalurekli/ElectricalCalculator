@@ -5,9 +5,12 @@
     <string name="action_edit">Изменить</string>
     <string name="action_save">Сохранить</string>
     <string name="destination_forum">Форум</string>
-    <string name="forum_thread_to_start">В начало</string>
-    <string name="forum_thread_to_end">К последнему</string>
-    <string name="forum_thread_position">Сообщение %1$d из %2$d</string>
+    <string name="forum_page_first">Первая страница</string>
+    <string name="forum_page_previous">Предыдущая страница</string>
+    <string name="forum_page_next">Следующая страница</string>
+    <string name="forum_page_last">Последняя страница</string>
+    <string name="forum_page_of">Страница %1$d из %2$d</string>
+    <string name="forum_page_number">Страница %1$d</string>
     <string name="forum_account_danger">Уйти насовсем</string>
     <string name="forum_account_signed_out">Вход не выполнен</string>
     <string name="forum_account_signed_out_hint">Нужен, чтобы создавать темы и отвечать</string>

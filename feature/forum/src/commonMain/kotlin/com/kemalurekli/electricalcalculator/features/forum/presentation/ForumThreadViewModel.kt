@@ -74,17 +74,7 @@ class ForumThreadViewModel(
     val uiState: StateFlow<ForumScreenState<ImmutableList<ForumPost>>> = _uiState.asStateFlow()
 
     private var threadId: String? = null
-    private var endReached = false
 
-    /**
-     * Whether the window reaches the opening post.
-     *
-     * True on an ordinary read, which starts there. False after a jump to the
-     * end, which is the case this exists for: the reader is looking at the last
-     * page of a thread whose beginning has never been fetched, and scrolling up
-     * has to go and get it.
-     */
-    private var startReached = true
     private var loadingMore = false
 
     /**
@@ -210,106 +200,101 @@ class ForumThreadViewModel(
         _sendFailed.value = false
     }
 
-    /** The next page of replies, oldest first, appended to what is shown. */
+    /**
+     * The window after the one on screen, appended.
+     *
+     * Scrolling still crosses pages: the bar is an address over a continuous
+     * list, not a wall between chunks of it, so reaching the bottom of page
+     * four carries on into page five rather than asking for permission.
+     */
     fun onLoadMore() {
         val id = threadId ?: return
         val current = _uiState.value as? ForumScreenState.Content ?: return
-        if (endReached || loadingMore) return
+        if (loadingMore) return
+        val position = _position.value
+        if (position.windowEnd >= position.size) return
 
-        loadingMore = true
-        viewModelScope.launch {
-            val cursor = current.value.lastOrNull()?.createdAt
-            when (val result = repository.posts(id, after = cursor)) {
-                is ForumResult.Success -> {
-                    endReached = result.value.size < ForumRepository.DEFAULT_PAGE_SIZE
-                    show(current.value + result.value, keepingStart = true)
-                }
-                is ForumResult.Failure -> Unit
-            }
-            loadingMore = false
+        fetch(id, offset = position.windowEnd) { page ->
+            show(current.value + page, windowStart = position.windowStart)
         }
     }
 
     /**
-     * The page before the one on screen, prepended.
+     * The page a reader asked for, by number, counting from one.
      *
-     * Only ever needed after a jump to the end. A thread read from the top
-     * already has everything above it, which is why [startReached] starts true
-     * and this returns immediately in the ordinary case.
+     * Every way backwards goes through here — the pager's arrows, its ends and
+     * its picker all name a page. Scrolling only ever goes forwards, and that
+     * asymmetry is deliberate: a list that fetched upwards whenever it sat at
+     * its own top walked itself back to page one the moment a jump put it
+     * there, and a window that begins at page five has nothing above it for a
+     * thumb to pull against anyway. Forwards is a gesture; backwards is an
+     * address.
      */
-    fun onLoadOlder() {
+    fun onGoToPage(page: Int) {
         val id = threadId ?: return
-        val current = _uiState.value as? ForumScreenState.Content ?: return
-        if (startReached || loadingMore) return
+        if (loadingMore) return
+        val target = page.coerceIn(1, _position.value.pageCount)
+        val offset = (target - 1) * ForumRepository.POSTS_PER_PAGE
 
-        loadingMore = true
-        viewModelScope.launch {
-            val cursor = current.value.firstOrNull()?.createdAt
-            when (val result = repository.posts(id, before = cursor)) {
-                is ForumResult.Success -> {
-                    startReached = result.value.size < ForumRepository.DEFAULT_PAGE_SIZE
-                    // The window grew upwards, so the top of it moved back
-                    // towards the beginning by exactly what arrived.
-                    _position.update { it.copy(windowStart = it.windowStart - result.value.size) }
-                    show(result.value + current.value, keepingStart = true)
-                }
-                is ForumResult.Failure -> Unit
-            }
-            loadingMore = false
+        fetch(id, offset = offset) { window ->
+            // The window is replaced rather than extended. Keeping what was
+            // loaded and adding a distant page would leave a hole the list
+            // draws as continuous, with two messages a week apart looking like
+            // a reply to each other.
+            show(window, windowStart = offset, offsetInWindow = 0)
         }
     }
 
-    /**
-     * The last page of the thread, in one request.
-     *
-     * Replaces the window rather than extending it. Keeping what was already
-     * loaded and adding the end would leave a hole in the middle that the list
-     * would draw as if it were continuous — two messages a week apart looking
-     * like a reply to each other.
-     */
-    fun onJumpToEnd() {
-        val id = threadId ?: return
-        if (loadingMore) return
+    fun onNextPage() = onGoToPage(_position.value.page + 1)
 
-        loadingMore = true
-        viewModelScope.launch {
-            when (val result = repository.posts(id, before = FAR_FUTURE)) {
-                is ForumResult.Success -> {
-                    endReached = true
-                    startReached = result.value.size < ForumRepository.DEFAULT_PAGE_SIZE
-                    _position.update {
-                        it.copy(windowStart = (it.total - result.value.size).coerceAtLeast(0))
-                    }
-                    show(result.value, keepingStart = true)
-                }
-                is ForumResult.Failure -> Unit
-            }
-            loadingMore = false
-        }
-    }
+    fun onPreviousPage() = onGoToPage(_position.value.page - 1)
 
-    /** Back to the opening post, which is an ordinary read from the top. */
-    fun onJumpToStart() {
-        if (loadingMore) return
-        load()
-    }
+    fun onJumpToStart() = onGoToPage(1)
 
-    /** Tracks where in the thread the reader is looking. */
+    fun onJumpToEnd() = onGoToPage(_position.value.pageCount)
+
+    /** Tracks which message is at the top of the viewport. */
     fun onTopVisible(index: Int) {
-        _position.update { it.copy(offset = index) }
+        _position.update { it.copy(offsetInWindow = index) }
     }
 
-    private fun show(posts: List<ForumPost>, keepingStart: Boolean) {
-        if (!keepingStart) _position.update { it.copy(windowStart = 0) }
-        _position.update { it.copy(loaded = posts.size) }
+    private fun fetch(
+        id: String,
+        offset: Int,
+        limit: Int = ForumRepository.POSTS_PER_PAGE,
+        onLoaded: (List<ForumPost>) -> Unit,
+    ) {
+        if (limit <= 0) return
+        loadingMore = true
+        viewModelScope.launch {
+            when (val result = repository.posts(id, limit = limit, offset = offset)) {
+                is ForumResult.Success -> onLoaded(result.value)
+                is ForumResult.Failure -> Unit
+            }
+            loadingMore = false
+        }
+    }
+
+    private fun show(
+        posts: List<ForumPost>,
+        windowStart: Int,
+        offsetInWindow: Int = _position.value.offsetInWindow,
+    ) {
+        _position.update {
+            it.copy(
+                windowStart = windowStart,
+                loaded = posts.size,
+                offsetInWindow = offsetInWindow,
+                // The thread is at least as long as what has been seen of it.
+                total = maxOf(it.total, windowStart + posts.size),
+            )
+        }
         _uiState.value = ForumScreenState.Content(posts.toImmutableList())
     }
 
     private fun load(refreshing: Boolean = false) {
         val id = threadId ?: return
-        endReached = false
-        startReached = true
-        _position.update { it.copy(windowStart = 0, offset = 0) }
+        _position.update { it.copy(windowStart = 0, offsetInWindow = 0) }
         viewModelScope.launch {
             val current = _uiState.value
             if (refreshing && current is ForumScreenState.Content) {
@@ -326,8 +311,9 @@ class ForumThreadViewModel(
             _uiState.value = when (val result = repository.posts(id)) {
                 is ForumResult.Success -> {
                     val visible = result.value.filterNot { it.authorId in hidden }
-                    endReached = result.value.size < ForumRepository.DEFAULT_PAGE_SIZE
-                    _position.update { it.copy(loaded = visible.size) }
+                    _position.update {
+                        it.copy(loaded = visible.size, total = maxOf(it.total, visible.size))
+                    }
                     ForumScreenState.Content(visible.toImmutableList())
                 }
 
@@ -344,37 +330,44 @@ class ForumThreadViewModel(
 /**
  * Where the reader is in a thread, and how long the thread is.
  *
- * [total] comes from the thread row the list already loaded, so opening a
- * thread costs no extra request to find out. It is a count of replies the
- * server maintains and can be a message or two out of step with what is
- * actually fetchable — a reply landing while the thread is being read, a
- * deletion not yet reflected — so it is never allowed to be smaller than what
- * has been loaded, and it is shown as a position rather than as an address.
+ * ### Pages are an address, not a container
+ *
+ * Nothing here chops the list into tens. The window is whatever has been
+ * loaded, a reader scrolls straight through a page boundary, and [page] is
+ * arithmetic on where they have got to. That is the difference between a page
+ * number that helps — a place you can name, jump to and come back to — and one
+ * that interrupts a read every ten messages to ask for permission to continue.
+ *
+ * [total] starts from the thread row the list already loaded, so opening a
+ * thread costs no extra request to learn its length. It is a count the server
+ * maintains and can be a message or two out of step with what is actually
+ * fetchable, so it is never allowed to be smaller than what has been seen.
  */
 data class ThreadPosition(
     /** Messages before the top of the loaded window. */
     val windowStart: Int = 0,
     /** How far down the window the reader has scrolled. */
-    val offset: Int = 0,
+    val offsetInWindow: Int = 0,
     /** How many messages the window holds. */
     val loaded: Int = 0,
     /** Every message in the thread, as far as anybody knows. */
     val total: Int = 0,
 ) {
+    /** Where the window ends, as an offset into the thread. */
+    val windowEnd: Int get() = windowStart + loaded
+
+    val size: Int get() = maxOf(total, windowEnd)
+
     /** One-based, for a reader who does not count from zero. */
-    val current: Int get() = (windowStart + offset + 1).coerceAtMost(size)
+    val message: Int get() = (windowStart + offsetInWindow + 1).coerceAtMost(size)
 
-    val size: Int get() = maxOf(total, windowStart + loaded)
+    val page: Int get() = (message - 1) / ForumRepository.POSTS_PER_PAGE + 1
 
-    /** Nothing to navigate when the whole thread is on one page. */
-    val isPaged: Boolean get() = size > ForumRepository.DEFAULT_PAGE_SIZE
+    val pageCount: Int
+        get() = ((size + ForumRepository.POSTS_PER_PAGE - 1) / ForumRepository.POSTS_PER_PAGE)
+            .coerceAtLeast(1)
+
+    /** Nothing to navigate when the whole thread is one page. */
+    val isPaged: Boolean get() = pageCount > 1
 }
 
-/**
- * Later than any message can have been written.
- *
- * "Everything before now" would race the clock: a reply posted in the same
- * second is written with the server's time, not the phone's, and a phone a few
- * seconds fast would ask for messages older than one that already exists.
- */
-private val FAR_FUTURE = Instant.fromEpochSeconds(4_102_444_800)
