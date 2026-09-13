@@ -19,5 +19,9 @@
 		<string>vi</string>
 		<string>ru</string>
 	</array>
+	<!-- HTTPS only, through the system's own stack. Without this App Store
+	     Connect asks the export-compliance question on every single upload. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

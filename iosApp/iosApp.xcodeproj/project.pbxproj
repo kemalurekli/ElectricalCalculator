@@ -117,6 +117,16 @@
 				en,
 				Base,
 				tr,
+				pl,
+				fr,
+				pt,
+				es,
+				ru,
+				id,
+				vi,
+				it,
+				de,
+				nl,
 			);
 			mainGroup = 0A25140B3035DC9700790AD3;
 			minimizedProjectReferenceProxies = 1;
@@ -322,7 +332,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -368,7 +378,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
