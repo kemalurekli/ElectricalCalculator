@@ -12,8 +12,11 @@ table — and raises on anything it does not recognise rather than silently
 dropping it. A privacy policy that quietly loses a sentence on its way to being
 published is the failure worth guarding against.
 
-    python3 scripts/build_privacy_policy.py            # writes build/privacypolicy.html
+    python3 scripts/build_privacy_policy.py            # writes docs/privacy.html
     python3 scripts/build_privacy_policy.py <path>     # writes where you say
+
+The output is committed next to its source, deliberately: it is the exact file
+on the server, and a diff of it is the diff of what readers will see.
 """
 
 from __future__ import annotations
@@ -24,7 +27,7 @@ import re
 import sys
 
 SOURCE = "docs/privacy-policy.md"
-DEFAULT_OUTPUT = "build/privacypolicy.html"
+DEFAULT_OUTPUT = "docs/privacy.html"
 
 # Inline spans, applied in this order. Links first: a link's text may contain
 # bold, and its URL must not be scanned for underscores.
