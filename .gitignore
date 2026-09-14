@@ -47,3 +47,6 @@ DerivedData/
 
 # Android Studio's signed-bundle wizard writes here.
 /app/release/
+
+# Rendered promo video: 38 MB, rebuilt in seconds from store/video/{clips,bg}
+store/video/voltageboard-promo.mp4
