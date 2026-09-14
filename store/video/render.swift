@@ -38,7 +38,7 @@ let scenes: [Scene] = [
     Scene(bg: "s3",    clip: "clip3", duration: 11.0, clipOffset: 0.4),
     Scene(bg: "s4",    clip: "clip4", duration: 14.0, clipOffset: 0.4),
     Scene(bg: "s5",    clip: "clip5", duration: 11.0, clipOffset: 0.4),
-    Scene(bg: "s6",    clip: "clip6", duration: 6.0,  clipOffset: 0.4),
+    Scene(bg: "s6",    clip: "clip6", duration: 7.0,  clipOffset: 3.2),
     Scene(bg: "end",   clip: nil,     duration: 3.5,  clipOffset: 0),
 ]
 
