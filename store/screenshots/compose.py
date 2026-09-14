@@ -6,12 +6,13 @@ frame the raw emulator capture sits in. The status bar is hidden under the
 bezel so every image shows the same thing: the app, from its own title bar
 down.
 
-    python3 store/screenshots/compose.py        # all eight into play/tr/
-    python3 store/screenshots/compose.py 3 7    # just those
+    python3 store/screenshots/compose.py en        # all eight into play/en/
+    python3 store/screenshots/compose.py tr 3 7    # just those, Turkish
 
-Raw captures live in raw/ (1080x2400, the Pixel_8 emulator at 420 dpi). To
-change a slogan, edit SHOTS and re-run; to change a screen, re-capture with
-`adb shell screencap` and drop the file in raw/. Chrome is the renderer
+Raw captures live in raw/<lang>/ (1080x2400, the Pixel_8 emulator at 420 dpi,
+the app switched to that language with `adb shell cmd locale set-app-locales`).
+To change a slogan, edit SHOTS and re-run; to change a screen, re-capture with
+`adb shell screencap` and drop the file in raw/<lang>/. Chrome is the renderer
 because it is the only thing on this machine that lays out text properly
 and reads the app's own .ttf files without a library.
 """
@@ -25,25 +26,35 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
 FONTS = os.path.join(REPO, "core/designsystem/src/commonMain/composeResources/font")
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-RAW = os.path.join(HERE, "raw")
-OUT = os.path.join(HERE, "play", "tr")
 
-# (raw capture, headline, sub-line)
-SHOTS = [
-    ("01-vd.png",       "Sahada hesapla.",              "Sonuç, standardın sınırı ve kararıyla birlikte — bağlantı gerekmez."),
-    ("02-steps.png",    "Her adımı gör.",               "Formül, ara değerler ve birimler; kâğıtta çözer gibi."),
-    ("07-calcs.png",    "20 hesaplayıcı, tek yerde.",   "Güç, koruma, kablo, motor, aydınlatma, güneş, EV şarj."),
-    ("03-theory.png",   "Formülü değil, sebebini öğren.", "24 teori konusu: şema, türetme ve geçerlilik koşulları."),
-    ("08-quiz.png",     "Kendini dene.",                "Her konuda yüzlerce soru; cevabını yaz, anında kontrol et."),
-    ("04-reftable.png", "Kaynağı yazılı tablolar.",     "IEC ve EN referansları — her satırın hangi standarttan geldiği belli."),
-    ("05-project.png",  "Panoyu tasarla.",              "Devre ekle; kesit, koruma cihazı ve gerilim düşümü kendiliğinden gelsin."),
-    ("06-thread.png",   "Meslektaşlarına sor.",         "Türkçe forum: arıza, koruma, tesisat, standartlar."),
-]
+# (raw capture, headline, sub-line), per store language
+SHOTS = {
+    "en": [
+        ("01-vd.png",       "Calculate on site.",            "The result, the limit that applies and the verdict — no connection needed."),
+        ("02-steps.png",    "See every step.",               "Formula, intermediate values and units, as you would on paper."),
+        ("07-calcs.png",    "20 calculators, one place.",    "Power, protection, cables, motors, lighting, solar, EV charging."),
+        ("03-theory.png",   "Learn the why, not just the formula.", "24 theory topics: diagram, derivation and the conditions it holds under."),
+        ("08-quiz.png",     "Test yourself.",                "Hundreds of questions across the topics; type an answer, check it at once."),
+        ("04-reftable.png", "Tables that cite their source.", "IEC and EN references — every row names the standard it came from."),
+        ("05-project.png",  "Design the board.",             "Add a circuit; size, protective device and voltage drop come by themselves."),
+        ("06-thread.png",   "Ask people in the trade.",      "A forum for faults, protection, wiring and standards."),
+    ],
+    "tr": [
+        ("01-vd.png",       "Sahada hesapla.",              "Sonuç, standardın sınırı ve kararıyla birlikte — bağlantı gerekmez."),
+        ("02-steps.png",    "Her adımı gör.",               "Formül, ara değerler ve birimler; kâğıtta çözer gibi."),
+        ("07-calcs.png",    "20 hesaplayıcı, tek yerde.",   "Güç, koruma, kablo, motor, aydınlatma, güneş, EV şarj."),
+        ("03-theory.png",   "Formülü değil, sebebini öğren.", "24 teori konusu: şema, türetme ve geçerlilik koşulları."),
+        ("08-quiz.png",     "Kendini dene.",                "Her konuda yüzlerce soru; cevabını yaz, anında kontrol et."),
+        ("04-reftable.png", "Kaynağı yazılı tablolar.",     "IEC ve EN referansları — her satırın hangi standarttan geldiği belli."),
+        ("05-project.png",  "Panoyu tasarla.",              "Devre ekle; kesit, koruma cihazı ve gerilim düşümü kendiliğinden gelsin."),
+        ("06-thread.png",   "Meslektaşlarına sor.",         "Türkçe forum: arıza, koruma, tesisat, standartlar."),
+    ],
+}
 
 STATUS_BAR_PX = 96   # hidden under the bezel
 
 PAGE = """<!doctype html>
-<html lang="tr"><head><meta charset="utf-8">
+<html lang="{lang}"><head><meta charset="utf-8">
 <style>
 @font-face {{ font-family: Inter; font-weight: 600; src: url("file://{fonts}/inter_semibold.ttf"); }}
 @font-face {{ font-family: Inter; font-weight: 500; src: url("file://{fonts}/inter_medium.ttf"); }}
@@ -102,9 +113,12 @@ p {{
 
 
 def main() -> None:
-    os.makedirs(OUT, exist_ok=True)
-    only = sys.argv[1:]  # optional: indices to rebuild
-    for i, (raw, headline, sub) in enumerate(SHOTS, start=1):
+    lang = sys.argv[1] if len(sys.argv) > 1 else "en"
+    raw_dir = os.path.join(HERE, "raw", lang)
+    out = os.path.join(HERE, "play", lang)
+    os.makedirs(out, exist_ok=True)
+    only = sys.argv[2:]  # optional: indices to rebuild
+    for i, (raw, headline, sub) in enumerate(SHOTS[lang], start=1):
         if only and str(i) not in only:
             continue
         # Two-line headlines push the sub-line and the phone down together.
@@ -115,12 +129,12 @@ def main() -> None:
         # the hidden status bar by the same ratio.
         status = round(STATUS_BAR_PX * 848 / 1080)
         html = PAGE.format(
-            fonts=FONTS, index=i, headline=headline, sub=sub,
-            shot=os.path.join(RAW, raw), sub_top=sub_top, phone_top=phone_top,
+            fonts=FONTS, index=i, lang=lang, headline=headline, sub=sub,
+            shot=os.path.join(raw_dir, raw), sub_top=sub_top, phone_top=phone_top,
             status=status,
         )
         page = os.path.join(HERE, f".{i:02d}.html")
-        png = os.path.join(OUT, f"{i:02d}.png")
+        png = os.path.join(out, f"{i:02d}.png")
         with open(page, "w", encoding="utf-8") as f:
             f.write(html)
         subprocess.run([
