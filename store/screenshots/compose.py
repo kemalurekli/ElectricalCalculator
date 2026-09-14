@@ -6,8 +6,9 @@ frame the raw emulator capture sits in. The status bar is hidden under the
 bezel so every image shows the same thing: the app, from its own title bar
 down.
 
-    python3 store/screenshots/compose.py en        # all eight into play/en/
-    python3 store/screenshots/compose.py tr 3 7    # just those, Turkish
+    python3 store/screenshots/compose.py en           # all eight into play/en/
+    python3 store/screenshots/compose.py tr 3 7       # just those, Turkish
+    python3 store/screenshots/compose.py en-tablet    # 7-inch tablet frame
 
 Raw captures live in raw/<lang>/ (1080x2400, the Pixel_8 emulator at 420 dpi,
 the app switched to that language with `adb shell cmd locale set-app-locales`).
@@ -53,6 +54,16 @@ SHOTS = {
 
 STATUS_BAR_PX = 96   # hidden under the bezel
 
+# The device the raw captures came from. Play wants tablet screenshots in the
+# same 9:16 canvas, so the only thing that changes is the frame: a 7-inch
+# tablet is 1600x2560 at 320 dpi (`adb shell wm size 1600x2560; wm density
+# 320` on the phone emulator — the app lays itself out by dp and grows a
+# navigation rail), and its screen is 5:8 rather than 9:20.
+DEVICES = {
+    "phone":  dict(capture_w=1080, screen_w=848, radius_outer=88, radius_inner=64, pad=26, width=900, status=96),
+    "tablet": dict(capture_w=1600, screen_w=900, radius_outer=56, radius_inner=36, pad=24, width=948, status=112),
+}
+
 PAGE = """<!doctype html>
 <html lang="{lang}"><head><meta charset="utf-8">
 <style>
@@ -86,21 +97,21 @@ p {{
 }}
 .phone {{
   position: absolute; left: 50%; top: {phone_top}px; transform: translateX(-50%);
-  width: 900px; height: 1980px;
-  background: #1b1f24; border-radius: 88px;
-  padding: 26px;
+  width: {frame_w}px; height: 1980px;
+  background: #1b1f24; border-radius: {r_outer}px;
+  padding: {pad}px;
   box-shadow: 0 60px 120px -30px rgba(20,73,111,.45), 0 20px 40px -20px rgba(0,0,0,.35);
 }}
 .phone::before {{
-  content: ""; position: absolute; inset: 0; border-radius: 88px;
+  content: ""; position: absolute; inset: 0; border-radius: {r_outer}px;
   box-shadow: inset 0 0 0 3px rgba(255,255,255,.08);
 }}
 .screen {{
-  width: 100%; height: 100%; border-radius: 64px; overflow: hidden;
+  width: 100%; height: 100%; border-radius: {r_inner}px; overflow: hidden;
   background: #f7f9fb; position: relative;
 }}
 .screen img {{
-  position: absolute; left: 0; top: -{status}px; width: 848px; height: auto;
+  position: absolute; left: 0; top: -{status}px; width: {screen_w}px; height: auto;
 }}
 </style></head>
 <body>
@@ -114,10 +125,13 @@ p {{
 
 def main() -> None:
     lang = sys.argv[1] if len(sys.argv) > 1 else "en"
+    device = "tablet" if lang.endswith("-tablet") else "phone"
+    dev = DEVICES[device]
     raw_dir = os.path.join(HERE, "raw", lang)
     out = os.path.join(HERE, "play", lang)
     os.makedirs(out, exist_ok=True)
     only = sys.argv[2:]  # optional: indices to rebuild
+    lang = lang.split("-")[0]
     for i, (raw, headline, sub) in enumerate(SHOTS[lang], start=1):
         if only and str(i) not in only:
             continue
@@ -127,11 +141,12 @@ def main() -> None:
         phone_top = 520 if two_lines else 430
         # The capture is 1080 wide and sits in an 848 px screen: scale
         # the hidden status bar by the same ratio.
-        status = round(STATUS_BAR_PX * 848 / 1080)
+        status = round(dev["status"] * dev["screen_w"] / dev["capture_w"])
         html = PAGE.format(
             fonts=FONTS, index=i, lang=lang, headline=headline, sub=sub,
             shot=os.path.join(raw_dir, raw), sub_top=sub_top, phone_top=phone_top,
-            status=status,
+            status=status, frame_w=dev["width"], pad=dev["pad"],
+            r_outer=dev["radius_outer"], r_inner=dev["radius_inner"], screen_w=dev["screen_w"],
         )
         page = os.path.join(HERE, f".{i:02d}.html")
         png = os.path.join(out, f"{i:02d}.png")
